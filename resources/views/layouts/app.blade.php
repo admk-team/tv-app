@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        @stack('title')
+    </title>
+    {{-- Fonts --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    {{-- Icons --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    {{-- Booststrap --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    {{-- Owl Carousal --}}
+    <link rel="stylesheet" href="{{ asset('assets/owlcarousal/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/owlcarousal/css/owl.theme.default.min.css') }}">
+    {{-- Custom Css --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+</head>
+
+<body>
+
+    @include('layouts.partials.header')
+
+    <div class="content">
+        @yield('content')
+    </div>
+
+    @include('layouts.partials.footer')
+
+    {{-- Booststrap --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+    {{-- JQuery --}}
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+    {{-- Owl Carousal --}}
+    <script src="{{ asset('assets/owlcarousal/js/owl.carousel.min.js') }}"></script>
+    {{-- Custom JS --}}
+    <script>
+        $(document).ready(function() {
+            let root = document.querySelector(":root");
+            let appBgColor = '{{ $api_data->app->website_colors->bgcolor }}';
+            let headerBgColor = '{{ $api_data->app->website_colors->headerBgColor }}';
+            let appActiveColor = '{{ $api_data->app->website_colors->themeActiveColor }}';
+            let navMenuColor = '{{ $api_data->app->website_colors->navbarMenucolor }}';
+            let cardDesColor = '{{ $api_data->app->website_colors->cardDesColor }}';
+            let appPrimaryTextColor = '{{ $api_data->app->website_colors->themePrimaryTxtColor }}';
+            let appSecondaryTextColor = '{{ $api_data->app->website_colors->themeSecondaryTxtColor }}';
+            let navbarSearchColor = '{{ $api_data->app->website_colors->navbarSearchColor }}';
+            let footerBottomBgColor = '{{ $api_data->app->website_colors->footerbtmBgcolor }}';
+            let sliderCardBgColor = '{{ $api_data->app->website_colors->slidercardBgColor }}';
+            let sliderCardTitleColor = '{{ $api_data->app->website_colors->slidercardTitlecolor }}';
+            let sliderCardCatColor = '{{ $api_data->app->website_colors->slidercardCatColor }}';
+
+            root.style.setProperty("--bg-color", appBgColor);
+            root.style.setProperty("--header-bg-color", headerBgColor);
+            root.style.setProperty("--active-color", appActiveColor);
+            root.style.setProperty("--nav-color", navMenuColor);
+            root.style.setProperty("--primary-text-color", appPrimaryTextColor);
+            root.style.setProperty("--secondary-text-color", appSecondaryTextColor);
+            root.style.setProperty("--footer-bg-color", footerBottomBgColor);
+            root.style.setProperty("--nav-search-color", navbarSearchColor);
+            root.style.setProperty("--card-desc-color", cardDesColor);
+            root.style.setProperty("--slider-card-bg-color", sliderCardBgColor);
+            root.style.setProperty("--slider-card-title-color", sliderCardTitleColor);
+            root.style.setProperty("--slider-card-cat-color", sliderCardCatColor);
+        });
+    </script>
+
+    @stack('scripts')
+</body>
+
+</html>
