@@ -14,4 +14,4 @@ use App\Http\Controllers\Home\HomeController;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/{slug?}', [HomeController::class, 'index'])->name('home');

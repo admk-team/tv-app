@@ -2,7 +2,9 @@
     <nav class="inner">
         <ul class="links">
             <li class="logo">
-                <img src="{{ asset('assets/images/logo.png') }}" alt="">
+                <a href="/">
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="">
+                </a>
             </li>
             @foreach ($api_data->app->menus as $menu)
                 @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))

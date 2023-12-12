@@ -35,7 +35,7 @@ body {
     width: 100%;
     padding: 6px 0px;
     background-color: var(--header-bg-color);
-    z-index: 1;
+    z-index: 5;
 }
 
 .header .inner {
@@ -213,6 +213,7 @@ body {
 .owl-wrapper {
     position: relative;
     margin-top: 18px;
+    margin-bottom: 42px;
 }
 
 .owl-item {
@@ -377,6 +378,17 @@ body {
     opacity: 1;
 }
 
+.cat-slider {
+    margin-top: 30px;
+    padding: 0px 35px;
+}
+
+.cat-slider .title {
+    font-size: 25px;
+    color: #f7f7f9;
+    margin-bottom: 22px;
+}
+
 @media (max-width: 1120px) {
     .content {
         padding-top: 96px;
@@ -493,7 +505,7 @@ body {
 
     .cover-slider-item .info {
         width: 100%;
-        background: linear-gradient(46deg, #131722, 71%, transparent);
+        background: linear-gradient(46deg, var(--slider-card-bg-color), 71%, transparent);
     }
 
     .cover-slider-item .cover {

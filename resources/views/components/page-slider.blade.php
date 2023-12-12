@@ -21,279 +21,39 @@
             </g>
         </svg>
     </div>
-    <div class="owl-carousel">
-        <div>
-            <div class="cover-slider-item">
-                <div class="info">
-                    <h2>Believe</h2>
-                    <div class="timestamp">
-                        <span>2016</span>
-                        <span>
-                            <i class="bi bi-dot"></i>
-                        </span>
-                        <span>1 Hour 33 Minutes</span>
-                        <div class="badges">
-                            <span class="badge">HD</span>
-                            <span class="badge">PG</span>
+    <div class="owl-carousel page-owl-slider">
+        @if ($data->app->featured_items->is_show ?? '' == 'Y')
+            @foreach ($data->app->featured_items->streams as $stream)
+                <div>
+                    <div class="cover-slider-item">
+                        <div class="info">
+                            <h2>{{ $stream->stream_title ?? '' }}</h2>
+                            <div class="timestamp">
+                                <span>{{ $stream->released_year ?? '' }}</span>
+                                <span>
+                                    <i class="bi bi-dot"></i>
+                                </span>
+                                <span>{{ $stream->formatted_duration ?? '' }}</span>
+                                <div class="badges">
+                                    <span class="badge">{{ $stream->content_qlt ?? '' }}</span>
+                                    <span class="badge">{{ $stream->content_rating ?? '' }}</span>
+                                </div>
+                            </div>
+                            <p class="description">
+                                {{ $stream->stream_description ?? '' }}
+                            </p>
+                            <div class="btns">
+                                <a class="app-primary-btn" href="#">Play Now</a>
+                                <a class="app-secondary-btn" href="#">See Details</a>
+                            </div>
+                        </div>
+                        <div class="cover">
+                            <img src="{{ $stream->feature_poster ?? '' }}"
+                                alt="">
                         </div>
                     </div>
-                    <p class="description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat exercitationem, veniam
-                        provident
-                        optio ipsa a pariatur cupiditate architecto itaque praesentium asperiores repellendus natus,
-                        molestias quos, adipisci facere suscipit aut facilis? Vitae magnam eveniet soluta, voluptas
-                        quibusdam voluptate iusto nulla sunt fuga a error enim nam beatae quidem aut dolor numquam.
-                        Provident magnam suscipit, dicta libero iure similique ut reiciendis itaque asperiores ex,
-                        deleniti
-                        nobis quidem tempore nulla doloribus perferendis labore molestiae deserunt impedit maxime
-                        repellat
-                        laboriosam quibusdam ipsa? Quasi expedita soluta optio rerum unde eum itaque iusto, illo eaque!
-                        Totam optio debitis nulla enim recusandae possimus. Corporis a voluptate accusamus.
-                    </p>
-                    <div class="btns">
-                        <a class="app-primary-btn" href="#">Play Now</a>
-                        <a class="app-secondary-btn" href="#">See Details</a>
-                    </div>
                 </div>
-                <div class="cover">
-                    <img src="https://stage.octv.shop/uploads/media_assets/imgs/1676459621_1b1137d_xseIJfXGAp_Yg9xC6nWgwDTRytmc8vOm4CTAaIwn_aY.jpeg"
-                        alt="">
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="cover-slider-item">
-                <div class="info">
-                    <h2>Believe</h2>
-                    <div class="timestamp">
-                        <span>2016</span>
-                        <span>
-                            <i class="bi bi-dot"></i>
-                        </span>
-                        <span>1 Hour 33 Minutes</span>
-                        <div class="badges">
-                            <span class="badge">HD</span>
-                            <span class="badge">PG</span>
-                        </div>
-                    </div>
-                    <p class="description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat exercitationem, veniam
-                        provident
-                        optio ipsa a pariatur cupiditate architecto itaque praesentium asperiores repellendus natus,
-                        molestias quos, adipisci facere suscipit aut facilis? Vitae magnam eveniet soluta, voluptas
-                        quibusdam voluptate iusto nulla sunt fuga a error enim nam beatae quidem aut dolor numquam.
-                        Provident magnam suscipit, dicta libero iure similique ut reiciendis itaque asperiores ex,
-                        deleniti
-                        nobis quidem tempore nulla doloribus perferendis labore molestiae deserunt impedit maxime
-                        repellat
-                        laboriosam quibusdam ipsa? Quasi expedita soluta optio rerum unde eum itaque iusto, illo eaque!
-                        Totam optio debitis nulla enim recusandae possimus. Corporis a voluptate accusamus.
-                    </p>
-                    <div class="btns">
-                        <a class="app-primary-btn" href="#">Play Now</a>
-                        <a class="app-secondary-btn" href="#">See Details</a>
-                    </div>
-                </div>
-                <div class="cover">
-                    <img src="https://stage.octv.shop/uploads/media_assets/imgs/7376d3829575f06617d9db3f7f6836df_1690623607_339_ttw_.jpg"
-                        alt="">
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="cover-slider-item">
-                <div class="info">
-                    <h2>Believe</h2>
-                    <div class="timestamp">
-                        <span>2016</span>
-                        <span>
-                            <i class="bi bi-dot"></i>
-                        </span>
-                        <span>1 Hour 33 Minutes</span>
-                        <div class="badges">
-                            <span class="badge">HD</span>
-                            <span class="badge">PG</span>
-                        </div>
-                    </div>
-                    <p class="description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat exercitationem, veniam
-                        provident
-                        optio ipsa a pariatur cupiditate architecto itaque praesentium asperiores repellendus natus,
-                        molestias quos, adipisci facere suscipit aut facilis? Vitae magnam eveniet soluta, voluptas
-                        quibusdam voluptate iusto nulla sunt fuga a error enim nam beatae quidem aut dolor numquam.
-                        Provident magnam suscipit, dicta libero iure similique ut reiciendis itaque asperiores ex,
-                        deleniti
-                        nobis quidem tempore nulla doloribus perferendis labore molestiae deserunt impedit maxime
-                        repellat
-                        laboriosam quibusdam ipsa? Quasi expedita soluta optio rerum unde eum itaque iusto, illo eaque!
-                        Totam optio debitis nulla enim recusandae possimus. Corporis a voluptate accusamus.
-                    </p>
-                    <div class="btns">
-                        <a class="app-primary-btn" href="#">Play Now</a>
-                        <a class="app-secondary-btn" href="#">See Details</a>
-                    </div>
-                </div>
-                <div class="cover">
-                    <img src="https://stage.octv.shop/uploads/media_assets/imgs/7376d3829575f06617d9db3f7f6836df_1690623607_339_ttw_.jpg"
-                        alt="">
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="cover-slider-item">
-                <div class="info">
-                    <h2>Believe</h2>
-                    <div class="timestamp">
-                        <span>2016</span>
-                        <span>
-                            <i class="bi bi-dot"></i>
-                        </span>
-                        <span>1 Hour 33 Minutes</span>
-                        <div class="badges">
-                            <span class="badge">HD</span>
-                            <span class="badge">PG</span>
-                        </div>
-                    </div>
-                    <p class="description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat exercitationem, veniam
-                        provident
-                        optio ipsa a pariatur cupiditate architecto itaque praesentium asperiores repellendus natus,
-                        molestias quos, adipisci facere suscipit aut facilis? Vitae magnam eveniet soluta, voluptas
-                        quibusdam voluptate iusto nulla sunt fuga a error enim nam beatae quidem aut dolor numquam.
-                        Provident magnam suscipit, dicta libero iure similique ut reiciendis itaque asperiores ex,
-                        deleniti
-                        nobis quidem tempore nulla doloribus perferendis labore molestiae deserunt impedit maxime
-                        repellat
-                        laboriosam quibusdam ipsa? Quasi expedita soluta optio rerum unde eum itaque iusto, illo eaque!
-                        Totam optio debitis nulla enim recusandae possimus. Corporis a voluptate accusamus.
-                    </p>
-                    <div class="btns">
-                        <a class="app-primary-btn" href="#">Play Now</a>
-                        <a class="app-secondary-btn" href="#">See Details</a>
-                    </div>
-                </div>
-                <div class="cover">
-                    <img src="https://stage.octv.shop/uploads/media_assets/imgs/7376d3829575f06617d9db3f7f6836df_1690623607_339_ttw_.jpg"
-                        alt="">
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="cover-slider-item">
-                <div class="info">
-                    <h2>Believe</h2>
-                    <div class="timestamp">
-                        <span>2016</span>
-                        <span>
-                            <i class="bi bi-dot"></i>
-                        </span>
-                        <span>1 Hour 33 Minutes</span>
-                        <div class="badges">
-                            <span class="badge">HD</span>
-                            <span class="badge">PG</span>
-                        </div>
-                    </div>
-                    <p class="description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat exercitationem, veniam
-                        provident
-                        optio ipsa a pariatur cupiditate architecto itaque praesentium asperiores repellendus natus,
-                        molestias quos, adipisci facere suscipit aut facilis? Vitae magnam eveniet soluta, voluptas
-                        quibusdam voluptate iusto nulla sunt fuga a error enim nam beatae quidem aut dolor numquam.
-                        Provident magnam suscipit, dicta libero iure similique ut reiciendis itaque asperiores ex,
-                        deleniti
-                        nobis quidem tempore nulla doloribus perferendis labore molestiae deserunt impedit maxime
-                        repellat
-                        laboriosam quibusdam ipsa? Quasi expedita soluta optio rerum unde eum itaque iusto, illo eaque!
-                        Totam optio debitis nulla enim recusandae possimus. Corporis a voluptate accusamus.
-                    </p>
-                    <div class="btns">
-                        <a class="app-primary-btn" href="#">Play Now</a>
-                        <a class="app-secondary-btn" href="#">See Details</a>
-                    </div>
-                </div>
-                <div class="cover">
-                    <img src="https://stage.octv.shop/uploads/media_assets/imgs/7376d3829575f06617d9db3f7f6836df_1690623607_339_ttw_.jpg"
-                        alt="">
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="cover-slider-item">
-                <div class="info">
-                    <h2>Believe</h2>
-                    <div class="timestamp">
-                        <span>2016</span>
-                        <span>
-                            <i class="bi bi-dot"></i>
-                        </span>
-                        <span>1 Hour 33 Minutes</span>
-                        <div class="badges">
-                            <span class="badge">HD</span>
-                            <span class="badge">PG</span>
-                        </div>
-                    </div>
-                    <p class="description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat exercitationem, veniam
-                        provident
-                        optio ipsa a pariatur cupiditate architecto itaque praesentium asperiores repellendus natus,
-                        molestias quos, adipisci facere suscipit aut facilis? Vitae magnam eveniet soluta, voluptas
-                        quibusdam voluptate iusto nulla sunt fuga a error enim nam beatae quidem aut dolor numquam.
-                        Provident magnam suscipit, dicta libero iure similique ut reiciendis itaque asperiores ex,
-                        deleniti
-                        nobis quidem tempore nulla doloribus perferendis labore molestiae deserunt impedit maxime
-                        repellat
-                        laboriosam quibusdam ipsa? Quasi expedita soluta optio rerum unde eum itaque iusto, illo eaque!
-                        Totam optio debitis nulla enim recusandae possimus. Corporis a voluptate accusamus.
-                    </p>
-                    <div class="btns">
-                        <a class="app-primary-btn" href="#">Play Now</a>
-                        <a class="app-secondary-btn" href="#">See Details</a>
-                    </div>
-                </div>
-                <div class="cover">
-                    <img src="https://stage.octv.shop/uploads/media_assets/imgs/7376d3829575f06617d9db3f7f6836df_1690623607_339_ttw_.jpg"
-                        alt="">
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="cover-slider-item">
-                <div class="info">
-                    <h2>Believe</h2>
-                    <div class="timestamp">
-                        <span>2016</span>
-                        <span>
-                            <i class="bi bi-dot"></i>
-                        </span>
-                        <span>1 Hour 33 Minutes</span>
-                        <div class="badges">
-                            <span class="badge">HD</span>
-                            <span class="badge">PG</span>
-                        </div>
-                    </div>
-                    <p class="description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat exercitationem, veniam
-                        provident
-                        optio ipsa a pariatur cupiditate architecto itaque praesentium asperiores repellendus natus,
-                        molestias quos, adipisci facere suscipit aut facilis? Vitae magnam eveniet soluta, voluptas
-                        quibusdam voluptate iusto nulla sunt fuga a error enim nam beatae quidem aut dolor numquam.
-                        Provident magnam suscipit, dicta libero iure similique ut reiciendis itaque asperiores ex,
-                        deleniti
-                        nobis quidem tempore nulla doloribus perferendis labore molestiae deserunt impedit maxime
-                        repellat
-                        laboriosam quibusdam ipsa? Quasi expedita soluta optio rerum unde eum itaque iusto, illo eaque!
-                        Totam optio debitis nulla enim recusandae possimus. Corporis a voluptate accusamus.
-                    </p>
-                    <div class="btns">
-                        <a class="app-primary-btn" href="#">Play Now</a>
-                        <a class="app-secondary-btn" href="#">See Details</a>
-                    </div>
-                </div>
-                <div class="cover">
-                    <img src="https://stage.octv.shop/uploads/media_assets/imgs/7376d3829575f06617d9db3f7f6836df_1690623607_339_ttw_.jpg"
-                        alt="">
-                </div>
-            </div>
-        </div>
+            @endforeach
+        @endif
     </div>
 </div>
