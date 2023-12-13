@@ -7,19 +7,48 @@
     <title>
         @stack('title')
     </title>
+    {{-- Old Css --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/style-old.css') }}">
+    <style>
+        :root {
+          --bgcolor: {{ $api_data->app->website_colors->bgcolor }};
+          --themeActiveColor: {{ $api_data->app->website_colors->themeActiveColor }};
+          --headerBgColor: {{ $api_data->app->website_colors->headerBgColor }};
+          --themePrimaryTxtColor: {{ $api_data->app->website_colors->themePrimaryTxtColor }};
+          --themeSecondaryTxtColor: {{ $api_data->app->website_colors->themeSecondaryTxtColor }};
+          --navbarMenucolor: {{ $api_data->app->website_colors->navbarMenucolor }};
+          --navbarSearchColor: {{ $api_data->app->website_colors->navbarSearchColor }};
+          --footerbtmBgcolor: {{ $api_data->app->website_colors->footerbtmBgcolor }};
+          --slidercardBgColor: {{ $api_data->app->website_colors->slidercardBgColor }};
+          --slidercardTitlecolor: {{ $api_data->app->website_colors->slidercardTitlecolor }};
+          --slidercardCatColor: {{ $api_data->app->website_colors->slidercardCatColor }};
+          --cardDesColor: {{ $api_data->app->website_colors->cardDesColor }};
+        }
+    </style>
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     {{-- Icons --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     {{-- Booststrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/slick.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/slick-theme.css') }}">
     {{-- Owl Carousal --}}
     <link rel="stylesheet" href="{{ asset('assets/owlcarousal/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/owlcarousal/css/owl.theme.default.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('assets/css/regular.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui.css') }}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;200;300;400;500;600;700;800&display=swap');
+    </style>
+
     {{-- Custom Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 </head>
