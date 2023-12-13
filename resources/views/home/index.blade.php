@@ -3,14 +3,27 @@
 @section('content')
     @include('components.page-slider')
 
-    <div class="cat-slider">
-        <h2 class="title">Christmas & Holiday</h2>
-        <div class="landscape_slider cat-owl-slider">
-            <div class="cat-slider-item">
-                <img class="cover" src="https://stage.octv.shop/uploads/media_assets/imgs/1676866105_f40151c_shOiSwevfaMCfq12iCfcZyRRXviPNufHKrdWeYtUWkM.jpeg" alt="">
+    @foreach ($data->app->categories as $category)
+        @if (!empty($category->streams))
+        <div class="cat-slider">
+            <h2 class="title">{{ $category->cat_title }}</h2>
+            <div class="owl-carousel cat-owl-slider">
+                @foreach ($category->streams as $stream)
+                <div class="cat-slider-item">
+                    <img class="cover" alt="{{ $stream->stream_title ?? '' }}" src="{{ $stream->stream_poster }}" alt="">
+                    <div class="text-box">
+                        <div class="text">
+                            <h2>{{ $stream->stream_title ?? '' }}</h2>
+                            <p>{{ $stream->stream_description ?? '' }}</p>
+                            <div class="duration">{{ $stream->stream_duration_timeformat ?? '' }}</div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
             </div>
         </div>
-    </div>
+        @endif
+    @endforeach
 @endsection
 
 @push('scripts')
@@ -45,8 +58,8 @@
         });
 
         $(".cat-owl-slider").owlCarousel({
-                center: true,
-                loop: true,
+                loop: false,
+                rewind: true,
                 smartSpeed: 800,
                 autoplay: true,
                 margin: 15,
@@ -85,52 +98,6 @@
                 }
             });
 
-            $('.landscape_slider').slick({
-  dots: false,
-  infinite: true,
-  loop: true,
-  autoplay: true,
-  autoplaySpeed: 3000,
-  slidesToShow: 5,
-  slidesToScroll: 1,
-  responsive: [
-    {
-      breakpoint: 1740,
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        dots: true,
-        arrows: true
-      }
-    },
-    {
-      breakpoint: 1200,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        dots: true,
-        arrows: false
-      }
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        arrows: false
-      }
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        dots: false,
-        arrows: false,
-      }
-    }
-  ]
-});
 
         function handleSliderControlls(e) {
             let type = $(e).data("type");
