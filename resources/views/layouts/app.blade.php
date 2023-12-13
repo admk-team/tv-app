@@ -20,6 +20,9 @@
     {{-- Owl Carousal --}}
     <link rel="stylesheet" href="{{ asset('assets/owlcarousal/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/owlcarousal/css/owl.theme.default.min.css') }}">
+    {{-- Slick Carousal --}}
+    <link rel="stylesheet" href="{{ asset('assets/slick/slick.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/slick/slick-theme.css') }}">
     {{-- Custom Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 </head>
@@ -43,6 +46,8 @@
         crossorigin="anonymous"></script>
     {{-- Owl Carousal --}}
     <script src="{{ asset('assets/owlcarousal/js/owl.carousel.min.js') }}"></script>
+    {{-- Slick Carousal --}}
+    <script src="{{ asset('assets/slick/slick.min.js') }}"></script>
     {{-- Custom JS --}}
     <script>
         $(document).ready(function() {
