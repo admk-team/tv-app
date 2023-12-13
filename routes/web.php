@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DetailScreen\DetailScreenController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home\HomeController;
 
@@ -15,3 +16,4 @@ use App\Http\Controllers\Home\HomeController;
 */
 
 Route::get('/{slug?}', [HomeController::class, 'index'])->name('home');
+Route::get('/detailscreen/{id}', [DetailScreenController::class, 'index'])->name('detailscreen');
