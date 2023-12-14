@@ -42,13 +42,11 @@
     {{-- Owl Carousal --}}
     <link rel="stylesheet" href="{{ asset('assets/owlcarousal/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/owlcarousal/css/owl.theme.default.min.css') }}">
-
     <link rel="stylesheet" href="{{ asset('assets/css/regular.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui.css') }}">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;200;300;400;500;600;700;800&display=swap');
     </style>
-
     {{-- Custom Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 </head>
@@ -87,31 +85,19 @@
     <script>
         $(document).ready(function() {
             let root = document.querySelector(":root");
-            let appBgColor = '{{ $api_data->app->website_colors->bgcolor }}';
-            let headerBgColor = '{{ $api_data->app->website_colors->headerBgColor }}';
-            let appActiveColor = '{{ $api_data->app->website_colors->themeActiveColor }}';
-            let navMenuColor = '{{ $api_data->app->website_colors->navbarMenucolor }}';
-            let cardDesColor = '{{ $api_data->app->website_colors->cardDesColor }}';
-            let appPrimaryTextColor = '{{ $api_data->app->website_colors->themePrimaryTxtColor }}';
-            let appSecondaryTextColor = '{{ $api_data->app->website_colors->themeSecondaryTxtColor }}';
-            let navbarSearchColor = '{{ $api_data->app->website_colors->navbarSearchColor }}';
-            let footerBottomBgColor = '{{ $api_data->app->website_colors->footerbtmBgcolor }}';
-            let sliderCardBgColor = '{{ $api_data->app->website_colors->slidercardBgColor }}';
-            let sliderCardTitleColor = '{{ $api_data->app->website_colors->slidercardTitlecolor }}';
-            let sliderCardCatColor = '{{ $api_data->app->website_colors->slidercardCatColor }}';
 
-            root.style.setProperty("--bg-color", appBgColor);
-            root.style.setProperty("--header-bg-color", headerBgColor);
-            root.style.setProperty("--active-color", appActiveColor);
-            root.style.setProperty("--nav-color", navMenuColor);
-            root.style.setProperty("--primary-text-color", appPrimaryTextColor);
-            root.style.setProperty("--secondary-text-color", appSecondaryTextColor);
-            root.style.setProperty("--footer-bg-color", footerBottomBgColor);
-            root.style.setProperty("--nav-search-color", navbarSearchColor);
-            root.style.setProperty("--card-desc-color", cardDesColor);
-            root.style.setProperty("--slider-card-bg-color", sliderCardBgColor);
-            root.style.setProperty("--slider-card-title-color", sliderCardTitleColor);
-            root.style.setProperty("--slider-card-cat-color", sliderCardCatColor);
+            root.style.setProperty("--bg-color", '{{ $api_data->app->website_colors->bgcolor }}');
+            root.style.setProperty("--header-bg-color", '{{ $api_data->app->website_colors->headerBgColor }}');
+            root.style.setProperty("--active-color", '{{ $api_data->app->website_colors->themeActiveColor }}');
+            root.style.setProperty("--nav-color", '{{ $api_data->app->website_colors->navbarMenucolor }}');
+            root.style.setProperty("--primary-text-color", '{{ $api_data->app->website_colors->themePrimaryTxtColor }}');
+            root.style.setProperty("--secondary-text-color", '{{ $api_data->app->website_colors->themeSecondaryTxtColor }}');
+            root.style.setProperty("--footer-bg-color", '{{ $api_data->app->website_colors->footerbtmBgcolor }}');
+            root.style.setProperty("--nav-search-color", '{{ $api_data->app->website_colors->navbarSearchColor }}');
+            root.style.setProperty("--card-desc-color", '{{ $api_data->app->website_colors->cardDesColor }}');
+            root.style.setProperty("--slider-card-bg-color", '{{ $api_data->app->website_colors->slidercardBgColor }}');
+            root.style.setProperty("--slider-card-title-color", '{{ $api_data->app->website_colors->slidercardTitlecolor }}');
+            root.style.setProperty("--slider-card-cat-color", '{{ $api_data->app->website_colors->slidercardCatColor }}');
         });
     </script>
 

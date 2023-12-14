@@ -1,5 +1,5 @@
 <div class="owl-wrapper">
-    <div class="owl-prev-btn owl-controll-btn" data-index="0" onclick="handleSliderControlls(this)">
+    <div class="owl-prev-btn owl-controll-btn" data-type="0" onclick="handleSliderControlls(this)">
         <svg width="37px" height="37px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -10,7 +10,7 @@
             </g>
         </svg>
     </div>
-    <div class="owl-next-btn owl-controll-btn" data-index="1" onclick="handleSliderControlls(this)">
+    <div class="owl-next-btn owl-controll-btn" data-type="1" onclick="handleSliderControlls(this)">
         <svg width="37px" height="37px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>

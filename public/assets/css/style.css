@@ -213,14 +213,14 @@ body {
 .owl-wrapper {
     position: relative;
     margin-top: 18px;
-    margin-bottom: 42px;
+    margin-bottom: 48px;
 }
 
 .owl-item {
     position: relative;
 }
 
-.owl-item::before {
+.page-owl-slider .owl-item::before {
     content: "";
     position: absolute;
     top: 0;
@@ -233,7 +233,7 @@ body {
     transition: all 0.3s;
 }
 
-.owl-item.active::before {
+.page-owl-slider .owl-item.active::before {
     pointer-events: none;
     opacity: 0;
 }
@@ -380,13 +380,95 @@ body {
 
 .cat-slider {
     margin-top: 30px;
-    padding: 0px 35px;
+    padding: 0px 30px;
 }
 
 .cat-slider .title {
     font-size: 25px;
     color: #f7f7f9;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
+}
+
+.cat-slider-item {
+    position: relative;
+    width: 100%;
+    height: 175px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.cat-slider-item .cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.4s;
+}
+
+.cat-slider-item:hover .cover {
+    transform: scale(1.1) rotate(4deg);
+}
+
+.owl-item {
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+.cat-slider-item .text-box {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, #131722 5%, #131722 5%, rgba(19, 23, 34, 0.44348161627932425) 93%);
+    opacity: 0;
+    transition: all 0.4s;
+}
+
+.cat-slider-item .text-box:hover {
+    opacity: 1;
+}
+
+.cat-slider-item .text-box .text {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0px 13px;
+}
+
+.cat-slider-item .text-box .text h2 {
+    font-weight: 600;
+    color: var(--primary-text-color);
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.cat-slider-item .text-box .text p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    color: var(--primary-text-color);
+    font-size: 14.5px;
+    line-height: 18px;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal;
+    display: -webkit-box;
+    margin-bottom: 12px;
+    opacity: 0.75;
+}
+
+.cat-slider-item .text-box .duration {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: var(--primary-text-color);
+    background: #0000009f;
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 0px 0px 0px 9px;
 }
 
 @media (max-width: 1120px) {
@@ -532,5 +614,23 @@ body {
 @media (min-width: 1007px) {
     .cover-slider-item .info {
         padding-top: 50px;
+    }
+}
+
+@media (max-width: 657px) {
+    .cat-slider {
+        padding: 0px 15px;
+    }
+}
+
+@media (max-width: 895px) {
+    .cat-slider-item {
+        height: 160px;
+    }
+}
+
+@media (max-width: 475px) {
+    .cat-slider-item {
+        height: 158px;
     }
 }
