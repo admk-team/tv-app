@@ -61,16 +61,11 @@ $stream_code = $stream_details['stream_guid'];
                 </ul>
             </div>
             <div class="responsive_video">
-                <?php
-                if ($streamUrl == '') {
-                ?>
-                    <img src="{{ $stream_details['stream_poster'] }}" alt="<?php //echo $stream_details['stream_title']
-                                                                                    ?>" onerror="this.src='{{ url('/') }}/images/default_img.jpg'">
-                <?php
-                } else {
-                ?>
+                @if ($streamUrl == '')
+                    <img src="{{ $stream_details['stream_poster'] }}" alt="{{-- $stream_details['stream_title'] --}}" onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'">
+                @else
 
-                    <video id="plyerId" class="video-js vjs-fluid vjs-16-9 vjs-default-skin js-big-play-centered" poster="{{ echo $stream_details['stream_poster'] }}" autoplay data-viblast-key="N8FjNTQ3NDdhZqZhNGI5NWU5ZTI=">
+                    <video id="plyerId" class="video-js vjs-fluid vjs-16-9 vjs-default-skin js-big-play-centered" poster="{{ $stream_details['stream_poster'] }}" autoplay data-viblast-key="N8FjNTQ3NDdhZqZhNGI5NWU5ZTI=">
                         <source src="{{ $streamUrl }}" {{ $mType }}>
                     </video>
                     <script>
@@ -90,9 +85,7 @@ $stream_code = $stream_details['stream_guid'];
                         player.play();
                     </script>
 
-                <?php
-                }
-                ?>
+                @endif
             </div>
         </div>
         <div class="movie-detail-box">
@@ -103,105 +96,73 @@ $stream_code = $stream_details['stream_guid'];
                     <li><i class="fa fa-star"></i></li>
                     <li><i class="fa fa-star"></i></li>
                 </ul>
-                <h1 class="content-heading" title="<?php echo $stream_details['stream_title'] ?>"><?php echo $stream_details['stream_title'] ?></h1>
+                <h1 class="content-heading" title="{{ $stream_details['stream_title'] }}">{{ $stream_details['stream_title'] }}</h1>
                 <div class="content-timing">
-                    <span class="year"><?php echo $stream_details['released_year'] ?></span>
-                    <?php
-                    if ($streamType != 'S') {
-                    ?>
+                    <span class="year">{{ $stream_details['released_year'] }}</span>
+                    @if ($streamType != 'S') 
                         <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream_details['stream_duration']) }}</span>
-                        <span class="movie_type"><?php echo $stream_details['cat_title'] ?></span>
-                    <?php
-                    }
-                    ?>
-                    <?php
-                    if ($streamType == 'S') {
-                    ?>
-                        <span class="movie_type"><?php echo $stream_details['stream_episode_title'] ?></span>
-                        <span class="movie_type"><?php echo $stream_details['show_name'] ?></span>
-                    <?php
-                    }
-                    ?>
-                    <?php
-                    if ($stream_details['content_qlt'] != '') {
-                    ?>
-                        <span class="content_screen"><?php echo $stream_details['content_qlt'] ?></span>
-                    <?php
-                    }
-                    ?>
-                    <?php
-                    if ($stream_details['content_rating'] != '') {
-                    ?>
-                        <span class="content_screen"><?php echo $stream_details['content_rating'] ?></span>
-                    <?php
-                    }
-                    ?>
+                        <span class="movie_type">{{ $stream_details['cat_title'] }}</span>
+                    @endif
+                    @if ($streamType == 'S')
+                        <span class="movie_type">{{ $stream_details['stream_episode_title'] }}</span>
+                        <span class="movie_type">{{ $stream_details['show_name'] }}</span>
+                    @endif
+                    @if ($stream_details['content_qlt'] != '')
+                        <span class="content_screen">{{ $stream_details['content_qlt'] }}</span>
+                    @endif
+                    @if ($stream_details['content_rating'] != '')
+                        <span class="content_screen">{{ $stream_details['content_rating'] }}</span>
+                    @endif
                 </div>
 
-                <div class="about-movie aboutmovie_gaps"><?php echo $stream_details['stream_description'] ?></div>
+                <div class="about-movie aboutmovie_gaps">{{ $stream_details['stream_description'] }}</div>
                 <dl class="movies_listview">
                     <dl>
-                    <?php
-                    foreach ($stream_details['starring_data'] as $roleKey => $persons) {
-                        if (!empty($persons)) {
-                    ?>
-                            
-                                <dt><?php echo $roleKey ?>:</dt>
+                        @foreach ($stream_details['starring_data'] as $roleKey => $persons)
+                            @if (!empty($persons))
+                                <dt>{{ $roleKey }}:</dt>
                                 <dd>
-                                    <?php
-                                        foreach ($persons as $i => $person) {
-                                        ?>
-                                            <a href="<?php echo url('/') ?>/person.php?id=<?php echo $person['id']?>">
-                                                <?php echo $person['title'] ?>
-                                            </a><?php echo count($persons) - 1 !== $i? ', ': '' ?>
-                                        <?php
-                                        }
-                                    ?>
+                                    @foreach ($persons as $i => $person)
+                                        <a href="{{ url('/') }}/person.php?id={{ $person['id'] }}">
+                                            {{ $person['title'] }}
+                                        </a>{{ count($persons) - 1 !== $i? ', ': '' }}
+                                    @endforeach
                                 </dd>
-                            
-                    <?php
-                        }
-                    }
-                    
-                    ?>
-                    <?php 
-                        if(!empty($stream_details['advisories'])){
-                            ?>
-                        <dt>Advisory : </dt>
-                        <dd>
-                            <?php 
-                                foreach($stream_details['advisories'] as $i => $val){
-                                    echo $val['title'];
-                                    if (count($stream_details['advisories']) - 1 !== $i)
-                                        echo ", ";
-                                }
-                        } 
-                    ?>
-                        </dd>
-                        <?php 
-                        if(!empty($stream_details['advisories'])){
-                            ?>
-                        <dt>Language : </dt>
-                        <dd>
-                            <?php 
-                                foreach($stream_details['languages'] as $i => $val){
-                                    echo $val['title'];
-                                    if (count($stream_details['languages']) - 1 !== $i)
-                                        echo ", ";
-                                }
-                        } 
-                    ?>
-                        </dd>
+                            @endif
+                        @endforeach
+                        @if (!empty($stream_details['advisories']))
+                            <dt>Advisory : </dt>
+                            <dd>
+                                @foreach ($stream_details['advisories'] as $i => $val)
+                                    {{ $val['title'] }}
+                                    @if (count($stream_details['advisories']) - 1 !== $i)
+                                        ,
+                                    @endif
+                                @endforeach
+                            </dd>
+                        @endif
+                        @if (!empty($stream_details['advisories']))
+                            <dt>Language : </dt>
+                            <dd>
+                                @foreach ($stream_details['languages'] as $i => $val)
+                                    {{ $val['title'] }}
+                                    @if (count($stream_details['languages']) - 1 !== $i)
+                                        ,
+                                    @endif
+                                @endforeach
+                            </dd>
+                        @endif
                     </dl>
-                </dl>
                 </dl>
 
                 <div class="button_groupbox">
-                    <div class="btn_box deatailPlay movieDetailPlay">
-                        <a href="<?php echo url('/') ?>/playerscreen/<?php echo $stream_details['stream_guid'] ?>"" class=" nav-link nav_btnlink search_btn rentBtn"><i class="fa fa-play"></i> Play
-                            Now</a>
+                    <div class="btn_box movieDetailPlay">
+                        <a href="{{ url('/') }}/playerscreen/{{ $stream_details['stream_guid'] }}" class="app-primary-btn">
+                            <i class="fa fa-play"></i> 
+                            Play Now
+                        </a>
                     </div>
-                    <?php
+                    {{--<?php
                     if (!empty($_SESSION['USER_DETAILS']['USER_CODE'])) {
                         $signStr = "+";
                         $cls = 'fa fa-plus';
@@ -219,9 +180,9 @@ $stream_code = $stream_details['stream_guid'];
                         </div>
                     <?php
                     }
-                    ?>
-                    <div class="share_circle addWtchBtn" data-toggle="modal" data-target="#exampleModalCenter">
-                        <a href="javascript:void();test"><i class="fa fa-share"></i></a>
+                    ?>--}}
+                    <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                        <a href="javascript:void(0)"><i class="fa fa-share"></i></a>
                     </div>
                 </div>
             </div>
@@ -235,9 +196,7 @@ $stream_code = $stream_details['stream_guid'];
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Share</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body ">
                 <ul class="share_list">
@@ -441,65 +400,53 @@ if (!empty($arrSeasonData)) {
         </div>
     </div>--}}
 
-<?php
-$arrCatData = $latest_items;
-
-if (!empty($arrCatData)) {
-?>
+@if (!empty($latest_items))
     <!--Start of thumbnail slider section-->
     <section class="sliders">
         <div class="slider-container">
             <!-- Start shows -->
-            <?php
-            $strKey = 'title';
-            $catTitle = $arrCatData[$strKey];
-            ?>
             <div class="listing_box">
                 <div class="slider_title_box">
                     <div class="list_heading">
-                        <h1><?php echo $catTitle ?></h1>
+                        <h1>{{ $latest_items['title'] }}</h1>
                     </div>
                 </div>
                 <div class="landscape_slider slider slick-slider">
-                    <?php
-                    foreach ($arrCatData['streams'] as $arrStreamsData) {
-                        $strBrige = "";
-                        if ($arrStreamsData['monetization_type'] == 'F')
-                        {
-                          $strBrige = "style='display: none;'";
-                        }
-                    ?>
+                    @foreach ($latest_items['streams'] as $arrStreamsData)
+                        @php
+                            $strBrige = "";
+                            if ($arrStreamsData['monetization_type'] == 'F')
+                            {
+                            $strBrige = "style='display: none;'";
+                            }
+                        @endphp
                         <div>
-                            <a href="<?php echo url('/') ?>/detailscreen/<?php echo $arrStreamsData['stream_guid'] ?>">
+                            <a href="{{ url('/') }}/detailscreen/{{ $arrStreamsData['stream_guid'] }}">
                                 <div class="thumbnail_img">
-                                <div class="trending_icon_box" <?php echo  $strBrige?>><img src="<?php echo url('/')?>/images/trending_icon.png" alt="<?php echo $arrStreamsData['stream_title']?>"></div>
-                                    <img onerror="this.src='<?php echo url('/') ?>/images/default_img.jpg'" src="<?php echo $arrStreamsData['stream_poster'] ?>" alt="<?php echo $arrStreamsData['stream_title'] ?>">
+                                <div class="trending_icon_box" {{ $strBrige }}><img src="{{ url('/') }}/assets/images/trending_icon.png" alt="{{ $arrStreamsData['stream_title'] }}"></div>
+                                    <img onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'" src="{{ $arrStreamsData['stream_poster'] }}" alt="{{ $arrStreamsData['stream_title'] }}">
                                     <div class="detail_box_hide">
-                                        <div class="detailbox_time"><?php echo $arrStreamsData['stream_duration_timeformat'] ?>
+                                        <div class="detailbox_time">{{ $arrStreamsData['stream_duration_timeformat'] }}
                                         </div>
                                         <div class="deta_box">
-                                            <div class="season_title"><?php echo $arrStreamsData['stream_episode_title'] ?></div>
+                                            <div class="season_title">{{ $arrStreamsData['stream_episode_title'] }}</div>
                                             <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
                               </div> -->
-                                            <div class="content_title"><?php echo $arrStreamsData['stream_title'] ?></div>
-                                            <div class="content_description"><?php echo $arrStreamsData['stream_description'] ?>
+                                            <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
+                                            <div class="content_description">{{ $arrStreamsData['stream_description'] }}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </a>
                         </div>
-                    <?php
-                    }
-                    ?>
+                    @endforeach
                 </div>
             </div>
             <!-- End Shows -->
         </div>
     </section>
-<?php
-}
-?>
+@endif
 
  <script>
         function handleStarRating(element) {
@@ -524,5 +471,53 @@ if (!empty($arrCatData)) {
 @endsection
 
 @push('scripts')
-    
+    <script>
+        /** script for landscape_slider */
+        $('.landscape_slider').slick({
+            dots: false,
+            infinite: true,
+            loop: true,
+            autoplay: {{ $api_data->app->colors_assets_for_branding->is_landscape_slider_autoplay }},
+            autoplaySpeed: 3000,
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            responsive: [
+                {
+                    breakpoint: 1740,
+                    settings: {
+                        slidesToShow: 4,
+                        slidesToScroll: 1,
+                        dots: true,
+                        arrows: true
+                    }
+                },
+                {
+                    breakpoint: 1200,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        dots: true,
+                        arrows: false
+                    }
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1,
+                        arrows: false
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1,
+                        dots: false,
+                        arrows: false,
+                    }
+                }
+            ]
+        });
+    </script>
 @endpush

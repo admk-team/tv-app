@@ -72,6 +72,17 @@
         crossorigin="anonymous"></script>
     {{-- Owl Carousal --}}
     <script src="{{ asset('assets/owlcarousal/js/owl.carousel.min.js') }}"></script>
+    
+    <script src="{{ asset('assets/js/cust-frm-validation.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/jquery.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/slick.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.jscroll.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('assets/js/year_select.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+
     {{-- Custom JS --}}
     <script>
         $(document).ready(function() {
