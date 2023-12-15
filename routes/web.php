@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\DetailScreen\DetailScreenController;
+use App\Http\Controllers\DetailScreenController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\PlayerScreenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,4 @@ use App\Http\Controllers\Home\HomeController;
 
 Route::get('/{slug?}', [HomeController::class, 'index'])->name('home');
 Route::get('/detailscreen/{id}', [DetailScreenController::class, 'index'])->name('detailscreen');
+Route::get('/playerscreen/{id}', [PlayerScreenController::class, 'index'])->name('playerscreen');

@@ -65,8 +65,28 @@ $stream_code = $stream_details['stream_guid'];
                     <img src="{{ $stream_details['stream_poster'] }}" alt="{{-- $stream_details['stream_title'] --}}" onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'">
                 @else
 
+                {{-- <video id="plyerId" class="video-js vjs-fluid vjs-16-9 vjs-default-skin js-big-play-centered" poster="https://cms.octv.shop/uploads/media_assets/imgs/1676459098_3fa25f0_bWcd9bSl6gz0dH8f2SSwyJVtf8Y0lVzBPCqDjzns65U.jpeg" autoplay data-viblast-key="N8FjNTQ3NDdhZqZhNGI5NWU5ZTI=">
+                    <source src="https://stream.adilo.com/adilo-encoding/6V2XCgoJu4HogrlQ/yeB66OuJ/hls/master.m3u8" type='application/x-mpegURL'>
+                </video>
+                <script>
+                    //var player = videojs('plyerId', {fluid: true});
+                    var overrideNative = false;
+            
+                    var player = videojs('plyerId', {
+                        html5: {
+                            hls: {
+                                overrideNative: overrideNative
+                            },
+                            nativeVideoTracks: !overrideNative,
+                            nativeAudioTracks: !overrideNative,
+                            nativeTextTracks: !overrideNative
+                        }
+                    });
+                    player.play();
+                </script> --}}
+
                     <video id="plyerId" class="video-js vjs-fluid vjs-16-9 vjs-default-skin js-big-play-centered" poster="{{ $stream_details['stream_poster'] }}" autoplay data-viblast-key="N8FjNTQ3NDdhZqZhNGI5NWU5ZTI=">
-                        <source src="{{ $streamUrl }}" {{ $mType }}>
+                        <source src="{{ $streamUrl }}" {!! $mType !!}>
                     </video>
                     <script>
                         //var player = videojs('plyerId', {fluid: true});
@@ -155,9 +175,9 @@ $stream_code = $stream_details['stream_guid'];
                     </dl>
                 </dl>
 
-                <div class="button_groupbox">
+                <div class="button_groupbox d-flex align-items-center">
                     <div class="btn_box movieDetailPlay">
-                        <a href="{{ url('/') }}/playerscreen/{{ $stream_details['stream_guid'] }}" class="app-primary-btn">
+                        <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="app-primary-btn">
                             <i class="fa fa-play"></i> 
                             Play Now
                         </a>
