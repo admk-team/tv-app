@@ -269,6 +269,7 @@ if (request()->server('REQUEST_METHOD') === 'POST' && request()->checkScreenerPa
                     </div>
 <?php                
                     $arrCatData = $ARR_FEED_DATA['arrCategoriesData'];
+                    $dataVast3 = null;
                     foreach ($arrCatData['streams'] as $arrStreamsData)     
                     {                      
                       

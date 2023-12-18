@@ -142,10 +142,20 @@ $stream_code = $stream_details['stream_guid'];
                             @if (!empty($persons))
                                 <dt>{{ $roleKey }}:</dt>
                                 <dd>
-                                    @foreach (explode(',', $persons) as $i => $person)
-                                        <a href="{{ url('/') }}/person.php?id={{ $person['id'] }}">
-                                            {{ $person['title'] }}
-                                        </a>{{ count($persons) - 1 !== $i? ', ': '' }}
+                                    @php
+                                    if (!is_array($persons))
+                                        $persons = explode(',', $persons);
+                                    @endphp
+                                    @foreach ($persons as $i => $person)
+                                        @if (is_array($person))
+                                            <a href="{{ url('/') }}/person.php?id={{ $person['id'] }}">
+                                                {{ $person['title'] }}
+                                            </a>{{ count($persons) - 1 !== $i? ', ': '' }}
+                                        @else
+                                            <a href="{{ url('/') }}/person.php?id={{ $person }}">
+                                                {{ $person }}
+                                            </a>{{ count($persons) - 1 !== $i? ', ': '' }}
+                                        @endif
                                     @endforeach
                                 </dd>
                             @endif
