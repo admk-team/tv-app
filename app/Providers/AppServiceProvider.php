@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
             $response = Http::withHeaders([
                 'happcode' => '7376d3829575f06617d9db3f7f6836df'
             ])
-            ->get('https://stage.octv.shop/f/v1/masterfeed');
+            ->get(env('API_BASE_URL') . '/masterfeed');
 
             $view->with('api_data', json_decode($response->getBody()->getContents()));
         });

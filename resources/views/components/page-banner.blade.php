@@ -43,13 +43,18 @@
                                 {{ $stream->stream_description ?? '' }}
                             </p>
                             <div class="btns">
-                                <a class="app-primary-btn" href="#">Play Now</a>
-                                <a class="app-secondary-btn" href="#">See Details</a>
+                                <a class="app-primary-btn" href="#">
+                                    <i class="bi bi-play-fill banner-play-icon"></i>
+                                    Play Now
+                                </a>
+                                <a class="app-secondary-btn" href="#">
+                                    <i class="bi bi-eye banner-view-icon"></i>
+                                    See Details
+                                </a>
                             </div>
                         </div>
                         <div class="cover">
-                            <img src="{{ $stream->feature_poster ?? '' }}"
-                                alt="">
+                            <img src="{{ $stream->feature_poster ?? '' }}" alt="">
                         </div>
                     </div>
                 </div>

@@ -13,7 +13,7 @@ class HomeController extends Controller
         $response = Http::withHeaders([
             'happcode' => '7376d3829575f06617d9db3f7f6836df'
         ])
-            ->get("https://stage.octv.shop/f/v1/{$slug}");
+            ->get(env('API_BASE_URL') . "/{$slug}");
 
         $data = json_decode($response->getBody()->getContents());
 

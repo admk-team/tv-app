@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\DetailScreen\DetailScreenController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\DetailScreen\DetailScreenController;
+use App\Http\Controllers\Page\PageController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,5 @@ use App\Http\Controllers\Home\HomeController;
 
 Route::get('/{slug?}', [HomeController::class, 'index'])->name('home');
 Route::get('/detailscreen/{id}', [DetailScreenController::class, 'index'])->name('detailscreen');
+Route::get('/page/{slug}', [PageController::class, 'index'])->name('page');
+Route::post('/contact-us', [PageController::class, 'submit'])->name('contactus.submit');

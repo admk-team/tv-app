@@ -1354,6 +1354,7 @@ section.sliders {
 }
 
 .signForm .inner-cred .ind1 {
+    position: relative;
     border-right: 2px solid var(--themeSecondaryTxtColor);
 }
 
@@ -1363,7 +1364,7 @@ section.sliders {
     font-family: 'Noto Sans';
     font-size: 18px;
     position: absolute;
-    right: -26px;
+    right:0;
     border: 1px solid var(--themeSecondaryTxtColor);
     border-radius: 50px;
     height: 50px;
@@ -1371,6 +1372,7 @@ section.sliders {
     width: 50px;
     padding-top: 10px;
     top: 50%;
+    margin-right: -25px;
     margin-top: -25px;
     text-align: center;
 }

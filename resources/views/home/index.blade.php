@@ -1,14 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-
     @include('components.page-banner')
     @include('components.category-slider')
 
     @if ($slug == 'home')
         @include('components.download-box')
     @endif
-    
 @endsection
 
 @push('scripts')
@@ -19,7 +17,7 @@
                 items: 1,
                 loop: true,
                 smartSpeed: 800,
-                autoplay: true,
+                // autoplay: true,
                 margin: 10,
                 stagePadding: 100,
                 nav: true,
@@ -39,52 +37,6 @@
                         margin: 20,
                     }
                 }
-            });
-
-            $('.cat-slick-slider').slick({
-                dots: false,
-                infinite: true,
-                loop: true,
-                // autoplay: true,
-                // autoplaySpeed: 3000,
-                slidesToShow: 5,
-                slidesToScroll: 1,
-                responsive: [{
-                        breakpoint: 1740,
-                        settings: {
-                            slidesToShow: 4,
-                            slidesToScroll: 1,
-                            dots: true,
-                            arrows: true
-                        }
-                    },
-                    {
-                        breakpoint: 1200,
-                        settings: {
-                            slidesToShow: 3,
-                            slidesToScroll: 1,
-                            dots: true,
-                            arrows: false
-                        }
-                    },
-                    {
-                        breakpoint: 600,
-                        settings: {
-                            slidesToShow: 2,
-                            slidesToScroll: 1,
-                            arrows: false
-                        }
-                    },
-                    {
-                        breakpoint: 480,
-                        settings: {
-                            slidesToShow: 2,
-                            slidesToScroll: 1,
-                            dots: false,
-                            arrows: false,
-                        }
-                    }
-                ]
             });
         });
 
