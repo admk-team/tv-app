@@ -324,11 +324,11 @@ class GeneralHelper
     public static function sendCURLRequest($trace, $url, $arrPost = array(), $rtnRes = "jsonObj")
     {
         $curl = curl_init();
-        if (!empty($_SESSION['USER_DETAILS']['USER_CODE'])) {
-            $userCode = $_SESSION['USER_DETAILS']['USER_CODE'];
-            $headers = ['happCode: ' . APP_CODE, 'huserCode: ' . $userCode];
+        if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE']) {
+            $userCode = session('USER_DETAILS')['USER_CODE'];
+            $headers = ['happCode: ' . env('APP_CODE'), 'huserCode: ' . $userCode];
         } else {
-            $headers = ['happCode: ' . APP_CODE];
+            $headers = ['happCode: ' . env('APP_CODE')];
         }
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,

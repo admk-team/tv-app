@@ -4,6 +4,7 @@
 <?php
 // Config
 $IS_SIGNIN_BYPASS = 'N';
+define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL').'/mngstrmdur');
 // Config End
 
 
@@ -22,7 +23,6 @@ if ($queryString !== null) {
         session("GLOBAL_PASS", 1);
     }
 }
-$streamGuid = \App\Helpers\GeneralHelper::getValPostORGet('streamGuid', 'B');
 $ARR_FEED_DATA = \App\Helpers\GeneralHelper::parseDetailPgFeedArrData(0, $arrRes);
 $arrSlctItemData = $ARR_FEED_DATA['arrSelectedItemData'];
 $streamType = $arrSlctItemData['stream_type'];
@@ -44,13 +44,13 @@ if ($monetizationType != "F" && $isBuyed == 'N')
   if (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])
   {
     session('REDIRECT_TO_SCREEN', '/playerscreen/'.$streamGuid);
-    \App\Helpers\GeneralHelper::headerRedirect(HTTP_PATH.'/signin');
+    \App\Helpers\GeneralHelper::headerRedirect(url('/signin'));
   }
   else if ($monetizationType == "S")
-  { 
+  {
     $sArr['REQUEST_FROM'] = 'player';
     $_SESSION['MONETIZATION'] = $sArr;
-    headerRedirect(HTTP_PATH.'/subscription');
+    \App\Helpers\GeneralHelper::headerRedirect(url('/subscription'));
   }
   else
   {
@@ -65,7 +65,7 @@ if ($monetizationType != "F" && $isBuyed == 'N')
     $sArr['AMOUNT'] = $arrSlctItemData['amount'];
     $sArr['POSTER'] = $arrSlctItemData['stream_poster'];
     $_SESSION['MONETIZATION'] = $sArr;
-    headerRedirect(HTTP_PATH.'/monetioztion');
+    \App\Helpers\GeneralHelper::headerRedirect(url('/monetioztion'));
   }
 }
 
@@ -74,8 +74,8 @@ if (strpos($streamUrl, '.m3u8'))
 {
     $mType = "hls";      
 }
-$apiPath = HTTP_PATH.'/web-controller.php';
-$strQueryParm = "streamGuid=$streamGuid&userCode=".@$_SESSION['USER_DETAILS']['USER_CODE']."&frmToken=".$_SESSION['SESSION_TOKEN'];
+$apiPath = url('/web-controller.php');
+$strQueryParm = "streamGuid=$streamGuid&userCode=".@session('USER_DETAILS')['USER_CODE']."&frmToken=".session('SESSION_TOKEN');
 
 // here get the video duration
 $seekFunStr  = '';
@@ -83,7 +83,7 @@ $arrFormData4VideoState = array();
 $arrFormData4VideoState['streamGuid'] = $streamGuid;	
 //$arrFormData4VideoState['streamDuration'] = "50";
 $arrFormData4VideoState['requestAction'] = 'getStrmDur';
-$arrRes4VideoState = sendCURLRequest(0, VIDEO_DUR_MNG_BASE_URL, $arrFormData4VideoState);
+$arrRes4VideoState = \App\Helpers\GeneralHelper::sendCURLRequest(0, VIDEO_DUR_MNG_BASE_URL, $arrFormData4VideoState);
 //print_r($arrRes4VideoState);
 $status = $arrRes4VideoState['app']['status'];
 if ($status == 1)
@@ -93,17 +93,24 @@ if ($status == 1)
 }
 
 // Here Set Ad URL in Session
-$_SESSION['ADS_INFO']['adUrl'] = $WEBSITE_BRANDING_KEYS['web_site_ad_url'];
-$_SESSION['ADS_INFO']['channelName'] = $APP_NAME;
-$_SESSION['ADS_INFO']['domain_name'] = $WEBSITE_BRANDING_KEYS['domain_name'];
-$useragent=$_SERVER['HTTP_USER_AGENT'];
+if (!session('ADS_INFO')) {
+  session([
+    'ADS_INFO' => [
+      'adUrl' => $api_data->app->colors_assets_for_branding->web_site_ad_url,
+      'channelName' => $api_data->app->app_info->app_name,
+      'domain_name' => $api_data->app->colors_assets_for_branding->domain_name,
+    ]
+  ]);
+}
+
+$useragent = request()->server('HTTP_USER_AGENT');
 $isMobileBrowser = 0;
 if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$useragent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($useragent,0,4)))
 {
   $isMobileBrowser = 1;
 }
 $isMobileBrowser = 0;
-$dataVast = 'data-vast="'.HTTP_PATH.'/get-ad.php?'.$adParam.'"';
+$dataVast = 'data-vast="'.url('/get-ad?'.$adParam).'"';
 
 if ($isMobileBrowser == 1)
 {
@@ -113,47 +120,49 @@ if ($isMobileBrowser == 1)
 $adUrl = $arrSlctItemData['stream_ad_url']? 'data-vast="'.$arrSlctItemData['stream_ad_url'].'"': null; 
 
 // Check Password Access
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_REQUEST['checkPassword']))
+if (request()->server('REQUEST_METHOD') === 'POST' && request()->checkPassword)
 {
-  if (password_verify($_REQUEST['password'], $arrSlctItemData['password']))
+  if (password_verify(request()->password, $arrSlctItemData['password']))
   {
-    if (!isset($_SESSION['protectedContentAccess']))
-      $_SESSION['protectedContentAccess'] = [];
-    $_SESSION['protectedContentAccess'][] = $arrSlctItemData['stream_guid'];
+    if (session('protectedContentAccess') === null)
+      session('protectedContentAccess', []);
+    session('protectedContentAccess')[] = $arrSlctItemData['stream_guid'];
   }
   else
   {
-    $_SESSION['error'] = 'Incorrect Password';
+    session('error', 'Incorrect Password');
   }
   header("Location: " . $fullUrl);
   die();
 }
 
 //Screener Password
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_REQUEST['checkScreenerPassword']))
+if (request()->server('REQUEST_METHOD') === 'POST' && request()->checkScreenerPassword !== null)
 {
-  if ($_REQUEST['password']==$globalPass)
+  if (request()->password == $globalPass)
   {
-      $_SESSION["GLOBAL_PASS"]=0;
+      session('GLOBAL_PASS', 0);
       header("Location: " . $shortUrl);
       die();
   }
   else
   {
-    $_SESSION['error'] = 'Incorrect Password';
+    session('error', 'Incorrect Password');
   }
   header("Location: " . $fullUrl);
   die();
 }
+
 ?>
-<link rel="stylesheet" type="text/css" href="<?php echo HTTP_PATH ?>/css/mvp.css" />
-<script src="<?php echo HTTP_PATH ?>/js/new.js"></script> 
-<script src="<?php echo HTTP_PATH ?>/js/vast.js"></script>  
-<script src="<?php echo HTTP_PATH ?>/js/share_manager.js"></script>
-<script src="<?php echo HTTP_PATH ?>/js/cache.js"></script>
-<script src="<?php echo HTTP_PATH ?>/js/ima.js"></script>
-<script src="<?php echo HTTP_PATH ?>/js/perfect-scrollbar.min.js"></script>
-<script src="<?php echo HTTP_PATH ?>/js/playlist_navigation.js"></script>
+
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
+<script src="{{ asset('assets/js/new.js') }}"></script> 
+<script src="{{ asset('assets/js/vast.js') }}"></script>  
+<script src="{{ asset('assets/js/share_manager.js') }}"></script>
+<script src="{{ asset('assets/js/cache.js') }}"></script>
+<script src="{{ asset('assets/js/ima.js') }}"></script>
+<script src="{{ asset('assets/js/perfect-scrollbar.min.js') }}"></script>
+<script src="{{ asset('assets/js/playlist_navigation.js') }}"></script>
 <script>
  function detectMob() {
     const toMatch = [
@@ -172,7 +181,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_REQUEST['checkScreenerPassw
 }
 //alert(detectMob());
   </script>
-  <?php if($_SESSION["GLOBAL_PASS"] == 1){ ?>
+
+  <?php if(session("GLOBAL_PASS") == 1){ ?>
       <section class="credential_form signForm"> 
                     <div>
                             </div>
@@ -192,9 +202,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_REQUEST['checkScreenerPassw
                                                     <img src="/images/lock.png" class="icn">                                     
                                                     <span id="eye_password" toggle="#password" class="far fa-light fa-eye field-icon toggle-password" style="display:none;"></span>
                                                 </label>
-                                                <?php if (isset($_SESSION['error'])): ?>
-                                                  <span class="error_box" id="span_password"><?php echo $_SESSION['error']; ?></span> 
-                                                <?php unset($_SESSION['error']); endif; ?>  
+                                                <?php if (session('error')): ?>
+                                                  <span class="error_box" id="span_password">{{ session('error') }}</span> 
+                                                <?php session()->forget('error'); endif; ?>  
                                             </div>
                                             <div class="form-group">
                                                 <button class="btn" name="checkScreenerPassword" value="">SUBMIT</button>                              
@@ -211,7 +221,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_REQUEST['checkScreenerPassw
     <div class="container-fluid containinax">
         <div class="row" >
             <div class="col-md-12">
-              <?php if ($arrSlctItemData['password'] && (!isset($_SESSION['protectedContentAccess']) || !in_array($arrSlctItemData['stream_guid'], $_SESSION['protectedContentAccess']))): ?>
+              <?php if (isset($arrSlctItemData['password']) && (session('protectedContentAccess') === null || !in_array($arrSlctItemData['stream_guid'], session('protectedContentAccess')))): ?>
                 <section class="credential_form signForm"> 
                     <div>
                             </div>
@@ -231,9 +241,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_REQUEST['checkScreenerPassw
                                                     <img src="/images/lock.png" class="icn">                                     
                                                     <span id="eye_password" toggle="#password" class="far fa-light fa-eye field-icon toggle-password" style="display:none;"></span>
                                                 </label>
-                                                <?php if (isset($_SESSION['error'])): ?>
-                                                  <span class="error_box" id="span_password"><?php echo $_SESSION['error']; ?></span> 
-                                                <?php unset($_SESSION['error']); endif; ?>  
+                                                <?php if (session('error')): ?>
+                                                  <span class="error_box" id="span_password">{{ session('error') }}</span> 
+                                                <?php session()->forget('error'); endif; ?>  
                                             </div>
                                             <div class="form-group">
                                                 <button class="btn" name="checkPassword" value="">SUBMIT</button>                              
@@ -253,7 +263,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_REQUEST['checkScreenerPassw
                   <div class="mvp-global-playlist-data" ></div>              
                   <div class="playlist-video">   
 
-                    <div class="mvp-playlist-item" data-type="<?php echo $mType?>" data-path="<?php echo $streamUrl?>" data-poster="<?php echo $arrSlctItemData['stream_poster']?>" data-thumb="<?php echo $arrSlctItemData['stream_poster']?>"  data-title="<?php echo $arrSlctItemData['stream_title'];?>" data-description="<?php echo $arrSlctItemData['stream_description'];?>" <?php echo $adUrl ?? $dataVast?>>
+                    <div class="mvp-playlist-item" data-type="{{ $mType }}" data-path="{{ $streamUrl }}" data-poster="{{ $arrSlctItemData['stream_poster'] }}" data-thumb="{{ $arrSlctItemData['stream_poster'] }}"  data-title="{{ $arrSlctItemData['stream_title'] }}" data-description="{{ $arrSlctItemData['stream_description'] }}" {!! $adUrl ?? $dataVast !!}>
                       
                       
                     </div>
@@ -271,14 +281,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_REQUEST['checkScreenerPassw
                       }
 
                       $adParam = "videoId=".$arrStreamsData['stream_guid'].'&title='.$arrStreamsData['stream_title'];
-                      $dataVast = 'data-vast="'.HTTP_PATH.'/get-ad.php?'.$adParam.'"';
-                      $dataVast3 = HTTP_PATH.'/get-ad.php?'.$adParam;
+                      $dataVast = 'data-vast="'.url('/get-ad?'.$adParam).'"';
+                      $dataVast3 = url('/get-ad?'.$adParam);
                       if ($isMobileBrowser == 1)
                       {
                       //  $dataVast = '';
                       }
 ?>                          	 					
-                      <div class="mvp-playlist-item" data-type="<?php echo $quality?>" data-path="<?php echo $videoUrl?>" <?php echo $adUrl ?? $dataVast?> data-poster="<?php echo $poster?>" data-thumb="<?php echo $poster?>" data-title="<?php echo $arrStreamsData['stream_title'];?>" data-description="<?php echo $arrStreamsData['stream_description'];?>" ></div>
+                      <div class="mvp-playlist-item" data-type="{{ $quality }}" data-path="{{ $videoUrl }}" {!! $adUrl ?? $dataVast !!} data-poster="{{ $poster }}" data-thumb="{{ $poster }}" data-title="{{ $arrStreamsData['stream_title'] }}" data-description="{{ $arrStreamsData['stream_description'] }}" ></div>
 <?php
                     }
 ?>                    
@@ -300,17 +310,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_REQUEST['checkScreenerPassw
                         <li><i class="fa fa-star"></i></li>
                         <li><i class="fa fa-star"></i></li>
                     </ul>
-                    <h1 class="content-heading"><?php echo $arrSlctItemData['stream_title']?></h1>                    
+                    <h1 class="content-heading">{{ $arrSlctItemData['stream_title'] }}</h1>                    
                     <div class="content-timing">
-                        <span class="year"><?php echo $arrSlctItemData['released_year']?></span>                
-                        <span><?php echo showDurationInHourAndMins($arrSlctItemData['stream_duration'])?></span>
-                        <span class="movie_type"><?php echo $arrSlctItemData['cat_title']?></span>
+                        <span class="year">{{ $arrSlctItemData['released_year'] }}</span>                
+                        <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
+                        <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span>
 <?php
                         if ($streamType == 'S')  
                         {
                             ?>                      
-                            <span class="movie_type"><?php echo $arrSlctItemData['stream_episode_title']?></span>
-                            <span class="movie_type"><?php echo $arrSlctItemData['show_name']?></span> 
+                            <span class="movie_type">{{ $arrSlctItemData['stream_episode_title'] }}</span>
+                            <span class="movie_type">{{ $arrSlctItemData['show_name'] }}</span> 
 <?php
                         }
 ?>                            
@@ -318,7 +328,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_REQUEST['checkScreenerPassw
               if ($arrSlctItemData['content_qlt'] != '')  
               {
 ?>
-                  <span class="content_screen"><?php echo $arrSlctItemData['content_qlt']?></span>
+                  <span class="content_screen">{{ $arrSlctItemData['content_qlt'] }}</span>
  <?php
               }
 ?>
@@ -326,7 +336,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_REQUEST['checkScreenerPassw
                   if ($arrSlctItemData['content_rating'] != '')  
                   {
                     ?>
-                      <span class="content_screen"><?php echo $arrSlctItemData['content_rating']?></span>
+                      <span class="content_screen">{{ $arrSlctItemData['content_rating'] }}</span>
  <?php
                   }
                   ?>                        
@@ -335,7 +345,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_REQUEST['checkScreenerPassw
             </div>
             <div class="col-md-2 sharesinbos">
             <?php
-            if (!empty($_SESSION['USER_DETAILS']['USER_CODE']))
+            if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
             {   
               $signStr = "+";
               $cls = 'fa fa-plus';
@@ -346,23 +356,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_REQUEST['checkScreenerPassw
               }
 ?>                         
               <div class="share_circle addWtchBtn">
-                <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav" class="<?php echo $cls?>"></i></a>
-                <input type="hidden" id="myWishListSign" value='<?php echo $signStr?>'/>
-                <input type="hidden" id="strQueryParm" value='<?php echo $strQueryParm?>'/>
-						    <input type="hidden" id="reqUrl" value='<?php echo $apiPath;?>'/>
+                <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav" class="{{ $cls }}"></i></a>
+                <input type="hidden" id="myWishListSign" value='{{ $signStr }}'/>
+                <input type="hidden" id="strQueryParm" value='{{ $strQueryParm }}'/>
+						    <input type="hidden" id="reqUrl" value='{{ $apiPath }}>'/>
                 
               </div>
 <?php
             }
 ?>  
-              <div class="share_circle addWtchBtn" data-toggle="modal" data-target="#exampleModalCenter">
-                <a href="javascript:void();"><i class="fa fa-share"></i></a>
+              <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                <a href="javascript:void(0);"><i class="fa fa-share"></i></a>
               </div>
             </div>  
         </div>
         <div class="row">
             <div class="slider_title_box slidessbwh">
-                <div class="about_fulltxt"><?php echo $arrSlctItemData['stream_description']?></div>    
+                <div class="about_fulltxt">{{ $arrSlctItemData['stream_description'] }}</div>    
             </div>
         </div>
         </div>
@@ -370,46 +380,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_REQUEST['checkScreenerPassw
 </div> 
 <?php } ?>
 <!-- Modal -->
-
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Share</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body ">
             <ul class="share_list">
                 <li>
-                    <a data-toggle="tooltip" data-placement="top" title="facebook" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $sharingURL ?>" target="_blank">
+                    <a data-toggle="tooltip" data-placement="top" title="facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ $sharingURL }}" target="_blank">
                         <i class="fa fa-facebook"></i>
                     </a>
                 </li>
                 <li>
-                    <a data-toggle="tooltip" data-placement="top" title="whatsapp" href="https://wa.me/?text=<?php echo $sharingURL ?>" target="_blank">
+                    <a data-toggle="tooltip" data-placement="top" title="whatsapp" href="https://wa.me/?text={{ $sharingURL }}" target="_blank">
                         <i class="fa fa-whatsapp"></i>
                     </a>
                 </li>
                 <li>
-                    <a data-toggle="tooltip" data-placement="top" title="twitter" href="https://twitter.com/intent/tweet?text=<?php echo $sharingURL ?>" target="_blank">
+                    <a data-toggle="tooltip" data-placement="top" title="twitter" href="https://twitter.com/intent/tweet?text={{ $sharingURL }}" target="_blank">
                         <i class="fa fa-twitter"></i>
                     </a>
                 </li>
                 <li>
-                    <a data-toggle="tooltip" data-placement="top" title="telegram" href="https://t.me/share/url?url=<?php echo $sharingURL ?>&text=<?php echo $arrSlctItemData['stream_title'] ?>" target="_blank">
+                    <a data-toggle="tooltip" data-placement="top" title="telegram" href="https://t.me/share/url?url={{ $sharingURL }}&text={{ $arrSlctItemData['stream_title'] }}" target="_blank">
                         <i class="fa fa-telegram"></i>
                     </a>
                 </li>
                 <li>
-                    <a data-toggle="tooltip" data-placement="top" title="linkdin" href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $sharingURL ?>" target="_blank">
+                    <a data-toggle="tooltip" data-placement="top" title="linkdin" href="https://www.linkedin.com/shareArticle?mini=true&url={{ $sharingURL }}" target="_blank">
                         <i class="fa fa-linkedin"></i>
                     </a>
                 </li>
             </ul>
             <form class="form-inline">
-                <input type="text" class="share_formbox" id="sharingURL" value="<?php echo $sharingURL ?>" readonly>
+                <input type="text" class="share_formbox" id="sharingURL" value="{{ $sharingURL }}" readonly>
                 <input type="button" class="submit_btn share_btnbox" value="Copy">
         </div>
     </div>
@@ -431,13 +438,13 @@ if (!empty($arrCatData))
 ?>                 
             <div class="listing_box">
                 <div class="slider_title_box">
-                    <div class="list_heading"><h1><?php echo $catTitle?></h1></div>                    
+                    <div class="list_heading"><h1>{{ $catTitle }}</h1></div>                    
                 </div>
                 <div class="landscape_slider slider slick-slider">
 <?php 
                 foreach ($arrCatData['streams'] as $arrStreamsData)     
                 {                      
-                    $vidPath = HTTP_PATH."/playerscreen/".$arrStreamsData['stream_guid'];
+                    $vidPath = url("/playerscreen/".$arrStreamsData['stream_guid']);
                     if ($nextVideoPath == "Y")
                     {
                       $nextVideoPath = $vidPath;
@@ -458,18 +465,18 @@ if (!empty($arrCatData))
 
                     ?> 
                     <div>                   
-                    <a href="<?php echo HTTP_PATH?>/playerscreen/<?php echo $arrStreamsData['stream_guid']?>">
+                    <a href="{{ url('/playerscreen/' . $arrStreamsData['stream_guid']) }}">
                       <div class="thumbnail_img">
-                      <div class="trending_icon_box" <?php echo  $strBrige?>><img src="<?php echo HTTP_PATH?>/images/trending_icon.png" alt="<?php echo $arrStreamsData['stream_title']?>"></div>
-                        <img onerror="this.src='<?php echo HTTP_PATH?>/images/default_img.jpg'" src="<?php echo $arrStreamsData['stream_poster']?>" alt="<?php echo $arrStreamsData['stream_title']?>">
+                      <div class="trending_icon_box" {{ $strBrige }}><img src="{{ asset('/assets/images/trending_icon.png') }}" alt="{{ $arrStreamsData['stream_title'] }}"></div>
+                        <img onerror="this.src='{{ url('/images/default_img.jpg') }}'" src="{{ $arrStreamsData['stream_poster'] }}" alt="{{ $arrStreamsData['stream_title'] }}">
                         <div class="detail_box_hide">
-                        <div class="detailbox_time"><?php echo $arrStreamsData['stream_duration_timeformat']?></div>
+                        <div class="detailbox_time">{{ $arrStreamsData['stream_duration_timeformat'] }}</div>
                           <div class="deta_box">
-                          <div class="season_title"><?php echo $arrStreamsData['stream_episode_title']?></div>
+                          <div class="season_title">{{ $arrStreamsData['stream_episode_title'] }}</div>
                             <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
                               </div> -->
-                            <div class="content_title"><?php echo $arrStreamsData['stream_title']?></div>
-                            <div class="content_description"><?php echo $arrStreamsData['stream_description']?></div>
+                            <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
+                            <div class="content_description">{{ $arrStreamsData['stream_description'] }}</div>
                           </div>
                         </div>
                       </div>
@@ -570,20 +577,23 @@ if (!empty($arrCatData))
       player.playMedia();
       setInterval(sendAdRequrst, 50000);
     }
-    player.addEventListener('mediaStart', function(data){
-        //called on media start, returns (instance, instanceName, counter)
 
-        console.log(data.instanceName);
-        console.log(data.counter);//active item
-
-        //get media current time
-        data.instance.getCurrentTime();
-
-        //get media duration
-        data.instance.getDuration();
-        
-        
-
+    document.addEventListener("DOMContentLoaded", function(event) {
+        player.addEventListener('mediaStart', function(data){
+            //called on media start, returns (instance, instanceName, counter)
+    
+            console.log(data.instanceName);
+            console.log(data.counter);//active item
+    
+            //get media current time
+            data.instance.getCurrentTime();
+    
+            //get media duration
+            data.instance.getDuration();
+            
+            
+    
+        });
     });
     function sendAdRequrst()
     {

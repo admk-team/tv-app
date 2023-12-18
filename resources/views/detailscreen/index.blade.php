@@ -491,53 +491,5 @@ if (!empty($arrSeasonData)) {
 @endsection
 
 @push('scripts')
-    <script>
-        /** script for landscape_slider */
-        $('.landscape_slider').slick({
-            dots: false,
-            infinite: true,
-            loop: true,
-            autoplay: {{ $api_data->app->colors_assets_for_branding->is_landscape_slider_autoplay }},
-            autoplaySpeed: 3000,
-            slidesToShow: 5,
-            slidesToScroll: 1,
-            responsive: [
-                {
-                    breakpoint: 1740,
-                    settings: {
-                        slidesToShow: 4,
-                        slidesToScroll: 1,
-                        dots: true,
-                        arrows: true
-                    }
-                },
-                {
-                    breakpoint: 1200,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 1,
-                        dots: true,
-                        arrows: false
-                    }
-                },
-                {
-                    breakpoint: 600,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 1,
-                        arrows: false
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 1,
-                        dots: false,
-                        arrows: false,
-                    }
-                }
-            ]
-        });
-    </script>
+    
 @endpush
