@@ -62,7 +62,22 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
     <script src="{{ asset('assets/owlcarousal/js/owl.carousel.min.js') }}"></script>
+<<<<<<< HEAD
+    
+    <script src="{{ asset('assets/js/cust-frm-validation.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/jquery.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/slick.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.jscroll.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('assets/js/year_select.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+
+    {{-- Custom JS --}}
+=======
     <script type="text/javascript" src="{{ asset('assets/slick/slick.min.js') }}"></script>
+>>>>>>> 1de3b36ba792d40ac445083d8caef52451bfe831
     <script>
         $('.potrait_slider').slick({
             slidesToShow: 7,
@@ -197,6 +212,56 @@
                 $('.navbar-default li').removeClass('active');
                 $(this).addClass('active');
             })
+        });
+    </script>
+
+    <script>
+        /** script for landscape_slider */
+        $('.landscape_slider').slick({
+            dots: false,
+            infinite: true,
+            loop: true,
+            autoplay: {{ $api_data->app->colors_assets_for_branding->is_landscape_slider_autoplay }},
+            autoplaySpeed: 3000,
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            responsive: [
+                {
+                    breakpoint: 1740,
+                    settings: {
+                        slidesToShow: 4,
+                        slidesToScroll: 1,
+                        dots: true,
+                        arrows: true
+                    }
+                },
+                {
+                    breakpoint: 1200,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        dots: true,
+                        arrows: false
+                    }
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1,
+                        arrows: false
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1,
+                        dots: false,
+                        arrows: false,
+                    }
+                }
+            ]
         });
     </script>
 
