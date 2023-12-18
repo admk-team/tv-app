@@ -43,11 +43,11 @@
                                 {{ $stream->stream_description ?? '' }}
                             </p>
                             <div class="btns">
-                                <a class="app-primary-btn" href="#">
+                                <a class="app-primary-btn" href="{{ route('playerscreen', $stream->stream_guid) }}">
                                     <i class="bi bi-play-fill banner-play-icon"></i>
                                     Play Now
                                 </a>
-                                <a class="app-secondary-btn" href="#">
+                                <a class="app-secondary-btn" href="{{ route('detailscreen', $stream->stream_guid) }}">
                                     <i class="bi bi-eye banner-view-icon"></i>
                                     See Details
                                 </a>

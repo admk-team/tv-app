@@ -60,7 +60,7 @@
                         @foreach ($category->streams as $stream)
                             <div class="item">
                                 <div class="{{ $cartMainSubCls }}">
-                                    <a href='detailscreen/db4ae31403cc9872c219d6e207b5d6b0'>
+                                    <a href='{{ route('detailscreen', $stream->stream_guid) }}'>
                                         <div class="{{ $cardThumbCls2 }}">
                                             <div class="trending_icon_box" style='display: none;'><img
                                                     src="{{ $stream->next_screen_feed_url ?? '' }}" alt="Gallows Road">
