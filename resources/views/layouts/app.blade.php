@@ -11,44 +11,38 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style-old.css') }}">
     <style>
         :root {
-          --bgcolor: {{ $api_data->app->website_colors->bgcolor }};
-          --themeActiveColor: {{ $api_data->app->website_colors->themeActiveColor }};
-          --headerBgColor: {{ $api_data->app->website_colors->headerBgColor }};
-          --themePrimaryTxtColor: {{ $api_data->app->website_colors->themePrimaryTxtColor }};
-          --themeSecondaryTxtColor: {{ $api_data->app->website_colors->themeSecondaryTxtColor }};
-          --navbarMenucolor: {{ $api_data->app->website_colors->navbarMenucolor }};
-          --navbarSearchColor: {{ $api_data->app->website_colors->navbarSearchColor }};
-          --footerbtmBgcolor: {{ $api_data->app->website_colors->footerbtmBgcolor }};
-          --slidercardBgColor: {{ $api_data->app->website_colors->slidercardBgColor }};
-          --slidercardTitlecolor: {{ $api_data->app->website_colors->slidercardTitlecolor }};
-          --slidercardCatColor: {{ $api_data->app->website_colors->slidercardCatColor }};
-          --cardDesColor: {{ $api_data->app->website_colors->cardDesColor }};
+            --bgcolor: {{ $api_data->app->website_colors->bgcolor }};
+            --themeActiveColor: {{ $api_data->app->website_colors->themeActiveColor }};
+            --headerBgColor: {{ $api_data->app->website_colors->headerBgColor }};
+            --themePrimaryTxtColor: {{ $api_data->app->website_colors->themePrimaryTxtColor }};
+            --themeSecondaryTxtColor: {{ $api_data->app->website_colors->themeSecondaryTxtColor }};
+            --navbarMenucolor: {{ $api_data->app->website_colors->navbarMenucolor }};
+            --navbarSearchColor: {{ $api_data->app->website_colors->navbarSearchColor }};
+            --footerbtmBgcolor: {{ $api_data->app->website_colors->footerbtmBgcolor }};
+            --slidercardBgColor: {{ $api_data->app->website_colors->slidercardBgColor }};
+            --slidercardTitlecolor: {{ $api_data->app->website_colors->slidercardTitlecolor }};
+            --slidercardCatColor: {{ $api_data->app->website_colors->slidercardCatColor }};
+            --cardDesColor: {{ $api_data->app->website_colors->cardDesColor }};
         }
     </style>
-    {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    {{-- Icons --}}
     <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    {{-- Booststrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/slick.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/slick-theme.css') }}">
-    {{-- Owl Carousal --}}
     <link rel="stylesheet" href="{{ asset('assets/owlcarousal/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/owlcarousal/css/owl.theme.default.min.css') }}">
-
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/slick/slick.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/slick/slick-theme.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/regular.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui.css') }}">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;200;300;400;500;600;700;800&display=swap');
     </style>
-
     {{-- Custom Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 </head>
@@ -63,44 +57,237 @@
 
     @include('layouts.partials.footer')
 
-    {{-- Booststrap --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
-    {{-- JQuery --}}
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
-    {{-- Owl Carousal --}}
     <script src="{{ asset('assets/owlcarousal/js/owl.carousel.min.js') }}"></script>
+<<<<<<< HEAD
+    
+    <script src="{{ asset('assets/js/cust-frm-validation.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/jquery.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/slick.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.jscroll.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('assets/js/year_select.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+
     {{-- Custom JS --}}
+=======
+    <script type="text/javascript" src="{{ asset('assets/slick/slick.min.js') }}"></script>
+>>>>>>> 1de3b36ba792d40ac445083d8caef52451bfe831
     <script>
         $(document).ready(function() {
             let root = document.querySelector(":root");
-            let appBgColor = '{{ $api_data->app->website_colors->bgcolor }}';
-            let headerBgColor = '{{ $api_data->app->website_colors->headerBgColor }}';
-            let appActiveColor = '{{ $api_data->app->website_colors->themeActiveColor }}';
-            let navMenuColor = '{{ $api_data->app->website_colors->navbarMenucolor }}';
-            let cardDesColor = '{{ $api_data->app->website_colors->cardDesColor }}';
-            let appPrimaryTextColor = '{{ $api_data->app->website_colors->themePrimaryTxtColor }}';
-            let appSecondaryTextColor = '{{ $api_data->app->website_colors->themeSecondaryTxtColor }}';
-            let navbarSearchColor = '{{ $api_data->app->website_colors->navbarSearchColor }}';
-            let footerBottomBgColor = '{{ $api_data->app->website_colors->footerbtmBgcolor }}';
-            let sliderCardBgColor = '{{ $api_data->app->website_colors->slidercardBgColor }}';
-            let sliderCardTitleColor = '{{ $api_data->app->website_colors->slidercardTitlecolor }}';
-            let sliderCardCatColor = '{{ $api_data->app->website_colors->slidercardCatColor }}';
 
-            root.style.setProperty("--bg-color", appBgColor);
-            root.style.setProperty("--header-bg-color", headerBgColor);
-            root.style.setProperty("--active-color", appActiveColor);
-            root.style.setProperty("--nav-color", navMenuColor);
-            root.style.setProperty("--primary-text-color", appPrimaryTextColor);
-            root.style.setProperty("--secondary-text-color", appSecondaryTextColor);
-            root.style.setProperty("--footer-bg-color", footerBottomBgColor);
-            root.style.setProperty("--nav-search-color", navbarSearchColor);
-            root.style.setProperty("--card-desc-color", cardDesColor);
-            root.style.setProperty("--slider-card-bg-color", sliderCardBgColor);
-            root.style.setProperty("--slider-card-title-color", sliderCardTitleColor);
-            root.style.setProperty("--slider-card-cat-color", sliderCardCatColor);
+            root.style.setProperty("--bg-color", '{{ $api_data->app->website_colors->bgcolor }}');
+            root.style.setProperty("--header-bg-color", '{{ $api_data->app->website_colors->headerBgColor }}');
+            root.style.setProperty("--active-color", '{{ $api_data->app->website_colors->themeActiveColor }}');
+            root.style.setProperty("--nav-color", '{{ $api_data->app->website_colors->navbarMenucolor }}');
+            root.style.setProperty("--primary-text-color",
+                '{{ $api_data->app->website_colors->themePrimaryTxtColor }}');
+            root.style.setProperty("--secondary-text-color",
+                '{{ $api_data->app->website_colors->themeSecondaryTxtColor }}');
+            root.style.setProperty("--footer-bg-color", '{{ $api_data->app->website_colors->footerbtmBgcolor }}');
+            root.style.setProperty("--nav-search-color",
+                '{{ $api_data->app->website_colors->navbarSearchColor }}');
+            root.style.setProperty("--card-desc-color", '{{ $api_data->app->website_colors->cardDesColor }}');
+            root.style.setProperty("--slider-card-bg-color",
+                '{{ $api_data->app->website_colors->slidercardBgColor }}');
+            root.style.setProperty("--slider-card-title-color",
+                '{{ $api_data->app->website_colors->slidercardTitlecolor }}');
+            root.style.setProperty("--slider-card-cat-color",
+                '{{ $api_data->app->website_colors->slidercardCatColor }}');
+        });
+    </script>
+
+    <script>
+        $('.potrait_slider').slick({
+            slidesToShow: 7,
+            loop: true,
+            autoplay: true,
+            infinite: true,
+            autoplaySpeed: 3000,
+            slidesToScroll: 1,
+            responsive: [{
+                    breakpoint: 960,
+                    settings: {
+                        arrows: false,
+                        slidesToShow: 6,
+                        slidesToScroll: 1
+                    }
+                },
+                {
+                    breakpoint: 767,
+                    settings: {
+                        arrows: false,
+                        slidesToShow: 5,
+                        slidesToScroll: 1
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        arrows: false,
+                        slidesToShow: 4,
+                        slidesToScroll: 1
+                    }
+                },
+                {
+                    breakpoint: 330,
+                    settings: {
+                        arrows: false,
+                        slidesToShow: 3,
+                        slidesToScroll: 1
+                    }
+                }
+            ]
+        });
+
+
+        /** script for landscape_slider */
+
+        $('.landscape_slider').slick({
+            dots: false,
+            infinite: true,
+            loop: true,
+            autoplay: true,
+            autoplaySpeed: 3000,
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            responsive: [{
+                    breakpoint: 1740,
+                    settings: {
+                        slidesToShow: 4,
+                        slidesToScroll: 1,
+                        dots: true,
+                        arrows: true
+                    }
+                },
+                {
+                    breakpoint: 1200,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        dots: true,
+                        arrows: false
+                    }
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1,
+                        arrows: false
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1,
+                        dots: false,
+                        arrows: false,
+                    }
+                }
+            ]
+        });
+
+        /** script for billboard Ads */
+
+        $('.billboard_ads').slick({
+            dots: true,
+            infinite: true,
+            loop: true,
+            autoplay: "false",
+            autoplaySpeed: 3000,
+            slidesToShow: 1
+        });
+
+
+        /** script for leaderboard Ads */
+
+        $('.leaderboard_ads').slick({
+            dots: true,
+            infinite: true,
+            loop: true,
+            autoplay: "false",
+            autoplaySpeed: 3000,
+            slidesToShow: 1
+        });
+
+        $(document).ready(function() {
+            $(".clss").click(function() {
+                $(".scsMsg").hide();
+            });
+            $(".scsMsg").delay(4000).fadeOut();
+        });
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    </script>
+    <script>
+        /** Script for year */
+        $('.yearselect').yearselect();
+
+        $(document).ready(function() {
+            $('.navbar-default li').on('click', function() {
+                $('.navbar-default li').removeClass('active');
+                $(this).addClass('active');
+            })
+        });
+    </script>
+
+    <script>
+        /** script for landscape_slider */
+        $('.landscape_slider').slick({
+            dots: false,
+            infinite: true,
+            loop: true,
+            autoplay: {{ $api_data->app->colors_assets_for_branding->is_landscape_slider_autoplay }},
+            autoplaySpeed: 3000,
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            responsive: [
+                {
+                    breakpoint: 1740,
+                    settings: {
+                        slidesToShow: 4,
+                        slidesToScroll: 1,
+                        dots: true,
+                        arrows: true
+                    }
+                },
+                {
+                    breakpoint: 1200,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        dots: true,
+                        arrows: false
+                    }
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1,
+                        arrows: false
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1,
+                        dots: false,
+                        arrows: false,
+                    }
+                }
+            ]
         });
     </script>
 
