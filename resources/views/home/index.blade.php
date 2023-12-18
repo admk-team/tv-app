@@ -1,29 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('components.page-slider')
 
-    @foreach ($data->app->categories as $category)
-        @if (!empty($category->streams))
-        <div class="cat-slider">
-            <h2 class="title">{{ $category->cat_title }}</h2>
-            <div class="owl-carousel cat-owl-slider">
-                @foreach ($category->streams as $stream)
-                <div class="cat-slider-item">
-                    <img class="cover" alt="{{ $stream->stream_title ?? '' }}" src="{{ $stream->stream_poster }}" alt="">
-                    <div class="text-box">
-                        <div class="text">
-                            <h2>{{ $stream->stream_title ?? '' }}</h2>
-                            <p>{{ $stream->stream_description ?? '' }}</p>
-                            <div class="duration">{{ $stream->stream_duration_timeformat ?? '' }}</div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-        @endif
-    @endforeach
+    @include('components.page-banner')
+    @include('components.category-slider')
+
+    @if ($slug == 'home')
+        @include('components.download-box')
+    @endif
+    
 @endsection
 
 @push('scripts')
@@ -55,49 +40,53 @@
                     }
                 }
             });
-        });
 
-        $(".cat-owl-slider").owlCarousel({
-                loop: false,
-                rewind: true,
-                smartSpeed: 800,
-                autoplay: true,
-                margin: 15,
-                stagePadding: 100,
-                nav: true,
+            $('.cat-slick-slider').slick({
                 dots: false,
-                items: 5,
-                responsive: {
-                    0: {
-                        stagePadding: 0,
-                        nav: false,
-                        items: 1.4,
+                infinite: true,
+                loop: true,
+                // autoplay: true,
+                // autoplaySpeed: 3000,
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                responsive: [{
+                        breakpoint: 1740,
+                        settings: {
+                            slidesToShow: 4,
+                            slidesToScroll: 1,
+                            dots: true,
+                            arrows: true
+                        }
                     },
-                    500: {
-                        stagePadding: 0,
-                        nav: false,
-                        items: 2,
+                    {
+                        breakpoint: 1200,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 1,
+                            dots: true,
+                            arrows: false
+                        }
                     },
-                    700: {
-                        stagePadding: 0,
-                        nav: false,
-                        items: 3,
+                    {
+                        breakpoint: 600,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 1,
+                            arrows: false
+                        }
                     },
-                    1000: {
-                        stagePadding: 100,
-                        nav: true,
-                        margin: 20,
-                        items: 3,
-                    },
-                    1600: {
-                        stagePadding: 100,
-                        nav: true,
-                        margin: 20,
-                        items: 5,
-                    },
-                }
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 1,
+                            dots: false,
+                            arrows: false,
+                        }
+                    }
+                ]
             });
-
+        });
 
         function handleSliderControlls(e) {
             let type = $(e).data("type");

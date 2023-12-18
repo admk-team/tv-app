@@ -22,7 +22,7 @@ class HomeController extends Controller
                 $item->formatted_duration = $duration[0] . ' Hour ' . $duration[1] . ' Minutes';
             }
 
-        $front_data = compact('data');
+        $front_data = compact('data', 'slug');
 
         return view('home.index', $front_data);
     }
