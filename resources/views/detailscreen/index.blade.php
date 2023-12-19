@@ -16,32 +16,32 @@ $apiPath = url('/') . '/web-controller.php';
 
 $stream_code = $stream_details['stream_guid'];
 
-// $postData = array(
-//     'stream_code' => $stream_code,
-// );
+$postData = array(
+    'stream_code' => $stream_code,
+);
 
-// $ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
+$ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
 
-// curl_setopt($ch, CURLOPT_POST, 1);
-// curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
-// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-// $response = curl_exec($ch);
+$response = curl_exec($ch);
 
-// if (curl_errno($ch)) {
-//     die('Curl error: ' . curl_error($ch));
-// }
+if (curl_errno($ch)) {
+    die('Curl error: ' . curl_error($ch));
+}
 
-// curl_close($ch);
+curl_close($ch);
 
-// $resultArray = json_decode($response, true);
+$resultArray = json_decode($response, true);
 
-// $userDidComment = false;
+$userDidComment = false;
 
-// foreach ($resultArray as $review) {
-//     if ($review['user']['userCode'] === $_SESSION['USER_DETAILS']['USER_CODE'])
-//         $userDidComment = true;
-// }
+foreach ($resultArray as $review) {
+    if (session('USER_DETAILS') && $review['user']['userCode'] === session('USER_DETAILS')['USER_CODE'])
+        $userDidComment = true;
+}
 ?>
 <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
 
@@ -290,96 +290,93 @@ if (!empty($arrSeasonData)) {
 }
 ?>
 
- {{--<div class="item-ratings">
+ <div class="item-ratings">
         <h1 class="section-title">Reviews</h1>
-        <?php
+        @php
         if (sizeof($resultArray) < 1) {
             echo '<p class="text-white" style="margin-bottom: -8px !important;">No reviews found.</p>'; 
         }
-        ?>
- <?php
- if (isset($_SESSION['USER_DETAILS']['USER_CODE']) && $_SESSION['USER_DETAILS']['USER_CODE'] !== null && !$userDidComment) {
-    ?>
-        <div class="review-rating user-rating">
-            <div class="star" data-rating="1" onclick="handleStarRating(this)">
-                <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
-                    xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <title>star</title>
-                        <path
-                            d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                        </path>
-                    </g>
-                </svg>
+        @endphp
+
+        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !$userDidComment)
+            <div class="review-rating user-rating">
+                <div class="star" data-rating="1" onclick="handleStarRating(this)">
+                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <title>star</title>
+                            <path
+                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                            </path>
+                        </g>
+                    </svg>
+                </div>
+                <div class="star" data-rating="2" onclick="handleStarRating(this)">
+                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <title>star</title>
+                            <path
+                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                            </path>
+                        </g>
+                    </svg>
+                </div>
+                <div class="star" data-rating="3" onclick="handleStarRating(this)">
+                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <title>star</title>
+                            <path
+                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                            </path>
+                        </g>
+                    </svg>
+                </div>
+                <div class="star" data-rating="4" onclick="handleStarRating(this)">
+                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <title>star</title>
+                            <path
+                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                            </path>
+                        </g>
+                    </svg>
+                </div>
+                <div class="star" data-rating="5" onclick="handleStarRating(this)">
+                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <title>star</title>
+                            <path
+                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                            </path>
+                        </g>
+                    </svg>
+                </div>
             </div>
-            <div class="star" data-rating="2" onclick="handleStarRating(this)">
-                <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
-                    xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <title>star</title>
-                        <path
-                            d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                        </path>
-                    </g>
-                </svg>
-            </div>
-            <div class="star" data-rating="3" onclick="handleStarRating(this)">
-                <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
-                    xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <title>star</title>
-                        <path
-                            d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                        </path>
-                    </g>
-                </svg>
-            </div>
-            <div class="star" data-rating="4" onclick="handleStarRating(this)">
-                <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
-                    xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <title>star</title>
-                        <path
-                            d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                        </path>
-                    </g>
-                </svg>
-            </div>
-            <div class="star" data-rating="5" onclick="handleStarRating(this)">
-                <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
-                    xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <title>star</title>
-                        <path
-                            d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                        </path>
-                    </g>
-                </svg>
-            </div>
-        </div>
-        <form action="http://octv.shop/stage/apis/feeds/v1/add_review.php" method="POST">
-            <textarea name="comment" cols="30" rows="10"
-                placeholder="Let others know what you think..."></textarea>
-            <input type="hidden" name="user_code" value="<?= $_SESSION['USER_DETAILS']['USER_CODE'] ?>">
-            <input type="hidden" name="rating">
-            <input type="hidden" name="stream_code" value="<?= $stream_details['stream_guid'] ?>">
-            <input type="submit" value="Submit">
-        </form>
-        <hr>
-            <?php
-}
-?>
-        <div class="member-reviews <?php echo !isset($_SESSION['USER_DETAILS']['USER_CODE']) || $userDidComment ? 'mt-4' : '' ?>">
+            <form action="http://octv.shop/stage/apis/feeds/v1/add_review.php" method="POST">
+                <textarea name="comment" cols="30" rows="10"
+                    placeholder="Let others know what you think..."></textarea>
+                <input type="hidden" name="user_code" value="{{ session('USER_DETAILS')['USER_CODE'] }}">
+                <input type="hidden" name="rating">
+                <input type="hidden" name="stream_code" value="{{ $stream_details['stream_guid'] }}">
+                <input type="submit" value="Submit">
+            </form>
+            <hr>
+        @endif
+        <div class="member-reviews {{ !session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'] || $userDidComment ? 'mt-4' : '' }}">
             <?php
                 foreach ($resultArray as $review) {
                     $name = $review['user']['name'];
@@ -419,7 +416,7 @@ if (!empty($arrSeasonData)) {
                     
                     ?>
                 </div>
-                <p class="member-comment"><?= $review['comment'] ?></p>
+                <p class="member-comment">{{ $review['comment'] }}</p>
             </div>
             <hr>
                     
@@ -428,7 +425,7 @@ if (!empty($arrSeasonData)) {
                 }
             ?>
         </div>
-    </div>--}}
+    </div>
 
 @if (!empty($latest_items))
     <!--Start of thumbnail slider section-->
