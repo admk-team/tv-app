@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DetailScreenController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Page\PageController;
@@ -17,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('signup', [RegisterController::class, 'index'])->name('register');
+Route::post('signup', [RegisterController::class, 'register'])->name('register');
 
 Route::get('/get-ad', [AdController::class, 'index'])->name('get-ad');
 Route::get('/{slug?}', [HomeController::class, 'index'])->name('home');

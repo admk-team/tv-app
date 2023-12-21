@@ -171,11 +171,11 @@ class GeneralHelper
 
     public static function showSessionMessage()
     {
-        if (isset($_SESSION['messageSession'])) {
+        if (session('messageSession')) {
             //$ARR_GLOBAL_MSG = @$GLOBALS['ARR_GLOBAL_MSG'];
-            echo $_SESSION['messageSession'];
-            unset($_SESSION['messageSession']);
-            unset($_SESSION['msgTrue']);
+            echo session('messageSession');
+            session()->forget('messageSession');
+            session()->forget('msgTrue');
         }
     }
 

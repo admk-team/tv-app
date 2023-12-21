@@ -29,20 +29,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet"
-        type='text/css'>
+    <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/slick/slick.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/slick/slick-theme.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/owlcarousal/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/owlcarousal/css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/slick/slick.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/slick/slick-theme.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/regular.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui.css') }}">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;200;300;400;500;600;700;800&display=swap');
     </style>
+    {{-- Custom Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 </head>
 
@@ -62,7 +63,6 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
     <script src="{{ asset('assets/owlcarousal/js/owl.carousel.min.js') }}"></script>
-<<<<<<< HEAD
     
     <script src="{{ asset('assets/js/cust-frm-validation.js') }}"></script>
     {{-- <script src="{{ asset('assets/js/jquery.min.js') }}"></script> --}}
@@ -75,9 +75,32 @@
     <script src="{{ asset('assets/js/custom.js') }}"></script>
 
     {{-- Custom JS --}}
-=======
     <script type="text/javascript" src="{{ asset('assets/slick/slick.min.js') }}"></script>
->>>>>>> 1de3b36ba792d40ac445083d8caef52451bfe831
+    <script>
+        $(document).ready(function() {
+            let root = document.querySelector(":root");
+
+            root.style.setProperty("--bg-color", '{{ $api_data->app->website_colors->bgcolor }}');
+            root.style.setProperty("--header-bg-color", '{{ $api_data->app->website_colors->headerBgColor }}');
+            root.style.setProperty("--active-color", '{{ $api_data->app->website_colors->themeActiveColor }}');
+            root.style.setProperty("--nav-color", '{{ $api_data->app->website_colors->navbarMenucolor }}');
+            root.style.setProperty("--primary-text-color",
+                '{{ $api_data->app->website_colors->themePrimaryTxtColor }}');
+            root.style.setProperty("--secondary-text-color",
+                '{{ $api_data->app->website_colors->themeSecondaryTxtColor }}');
+            root.style.setProperty("--footer-bg-color", '{{ $api_data->app->website_colors->footerbtmBgcolor }}');
+            root.style.setProperty("--nav-search-color",
+                '{{ $api_data->app->website_colors->navbarSearchColor }}');
+            root.style.setProperty("--card-desc-color", '{{ $api_data->app->website_colors->cardDesColor }}');
+            root.style.setProperty("--slider-card-bg-color",
+                '{{ $api_data->app->website_colors->slidercardBgColor }}');
+            root.style.setProperty("--slider-card-title-color",
+                '{{ $api_data->app->website_colors->slidercardTitlecolor }}');
+            root.style.setProperty("--slider-card-cat-color",
+                '{{ $api_data->app->website_colors->slidercardCatColor }}');
+        });
+    </script>
+
     <script>
         $('.potrait_slider').slick({
             slidesToShow: 7,

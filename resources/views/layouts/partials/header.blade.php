@@ -41,7 +41,7 @@
                 <i class="bi bi-search search"></i>
             </a>
             <a class="auth app-primary-btn" href="/login">Login</a>
-            <a class="auth app-secondary-btn" href="/signup">Signup</a>
+            <a class="auth app-secondary-btn" href="{{ route('register') }}">Signup</a>
         </div>
     </div>
 </header>
