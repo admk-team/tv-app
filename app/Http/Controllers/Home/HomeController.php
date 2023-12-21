@@ -10,7 +10,6 @@ class HomeController extends Controller
 {
     public function index($slug = 'home')
     {
-        dd(session()->all());
         $response = Http::withHeaders([
             'happcode' => '7376d3829575f06617d9db3f7f6836df'
         ])

@@ -15,7 +15,7 @@
             @endforeach
         </ul>
         <div class="btns">
-            <a href="/search">
+            <a href="/searchscreen">
                 <i class="bi bi-search search"></i>
             </a>
             <a class="auth app-primary-btn" href="/login">Login</a>
@@ -37,7 +37,7 @@
             @endforeach
         </ul>
         <div class="btns">
-            <a href="/search">
+            <a href="/searchscreen">
                 <i class="bi bi-search search"></i>
             </a>
             <a class="auth app-primary-btn" href="/login">Login</a>

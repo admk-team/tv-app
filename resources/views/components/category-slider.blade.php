@@ -1,6 +1,6 @@
 <section class="sliders">
     <div class="slider-container">
-        @foreach ($data->app->categories as $category)
+        @foreach ($data->app->categories ?? [] as $category)
             @if (!empty($category->streams))
                 @php
                     $cartMainCls = 'landscape_slider';
