@@ -2,7 +2,6 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
 }
 
 :root {
@@ -71,7 +70,7 @@ body {
     gap: 15px;
 }
 
-.header .btns .search {
+.header .btns .search-icon {
     font-size: 23px;
     color: #fff;
     margin-right: 20px;
@@ -79,7 +78,7 @@ body {
     transition: all 0.3s;
 }
 
-.header .btns .search:hover {
+.header .btns .search-icon:hover {
     color: var(--themeActiveColor);
 }
 
@@ -653,5 +652,11 @@ p {
 @media (max-width: 475px) {
     .cat-slider-item {
         height: 158px;
+    }
+}
+
+@media (max-width: 647px) {
+    .searchbox {
+        width: 95% !important;
     }
 }

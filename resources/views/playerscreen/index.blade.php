@@ -217,7 +217,7 @@ if (request()->server('REQUEST_METHOD') === 'POST' && request()->checkScreenerPa
                     </div>
                 </section>
   <?php }else { ?>
-<div class="top_gaps" style="margin-top: 110px;">
+<div>
     <div class="container-fluid containinax">
         <div class="row" >
             <div class="col-md-12">
@@ -321,7 +321,7 @@ if (request()->server('REQUEST_METHOD') === 'POST' && request()->checkScreenerPa
                         {
                             ?>                      
                             <span class="movie_type">{{ $arrSlctItemData['stream_episode_title'] }}</span>
-                            <span class="movie_type">{{ $arrSlctItemData['show_name'] }}</span> 
+                            <span class="movie_type">{{ $arrSlctItemData['show_name'] ?? '' }}</span> 
 <?php
                         }
 ?>                            
@@ -372,7 +372,7 @@ if (request()->server('REQUEST_METHOD') === 'POST' && request()->checkScreenerPa
             </div>  
         </div>
         <div class="row">
-            <div class="slider_title_box slidessbwh">
+            <div class="slider_title_box slidessbwh" style="padding: 0px 45px;">
                 <div class="about_fulltxt">{{ $arrSlctItemData['stream_description'] }}</div>    
             </div>
         </div>

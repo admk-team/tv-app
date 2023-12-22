@@ -7,6 +7,7 @@
     <title>
         @stack('title')
     </title>
+    @stack('style')
     {{-- Old Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style-old.css') }}">
     <style>

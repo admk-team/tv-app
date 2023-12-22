@@ -8,6 +8,9 @@ use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Page\PageController;
 use App\Http\Controllers\PlayerScreenController;
 use App\Http\Controllers\Search\SearchController;
+use App\Http\Controllers\DownloadApps\DownloadAppsController;
+use App\Http\Controllers\Subscription\SubscriptionController;
+use App\Http\Controllers\Monetization\MonetizationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,4 +41,8 @@ Route::get('/page/{slug}', [PageController::class, 'index'])->name('page');
 Route::post('/contact-us', [PageController::class, 'submit'])->name('contactus.submit');
 Route::get('/playerscreen/{id}', [PlayerScreenController::class, 'index'])->name('playerscreen');
 Route::get('/searchscreen', [SearchController::class, 'index'])->name('search');
+Route::get('/download-apps', [DownloadAppsController::class, 'index'])->name('downloadapps');
+Route::get('/subscription', [SubscriptionController::class, 'index'])->name('subscription');
+Route::post('/monetization', [MonetizationController::class, 'index'])->name('monetization');
+Route::get('/monetization/cancel', [MonetizationController::class, 'cancel'])->name('monetization.cancel');
 Route::get('/{slug?}', [HomeController::class, 'index'])->name('home');

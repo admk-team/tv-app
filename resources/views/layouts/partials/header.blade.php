@@ -16,7 +16,7 @@
         </ul>
         <div class="btns">
             <a href="/searchscreen">
-                <i class="bi bi-search search"></i>
+                <i class="bi bi-search search-icon"></i>
             </a>
             <a class="auth app-primary-btn" href="/login">Login</a>
             <a class="auth app-secondary-btn" href="/signup">Signup</a>
@@ -38,7 +38,7 @@
         </ul>
         <div class="btns">
             <a href="/searchscreen">
-                <i class="bi bi-search search"></i>
+                <i class="bi bi-search search-icon"></i>
             </a>
             <a class="auth app-primary-btn" href="/login">Login</a>
             <a class="auth app-secondary-btn" href="{{ route('register') }}">Signup</a>

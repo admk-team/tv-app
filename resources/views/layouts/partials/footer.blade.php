@@ -42,19 +42,19 @@
                     <h5 class="footer_title">Let Us Help You</h5>
                     <ul class="footer_link px-0">
                         <li>
-                            <a class="text-decoration-none" href="/signin">Login</a>
+                            <a class="text-decoration-none" href="{{ route('login') }}">Login</a>
                         </li>
                         <li>
-                            <a class="text-decoration-none" href=" /signup">Register</a>
+                            <a class="text-decoration-none" href="{{ route('register') }}">Register</a>
                         </li>
 
                         <li>
-                            <a class="text-decoration-none" href="/download-apps">Download Apps</a>
+                            <a class="text-decoration-none" href="{{ route('downloadapps') }}">Download Apps</a>
                         </li>
 
 
                         <li>
-                            <a class="text-decoration-none" href="/subscription">Subscription Plans</a>
+                            <a class="text-decoration-none" href="{{ route('subscription') }}">Subscription Plans</a>
                         </li>
 
                     </ul>

@@ -25,7 +25,7 @@
                     <div class="innerAlVidBox">
                         @foreach ($searchResult['streams'] as $stream)
                             <div class="resposnive_Box">
-                                <a href="detailscreen/27ac3ddd69b39b2e386a0864cf743eed">
+                                <a href="{{ route('detailscreen', $stream['stream_guid']) }}">
                                     <div class="thumbnail_img">
                                         <div class="trending_icon_box" style="display: none;"><img
                                                 src="https://stage.24flix.tv/images/trending_icon.png"
