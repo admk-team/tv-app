@@ -23,7 +23,7 @@
     </div>
     <div class="owl-carousel page-owl-slider">
         @if ($data->app->featured_items->is_show ?? '' == 'Y')
-            @foreach ($data->app->featured_items->streams as $stream)
+            @foreach (($data->app->featured_items->streams ?? []) as $stream)
                 <div>
                     <div class="cover-slider-item">
                         <div class="info">

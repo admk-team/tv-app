@@ -550,8 +550,8 @@ class GeneralHelper
 
     public static function showDurationInHourAndMins($duration, $stramType = 'M')
     {
-        $hour = floor($duration / 60);
-        $minute = floor($duration % 60);
+        $hour = floor((int) $duration / 60);
+        $minute = floor((int) $duration % 60);
 
         $streamTime = '';
 
