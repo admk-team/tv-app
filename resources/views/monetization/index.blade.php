@@ -306,25 +306,29 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="card-plan-link"><a href="https://stage.24flix.tv">Change</a></div>
+                            <div class="card-plan-link"><a href="{{ route('subscription') }}">Change</a></div>
                         </div>
                         <div class="card-payment-button">
-                            <form action="https://www.paypal.com/cgi-bin/webscr" method="POST">
-                                <input type="hidden" name="business" value="ondemand@24flix.com">
+                            <form action="{{ env('PAYPAL_URL') }}" method="POST">
+                                <input type="hidden" name="business"
+                                    value="{{ $api_data->app->colors_assets_for_branding->PAYPAL_ID }}">
                                 <input type="hidden" name="rm" value="2">
                                 <input type="hidden" name="cmd" value="_xclick">
-                                <input type="hidden" name="item_name" value="MONTHLY SUPPORTER (Donation)">
-                                <input type="hidden" name="subs_type" value="S">
-                                <input type="hidden" name="monetization_type" value="S">
-                                <input type="hidden" name="item_number" value="3ac60dc83718c3451d1301862732832b">
-                                <input type="hidden" name="amount" value="4.99">
-                                <input type="hidden" name="currency_code" value="USD">
-                                <input type="hidden" name="return" value="https://stage.24flix.tv/success.php">
-                                <input type="hidden" name="cancel_return" value="https://stage.24flix.tv/cancel.php">
+                                <input type="hidden" name="item_name" value="{{ $planData['PAYMENT_INFORMATION'] }}">
+                                <input type="hidden" name="subs_type" value="{{ $planData['SUBS_TYPE'] }}">
+                                <input type="hidden" name="monetization_type" value="{{ $planData['MONETIZATION_TYPE'] }}">
+                                <input type="hidden" name="item_number" value="{{ $planData['MONETIZATION_GUID'] }}">
+                                <input type="hidden" name="amount" value="{{ $planData['AMOUNT'] }}">
+                                <input type="hidden" name="currency_code"
+                                    value="{{ $api_data->app->colors_assets_for_branding->payment_currency_code }}">
+                                <input type="hidden" name="return" value="{{ url('/monetization/success') }}">
+                                <input type="hidden" name="cancel_return" value="{{ url('/monetization/cancel') }}">
                                 @if ($planData['PLAN_TYPE'] == 'T')
-                                    <a href="" class="mt-2 w-100 btn btn-lg btn-primary">Get Free
-                                        Access</a>
-                                @else
+                                    <a href="{{ route('free-subscription') }}"
+                                        class="mt-2 w-100 btn btn-lg btn-primary">Get
+                                        Free Access</a>
+                                @endif
+                                @if ($planData['PLAN_TYPE'] != 'T' && $api_data->app->colors_assets_for_branding->is_paypal_payment_active)
                                     <button type="submit" class="btn paypal_btn"><i class="fa fa-paypal"
                                             aria-hidden="true"></i>
                                         Pay with Paypal</button>
@@ -347,3 +351,85 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // Set Stripe publishable key to initialize Stripe.js
+        const stripe = Stripe('{{ $api_data->app->colors_assets_for_branding->stripe_publish_key }}');
+
+        // Select payment button
+        const payBtn = document.querySelector("#payButton");
+
+        // Payment request handler
+        payBtn.addEventListener("click", function(evt) {
+            setLoading(true);
+
+            createCheckoutSession().then(function(data) {
+                if (data.sessionId) {
+                    stripe.redirectToCheckout({
+                        sessionId: data.sessionId,
+                    }).then(handleResult);
+                } else {
+                    handleResult(data);
+                }
+            });
+        });
+
+        // Create a Checkout Session with the selected product
+        const createCheckoutSession = function(stripe) {
+            let stripeSecret = '{{ $api_data->app->colors_assets_for_branding->stripe_secret_key }}';
+            return fetch("{{ url('/stripe/checkout') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    _token: '{{ csrf_token() }}',
+                    createCheckoutSession: 1,
+                    stripeSecret
+                }),
+            }).then(function(result) {
+                console.log(result);
+                return result.json();
+            });
+        };
+
+        // Handle any errors returned from Checkout
+        const handleResult = function(result) {
+            if (result.error) {
+                showMessage(result.error.message);
+            }
+
+            setLoading(false);
+        };
+
+        // Show a spinner on payment processing
+        function setLoading(isLoading) {
+            if (isLoading) {
+                // Disable the button and show a spinner
+                payBtn.disabled = true;
+                document.querySelector("#spinner").classList.remove("hidden");
+                document.querySelector("#buttonText").classList.add("hidden");
+            } else {
+                // Enable the button and hide spinner
+                payBtn.disabled = false;
+                document.querySelector("#spinner").classList.add("hidden");
+                document.querySelector("#buttonText").classList.remove("hidden");
+            }
+        }
+
+        // Display message
+        function showMessage(messageText) {
+            const messageContainer = document.querySelector("#paymentResponse");
+
+            messageContainer.classList.remove("hidden");
+            messageContainer.textContent = messageText;
+
+            setTimeout(function() {
+                messageContainer.classList.add("hidden");
+                messageText.textContent = "";
+            }, 5000);
+        }
+    </script>
+@endpush

@@ -141,6 +141,7 @@ body {
     opacity: 0;
     transition: all 0.4s;
     z-index: -1;
+    overflow-y: scroll;
     user-select: none;
     pointer-events: none;
 }
@@ -481,6 +482,10 @@ p {
 .inner-cred .input_groupbox input::placeholder,
 .inner-cred .input_groupbox textarea::placeholder {
     color: #646B74 !important;
+}
+
+.nav-item {
+    list-style: none;
 }
 
 @media (max-width: 1120px) {

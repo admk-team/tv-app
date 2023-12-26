@@ -18,8 +18,28 @@
             <a href="/searchscreen">
                 <i class="bi bi-search search-icon"></i>
             </a>
-            <a class="auth app-primary-btn" href="/login">Login</a>
-            <a class="auth app-secondary-btn" href="/signup">Signup</a>
+            @if (session()->has('USER_DETAILS'))
+                <li class="nav-item">
+                    <div class="dropdown dropdin">
+                        <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>
+                            <div class="userimg">{{ session('USER_DETAILS')['USER_NAME'][0] }}</div>
+                        </div>
+                        <ul class="dropdown_menus profiledropin avtartMenu" style="display: none;">
+                            <li style="display: none;"><a href="update-profile.php"><span
+                                        class="userno">user-26</span></a></li>
+                            <li><a class="text-decoration-none" href="https://stage.24flix.tv/profile">Profiles</a></li>
+                            <li><a class="text-decoration-none"
+                                    href="{{ route('transaction-history') }}">Transaction History</a></li>
+                            <li><a class="text-decoration-none"
+                                    href="{{ route('password.edit') }}">Change Password</a></li>
+                            <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
+                        </ul>
+                    </div>
+                </li>
+            @else
+                <a class="auth app-primary-btn" href="/login">Login</a>
+                <a class="auth app-secondary-btn" href="/signup">Signup</a>
+            @endif
         </div>
         <div class="menu-icon" onclick="mobileMenuHandler()">
             <i class="bi bi-list"></i>
@@ -40,8 +60,28 @@
             <a href="/searchscreen">
                 <i class="bi bi-search search-icon"></i>
             </a>
-            <a class="auth app-primary-btn" href="/login">Login</a>
-            <a class="auth app-secondary-btn" href="{{ route('register') }}">Signup</a>
+            @if (session()->has('USER_DETAILS'))
+                <li class="nav-item">
+                    <div class="dropdown dropdin">
+                        <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=1>
+                            <div class="userimg">u</div>
+                        </div>
+                        <ul class="dropdown_menus profiledropin avtartMenu gap-0" style="display: none; left: 50% !important; position: absolute; transform: translateX(-50%);">
+                            <li style="display: none;"><a href="update-profile.php"><span
+                                        class="userno">user-26</span></a></li>
+                            <li><a class="text-decoration-none" href="https://stage.24flix.tv/profile">Profiles</a></li>
+                            <li><a class="text-decoration-none"
+                                    href="{{ route('transaction-history') }}">Transaction History</a></li>
+                            <li><a class="text-decoration-none"
+                                    href="{{ route('password.edit') }}">Change Password</a></li>
+                            <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
+                        </ul>
+                    </div>
+                </li>
+            @else
+                <a class="auth app-primary-btn" href="/login">Login</a>
+                <a class="auth app-secondary-btn" href="{{ route('register') }}">Signup</a>
+            @endif
         </div>
     </div>
 </header>
@@ -57,6 +97,10 @@
             } else {
                 $("body").css("overflow", "visible");
             }
+        }
+
+        function dropdownHandle(e) {
+            $(`.profiledropin:eq(${$(e).data('index')})`).slideToggle();
         }
     </script>
 @endpush
