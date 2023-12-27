@@ -15,11 +15,11 @@
                                 $suffix = 's';
                             }
                             if ($plan->plan_type == 'T') {
-                                $planStr = 'Subscribe Free';
+                                $planStr = session()->has('USER_DETAILS') ? 'Subscribe Free' : 'Login';
                             } elseif ($plan->plan_type == 'D') {
-                                $planStr = 'Donate Now';
+                                $planStr = session()->has('USER_DETAILS') ? 'Donate Now' : 'Login';
                             } else {
-                                $planStr = 'Subscribe Now';
+                                $planStr = session()->has('USER_DETAILS') ? 'Subscribe Now' : 'Login';
                             }
                         @endphp
 
