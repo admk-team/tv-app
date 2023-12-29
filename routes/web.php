@@ -16,6 +16,7 @@ use App\Http\Controllers\FreeSubscriptionController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\PasswordUpdateController;
 use App\Http\Controllers\TransactionHistoryController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,4 +58,5 @@ Route::get('download-apps', [DownloadAppsController::class, 'index'])->name('dow
 Route::get('subscription', [SubscriptionController::class, 'index'])->name('subscription');
 Route::get('free-subscription', [FreeSubscriptionController::class, 'index'])->name('free-subscription');
 Route::get('transaction-history', [TransactionHistoryController::class, 'index'])->name('transaction-history');
+Route::get('category/{id}', [CategoryController::class, 'index'])->name('category');
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');

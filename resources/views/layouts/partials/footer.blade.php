@@ -22,7 +22,7 @@
                         @foreach ($api_data->app->footer_categories as $category)
                             <li>
                                 <a class="text-decoration-none"
-                                    href="/category/{{ $category->cat_guid }}">{{ $category->cat_title }}</a>
+                                    href="{{ route('category', $category->cat_guid) }}">{{ $category->cat_title }}</a>
                             </li>
                         @endforeach
                     </ul>
