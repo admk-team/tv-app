@@ -28,7 +28,7 @@
         <div class="col-md-6 col-sm-6">
             <div class="right_side_box">
             <div class="add_image_box addsimg">
-                <img src="{{ $data->app->app_info->website_homescrn_poster }}" onerror="this.src='https://stage.24flix.tv/images/default_home.png';" alt="Feature Image">
+                <img src="{{ $data->app->app_info->website_homescrn_poster ?? '' }}" onerror="this.src='https://stage.24flix.tv/images/default_home.png';" alt="Feature Image">
             </div>
             </div>
         </div>
