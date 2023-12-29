@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public function index($slug = 'home')
     {
-        $response = Http::withHeaders([
+        $response = Http::timeout(300)->withHeaders([
             'happcode' => '7376d3829575f06617d9db3f7f6836df'
         ])
             ->get(env('API_BASE_URL') . "/{$slug}");

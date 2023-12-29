@@ -17,7 +17,7 @@ class PasswordUpdateController extends Controller
 
     public function update(UpdatePasswordRequest $request)
     {
-        $response = Http::withHeaders(Api::headers())
+        $response = Http::timeout(300)->withHeaders(Api::headers())
             ->asForm()
             ->post(Api::endpoint('/mngappusrs'), [
                 'oldPassword' => $request->oldPassword,

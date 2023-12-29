@@ -28,7 +28,7 @@ class MonetizationController extends Controller
     {
         $transactionId = md5(time());
 
-        $response = Http::withHeaders(Api::headers([
+        $response = Http::timeout(300)->withHeaders(Api::headers([
             'husercode' => session('USER_DETAILS')['USER_CODE']
         ]))
             ->asForm()

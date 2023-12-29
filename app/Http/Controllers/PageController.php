@@ -33,7 +33,7 @@ class PageController extends Controller
             'requestAction' => 'sendInquiry',
         ];
 
-        $response = Http::withHeaders([
+        $response = Http::timeout(300)->withHeaders([
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
             'happcode' => '7376d3829575f06617d9db3f7f6836df',

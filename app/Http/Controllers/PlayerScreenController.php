@@ -10,7 +10,7 @@ class PlayerScreenController extends Controller
 {
     public function index($id)
     {
-        $response = Http::withHeaders(Api::headers())
+        $response = Http::timeout(300)->withHeaders(Api::headers())
         ->get(Api::endpoint("/getitemplayerdetail/{$id}"));
 
         $data = $response->json();

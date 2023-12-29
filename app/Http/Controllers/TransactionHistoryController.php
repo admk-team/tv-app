@@ -11,7 +11,7 @@ class TransactionHistoryController extends Controller
 {
     public function index()
     {
-        $response = Http::withHeaders(Api::headers([
+        $response = Http::timeout(300)->withHeaders(Api::headers([
             'husercode' => session('USER_DETAILS')['USER_CODE']
         ]))
             ->asForm()

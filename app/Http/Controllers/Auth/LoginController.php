@@ -17,7 +17,7 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $response = Http::withHeaders(Api::headers())
+        $response = Http::timeout(300)->withHeaders(Api::headers())
             ->asForm()
             ->post(Api::endpoint('/mngappusrs'), [
                 'requestAction' => 'validateUserAccount',

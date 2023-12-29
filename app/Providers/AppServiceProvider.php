@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         view()->composer('*', function ($view) {
-            $response = Http::withHeaders(Api::headers())
+            $response = Http::timeout(300)->withHeaders(Api::headers())
                 ->get(Api::endpoint('/masterfeed'));
 
             $view->with('api_data', json_decode($response->getBody()->getContents()));
