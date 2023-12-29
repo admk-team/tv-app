@@ -17,7 +17,7 @@ class RegisterController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        $response = Http::withHeaders(Api::headers())
+        $response = Http::timeout(300)->withHeaders(Api::headers())
             ->asForm()
             ->post(Api::endpoint('/mngappusrs'), [
                 'requestAction' => 'createAccount',

@@ -13,7 +13,7 @@ class SearchController extends Controller
     {
         $keyword = $request->searchKeyword;
 
-        $response = Http::withHeaders(Api::headers())
+        $response = Http::timeout(300)->withHeaders(Api::headers())
             ->asForm()
             ->post(Api::endpoint('/search'), [
                 'postAction' => 'search',

@@ -10,7 +10,7 @@ class DetailScreenController extends Controller
 {
     public function index($id)
     {
-        $response = Http::withHeaders(Api::headers())
+        $response = Http::timeout(300)->withHeaders(Api::headers())
         ->get(Api::endpoint("/getitemdetail/{$id}"));
 
         $data = $response->json()['app'];
