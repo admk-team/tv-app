@@ -148,11 +148,11 @@ foreach ($resultArray as $review) {
                                     @endphp
                                     @foreach ($persons as $i => $person)
                                         @if (is_array($person))
-                                            <a href="{{ url('/') }}/person.php?id={{ $person['id'] }}">
+                                            <a href="{{ route('person', $person['id']) }}">
                                                 {{ $person['title'] }}
                                             </a>{{ count($persons) - 1 !== $i? ', ': '' }}
                                         @else
-                                            <a href="{{ url('/') }}/person.php?id={{ $person }}">
+                                            <a href="{{ route('person', $person) }}">
                                                 {{ $person }}
                                             </a>{{ count($persons) - 1 !== $i? ', ': '' }}
                                         @endif
