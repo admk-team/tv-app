@@ -31,7 +31,7 @@
                                                 src="https://stage.24flix.tv/images/trending_icon.png"
                                                 alt="A Case of Identity">
                                         </div>
-                                        <img onerror="this.src='images/default_img.jpg'"
+                                        <img
                                             src="{{ $stream['stream_poster'] ?? '' }}"
                                             alt="A Case of Identity">
                                         <div class="detail_box_hide">

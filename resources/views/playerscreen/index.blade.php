@@ -598,7 +598,7 @@ if (!empty($arrCatData))
     });
     function sendAdRequrst()
     {
-      $.get("<?php echo $dataVast3?>", function(data, status)
+      $.get("<?php echo $dataVast3 ?? ''?>", function(data, status)
       {
       //alert("Data: " + data + "\nStatus: " + status);
       });

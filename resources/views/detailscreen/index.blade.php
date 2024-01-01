@@ -266,7 +266,7 @@ foreach ($resultArray as $review) {
 </div>
 <!--End of banner section-->
 <?php
-$arrSeasonData = $seasons['streams'];
+$arrSeasonData = isset($seasons)? $seasons['streams']: null;
 
 if (!empty($arrSeasonData)) {
 ?>

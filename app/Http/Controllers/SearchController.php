@@ -12,11 +12,10 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->searchKeyword;
-
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->asForm()
-            ->post(Api::endpoint('/search'), [
-                'postAction' => 'search',
+            ->get(Api::endpoint('/search'), [
+                'requestAction' => 'search',
                 'maxShowStream' => 50,
                 'keyword' => $keyword
             ]);
