@@ -17,6 +17,7 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\PasswordUpdateController;
 use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PersonController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,4 +60,5 @@ Route::get('subscription', [SubscriptionController::class, 'index'])->name('subs
 Route::get('free-subscription', [FreeSubscriptionController::class, 'index'])->name('free-subscription');
 Route::get('transaction-history', [TransactionHistoryController::class, 'index'])->name('transaction-history');
 Route::get('category/{id}', [CategoryController::class, 'index'])->name('category');
+Route::get('person/{id?}', [PersonController::class, 'index'])->name('person');
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
