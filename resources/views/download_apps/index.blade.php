@@ -2,13 +2,13 @@
 
 @section('content')
     @php
-        $tvTitle = $api_data->app->colors_assets_for_branding->web_dl_page_tv_section_top_title ?? '';
-        $tvDesc = $api_data->app->colors_assets_for_branding->web_dl_page_tv_section_title ?? '';
-        $assetPath = $api_data->app->paths->assets_path ?? '';
-        $tvImg = $api_data->app->colors_assets_for_branding->web_download_page_tv_section_poster ?? ('' ?? '');
-        $mblTitle = $api_data->app->colors_assets_for_branding->web_dl_page_mob_section_top_title ?? ('' ?? '');
-        $mblDesc = $api_data->app->colors_assets_for_branding->web_dl_page_mob_section_title ?? ('' ?? '');
-        $mblImg = $api_data->app->colors_assets_for_branding->web_download_page_mob_section_poster ?? ('' ?? '');
+        $tvTitle = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_dl_page_tv_section_top_title ?? '';
+        $tvDesc = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_dl_page_tv_section_title ?? '';
+        $assetPath = \App\Services\AppConfig::get()->app->paths->assets_path ?? '';
+        $tvImg = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_download_page_tv_section_poster ?? ('' ?? '');
+        $mblTitle = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_dl_page_mob_section_top_title ?? ('' ?? '');
+        $mblDesc = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_dl_page_mob_section_title ?? ('' ?? '');
+        $mblImg = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_download_page_mob_section_poster ?? ('' ?? '');
     @endphp
 
     <div class="container-fluid">

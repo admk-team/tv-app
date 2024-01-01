@@ -2,7 +2,7 @@
 
 @section('content')
     @php
-        $pages = $api_data->app->data->pages;
+        $pages = \App\Services\AppConfig::get()->app->data->pages;
         $current_page_arr = array_filter($pages, function ($item) use ($slug) {
             return $item->page_slug === $slug;
         });

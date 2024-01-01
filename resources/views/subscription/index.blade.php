@@ -6,7 +6,7 @@
             <div class="container" style="max-width: 1140px;">
                 <div class="detailtitle">Subscription Plans</div>
                 <div class="row">
-                    @foreach ($api_data->app->s_plan as $plan)
+                    @foreach (\App\Services\AppConfig::get()->app->s_plan as $plan)
                         @php
                             $suffix = '';
                             $planStr = '';

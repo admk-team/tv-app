@@ -6,7 +6,7 @@
                 <div class="col-sm-6 col-md-3">
                     <h5 class="footer_title">Get to Know Us</h5>
                     <ul class="footer_link px-0">
-                        @foreach ($api_data->app->data->pages as $page)
+                        @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
                             @if ($page->displayOn == 'F')
                                 <li>
                                     <a class="text-decoration-none"
@@ -19,7 +19,7 @@
                 <div class="col-sm-6 col-md-3">
                     <h5 class="footer_title">Top Categories</h5>
                     <ul class="footer_link px-0">
-                        @foreach ($api_data->app->footer_categories as $category)
+                        @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
                             <li>
                                 <a class="text-decoration-none"
                                     href="{{ route('category', $category->cat_guid) }}">{{ $category->cat_title }}</a>
@@ -30,7 +30,7 @@
                 <div class="col-sm-6 col-md-3">
                     <h5 class="footer_title">Top TV Shows</h5>
                     <ul class="footer_link px-0">
-                        @foreach ($api_data->app->top_show->streams as $stream)
+                        @foreach (\App\Services\AppConfig::get()->app->top_show->streams as $stream)
                             <li>
                                 <a class="text-decoration-none"
                                     href="/detailscreen/{{ $stream->stream_guid }}">{{ $stream->show_title }}</a>
@@ -66,9 +66,9 @@
                     <ul class="footer_link px-0">
                         <li>
                             <span
-                                class="copyright">{{ $api_data->app->colors_assets_for_branding->web_power_by_txt ?? '' }}</span>
+                                class="copyright">{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_txt ?? '' }}</span>
                             <a class="text-decoration-none"
-                                href="{{ $api_data->app->colors_assets_for_branding->web_power_by_web_url ?? '' }}">{{ $api_data->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}</a>
+                                href="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_url ?? '' }}">{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}</a>
                         </li>
                     </ul>
                 </div>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="col-md-6 foot2">
                     <ul class="social_link px-0">
-                        @foreach ($api_data->app->social_media->links as $link)
+                        @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
                             <li class="hov1">
                                 <a href="{{ $link->url }}" target="_blank">
                                     <img src="{{ asset('assets/images/' . $link->icon_cls_name ?? '') . '.png' }}">
