@@ -119,40 +119,6 @@ if ($isMobileBrowser == 1)
 
 $adUrl = $arrSlctItemData['stream_ad_url']? 'data-vast="'.$arrSlctItemData['stream_ad_url'].'"': null; 
 
-// Check Password Access
-if (request()->server('REQUEST_METHOD') === 'POST' && request()->checkPassword)
-{
-  if (password_verify(request()->password, $arrSlctItemData['password']))
-  {
-    if (session('protectedContentAccess') === null)
-      session('protectedContentAccess', []);
-    session('protectedContentAccess')[] = $arrSlctItemData['stream_guid'];
-  }
-  else
-  {
-    session('error', 'Incorrect Password');
-  }
-  header("Location: " . $fullUrl);
-  die();
-}
-
-//Screener Password
-if (request()->server('REQUEST_METHOD') === 'POST' && request()->checkScreenerPassword !== null)
-{
-  if (request()->password == $globalPass)
-  {
-      session('GLOBAL_PASS', 0);
-      header("Location: " . $shortUrl);
-      die();
-  }
-  else
-  {
-    session('error', 'Incorrect Password');
-  }
-  header("Location: " . $fullUrl);
-  die();
-}
-
 ?>
 
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
@@ -191,7 +157,12 @@ if (request()->server('REQUEST_METHOD') === 'POST' && request()->checkScreenerPa
                         <div class="inner-cred">
                             <h4>Enter Password</h4>
                             <center><p style="color:red"></p></center>
-                            <form method="POST" action="" class="cred_form"> 
+                            <form method="POST" action="{{ route('playerscreen.checkScreenpassword') }}" class="cred_form"> 
+                              @csrf
+                              <input type="hidden" name="stream_guid" value="{{ $arrSlctItemData['stream_guid'] }}">
+                              <input type="hidden" name="key" value="{{ \Illuminate\Support\Facades\Crypt::encryptString($globalPass) }}">
+                              <input type="hidden" name="shortUrl" value="{{ $shortUrl }}">
+                              <input type="hidden" name="fullUrl" value="{{ $fullUrl }}">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="inner-div dv2">                        
@@ -207,7 +178,7 @@ if (request()->server('REQUEST_METHOD') === 'POST' && request()->checkScreenerPa
                                                 <?php session()->forget('error'); endif; ?>  
                                             </div>
                                             <div class="form-group">
-                                                <button class="btn" name="checkScreenerPassword" value="">SUBMIT</button>                              
+                                                <button class="btn" name="checkScreenerPassword" value="true">SUBMIT</button>                              
                                             </div>
                                         </div>
                                     </div>
@@ -230,7 +201,10 @@ if (request()->server('REQUEST_METHOD') === 'POST' && request()->checkScreenerPa
                         <div class="inner-cred">
                             <h4>Enter Password</h4>
                             <center><p style="color:red"></p></center>
-                            <form method="POST" action="" class="cred_form"> 
+                            <form method="POST" action="{{ route('playerscreen.checkpassword') }}" class="cred_form"> 
+                              @csrf
+                              <input type="hidden" name="stream_guid" value="{{ $arrSlctItemData['stream_guid'] }}">
+                              <input type="hidden" name="key" value="{{ \Illuminate\Support\Facades\Crypt::encryptString($arrSlctItemData['password']) }}">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="inner-div dv2">                        
@@ -241,12 +215,12 @@ if (request()->server('REQUEST_METHOD') === 'POST' && request()->checkScreenerPa
                                                     <img src="/images/lock.png" class="icn">                                     
                                                     <span id="eye_password" toggle="#password" class="far fa-light fa-eye field-icon toggle-password" style="display:none;"></span>
                                                 </label>
-                                                <?php if (session('error')): ?>
+                                                <?php if (session()->has('error')): ?>
                                                   <span class="error_box" id="span_password">{{ session('error') }}</span> 
-                                                <?php session()->forget('error'); endif; ?>  
+                                                <?php endif; ?>
                                             </div>
                                             <div class="form-group">
-                                                <button class="btn" name="checkPassword" value="">SUBMIT</button>                              
+                                                <button class="btn" name="checkPassword" value="true">SUBMIT</button>                              
                                             </div>
                                         </div>
                                     </div>
@@ -469,7 +443,7 @@ if (!empty($arrCatData))
                     <a href="{{ url('/playerscreen/' . $arrStreamsData['stream_guid']) }}">
                       <div class="thumbnail_img">
                       <div class="trending_icon_box" {{ $strBrige }}><img src="{{ asset('/assets/images/trending_icon.png') }}" alt="{{ $arrStreamsData['stream_title'] }}"></div>
-                        <img onerror="this.src='{{ url('/images/default_img.jpg') }}'" src="{{ $arrStreamsData['stream_poster'] }}" alt="{{ $arrStreamsData['stream_title'] }}">
+                        <img src="{{ $arrStreamsData['stream_poster'] }}" alt="{{ $arrStreamsData['stream_title'] }}">
                         <div class="detail_box_hide">
                         <div class="detailbox_time">{{ $arrStreamsData['stream_duration_timeformat'] }}</div>
                           <div class="deta_box">
