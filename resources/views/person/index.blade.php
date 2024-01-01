@@ -1,5 +1,29 @@
 @extends('layouts.app')
 
 @section('content')
-    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Explicabo, iure. Nulla eveniet vel sequi, voluptates excepturi recusandae, incidunt ut dignissimos architecto neque error? Temporibus nostrum voluptatem ipsam perferendis molestiae a dolores ipsa iusto, ratione nisi soluta provident sit animi, ex omnis odio at velit reiciendis quasi amet. Excepturi, labore pariatur explicabo illum hic, sint, ipsa unde totam eos voluptates consequatur. Officia eveniet dignissimos alias unde quam perferendis aperiam autem beatae ducimus odio, debitis reiciendis magnam corporis dolores accusamus! Unde, deleniti vitae quos eos impedit doloribus nostrum dolor, odio eaque dolorem perferendis minus suscipit modi laboriosam sunt nihil voluptatum tempora atque voluptate commodi totam sed in distinctio eligendi. Officia aperiam, cum placeat sapiente voluptate ullam? Vitae sint esse officia minima quo cumque ad voluptatem asperiores doloremque, nam corporis. Corrupti atque soluta ullam, molestiae in repellendus, accusantium non reiciendis iusto optio culpa delectus porro ipsa iure asperiores obcaecati dolorem sunt sit sed magni suscipit! Dolor reiciendis obcaecati ducimus aliquam dolores dignissimos non ipsum fuga officiis cum beatae et quos, omnis illum earum. Atque odit aliquid nulla est expedita! Quaerat nisi accusantium mollitia non sequi quibusdam? Iste quae consectetur odit veritatis architecto, necessitatibus mollitia, excepturi delectus autem quasi magnam iure ratione blanditiis ipsum earum molestiae ut sequi. Laudantium ipsa culpa quisquam? Dicta, veritatis darum consequatur blanditiis? Tenetur assumenda veritatis id labore odio veniam exercitationem perspiciatis quae laboriosam maiores quos sed corrupti aut natus, amet quam officiis aliquam excepturi eos neque quo repellendus rerum obcaecati! Sunt illum dicta magnam quis aut, iste impedit officia error provident cum temporibus totam in at nam, corrupti soluta voluptates. Ullam, similique quisquam. Magni perspiciatis ipsam numquam facilis sapiente a asperiores dolorum enim voluptatibus perferendis mollitia delectus aperiam seqipsam exercitationem autem deleniti cumque repellat quis adipisci reprehenderit ea doloremque dolore praesentium nihil temporibus voluptates sapiente officiis? Magnam ipsa, iure hic, temporibus nisi facere voluptatum dolorem unde alias quaerat dolores magni fuga numquam aut odit eligendi aliquid distinctio laudantium? Recusandae quidem perspiciatis repudiandae tempore amet consequatur facere nesciunt, praesentium quisquam maiores! Maiores a ea id, voluptate voluptatem amet iste quia quam adipisci accusamus! Nihil recusandae esse eius pariatur est aperiam beatae laborum amet ullam! Maiores, voluptatum provident molestiae, eos possimus doloremque facere sint libero recusandae corrupti dolore pariatur, officia iste. Et laborum culpa ea accusantium quidem perspiciatis eos fugiat nemo. Totam illo earum odit animi a pariatur magnam veniam. Architecto quod praesentium optio.
+    <section class="banner detailBanner">
+        <div class="container-fluid actor-container">
+            <div class="container mt-4">
+                <div class="d-flex detail-writer">
+                    <ul class="row">
+                        <li class="list-unstyled actor-desc text-white"></li>
+                    </ul>
+                </div>
+                <div class="d-flex row">
+                    <div class=" col-12 col-md-4 d-flex col-lg-4">
+                        <img class="w-100" src="https://stage.octv.shop/uploads/media_assets/imgs/7376d3829575f06617d9db3f7f6836df_1690652303_b40__(1).jpg" class="actor-img" alt="none">
+                    </div>
+                    <div class="col-12 col-md-8 actor-video d-flex col-lg-8">
+                        <div class="video-container d-flex align-items-center">
+                            <p class="text-white">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur est laudantium sit repellat, dolorum placeat dicta nulla quasi harum provident, nam ullam unde enim natus ab delectus aperiam magnam quae non doloribus eveniet omnis. Iure id natus cupiditate ad corrupti, illum, quia vero voluptatibus ut suscipit blanditiis tempora recusandae dolores accusamus, laudantium minima perferendis. Commodi quos exercitationem nisi quibusdam voluptate ullam harum placeat sed! Ab velit possimus eos soluta accusamus. Temporibus mollitia libero excepturi alias nobis nemo doloremque soluta dolores quae minima quaerat ab voluptatum doloribus quo dignissimos modi quis fuga esse quod distinctio, labore similique non quasi! Dolore, numquam?
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-actor">
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection
