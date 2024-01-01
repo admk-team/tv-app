@@ -6,7 +6,7 @@
                     <img src="{{ asset('assets/images/logo.png') }}" alt="">
                 </a>
             </li>
-            @foreach ($api_data->app->menus as $menu)
+            @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
                 @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
                     <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
                         <li class="pc">{{ $menu->menu_title }}</li>
@@ -48,7 +48,7 @@
     <div class="mbl-menu">
         <i class="bi bi-x-lg close-icon" onclick="mobileMenuHandler()"></i>
         <ul>
-            @foreach ($api_data->app->menus as $menu)
+            @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
                 @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
                     <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
                         <li class="pc">{{ $menu->menu_title }}</li>

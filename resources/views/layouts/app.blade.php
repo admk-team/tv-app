@@ -12,18 +12,18 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style-old.css') }}">
     <style>
         :root {
-            --bgcolor: {{ $api_data->app->website_colors->bgcolor }};
-            --themeActiveColor: {{ $api_data->app->website_colors->themeActiveColor }};
-            --headerBgColor: {{ $api_data->app->website_colors->headerBgColor }};
-            --themePrimaryTxtColor: {{ $api_data->app->website_colors->themePrimaryTxtColor }};
-            --themeSecondaryTxtColor: {{ $api_data->app->website_colors->themeSecondaryTxtColor }};
-            --navbarMenucolor: {{ $api_data->app->website_colors->navbarMenucolor }};
-            --navbarSearchColor: {{ $api_data->app->website_colors->navbarSearchColor }};
-            --footerbtmBgcolor: {{ $api_data->app->website_colors->footerbtmBgcolor }};
-            --slidercardBgColor: {{ $api_data->app->website_colors->slidercardBgColor }};
-            --slidercardTitlecolor: {{ $api_data->app->website_colors->slidercardTitlecolor }};
-            --slidercardCatColor: {{ $api_data->app->website_colors->slidercardCatColor }};
-            --cardDesColor: {{ $api_data->app->website_colors->cardDesColor }};
+            --bgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }};
+            --themeActiveColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }};
+            --headerBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->headerBgColor }};
+            --themePrimaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }};
+            --themeSecondaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeSecondaryTxtColor }};
+            --navbarMenucolor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarMenucolor }};
+            --navbarSearchColor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarSearchColor }};
+            --footerbtmBgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->footerbtmBgcolor }};
+            --slidercardBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardBgColor }};
+            --slidercardTitlecolor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardTitlecolor }};
+            --slidercardCatColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardCatColor }};
+            --cardDesColor: {{ \App\Services\AppConfig::get()->app->website_colors->cardDesColor }};
         }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -81,24 +81,24 @@
         $(document).ready(function() {
             let root = document.querySelector(":root");
 
-            root.style.setProperty("--bg-color", '{{ $api_data->app->website_colors->bgcolor }}');
-            root.style.setProperty("--header-bg-color", '{{ $api_data->app->website_colors->headerBgColor }}');
-            root.style.setProperty("--active-color", '{{ $api_data->app->website_colors->themeActiveColor }}');
-            root.style.setProperty("--nav-color", '{{ $api_data->app->website_colors->navbarMenucolor }}');
+            root.style.setProperty("--bg-color", '{{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }}');
+            root.style.setProperty("--header-bg-color", '{{ \App\Services\AppConfig::get()->app->website_colors->headerBgColor }}');
+            root.style.setProperty("--active-color", '{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}');
+            root.style.setProperty("--nav-color", '{{ \App\Services\AppConfig::get()->app->website_colors->navbarMenucolor }}');
             root.style.setProperty("--primary-text-color",
-                '{{ $api_data->app->website_colors->themePrimaryTxtColor }}');
+                '{{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}');
             root.style.setProperty("--secondary-text-color",
-                '{{ $api_data->app->website_colors->themeSecondaryTxtColor }}');
-            root.style.setProperty("--footer-bg-color", '{{ $api_data->app->website_colors->footerbtmBgcolor }}');
+                '{{ \App\Services\AppConfig::get()->app->website_colors->themeSecondaryTxtColor }}');
+            root.style.setProperty("--footer-bg-color", '{{ \App\Services\AppConfig::get()->app->website_colors->footerbtmBgcolor }}');
             root.style.setProperty("--nav-search-color",
-                '{{ $api_data->app->website_colors->navbarSearchColor }}');
-            root.style.setProperty("--card-desc-color", '{{ $api_data->app->website_colors->cardDesColor }}');
+                '{{ \App\Services\AppConfig::get()->app->website_colors->navbarSearchColor }}');
+            root.style.setProperty("--card-desc-color", '{{ \App\Services\AppConfig::get()->app->website_colors->cardDesColor }}');
             root.style.setProperty("--slider-card-bg-color",
-                '{{ $api_data->app->website_colors->slidercardBgColor }}');
+                '{{ \App\Services\AppConfig::get()->app->website_colors->slidercardBgColor }}');
             root.style.setProperty("--slider-card-title-color",
-                '{{ $api_data->app->website_colors->slidercardTitlecolor }}');
+                '{{ \App\Services\AppConfig::get()->app->website_colors->slidercardTitlecolor }}');
             root.style.setProperty("--slider-card-cat-color",
-                '{{ $api_data->app->website_colors->slidercardCatColor }}');
+                '{{ \App\Services\AppConfig::get()->app->website_colors->slidercardCatColor }}');
         });
     </script>
 
@@ -245,7 +245,7 @@
             dots: false,
             infinite: true,
             loop: true,
-            autoplay: {{ $api_data->app->colors_assets_for_branding->is_landscape_slider_autoplay }},
+            autoplay: {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay }},
             autoplaySpeed: 3000,
             slidesToShow: 5,
             slidesToScroll: 1,

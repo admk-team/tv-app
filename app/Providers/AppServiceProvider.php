@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Http;
 use App\Services\Api;
+use Illuminate\Support\Facades\Session;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,11 +22,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        view()->composer('*', function ($view) {
-            $response = Http::timeout(300)->withHeaders(Api::headers())
-                ->get(Api::endpoint('/masterfeed'));
-
-            $view->with('api_data', json_decode($response->getBody()->getContents()));
-        });
+        
     }
 }

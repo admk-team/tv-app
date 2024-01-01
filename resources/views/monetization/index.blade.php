@@ -258,7 +258,7 @@
 
 @section('content')
     @php
-        $typeStr = $api_data->app->keys_description->MONETIZATION_TYPES;
+        $typeStr = \App\Services\AppConfig::get()->app->keys_description->MONETIZATION_TYPES;
         $types = explode(',', $typeStr);
 
         for ($i = 0; $i < sizeof($types); $i++) {
@@ -311,7 +311,7 @@
                         <div class="card-payment-button">
                             <form action="{{ env('PAYPAL_URL') }}" method="POST">
                                 <input type="hidden" name="business"
-                                    value="{{ $api_data->app->colors_assets_for_branding->PAYPAL_ID }}">
+                                    value="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->PAYPAL_ID }}">
                                 <input type="hidden" name="rm" value="2">
                                 <input type="hidden" name="cmd" value="_xclick">
                                 <input type="hidden" name="item_name" value="{{ $planData['PAYMENT_INFORMATION'] }}">
@@ -320,7 +320,7 @@
                                 <input type="hidden" name="item_number" value="{{ $planData['MONETIZATION_GUID'] }}">
                                 <input type="hidden" name="amount" value="{{ $planData['AMOUNT'] }}">
                                 <input type="hidden" name="currency_code"
-                                    value="{{ $api_data->app->colors_assets_for_branding->payment_currency_code }}">
+                                    value="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->payment_currency_code }}">
                                 <input type="hidden" name="return" value="{{ url('/monetization/success') }}">
                                 <input type="hidden" name="cancel_return" value="{{ url('/monetization/cancel') }}">
                                 @if ($planData['PLAN_TYPE'] == 'T')
@@ -328,7 +328,7 @@
                                         class="mt-2 w-100 btn btn-lg btn-primary">Get
                                         Free Access</a>
                                 @endif
-                                @if ($planData['PLAN_TYPE'] != 'T' && $api_data->app->colors_assets_for_branding->is_paypal_payment_active)
+                                @if ($planData['PLAN_TYPE'] != 'T' && \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_paypal_payment_active)
                                     <button type="submit" class="btn paypal_btn"><i class="fa fa-paypal"
                                             aria-hidden="true"></i>
                                         Pay with Paypal</button>
@@ -356,7 +356,7 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         // Set Stripe publishable key to initialize Stripe.js
-        const stripe = Stripe('{{ $api_data->app->colors_assets_for_branding->stripe_publish_key }}');
+        const stripe = Stripe('{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_publish_key }}');
 
         // Select payment button
         const payBtn = document.querySelector("#payButton");
@@ -378,7 +378,7 @@
 
         // Create a Checkout Session with the selected product
         const createCheckoutSession = function(stripe) {
-            let stripeSecret = '{{ $api_data->app->colors_assets_for_branding->stripe_secret_key }}';
+            let stripeSecret = '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key }}';
             return fetch("{{ url('/stripe/checkout') }}", {
                 method: "POST",
                 headers: {

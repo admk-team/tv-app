@@ -96,9 +96,9 @@ if ($status == 1)
 if (!session('ADS_INFO')) {
   session([
     'ADS_INFO' => [
-      'adUrl' => $api_data->app->colors_assets_for_branding->web_site_ad_url,
-      'channelName' => $api_data->app->app_info->app_name,
-      'domain_name' => $api_data->app->colors_assets_for_branding->domain_name,
+      'adUrl' => \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url,
+      'channelName' => \App\Services\AppConfig::get()->app->app_info->app_name,
+      'domain_name' => \App\Services\AppConfig::get()->app->colors_assets_for_branding->domain_name,
     ]
   ]);
 }
