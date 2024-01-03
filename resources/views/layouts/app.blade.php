@@ -4,6 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:type" content='article' />
+    @stack('meta-tags')
     <title>
         @stack('title')
     </title>
@@ -103,10 +105,15 @@
     </script>
 
     <script>
+        let portraitSliderAutoplay = '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay }}';
+        let landscapeSliderAutoplay = '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay }}';
+        let billboardSliderAutoplay = '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_billboard_ads_autoplay }}';
+        let leaderboardSliderAutoplay = '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_leaderboard_ad_autoplay }}';
+
         $('.potrait_slider').slick({
             slidesToShow: 7,
             loop: true,
-            autoplay: true,
+            autoplay: {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay }},
             infinite: true,
             autoplaySpeed: 3000,
             slidesToScroll: 1,
@@ -152,7 +159,7 @@
             dots: false,
             infinite: true,
             loop: true,
-            autoplay: true,
+            autoplay: {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay }},
             autoplaySpeed: 3000,
             slidesToShow: 5,
             slidesToScroll: 1,
@@ -200,7 +207,7 @@
             dots: true,
             infinite: true,
             loop: true,
-            autoplay: "false",
+            autoplay: {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_billboard_ads_autoplay }},
             autoplaySpeed: 3000,
             slidesToShow: 1
         });
@@ -212,7 +219,7 @@
             dots: true,
             infinite: true,
             loop: true,
-            autoplay: "false",
+            autoplay: {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_leaderboard_ad_autoplay }},
             autoplaySpeed: 3000,
             slidesToShow: 1
         });
