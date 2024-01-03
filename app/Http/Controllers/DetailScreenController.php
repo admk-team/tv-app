@@ -14,7 +14,7 @@ class DetailScreenController extends Controller
         ->get(Api::endpoint("/getitemdetail/{$id}"));
 
         $data = $response->json()['app'];
-        //dd($data);
+
         return view("detailscreen.index", $data);
     }
 }
