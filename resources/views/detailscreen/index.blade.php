@@ -265,30 +265,6 @@ foreach ($resultArray as $review) {
     </div>
 </div>
 <!--End of banner section-->
-<?php
-$arrSeasonData = isset($seasons)? $seasons['streams']: null;
-
-if (!empty($arrSeasonData)) {
-?>
-    <!-- Season listing -->
-    <div class="season_boxlists">
-        <ul class="season_listings">
-            <?php
-            foreach ($arrSeasonData as $seasonData) {
-                $cls = '';
-                if ($seasonData['is_selected'] == 'Y') {
-                    $cls = "class='seasonactive'";
-                }
-            ?>
-                <li><a href="<?php echo url('/') ?>/detailscreen/<?php echo $seasonData['stream_guid'] ?>" <?php echo $cls ?>><?php echo $seasonData['season_title'] ?></a></li>
-            <?php
-            }
-            ?>
-        </ul>
-    </div>
-<?php
-}
-?>
 
  <div class="item-ratings">
         <h1 class="section-title">Reviews</h1>
@@ -426,6 +402,31 @@ if (!empty($arrSeasonData)) {
             ?>
         </div>
     </div>
+
+<?php
+$arrSeasonData = isset($seasons)? $seasons['streams']: null;
+
+if (!empty($arrSeasonData)) {
+?>
+    <!-- Season listing -->
+    <div class="season_boxlists">
+        <ul class="season_listings">
+            <?php
+            foreach ($arrSeasonData as $seasonData) {
+                $cls = '';
+                if ($seasonData['is_selected'] == 'Y') {
+                    $cls = "class='seasonactive'";
+                }
+            ?>
+                <li><a href="<?php echo url('/') ?>/detailscreen/<?php echo $seasonData['stream_guid'] ?>" <?php echo $cls ?>><?php echo $seasonData['season_title'] ?></a></li>
+            <?php
+            }
+            ?>
+        </ul>
+    </div>
+<?php
+}
+?>
 
 @if (!empty($latest_items))
     <!--Start of thumbnail slider section-->
