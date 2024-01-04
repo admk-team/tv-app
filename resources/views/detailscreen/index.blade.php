@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@push('meta-tags')
+@section('meta-tags')
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta property="og:type" content='article' />
     <meta property="og:url" content="{{ url('/detailscreen/' . $stream_details['stream_guid']) }}" />
     <meta name="twitter:title" content="{{ @$stream_details['stream_title'] }}">
@@ -8,7 +10,7 @@
     <meta property="og:title" content="{{ @$stream_details['stream_title'] }}" />
     <meta property="og:image" content="{{ @$stream_details['stream_poster'] }}" />
     <meta property="og:description" content="{{ @$stream_details['stream_description'] }}" />
-@endpush
+@endsection
 
 @section('content')
     <?php
@@ -51,6 +53,7 @@
     //         $userDidComment = true;
     //     }
     // }
+    
     ?>
     <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
 
@@ -83,7 +86,7 @@
                 <script>
                     //var player = videojs('plyerId', {fluid: true});
                     var overrideNative = false;
-            
+
                     var player = videojs('plyerId', {
                         html5: {
                             hls: {
@@ -289,182 +292,172 @@
         </div>
     </div>
     <!--End of banner section-->
-    <?php
-$arrSeasonData = isset($seasons)? $seasons['streams']: null;
-
-if (!empty($arrSeasonData)) {
-?>
-    <!-- Season listing -->
-    <div class="season_boxlists">
-        <ul class="season_listings">
-            <?php
-            foreach ($arrSeasonData as $seasonData) {
-                $cls = '';
-                if ($seasonData['is_selected'] == 'Y') {
-                    $cls = "class='seasonactive'";
+    @if (isset($stream_details['video_rating']) && $stream_details['video_rating'] === 'E')
+        <div class="item-ratings">
+            <h1 class="section-title">Reviews</h1>
+            @php
+                if (sizeof($stream_details['ratings'] ?? []) < 1) {
+                    echo '<p class="text-white" style="margin-bottom: -8px !important;">No reviews found.</p>';
                 }
-            ?>
-            <li><a href="<?php echo url('/'); ?>/detailscreen/<?php echo $seasonData['stream_guid']; ?>"
-                    <?php echo $cls; ?>><?php echo $seasonData['season_title']; ?></a></li>
-            <?php
-            }
-            ?>
-        </ul>
-    </div>
-    <?php
-}
-?>
 
-    <div class="item-ratings">
-        <h1 class="section-title">Reviews</h1>
-        @php
-            if (sizeof($stream_details['ratings'] ?? []) < 1) {
-                echo '<p class="text-white" style="margin-bottom: -8px !important;">No reviews found.</p>';
-            }
-
-            $userDidComment = false;
-            foreach ($stream_details['ratings'] ?? [] as $rating) {
-                if (session()->has('USER_DETAILS') && $rating['user']['id'] == session('USER_DETAILS')['USER_ID']) {
-                    $userDidComment = true;
+                $userDidComment = false;
+                foreach ($stream_details['ratings'] ?? [] as $rating) {
+                    if (session()->has('USER_DETAILS') && $rating['user']['id'] == session('USER_DETAILS')['USER_ID']) {
+                        $userDidComment = true;
+                    }
                 }
-            }
-        @endphp
+            @endphp
 
-        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !$userDidComment && !$userDidComment)
-            <div class="review-rating user-rating">
-                <div class="star" data-rating="1" onclick="handleStarRating(this)">
-                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
-                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <title>star</title>
-                            <path
-                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                            </path>
-                        </g>
-                    </svg>
+            @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !$userDidComment && !$userDidComment)
+                <div class="review-rating user-rating">
+                    <div class="star" data-rating="1" onclick="handleStarRating(this)">
+                        <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <title>star</title>
+                                <path
+                                    d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                                </path>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="star" data-rating="2" onclick="handleStarRating(this)">
+                        <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <title>star</title>
+                                <path
+                                    d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                                </path>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="star" data-rating="3" onclick="handleStarRating(this)">
+                        <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <title>star</title>
+                                <path
+                                    d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                                </path>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="star" data-rating="4" onclick="handleStarRating(this)">
+                        <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <title>star</title>
+                                <path
+                                    d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                                </path>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="star" data-rating="5" onclick="handleStarRating(this)">
+                        <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <title>star</title>
+                                <path
+                                    d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                                </path>
+                            </g>
+                        </svg>
+                    </div>
                 </div>
-                <div class="star" data-rating="2" onclick="handleStarRating(this)">
-                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
-                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <title>star</title>
-                            <path
-                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                            </path>
-                        </g>
-                    </svg>
-                </div>
-                <div class="star" data-rating="3" onclick="handleStarRating(this)">
-                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
-                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <title>star</title>
-                            <path
-                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                            </path>
-                        </g>
-                    </svg>
-                </div>
-                <div class="star" data-rating="4" onclick="handleStarRating(this)">
-                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
-                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <title>star</title>
-                            <path
-                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                            </path>
-                        </g>
-                    </svg>
-                </div>
-                <div class="star" data-rating="5" onclick="handleStarRating(this)">
-                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
-                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <title>star</title>
-                            <path
-                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                            </path>
-                        </g>
-                    </svg>
-                </div>
-            </div>
-            <span class="text-danger">
-                @error('rating')
-                    {{ $message }}
-                @enderror
-            </span>
-            <form action="{{ route('addrating') }}" method="POST">
-                @csrf
-                <textarea name="comment" cols="30" rows="10" placeholder="Let others know what you think..."></textarea>
-                <input type="hidden" name="rating">
-                <input type="hidden" name="stream_code" value="{{ $stream_details['stream_guid'] }}">
-                <input type="hidden" name="type"
-                    value="{{ $stream_details['show_name'] == '' ? 'stream' : 'show' }}">
-                <input type="submit" value="Submit">
-            </form>
-            <hr>
-        @endif
-        <div
-            class="member-reviews mt-2 {{ !session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'] || $userDidComment ? 'mt-4' : '' }}">
-            <?php
+                <span class="text-danger">
+                    @error('rating')
+                        {{ $message }}
+                    @enderror
+                </span>
+                <form action="{{ route('addrating') }}" method="POST">
+                    @csrf
+                    <textarea name="comment" cols="30" rows="10" placeholder="Let others know what you think..."></textarea>
+                    <input type="hidden" name="rating">
+                    <input type="hidden" name="stream_code" value="{{ $stream_details['stream_guid'] }}">
+                    <input type="hidden" name="type"
+                        value="{{ $stream_details['show_name'] == '' ? 'stream' : 'show' }}">
+                    <input type="submit" value="Submit">
+                </form>
+                <hr>
+            @endif
+            <div
+                class="member-reviews mt-2 {{ !session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'] || $userDidComment ? 'mt-4' : '' }}">
+                <?php
                 foreach ($stream_details['ratings'] as $review) {
                     $name = $review['user']['name'];
                     $name_arr = explode(' ', $name);
                     $name_symbol = '';
-                    
+
                     $name_symbol .= $name_arr[0][0];
-                    
+
                     if (sizeof($name_arr) > 1)
                         $name_symbol .= $name_arr[1][0];
-                    
+
                     ?>
 
-            <div class="review">
-                <div class="user">
-                    <div class="profile-name"><?= $name_symbol ?></div>
-                    <h4 class="username mb-0"><?= $review['user']['name'] ?></h4>
+                <div class="review">
+                    <div class="user">
+                        <div class="profile-name"><?= $name_symbol ?></div>
+                        <h4 class="username mb-0"><?= $review['user']['name'] ?></h4>
+                    </div>
+                    <div class="review-rating member">
+                        <?php
+                        
+                        for ($i = 0; $i < $review['rating']; $i++) {
+                            echo '<div class="star active">                                                                                                                                                                                                                                                                                </div>';
+                        }
+                        
+                        ?>
+                    </div>
+                    <p class="member-comment">{{ $review['comment'] }}</p>
                 </div>
-                <div class="review-rating member">
-                    <?php
-                    
-                    for ($i = 0; $i < $review['rating']; $i++) {
-                        echo '<div class="star active">
-                                                                <svg fill="#ffffff" width="25px" height="25px" viewBox="0 0 32 32" version="1.1"
-                                                                    xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                                                    <g id="SVGRepo_iconCarrier">
-                                                                        <title>star</title>
-                                                                        <path
-                                                                            d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                                                                        </path>
-                                                                    </g>
-                                                                </svg>
-                                                            </div>';
-                    }
-                    
-                    ?>
-                </div>
-                <p class="member-comment">{{ $review['comment'] }}</p>
-            </div>
-            <hr>
+                <hr>
 
 
-            <?php
+                <?php
                 }
             ?>
+            </div>
         </div>
+    @endif
+
+    <?php
+    $arrSeasonData = isset($seasons)? $seasons['streams']: null;
+
+    if (!empty($arrSeasonData)) {
+    ?>
+    <!-- Season listing -->
+    <div class="season_boxlists">
+        <ul class="season_listings">
+            <?php
+                foreach ($arrSeasonData as $seasonData) {
+                    $cls = '';
+                    if ($seasonData['is_selected'] == 'Y') {
+                        $cls = "class='seasonactive'";
+                    }
+                ?>
+            <li><a href="<?php echo url('/'); ?>/detailscreen/<?php echo $seasonData['stream_guid']; ?>"
+                    <?php echo $cls; ?>><?php echo $seasonData['season_title']; ?></a></li>
+            <?php
+                }
+                ?>
+        </ul>
     </div>
+    <?php
+    }
+    ?>
 
     @if (!empty($latest_items))
         <!--Start of thumbnail slider section-->
@@ -502,7 +495,7 @@ if (!empty($arrSeasonData)) {
                                                 <div class="season_title">{{ $arrStreamsData['stream_episode_title'] }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                      </div> -->
+                                                                                          </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}

@@ -67,8 +67,7 @@
                                                     <a class="top-10-slider-number" >{{ $loop->iteration }}</a>
                                                     <div class="{{ $cardThumbCls2 }}">
                                                         <div class="trending_icon_box" style='display: none;'><img
-                                                                src="{{ $stream->next_screen_feed_url ?? '' }}"
-                                                                alt="Gallows Road">
+                                                            src="{{ url('/') }}/assets/images/trending_icon.png" alt="{{ $stream->stream_title }}">
                                                         </div>
                                                         <div class="{{ $cardThumbCls }}">
                                                             <img src="{{ $stream->{$streamPosterKey} }}"
