@@ -2,10 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:type" content='article' />
-    @stack('meta-tags')
+
+    @yield('meta-tags')
     <title>
         @stack('title')
     </title>
@@ -66,7 +64,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
     <script src="{{ asset('assets/owlcarousal/js/owl.carousel.min.js') }}"></script>
-    
+
     <script src="{{ asset('assets/js/cust-frm-validation.js') }}"></script>
     {{-- <script src="{{ asset('assets/js/jquery.min.js') }}"></script> --}}
     {{-- <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script> --}}
@@ -83,18 +81,24 @@
         $(document).ready(function() {
             let root = document.querySelector(":root");
 
-            root.style.setProperty("--bg-color", '{{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }}');
-            root.style.setProperty("--header-bg-color", '{{ \App\Services\AppConfig::get()->app->website_colors->headerBgColor }}');
-            root.style.setProperty("--active-color", '{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}');
-            root.style.setProperty("--nav-color", '{{ \App\Services\AppConfig::get()->app->website_colors->navbarMenucolor }}');
+            root.style.setProperty("--bg-color",
+                '{{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }}');
+            root.style.setProperty("--header-bg-color",
+                '{{ \App\Services\AppConfig::get()->app->website_colors->headerBgColor }}');
+            root.style.setProperty("--active-color",
+                '{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}');
+            root.style.setProperty("--nav-color",
+                '{{ \App\Services\AppConfig::get()->app->website_colors->navbarMenucolor }}');
             root.style.setProperty("--primary-text-color",
                 '{{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}');
             root.style.setProperty("--secondary-text-color",
                 '{{ \App\Services\AppConfig::get()->app->website_colors->themeSecondaryTxtColor }}');
-            root.style.setProperty("--footer-bg-color", '{{ \App\Services\AppConfig::get()->app->website_colors->footerbtmBgcolor }}');
+            root.style.setProperty("--footer-bg-color",
+                '{{ \App\Services\AppConfig::get()->app->website_colors->footerbtmBgcolor }}');
             root.style.setProperty("--nav-search-color",
                 '{{ \App\Services\AppConfig::get()->app->website_colors->navbarSearchColor }}');
-            root.style.setProperty("--card-desc-color", '{{ \App\Services\AppConfig::get()->app->website_colors->cardDesColor }}');
+            root.style.setProperty("--card-desc-color",
+                '{{ \App\Services\AppConfig::get()->app->website_colors->cardDesColor }}');
             root.style.setProperty("--slider-card-bg-color",
                 '{{ \App\Services\AppConfig::get()->app->website_colors->slidercardBgColor }}');
             root.style.setProperty("--slider-card-title-color",
@@ -105,10 +109,14 @@
     </script>
 
     <script>
-        let portraitSliderAutoplay = '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay }}';
-        let landscapeSliderAutoplay = '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay }}';
-        let billboardSliderAutoplay = '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_billboard_ads_autoplay }}';
-        let leaderboardSliderAutoplay = '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_leaderboard_ad_autoplay }}';
+        let portraitSliderAutoplay =
+            '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay }}';
+        let landscapeSliderAutoplay =
+            '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay }}';
+        let billboardSliderAutoplay =
+            '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_billboard_ads_autoplay }}';
+        let leaderboardSliderAutoplay =
+            '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_leaderboard_ad_autoplay }}';
 
         $('.potrait_slider').slick({
             slidesToShow: 7,
@@ -256,8 +264,7 @@
             autoplaySpeed: 3000,
             slidesToShow: 5,
             slidesToScroll: 1,
-            responsive: [
-                {
+            responsive: [{
                     breakpoint: 1740,
                     settings: {
                         slidesToShow: 4,
