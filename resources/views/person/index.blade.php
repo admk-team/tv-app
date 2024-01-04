@@ -48,11 +48,11 @@
                                     <a href='{{ route('detailscreen', $stream['code']) }}'>
                                         <div class="ripple">
                                             <div class="trending_icon_box" style='display: none;'><img
-                                                    src="{{ $stream['next_screen_feed_url'] ?? '' }}" alt="Gallows Road">
+                                                    src="{{ $stream['next_screen_feed_url'] ?? '' }}" alt="{{ $stream['title'] }}">
                                             </div>
                                             <div class="">
                                                 <img src="{{ env('BASE_URL') . '/storage/' . $stream['poster'] }}"
-                                                    alt="Gallows Road">
+                                                    alt="{{ $stream['title'] }}">
                                             </div>
                                             <div class="detail_box_hide">
                                                 {{-- <div class="detailbox_time">
