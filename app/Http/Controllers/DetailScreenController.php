@@ -11,10 +11,45 @@ class DetailScreenController extends Controller
     public function index($id)
     {
         $response = Http::timeout(300)->withHeaders(Api::headers())
-        ->get(Api::endpoint("/getitemdetail/{$id}"));
+            ->get(Api::endpoint("/getitemdetail/{$id}"));
 
         $data = $response->json()['app'];
+        $streamGuId = $data['stream_details']['stream_guid'];
+        $type = 'stream';
+
+        if ($data['stream_details']['show_name'] !== '')
+            $type = 'show';
+
+        $responseRatings = Http::withHeaders(Api::headers())
+            ->get(Api::endpoint('/userrating/get/' . $streamGuId . '/' . $type));
+        $data['stream_details']['ratings'] = $responseRatings->json()['data'];
 
         return view("detailscreen.index", $data);
+    }
+
+    public function addRating(Request $request)
+    {
+        $request->validate([
+            'rating' => 'required',
+        ], [
+            'rating.required' => 'Please rate the stream'
+        ]);
+
+        $response = Http::withHeaders(Api::headers())
+            ->asForm()
+            ->timeout(300)
+            ->post(Api::endpoint('/userrating/store'), [
+                'user_id' => session('USER_DETAILS')['USER_ID'],
+                'rating' => $request->rating,
+                'comment' => $request->comment ?? '',
+                'stream_code' => $request->type == 'stream' ? $request->stream_code : '',
+                'show_code' => $request->type == 'show' ? $request->stream_code : '',
+            ]);
+        $responseJson = $response->json();
+
+        if ($responseJson['success'] == false)
+            return back()->with('error', $responseJson['message']);
+
+        return back();
     }
 }

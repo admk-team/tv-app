@@ -63,4 +63,5 @@ Route::get('free-subscription', [FreeSubscriptionController::class, 'index'])->n
 Route::get('transaction-history', [TransactionHistoryController::class, 'index'])->name('transaction-history');
 Route::get('category/{id}', [CategoryController::class, 'index'])->name('category');
 Route::get('person/{id?}', [PersonController::class, 'index'])->name('person');
+Route::post('addrating', [DetailScreenController::class, 'addRating'])->name('addrating');
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');

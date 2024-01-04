@@ -11,17 +11,66 @@
                 </div>
                 <div class="d-flex row">
                     <div class=" col-12 col-md-4 d-flex col-lg-4">
-                        <img class="w-100" src="https://stage.octv.shop/uploads/media_assets/imgs/7376d3829575f06617d9db3f7f6836df_1690652303_b40__(1).jpg" class="actor-img" alt="none">
+                        @if ($data['poster'] != '')
+                            <img class="" src="{{ env('BASE_URL') . '/storage/' . $data['poster'] }}" class="actor-img"
+                                alt="none">
+                        @else
+                            <img class="w-100" src="{{ asset('assets/images/default.png') }}" class="actor-img"
+                                alt="none">
+                        @endif
                     </div>
                     <div class="col-12 col-md-8 actor-video d-flex col-lg-8">
                         <div class="video-container d-flex align-items-center">
                             <p class="text-white">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur est laudantium sit repellat, dolorum placeat dicta nulla quasi harum provident, nam ullam unde enim natus ab delectus aperiam magnam quae non doloribus eveniet omnis. Iure id natus cupiditate ad corrupti, illum, quia vero voluptatibus ut suscipit blanditiis tempora recusandae dolores accusamus, laudantium minima perferendis. Commodi quos exercitationem nisi quibusdam voluptate ullam harum placeat sed! Ab velit possimus eos soluta accusamus. Temporibus mollitia libero excepturi alias nobis nemo doloremque soluta dolores quae minima quaerat ab voluptatum doloribus quo dignissimos modi quis fuga esse quod distinctio, labore similique non quasi! Dolore, numquam?
+                                {{ $data['description'] }}
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="about-actor">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="overflow-hidden">
+        <div class="listing_box">
+            <div class="slider_title_box">
+                <div class="list_heading">
+                    <h1>Related videos</h1>
+                </div>
+            </div>
+            <div class="sliders">
+                <div class="slider-container">
+                    <div class="landscape_slider slider slick-slider">
+                        @foreach ($data['streams'] as $stream)
+                            <div class="item">
+                                <div class="thumbnail_img">
+                                    <a href='{{ route('detailscreen', $stream['code']) }}'>
+                                        <div class="ripple">
+                                            <div class="trending_icon_box" style='display: none;'><img
+                                                    src="{{ $stream['next_screen_feed_url'] ?? '' }}" alt="Gallows Road">
+                                            </div>
+                                            <div class="">
+                                                <img src="{{ env('BASE_URL') . '/storage/' . $stream['poster'] }}"
+                                                    alt="Gallows Road">
+                                            </div>
+                                            <div class="detail_box_hide">
+                                                {{-- <div class="detailbox_time">
+                                                    {{ $stream['duration'] ?? '' }}
+                                                </div> --}}
+                                                <div class="deta_box">
+                                                    <div class="season_title"></div>
+                                                    <div class="content_title">{{ $stream['title'] }}</div>
+                                                    <div class="content_description">{{ $stream['short_description'] }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
