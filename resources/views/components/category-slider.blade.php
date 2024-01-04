@@ -90,27 +90,29 @@
                                                 </div>
                                             </a>
                                         @else
-                                            <div class="{{ $cardThumbCls2 }}">
-                                                <div class="trending_icon_box" style='display: none;'><img
-                                                        src="{{ $stream->next_screen_feed_url ?? '' }}"
-                                                        alt="Gallows Road">
-                                                </div>
-                                                <div class="{{ $cardThumbCls }}">
-                                                    <img src="{{ $stream->{$streamPosterKey} }}" alt="Gallows Road">
-                                                </div>
-                                                <div class="detail_box_hide">
-                                                    <div class="detailbox_time">
-                                                        {{ $stream->stream_duration_timeformat ?? '' }}
+                                            <a href="{{ route('detailscreen', $stream->stream_guid) }}">
+                                                <div class="{{ $cardThumbCls2 }}">
+                                                    <div class="trending_icon_box" style='display: none;'><img
+                                                            src="{{ $stream->next_screen_feed_url ?? '' }}"
+                                                            alt="Gallows Road">
                                                     </div>
-                                                    <div class="deta_box">
-                                                        <div class="season_title"></div>
-                                                        <div class="content_title">{{ $stream->stream_title }}</div>
-                                                        <div class="content_description">
-                                                            {{ $stream->stream_description }}
+                                                    <div class="{{ $cardThumbCls }}">
+                                                        <img src="{{ $stream->{$streamPosterKey} }}" alt="Gallows Road">
+                                                    </div>
+                                                    <div class="detail_box_hide">
+                                                        <div class="detailbox_time">
+                                                            {{ $stream->stream_duration_timeformat ?? '' }}
+                                                        </div>
+                                                        <div class="deta_box">
+                                                            <div class="season_title"></div>
+                                                            <div class="content_title">{{ $stream->stream_title }}</div>
+                                                            <div class="content_description">
+                                                                {{ $stream->stream_description }}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         @endif
                                     </a>
                                 </div>
