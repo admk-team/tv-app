@@ -517,6 +517,10 @@ p {
     transform: scale(1.2);
 }
 
+.top-10-slider-wrapper:hover ~ .thumbnail_img .detail_box_hide  {
+    opacity: 1;
+}
+
 @media (max-width: 1120px) {
     .content {
         padding-top: 96px;
