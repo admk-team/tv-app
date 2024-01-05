@@ -46,6 +46,6 @@ class RegisterController extends Controller
             'msgTrue' => 1,
         ]);
 
-        return redirect(route('home'));
+        return redirect(route('profile.index'));
     }
 }
