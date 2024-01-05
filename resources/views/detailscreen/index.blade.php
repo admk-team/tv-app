@@ -189,7 +189,7 @@
                                     @endforeach
                                 </dd>
                             @endif
-                            @if (!empty($stream_details['advisories']))
+                            @if (!empty($stream_details['languages']))
                                 <dt>Language : </dt>
                                 <dd>
                                     @foreach ($stream_details['languages'] as $i => $val)
