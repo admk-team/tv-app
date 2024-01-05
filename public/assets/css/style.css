@@ -89,6 +89,7 @@ body {
     font-weight: 500;
     border: solid 2px transparent;
     padding: 6px 23px;
+    font-size: 15px;
     transition: all 0.3s;
 }
 
@@ -105,6 +106,7 @@ body {
     font-weight: 500;
     border: solid 2px var(--themeActiveColor);
     padding: 6px 23px;
+    font-size: 15px;
     transition: all 0.3s;
 }
 

@@ -18,6 +18,7 @@ use App\Http\Controllers\PasswordUpdateController;
 use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PersonController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +48,7 @@ Route::middleware('auth.user')->group(function () {
     Route::get('stripe/success', [StripeController::class, 'success'])->name('stripe.success');
     Route::get('password/edit', [PasswordUpdateController::class, 'index'])->name('password.edit');
     Route::post('password/update', [PasswordUpdateController::class, 'update'])->name('password.update');
+    Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
 });
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');
