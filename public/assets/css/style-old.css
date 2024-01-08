@@ -260,8 +260,7 @@ button.owl-prev, button.owl-next {
     position: relative;
     border-radius: 10px;
     overflow: hidden;
-    /* height: 500px; */
-    height: 411px;
+    height: 500px;
     /*cursor: pointer;*/
 }
 

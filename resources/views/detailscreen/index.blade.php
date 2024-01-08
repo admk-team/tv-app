@@ -60,9 +60,18 @@
     <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
     <!-- <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> -->
     <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
     <style>
+        .responsive_video {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 0;
+            height: 100%;
+        }
+
         .responsive_video > div {
-            margin-top: -70px;
+            height: 126%;
         }
     </style>
 
@@ -107,7 +116,7 @@
                 </script> --}}
 
                         <video id="plyerId" class="video-js vjs-fluid vjs-16-9 vjs-default-skin js-big-play-centered"
-                            poster="{{ $stream_details['stream_poster'] }}" autoplay
+                            poster="{{ $stream_details['stream_poster'] }}" autoplay loop
                             data-viblast-key="N8FjNTQ3NDdhZqZhNGI5NWU5ZTI=">
                             <source src="{{ $streamUrl }}" {!! $mType !!}>
                         </video>

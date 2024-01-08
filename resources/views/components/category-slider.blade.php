@@ -67,11 +67,11 @@
                                                     <a class="top-10-slider-number" >{{ $loop->iteration }}</a>
                                                     <div class="{{ $cardThumbCls2 }}">
                                                         <div class="trending_icon_box" {!! $stream->monetization_type == 'F'? 'style="display: none;"': '' !!}><img
-                                                            src="{{ url('/') }}/assets/images/trending_icon.png" alt="{{ $stream->stream_title }}">
+                                                            src="{{ url('/') }}/assets/images/trending_icon.png" alt="Trending">
                                                         </div>
                                                         <div class="{{ $cardThumbCls }}">
                                                             <img src="{{ $stream->{$streamPosterKey} }}"
-                                                                alt="Gallows Road">
+                                                                alt="{{ $stream->stream_title }}">
                                                         </div>
                                                         <div class="detail_box_hide">
                                                             <div class="detailbox_time">
@@ -93,11 +93,11 @@
                                             <a href="{{ route('detailscreen', $stream->stream_guid) }}">
                                                 <div class="{{ $cardThumbCls2 }}">
                                                     <div class="trending_icon_box" {!! $stream->monetization_type == 'F'? 'style="display: none;"': '' !!}><img
-                                                        src="{{ url('/') }}/assets/images/trending_icon.png" alt="{{ $stream->stream_title }}>
+                                                        src="{{ url('/') }}/assets/images/trending_icon.png" alt="Trending">
                                                         ">
                                                     </div>
                                                     <div class="{{ $cardThumbCls }}">
-                                                        <img src="{{ $stream->{$streamPosterKey} }}" alt="Gallows Road">
+                                                        <img src="{{ $stream->{$streamPosterKey} }}" alt="{{ $stream->stream_title }}">
                                                     </div>
                                                     <div class="detail_box_hide">
                                                         <div class="detailbox_time">
