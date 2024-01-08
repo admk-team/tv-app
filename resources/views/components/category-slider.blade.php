@@ -66,7 +66,7 @@
                                                     <a class="top-10-slider-wrapper" href="{{ route('detailscreen', $stream->stream_guid) }}"></a>
                                                     <a class="top-10-slider-number" >{{ $loop->iteration }}</a>
                                                     <div class="{{ $cardThumbCls2 }}">
-                                                        <div class="trending_icon_box" style='display: none;'><img
+                                                        <div class="trending_icon_box" {!! $stream->monetization_type == 'F'? 'style="display: none;"': '' !!}><img
                                                             src="{{ url('/') }}/assets/images/trending_icon.png" alt="{{ $stream->stream_title }}">
                                                         </div>
                                                         <div class="{{ $cardThumbCls }}">
@@ -92,7 +92,7 @@
                                         @else
                                             <a href="{{ route('detailscreen', $stream->stream_guid) }}">
                                                 <div class="{{ $cardThumbCls2 }}">
-                                                    <div class="trending_icon_box" style='display: none;'><img
+                                                    <div class="trending_icon_box" {!! $stream->monetization_type == 'F'? 'style="display: none;"': '' !!}><img
                                                         src="{{ url('/') }}/assets/images/trending_icon.png" alt="{{ $stream->stream_title }}>
                                                         ">
                                                     </div>

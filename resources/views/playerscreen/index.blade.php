@@ -447,7 +447,7 @@ if (!empty($arrCatData))
                     <div>                   
                     <a href="{{ url('/playerscreen/' . $arrStreamsData['stream_guid']) }}">
                       <div class="thumbnail_img">
-                      <div class="trending_icon_box" {{ $strBrige }}><img src="{{ asset('/assets/images/trending_icon.png') }}" alt="{{ $arrStreamsData['stream_title'] }}"></div>
+                      <div class="trending_icon_box" {!! $strBrige !!}><img src="{{ asset('/assets/images/trending_icon.png') }}" alt="{{ $arrStreamsData['stream_title'] }}"></div>
                         <img src="{{ $arrStreamsData['stream_poster'] }}" alt="{{ $arrStreamsData['stream_title'] }}">
                         <div class="detail_box_hide">
                         <div class="detailbox_time">{{ $arrStreamsData['stream_duration_timeformat'] }}</div>

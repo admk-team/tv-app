@@ -492,7 +492,7 @@
                             <div>
                                 <a href="{{ url('/') }}/detailscreen/{{ $arrStreamsData['stream_guid'] }}">
                                     <div class="thumbnail_img">
-                                        <div class="trending_icon_box" {{ $strBrige }}><img
+                                        <div class="trending_icon_box" {!! $strBrige !!}><img
                                                 src="{{ url('/') }}/assets/images/trending_icon.png"
                                                 alt="{{ $arrStreamsData['stream_title'] }}"></div>
                                         <img onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'"
