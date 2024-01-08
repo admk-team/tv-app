@@ -76,6 +76,9 @@
 
             addIcon.addEventListener('click', () => {
                 let userName = prompt('please enter your name');
+                if (userName == '') {
+                    return alert('Please enter your name');
+                }
 
                 if (userName != null && !users.includes(userName)) {
                     let queryStringPOST = {
