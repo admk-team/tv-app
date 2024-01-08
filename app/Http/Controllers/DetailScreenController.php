@@ -14,6 +14,7 @@ class DetailScreenController extends Controller
             ->get(Api::endpoint("/getitemdetail/{$id}"));
 
         $data = $response->json()['app'];
+        return $data;
         $streamGuId = $data['stream_details']['stream_guid'];
         $type = 'stream';
 
