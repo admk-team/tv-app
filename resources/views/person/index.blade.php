@@ -46,7 +46,7 @@
         <div class="listing_box">
             <div class="slider_title_box">
                 <div class="list_heading">
-                    <h1>Related videos</h1>
+<h1>Media pertaining to {{ $data['name'] }}</h1>
                 </div>
             </div>
             <div class="sliders">
