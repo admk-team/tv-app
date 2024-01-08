@@ -17,7 +17,12 @@ class RegisterController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        $response = Http::timeout(300)->withHeaders(Api::headers())
+        $response = Http::timeout(300)->withHeaders(Api::headers(
+            [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ]
+        ))
             ->asForm()
             ->post(Api::endpoint('/mngappusrs'), [
                 'requestAction' => 'createAccount',
@@ -29,9 +34,9 @@ class RegisterController extends Controller
             ]);
         $responseJson = $response->json();
         
-        if ($responseJson['app']['status'] === 0) {
-            return back()->with('error', $responseJson['app']['msg']);
-        }
+        if (array_key_exists('errors', $responseJson) && is_array($responseJson['errors'])) {
+            return back()->with('error', reset($responseJson['errors'])[0]);
+        }   
 
         session([
             'USER_DETAILS' => [
