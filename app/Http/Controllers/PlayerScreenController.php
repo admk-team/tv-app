@@ -15,6 +15,9 @@ class PlayerScreenController extends Controller
         ->get(Api::endpoint("/getitemplayerdetail/{$id}"));
 
         $data = $response->json();
+        if ($data['app']['stream_details'] === []) {
+            abort(404);
+        }
         return view("playerscreen.index", ['arrRes' => $data, 'streamGuid' => $id]);
     }
 

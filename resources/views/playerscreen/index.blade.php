@@ -289,7 +289,12 @@ $adUrl = $arrSlctItemData['stream_ad_url']? 'data-vast="'.$arrSlctItemData['stre
                     <div class="content-timing">
                         <span class="year">{{ $arrSlctItemData['released_year'] }}</span>                
                         <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
-                        <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span>
+                        {{-- <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span> --}}
+                        <span class="movie_type">
+                            @foreach ($arrSlctItemData['genre'] ?? [] as $item)
+                                <a href="{{ route('category', $item['code']) }}?type=genre" class="px-0">{{ $item['title'] }}</a>{{ !$loop->last? ', ': '' }}
+                            @endforeach
+                        </span>
 <?php
                         if ($streamType == 'S')  
                         {
@@ -442,7 +447,7 @@ if (!empty($arrCatData))
                     <div>                   
                     <a href="{{ url('/playerscreen/' . $arrStreamsData['stream_guid']) }}">
                       <div class="thumbnail_img">
-                      <div class="trending_icon_box" {{ $strBrige }}><img src="{{ asset('/assets/images/trending_icon.png') }}" alt="{{ $arrStreamsData['stream_title'] }}"></div>
+                      <div class="trending_icon_box" {!! $strBrige !!}><img src="{{ asset('/assets/images/trending_icon.png') }}" alt="{{ $arrStreamsData['stream_title'] }}"></div>
                         <img src="{{ $arrStreamsData['stream_poster'] }}" alt="{{ $arrStreamsData['stream_title'] }}">
                         <div class="detail_box_hide">
                         <div class="detailbox_time">{{ $arrStreamsData['stream_duration_timeformat'] }}</div>

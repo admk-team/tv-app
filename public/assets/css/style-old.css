@@ -260,8 +260,7 @@ button.owl-prev, button.owl-next {
     position: relative;
     border-radius: 10px;
     overflow: hidden;
-    /* height: 500px; */
-    height: 411px;
+    height: 500px;
     /*cursor: pointer;*/
 }
 
@@ -407,6 +406,15 @@ span.movie_type {
     border-radius: 3px;
     font-weight: 600;
     font-family: 'Noto Sans';
+}
+
+span.movie_type a {
+    color: var(--slidercardCatColor);
+    padding: 2px 9px;
+    border-radius: 3px;
+    font-weight: 600;
+    font-family: 'Noto Sans';
+    text-decoration: none;
 }
 
 span.movie_type:before, .content-timing span:nth-child(2):before {
