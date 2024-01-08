@@ -11,8 +11,13 @@ class Api
 
     public static function headers($headers = [])
     {
-        return array_merge([
+        $defaultHeaders = [
             'happcode' => env('APP_CODE')
-        ], $headers);
+        ];
+
+        if (session('USER_DETAILS.USER_CODE')) 
+            $defaultHeaders['husercode'] = session('USER_DETAILS.USER_CODE');
+
+        return array_merge($defaultHeaders, $headers);
     }
 }

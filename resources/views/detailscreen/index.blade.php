@@ -22,8 +22,7 @@
         $mType = "type='application/x-mpegURL'";
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-    $apiPath = url('/') . '/web-controller.php';
-    //$strQueryParm = "streamGuid=$stream_details['stream_guid']&userCode=" . @$_SESSION['USER_DETAILS']['USER_CODE'] . "&frmToken=" . $_SESSION['SESSION_TOKEN'];
+    $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . "&frmToken=" . session('SESSION_TOKEN');
     
     $stream_code = $stream_details['stream_guid'];
     
@@ -230,8 +229,8 @@
                                 Play Now
                             </a>
                         </div>
-                        {{-- <?php
-                    if (!empty($_SESSION['USER_DETAILS']['USER_CODE'])) {
+                        <?php 
+                    if (session('USER_DETAILS.USER_CODE')) {
                         $signStr = "+";
                         $cls = 'fa fa-plus';
                         if ($stream_details['stream_is_stream_added_in_wish_list'] == 'Y') {
@@ -243,12 +242,12 @@
                             <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav" class="<?php echo $cls; ?>"></i></a>
                             <input type="hidden" id="myWishListSign" value='<?php echo $signStr; ?>' />
                             <input type="hidden" id="strQueryParm" value='<?php echo $strQueryParm; ?>' />
-                            <input type="hidden" id="reqUrl" value='<?php echo $apiPath; ?>' />
-
+                            <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}' />
+                            @csrf
                         </div>
                     <?php
                     }
-                    ?> --}}
+                    ?>
                         <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                             <a href="javascript:void(0)"><i class="fa fa-share"></i></a>
                         </div>

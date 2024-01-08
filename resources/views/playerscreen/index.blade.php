@@ -339,8 +339,8 @@ $adUrl = $arrSlctItemData['stream_ad_url']? 'data-vast="'.$arrSlctItemData['stre
                 <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav" class="{{ $cls }}"></i></a>
                 <input type="hidden" id="myWishListSign" value='{{ $signStr }}'/>
                 <input type="hidden" id="strQueryParm" value='{{ $strQueryParm }}'/>
-						    <input type="hidden" id="reqUrl" value='{{ $apiPath }}>'/>
-                
+						    <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}'/>
+                @csrf
               </div>
 <?php
             }
