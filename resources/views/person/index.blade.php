@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    .tab-nav-wrapper p  span {
+        color: white !important;
+    }
+</style>
     <section class="banner detailBanner">
         <div class="container-fluid actor-container">
             <div class="container mt-4">
@@ -12,23 +17,28 @@
                 <div class="d-flex row">
                     <div class=" col-12 col-md-4 d-flex col-lg-4">
                         @if ($data['poster'] != '')
-                            <img class="" src="{{ env('BASE_URL') . '/storage/' . $data['poster'] }}" class="actor-img"
-                                alt="none">
+                            <img class="" src="{{ env('BASE_URL') . '/storage/' . $data['poster'] }}" class="actor-img" width="400px" height="600px"alt="none">
                         @else
-                            <img class="w-100" src="{{ asset('assets/images/default.png') }}" class="actor-img"
+                            <img class="w-100" src="{{ asset('assets/images/default.png') }}" class="actor-img" width="400px" height="600px"
                                 alt="none">
                         @endif
                     </div>
                     <div class="col-12 col-md-8 actor-video d-flex col-lg-8">
                         <div class="video-container d-flex align-items-center">
-                            <p class="text-white">
-                                {{ $data['description'] }}
-                            </p>
+                            <h1 class="text-white">
+                                {{ $data['name'] }}
+                            </h1>
+                            
                         </div>
                     </div>
+                    @if($data['description'])
+                    <div class="about-actor text-white" style="font-size:x-large;">
+                        <h1>Bio</h1>
+                        {!! $data['description'] !!}
+                    </div>
+                    @endif
                 </div>
-                <div class="about-actor">
-                </div>
+                
             </div>
         </div>
     </section>
@@ -47,11 +57,11 @@
                                 <div class="thumbnail_img">
                                     <a href='{{ route('detailscreen', $stream['code']) }}'>
                                         <div class="ripple">
-                                            <div class="trending_icon_box" style='display: none;'><img
-                                                    src="{{ $stream['next_screen_feed_url'] ?? '' }}" alt="{{ $stream['title'] }}">
+                                            <div class="trending_icon_box" {!! $stream['monetization_type'] == 'F'? 'style="display: none;"': '' !!}><img
+                                                    src="{{ url('/') }}/assets/images/trending_icon.png" alt="{{ $stream['title'] }}">
                                             </div>
                                             <div class="">
-                                                <img src="{{ env('BASE_URL') . '/storage/' . $stream['poster'] }}"
+                                                <img src="{{ $stream['poster'] }}"
                                                     alt="{{ $stream['title'] }}">
                                             </div>
                                             <div class="detail_box_hide">
