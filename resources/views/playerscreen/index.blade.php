@@ -289,7 +289,12 @@ $adUrl = $arrSlctItemData['stream_ad_url']? 'data-vast="'.$arrSlctItemData['stre
                     <div class="content-timing">
                         <span class="year">{{ $arrSlctItemData['released_year'] }}</span>                
                         <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
-                        <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span>
+                        {{-- <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span> --}}
+                        <span class="movie_type">
+                            @foreach ($arrSlctItemData['genre'] ?? [] as $item)
+                                <a href="{{ route('category', $item['code']) }}?type=genre" class="px-0">{{ $item['title'] }}</a>{{ !$loop->last? ', ': '' }}
+                            @endforeach
+                        </span>
 <?php
                         if ($streamType == 'S')  
                         {

@@ -144,7 +144,12 @@
                         <span class="year">{{ $stream_details['released_year'] }}</span>
                         @if ($streamType != 'S')
                             <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream_details['stream_duration']) }}</span>
-                            <span class="movie_type">{{ $stream_details['cat_title'] }}</span>
+                            {{-- <span class="movie_type">{{ $stream_details['cat_title'] }}</span> --}}
+                            <span class="movie_type">
+                                @foreach ($stream_details['genre'] ?? [] as $item)
+                                    <a href="{{ route('category', $item['code']) }}?type=genre" class="px-0">{{ $item['title'] }}</a>{{ !$loop->last? ', ': '' }}
+                                @endforeach
+                            </span>
                         @endif
                         @if ($streamType == 'S')
                             <span class="movie_type">{{ $stream_details['stream_episode_title'] }}</span>
