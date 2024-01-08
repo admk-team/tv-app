@@ -60,6 +60,12 @@
     <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
     <!-- <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> -->
     <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+    <style>
+        .responsive_video > div {
+            margin-top: -70px;
+        }
+    </style>
+
     <!--Start of banner section-->
     <section class="banner detailBanner">
         <div class="slide">
@@ -189,7 +195,7 @@
                                     @endforeach
                                 </dd>
                             @endif
-                            @if (!empty($stream_details['advisories']))
+                            @if (!empty($stream_details['languages']))
                                 <dt>Language : </dt>
                                 <dd>
                                     @foreach ($stream_details['languages'] as $i => $val)
