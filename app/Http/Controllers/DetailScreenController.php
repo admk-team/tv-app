@@ -18,13 +18,9 @@ class DetailScreenController extends Controller
             abort(404);
         }
         $streamGuId = $data['stream_details']['stream_guid'];
-        $type = 'stream';
-
-        if ($data['stream_details']['show_name'] !== '')
-            $type = 'show';
 
         $responseRatings = Http::withHeaders(Api::headers())
-            ->get(Api::endpoint('/userrating/get/' . $streamGuId . '/' . $type));
+            ->get(Api::endpoint('/userrating/get/' . $streamGuId . '/stream'));
         $data['stream_details']['ratings'] = $responseRatings->json()['data'];
 
         return view("detailscreen.index", $data);

@@ -25,6 +25,7 @@ class AppConfig
         if (!Session::get('api_data')) {
             $response = Http::timeout(300)->withHeaders(Api::headers())
                 ->get(Api::endpoint('/masterfeed'));
+                // dd($response);
             Session::put('api_data', $response->body());
         }
     }

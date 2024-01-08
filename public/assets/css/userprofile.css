@@ -79,7 +79,8 @@
   background-image: url("../images//user2.png");
 }
 
-.memberDiv  .btn:nth-child(3), .memberDiv  .btn:nth-child(5) {
+.memberDiv  .btn:nth-child(3), .memberDiv  .btn:nth-child(5) 
+{
   background-image: url("../images//user3.png");
 }
 

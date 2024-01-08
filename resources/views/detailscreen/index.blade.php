@@ -406,7 +406,7 @@
                     <input type="hidden" name="rating">
                     <input type="hidden" name="stream_code" value="{{ $stream_details['stream_guid'] }}">
                     <input type="hidden" name="type"
-                        value="{{ $stream_details['show_name'] == '' ? 'stream' : 'show' }}">
+                        value="stream">
                     <input type="submit" value="Submit">
                 </form>
                 <hr>
