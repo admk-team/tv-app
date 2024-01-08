@@ -12,7 +12,9 @@ class CategoryController extends Controller
     {
         $response = Http::withHeaders(Api::headers())
             ->asForm()
-            ->get(Api::endpoint('/getcategoryitems/' . $id));
+            ->get(Api::endpoint('/getcategoryitems/' . $id), [
+                'type' => request()->type ?? 'category',
+            ]);
         $responseJson = $response->json();
 
         $categories = $responseJson['app']['categories'];

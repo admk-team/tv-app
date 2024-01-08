@@ -60,9 +60,18 @@
     <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
     <!-- <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> -->
     <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
     <style>
+        .responsive_video {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 0;
+            height: 100%;
+        }
+
         .responsive_video > div {
-            margin-top: -70px;
+            height: 126%;
         }
     </style>
 
@@ -107,7 +116,7 @@
                 </script> --}}
 
                         <video id="plyerId" class="video-js vjs-fluid vjs-16-9 vjs-default-skin js-big-play-centered"
-                            poster="{{ $stream_details['stream_poster'] }}" autoplay
+                            poster="{{ $stream_details['stream_poster'] }}" autoplay loop
                             data-viblast-key="N8FjNTQ3NDdhZqZhNGI5NWU5ZTI=">
                             <source src="{{ $streamUrl }}" {!! $mType !!}>
                         </video>
@@ -144,7 +153,12 @@
                         <span class="year">{{ $stream_details['released_year'] }}</span>
                         @if ($streamType != 'S')
                             <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream_details['stream_duration']) }}</span>
-                            <span class="movie_type">{{ $stream_details['cat_title'] }}</span>
+                            {{-- <span class="movie_type">{{ $stream_details['cat_title'] }}</span> --}}
+                            <span class="movie_type">
+                                @foreach ($stream_details['genre'] ?? [] as $item)
+                                    <a href="{{ route('category', $item['code']) }}?type=genre" class="px-0">{{ $item['title'] }}</a>{{ !$loop->last? ', ': '' }}
+                                @endforeach
+                            </span>
                         @endif
                         @if ($streamType == 'S')
                             <span class="movie_type">{{ $stream_details['stream_episode_title'] }}</span>
@@ -393,7 +407,7 @@
                     <input type="hidden" name="rating">
                     <input type="hidden" name="stream_code" value="{{ $stream_details['stream_guid'] }}">
                     <input type="hidden" name="type"
-                        value="{{ $stream_details['show_name'] == '' ? 'stream' : 'show' }}">
+                        value="stream">
                     <input type="submit" value="Submit">
                 </form>
                 <hr>
@@ -487,7 +501,7 @@
                             <div>
                                 <a href="{{ url('/') }}/detailscreen/{{ $arrStreamsData['stream_guid'] }}">
                                     <div class="thumbnail_img">
-                                        <div class="trending_icon_box" {{ $strBrige }}><img
+                                        <div class="trending_icon_box" {!! $strBrige !!}><img
                                                 src="{{ url('/') }}/assets/images/trending_icon.png"
                                                 alt="{{ $arrStreamsData['stream_title'] }}"></div>
                                         <img onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'"
