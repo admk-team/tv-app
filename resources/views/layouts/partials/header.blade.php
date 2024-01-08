@@ -27,7 +27,7 @@
                         <ul class="dropdown_menus profiledropin avtartMenu" style="display: none;">
                             <li style="display: none;"><a href="update-profile.php"><span
                                         class="userno">user-26</span></a></li>
-                            <li><a class="text-decoration-none" href="https://stage.24flix.tv/profile">Profiles</a></li>
+                            <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a></li>
                             <li><a class="text-decoration-none"
                                     href="{{ route('transaction-history') }}">Transaction History</a></li>
                             <li><a class="text-decoration-none"
@@ -69,7 +69,7 @@
                         <ul class="dropdown_menus profiledropin avtartMenu gap-0" style="display: none; left: 50% !important; position: absolute; transform: translateX(-50%);">
                             <li style="display: none;"><a href="update-profile.php"><span
                                         class="userno">user-26</span></a></li>
-                            <li><a class="text-decoration-none" href="">Profiles</a></li>
+                            <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a></li>
                             <li><a class="text-decoration-none"
                                     href="{{ route('transaction-history') }}">Transaction History</a></li>
                             <li><a class="text-decoration-none"

@@ -10,6 +10,7 @@
     @stack('style')
     {{-- Old Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style-old.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/userprofile.css') }}">
     <style>
         :root {
             --bgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }};

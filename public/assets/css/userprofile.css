@@ -75,7 +75,7 @@ html {
   background-size: cover;
 }
 
-.memberDiv  .btn:nth-child(1) {
+.memberDiv  .btn:nth-child(1), .memberDiv  .btn:nth-child(6) {
   background-image: url("../images//user1.png");
 }
 
@@ -83,11 +83,11 @@ html {
   background-image: url("../images//user2.png");
 }
 
-.memberDiv  .btn:nth-child(3) {
+.memberDiv  .btn:nth-child(3), .memberDiv  .btn:nth-child(5) {
   background-image: url("../images//user3.png");
 }
 
-.memberDiv  .btn:nth-child(4n) {
+.memberDiv  .btn:nth-child(4) {
   background-image: url("../images//user4.png");
 }
 
