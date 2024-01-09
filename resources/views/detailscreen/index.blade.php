@@ -185,13 +185,13 @@
                                         @endphp
                                         @foreach ($persons as $i => $person)
                                             @if (is_array($person))
-                                                <a href="{{ route('person', $person['id']) }}">
+                                                <a class="person-link" href="{{ route('person', $person['id']) }}">
                                                     {{ $person['title'] }}
-                                                </a>{{ count($persons) - 1 !== $i ? ', ' : '' }}
+                                                </a>{{ count($persons) - 1 !== $i ? ',' : '' }}
                                             @else
-                                                <a href="{{ route('person', $person) }}">
+                                                <a class="person-link" href="{{ route('person', $person) }}">
                                                     {{ $person }}
-                                                </a>{{ count($persons) - 1 !== $i ? ', ' : '' }}
+                                                </a>{{ count($persons) - 1 !== $i ? ',' : '' }}
                                             @endif
                                         @endforeach
                                     </dd>
@@ -201,21 +201,16 @@
                                 <dt>Advisory : </dt>
                                 <dd>
                                     @foreach ($stream_details['advisories'] as $i => $val)
-                                        {{ $val['title'] }}
-                                        @if (count($stream_details['advisories']) - 1 !== $i)
-                                            ,
-                                        @endif
+                                        {{ $val['title'] }}@if (count($stream_details['advisories']) - 1 !== $i),@endif
                                     @endforeach
                                 </dd>
                             @endif
+
                             @if (!empty($stream_details['languages']))
                                 <dt>Language : </dt>
                                 <dd>
                                     @foreach ($stream_details['languages'] as $i => $val)
-                                        {{ $val['title'] }}
-                                        @if (count($stream_details['languages']) - 1 !== $i)
-                                            ,
-                                        @endif
+                                        {{ $val['title'] }}@if (count($stream_details['languages']) - 1 !== $i),@endif
                                     @endforeach
                                 </dd>
                             @endif
@@ -443,8 +438,6 @@
                     <p class="member-comment">{{ $review['comment'] }}</p>
                 </div>
                 <hr>
-
-
                 <?php
                 }
             ?>
