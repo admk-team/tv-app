@@ -67,8 +67,10 @@ Route::get('subscription', [SubscriptionController::class, 'index'])->name('subs
 Route::get('free-subscription', [FreeSubscriptionController::class, 'index'])->name('free-subscription');
 Route::get('transaction-history', [TransactionHistoryController::class, 'index'])->name('transaction-history');
 Route::get('category/{id}', [CategoryController::class, 'index'])->name('category');
+
 Route::get('advisory/{id}', [AdvisoryController::class, 'index'])->name('advisory');
 Route::get('language/{id}', [LanguageController::class, 'index'])->name('language');
+
 Route::get('person/{id?}', [PersonController::class, 'index'])->name('person');
 Route::post('addrating', [DetailScreenController::class, 'addRating'])->name('addrating');
 Route::post('wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');

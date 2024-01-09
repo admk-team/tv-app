@@ -7058,3 +7058,11 @@ ul.dropsmenubox li a.dropdown-item:hover {
         top: -10px;
       }
   }
+
+  .person-link 
+  {
+    font-family: 'Noto Sans';
+    color: white; /* Set the text color to white */
+    text-decoration: none; /* Remove the underline */
+  }
+  
