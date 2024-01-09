@@ -201,6 +201,7 @@
                                 <dt>Advisory : </dt>
                                 <dd>
                                     @foreach ($stream_details['advisories'] as $i => $val)
+                                     <a class="person-link" href="{{ route('advisory', $val['code']) }}">
                                         {{ $val['title'] }}@if (count($stream_details['advisories']) - 1 !== $i),@endif
                                     @endforeach
                                 </dd>
@@ -210,6 +211,7 @@
                                 <dt>Language : </dt>
                                 <dd>
                                     @foreach ($stream_details['languages'] as $i => $val)
+                                    <a class="person-link" href="{{ route('language', $val['code']) }}">
                                         {{ $val['title'] }}@if (count($stream_details['languages']) - 1 !== $i),@endif
                                     @endforeach
                                 </dd>
