@@ -700,3 +700,18 @@ p {
         width: 95% !important;
     }
 }
+
+@media (max-width: 700px){
+    .btn_box{
+        max-width: 150px;
+    }   
+    .banner{
+        margin-top:-15px;
+    }
+    /* .movie-detail-box {
+        margin-top:-5px;
+    } */
+    .slide{
+        margin-top:-15px;
+    }
+}

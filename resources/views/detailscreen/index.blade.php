@@ -72,7 +72,8 @@
 
         .responsive_video > div {
             height: 126%;
-        }
+}
+
     </style>
 
     <!--Start of banner section-->
