@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdController;
+use App\Http\Controllers\AdvisoryController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
@@ -17,8 +18,10 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\PasswordUpdateController;
 use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -64,6 +67,9 @@ Route::get('subscription', [SubscriptionController::class, 'index'])->name('subs
 Route::get('free-subscription', [FreeSubscriptionController::class, 'index'])->name('free-subscription');
 Route::get('transaction-history', [TransactionHistoryController::class, 'index'])->name('transaction-history');
 Route::get('category/{id}', [CategoryController::class, 'index'])->name('category');
+Route::get('advisory/{id}', [AdvisoryController::class, 'index'])->name('advisory');
+Route::get('language/{id}', [LanguageController::class, 'index'])->name('language');
 Route::get('person/{id?}', [PersonController::class, 'index'])->name('person');
 Route::post('addrating', [DetailScreenController::class, 'addRating'])->name('addrating');
+Route::post('wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');

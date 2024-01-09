@@ -189,6 +189,7 @@ $adUrl = $arrSlctItemData['stream_ad_url']? 'data-vast="'.$arrSlctItemData['stre
                 </section>
   <?php }else { ?>
 <div>
+
     <div class="container-fluid containinax">
         <div class="row" >
             <div class="col-md-12">
@@ -230,23 +231,23 @@ $adUrl = $arrSlctItemData['stream_ad_url']? 'data-vast="'.$arrSlctItemData['stre
                     </div>
                 </section>
               <?php else: ?>
-              <div class="videocentalize">              
-                <div id="wrapper"></div>
+
+
+            <div class="videocentalize">              
+              <div id="wrapper"></div>
                 <!-- LIST OF PLAYLISTS -->   
                 <div id="mvp-playlist-list">  
                   <div class="mvp-global-playlist-data" ></div>              
                   <div class="playlist-video">   
 
                     <div class="mvp-playlist-item" data-type="{{ $mType }}" data-path="{{ $streamUrl }}" data-poster="{{ $arrSlctItemData['stream_poster'] }}" data-thumb="{{ $arrSlctItemData['stream_poster'] }}"  data-title="{{ $arrSlctItemData['stream_title'] }}" data-description="{{ $arrSlctItemData['stream_description'] }}" {!! $adUrl ?? $dataVast !!}>
-                      
-                      
+                    
                     </div>
-<?php                
+                  <?php                
                     $arrCatData = $ARR_FEED_DATA['arrCategoriesData'];
                     $dataVast3 = null;
                     foreach ($arrCatData['streams'] as $arrStreamsData)     
                     {                      
-                      
                       $poster = $arrStreamsData['stream_poster'];                       
                       $videoUrl = $arrStreamsData['stream_url'];
                       $quality = 'video';
@@ -262,18 +263,19 @@ $adUrl = $arrSlctItemData['stream_ad_url']? 'data-vast="'.$arrSlctItemData['stre
                       {
                       //  $dataVast = '';
                       }
-?>                          	 					
+                     ?>                          	 					 
                       <div class="mvp-playlist-item" data-type="{{ $quality }}" data-path="{{ $videoUrl }}" {!! $adUrl ?? $dataVast !!} data-poster="{{ $poster }}" data-thumb="{{ $poster }}" data-title="{{ $arrStreamsData['stream_title'] }}" data-description="{{ $arrStreamsData['stream_description'] }}" ></div>
-<?php
+                    <?php
                     }
-?>                    
+                   ?>                    
                   </div>
                 </div>
               </div>
               <?php endif; ?>
             </div>
         </div>
-    </div>                 
+    </div>         
+
     <div class="product_bindfullbox">
         <div class="container-fluid">
         <div class="row"> 
@@ -334,17 +336,17 @@ $adUrl = $arrSlctItemData['stream_ad_url']? 'data-vast="'.$arrSlctItemData['stre
                 $cls = 'fa fa-minus';
                 $signStr = "-";
               }
-?>                         
+             ?>                         
               <div class="share_circle addWtchBtn">
                 <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav" class="{{ $cls }}"></i></a>
                 <input type="hidden" id="myWishListSign" value='{{ $signStr }}'/>
                 <input type="hidden" id="strQueryParm" value='{{ $strQueryParm }}'/>
-						    <input type="hidden" id="reqUrl" value='{{ $apiPath }}>'/>
-                
+						    <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}'/>
+                @csrf
               </div>
-<?php
+           <?php
             }
-?>  
+           ?>  
               <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                 <a href="javascript:void(0);"><i class="fa fa-share"></i></a>
               </div>
@@ -359,6 +361,7 @@ $adUrl = $arrSlctItemData['stream_ad_url']? 'data-vast="'.$arrSlctItemData['stre
     </div>
 </div> 
 <?php } ?>
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -408,6 +411,7 @@ $nextVideoPath = '';
 if (!empty($arrCatData))
 {
 ?>
+
 <!--Start of thumbnail slider section-->
 <section class="sliders">
     <div class="slider-container">
@@ -462,7 +466,7 @@ if (!empty($arrCatData))
                       </div>
                     </a>
                     </div>
-<?php
+                 <?php
                 }
                 ?>                    
                 </div>

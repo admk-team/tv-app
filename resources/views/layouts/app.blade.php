@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @yield('meta-tags')
     <title>
         @stack('title')
@@ -255,7 +255,7 @@
         });
     </script>
 
-    <script>
+    {{-- <script>
         /** script for landscape_slider */
         $('.landscape_slider').slick({
             dots: false,
@@ -302,7 +302,7 @@
                 }
             ]
         });
-    </script>
+    </script> --}}
 
     @stack('scripts')
 </body>

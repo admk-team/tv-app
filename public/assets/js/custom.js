@@ -106,7 +106,7 @@ function sendAjaxResForFavItem(requestAction) {
   var reqUrl = $('#reqUrl').val();
   var strQueryParm = $('#strQueryParm').val();
 
-  strQueryParm = strQueryParm + '&requestAction=' + requestAction;
+  strQueryParm = strQueryParm + '&requestAction=' + requestAction + '&_token=' + $('[name="_token"]').val();
 
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
