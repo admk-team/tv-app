@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @yield('meta-tags')
     <title>
-        @stack('title')
+       24 Flix @stack('title')
     </title>
     @stack('style')
     {{-- Old Css --}}
