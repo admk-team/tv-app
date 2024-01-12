@@ -28,17 +28,17 @@
                             <li style="display: none;"><a href="update-profile.php"><span
                                         class="userno">user-26</span></a></li>
                             <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a></li>
-                            <li><a class="text-decoration-none"
-                                    href="{{ route('transaction-history') }}">Transaction History</a></li>
-                            <li><a class="text-decoration-none"
-                                    href="{{ route('password.edit') }}">Change Password</a></li>
+                            <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
+                                    History</a></li>
+                            <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change Password</a>
+                            </li>
                             <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
                         </ul>
                     </div>
                 </li>
             @else
-                <a class="auth app-primary-btn" href="/login">Login</a>
-                <a class="auth app-secondary-btn" href="/signup">Signup</a>
+                <a class="auth app-primary-btn rounded" href="/login">Login</a>
+                <a class="auth app-secondary-btn rounded" href="/signup">Signup</a>
             @endif
         </div>
         <div class="menu-icon" onclick="mobileMenuHandler()">
@@ -66,14 +66,15 @@
                         <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=1>
                             <div class="userimg">u</div>
                         </div>
-                        <ul class="dropdown_menus profiledropin avtartMenu gap-0" style="display: none; left: 50% !important; position: absolute; transform: translateX(-50%);">
+                        <ul class="dropdown_menus profiledropin avtartMenu gap-0"
+                            style="display: none; left: 50% !important; position: absolute; transform: translateX(-50%);">
                             <li style="display: none;"><a href="update-profile.php"><span
                                         class="userno">user-26</span></a></li>
                             <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a></li>
-                            <li><a class="text-decoration-none"
-                                    href="{{ route('transaction-history') }}">Transaction History</a></li>
-                            <li><a class="text-decoration-none"
-                                    href="{{ route('password.edit') }}">Change Password</a></li>
+                            <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
+                                    History</a></li>
+                            <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change Password</a>
+                            </li>
                             <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
                         </ul>
                     </div>
