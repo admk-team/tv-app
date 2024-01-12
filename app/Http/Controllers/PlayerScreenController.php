@@ -11,9 +11,10 @@ class PlayerScreenController extends Controller
 {
     public function index($id)
     {
+        $xyz = base64_encode(request()->ip());
         $response = Http::timeout(300)->withHeaders(Api::headers())
-        ->get(Api::endpoint("/getitemplayerdetail/{$id}"));
-
+            ->get(Api::endpoint("/getitemplayerdetail/{$id}?user_data={$xyz}"));
+        return $response->body();
         $data = $response->json();
         if ($data['app']['stream_details'] === []) {
             abort(404);
@@ -27,20 +28,16 @@ class PlayerScreenController extends Controller
         try {
             $streamPassword = Crypt::decryptString($request->key);
         } catch (\Exception $e) {
-
         }
-        
-        if (password_verify($request->password, $streamPassword))
-        {
+
+        if (password_verify($request->password, $streamPassword)) {
             if (session('protectedContentAccess') === null)
                 session('protectedContentAccess', []);
             session()->push('protectedContentAccess', $request->stream_guid);
-        }
-        else
-        {
+        } else {
             session()->flash('error', 'Incorrect Password');
         }
-        
+
         return back();
     }
 
@@ -50,17 +47,13 @@ class PlayerScreenController extends Controller
         try {
             $streamPassword = Crypt::decryptString($request->key);
         } catch (\Exception $e) {
-
         }
 
-        if (request()->password == $streamPassword)
-        {
+        if (request()->password == $streamPassword) {
             session('GLOBAL_PASS', 0);
             header("Location: " . $request->shortUrl);
             die();
-        }
-        else
-        {
+        } else {
             session('error', 'Incorrect Password');
         }
         header("Location: " . $request->fullUrl);
