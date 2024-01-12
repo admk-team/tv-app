@@ -21,6 +21,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ScreenerController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
@@ -74,4 +75,9 @@ Route::get('language/{id}', [LanguageController::class, 'index'])->name('languag
 Route::get('person/{id?}', [PersonController::class, 'index'])->name('person');
 Route::post('addrating', [DetailScreenController::class, 'addRating'])->name('addrating');
 Route::post('wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
+
+// Screener
+Route::get('screener/{code}/{itemIndex?}', [ScreenerController::class, 'player'])->name('screener.player');
+Route::post('screener/authenticate/{code}', [ScreenerController::class, 'authenticate'])->name('screener.authenticate');
+
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
