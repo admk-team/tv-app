@@ -1,3 +1,21 @@
+@if ($data->app->app_info->announcement && $data->app->app_info->announcement->announcement_start_date)
+    @php
+        $currentDate = now(); // Assuming you're using Laravel, this gets the current date and time
+        $startDate = \Carbon\Carbon::parse($data->app->app_info->announcement->announcement_start_date);
+        $endDate = $data->app->app_info->announcement->announcement_end_date ? \Carbon\Carbon::parse($data->app->app_info->announcement->announcement_end_date) : null;
+    @endphp
+
+    @if ($currentDate->greaterThanOrEqualTo($startDate) && (!$endDate || $currentDate->lessThanOrEqualTo($endDate)))
+        <!-- Your specific HTML code here -->
+        <div style="background: red; display: flex; align-content: center; justify-content: center;">
+            <span
+                style="color: white; display: flex; width: 850px; align-content: center; justify-content: center; word-break: break-all;">
+                {{ $data->app->app_info->announcement->announcement }}
+            </span>
+        </div>
+    @endif
+@endif
+
 <div class="owl-wrapper">
     <div class="owl-prev-btn owl-controll-btn" data-type="0" onclick="handleSliderControlls(this)">
         <svg width="37px" height="37px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
