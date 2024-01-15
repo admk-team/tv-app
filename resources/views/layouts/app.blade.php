@@ -7,7 +7,7 @@
     @else
         <meta property="og:title" content="{{ @$data->app->app_info->seo_title ?? '' }}" />
         <meta property="og:image" content="{{ @$data->app->app_info->seo_image?? '' }}" />
-        <meta property="og:description" content="{{ @$data->app->app_info->seo_description ?? '' }}" />
+        <meta property="og:description" content="{!! @$data->app->app_info->seo_description ?? '' !!}" />
     @endif
     <title>
        24 Flix @stack('title')
