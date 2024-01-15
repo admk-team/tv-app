@@ -1,14 +1,20 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @if(Route::is('detailscreen'))
     @yield('meta-tags')
+    @else
+        <meta property="og:title" content="{{ @$data->app->app_info->seo_title ?? '' }}" />
+        <meta property="og:image" content="{{ @$data->app->app_info->seo_image?? '' }}" />
+        <meta property="og:description" content="{{ @$data->app->app_info->seo_description ?? '' }}" />
+    @endif
     <title>
        24 Flix @stack('title')
     </title>
     @stack('style')
     {{-- Old Css --}}
+    <link rel="shortcut icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style-old.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/userprofile.css') }}">
     <style>
