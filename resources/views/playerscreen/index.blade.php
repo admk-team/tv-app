@@ -309,8 +309,14 @@
                             </ul>
                             <h1 class="content-heading">{{ $arrSlctItemData['stream_title'] }}</h1>
                             <div class="content-timing">
-                                <span class="year">{{ $arrSlctItemData['released_year'] }}</span>
-                                <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
+                                @if ($arrSlctItemData['released_year'])
+                                    <span class="year">{{ $arrSlctItemData['released_year'] }}</span>
+                                    <span class="dot-sep"></span>
+                                @endif
+                                @if ($arrSlctItemData['stream_duration'] && $arrSlctItemData['stream_duration'] !== "0")
+                                    <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
+                                    <span class="dot-sep"></span>
+                                @endif
                                 {{-- <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span> --}}
                                 <span class="movie_type">
                                     @foreach ($arrSlctItemData['genre'] ?? [] as $item)
