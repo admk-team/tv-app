@@ -150,9 +150,15 @@
                     <h1 class="content-heading" title="{{ $stream_details['stream_title'] }}">
                         {{ $stream_details['stream_title'] }}</h1>
                     <div class="content-timing">
-                        <span class="year">{{ $stream_details['released_year'] }}</span>
+                        @if ($stream_details['released_year'])
+                            <span class="year">{{ $stream_details['released_year'] }}</span>
+                            <span class="dot-sep"></span>
+                        @endif
                         @if ($streamType != 'S')
-                            <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream_details['stream_duration']) }}</span>
+                            @if ($stream_details['stream_duration'] && $stream_details['stream_duration'] !== "0")
+                                <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream_details['stream_duration']) }}</span>
+                                <span class="dot-sep"></span>
+                            @endif
                             {{-- <span class="movie_type">{{ $stream_details['cat_title'] }}</span> --}}
                             <span class="movie_type">
                                 @foreach ($stream_details['genre'] ?? [] as $item)

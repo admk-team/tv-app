@@ -439,12 +439,22 @@ span.movie_type a {
     text-decoration: none;
 }
 
-span.movie_type:before,
+/* span.movie_type:before,
 .content-timing span:nth-child(2):before {
     content: ' \25CF';
     font-size: 13px;
     color: #999;
     left: -7px;
+    position: relative;
+} */
+
+.dot-sep {
+    padding: 0 !important;
+}
+.dot-sep:before {
+    content: '\25CF';
+    font-size: 13px;
+    color: #999;
     position: relative;
 }
 
