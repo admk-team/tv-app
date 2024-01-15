@@ -26,8 +26,9 @@ class LoginController extends Controller
                 'isBypassEmailVerificationStep' => 'Y'
             ]);
         $responseJson = $response->json();
-
-        if ($responseJson['app']['status'] === 0) {
+        if (isset($responseJson['app']['email_verified']) && $responseJson['app']['email_verified'] === 0) {
+            return back()->with('error', $responseJson['app']['msg']);
+        } elseif (isset($responseJson['app']['status']) === 0) {
             return back()->with('error', $responseJson['app']['msg']);
         }
 
