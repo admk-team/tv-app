@@ -67,7 +67,7 @@
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
     }
-    $apiPath = url('https://onlinechannel.io/api/v1/f1/mngstrmdur');
+    $apiPath = App\Services\Api::endpoint('/mngstrmdur');
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN');
     
     // here get the video duration
@@ -689,7 +689,7 @@ if (!empty($arrCatData))
                 if (isFirstTIme == true) {
                     isFirstTIme = false;
                     // player.seek()
-                    player.seek(3414.10);
+                    // player.seek(3414.10);
                 } else {
                     sendAjaxRes4VideoDuration('getStrmDur', data.media.mediaId, '');
                 }
@@ -754,6 +754,8 @@ if (!empty($arrCatData))
                 };
                 xhttp.open("POST", "<?php echo $apiPath; ?>", true);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.setRequestHeader("happcode", "{{ env('APP_CODE') }}");
+                xhttp.setRequestHeader("husercode", "{{ session('USER_DETAILS.USER_CODE') }}");
                 xhttp.send(strQueryParm);
             }
         }
