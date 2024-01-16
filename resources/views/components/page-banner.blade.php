@@ -47,10 +47,12 @@
                         <div class="info">
                             <h2>{{ $stream->stream_title ?? '' }}</h2>
                             <div class="timestamp">
-                                <span>{{ $stream->released_year ?? '' }}</span>
-                                <span>
-                                    <i class="bi bi-dot"></i>
-                                </span>
+                                @if ($stream->released_year)
+                                    <span>{{ $stream->released_year ?? '' }}</span>
+                                    <span>
+                                        <i class="bi bi-dot"></i>
+                                    </span>
+                                @endif
                                 <span>{{ $stream->formatted_duration ?? '' }}</span>
                                 <div class="badges">
                                     <span class="badge">{{ $stream->content_qlt ?? '' }}</span>
