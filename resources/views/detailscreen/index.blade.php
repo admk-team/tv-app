@@ -22,7 +22,7 @@
         $mType = "type='application/x-mpegURL'";
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-    $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . "&frmToken=" . session('SESSION_TOKEN');
+    $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     
     $stream_code = $stream_details['stream_guid'];
     
@@ -69,10 +69,9 @@
             height: 100%;
         }
 
-        .responsive_video > div {
+        .responsive_video>div {
             height: 126%;
-}
-
+        }
     </style>
 
     <!--Start of banner section-->
@@ -162,7 +161,8 @@
                             {{-- <span class="movie_type">{{ $stream_details['cat_title'] }}</span> --}}
                             <span class="movie_type">
                                 @foreach ($stream_details['genre'] ?? [] as $item)
-                                    <a href="{{ route('category', $item['code']) }}?type=genre" class="px-0">{{ $item['title'] }}</a>{{ !$loop->last? ', ': '' }}
+                                    <a href="{{ route('category', $item['code']) }}?type=genre"
+                                        class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
                                 @endforeach
                             </span>
                         @endif
@@ -208,8 +208,10 @@
                                 <dt>Advisory : </dt>
                                 <dd>
                                     @foreach ($stream_details['advisories'] as $i => $val)
-                                     <a class="person-link" href="{{ route('advisory', $val['code']) }}">
-                                        {{ $val['title'] }}@if (count($stream_details['advisories']) - 1 !== $i),@endif
+                                        <a class="person-link" href="{{ route('advisory', $val['code']) }}">
+                                            {{ $val['title'] }}@if (count($stream_details['advisories']) - 1 !== $i)
+                                                ,
+                                            @endif
                                     @endforeach
                                 </dd>
                             @endif
@@ -218,8 +220,10 @@
                                 <dt>Language : </dt>
                                 <dd>
                                     @foreach ($stream_details['languages'] as $i => $val)
-                                    <a class="person-link" href="{{ route('language', $val['code']) }}">
-                                        {{ $val['title'] }}@if (count($stream_details['languages']) - 1 !== $i),@endif
+                                        <a class="person-link" href="{{ route('language', $val['code']) }}">
+                                            {{ $val['title'] }}@if (count($stream_details['languages']) - 1 !== $i)
+                                                ,
+                                            @endif
                                     @endforeach
                                 </dd>
                             @endif
@@ -228,11 +232,13 @@
 
                     <div class="button_groupbox d-flex align-items-center">
                         <div class="btn_box movieDetailPlay">
-                            <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="app-primary-btn">
+                            <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                                class="app-primary-btn rounded">
                                 <i class="fa fa-play"></i>
                                 Play Now
                             </a>
                         </div>
+
                         <?php 
                     if (session('USER_DETAILS.USER_CODE')) {
                         $signStr = "+";
@@ -243,13 +249,14 @@
                         }
                     ?>
                         <div class="share_circle addWtchBtn">
-                            <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav" class="<?php echo $cls; ?>"></i></a>
+                            <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav"
+                                    class="<?php echo $cls; ?>"></i></a>
                             <input type="hidden" id="myWishListSign" value='<?php echo $signStr; ?>' />
                             <input type="hidden" id="strQueryParm" value='<?php echo $strQueryParm; ?>' />
                             <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}' />
                             @csrf
                         </div>
-                    <?php
+                        <?php
                     }
                     ?>
                         <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
@@ -409,8 +416,7 @@
                     <textarea name="comment" cols="30" rows="10" placeholder="Let others know what you think..."></textarea>
                     <input type="hidden" name="rating">
                     <input type="hidden" name="stream_code" value="{{ $stream_details['stream_guid'] }}">
-                    <input type="hidden" name="type"
-                        value="stream">
+                    <input type="hidden" name="type" value="stream">
                     <input type="submit" value="Submit">
                 </form>
                 <hr>
@@ -513,10 +519,11 @@
                                                 {{ $arrStreamsData['stream_duration_timeformat'] }}
                                             </div>
                                             <div class="deta_box">
-                                                <div class="season_title">{{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL'? $arrStreamsData['stream_episode_title']: '' }}
+                                                <div class="season_title">
+                                                    {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                          </div> -->
+                                                                                                              </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}
