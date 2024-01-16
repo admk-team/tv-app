@@ -689,7 +689,7 @@ if (!empty($arrCatData))
                 if (isFirstTIme == true) {
                     isFirstTIme = false;
                     // player.seek()
-                    // player.seek(3414.10);
+                    player.seek({{ $arrSlctItemData['start_duration'] }});
                 } else {
                     sendAjaxRes4VideoDuration('getStrmDur', data.media.mediaId, '');
                 }
