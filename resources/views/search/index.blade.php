@@ -31,15 +31,14 @@
                                                 src="https://stage.24flix.tv/images/trending_icon.png"
                                                 alt="A Case of Identity">
                                         </div>
-                                        <img
-                                            src="{{ $stream['stream_poster'] ?? '' }}"
-                                            alt="A Case of Identity">
+                                        <img src="{{ $stream['stream_poster'] ?? '' }}" alt="A Case of Identity">
                                         <div class="detail_box_hide">
                                             <div class="detailbox_time">{{ $stream['stream_duration_timeformat'] }}</div>
                                             <div class="deta_box">
                                                 <div class="season_title">{{ $stream['stream_episode_title'] ?? '' }}</div>
                                                 <div class="content_title">{{ $stream['stream_title'] }}</div>
-                                                <div class="content_description">{{ $stream['stream_description'] ?? '' }}</div>
+                                                <div class="content_description">{{ $stream['stream_description'] ?? '' }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
