@@ -27,7 +27,7 @@ class LoginController extends Controller
             ]);
         $responseJson = $response->json();
 
-        if ($responseJson['app']['status'] === 0) {
+        if (isset($responseJson['app']['status']) === 0) {
             return back()->with('error', $responseJson['app']['msg']);
         }
 

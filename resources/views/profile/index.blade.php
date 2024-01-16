@@ -38,6 +38,8 @@
 
 @push('scripts')
     <script>
+        var totalProfiles = 0;
+
         $(document).ready(function() {
             let usersProfiles = [];
             let users = [];
@@ -48,7 +50,7 @@
                 dataType: 'json',
             }).done(function(data) {
                 var dataArray = data;
-                usersProfiles = dataArray.data.map(item => item.name)
+                usersProfiles = dataArray.data
                 if (usersProfiles.length >= 6) {
                     $('.addIcon').hide();
                 }
@@ -66,10 +68,14 @@
 
 
             const userIcons = (usersProfiles) => {
+                console.log('usersProfiles', usersProfiles);
+                totalProfiles = usersProfiles.length;
                 // usersProfiles.reverse();
                 usersProfiles.map((curElem) => {
                     memberDiv.insertAdjacentHTML('afterbegin', `
-                <button class="btn"><span>${curElem}</span></button>
+                <button class="btn" data-id="${curElem.id}"><span>${curElem.name}</span>
+                    <i class="bi bi-dash-circle account-delete-icon" onclick="deleteProfile(${curElem.id})"></i>
+                    </button>
                 `);
                 })
             };
@@ -91,15 +97,22 @@
                         dataType: 'json',
                         data: queryStringPOST,
                     }).done(function(data) {
+                        let currentProfile = data.pop();
                         if (data.error) {
                             alert(data.error);
                         } else {
                             users.push(userName);
                             memberDiv.insertAdjacentHTML('afterbegin', `
-                <button class="btn"><span>${userName}</span></button>
+                <button class="btn" data-id="${currentProfile.id}"><span>${currentProfile.name}</span>
+                    <i class="bi bi-dash-circle account-delete-icon" onclick="deleteProfile(${currentProfile.id})"></i>
+                    </button>
                 `);
-                            if (users.length >= 6) {
+                            totalProfiles = $(".btn").length;
+                            console.log('totalProfiles addd', totalProfiles);
+                            if (totalProfiles >= 6) {
                                 $('.addIcon').hide();
+                            } else {
+                                $('.addIcon').show();
                             }
                         }
                     });
@@ -107,10 +120,36 @@
                     alert('username already exist');
                 }
             });
-            $(document).on('click', '.btn', function() {
-                // Your click event code here
-                window.location.href = "{{ route('home') }}";
+            $(document).on('click', '.btn', function(e) {
+                if (!event.target.classList.contains("account-delete-icon")) {
+                    window.location.href = "{{ route('home') }}";
+                }
             });
+
         });
+
+        function deleteProfile(id) {
+            $.ajax({
+                    type: 'GET',
+                    url: `{{ env('API_BASE_URL') }}/userprofiles/delete/${id}`,
+                    dataType: 'json',
+                })
+                .done(function(data) {
+                    if (data.success) {
+                        var deletedProfile = $(`[data-id=${id}]`);
+                        if (deletedProfile.length)
+                            deletedProfile.remove();
+
+                        totalProfiles = $(".btn").length;
+                        if (totalProfiles < 6) {
+                            $('.addIcon').show();
+                        }
+                    }
+                })
+                .fail(function(error) {
+                    alert(error.responseJSON.message);
+                    console.error('Error deleting profile:', error.responseJSON.message);
+                });
+        }
     </script>
 @endpush
