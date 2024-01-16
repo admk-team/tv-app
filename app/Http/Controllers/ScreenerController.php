@@ -18,6 +18,13 @@ class ScreenerController extends Controller
         $response = Http::timeout(300)->withHeaders(Api::headers())
         ->post(Api::endpoint("/screener/{$code}?password=123456&index=$index"));
         $data = $response->json();
+
+        if (isset($data['app']['screener_start_time'])) {
+            return view('screener.show_start_time', [
+                'startTime' => $data['app']['screener_start_time']
+            ]);
+        }
+
         if ($data['app']['stream_details'] === []) {
             abort(404);
         }
