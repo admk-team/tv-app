@@ -67,7 +67,7 @@
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
     }
-    $apiPath = url('/web-controller.php');
+    $apiPath = url('https://onlinechannel.io/api/v1/f1/mngstrmdur');
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN');
     
     // here get the video duration
@@ -496,7 +496,7 @@ if (!empty($arrCatData))
                                             {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                         </div>
                                         <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                  </div> -->
+                                                                              </div> -->
                                         <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                         <div class="content_description">{{ $arrStreamsData['stream_description'] }}</div>
                                     </div>
@@ -621,60 +621,54 @@ if (!empty($arrCatData))
             };
 
             player = new mvp(document.getElementById('wrapper'), settings);
-            console.
             setTimeout(unmutedVoice, 2000);
 
-        });
-
-        window.setInterval(function() {
-            pauseVideo();
-        }, 5000)
-
-        function unmutedVoice() {
-            //alert("hi");
-            player.toggleMute();
-            player.playMedia();
-            setInterval(sendAdRequrst, 50000);
-        }
 
 
-        counter = [];
+            window.setInterval(function() {
+                pauseVideo();
+            }, 5000)
 
-        function pauseVideo() {
-            if (isPrime(player.getActiveItemId()) && !counter.includes(player.getActiveItemId())) {
-                counter.push(player.getActiveItemId());
-                player.pauseMedia();
-                $('#statusModal').modal('show');
-            }
-        }
-        $('#confirm_status').click(function() {
-            $('#statusModal').modal('hide');
-            player.playMedia();
-        });
-        $('#closemybt').click(function() {
-            $('#statusModal').modal('hide');
-            player.pauseMedia();
-        });
 
-        function isPrime(number) {
-            // Check if the number is less than 2 (0 and 1 are not prime)
-            if (number < 2) {
-                return false;
-            }
 
-            // Check for divisibility from 2 to the square root of the number
-            for (let i = 2; i <= Math.sqrt(number); i++) {
-                if (number % i === 0) {
-                    return false; // Not a prime number
+
+            counter = [];
+
+            function pauseVideo() {
+                if (isPrime(player.getActiveItemId()) && !counter.includes(player.getActiveItemId())) {
+                    counter.push(player.getActiveItemId());
+                    player.pauseMedia();
+                    $('#statusModal').modal('show');
                 }
             }
+            $('#confirm_status').click(function() {
+                $('#statusModal').modal('hide');
+                player.playMedia();
+            });
+            $('#closemybt').click(function() {
+                $('#statusModal').modal('hide');
+                player.pauseMedia();
+            });
 
-            return true; // Prime number
-        }
+            function isPrime(number) {
+                // Check if the number is less than 2 (0 and 1 are not prime)
+                if (number < 2) {
+                    return false;
+                }
+
+                // Check for divisibility from 2 to the square root of the number
+                for (let i = 2; i <= Math.sqrt(number); i++) {
+                    if (number % i === 0) {
+                        return false; // Not a prime number
+                    }
+                }
+
+                return true; // Prime number
+            }
 
 
 
-        document.addEventListener("DOMContentLoaded", function(event) {
+            var isFirstTIme = true
             player.addEventListener('mediaStart', function(data) {
                 //called on media start, returns (instance, instanceName, counter)
 
@@ -686,11 +680,47 @@ if (!empty($arrCatData))
 
                 //get media duration
                 data.instance.getDuration();
+                if (isFirstTIme == true) {
+                    isFirstTIme = false;
+                    // player.seek()
+                    player.seek(3414.10);
+                } else {
+                    sendAjaxRes4VideoDuration('getStrmDur', data.media.mediaId, '');
+                }
 
 
 
             });
+
+            player.addEventListener("mediaPause", function(data) {
+
+                //alert(data.instance.getCurrentTime());
+                //get media duration
+                //alert(data.instance.getDuration());
+                //alert(data.media.mediaId);
+                sendAjaxRes4VideoDuration('saveStrmDur', data.media.mediaId, data.instance
+                    .getCurrentTime());
+
+            });
+
+            player.addEventListener("mediaEnd", function(data) {
+
+                //alert(data.instance.getCurrentTime());
+                //get media duration
+                //alert(data.instance.getDuration());
+                //alert(data.media.mediaId);
+                sendAjaxRes4VideoDuration('removeStrmDur', data.media.mediaId, '');
+
+            });
+
         });
+
+        function unmutedVoice() {
+            //alert("hi");
+            player.toggleMute();
+            player.playMedia();
+            setInterval(sendAdRequrst, 50000);
+        }
 
         function sendAdRequrst() {
             $.get("<?php echo $dataVast3 ?? ''; ?>", function(data, status) {
@@ -699,10 +729,10 @@ if (!empty($arrCatData))
         }
     </script>
     <script>
-        //sendAjaxRes4VideoDuration('saveStrmDur', this.currentTime())
-        //sendAjaxRes4VideoDuration('removeStrmDur', '')
+        // sendAjaxRes4VideoDuration('saveStrmDur', this.currentTime());
+        // sendAjaxRes4VideoDuration('removeStrmDur', '')
 
-        function sendAjaxRes4VideoDuration(requestAction, streamDuration) {
+        function sendAjaxRes4VideoDuration(requestAction, streamGuid, streamDuration) {
             var isVideoSatementAct = 'Y';
             if (isVideoSatementAct == 'Y') {
 
