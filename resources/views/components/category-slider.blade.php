@@ -117,6 +117,15 @@
                                                             <div class="content_description">
                                                                 {{ $stream->stream_description }}
                                                             </div>
+                                                            
+                                                            @if ($stream->stream_watched_dur_in_pct > 1)
+                                                                {{-- <div style="background-color:{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->tv_cw_unflled_color }};height:5px; border-radius:2px;margin-top:10px;">
+                                                                    <div style="background-color:{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->tv_cw_flled_color }};height:5px;border-radius:2px;width:{{ $arrStreamsData['stream_watched_dur_in_pct']}}%"></div>
+                                                                </div> --}}
+                                                                <div style="background-color:#555455;height:5px; border-radius:2px;margin-top:10px;">
+                                                                    <div style="background-color:#07659E;height:5px;border-radius:2px;width:{{ $stream->stream_watched_dur_in_pct }}%"></div>
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
