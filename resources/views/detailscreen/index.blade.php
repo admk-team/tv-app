@@ -150,7 +150,9 @@
                         {{ $stream_details['stream_title'] }}</h1>
                     <div class="content-timing">
                         @if ($stream_details['released_year'])
-                            <span class="year">{{ $stream_details['released_year'] }}</span>
+                            <a href="{{ route('year', $stream_details['released_year']) }}" class="text-decoration-none">
+                                <span class="year">{{ $stream_details['released_year'] }}</span>
+                            </a>
                             <span class="dot-sep"></span>
                         @endif
                         @if ($streamType != 'S')
@@ -167,7 +169,7 @@
                             </span>
                         @endif
                         @if ($streamType == 'S')
-                            <span class="movie_type">{{ $stream_details['stream_episode_title'] ?? '' }}</span>
+                            <span class="movie_type">{{ $stream_details['stream_episode_title'] && $stream_details['stream_episode_title'] !== 'NULL'? $stream_details['stream_episode_title']: '' }}</span>
                             <span class="movie_type">{{ $stream_details['show_name'] }}</span>
                         @endif
                         @if ($stream_details['content_qlt'] != '')

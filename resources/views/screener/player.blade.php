@@ -301,7 +301,7 @@ $adUrl = $arrSlctItemData['stream_ad_url']? 'data-vast="'.$arrSlctItemData['stre
                         if ($streamType == 'S')  
                         {
                             ?>                      
-                            <span class="movie_type">{{ $arrSlctItemData['stream_episode_title'] ?? '' }}</span>
+                            <span class="movie_type">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL'? $arrSlctItemData['stream_episode_title']: '' }}</span>
                             <span class="movie_type">{{ $arrSlctItemData['show_name'] ?? '' }}</span> 
 <?php
                         }
