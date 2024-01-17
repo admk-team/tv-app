@@ -310,7 +310,9 @@
                             <h1 class="content-heading">{{ $arrSlctItemData['stream_title'] }}</h1>
                             <div class="content-timing">
                                 @if ($arrSlctItemData['released_year'])
-                                    <span class="year">{{ $arrSlctItemData['released_year'] }}</span>
+                                    <a href="{{ route('year', $arrSlctItemData['released_year']) }}" class="text-decoration-none">
+                                        <span class="year">{{ $arrSlctItemData['released_year'] }}</span>
+                                    </a>
                                     <span class="dot-sep"></span>
                                 @endif
                                 @if ($arrSlctItemData['stream_duration'] && $arrSlctItemData['stream_duration'] !== "0")
