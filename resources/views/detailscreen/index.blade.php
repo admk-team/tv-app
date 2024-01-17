@@ -500,6 +500,9 @@
                     <div class="landscape_slider slider slick-slider">
                         @foreach ($latest_items['streams'] as $arrStreamsData)
                             @php
+                                if ($arrStreamsData['stream_guid'] === $stream_details['stream_guid'])
+                                    continue;
+                                
                                 $strBrige = '';
                                 if ($arrStreamsData['monetization_type'] == 'F') {
                                     $strBrige = "style='display: none;'";

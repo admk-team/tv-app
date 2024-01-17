@@ -467,6 +467,9 @@ if (!empty($arrCatData))
                     <?php
                 foreach ($arrCatData['streams'] as $arrStreamsData)
                 {
+                    if ($arrStreamsData['stream_guid'] === $arrSlctItemData['stream_guid'])
+                        continue;
+                    
                     $vidPath = url("/playerscreen/".$arrStreamsData['stream_guid']);
                     if ($nextVideoPath == "Y")
                     {
