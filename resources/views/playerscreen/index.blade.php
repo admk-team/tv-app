@@ -328,7 +328,7 @@
                         if ($streamType == 'S')
                         {
                             ?>
-                                <span class="movie_type">{{ $arrSlctItemData['stream_episode_title'] }}</span>
+                                <span class="movie_type">{{ $arrSlctItemData['stream_episode_title'] ?? '' }}</span>
                                 <span class="movie_type">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
                                 <?php
                         }

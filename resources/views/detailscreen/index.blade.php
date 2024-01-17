@@ -167,7 +167,7 @@
                             </span>
                         @endif
                         @if ($streamType == 'S')
-                            <span class="movie_type">{{ $stream_details['stream_episode_title'] }}</span>
+                            <span class="movie_type">{{ $stream_details['stream_episode_title'] ?? '' }}</span>
                             <span class="movie_type">{{ $stream_details['show_name'] }}</span>
                         @endif
                         @if ($stream_details['content_qlt'] != '')
