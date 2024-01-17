@@ -38,6 +38,7 @@ class DetailScreenController extends Controller
             ->asForm()
             ->timeout(300)
             ->post(Api::endpoint('/userrating/store'), [
+                'app_code' => env('APP_CODE'),
                 'user_id' => session('USER_DETAILS')['USER_ID'],
                 'rating' => $request->rating,
                 'comment' => $request->comment ?? '',
