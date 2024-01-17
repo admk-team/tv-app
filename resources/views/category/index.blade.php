@@ -29,7 +29,7 @@
                                         <div class="detail_box_hide">
                                             <div class="detailbox_time">{{ $stream['stream_duration_timeformat'] }}</div>
                                             <div class="deta_box">
-                                                <div class="season_title"></div>
+                                                <div class="season_title">{{ $stream['stream_episode_title'] && $stream['stream_episode_title'] !== 'NULL'? $stream['stream_episode_title']: '' }}</div>
                                                 <div class="content_title">{{ $stream['stream_title'] }}</div>
                                                 <div class="content_description">{{ $stream['stream_description'] }}</div>
                                             </div>
