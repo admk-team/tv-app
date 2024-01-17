@@ -339,7 +339,15 @@
               if ($arrSlctItemData['content_qlt'] != '')
               {
 ?>
-                                <span class="content_screen">{{ $arrSlctItemData['content_qlt'] }}</span>
+                                <span class="content_screen">
+                                    @php
+                                    $content_qlt_arr = explode(',', $arrSlctItemData['content_qlt']);
+                                    $content_qlt_codes_arr = explode(',', $arrSlctItemData['content_qlt_codes']);
+                                    @endphp
+                                    @foreach($content_qlt_arr as $i => $item)
+                                        <a href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>@if (!$loop->last),@endif
+                                    @endforeach
+                                </span>
                                 <?php
               }
 ?>
@@ -347,7 +355,15 @@
                   if ($arrSlctItemData['content_rating'] != '')
                   {
                     ?>
-                                <span class="content_screen">{{ $arrSlctItemData['content_rating'] }}</span>
+                                <span class="content_screen">
+                                    @php
+                                    $content_rating_arr = explode(',', $arrSlctItemData['content_rating']);
+                                    $content_rating_codes_arr = explode(',', $arrSlctItemData['content_rating_codes']);
+                                    @endphp
+                                    @foreach($content_rating_arr as $i => $item)
+                                        <a href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>@if (!$loop->last),@endif
+                                    @endforeach
+                                </span>
                                 <?php
                   }
                   ?>

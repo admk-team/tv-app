@@ -21,6 +21,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QualityController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ScreenerController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\YearController;
@@ -70,6 +72,8 @@ Route::get('free-subscription', [FreeSubscriptionController::class, 'index'])->n
 Route::get('transaction-history', [TransactionHistoryController::class, 'index'])->name('transaction-history');
 Route::get('category/{id}', [CategoryController::class, 'index'])->name('category');
 Route::get('year/{year}', [YearController::class, 'index'])->name('year');
+Route::get('quality/{code}', [QualityController::class, 'index'])->name('quality');
+Route::get('rating/{code}', [RatingController::class, 'index'])->name('rating');
 
 Route::get('advisory/{id}', [AdvisoryController::class, 'index'])->name('advisory');
 Route::get('language/{id}', [LanguageController::class, 'index'])->name('language');
