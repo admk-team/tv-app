@@ -22,10 +22,10 @@
                                 <a href="{{ route('detailscreen', $stream['stream_guid']) }}">
                                     <div class="thumbnail_img">
                                         <div class="trending_icon_box" style="display: none;"><img
-                                                src="{{ asset('assets/images/trending_icon.png') }}" alt="Tucker Therapy">
+                                                src="{{ asset('assets/images/trending_icon.png') }}" alt="Trending">
                                         </div>
                                         <img src="{{ $stream['stream_poster'] }}"
-                                            alt="Tucker Therapy">
+                                            alt="{{ $stream['stream_title'] }}">
                                         <div class="detail_box_hide">
                                             <div class="detailbox_time">{{ $stream['stream_duration_timeformat'] }}</div>
                                             <div class="deta_box">

@@ -1,8 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('components.page-banner')
-    @include('components.category-slider')
+    @switch(\App\Services\AppConfig::getMenuBySlug($slug)?->menu_type)
+        @case('GE')
+            @include('components.genres')
+            @break
+        @default
+            @include('components.page-banner')
+            @include('components.category-slider')
+    @endswitch
 
     @if ($slug == 'home')
         @include('components.download-box')
