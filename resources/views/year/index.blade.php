@@ -11,13 +11,13 @@
             <div class="listing_box allVideosBox">
                 <div class="col-md-12">
                     <div class="list_heading">
-                        <h1>{{ $categories['cat_title'] }}</h1>
+                        <h1>{{ $year }}</h1>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="innerAlVidBox">
 
-                        @foreach ($categories['streams'] as $stream)
+                        @foreach ($streams as $stream)
                             <div class="resposnive_Box">
                                 <a href="{{ route('detailscreen', $stream['stream_guid']) }}">
                                     <div class="thumbnail_img">

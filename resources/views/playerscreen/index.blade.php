@@ -310,7 +310,9 @@
                             <h1 class="content-heading">{{ $arrSlctItemData['stream_title'] }}</h1>
                             <div class="content-timing">
                                 @if ($arrSlctItemData['released_year'])
-                                    <span class="year">{{ $arrSlctItemData['released_year'] }}</span>
+                                    <a href="{{ route('year', $arrSlctItemData['released_year']) }}" class="text-decoration-none">
+                                        <span class="year">{{ $arrSlctItemData['released_year'] }}</span>
+                                    </a>
                                     <span class="dot-sep"></span>
                                 @endif
                                 @if ($arrSlctItemData['stream_duration'] && $arrSlctItemData['stream_duration'] !== "0")
@@ -328,7 +330,7 @@
                         if ($streamType == 'S')
                         {
                             ?>
-                                <span class="movie_type">{{ $arrSlctItemData['stream_episode_title'] }}</span>
+                                <span class="movie_type">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL'? $arrSlctItemData['stream_episode_title']: '' }}</span>
                                 <span class="movie_type">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
                                 <?php
                         }
@@ -467,6 +469,9 @@ if (!empty($arrCatData))
                     <?php
                 foreach ($arrCatData['streams'] as $arrStreamsData)
                 {
+                    if ($arrStreamsData['stream_guid'] === $arrSlctItemData['stream_guid'])
+                        continue;
+                    
                     $vidPath = url("/playerscreen/".$arrStreamsData['stream_guid']);
                     if ($nextVideoPath == "Y")
                     {

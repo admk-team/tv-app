@@ -23,6 +23,7 @@ use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScreenerController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\YearController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,6 +69,7 @@ Route::get('subscription', [SubscriptionController::class, 'index'])->name('subs
 Route::get('free-subscription', [FreeSubscriptionController::class, 'index'])->name('free-subscription');
 Route::get('transaction-history', [TransactionHistoryController::class, 'index'])->name('transaction-history');
 Route::get('category/{id}', [CategoryController::class, 'index'])->name('category');
+Route::get('year/{year}', [YearController::class, 'index'])->name('year');
 
 Route::get('advisory/{id}', [AdvisoryController::class, 'index'])->name('advisory');
 Route::get('language/{id}', [LanguageController::class, 'index'])->name('language');

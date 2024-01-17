@@ -70,4 +70,13 @@ class AppConfig
             Session::put('api_data', $response->body());
         }
     }
+
+    public static function getMenuBySlug($slug)
+    {
+        foreach (self::get()->app->menus as $menu)
+            if ($menu->menu_slug === $slug)
+                return $menu;
+
+        return null;
+    }
 }
