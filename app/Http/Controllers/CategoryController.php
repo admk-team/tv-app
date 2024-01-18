@@ -17,6 +17,9 @@ class CategoryController extends Controller
             ]);
         $responseJson = $response->json();
 
+        if (!isset($responseJson['app']['categories']))
+            abort(404);
+
         $categories = $responseJson['app']['categories'];
         return view('category.index', compact('categories'));
     }
