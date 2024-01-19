@@ -11,13 +11,15 @@ class ScreenerController extends Controller
 {
     public function player($code, $index = 1)
     {
-        if (!in_array($code, Session::get('screeners') ?? [])) {
-            return view("screener.password", compact('code'));
-        }
+        $password = Session::get("screeners.$code.password");
 
         $response = Http::timeout(300)->withHeaders(Api::headers())
-        ->post(Api::endpoint("/screener/{$code}?password=123456&index=$index"));
+        ->post(Api::endpoint("/screener/{$code}?index=$index" . ($password? "&password=$password": "")));
         $data = $response->json();
+
+        if (isset($data['app']['password_required']) && $data['app']['password_required'] === true) {
+            return view("screener.password", compact('code'));
+        }
 
         if (isset($data['app']['screener_start_time'])) {
             return view('screener.show_start_time', [
@@ -42,7 +44,7 @@ class ScreenerController extends Controller
             return back()->with('error', $data['app']['error']);
         }
 
-        Session::push('screeners', $code);
+        Session::put("screeners.$code.password", $request->password);
 
         return back();
     }
