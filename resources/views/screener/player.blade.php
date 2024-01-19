@@ -449,7 +449,7 @@ if (!empty($arrCatData))
 
                     ?> 
                     <div>                   
-                    <a href="{{ route('screener.player', ['code' => $code, 'itemIndex' => $index + 1]) }}">
+                    <a href="{{ route('screener.player', ['code' => $code, 'itemIndex' => $index + 1]) }}?email={{ request()->email }}">
                       <div class="thumbnail_img">
                       <div class="trending_icon_box" {!! $strBrige !!}><img src="{{ asset('/assets/images/trending_icon.png') }}" alt="{{ $arrStreamsData['stream_title'] }}"></div>
                         <img src="{{ $arrStreamsData['stream_poster'] }}" alt="{{ $arrStreamsData['stream_title'] }}">

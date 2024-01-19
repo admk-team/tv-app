@@ -20,6 +20,7 @@
                                 <div class="input_groupbox">
                                     <label class="contact-label">
                                         <div class="vertLine"></div>
+                                        <input type="hidden" name="email" value="{{ request()->email }}">
                                         <input id="password" type="password" class="form-control" name="password" placeholder="Password" aria-autocomplete="list">                                    
                                         <img src="/images/lock.png" class="icn">                                    
                                         <span id="eye_password" toggle="#password" class="far fa-light fa-eye field-icon toggle-password" style="display:none;"></span>

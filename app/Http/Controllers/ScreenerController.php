@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Session;
 
 class ScreenerController extends Controller
 {
-    public function player($code, $index = 1)
+    public function player($code, $index = 1, Request $request)
     {
         $password = Session::get("screeners.$code.password");
 
         $response = Http::timeout(300)->withHeaders(Api::headers())
-        ->post(Api::endpoint("/screener/{$code}?index=$index" . ($password? "&password=$password": "")));
+        ->post(Api::endpoint("/screener/{$code}?index=$index&email={$request->email}" . ($password? "&password=$password": "")));
         $data = $response->json();
 
         if (isset($data['app']['password_required']) && $data['app']['password_required'] === true) {
@@ -37,7 +37,7 @@ class ScreenerController extends Controller
     public function authenticate($code, Request $request)
     {
         $response = Http::timeout(300)->withHeaders(Api::headers())
-        ->post(Api::endpoint("/screener/{$code}?password={$request->password}"));
+        ->post(Api::endpoint("/screener/{$code}?checking_password=true&email={$request->email}&password={$request->password}"));
         $data = $response->json();
 
         if (isset($data['app']['error'])) {
