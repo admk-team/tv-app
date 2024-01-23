@@ -148,6 +148,69 @@ $adUrl = $arrSlctItemData['stream_ad_url']? 'data-vast="'.$arrSlctItemData['stre
 //alert(detectMob());
   </script>
 
+  <style>
+    .videocentalize {
+        position: relative;
+    }
+
+    .watermark {
+        position: absolute;
+        z-index: 1;
+        user-select: none;
+    }
+
+    .watermark.top{
+        top: 1em;
+        width: fit-content;
+        margin: auto;
+        left: 0;
+        right: 0;
+    }
+
+    .watermark.bottom {
+        bottom: 1em;
+        width: fit-content;
+        margin: auto;
+        left: 0;
+        right: 0;
+    }
+
+    .watermark.left{
+        left: 1em;
+        width: fit-content;
+        margin: auto;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .watermark.right{
+        right: 1em;
+        width: fit-content;
+        margin: auto;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .watermark.left.rotate {
+      transform: rotate(-90deg);
+    }
+
+    .watermark.right.rotate {
+      transform: rotate(90deg);
+    }
+
+    .watermark.text {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 3rem;
+        font-weight: 900;
+    }
+
+    .watermark img {
+      max-height: 112px;
+    }
+    
+  </style>
+
   <?php if(session("GLOBAL_PASS") == 1){ ?>
       <section class="credential_form signForm"> 
                     <div>
@@ -233,7 +296,15 @@ $adUrl = $arrSlctItemData['stream_ad_url']? 'data-vast="'.$arrSlctItemData['stre
               <?php else: ?>
 
 
-            <div class="videocentalize">              
+            <div class="videocentalize">    
+              @php
+              $watermark = $arrRes['app']['screener']['watermark'];
+              @endphp
+              @if ($watermark['text']?? false)
+                <div class="watermark top text">
+                  
+                </div>
+              @endif
               <div id="wrapper"></div>
                 <!-- LIST OF PLAYLISTS -->   
                 <div id="mvp-playlist-list">  
