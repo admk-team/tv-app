@@ -78,6 +78,8 @@
     $arrFormData4VideoState['requestAction'] = 'getStrmDur';
     $arrRes4VideoState = \App\Helpers\GeneralHelper::sendCURLRequest(0, VIDEO_DUR_MNG_BASE_URL, $arrFormData4VideoState);
     //print_r($arrRes4VideoState);
+    $stillwatching = \App\Services\AppConfig::get()->app->app_info->still_watching;
+    $playerstillwatchduration = \App\Services\AppConfig::get()->app->app_info->still_watching_duration;
     $status = $arrRes4VideoState['app']['status'];
     if ($status == 1) {
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
@@ -146,70 +148,69 @@
         //alert(detectMob());
     </script>
 
-<style>
-    .videocentalize {
-        position: relative;
-    }
+    <style>
+        .videocentalize {
+            position: relative;
+        }
 
-    .watermark {
-        position: absolute;
-        z-index: 1;
-        user-select: none;
-    }
+        .watermark {
+            position: absolute;
+            z-index: 1;
+            user-select: none;
+        }
 
-    .watermark.top{
-        top: 1em;
-        width: fit-content;
-        margin: auto;
-        left: 0;
-        right: 0;
-    }
+        .watermark.top {
+            top: 1em;
+            width: fit-content;
+            margin: auto;
+            left: 0;
+            right: 0;
+        }
 
-    .watermark.bottom {
-        bottom: 1em;
-        width: fit-content;
-        margin: auto;
-        left: 0;
-        right: 0;
-    }
+        .watermark.bottom {
+            bottom: 1em;
+            width: fit-content;
+            margin: auto;
+            left: 0;
+            right: 0;
+        }
 
-    .watermark.left{
-        left: 1em;
-        width: fit-content;
-        margin: auto;
-        top: 50%;
-        transform: translateY(-50%);
-    }
+        .watermark.left {
+            left: 1em;
+            width: fit-content;
+            margin: auto;
+            top: 50%;
+            transform: translateY(-50%);
+        }
 
-    .watermark.right{
-        right: 1em;
-        width: fit-content;
-        margin: auto;
-        top: 50%;
-        transform: translateY(-50%);
-    }
+        .watermark.right {
+            right: 1em;
+            width: fit-content;
+            margin: auto;
+            top: 50%;
+            transform: translateY(-50%);
+        }
 
-    .watermark.left.rotate {
-      transform: rotate(-90deg);
-    }
+        .watermark.left.rotate {
+            transform: rotate(-90deg);
+        }
 
-    .watermark.right.rotate {
-      transform: rotate(90deg);
-    }
+        .watermark.right.rotate {
+            transform: rotate(90deg);
+        }
 
-    .watermark.text {
-        color: rgba(255, 255, 255, {{ $watermark? $watermark['opacity']: '0.4' }});
-        font-size: {{ $watermark? $watermark['size'] . 'px': '3rem' }};
-        font-weight: 900;
-    }
+        .watermark.text {
+            color: rgba(255, 255, 255, {{ $watermark ? $watermark['opacity'] : '0.4' }});
+            font-size: {{ $watermark ? $watermark['size'] . 'px' : '3rem' }};
+            font-weight: 900;
+        }
 
-    .watermark img {
-      max-height: 112px;
-      -webkit-user-drag: none;
-      user-select: none;
-    }
-    
-  </style>
+        .watermark img {
+            max-height: 112px;
+            -webkit-user-drag: none;
+            user-select: none;
+        }
+    </style>
 
     <?php if(session("GLOBAL_PASS") == 1){ ?>
     <section class="credential_form signForm">
@@ -314,9 +315,9 @@
                         @if ($watermark)
                             <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}">
                                 @if ($watermark['type'] === 'text')
-                                {{ $watermark['text'] }}
+                                    {{ $watermark['text'] }}
                                 @else
-                                <img src="{{ $watermark['image'] }}" alt="watermark">
+                                    <img src="{{ $watermark['image'] }}" alt="watermark">
                                 @endif
                             </div>
                         @endif
@@ -385,12 +386,13 @@
                             <h1 class="content-heading">{{ $arrSlctItemData['stream_title'] }}</h1>
                             <div class="content-timing">
                                 @if ($arrSlctItemData['released_year'])
-                                    <a href="{{ route('year', $arrSlctItemData['released_year']) }}" class="text-decoration-none">
+                                    <a href="{{ route('year', $arrSlctItemData['released_year']) }}"
+                                        class="text-decoration-none">
                                         <span class="year">{{ $arrSlctItemData['released_year'] }}</span>
                                     </a>
                                     <span class="dot-sep"></span>
                                 @endif
-                                @if ($arrSlctItemData['stream_duration'] && $arrSlctItemData['stream_duration'] !== "0")
+                                @if ($arrSlctItemData['stream_duration'] && $arrSlctItemData['stream_duration'] !== '0')
                                     <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
                                     <span class="dot-sep"></span>
                                 @endif
@@ -405,7 +407,8 @@
                         if ($streamType == 'S')
                         {
                             ?>
-                                <span class="movie_type">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL'? $arrSlctItemData['stream_episode_title']: '' }}</span>
+                                <span
+                                    class="movie_type">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL' ? $arrSlctItemData['stream_episode_title'] : '' }}</span>
                                 <span class="movie_type">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
                                 <?php
                         }
@@ -416,11 +419,15 @@
 ?>
                                 <span class="content_screen">
                                     @php
-                                    $content_qlt_arr = explode(',', $arrSlctItemData['content_qlt']);
-                                    $content_qlt_codes_arr = explode(',', $arrSlctItemData['content_qlt_codes']);
+                                        $content_qlt_arr = explode(',', $arrSlctItemData['content_qlt']);
+                                        $content_qlt_codes_arr = explode(',', $arrSlctItemData['content_qlt_codes']);
                                     @endphp
-                                    @foreach($content_qlt_arr as $i => $item)
-                                        <a href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>@if (!$loop->last),@endif
+                                    @foreach ($content_qlt_arr as $i => $item)
+                                        <a
+                                            href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>
+                                        @if (!$loop->last)
+                                            ,
+                                        @endif
                                     @endforeach
                                 </span>
                                 <?php
@@ -432,11 +439,15 @@
                     ?>
                                 <span class="content_screen">
                                     @php
-                                    $content_rating_arr = explode(',', $arrSlctItemData['content_rating']);
-                                    $content_rating_codes_arr = explode(',', $arrSlctItemData['content_rating_codes']);
+                                        $content_rating_arr = explode(',', $arrSlctItemData['content_rating']);
+                                        $content_rating_codes_arr = explode(',', $arrSlctItemData['content_rating_codes']);
                                     @endphp
-                                    @foreach($content_rating_arr as $i => $item)
-                                        <a href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>@if (!$loop->last),@endif
+                                    @foreach ($content_rating_arr as $i => $item)
+                                        <a
+                                            href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>
+                                        @if (!$loop->last)
+                                            ,
+                                        @endif
                                     @endforeach
                                 </span>
                                 <?php
@@ -562,7 +573,7 @@ if (!empty($arrCatData))
                 {
                     if ($arrStreamsData['stream_guid'] === $arrSlctItemData['stream_guid'])
                         continue;
-                    
+
                     $vidPath = url("/playerscreen/".$arrStreamsData['stream_guid']);
                     if ($nextVideoPath == "Y")
                     {
@@ -598,7 +609,7 @@ if (!empty($arrCatData))
                                             {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                         </div>
                                         <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                              </div> -->
+                                                                                                                                                              </div> -->
                                         <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                         <div class="content_description">{{ $arrStreamsData['stream_description'] }}</div>
                                     </div>
@@ -724,12 +735,15 @@ if (!empty($arrCatData))
 
             player = new mvp(document.getElementById('wrapper'), settings);
             setTimeout(unmutedVoice, 2000);
+            let playerstillwatch = "<?php echo $stillwatching; ?>";
+            let playerstillwatchduration = "<?php echo $playerstillwatchduration; ?>";
 
+            if (playerstillwatch && playerstillwatch == "1") {
+                window.setInterval(function() {
+                    pauseVideo();
+                }, 5000)
+            }
 
-
-            window.setInterval(function() {
-                pauseVideo();
-            }, 5000)
 
 
 
@@ -754,18 +768,22 @@ if (!empty($arrCatData))
 
             function isPrime(number) {
                 // Check if the number is less than 2 (0 and 1 are not prime)
-                if (number < 2) {
+
+                if (number !== 0 && number % parseInt(playerstillwatchduration) === 0) {
+                    playerstillwatchduration + playerstillwatchduration;
+                    return true;
+                } else {
                     return false;
                 }
 
-                // Check for divisibility from 2 to the square root of the number
-                for (let i = 2; i <= Math.sqrt(number); i++) {
-                    if (number % i === 0) {
-                        return false; // Not a prime number
-                    }
-                }
+                // // Check for divisibility from 2 to the square root of the number
+                // for (let i = 2; i <= Math.sqrt(number); i++) {
+                //     if (number % i === 0) {
+                //         return false; // Not a prime number
+                //     }
+                // }
 
-                return true; // Prime number
+                // return true; // Prime number
             }
 
 
