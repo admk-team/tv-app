@@ -115,6 +115,7 @@
     
     $adUrl = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
     
+    $watermark = $arrSlctItemData['watermark'] ?? null;
     ?>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
@@ -144,6 +145,71 @@
         }
         //alert(detectMob());
     </script>
+
+<style>
+    .videocentalize {
+        position: relative;
+    }
+
+    .watermark {
+        position: absolute;
+        z-index: 1;
+        user-select: none;
+    }
+
+    .watermark.top{
+        top: 1em;
+        width: fit-content;
+        margin: auto;
+        left: 0;
+        right: 0;
+    }
+
+    .watermark.bottom {
+        bottom: 1em;
+        width: fit-content;
+        margin: auto;
+        left: 0;
+        right: 0;
+    }
+
+    .watermark.left{
+        left: 1em;
+        width: fit-content;
+        margin: auto;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .watermark.right{
+        right: 1em;
+        width: fit-content;
+        margin: auto;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .watermark.left.rotate {
+      transform: rotate(-90deg);
+    }
+
+    .watermark.right.rotate {
+      transform: rotate(90deg);
+    }
+
+    .watermark.text {
+        color: rgba(255, 255, 255, {{ $watermark? $watermark['opacity']: '0.4' }});
+        font-size: {{ $watermark? $watermark['size'] . 'px': '3rem' }};
+        font-weight: 900;
+    }
+
+    .watermark img {
+      max-height: 112px;
+      -webkit-user-drag: none;
+      user-select: none;
+    }
+    
+  </style>
 
     <?php if(session("GLOBAL_PASS") == 1){ ?>
     <section class="credential_form signForm">
@@ -245,6 +311,15 @@
 
 
                     <div class="videocentalize">
+                        @if ($watermark)
+                            <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}">
+                                @if ($watermark['type'] === 'text')
+                                {{ $watermark['text'] }}
+                                @else
+                                <img src="{{ $watermark['image'] }}" alt="watermark">
+                                @endif
+                            </div>
+                        @endif
                         <div id="wrapper"></div>
                         <!-- LIST OF PLAYLISTS -->
                         <div id="mvp-playlist-list">
