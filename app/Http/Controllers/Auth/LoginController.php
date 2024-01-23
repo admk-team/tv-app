@@ -43,7 +43,10 @@ class LoginController extends Controller
             ],
             'msgTrue' => 1,
         ]);
-
+        $profile = \App\Services\AppConfig::get()->app->app_info->profile_manage;
+        if ($profile === 1) {
+            return redirect(route('profile.index'));
+        }
         return redirect(route('profile.index'));
     }
 }
