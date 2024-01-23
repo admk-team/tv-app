@@ -119,6 +119,7 @@ if ($isMobileBrowser == 1)
 
 $adUrl = $arrSlctItemData['stream_ad_url']? 'data-vast="'.$arrSlctItemData['stream_ad_url'].'"': null; 
 
+$watermark = $arrRes['app']['screener']['watermark'];
 ?>
 
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
@@ -200,13 +201,15 @@ $adUrl = $arrSlctItemData['stream_ad_url']? 'data-vast="'.$arrSlctItemData['stre
     }
 
     .watermark.text {
-        color: rgba(255, 255, 255, 0.4);
-        font-size: 3rem;
+        color: rgba(255, 255, 255, {{ $watermark? $watermark['opacity']: '0.4' }});
+        font-size: {{ $watermark? $watermark['size'] . 'px': '3rem' }};
         font-weight: 900;
     }
 
     .watermark img {
       max-height: 112px;
+      -webkit-user-drag: none;
+      user-select: none;
     }
     
   </style>
@@ -297,12 +300,13 @@ $adUrl = $arrSlctItemData['stream_ad_url']? 'data-vast="'.$arrSlctItemData['stre
 
 
             <div class="videocentalize">    
-              @php
-              $watermark = $arrRes['app']['screener']['watermark'];
-              @endphp
-              @if ($watermark['text']?? false)
-                <div class="watermark top text">
-                  
+              @if ($watermark)
+                <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}">
+                    @if ($watermark['type'] === 'text')
+                      {{ $watermark['text'] }}
+                    @else
+                      <img src="{{ $watermark['image'] }}" alt="watermark">
+                    @endif
                 </div>
               @endif
               <div id="wrapper"></div>
