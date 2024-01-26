@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="list_heading">
-                        <h1>{{ $searchResult['total_rcd'] }} Records Match for this Keyboard "{{ $keyword }}"</h1>
+                        <h1>{{ $searchResult['total_rcd'] }} Records Match for this keyword "{{ $keyword }}"</h1>
                     </div>
                 </div>
                 <div class="col-md-12">
