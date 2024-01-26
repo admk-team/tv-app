@@ -45,7 +45,8 @@
                 <div>
                     <div class="cover-slider-item">
                         <div class="info">
-                            <h2>{{ $stream->stream_title ?? '' }}</h2>
+                            <h1 class="content-heading" title="{{ $stream->stream_title ?? '' }}">
+                                {{ $stream->stream_title ?? '' }}</h1>
                             <div class="timestamp">
                                 @if ($stream->released_year)
                                     <span>{{ $stream->released_year ?? '' }}</span>
