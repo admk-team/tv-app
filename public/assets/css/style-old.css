@@ -451,6 +451,7 @@ span.movie_type a {
 .dot-sep {
     padding: 0 !important;
 }
+
 .dot-sep:before {
     content: '\25CF';
     font-size: 13px;
@@ -515,6 +516,14 @@ span.movie_type a {
 
 .detailBanner .about-movie {
     max-width: 600px;
+    text-align: left;
+    white-space: normal;
+    opacity: 18.8;
+    color: gray;
+    font-size: calc(20px / 1.3);
+    line-height: 22px;
+    cursor: pointer;
+    font-family: "Open Sans", sans-serif;
 }
 
 .detailBanner .movie_detail_inner_box {
@@ -3362,7 +3371,6 @@ dl.movies_listview {
     width: 500px;
     color: #eee;
     white-space: normal;
-    -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -7582,9 +7590,12 @@ ul.dropsmenubox li a.dropdown-item:hover {
 }
 
 .person-link {
-    font-family: 'Noto Sans';
-    color: white;
-    /* Set the text color to white */
+    font-family: "Open Sans", sans-serif;
+    color: gray;
     text-decoration: none;
-    /* Remove the underline */
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    white-space: nowrap;
+    /* Prevent text from wrapping to the next line */
 }
