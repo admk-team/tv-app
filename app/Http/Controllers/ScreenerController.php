@@ -28,7 +28,7 @@ class ScreenerController extends Controller
         }
 
         if ($data['app']['stream_details'] === []) {
-            abort(404);
+            return view('screener.expired');
         }
         
         return view("screener.player", ['arrRes' => $data, 'streamGuid' => $data['app']['stream_details']['stream_guid'], 'code' => $code]);
