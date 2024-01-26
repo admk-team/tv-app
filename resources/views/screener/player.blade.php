@@ -160,6 +160,16 @@ $watermark = $arrRes['app']['screener']['watermark'];
         user-select: none;
     }
 
+    .watermark.center {
+      right: 0;
+      width: fit-content;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      height: fit-content;
+    }
+
     .watermark.top-left{
         top: 1em;
         width: fit-content;
@@ -255,7 +265,7 @@ $watermark = $arrRes['app']['screener']['watermark'];
     }
 
     .watermark img {
-      max-height: 112px;
+      max-height: {{ $watermark? $watermark['size'] . 'px': '112px' }};
       -webkit-user-drag: none;
       user-select: none;
     }
