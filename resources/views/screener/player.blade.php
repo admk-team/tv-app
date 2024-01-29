@@ -266,6 +266,7 @@ $watermark = $arrRes['app']['screener']['watermark'];
 
     .watermark img {
       max-height: {{ $watermark? $watermark['size'] . 'px': '112px' }};
+      opacity: {{ $watermark? $watermark['opacity']: 0 }};
       -webkit-user-drag: none;
       user-select: none;
     }
