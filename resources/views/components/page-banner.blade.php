@@ -7,9 +7,10 @@
 
     @if ($currentDate->greaterThanOrEqualTo($startDate) && (!$endDate || $currentDate->lessThanOrEqualTo($endDate)))
         <!-- Your specific HTML code here -->
-        <div style="background: red; display: flex; align-content: center; justify-content: center;">
+        <div
+            style="background: {{ $data->app->app_info->announcement->announcement_background_color }}; display: flex; align-content: center; justify-content: center;">
             <span
-                style="color: white; display: flex; width: 850px; align-content: center; justify-content: center; word-break: break-all;">
+                style="color: {{ $data->app->app_info->announcement->announcement_text_color }}; display: flex; width: 850px; align-content: center; justify-content: center; word-break: break-all;">
                 {{ $data->app->app_info->announcement->announcement }}
             </span>
         </div>
