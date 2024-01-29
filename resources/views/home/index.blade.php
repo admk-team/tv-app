@@ -4,16 +4,36 @@
     @switch(\App\Services\AppConfig::getMenuBySlug($slug)?->menu_type)
         @case('GE')
             @include('components.genres')
-            @break
+        @break
+
+        @case('HO')
+            @if ($data->app->app_info->landing_theme == 'AJS')
+                @include('components.ajax_still')
+            @elseif ($data->app->app_info->landing_theme == 'HYP')
+                @include('components.hypatia')
+            @elseif ($data->app->app_info->landing_theme == 'AJV')
+                @include('components.ajax_video')
+            @elseif ($data->app->app_info->landing_theme == 'Ele')
+                @include('components.elektra')
+            @elseif ($data->app->app_info->landing_theme == 'Eli')
+                @include('components.elias')
+            @elseif ($data->app->app_info->landing_theme == 'NRE')
+                @include('components.page-banner')
+                @include('components.category-slider')
+                @include('components.download-box')
+            @else
+                @include('components.page-banner')
+                @include('components.category-slider')
+                @include('components.download-box')
+            @endif
+        @break
+
         @default
             @include('components.page-banner')
             @include('components.category-slider')
     @endswitch
-
-    @if ($slug == 'home')
-        @include('components.download-box')
-    @endif
 @endsection
+
 
 @push('scripts')
     <script>

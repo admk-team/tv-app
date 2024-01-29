@@ -30,8 +30,8 @@ class HomeController extends Controller
             }
             return view('category.index', compact('categories'));
         }
-
-        $front_data = compact('data', 'slug');
+        $appName = config('app.name');
+        $front_data = compact('data', 'slug', 'appName');
         return view('home.index', $front_data);
     }
 }
