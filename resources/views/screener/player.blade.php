@@ -160,7 +160,23 @@ $watermark = $arrRes['app']['screener']['watermark'];
         user-select: none;
     }
 
-    .watermark.top{
+    .watermark.center {
+      right: 0;
+      width: fit-content;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      height: fit-content;
+    }
+
+    .watermark.top-left{
+        top: 1em;
+        width: fit-content;
+        left: 0;
+    }
+
+    .watermark.top-center{
         top: 1em;
         width: fit-content;
         margin: auto;
@@ -168,7 +184,13 @@ $watermark = $arrRes['app']['screener']['watermark'];
         right: 0;
     }
 
-    .watermark.bottom {
+    .watermark.top-right{
+        top: 1em;
+        width: fit-content;
+        right: 0;
+    }
+
+    .watermark.bottom-center {
         bottom: 1em;
         width: fit-content;
         margin: auto;
@@ -176,7 +198,19 @@ $watermark = $arrRes['app']['screener']['watermark'];
         right: 0;
     }
 
-    .watermark.left{
+    .watermark.bottom-left {
+        bottom: 1em;
+        width: fit-content;
+        left: 0;
+    }
+
+    .watermark.bottom-right {
+        bottom: 1em;
+        width: fit-content;
+        right: 0;
+    }
+
+    .watermark.left-center{
         left: 1em;
         width: fit-content;
         margin: auto;
@@ -184,12 +218,36 @@ $watermark = $arrRes['app']['screener']['watermark'];
         transform: translateY(-50%);
     }
 
-    .watermark.right{
+    .watermark.left-top{
+        left: 1em;
+        width: fit-content;
+        top: 0%;
+    }
+
+    .watermark.left-bottom{
+        left: 1em;
+        width: fit-content;
+        bottom: 0%;
+    }
+
+    .watermark.right-center{
         right: 1em;
         width: fit-content;
         margin: auto;
         top: 50%;
         transform: translateY(-50%);
+    }
+
+    .watermark.right-top{
+        right: 1em;
+        width: fit-content;
+        top: 0%;
+    }
+
+    .watermark.right-bottom{
+        right: 1em;
+        width: fit-content;
+        bottom: 0%;
     }
 
     .watermark.left.rotate {
@@ -207,7 +265,7 @@ $watermark = $arrRes['app']['screener']['watermark'];
     }
 
     .watermark img {
-      max-height: 112px;
+      max-height: {{ $watermark? $watermark['size'] . 'px': '112px' }};
       -webkit-user-drag: none;
       user-select: none;
     }

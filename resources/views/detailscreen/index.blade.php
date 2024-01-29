@@ -156,7 +156,7 @@
                             <span class="dot-sep"></span>
                         @endif
                         @if ($streamType != 'S')
-                            @if ($stream_details['stream_duration'] && $stream_details['stream_duration'] !== "0")
+                            @if ($stream_details['stream_duration'] && $stream_details['stream_duration'] !== '0')
                                 <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream_details['stream_duration']) }}</span>
                                 <span class="dot-sep"></span>
                             @endif
@@ -169,28 +169,37 @@
                             </span>
                         @endif
                         @if ($streamType == 'S')
-                            <span class="movie_type">{{ $stream_details['stream_episode_title'] && $stream_details['stream_episode_title'] !== 'NULL'? $stream_details['stream_episode_title']: '' }}</span>
+                            <span
+                                class="movie_type">{{ $stream_details['stream_episode_title'] && $stream_details['stream_episode_title'] !== 'NULL' ? $stream_details['stream_episode_title'] : '' }}</span>
                             <span class="movie_type">{{ $stream_details['show_name'] }}</span>
                         @endif
                         @if ($stream_details['content_qlt'] != '')
                             <span class="content_screen">
                                 @php
-                                $content_qlt_arr = explode(',', $stream_details['content_qlt']);
-                                $content_qlt_codes_arr = explode(',', $stream_details['content_qlt_codes']);
+                                    $content_qlt_arr = explode(',', $stream_details['content_qlt']);
+                                    $content_qlt_codes_arr = explode(',', $stream_details['content_qlt_codes']);
                                 @endphp
-                                @foreach($content_qlt_arr as $i => $item)
-                                    <a href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>@if (!$loop->last),@endif
+                                @foreach ($content_qlt_arr as $i => $item)
+                                    <a
+                                        href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>
+                                    @if (!$loop->last)
+                                        ,
+                                    @endif
                                 @endforeach
                             </span>
                         @endif
                         @if ($stream_details['content_rating'] != '')
                             <span class="content_screen">
                                 @php
-                                $content_rating_arr = explode(',', $stream_details['content_rating']);
-                                $content_rating_codes_arr = explode(',', $stream_details['content_rating_codes']);
+                                    $content_rating_arr = explode(',', $stream_details['content_rating']);
+                                    $content_rating_codes_arr = explode(',', $stream_details['content_rating_codes']);
                                 @endphp
-                                @foreach($content_rating_arr as $i => $item)
-                                    <a href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>@if (!$loop->last),@endif
+                                @foreach ($content_rating_arr as $i => $item)
+                                    <a
+                                        href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>
+                                    @if (!$loop->last)
+                                        ,
+                                    @endif
                                 @endforeach
                             </span>
                         @endif
@@ -287,8 +296,8 @@
     </section>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered sharing-madal" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -518,9 +527,10 @@
                     <div class="landscape_slider slider slick-slider">
                         @foreach ($latest_items['streams'] as $arrStreamsData)
                             @php
-                                if ($arrStreamsData['stream_guid'] === $stream_details['stream_guid'])
+                                if ($arrStreamsData['stream_guid'] === $stream_details['stream_guid']) {
                                     continue;
-                                
+                                }
+
                                 $strBrige = '';
                                 if ($arrStreamsData['monetization_type'] == 'F') {
                                     $strBrige = "style='display: none;'";
@@ -544,7 +554,7 @@
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                              </div> -->
+                                                                                                                                  </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}
