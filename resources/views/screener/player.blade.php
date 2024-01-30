@@ -266,6 +266,7 @@ $watermark = $arrRes['app']['screener']['watermark'];
 
     .watermark img {
       max-height: {{ $watermark? $watermark['size'] . 'px': '112px' }};
+      height: {{ $watermark? $watermark['size'] . 'px': '112px' }};
       opacity: {{ $watermark? $watermark['opacity']: 0 }};
       -webkit-user-drag: none;
       user-select: none;
@@ -542,7 +543,7 @@ $watermark = $arrRes['app']['screener']['watermark'];
 <?php
 $arrCatData = $ARR_FEED_DATA['arrCategoriesData'];
 $nextVideoPath = '';
-if (!empty($arrCatData))
+if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
 {
 ?>
 
@@ -561,7 +562,10 @@ if (!empty($arrCatData))
                 <div class="landscape_slider slider slick-slider">
 <?php 
                 foreach ($arrCatData['streams'] as $index => $arrStreamsData)     
-                {                      
+                {
+                    if ($arrStreamsData['stream_guid'] === $arrSlctItemData['stream_guid'])
+                      continue;
+                      
                     $vidPath = route('screener.player', ['code' => $code, 'itemIndex' => $index + 1]);
                     if ($nextVideoPath == "Y")
                     {
