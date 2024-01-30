@@ -222,17 +222,11 @@
                                             @if (is_array($person))
                                                 <a class="person-link" href="{{ route('person', $person['id']) }}">
                                                     {{ $person['title'] }}
-                                                </a>
-                                                @if (!$loop->last)
-                                                    ,
-                                                @endif
+                                                </a>@if (!$loop->last), @endif
                                             @else
                                                 <a class="person-link" href="{{ route('person', $person) }}">
                                                     {{ $person }}
-                                                </a>
-                                                @if (!$loop->last)
-                                                    ,
-                                                @endif
+                                                </a>@if (!$loop->last), @endif
                                             @endif
                                         @endforeach
                                     </dd>
