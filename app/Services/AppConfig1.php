@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
@@ -13,16 +14,16 @@ class AppConfig
     {
         self::fetchData();
 
-        if (!self::$data) {
-            self::$data = json_decode(session('api_data'));
-        }
+        // if (!self::$data) {
+        //     self::$data = json_decode(session('api_data'));
+        // }
 
         return self::$data;
     }
 
     public static function fetchData()
     {
-        if (!Session::get('api_data')) {
+        if (!self::$data) {
             $finalresultDevice = null;
             // Get the user agent string
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
@@ -67,7 +68,8 @@ class AppConfig
                 ->get(Api::endpoint("/masterfeed?user_data={$xyz}&user_device={$finalresultDevice}"));
 
 
-            Session::put('api_data', $response->body());
+            // Session::put('api_data', $response->body());
+            self::$data = json_decode($response->body());
         }
     }
 

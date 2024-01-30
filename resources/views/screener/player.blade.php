@@ -460,32 +460,32 @@ $watermark = $arrRes['app']['screener']['watermark'];
                     </div>
                 </div>
             </div>
-            <div class="col-md-2 sharesinbos">
-            <?php
-            if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
-            {   
-              $signStr = "+";
-              $cls = 'fa fa-plus';
-              if ($arrSlctItemData['stream_is_stream_added_in_wish_list'] == 'Y')
-              { 
-                $cls = 'fa fa-minus';
-                $signStr = "-";
+            {{-- <div class="col-md-2 sharesinbos">
+              <?php
+              if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+              {   
+                $signStr = "+";
+                $cls = 'fa fa-plus';
+                if ($arrSlctItemData['stream_is_stream_added_in_wish_list'] == 'Y')
+                { 
+                  $cls = 'fa fa-minus';
+                  $signStr = "-";
+                }
+              ?>                         
+                <div class="share_circle addWtchBtn">
+                  <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav" class="{{ $cls }}"></i></a>
+                  <input type="hidden" id="myWishListSign" value='{{ $signStr }}'/>
+                  <input type="hidden" id="strQueryParm" value='{{ $strQueryParm }}'/>
+                  <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}'/>
+                  @csrf
+                </div>
+              <?php
               }
-             ?>                         
-              <div class="share_circle addWtchBtn">
-                <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav" class="{{ $cls }}"></i></a>
-                <input type="hidden" id="myWishListSign" value='{{ $signStr }}'/>
-                <input type="hidden" id="strQueryParm" value='{{ $strQueryParm }}'/>
-						    <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}'/>
-                @csrf
-              </div>
-           <?php
-            }
-           ?>  
+              ?>  
               <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                 <a href="javascript:void(0);"><i class="fa fa-share"></i></a>
               </div>
-            </div>  
+            </div> --}}
         </div>
         <div class="row">
             <div class="slider_title_box slidessbwh" style="padding: 0px 45px;">

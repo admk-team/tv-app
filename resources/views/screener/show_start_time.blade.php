@@ -8,7 +8,7 @@
         <div class="login_page main_pg">
           
             <div class="inner-cred py-5 my-5">
-                <h5 class="text-white">Screener will be started at {{ $startTime }}</h5>
+                <h5 class="text-white">Screener will be available on {{ $startTime }}</h5>
             </div>
         </div>
     </section>
