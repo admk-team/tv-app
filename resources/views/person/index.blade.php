@@ -11,6 +11,11 @@
             height: 365px;
             max-width: 100%;
         }
+        .container{
+            margin-right: 0px; 
+            margin-left: 0px;
+            padding-left: 37px;
+        }
     </style>
     <section class="banner detailBanner">
         <div class="container-fluid actor-container">
@@ -24,7 +29,7 @@
                     <div class=" col-12 col-md-4 d-flex col-lg-4">
                         @if ($data['poster'] != '')
                             <img class="" src="{{ env('BASE_URL') . '/storage/' . $data['poster'] }}" class="actor-img"
-                                width="400px" height="600px"alt="none">
+                                width="400px" height="400px"alt="none">
                         @else
                             <img class="w-100 actor-img" src="{{ asset('assets/images/default.png') }}" alt="none">
                         @endif
