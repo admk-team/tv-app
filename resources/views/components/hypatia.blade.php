@@ -1,7 +1,16 @@
-<link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/paramount/css/paramount.css') }}">
-<link rel="icon" href="{{ asset('assets/landing_theme_assets/paramount/images/favicons.png') }}">
-<link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/paramount/css/bootstrap.min.css') }}">
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24 Flix</title>
+
+    <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/paramount/css/paramount.css') }}">
+    <link rel="icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
+    <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/paramount/css/bootstrap.min.css') }}">
+</head>
 
 <body class="intl property-in">
     <style>
@@ -29,7 +38,7 @@
             {{ $appName }} logo" src="{{ $data->app->app_info->website_faviocn ?? '' }}"
                 width="100%">
         </div>
-        <div>
+        <div class="header">
 
             <p>ALL FAITH</p>
             <p>MOVIES & SHOWS</p>
@@ -90,4 +99,19 @@
 
         </div>
     </section>
+    <!-- Start of footer text-->
+    <footer>
+        <div class="footer-links">
+            <a href="javascript:void(0);">Terms of Use</a>|
+            <a href="javascript:void(0);">Privacy Policy</a>|
+            <a href="javascript:void(0);">Cookies</a>|
+            <a href="javascript:void(0)" class="ot-sdk-show-settings">Manage Cookies</a>
+        </div>
+        <div class="copyright">© <span id="copyright-year"></span> {{ $appName }}. All Rights Reserved.</div>
+    </footer>
+    <!-- End of footer text-->
 </body>
+
+
+
+</html>
