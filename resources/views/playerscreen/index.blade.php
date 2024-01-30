@@ -609,7 +609,7 @@ if (!empty($arrCatData))
                                             {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                         </div>
                                         <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                              </div> -->
+                                                                                                                                                                  </div> -->
                                         <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                         <div class="content_description">{{ $arrStreamsData['stream_description'] }}</div>
                                     </div>

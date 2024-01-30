@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @if (Route::is('detailscreen'))
+    @if (Route::is('detailscreen', 'playerscreen'))
         @yield('meta-tags')
     @else
         <meta property="og:title" content="{{ @$data->app->app_info->seo_title ?? '' }}" />
@@ -61,7 +61,7 @@
     @include('layouts.partials.header')
 
     <div class="content">
-        @yield('content')
+        {{ $slot }}
     </div>
 
     @include('layouts.partials.footer')

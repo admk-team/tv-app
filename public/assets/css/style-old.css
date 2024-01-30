@@ -503,11 +503,12 @@ span.movie_type a {
 
 .about_fulltxt {
     margin-bottom: 14px;
-    font-size: 15px;
+    font-size: 16px;
     color: #eee;
-    font-family: 'Noto Sans';
     margin-bottom: 10px;
     font-weight: 400;
+    font-family: "Open Sans", sans-serif;
+    color: gray;
 }
 
 .aboutmovie_gaps {
@@ -3244,6 +3245,7 @@ h5.footer_title {
     padding: 2px 8px;
     border: 1px #999 solid;
     display: inline-block;
+    border-radius: 4px;
 
 }
 
@@ -3375,6 +3377,7 @@ dl.movies_listview {
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 1;
+    margin-bottom: 0.1rem !important
 }
 
 .button_groupbox .btn_box {
@@ -7597,5 +7600,7 @@ ul.dropsmenubox li a.dropdown-item:hover {
     margin-right: 10px;
     margin-bottom: 10px;
     white-space: nowrap;
-    /* Prevent text from wrapping to the next line */
+    margin-right: 0px;
+    margin-left: 0px;
+
 }
