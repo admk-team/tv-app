@@ -217,15 +217,22 @@
                                                 $persons = explode(',', $persons);
                                             }
                                         @endphp
+
                                         @foreach ($persons as $i => $person)
                                             @if (is_array($person))
                                                 <a class="person-link" href="{{ route('person', $person['id']) }}">
                                                     {{ $person['title'] }}
-                                                </a>{{ count($persons) - 1 !== $i ? ',' : '' }}
+                                                </a>
+                                                @if (!$loop->last)
+                                                    ,
+                                                @endif
                                             @else
                                                 <a class="person-link" href="{{ route('person', $person) }}">
                                                     {{ $person }}
-                                                </a>{{ count($persons) - 1 !== $i ? ',' : '' }}
+                                                </a>
+                                                @if (!$loop->last)
+                                                    ,
+                                                @endif
                                             @endif
                                         @endforeach
                                     </dd>
@@ -554,7 +561,7 @@
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                  </div> -->
+                                                                                                                                                          </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}
