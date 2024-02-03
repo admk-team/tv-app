@@ -90,10 +90,6 @@
             margin-right: 15px;
         }
 
-        .content-person{
-            margin-bottom: 15px;
-        }
-
         .test-comma{
             color: gray;
         }
@@ -264,7 +260,7 @@
                             @endif
 
                             @if (!empty($stream_details['languages']))
-                                <div class="content-person">
+                                <div class="content-person" style="margin-bottom: 20px">
                                     <dt>Language : </dt>
                                     <dd>
                                         @foreach ($stream_details['languages'] as $i => $val)
