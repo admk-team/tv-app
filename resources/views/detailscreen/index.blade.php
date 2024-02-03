@@ -23,36 +23,36 @@
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
-    
+
     $stream_code = $stream_details['stream_guid'];
-    
+
     $postData = [
         'stream_code' => $stream_code,
     ];
-    
+
     // $ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
-    
+
     // curl_setopt($ch, CURLOPT_POST, 1);
     // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    
+
     // $response = curl_exec($ch);
-    
+
     // if (curl_errno($ch)) {
     //     die('Curl error: ' . curl_error($ch));
     // }
-    
+
     // curl_close($ch);
-    
+
     // $resultArray = json_decode($response, true);
-    
+
     // $userDidComment = false;
     // foreach ($resultArray as $review) {
     //     if (session('USER_DETAILS') && $review['user']['userCode'] === session('USER_DETAILS')['USER_CODE']) {
     //         $userDidComment = true;
     //     }
     // }
-    
+
     ?>
     <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
 
@@ -71,6 +71,34 @@
 
         .responsive_video>div {
             height: 126%;
+        }
+
+        .movies_listview dt {
+            width: 70px;
+        }
+
+        dl {
+            margin-top: 0;
+            margin-bottom: 0rem !important;
+        }
+
+        .person-link{
+            display: inline !important;
+        }
+
+        dt{
+            margin-right: 15px;
+        }
+
+        .content-person{
+            margin-bottom: 15px;
+        }
+
+        .test-comma{
+            color: gray;
+        }
+        .movie_detail_inner_box{
+            top: 30px !important;
         }
     </style>
 
@@ -181,10 +209,7 @@
                                 @endphp
                                 @foreach ($content_qlt_arr as $i => $item)
                                     <a
-                                        href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>
-                                    @if (!$loop->last)
-                                        ,
-                                    @endif
+                                        href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>@if (!$loop->last), @endif
                                 @endforeach
                             </span>
                         @endif
@@ -196,10 +221,7 @@
                                 @endphp
                                 @foreach ($content_rating_arr as $i => $item)
                                     <a
-                                        href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>
-                                    @if (!$loop->last)
-                                        ,
-                                    @endif
+                                        href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>@if (!$loop->last),@endif
                                 @endforeach
                             </span>
                         @endif
@@ -210,50 +232,46 @@
                         <dl>
                             @foreach ($stream_details['starring_data'] as $roleKey => $persons)
                                 @if (!empty($persons))
-                                    <dt>{{ $roleKey }}:</dt>
-                                    <dd>
-                                        @php
-                                            if (!is_array($persons)) {
-                                                $persons = explode(',', $persons);
-                                            }
-                                        @endphp
+                                    <div class="content-person">
+                                        <dt>{{ $roleKey }}:</dt>
+                                        <dd>
+                                            @php
+                                                if (!is_array($persons)) {
+                                                    $persons = explode(',', $persons);
+                                                }
+                                            @endphp
 
-                                        @foreach ($persons as $i => $person)
-                                            @if (is_array($person))
-                                                <a class="person-link" href="{{ route('person', $person['id']) }}">
-                                                    {{ $person['title'] }}
-                                                </a>@if (!$loop->last), @endif
-                                            @else
-                                                <a class="person-link" href="{{ route('person', $person) }}">
-                                                    {{ $person }}
-                                                </a>@if (!$loop->last), @endif
-                                            @endif
-                                        @endforeach
-                                    </dd>
+                                            @foreach ($persons as $i => $person)
+                                                @if (is_array($person))
+                                                    <a class="person-link" href="{{ route('person', $person['id']) }}">{{$person['title']}}</a>@if(!$loop->last)<span class="test-comma">, </span>@endif
+                                                @else
+                                                    <a class="person-link" href="{{ route('person', $person) }}">{{$person}}</a>@if(!$loop->last)<span class="test-comma">, </span>@endif
+                                                @endif
+                                            @endforeach
+                                        </dd>
+                                    </div>
                                 @endif
                             @endforeach
                             @if (!empty($stream_details['advisories']))
-                                <dt>Advisory : </dt>
-                                <dd>
-                                    @foreach ($stream_details['advisories'] as $i => $val)
-                                        <a class="person-link" href="{{ route('advisory', $val['code']) }}">
-                                            {{ $val['title'] }}@if (count($stream_details['advisories']) - 1 !== $i)
-                                                ,
-                                            @endif
-                                    @endforeach
-                                </dd>
+                                <div class="content-person">
+                                    <dt>Advisory : </dt>
+                                    <dd>
+                                        @foreach ($stream_details['advisories'] as $i => $val)
+                                            <a class="person-link" href="{{ route('advisory', $val['code']) }}">{{$val['title']}}@if(count($stream_details['advisories']) - 1 !== $i), @endif
+                                        @endforeach
+                                    </dd>
+                                </div>
                             @endif
 
                             @if (!empty($stream_details['languages']))
-                                <dt>Language : </dt>
-                                <dd>
-                                    @foreach ($stream_details['languages'] as $i => $val)
-                                        <a class="person-link" href="{{ route('language', $val['code']) }}">
-                                            {{ $val['title'] }}@if (count($stream_details['languages']) - 1 !== $i)
-                                                ,
-                                            @endif
-                                    @endforeach
-                                </dd>
+                                <div class="content-person">
+                                    <dt>Language : </dt>
+                                    <dd>
+                                        @foreach ($stream_details['languages'] as $i => $val)
+                                            <a class="person-link" href="{{ route('language', $val['code']) }}">{{$val['title']}}@if (count($stream_details['languages']) - 1 !== $i), @endif
+                                        @endforeach
+                                    </dd>
+                                </div>
                             @endif
                         </dl>
                     </dl>
@@ -267,7 +285,7 @@
                             </a>
                         </div>
 
-                        <?php 
+                        <?php
                     if (session('USER_DETAILS.USER_CODE')) {
                         $signStr = "+";
                         $cls = 'fa fa-plus';
@@ -471,11 +489,11 @@
                     </div>
                     <div class="review-rating member">
                         <?php
-                        
+
                         for ($i = 0; $i < $review['rating']; $i++) {
                             echo '<div class="star active">                                                                                                                                                                                                                                                                                </div>';
                         }
-                        
+
                         ?>
                     </div>
                     <p class="member-comment">{{ $review['comment'] }}</p>
