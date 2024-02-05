@@ -48,7 +48,7 @@ Route::get('logout', [LogoutController::class, 'index'])->name('logout');
 
 // Authenticated Routes
 Route::middleware('auth.user')->group(function () {
-    Route::post('monetization', [MonetizationController::class, 'index'])->name('monetization');
+    Route::match(['get', 'post'], 'monetization', [MonetizationController::class, 'index'])->name('monetization');
     Route::get('monetization/success', [MonetizationController::class, 'success'])->name('monetization.success');
     Route::get('monetization/cancel', [MonetizationController::class, 'cancel'])->name('monetization.cancel');
     Route::post('stripe/checkout', [StripeController::class, 'checkout'])->name('stripe.checkout');

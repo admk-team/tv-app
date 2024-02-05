@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="input_groupbox alreadyText mt-3">
                                     <p>Do not have an account? <a class="text-decoration-none"
-                                            href="https://stage.24flix.tv/signup">Click here to Register</a></p>
+                                            href="{{ route('register') }}">Click here to Register</a></p>
                                 </div>
                             </div>
                         </div>

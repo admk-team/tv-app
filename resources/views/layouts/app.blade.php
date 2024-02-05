@@ -16,6 +16,7 @@
     @stack('style')
     {{-- Old Css --}}
     <link rel="shortcut icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
+    <link rel="icon" type="image/x-icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style-old.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/userprofile.css') }}">
     <style>

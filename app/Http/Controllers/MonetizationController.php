@@ -11,15 +11,22 @@ class MonetizationController extends Controller
 {
     public function index(Request $request)
     {
-        session()->put([
-            'MONETIZATION' => $request->only([
-                'AMOUNT',
-                'SUBS_TYPE',
-                'MONETIZATION_GUID',
-                'PAYMENT_INFORMATION',
-            ])
-        ]);
-        $planData = $request->all();
+        $planData = null;
+        
+        if (strtolower($request->method()) === 'post') {
+            session()->put([
+                'MONETIZATION' => $request->only([
+                    'AMOUNT',
+                    'SUBS_TYPE',
+                    'MONETIZATION_GUID',
+                    'PAYMENT_INFORMATION',
+                ])
+            ]);
+            $planData = $request->all();
+        }
+        else {
+            $planData = session('MONETIZATION');
+        }
 
         return view('monetization.index', compact('planData'));
     }

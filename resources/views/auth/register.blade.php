@@ -90,7 +90,7 @@
                                     <button class="btn rounded" class="submit">SUBMIT</button>
                                 </div>
                                 <div class="input_groupbox alreadyText">
-                                    <p class="fw-medium">Already have an account ? <a href="/signin">Click here to Login</a>
+                                    <p class="fw-medium">Already have an account ? <a href="{{ route('login') }}">Click here to Login</a>
                                     </p>
                                 </div>
                             </div>

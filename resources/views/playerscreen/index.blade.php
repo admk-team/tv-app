@@ -33,18 +33,20 @@
         \App\Helpers\GeneralHelper::headerRedirect(url('/signin'));
     }
     //monetioztion
-    $sharingURL = url('/playerscreen/' . $streamGuid);
+    $sharingURL = route('playerscreen', $streamGuid);
     $isBuyed = $arrSlctItemData['is_buyed'];
     $monetizationType = $arrSlctItemData['monetization_type'];
     if ($monetizationType != 'F' && $isBuyed == 'N') {
-        session('REDIRECT_TO_SCREEN', url('/playerscreen/' . $streamGuid));
+        session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
         if (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE']) {
-            session('REDIRECT_TO_SCREEN', '/playerscreen/' . $streamGuid);
-            \App\Helpers\GeneralHelper::headerRedirect(url('/signin'));
+            session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
+            session()->save();
+            \Illuminate\Support\Facades\Redirect::to(route('login'))->send();
         } elseif ($monetizationType == 'S') {
             $sArr['REQUEST_FROM'] = 'player';
-            $_SESSION['MONETIZATION'] = $sArr;
-            \App\Helpers\GeneralHelper::headerRedirect(url('/subscription'));
+            session(['MONETIZATION' => $sArr]);
+            session()->save();
+            \Illuminate\Support\Facades\Redirect::to(route('subscription'))->send();
         } else {
             $suffix = '';
             if ((int) $arrSlctItemData['planFaq'] > 1) {
@@ -58,8 +60,9 @@
             $sArr['PLAN'] = $arrSlctItemData['planFaq'] . ' ' . $arrSlctItemData['plan_period'] . $suffix;
             $sArr['AMOUNT'] = $arrSlctItemData['amount'];
             $sArr['POSTER'] = $arrSlctItemData['stream_poster'];
-            $_SESSION['MONETIZATION'] = $sArr;
-            \App\Helpers\GeneralHelper::headerRedirect(url('/monetioztion'));
+            session(['MONETIZATION' => $sArr]);
+            session()->save();
+            \Illuminate\Support\Facades\Redirect::to(route('monetization'))->send();
         }
     }
     

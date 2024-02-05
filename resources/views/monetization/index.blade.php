@@ -266,9 +266,9 @@
             $types[trim($type[0])] = trim($type[1]);
             unset($types[$i]);
         }
-
-        $period = $planData['PLAN_PERIOD'];
-        if ($planData['PLAN'] > 1) {
+        
+        $period = $planData['PLAN_PERIOD'] ?? null;
+        if (($planData['PLAN'] ?? null) > 1) {
             $period .= 's';
         }
     @endphp
@@ -299,7 +299,7 @@
                             <div class="card-plan-text">
                                 <div class="card-plan-title">Amount</div>
                                 <div class="card-plan-price">
-                                    @if ($planData['PLAN_TYPE'] == 'T')
+                                    @if (($planData['PLAN_TYPE'] ?? false) == 'T')
                                         Free
                                     @else
                                         ${{ $planData['AMOUNT'] }}
@@ -323,18 +323,18 @@
                                     value="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->payment_currency_code }}">
                                 <input type="hidden" name="return" value="{{ url('/monetization/success') }}">
                                 <input type="hidden" name="cancel_return" value="{{ url('/monetization/cancel') }}">
-                                @if ($planData['PLAN_TYPE'] == 'T')
+                                @if (($planData['PLAN_TYPE'] ?? false) == 'T')
                                     <a href="{{ route('free-subscription') }}"
                                         class="mt-2 w-100 btn btn-lg btn-primary">Get
                                         Free Access</a>
                                 @endif
-                                @if ($planData['PLAN_TYPE'] != 'T' && \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_paypal_payment_active)
+                                @if (($planData['PLAN_TYPE'] ?? null) != 'T' && \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_paypal_payment_active)
                                     <button type="submit" class="btn paypal_btn"><i class="fa fa-paypal"
                                             aria-hidden="true"></i>
                                         Pay with Paypal</button>
                                 @endif
                             </form>
-                            @if ($planData['PLAN_TYPE'] != 'T')
+                            @if (($planData['PLAN_TYPE'] ?? null) != 'T')
                                 <button class="stripe-button mt-2" id="payButton">
                                     <div class="spinner hidden" id="spinner"></div>
                                     <span id="buttonText"><i class="fa fa-cc-stripe" aria-hidden="true"></i> Pay with Credit
