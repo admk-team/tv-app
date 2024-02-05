@@ -11,8 +11,9 @@
             height: 365px;
             max-width: 100%;
         }
-        .container{
-            margin-right: 0px; 
+
+        .container {
+            margin-right: 0px;
             margin-left: 0px;
             padding-left: 37px;
         }
@@ -41,7 +42,7 @@
                         </h1>
                         @if ($data['description'])
                             <div class="about-actor text-white" style="font-size:large;">
-                                <h2>Bio</h2>
+                                {{--  <h2>Bio</h2>  --}}
                                 {!! $data['description'] !!}
                             </div>
                         @endif
