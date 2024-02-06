@@ -42,7 +42,7 @@
                                         <input type="hidden" name="PAYMENT_INFORMATION" value="{{ $plan->plan_name }}">
                                         <input type="hidden" name="MONETIZATION_TYPE" value="S">
                                         <input type="hidden" name="STREAM_DESC" value="{{ $plan->plan_desc }}">
-                                        <input type="hidden" name="PLAN" value="{{ $plan->plan_faq }}">
+                                        <input type="hidden" name="PLAN" value="{{ $plan->plan_faq . ' ' . $plan->plan_period.$suffix }}">
                                         <input type="hidden" name="MONETIZATION_GUID" value="{{ $plan->sub_plan_guid }}">
                                         <input type="hidden" name="AMOUNT" value="{{ $plan->plan_amount }}">
                                         <button type="submit"

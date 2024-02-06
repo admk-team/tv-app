@@ -51,6 +51,12 @@ class RegisterController extends Controller
             'msgTrue' => 1,
         ]);
 
+        if (session()->has('REDIRECT_TO_SCREEN')) {
+            $redirectUrl = session('REDIRECT_TO_SCREEN');
+            session()->forget('REDIRECT_TO_SCREEN');
+            return redirect($redirectUrl);
+        }
+
         return redirect(route('profile.index'));
     }
 }

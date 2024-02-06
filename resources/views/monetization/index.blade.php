@@ -258,19 +258,19 @@
 
 @section('content')
     @php
-        $typeStr = \App\Services\AppConfig::get()->app->keys_description->MONETIZATION_TYPES;
-        $types = explode(',', $typeStr);
+        $ARR_MONE_MSG = array('P' => "Pay Per View / Rental", 'O' => "Life Time Access", 'S' => "Subscription Based",'E' => 'Season Wise Pay');
+        // $typeStr = \App\Services\AppConfig::get()->app->keys_description->MONETIZATION_TYPES;
+        // $types = explode(',', $typeStr);
 
-        for ($i = 0; $i < sizeof($types); $i++) {
-            $type = explode(':', $types[$i]);
-            $types[trim($type[0])] = trim($type[1]);
-            unset($types[$i]);
-        }
-        
-        $period = $planData['PLAN_PERIOD'] ?? null;
-        if (($planData['PLAN'] ?? null) > 1) {
-            $period .= 's';
-        }
+        // for ($i = 0; $i < sizeof($types); $i++) {
+        //     $type = explode(':', $types[$i]);
+        //     $types[trim($type[0])] = trim($type[1]);
+        //     unset($types[$i]);
+        // }
+        // $period = $planData['PLAN_PERIOD'] ?? null;
+        // if (($planData['PLAN'] ?? null) > 1) {
+        //     $period .= 's';
+        // }
     @endphp
 
     <section>
@@ -278,8 +278,11 @@
             <div class="row">
                 <div class="card px-0">
                     <div class="card-header">
-                        <img src="https://stage.24flix.tv/images/plan.jpg" class="img-thumbnail"
-                            alt="MONTHLY SUPPORTER (Donation)">
+                        @if($planData['SUBS_TYPE'] != 'S')
+                            <img src="{{ $planData['POSTER'] }}" class="img-thumbnail" alt="{{ $planData['PAYMENT_INFORMATION'] }}">
+                        @else
+                            <img src="{{ asset('assets/images/plan.jpg') }}" class="img-thumbnail" alt="<?php echo $planData['PAYMENT_INFORMATION']; ?>">
+                        @endif
                     </div>
                     <div class="card-body">
                         <h4 class="card-title text-uppercase">Order Summary</h4>
@@ -289,11 +292,11 @@
                         </div>
                         <div class="card-title">{{ $planData['PAYMENT_INFORMATION'] }}</div>
                         <div class="card-text ">
-                            <p><b>Plan Type: </b> {{ $types[$planData['SUBS_TYPE']] }}</p>
-                            <p><b>Plan Validity: </b> {{ $planData['PLAN'] . ' ' . $period }}</p>
+                            <p><b>Plan Type: </b> {{ $ARR_MONE_MSG[$planData['SUBS_TYPE']] }}</p>
+                            <p><b>Plan Validity: </b> {{ $planData['PLAN'] }}</p>
                         </div>
                         <div class="card-plan">
-                            <div class="card-plan-img"><img src="https://stage.24flix.tv/images/icons/buy.png"
+                            <div class="card-plan-img"><img src="{{ asset('assets/images/icons/buy.png') }}"
                                     alt="">
                             </div>
                             <div class="card-plan-text">
@@ -306,10 +309,10 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="card-plan-link"><a href="{{ route('subscription') }}">Change</a></div>
+                            <div class="card-plan-link"><a href="{{ session('REDIRECT_TO_SCREEN') }}">Change</a></div>
                         </div>
                         <div class="card-payment-button">
-                            <form action="{{ env('PAYPAL_URL') }}" method="POST">
+                            <form action="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->PAYPAL_SANDBOX == "true"? env('PAYPAL_SANDBOX_URL'): env('PAYPAL_URL') }}" method="POST">
                                 <input type="hidden" name="business"
                                     value="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->PAYPAL_ID }}">
                                 <input type="hidden" name="rm" value="2">
@@ -323,24 +326,23 @@
                                     value="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->payment_currency_code }}">
                                 <input type="hidden" name="return" value="{{ url('/monetization/success') }}">
                                 <input type="hidden" name="cancel_return" value="{{ url('/monetization/cancel') }}">
-                                @if (($planData['PLAN_TYPE'] ?? false) == 'T')
-                                    <a href="{{ route('free-subscription') }}"
-                                        class="mt-2 w-100 btn btn-lg btn-primary">Get
-                                        Free Access</a>
-                                @endif
-                                @if (($planData['PLAN_TYPE'] ?? null) != 'T' && \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_paypal_payment_active)
+                                @if (($planData['PLAN_TYPE'] ?? null) != 'T' && \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_paypal_payment_active == "true")
                                     <button type="submit" class="btn paypal_btn"><i class="fa fa-paypal"
                                             aria-hidden="true"></i>
                                         Pay with Paypal</button>
                                 @endif
+                                @if (($planData['PLAN_TYPE'] ?? false) == 'T')
+                                    <a href="{{ route('free-subscription') }}"
+                                        class="mt-2 w-100 btn btn-lg btn-primary">Get
+                                        Free Access</a>
+                                @else
+                                    <button class="stripe-button mt-2" id="payButton">
+                                        <div class="spinner hidden" id="spinner"></div>
+                                        <span id="buttonText"><i class="fa fa-cc-stripe" aria-hidden="true"></i> Pay with Credit
+                                            Card</span>
+                                    </button>
+                                @endif
                             </form>
-                            @if (($planData['PLAN_TYPE'] ?? null) != 'T')
-                                <button class="stripe-button mt-2" id="payButton">
-                                    <div class="spinner hidden" id="spinner"></div>
-                                    <span id="buttonText"><i class="fa fa-cc-stripe" aria-hidden="true"></i> Pay with Credit
-                                        Card</span>
-                                </button>
-                            @endif
                         </div>
                         <div class="card-cancel-button">
                             <a href="{{ route('monetization.cancel') }}"><button>Cancel Order</button></a>

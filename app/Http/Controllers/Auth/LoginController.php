@@ -44,6 +44,13 @@ class LoginController extends Controller
             'msgTrue' => 1,
         ]);
         $profile = \App\Services\AppConfig::get()->app->app_info->profile_manage;
+
+        if (session()->has('REDIRECT_TO_SCREEN')) {
+            $redirectUrl = session('REDIRECT_TO_SCREEN');
+            session()->forget('REDIRECT_TO_SCREEN');
+            return redirect($redirectUrl);
+        }
+
         if ($profile === 1) {
             return redirect(route('profile.index'));
         }
