@@ -358,8 +358,8 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         // Set Stripe publishable key to initialize Stripe.js
-        //const stripe = Stripe('{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_publish_key }}');
-        const stripe = Stripe('pk_test_51L4L81HiZyMtoobw8fbB4ZgdzdKeBK5HUke2BayViwlKImHaXmbKiK6cqpyRHmBvoAuD1n5XHiW0zaJfhehXvAS500mWf8wpnC');
+        const stripe = Stripe('{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_publish_key }}');
+        //const stripe = Stripe('pk_test_51L4L81HiZyMtoobw8fbB4ZgdzdKeBK5HUke2BayViwlKImHaXmbKiK6cqpyRHmBvoAuD1n5XHiW0zaJfhehXvAS500mWf8wpnC');
 
         // Select payment button
         const payBtn = document.querySelector("#payButton");
@@ -381,8 +381,8 @@
 
         // Create a Checkout Session with the selected product
         const createCheckoutSession = function(stripe) {
-            //let stripeSecret = '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key }}';
-            let stripeSecret = 'sk_test_51L4L81HiZyMtoobwtNx6DIoBxcWloRyDLrzt7LHwBFmVeAYVI03bz18YubxoCLDgJBi0mcTeHhNn3RXlQdoj896z006odBIAaL';
+            let stripeSecret = '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key }}';
+            //let stripeSecret = 'sk_test_51L4L81HiZyMtoobwtNx6DIoBxcWloRyDLrzt7LHwBFmVeAYVI03bz18YubxoCLDgJBi0mcTeHhNn3RXlQdoj896z006odBIAaL';
             return fetch("{{ url('/stripe/checkout') }}", {
                 method: "POST",
                 headers: {
