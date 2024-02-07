@@ -31,25 +31,40 @@ class MonetizationController extends Controller
         return view('monetization.index', compact('planData'));
     }
 
-    public function success()
+    public function success(Request $request)
     {
-        $transactionId = md5(time());
+        if (session()->has('stripe_payment_processed') && session()->get('stripe_payment_processed')) {
+            return view('monetization.success_stripe');
+        }
+        else {
+            if($request->txn_id){
+                $transactionId = $request->txn_id;
+                $paymentInfo = json_encode($request->all());
+            }
+            else
+            {
+                $transactionId = md5(time()); 
+                $paymentInfo = session('MONETIZATION')['PAYMENT_INFORMATION'];       
+            }
 
-        $response = Http::timeout(300)->withHeaders(Api::headers([
-            'husercode' => session('USER_DETAILS')['USER_CODE']
-        ]))
-            ->asForm()
-            ->post(Api::endpoint('/sendpaymentdetails'), [
-                'transactionId' => $transactionId,
-                'requestAction' => 'sendPaymentInfo',
-                'amount' => session('MONETIZATION')['AMOUNT'],
-                'monetizationGuid' => session('MONETIZATION')['MONETIZATION_GUID'],
-                'subsType' => session('MONETIZATION')['SUBS_TYPE'],
-                'paymentInformation' => session('MONETIZATION')['PAYMENT_INFORMATION'],
-            ]);
-        $responseJson = $response->json();
-
-        return view('monetization.success', compact('transactionId'));
+            $transactionId = md5(time());
+    
+            $response = Http::timeout(300)->withHeaders(Api::headers([
+                'husercode' => session('USER_DETAILS')['USER_CODE']
+            ]))
+                ->asForm()
+                ->post(Api::endpoint('/sendpaymentdetails'), [
+                    'transactionId' => $transactionId,
+                    'requestAction' => 'sendPaymentInfo',
+                    'amount' => session('MONETIZATION')['AMOUNT'],
+                    'monetizationGuid' => session('MONETIZATION')['MONETIZATION_GUID'],
+                    'subsType' => session('MONETIZATION')['SUBS_TYPE'],
+                    'paymentInformation' => $paymentInfo,
+                ]);
+            $responseJson = $response->json();
+    
+            return view('monetization.success', compact('transactionId', 'responseJson'));
+        }
     }
 
     public function cancel()

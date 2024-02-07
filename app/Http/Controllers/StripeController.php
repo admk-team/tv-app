@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use \Stripe\Stripe;
+use App\Services\Api;
+use Illuminate\Http\Request;
+use App\Helpers\GeneralHelper;
+use App\Http\Controllers\Controller;
 
 class StripeController extends Controller
 {
@@ -24,7 +26,7 @@ class StripeController extends Controller
                             ]
                         ],
                         'unit_amount' => $stripeAmount,
-                        'currency' => 'USD',
+                        'currency' => \App\Services\AppConfig::get()->app->colors_assets_for_branding->payment_currency_code,
                     ],
                     'quantity' => 1
                 ]],
@@ -52,22 +54,111 @@ class StripeController extends Controller
         }
     }
 
+    // public function success(Request $request)
+    // {
+    //     try {
+    //         // $session_id = $request->query('session_id');
+    //         // $checkout_session = \Stripe\Checkout\Session::retrieve($session_id);
+    //         // $paymentIntent = \Stripe\PaymentIntent::retrieve($checkout_session->payment_intent);
+    //         // $customer_details = $checkout_session->customer_details; 
+    //         // $transactionID = $paymentIntent->id;
+    //         // $paidAmount = $paymentIntent->amount / 100;
+    //         // $paidCurrency = $paymentIntent->currency;
+    //         // $payment_status = $paymentIntent->status;
+
+    //         return redirect('/monetization/success');
+    //     } catch (\Throwable $th) {
+    //         return response()->json(['error' => $th->getMessage()], 500);
+    //     }
+    // }
+
     public function success(Request $request)
     {
-        try {
-            // $session_id = $request->query('session_id');
-            // $checkout_session = \Stripe\Checkout\Session::retrieve($session_id);
-            // $paymentIntent = \Stripe\PaymentIntent::retrieve($checkout_session->payment_intent);
-            // $customer_details = $checkout_session->customer_details; 
-            // $transactionID = $paymentIntent->id;
-            // $paidAmount = $paymentIntent->amount / 100;
-            // $paidCurrency = $paymentIntent->currency;
-            // $payment_status = $paymentIntent->status;
+        $payment_id = $statusMsg = ''; 
+        $status = 'error';
+        $title = 'Great!';
+        $error = false;
+        
+        // Check whether stripe checkout session is not empty 
+        if($request->session_id){ 
+            $session_id = $request->session_id; 
+            // Include the Stripe PHP library 
+            
+            // Set API key 
+            // \Stripe\Stripe::setApiKey(\App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key);
+            \Stripe\Stripe::setApiKey('sk_test_51L4L81HiZyMtoobwtNx6DIoBxcWloRyDLrzt7LHwBFmVeAYVI03bz18YubxoCLDgJBi0mcTeHhNn3RXlQdoj896z006odBIAaL');
+            
+            // Fetch the Checkout Session to display the JSON result on the success page 
+            try { 
+                $checkout_session = \Stripe\Checkout\Session::retrieve($session_id); 
+            } catch(\Exception $e) {  
+                $error = true;
+                $api_error = $e->getMessage();  
+            } 
+            
+            if(!$error && $checkout_session){ 
+                
+                // Get customer details 
+                $customer_details = $checkout_session->customer_details; 
 
-            return redirect('/monetization/success');
-        } catch (\Throwable $th) {
-            return response()->json(['error' => $th->getMessage()], 500);
+                // Retrieve the details of a PaymentIntent 
+                try { 
+                    $paymentIntent = \Stripe\PaymentIntent::retrieve($checkout_session->payment_intent); 
+                } catch (\Stripe\Exception\ApiErrorException $e) { 
+                    $error = true;
+                    $api_error = $e->getMessage(); 
+                } 
+
+                if(!$error && $paymentIntent){ 
+                    // Check whether the payment was successful 
+                    if(!empty($paymentIntent) && $paymentIntent->status == 'succeeded'){ 
+                        // Transaction details  
+                        $transactionID = $paymentIntent->id; 
+                        $paidAmount = $paymentIntent->amount; 
+                        $paidAmount = ($paidAmount/100); 
+                        $paidCurrency = $paymentIntent->currency; 
+                        $payment_status = $paymentIntent->status; 
+                        
+                        // Customer info 
+                        $customer_name = $customer_email = ''; 
+                        if(!empty($customer_details)){ 
+                            $customer_name = !empty($customer_details->name)?$customer_details->name:''; 
+                            $customer_email = !empty($customer_details->email)?$customer_details->email:''; 
+                        } 
+
+                        $arrFormData['requestAction'] = 'sendPaymentInfo';
+                        $arrFormData['transactionId'] = $transactionID; //md5(time());
+                        $arrFormData['amount'] =  $paidAmount; //$_SESSION['MONETIZATION']['AMOUNT'];
+                        $arrFormData['monetizationGuid'] = session('MONETIZATION')['MONETIZATION_GUID'];
+                        $arrFormData['subsType'] = session('MONETIZATION')['SUBS_TYPE'];
+                        $arrFormData['paymentInformation'] = session('MONETIZATION')['PAYMENT_INFORMATION'];
+                        $arrRes = GeneralHelper::sendCURLRequest(0, Api::endpoint('/sendpaymentdetails'), $arrFormData);
+                        $status = 'success'; 
+                        $statusMsg = $arrRes['app']['msg']; 
+                        $title = 'Great!';
+                    }else{ 
+                        $statusMsg = "Transaction has been failed!"; 
+                        $title = 'Oops!';
+                    } 
+                }else{ 
+                    $statusMsg = "Unable to fetch the transaction details! $api_error";  
+                    $title = 'Oops!';
+                }
+            }else{
+                $statusMsg = "Invalid Transaction! $api_error"; 
+                $title = 'Oops!';
+            }
+
+        }else{
+            $statusMsg = "Invalid Request!"; 
+            $title = 'Oops!';
         }
+
+        session()->flash("stripe_payment_processed", true);
+        session()->flash("statusMsg", $statusMsg);
+        session()->flash("title", $title);
+
+        return redirect('/monetization/success');
     }
 
 }
