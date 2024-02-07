@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>24 Flix </title>
+    <title>{{ $data->app->app_info->app_name ?? '' }}</title>
     <link rel="icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -33,7 +33,7 @@
     <nav class="navbar navbar-expand-lg bg-transparent fixed-top border-bottom-0">
         <div class="container-fluid">
             <a class="navbar-brand img-fluid" href="/home"><img alt="logo"
-                    src="{{ $data->app->app_info->website_faviocn ?? '' }}" width="100px" class="img-fluid" /></a>
+                    src="{{ $data->app->app_info->website_logo ?? '' }}" width="100px" class="img-fluid" /></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon text-white"></span>
@@ -324,7 +324,8 @@
     <div class="container-fluid footer_bottom">
         <div class="row justify-content-sm-center justify-content-md-between p-2">
             <div class="col-md-6 text-white fs-14px">
-                © 24 Flix 2022-2024 ALL RIGHTS RESERVED. </div>
+                © {{ $data->app->app_info->app_name ?? '' }}
+                {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
             <div class="col-md-6 text-end text-white">
 
                 <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">

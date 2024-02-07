@@ -11,12 +11,12 @@
         <meta property="og:description" content="{!! @$data->app->app_info->seo_description ?? '' !!}" />
     @endif
     <title>
-        24 Flix @stack('title')
+        {{ \App\Services\AppConfig::get()->app->app_info->app_name ?? '' }}
     </title>
     @stack('style')
     {{-- Old Css --}}
-    <link rel="shortcut icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
-    <link rel="icon" type="image/x-icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
+
+    <link rel="shortcut icon" href="{{ \App\Services\AppConfig::get()->app->app_info->website_faviocn ?? '' }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style-old.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/userprofile.css') }}">
     <style>
@@ -59,13 +59,15 @@
 
 <body>
 
-    @include('layouts.partials.header')
+    @include('layouts.partials.header_old')
+
+
 
     <div class="content">
         @yield('content')
     </div>
 
-    @include('layouts.partials.footer')
+    @include('layouts.partials.footer_old')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">

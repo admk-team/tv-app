@@ -3,7 +3,7 @@
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
 <head>
-    <title>24 Flix</title>
+    <title>{{ $data->app->app_info->app_name ?? '' }}</title>
     <link rel="icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
     <meta http-equiv="x-dns-prefetch-control" content="on" />
     <meta http-equiv="Pragma" content="no-control" />
@@ -41,8 +41,8 @@
                                 </div>
                             </div>
                             <a href="">
-                                <img alt="logo" src="{{ $data->app->app_info->website_faviocn ?? '' }}"
-                                    width="35" height="35">
+                                <img alt="logo" src="{{ $data->app->app_info->website_logo ?? '' }}" width="35"
+                                    height="35">
                             </a>
                             <div class="ItzA1">
                                 <div class="S1MTF W5KqS">
@@ -110,7 +110,8 @@
                             </div>
                             <div class="Row BVyG0">
                                 <div class="Col Col--12 Col--md-6">
-                                    <div class="LLBYg l4FB_ FWbqn">You can find 24 Flix on all of the major App Stores
+                                    <div class="LLBYg l4FB_ FWbqn">You can find
+                                        {{ $data->app->app_info->app_name ?? '' }} on all of the major App Stores
                                         including IOS, Android, Roku, Apple TV, Amazon Fire TV, Samsung, LG, Vidaa and
                                         on the web.</div>
                                 </div>
@@ -365,7 +366,7 @@
                             <div class="Row M6oaW">
                                 <div class="gcp3k">
                                     <a href="">
-                                        <img alt="logo" src="{{ $data->app->app_info->website_faviocn ?? '' }}"
+                                        <img alt="logo" src="{{ $data->app->app_info->website_logo ?? '' }}"
                                             width="35" height="35">
                                     </a>
                                 </div>

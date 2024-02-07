@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>24 Flix</title>
+    <title>{{ $data->app->app_info->app_name ?? '' }}</title>
 
     <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/paramount/css/paramount.css') }}">
     <link rel="icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
@@ -35,7 +35,7 @@
 
         <div class="logo">
             <img alt="
-            {{ $appName }} logo" src="{{ $data->app->app_info->website_faviocn ?? '' }}"
+            {{ $appName }} logo" src="{{ $data->app->app_info->website_logo ?? '' }}"
                 width="100%">
         </div>
         <div class="header">
@@ -107,7 +107,8 @@
             <a href="javascript:void(0);">Cookies</a>|
             <a href="javascript:void(0)" class="ot-sdk-show-settings">Manage Cookies</a>
         </div>
-        <div class="copyright">© <span id="copyright-year"></span> {{ $appName }}. All Rights Reserved.</div>
+        <div class="copyright">© <span id="copyright-year"></span> {{ $data->app->app_info->app_name ?? '' }}. All
+            Rights Reserved.</div>
     </footer>
     <!-- End of footer text-->
 </body>

@@ -1,6 +1,6 @@
 @switch(\App\Services\AppConfig::getMenuBySlug($slug)?->menu_type)
     @case('GE')
-        <x-layouts.app>
+        <x-layouts.app :appInfo="$data->app->app_info">
             @include('components.genres')
         </x-layouts.app>
     @break
@@ -17,13 +17,13 @@
         @elseif ($data->app->app_info->landing_theme == 'Eli')
             @include('components.elias')
         @elseif ($data->app->app_info->landing_theme == 'NRE')
-            <x-layouts.app>
+            <x-layouts.app :appInfo="$data->app->app_info">
                 @include('components.page-banner')
                 @include('components.category-slider')
                 @include('components.download-box')
             </x-layouts.app>
         @else
-            <x-layouts.app>
+            <x-layouts.app :appInfo="$data->app->app_info">
                 @include('components.page-banner')
                 @include('components.category-slider')
                 @include('components.download-box')
@@ -32,7 +32,7 @@
     @break
 
     @default
-        <x-layouts.app>
+        <x-layouts.app :appInfo="$data->app->app_info">
             @include('components.page-banner')
             @include('components.category-slider')
         </x-layouts.app>
