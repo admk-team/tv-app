@@ -11,11 +11,11 @@
         <meta property="og:description" content="{!! @$data->app->app_info->seo_description ?? '' !!}" />
     @endif
     <title>
-        24 Flix @stack('title')
+        {{ $appInfo->app_name ?? '' }}@stack('title')
     </title>
     @stack('style')
     {{-- Old Css --}}
-    <link rel="shortcut icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
+    <link rel="shortcut icon" href="{{ $appInfo->website_faviocn ?? '' }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style-old.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/userprofile.css') }}">
     <style>

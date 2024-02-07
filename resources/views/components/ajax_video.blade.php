@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>24 Flix</title>
+    <title>{{ $data->app->app_info->app_name ?? '' }}</title>
     <link rel="icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -304,7 +304,8 @@
     <div class="container-fluid footer_bottom">
         <div class="row justify-content-sm-center justify-content-md-between p-2">
             <div class="col-md-6 text-white fs-14px">
-                © 24 Flix 2022-2024 ALL RIGHTS RESERVED. </div>
+                © {{ $data->app->app_info->app_name ?? '' }}
+                {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
             <div class="col-md-6 text-end text-white">
 
                 <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">

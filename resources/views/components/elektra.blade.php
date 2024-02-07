@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $data->app->app_info->title ?? '' }}</title>
+    <title>{{ $data->app->app_info->app_name ?? '' }}</title>
     <link rel="icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
 
     <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/netflix/css/bootstrap.min.css') }}">
@@ -19,7 +19,7 @@
         </div>
 
         <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 shadow-sm">
-            <h5 class="my-0 mr-md-auto font-weight-normal text-white">{{ $appName }}</h5>
+            <h5 class="my-0 mr-md-auto font-weight-normal text-white">{{ $data->app->app_info->app_name ?? '' }}</h5>
             <nav class="my-2 my-md-0 mr-md-3">
                 <a class="p-2 text-white" href="javascript:void(0);">Support</a>
             </nav>
