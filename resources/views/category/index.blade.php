@@ -56,9 +56,10 @@
             </div>
         </div>
     </section>
+@endsection
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+@push('scripts')
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script>
         $(document).ready(function() {
             var data = {!! json_encode($categories) !!};
@@ -123,4 +124,4 @@
             loadMoreData();
         });
     </script>
-@endsection
+@endpush
