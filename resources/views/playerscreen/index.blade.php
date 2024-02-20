@@ -6,7 +6,7 @@
     $IS_SIGNIN_BYPASS = 'N';
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
-    
+
     session('GLOBAL_PASS', 0);
     request()->server('REQUEST_METHOD');
     $protocol = request()->server('HTTPS') === 'on' ? 'https' : 'http';
@@ -65,14 +65,14 @@
             \Illuminate\Support\Facades\Redirect::to(route('monetization'))->send();
         }
     }
-    
+
     $mType = 'video';
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
     }
     $apiPath = App\Services\Api::endpoint('/mngstrmdur');
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN');
-    
+
     // here get the video duration
     $seekFunStr = '';
     $arrFormData4VideoState = [];
@@ -88,7 +88,7 @@
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
         $seekFunStr = "this.currentTime($streamDurationInSec);";
     }
-    
+
     // Here Set Ad URL in Session
     if (!session('ADS_INFO')) {
         session([
@@ -99,7 +99,7 @@
             ],
         ]);
     }
-    
+
     $useragent = request()->server('HTTP_USER_AGENT');
     $isMobileBrowser = 0;
     if (
@@ -113,13 +113,13 @@
     }
     $isMobileBrowser = 0;
     $dataVast = 'data-vast="' . url('/get-ad?' . $adParam) . '"';
-    
+
     if ($isMobileBrowser == 1) {
         $dataVast = '';
     }
-    
+
     $adUrl = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
-    
+
     $watermark = $arrSlctItemData['watermark'] ?? null;
     ?>
 
@@ -162,7 +162,23 @@
             user-select: none;
         }
 
-        .watermark.top {
+        .watermark.center {
+            right: 0;
+            width: fit-content;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            height: fit-content;
+        }
+
+        .watermark.top-left {
+            top: 1em;
+            width: fit-content;
+            left: 0;
+        }
+
+        .watermark.top-center {
             top: 1em;
             width: fit-content;
             margin: auto;
@@ -170,7 +186,13 @@
             right: 0;
         }
 
-        .watermark.bottom {
+        .watermark.top-right {
+            top: 1em;
+            width: fit-content;
+            right: 0;
+        }
+
+        .watermark.bottom-center {
             bottom: 1em;
             width: fit-content;
             margin: auto;
@@ -178,7 +200,19 @@
             right: 0;
         }
 
-        .watermark.left {
+        .watermark.bottom-left {
+            bottom: 1em;
+            width: fit-content;
+            left: 0;
+        }
+
+        .watermark.bottom-right {
+            bottom: 1em;
+            width: fit-content;
+            right: 0;
+        }
+
+        .watermark.left-center {
             left: 1em;
             width: fit-content;
             margin: auto;
@@ -186,12 +220,36 @@
             transform: translateY(-50%);
         }
 
-        .watermark.right {
+        .watermark.left-top {
+            left: 1em;
+            width: fit-content;
+            top: 0%;
+        }
+
+        .watermark.left-bottom {
+            left: 1em;
+            width: fit-content;
+            bottom: 0%;
+        }
+
+        .watermark.right-center {
             right: 1em;
             width: fit-content;
             margin: auto;
             top: 50%;
             transform: translateY(-50%);
+        }
+
+        .watermark.right-top {
+            right: 1em;
+            width: fit-content;
+            top: 0%;
+        }
+
+        .watermark.right-bottom {
+            right: 1em;
+            width: fit-content;
+            bottom: 0%;
         }
 
         .watermark.left.rotate {
@@ -209,7 +267,9 @@
         }
 
         .watermark img {
-            max-height: 112px;
+            max-height: {{ $watermark ? $watermark['size'] . 'px' : '112px' }};
+            height: {{ $watermark ? $watermark['size'] . 'px' : '112px' }};
+            opacity: {{ $watermark ? $watermark['opacity'] : 0 }};
             -webkit-user-drag: none;
             user-select: none;
         }
