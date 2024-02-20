@@ -48,29 +48,25 @@
                 <div class="form-group text-center mb-4">
                     <button class="auth app-secondary-btn rounded" id="load-more-btn">Load More</button>
                 </div>
-
-                <div class="col-md-12" style="float: left;">
+                {{-- <div class="col-md-12" style="float: left;">
                     <div class="ajax-load text-center spinLoad text-white" style="display: none;">No more videos found!
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>
 @endsection
 
 @push('scripts')
-{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script>
         $(document).ready(function() {
             var data = {!! json_encode($categories) !!};
-            console.log(data);
 
             var currentIndex = 0;
             var batchSize = 20;
 
             function loadMoreData() {
                 var streams = data.streams.slice(currentIndex, currentIndex + batchSize);
-                console.log(streams);
 
                 streams.forEach(function(stream) {
                     $('#data-container').append($(`
