@@ -15,8 +15,11 @@ class Api
             'happcode' => env('APP_CODE')
         ];
 
-        if (session('USER_DETAILS.USER_CODE')) 
+        if (session('USER_DETAILS.USER_CODE'))
             $defaultHeaders['husercode'] = session('USER_DETAILS.USER_CODE');
+
+        if (session('USER_DETAILS.USER_PROFILE'))
+            $defaultHeaders['huserprofile'] = session('USER_DETAILS.USER_PROFILE');
 
         return array_merge($defaultHeaders, $headers);
     }

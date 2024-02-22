@@ -51,9 +51,16 @@ class LoginController extends Controller
             return redirect($redirectUrl);
         }
 
+        $response = Http::withHeaders(Api::headers())
+            ->asForm()
+            ->get(Api::endpoint('/userprofiles/' . $responseJson['app']['data']['user_id']), [
+                'type' => 'advisory',
+            ]);
+        $user_data = $response->json();
+
         if ($profile === 1) {
-            return redirect(route('profile.index'));
+            return redirect()->route('profile.index', ['user_data' => $user_data]);
         }
-        return redirect(route('profile.index'));
+        return redirect()->route('profile.index', ['user_data' => $user_data]);
     }
 }

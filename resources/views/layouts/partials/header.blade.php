@@ -3,7 +3,7 @@
         <ul class="links">
             <li class="logo">
                 <a href="/">
-                    <img src="{{ $appInfo->website_logo ?? ''  }}" alt="">
+                    <img src="{{ $appInfo->website_logo ?? '' }}" alt="">
                 </a>
             </li>
             @foreach (\App\Services\AppConfig::get()->app->menus as $menu)

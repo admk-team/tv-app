@@ -56,6 +56,7 @@ Route::middleware('auth.user')->group(function () {
     Route::get('password/edit', [PasswordUpdateController::class, 'index'])->name('password.edit');
     Route::post('password/update', [PasswordUpdateController::class, 'update'])->name('password.update');
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/view/profile/{id}', [ProfileController::class, 'view_profile'])->name('profile.view_profile');
 });
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');

@@ -22,27 +22,78 @@
 
 @section('content')
     <div class="whoIsWatching">
-        <!--<div class="logo-section">-->
-        <!--    <a href="/"><img src="images/logo.png" alt="logo"></a>-->
-        <!--</div>-->
-
         <div class="main-div">
             <h1>Who's watching?</h1>
             <div class="memberDiv">
                 <button class="addIcon"><i class="fa fa-plus-circle"></i> <span>Add Profile</span></button>
             </div>
-            <!--<button class="manageProfile">manage Profile</button>-->
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div class="modal fade" id="addIconModal" role="dialog" aria-labelledby="addIconModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addIconModalLabel">Add Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <div class="row mb-3">
+                                <div class="col-lg-12">
+                                    <label for="userNameModal" class="form-label"
+                                        style="color: #000 !important; background-color: #fff !important;">Your
+                                        Name:</label>
+                                    <input type="text" id="userNameModal" class="form-control"
+                                        style="color: #000 !important; background-color: #fff !important;">
+                                    <small id="nameErrorMessageModal" class="text-danger"></small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <!-- New dropdown for content ratings -->
+                                    <label for="content_rating" class="form-label"
+                                        style="color: #000 !important; background-color: #fff !important;">Content
+                                        Rating:</label>
+                                    <select name="content_rating" class="form-control" id="content_rating"
+                                        style="color: #000 !important; background-color: #fff !important;">
+                                        <option disabled selected>Select</option>
+                                        @foreach ($user_data['all_ratings'] as $rating)
+                                            @if ($rating['title'])
+                                                <option value="{{ $rating['code'] }}">{{ $rating['title'] }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            aria-label="Close">Close</button> --}}
+                        <button type="button" class="app-primary-btn rounded" id="addIconModalBtn">Add</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
-
 @push('scripts')
     <script>
+        // Function to populate the content rating dropdown
+
         var totalProfiles = 0;
+        var users = []; // Define users array
 
         $(document).ready(function() {
             let usersProfiles = [];
-            let users = [];
+
+            // Fetch user profiles from API
             $.ajax({
                 type: "GET",
                 url: '{{ env('API_BASE_URL') }}' + '/userprofiles/' +
@@ -50,47 +101,62 @@
                 dataType: 'json',
             }).done(function(data) {
                 var dataArray = data;
-                usersProfiles = dataArray.data
+                usersProfiles = dataArray.user_profiles;
+
+                // Call the function to populate the dropdown
+                // populateContentRatingDropdown(dataArray.all_ratings);
+
                 if (usersProfiles.length >= 6) {
                     $('.addIcon').hide();
                 }
                 userIcons(usersProfiles);
-                users = usersProfiles;
+                users = usersProfiles.map(user => user.name); // Populate users array with names
             });
 
-
-
-
-            console.log('array', users);
 
             const memberDiv = document.querySelector('.memberDiv');
             const addIcon = document.querySelector('.addIcon');
 
-
             const userIcons = (usersProfiles) => {
-                console.log('usersProfiles', usersProfiles);
                 totalProfiles = usersProfiles.length;
-                // usersProfiles.reverse();
                 usersProfiles.map((curElem) => {
                     memberDiv.insertAdjacentHTML('afterbegin', `
-                <button class="btn" data-id="${curElem.id}"><span>${curElem.name}</span>
-                    <i class="bi bi-dash-circle account-delete-icon" onclick="deleteProfile(${curElem.id})"></i>
-                    </button>
-                `);
-                })
+                        <button class="btn" data-id="${curElem.id}">
+                            <span>${curElem.name}</span>
+                            <i class="bi bi-dash-circle account-delete-icon" onclick="deleteProfile(${curElem.id})"></i>
+                        </button>
+                    `);
+                });
             };
 
             addIcon.addEventListener('click', () => {
-                let userName = prompt('please enter your name');
-                if (userName == '') {
-                    return alert('Please enter your name');
+                // Show the modal
+                $('#addIconModal').modal('show');
+            });
+
+            // Handle the modal add button click
+            $('#addIconModalBtn').on('click', function() {
+                let userName = $('#userNameModal').val();
+                let content_rating = $('#content_rating').val(); // Get selected content rating
+                let nameErrorMessage = $('#nameErrorMessageModal');
+
+                // Validate the name field
+                if (userName === '') {
+                    nameErrorMessage.text('Please enter your name');
+                    return;
+                } else {
+                    // Clear the error message if the name is provided
+                    nameErrorMessage.text('');
                 }
 
-                if (userName != null && !users.includes(userName)) {
+                if (!users.includes(userName)) {
                     let queryStringPOST = {
                         userId: '{{ session('USER_DETAILS')['USER_ID'] }}',
-                        name: userName
+                        name: userName,
+                        content_rating: content_rating, // Include content rating in the post request
                     }
+
+                    // Your existing AJAX call remains unchanged
                     $.ajax({
                         type: "POST",
                         url: '{{ env('API_BASE_URL') }}' + '/userprofiles',
@@ -103,29 +169,56 @@
                         } else {
                             users.push(userName);
                             memberDiv.insertAdjacentHTML('afterbegin', `
-                <button class="btn" data-id="${currentProfile.id}"><span>${currentProfile.name}</span>
-                    <i class="bi bi-dash-circle account-delete-icon" onclick="deleteProfile(${currentProfile.id})"></i>
-                    </button>
-                `);
+                                <button class="btn" data-id="${currentProfile.id}">
+                                    <span>${currentProfile.name}</span>
+                                    <i class="bi bi-dash-circle account-delete-icon" onclick="deleteProfile(${currentProfile.id})"></i>
+                                </button>
+                            `);
                             totalProfiles = $(".btn").length;
-                            console.log('totalProfiles addd', totalProfiles);
+
                             if (totalProfiles >= 6) {
                                 $('.addIcon').hide();
                             } else {
                                 $('.addIcon').show();
                             }
+
+                            // Hide the modal after successful addition
+                            $('#addIconModal').modal('hide');
+                            // Clear the name field for the next entry
+                            $('#userNameModal').val('');
                         }
                     });
                 } else {
-                    alert('username already exist');
+                    alert('Username already exists');
                 }
             });
+            var profileid = null;
             $(document).on('click', '.btn', function(e) {
+                var profileid = this.getAttribute('data-id');
                 if (!event.target.classList.contains("account-delete-icon")) {
-                    window.location.href = "{{ route('home') }}";
+                    window.location.href = '{{ url('/') }}' + '/view/profile/' + profileid;
                 }
             });
 
+            // Function to populate content rating dropdown
+            function populateContentRatingDropdown(contentRatings) {
+                let contentRatingDropdown = $('#contentRatingModal');
+                contentRatingDropdown.empty(); // Clear existing options
+
+                // Add default option
+                contentRatingDropdown.append($('<option>', {
+                    value: '',
+                    text: 'Select Content Rating',
+                }));
+
+                // Add options for each content rating
+                contentRatings.forEach(function(rating) {
+                    contentRatingDropdown.append($('<option>', {
+                        value: rating.id,
+                        text: rating.name,
+                    }));
+                });
+            }
         });
 
         function deleteProfile(id) {
