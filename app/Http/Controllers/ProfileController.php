@@ -26,4 +26,8 @@ class ProfileController extends Controller
 
         return redirect()->route('home');
     }
+    public function history()
+    {
+        return view('watch_history.index');
+    }
 }
