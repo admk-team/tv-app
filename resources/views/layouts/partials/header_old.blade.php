@@ -1,3 +1,8 @@
+<style>
+    ul.profiledropin li a {
+        color: black !important;
+    }
+</style>
 <header class="header">
     <nav class="inner">
         <ul class="links">
