@@ -57,12 +57,13 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <!-- New dropdown for content ratings -->
-                                    <label for="content_rating" class="form-label"
+                                    <div class="row">
+                                        <label for="content_rating" class="form-label"
                                         style="color: #000 !important; background-color: #fff !important;">Content
                                         Rating:</label>
-                                    <select name="content_rating" class="form-control" id="content_rating"
-                                        style="color: #000 !important; background-color: #fff !important;">
-                                        <option disabled selected>Select</option>
+                                    </div>
+                                    <select name="content_rating[]" class="form-control app_code_select" id="content_rating" multiple="multiple"
+                                        style="color: #000 !important; background-color: #fff !important; width:465px">
                                         @foreach ($user_data['all_ratings'] as $rating)
                                             @if ($rating['title'])
                                                 <option value="{{ $rating['code'] }}">{{ $rating['title'] }}</option>
@@ -84,11 +85,17 @@
     </div>
 @endsection
 @push('scripts')
+    <!-- INTERNAL QUILL JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         // Function to populate the content rating dropdown
 
         var totalProfiles = 0;
         var users = []; // Define users array
+        var select2type = $('.app_code_select').select2({
+            dropdownParent: $("#addIconModal"),
+            placeholder: "Select",
+        });
 
         $(document).ready(function() {
             let usersProfiles = [];
