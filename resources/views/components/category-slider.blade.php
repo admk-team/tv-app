@@ -66,12 +66,21 @@
                     </div>
                     <div class="{{ $cartMainCls }} slider slick-slider">
                         @foreach ($category->streams as $stream)
+                            @php
+                            $url = route('detailscreen', $stream->stream_guid);
+                            if ($stream->stream_type === 'A') {
+                                $url = $stream->stream_promo_url;
+                                if ($stream->is_external_ad === 'N') {
+                                    $url = route('detailscreen', $stream->stream_promo_url);
+                                }
+                            }
+                            @endphp
                             <div class="item">
                                 <div class="{{ $cartMainSubCls }}">
                                         @if ($category->cat_title == 'Top 10')
-                                            <a href="{{ route('detailscreen', $stream->stream_guid) }}">
+                                            <a href="{{ $url }}">
                                                 <div class="d-flex cursor-pointer position-relative">
-                                                    <a class="top-10-slider-wrapper" href="{{ route('detailscreen', $stream->stream_guid) }}"></a>
+                                                    <a class="top-10-slider-wrapper" href="{{ $url }}"></a>
                                                     <a class="top-10-slider-number" >{{ $loop->iteration }}</a>
                                                     <div class="{{ $cardThumbCls2 }}">
                                                         <div class="trending_icon_box" {!! $stream->monetization_type == 'F'? 'style="display: none;"': '' !!}><img
@@ -98,7 +107,7 @@
                                                 </div>
                                             </a>
                                         @else
-                                            <a href="{{ route('detailscreen', $stream->stream_guid) }}">
+                                            <a href="{{ $url }}">
                                                 <div class="{{ $cardThumbCls2 }}">
                                                     <div class="trending_icon_box" {!! $stream->monetization_type == 'F'? 'style="display: none;"': '' !!}><img
                                                         src="{{ url('/') }}/assets/images/trending_icon.png" alt="Trending">
