@@ -1189,7 +1189,7 @@ section.sliders {
 {
     background: #ed1f2b;
     border-radius: 0px;
-   
+
     color: var(--themePrimaryTxtColor);
     font-family: 'Noto Sans';
     font-size: 16px;
@@ -3628,7 +3628,7 @@ ul.profiledropin li a {
     padding: 6px 10px;
     display: block;
     width: 100%;
-    color: var(--themeSecondaryTxtColor);
+    color: black;
 }
 
 ul.profiledropin li a:hover {
@@ -4747,7 +4747,7 @@ textarea.form-control:focus {
         bottom: 120px;
         left: 20px;
         right: 0;
-        
+
     }*/
 
     .logForm .inner-cred {

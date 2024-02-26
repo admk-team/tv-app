@@ -57,6 +57,8 @@ Route::middleware('auth.user')->group(function () {
     Route::post('password/update', [PasswordUpdateController::class, 'update'])->name('password.update');
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/view/profile/{id}', [ProfileController::class, 'view_profile'])->name('profile.view_profile');
+    //watch history
+    Route::get('watch/history', [ProfileController::class, 'history'])->name('watch.history');
 });
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');

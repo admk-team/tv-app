@@ -1,3 +1,8 @@
+<style>
+    ul.profiledropin li a {
+        color: black !important;
+    }
+</style>
 <header class="header">
     <nav class="inner">
         <ul class="links">
@@ -31,6 +36,8 @@
                             {{-- <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
                                     History</a></li> --}}
                             <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change Password</a>
+                            </li>
+                            <li><a class="text-decoration-none" href="{{ route('watch.history') }}">Watch History</a>
                             </li>
                             <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
                         </ul>

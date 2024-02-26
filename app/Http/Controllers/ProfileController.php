@@ -26,4 +26,12 @@ class ProfileController extends Controller
 
         return redirect()->route('home');
     }
+    public function history()
+    {
+        $response = Http::withHeaders(Api::headers())
+            ->asForm()
+            ->get(Api::endpoint('/watch/history'), []);
+        $data = $response->json();
+        return view('watch_history.index', compact('data'));
+    }
 }
