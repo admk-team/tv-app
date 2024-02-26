@@ -33,91 +33,58 @@
                         <h1>Watch History</h1>
                     </div>
                 </div>
-                <div class="">
-                    <div style="display: flex">
-                        <div class="item">
-                            <div class="ripple">
-                                <a href="http://127.0.0.1:8000/detailscreen/f9c5c8bde8364943a7c17027a5d51205">
-                                    <div class="thumbnail_img">
-                                        <div class="trending_icon_box" style="display: none;"><img
-                                                src="http://127.0.0.1:8000/assets/images/trending_icon.png" alt="Trending">
-                                            ">
-                                        </div>
-                                        <div class="">
-                                            <img src="https://onlinechannel.io/storage/7376d3829575f06617d9db3f7f6836df_1690652617_cc1_ttw_.jpg"
-                                                alt="Letters To God">
-                                        </div>
-                                        <div class="detail_box_hide">
-                                            <div class="detailbox_time">
-                                                1:50:00
-                                            </div>
-                                            <div class="deta_box">
-                                                <div class="season_title"></div>
-                                                <div class="content_title">Letters To God</div>
-                                                <div class="content_description">
-                                                    Tyler is an extraordinary eight-year-old boy armed with strong faith and
-                                                    courage as he faces his daily battle against cancer. Surrounded by a
-                                                    loving
-                                                    family and community, Tyler&#039;s prayers take the form of letters he
-                                                    sends
-                                                    to his ultimate pen pal, God.
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="content_title">Letters To God</div>
-                        <div class="content_description">
-                            Tyler is an extraordinary eight-year-old boy armed with strong faith and
-                            courage as he faces his daily battle against cancer. Surrounded by a loving
-                            family and community, Tyler&#039;s prayers take the form of letters he sends
-                            to his ultimate pen pal, God.
-                        </div>
-                    </div>
-                    <div class="item">
+                @foreach ($data['app']['streams'] as $key => $stream)
+                    @if ($key >= 30)
+                    @break
+                @endif
+                <div class="d-flex gap-4 mt-4 mb-4" style="max-width: 1000px;">
+                    <div class="">
                         <div class="ripple">
-                            <a href="http://127.0.0.1:8000/detailscreen/10f3423f11e250913780dbf0998eed7e">
+                            <a href="{{ route('detailscreen', $stream['stream_guid']) }}">
                                 <div class="thumbnail_img">
-                                    <div class="trending_icon_box" style="display: none;"><img
-                                            src="http://127.0.0.1:8000/assets/images/trending_icon.png" alt="Trending">
-                                        ">
-                                    </div>
-                                    <div class="">
-                                        <img src="https://onlinechannel.io/storage/1676458919_1509cc4_wI99iDaFT81G1J0eu67w1Ycf8uzeHcORluMNJPEKeLY.png"
-                                            alt="Super Detention">
+                                    {{--  <div class="trending_icon_box" {!! $stream['stream_guid'] == 'F' ? 'style="display: none;"' : '' !!}>
+                                        <img src="{{ url('/') }}/assets/images/trending_icon.png" alt="Trending">
+                                    </div>  --}}
+                                    <div>
+                                        <img src="{{ $stream['stream_poster'] }}" alt="{{ $stream['stream_title'] }}">
                                     </div>
                                     <div class="detail_box_hide">
                                         <div class="detailbox_time">
-                                            1:24:00
+                                            {{ $stream['stream_duration_timeformat'] ?? '' }}
                                         </div>
                                         <div class="deta_box">
-                                            <div class="season_title"></div>
-                                            <div class="content_title">Super Detention</div>
+                                            <div class="season_title">
+                                            </div>
+                                            <div class="content_title"> {{ $stream['stream_title'] }}</div>
                                             <div class="content_description">
-                                                Five misfit superhero teens have to work together to save the school from an
-                                                evil villain trying to steal all the student&#039;s powers.
+                                                {{ $stream['stream_description'] }}
                                             </div>
-
-
-                                            <div
-                                                style="background-color:#555455;height:5px; border-radius:2px;margin-top:10px;">
+                                            @if ($stream['stream_watched_dur_in_pct'] > 1)
                                                 <div
-                                                    style="background-color:#07659E;height:5px;border-radius:2px;width:21.11%">
+                                                    style="background-color:#555455;height:5px; border-radius:2px;margin-top:10px;">
+                                                    <div
+                                                        style="background-color:#07659E;height:5px;border-radius:2px;width:{{ $stream['stream_watched_dur_in_pct'] }}%">
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </a>
-                            </a>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="content_title mt-5" style="font-size: 28px;">{{ $stream['stream_title'] }}
+                        </div>
+                        <div class="content_description mt-5 mb-1"
+                            style=" font-size: 14px;line-height: 22px !important; ">
+                            {{ $stream['stream_description'] }}
                         </div>
                     </div>
                 </div>
-            </div>
+            @endforeach
+
         </div>
-    </section>
+    </div>
+</section>
 @endsection

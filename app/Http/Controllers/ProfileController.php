@@ -28,6 +28,10 @@ class ProfileController extends Controller
     }
     public function history()
     {
-        return view('watch_history.index');
+        $response = Http::withHeaders(Api::headers())
+            ->asForm()
+            ->get(Api::endpoint('/watch/history'), []);
+        $data = $response->json();
+        return view('watch_history.index', compact('data'));
     }
 }

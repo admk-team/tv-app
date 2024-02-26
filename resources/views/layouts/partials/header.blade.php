@@ -32,6 +32,8 @@
                                     History</a></li> --}}
                             <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change Password</a>
                             </li>
+                            <li><a class="text-decoration-none" href="{{ route('watch.history') }}">Watch History</a>
+                            </li>
                             <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
                         </ul>
                     </div>
