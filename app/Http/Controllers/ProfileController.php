@@ -26,6 +26,7 @@ class ProfileController extends Controller
 
         return redirect()->route('home');
     }
+
     public function history()
     {
         $response = Http::withHeaders(Api::headers())
@@ -33,5 +34,17 @@ class ProfileController extends Controller
             ->get(Api::endpoint('/watch/history'), []);
         $data = $response->json();
         return view('watch_history.index', compact('data'));
+    }
+
+    public function manage_profile($id)
+    {
+        $response = Http::withHeaders(Api::headers())
+            ->asForm()
+            ->get(Api::endpoint('/userprofiles/' . session('USER_DETAILS.USER_ID')), [
+                'type' => 'advisory',
+            ]);
+        $user_data = $response->json();
+
+        return view('profile.manage', compact('user_data'));
     }
 }
