@@ -58,9 +58,6 @@ class LoginController extends Controller
             ]);
         $user_data = $response->json();
 
-        if ($profile === 1) {
-            return redirect()->route('profile.index', ['user_data' => $user_data]);
-        }
-        return redirect()->route('profile.index', ['user_data' => $user_data]);
+        return view('profile.index', compact('user_data'));
     }
 }
