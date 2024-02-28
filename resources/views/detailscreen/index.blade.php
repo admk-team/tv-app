@@ -187,6 +187,7 @@
                             @endif
                             {{-- <span class="movie_type">{{ $stream_details['cat_title'] }}</span> --}}
                             <span class="movie_type">
+                                {{ dd($stream_details['genre']) }}
                                 @foreach ($stream_details['genre'] ?? [] as $item)
                                     <a href="{{ route('category', $item['code']) }}?type=genre"
                                         class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
@@ -592,7 +593,7 @@
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                              </div> -->
+                                                                                                                                                                          </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}
@@ -634,3 +635,19 @@
 
 @push('scripts')
 @endpush
+
+
+
+{{--  <a href="{{ route('detailscreen', $stream['stream_guid']) }}">
+    <img src="{{ $stream['stream_poster'] }}" alt="{{ $stream['stream_title'] }}"
+        class="img-fluid" style="position: relative;">
+    @if ($stream['stream_watched_dur_in_pct'] > 1)
+        <div class="progress"
+            style="background-color:#555455;height:5px; border-radius:2px;">
+            <div class="progress-bar bg-primary" role="progressbar"
+                style="background-color:#07659E;height:5px;border-radius:2px;width: {{ $stream['stream_watched_dur_in_pct'] }}%"
+                aria-valuenow="{{ $stream['stream_watched_dur_in_pct'] }}"
+                aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    @endif
+</a>  --}}
