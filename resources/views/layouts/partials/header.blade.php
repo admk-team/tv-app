@@ -38,8 +38,11 @@
                                     History</a></li> --}}
                             <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change Password</a>
                             </li>
-                            <li><a class="text-decoration-none" href="{{ route('watch.history') }}">Watch History</a>
-                            </li>
+                              @if (\App\Services\AppConfig::get()->app->app_info->watch_history === 1)
+                                <li><a class="text-decoration-none" href="{{ route('watch.history') }}">Watch
+                                        History</a>
+                                </li>
+                            @endif
                             <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
                         </ul>
                     </div>
