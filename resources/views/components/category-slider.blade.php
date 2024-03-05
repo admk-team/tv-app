@@ -78,7 +78,7 @@
                             <div class="item">
                                 <div class="{{ $cartMainSubCls }}">
                                         @if ($category->cat_title == 'Top 10')
-                                            <a href="{{ $url }}">
+                                            <a href="{{ $url }}" >
                                                 <div class="d-flex cursor-pointer position-relative">
                                                     <a class="top-10-slider-wrapper" href="{{ $url }}"></a>
                                                     <a class="top-10-slider-number" >{{ $loop->iteration }}</a>
@@ -107,7 +107,8 @@
                                                 </div>
                                             </a>
                                         @else
-                                            <a href="{{ $url }}">
+                                            <a href="{{ $url }}" style="display: flex;
+                                            justify-content: center;">
                                                 <div class="{{ $cardThumbCls2 }}">
                                                     <div class="trending_icon_box" {!! $stream->monetization_type == 'F'? 'style="display: none;"': '' !!}><img
                                                         src="{{ url('/') }}/assets/images/trending_icon.png" alt="Trending">

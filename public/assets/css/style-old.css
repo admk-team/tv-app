@@ -7208,6 +7208,7 @@ ul.dropsmenubox li a.dropdown-item:hover {
     width: 1606px !important;
     height: 470px !important;
     max-width: 100%;
+    margin: auto;
 }
 
 .billboard_img img {
