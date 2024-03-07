@@ -6,7 +6,7 @@
     $IS_SIGNIN_BYPASS = 'N';
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
-
+    
     session('GLOBAL_PASS', 0);
     request()->server('REQUEST_METHOD');
     $protocol = request()->server('HTTPS') === 'on' ? 'https' : 'http';
@@ -65,14 +65,14 @@
             \Illuminate\Support\Facades\Redirect::to(route('monetization'))->send();
         }
     }
-
+    
     $mType = 'video';
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
     }
     $apiPath = App\Services\Api::endpoint('/mngstrmdur');
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN');
-
+    
     // here get the video duration
     $seekFunStr = '';
     $arrFormData4VideoState = [];
@@ -88,7 +88,7 @@
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
         $seekFunStr = "this.currentTime($streamDurationInSec);";
     }
-
+    
     // Here Set Ad URL in Session
     if (!session('ADS_INFO')) {
         session([
@@ -99,7 +99,7 @@
             ],
         ]);
     }
-
+    
     $useragent = request()->server('HTTP_USER_AGENT');
     $isMobileBrowser = 0;
     if (
@@ -113,13 +113,13 @@
     }
     $isMobileBrowser = 0;
     $dataVast = 'data-vast="' . url('/get-ad?' . $adParam) . '"';
-
+    
     if ($isMobileBrowser == 1) {
         $dataVast = '';
     }
-
+    
     $adUrl = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
-
+    
     $watermark = $arrSlctItemData['watermark'] ?? null;
     ?>
 
@@ -301,7 +301,7 @@
                                         <div class="vertLine"></div>
                                         <input id="password" type="password" class="form-control" name="password"
                                             placeholder="Password" aria-autocomplete="list">
-                                        <img src="/images/lock.png" class="icn">
+                                        <img src="{{ asset('assets/images/lock.png') }}" class="icn">
                                         <span id="eye_password" toggle="#password"
                                             class="far fa-light fa-eye field-icon toggle-password"
                                             style="display:none;"></span>
@@ -350,7 +350,7 @@
                                                         <div class="vertLine"></div>
                                                         <input id="password" type="password" class="form-control"
                                                             name="password" placeholder="Password" aria-autocomplete="list">
-                                                        <img src="/images/lock.png" class="icn">
+                                                        <img src="{{ asset('assets/images/lock.png') }}" class="icn">
                                                         <span id="eye_password" toggle="#password"
                                                             class="far fa-light fa-eye field-icon toggle-password"
                                                             style="display:none;"></span>
@@ -503,7 +503,10 @@
                                 <span class="content_screen">
                                     @php
                                         $content_rating_arr = explode(',', $arrSlctItemData['content_rating']);
-                                        $content_rating_codes_arr = explode(',', $arrSlctItemData['content_rating_codes']);
+                                        $content_rating_codes_arr = explode(
+                                            ',',
+                                            $arrSlctItemData['content_rating_codes'],
+                                        );
                                     @endphp
                                     @foreach ($content_rating_arr as $i => $item)
                                         <a
@@ -672,7 +675,7 @@ if (!empty($arrCatData))
                                             {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                         </div>
                                         <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                  </div> -->
+                                                                                                                                                                      </div> -->
                                         <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                         <div class="content_description">{{ $arrStreamsData['stream_description'] }}</div>
                                     </div>
