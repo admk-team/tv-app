@@ -901,6 +901,21 @@ if (!empty($arrCatData))
 
         });
 
+        document.body.addEventListener("click", function (evt) {
+            //console.dir(this);
+            //note evt.target can be a nested element, not the body element, resulting in misfires
+            //console.log(evt.target);
+            if (player.getMediaPlaying())
+            {
+            // alert(player);
+                mediaId = player.getCurrentMediaData().mediaId
+                console.log(player.getCurrentMediaData());
+                console.log(player.getCurrentTime());
+            //  alert("body clicked");
+                sendAjaxRes4VideoDuration('saveStrmDur', mediaId, player.getCurrentTime());
+            }
+        });
+
         function unmutedVoice() {
             //alert("hi");
             player.toggleMute();
