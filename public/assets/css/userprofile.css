@@ -23,6 +23,7 @@
   justify-content: flex-start;
   align-items: center;
 }
+
 .logo-section a img {
   width: 10rem;
   height: 4rem;
@@ -54,10 +55,10 @@
 
 .memberDiv .btn,
 .addIcon {
-  height: 10vw;
+  height: 8vw;
   min-height: 8.4rem;
   max-height: 20rem;
-  width: 10vw;
+  width: 8vw;
   min-width: 8.4px;
   max-width: 20rem;
   border-radius: 0.4rem;
@@ -69,28 +70,36 @@
   cursor: pointer;
   background-repeat: no-repeat;
   background-size: cover;
+  transition: transform 0.3s ease-in-out;
 }
 
-.memberDiv  .btn:nth-child(1), .memberDiv  .btn:nth-child(6) {
-  background-image: url("../images//user1.png");
+.memberDiv .btn:nth-child(1),
+.memberDiv .btn:nth-child(6) {
+  background-image: url("../images/user1.png");
+  background-size: 153px 147px;
 }
 
-.memberDiv  .btn:nth-child(2) {
-  background-image: url("../images//user2.png");
+.memberDiv .btn:nth-child(2) {
+  background-image: url("../images/user2.png");
+  background-size: 153px 147px;
 }
 
-.memberDiv  .btn:nth-child(3), .memberDiv  .btn:nth-child(5) 
-{
-  background-image: url("../images//user3.png");
+.memberDiv .btn:nth-child(3),
+.memberDiv .btn:nth-child(5) {
+  background-image: url("../images/user3.png");
+  background-size: 153px 147px;
 }
 
-.memberDiv  .btn:nth-child(4) {
-  background-image: url("../images//user4.png");
+.memberDiv .btn:nth-child(4) {
+  background-image: url("../images/user4.png");
+  background-size: 153px 147px;
 }
 
+.memberDiv .btn:hover {
+  transform: scale(1.3);
 
-.memberDiv  .btn:hover {
-  box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.9);
+  /* Zoom in effect */
+  /* box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.9); */
 }
 
 .memberDiv .btn span,
@@ -102,7 +111,7 @@
   left: 0;
   text-transform: capitalize;
   color: rgb(153, 153, 153);
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .fa-plus-circle {
@@ -119,7 +128,7 @@
   background-color: #fff;
 }
 
-.addicon:hover > .fa-plus-circle {
+.addicon:hover>.fa-plus-circle {
   opacity: 1;
 }
 
@@ -134,6 +143,7 @@
   background-color: transparent;
   cursor: pointer;
 }
+
 .manageProfile:hover {
   border: 1px solid #fff;
   color: #fff;
