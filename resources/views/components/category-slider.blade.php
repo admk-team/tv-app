@@ -55,92 +55,96 @@
                         <div class="list_heading">
                             <h1>{{ $category->cat_title ?? '' }}</h1>
                         </div>
-                        @if (!in_array($category->cat_title, [
-                            'New Release',
-                            'Top 10',
-                            'Trending',
-                            'Continue Watching'
-                        ]))
-                            <div class="list_change_btn"><a href="{{ route('category', $category->cat_guid) }}">View All</a></div>
+                        @if (!in_array($category->cat_title, ['New Release', 'Top 10', 'Trending', 'Continue Watching']))
+                            <div class="list_change_btn"><a href="{{ route('category', $category->cat_guid) }}">View
+                                    All</a></div>
                         @endif
                     </div>
                     <div class="{{ $cartMainCls }} slider slick-slider">
                         @foreach ($category->streams as $stream)
                             @php
-                            $url = route('detailscreen', $stream->stream_guid);
-                            if ($stream->stream_type === 'A') {
-                                $url = $stream->stream_promo_url;
-                                if ($stream->is_external_ad === 'N') {
-                                    $url = route('detailscreen', $stream->stream_promo_url);
+                                $url = route('detailscreen', $stream->stream_guid);
+                                if ($stream->stream_type === 'A') {
+                                    $url = $stream->stream_promo_url;
+                                    if ($stream->is_external_ad === 'N') {
+                                        $url = route('detailscreen', $stream->stream_promo_url);
+                                    }
                                 }
-                            }
                             @endphp
                             <div class="item">
                                 <div class="{{ $cartMainSubCls }}">
-                                        @if ($category->cat_title == 'Top 10')
-                                            <a href="{{ $url }}" >
-                                                <div class="d-flex cursor-pointer position-relative">
-                                                    <a class="top-10-slider-wrapper" href="{{ $url }}"></a>
-                                                    <a class="top-10-slider-number" >{{ $loop->iteration }}</a>
-                                                    <div class="{{ $cardThumbCls2 }}">
-                                                        <div class="trending_icon_box" {!! $stream->monetization_type == 'F'? 'style="display: none;"': '' !!}><img
-                                                            src="{{ url('/') }}/assets/images/trending_icon.png" alt="Trending">
-                                                        </div>
-                                                        <div class="{{ $cardThumbCls }}">
-                                                            <img src="{{ $stream->{$streamPosterKey} }}"
-                                                                alt="{{ $stream->stream_title }}">
-                                                        </div>
-                                                        <div class="detail_box_hide">
-                                                            <div class="detailbox_time">
-                                                                {{ $stream->stream_duration_timeformat ?? '' }}
-                                                            </div>
-                                                            <div class="deta_box">
-                                                                <div class="season_title"></div>
-                                                                <div class="content_title">{{ $stream->stream_title }}
-                                                                </div>
-                                                                <div class="content_description">
-                                                                    {{ $stream->stream_description }}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        @else
-                                            <a href="{{ $url }}" style="display: flex;
-                                            justify-content: center;">
+                                    @if ($category->cat_title == 'Top 10')
+                                        <a href="{{ $url }}">
+                                            <div class="d-flex cursor-pointer position-relative">
+                                                <a class="top-10-slider-wrapper" href="{{ $url }}"></a>
+                                                <a class="top-10-slider-number">{{ $loop->iteration }}</a>
                                                 <div class="{{ $cardThumbCls2 }}">
-                                                    <div class="trending_icon_box" {!! $stream->monetization_type == 'F'? 'style="display: none;"': '' !!}><img
-                                                        src="{{ url('/') }}/assets/images/trending_icon.png" alt="Trending">
-                                                        ">
+                                                    <div class="trending_icon_box" {!! $stream->monetization_type == 'F' ? 'style="display: none;"' : '' !!}><img
+                                                            src="{{ url('/') }}/assets/images/trending_icon.png"
+                                                            alt="Trending">
                                                     </div>
                                                     <div class="{{ $cardThumbCls }}">
-                                                        <img src="{{ $stream->{$streamPosterKey} }}" alt="{{ $stream->stream_title }}">
+                                                        <img src="{{ $stream->{$streamPosterKey} }}"
+                                                            alt="{{ $stream->stream_title }}">
                                                     </div>
                                                     <div class="detail_box_hide">
                                                         <div class="detailbox_time">
                                                             {{ $stream->stream_duration_timeformat ?? '' }}
                                                         </div>
                                                         <div class="deta_box">
-                                                            <div class="season_title">{{ $stream?->stream_episode_title && $stream?->stream_episode_title !== 'NULL'? $stream?->stream_episode_title: '' }}</div>
-                                                            <div class="content_title">{{ $stream->stream_title }}</div>
+                                                            <div class="season_title"></div>
+                                                            <div class="content_title">{{ $stream->stream_title }}
+                                                            </div>
                                                             <div class="content_description">
                                                                 {{ $stream->stream_description }}
                                                             </div>
-                                                            
-                                                            @if ($stream->stream_watched_dur_in_pct > 1)
-                                                                {{-- <div style="background-color:{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->tv_cw_unflled_color }};height:5px; border-radius:2px;margin-top:10px;">
-                                                                    <div style="background-color:{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->tv_cw_flled_color }};height:5px;border-radius:2px;width:{{ $arrStreamsData['stream_watched_dur_in_pct']}}%"></div>
-                                                                </div> --}}
-                                                                <div style="background-color:#555455;height:5px; border-radius:2px;margin-top:10px;">
-                                                                    <div style="background-color:#07659E;height:5px;border-radius:2px;width:{{ $stream->stream_watched_dur_in_pct }}%"></div>
-                                                                </div>
-                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </a>
-                                        @endif
+                                            </div>
+                                        </a>
+                                    @else
+                                        <a href="{{ $url }}"
+                                            style="display: flex;
+                                            justify-content: center;">
+                                            <div class="{{ $cardThumbCls2 }}">
+                                                <div class="trending_icon_box" {!! $stream->monetization_type == 'F' ? 'style="display: none;"' : '' !!}><img
+                                                        src="{{ url('/') }}/assets/images/trending_icon.png"
+                                                        alt="Trending">
+                                                </div>
+                                                <div class="{{ $cardThumbCls }}">
+                                                    <img src="{{ $stream->{$streamPosterKey} }}"
+                                                        alt="{{ $stream->stream_title }}">
+                                                </div>
+                                                <div class="detail_box_hide">
+                                                    <div class="detailbox_time">
+                                                        {{ $stream->stream_duration_timeformat ?? '' }}
+                                                    </div>
+                                                    <div class="deta_box">
+                                                        <div class="season_title">
+                                                            {{ $stream?->stream_episode_title && $stream?->stream_episode_title !== 'NULL' ? $stream?->stream_episode_title : '' }}
+                                                        </div>
+                                                        <div class="content_title">{{ $stream->stream_title }}</div>
+                                                        <div class="content_description">
+                                                            {{ $stream->stream_description }}
+                                                        </div>
+
+                                                        @if ($stream->stream_watched_dur_in_pct > 1)
+                                                            {{-- <div style="background-color:{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->tv_cw_unflled_color }};height:5px; border-radius:2px;margin-top:10px;">
+                                                                    <div style="background-color:{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->tv_cw_flled_color }};height:5px;border-radius:2px;width:{{ $arrStreamsData['stream_watched_dur_in_pct']}}%"></div>
+                                                                </div> --}}
+                                                            <div
+                                                                style="background-color:#555455;height:5px; border-radius:2px;margin-top:10px;">
+                                                                <div
+                                                                    style="background-color:#07659E;height:5px;border-radius:2px;width:{{ $stream->stream_watched_dur_in_pct }}%">
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    @endif
                                     </a>
                                 </div>
                             </div>
