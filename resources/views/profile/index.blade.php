@@ -5,27 +5,18 @@
         body {
             overflow-x: hidden;
         }
-
-        .main-div {
-            height: 100% !important;
-        }
-
-        .whoIsWatching {
-            padding-top: 120px;
-        }
-
-        .addIcon i {
-            font-size: 7.9vw !important;
-        }
     </style>
 @endpush
 
 @section('content')
-    <div class="whoIsWatching">
-        <div class="main-div">
-            <h1>Who's watching?</h1>
+    <div class="all__profiles">
+        <div class="whoIsWatching">
+            <h1 class="text-white text-center">Who's watching?</h1>
             <div class="memberDiv">
-                <button class="addIcon"><i class="fa fa-plus-circle"></i> <span>Add Profile</span></button>
+                <button class="addIcon">
+                    <span>Add Profile</span>
+                    <i class="fa fa-plus-circle"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -59,10 +50,11 @@
                                     <!-- New dropdown for content ratings -->
                                     <div class="row">
                                         <label for="content_rating" class="form-label"
-                                        style="color: #000 !important; background-color: #fff !important;">Content
-                                        Rating:</label>
+                                            style="color: #000 !important; background-color: #fff !important;">Content
+                                            Rating:</label>
                                     </div>
-                                    <select name="content_rating[]" class="form-control app_code_select" id="content_rating" multiple="multiple"
+                                    <select name="content_rating[]" class="form-control app_code_select" id="content_rating"
+                                        multiple="multiple"
                                         style="color: #000 !important; background-color: #fff !important; width:465px">
                                         @foreach ($user_data['all_ratings'] as $rating)
                                             @if ($rating['title'])
