@@ -40,7 +40,7 @@
 
 .memberDiv {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     padding: 1rem;
@@ -104,7 +104,7 @@
     width: inherit;
     position: absolute;
     left: 0;
-    top: 96%;
+    top: 100%;
     text-transform: capitalize;
     color: rgb(153, 153, 153);
     font-size: 1.5rem;
@@ -117,11 +117,13 @@
     position: relative;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
+    background-color: transparent;
+    margin-top: -18px;
 }
 .addIcon span {
     width: inherit;
     position: absolute;
-    bottom: -4.5rem;
+    top: 96%;
     left: 0;
     text-transform: capitalize;
     color: rgb(153, 153, 153);
@@ -130,10 +132,6 @@
 .fa-plus-circle {
     color: grey;
     opacity: 0.8;
-}
-
-.addIcon {
-    background-color: transparent;
 }
 
 .addIcon:hover {
@@ -161,7 +159,7 @@
     color: #fff;
 }
 .addIcon i {
-    font-size: 6.9rem !important;
+    font-size: 7.9rem !important;
 }
 @media (max-width: 601px) {
     .addIcon i {
@@ -171,7 +169,7 @@
     .addIcon span {
         width: inherit;
         position: absolute;
-        bottom: -4.5rem;
+        top: 96%;
         left: 0;
         text-transform: capitalize;
         color: rgb(153, 153, 153);

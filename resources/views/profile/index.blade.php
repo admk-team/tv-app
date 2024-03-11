@@ -133,6 +133,12 @@
                 $('#addIconModal').modal('show');
             });
 
+            // Resetting the Fields When modal closes
+            $('#addIconModal').on('hidden.bs.modal', function(e) {
+                $('#userNameModal').val('')
+                $("#content_rating").val("").trigger("change");
+            });
+
             // Handle the modal add button click
             $('#addIconModalBtn').on('click', function() {
                 let userName = $('#userNameModal').val();
@@ -184,7 +190,9 @@
                             // Hide the modal after successful addition
                             $('#addIconModal').modal('hide');
                             // Clear the name field for the next entry
-                            $('#userNameModal').val('');
+                            // $('#userNameModal').val('');
+                            // $("#content_rating").val("").trigger("change");
+
                         }
                     });
                 } else {
