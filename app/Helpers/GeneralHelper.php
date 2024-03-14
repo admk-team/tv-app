@@ -117,14 +117,14 @@ class GeneralHelper
 
     public static function getRealIpAddr()
     {
-        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        if (!empty(request()->server('HTTP_CLIENT_IP'))) {
             // Check ip from share internet
-            $ip = $_SERVER['HTTP_CLIENT_IP'];
-        } else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = request()->server('HTTP_CLIENT_IP');
+        } else if (!empty(request()->server('HTTP_X_FORWARDED_FOR'))) {
             // Check if ip is pass from proxy
-            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+            $ip = request()->server('HTTP_X_FORWARDED_FOR');
         } else {
-            $ip = $_SERVER['REMOTE_ADDR'];
+            $ip = request()->server('REMOTE_ADDR');
         }
         return $ip;
     }

@@ -90,6 +90,7 @@
     }
     
     // Here Set Ad URL in Session
+    $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
     if (!session('ADS_INFO')) {
         session([
             'ADS_INFO' => [
@@ -112,13 +113,30 @@
         $isMobileBrowser = 1;
     }
     $isMobileBrowser = 0;
-    $dataVast = 'data-vast="' . url('/get-ad?' . $adParam) . '"';
-    
-    if ($isMobileBrowser == 1) {
+    //$dataVast = 'data-vast="' . url('/get-ad?' . $adParam) . '"';
+    $cb = time();
+    $userAgent = urlencode(request()->server('HTTP_USER_AGENT'));
+    $userIP = \App\Helpers\GeneralHelper::getRealIpAddr();
+    $channelName = urlencode(\App\Services\AppConfig::get()->app->app_info->app_name);
+
+    $isLocalHost = false;
+    $host = parse_url(url()->current())['host'];
+    if (in_array($host, ['localhost', '127.0.0.1'])) {
+        $isLocalHost = true;
+    }
+
+    //&app_bundle=669112
+    //
+    $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
+    $adMacros = $adUrl."&width=1920&height=1080&cb=$cb&".(!$isLocalHost? "uip=$userIP&": "")."device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+    $dataVast = "data-vast='$adMacros'";
+
+    if ($isMobileBrowser == 1 || $adUrl == '')
+    {
         $dataVast = '';
     }
     
-    $adUrl = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
+    $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
     
     $watermark = $arrSlctItemData['watermark'] ?? null;
     ?>
@@ -395,7 +413,7 @@
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-title="{{ $arrSlctItemData['stream_title'] }}"
                                     data-description="{{ $arrSlctItemData['stream_description'] }}"
-                                    {!! $adUrl ?? $dataVast !!}>
+                                    {!! $dataVast2 ?? $dataVast !!}>
 
                                 </div>
                                 <?php
@@ -413,6 +431,7 @@
 
                       $adParam = "videoId=".$arrStreamsData['stream_guid'].'&title='.$arrStreamsData['stream_title'];
                       $dataVast = 'data-vast="'.url('/get-ad?'.$adParam).'"';
+                      $dataVast = "data-vast='$adMacros'";
                       $dataVast3 = url('/get-ad?'.$adParam);
                       if ($isMobileBrowser == 1)
                       {
@@ -420,7 +439,7 @@
                       }
                      ?>
                                 <div class="mvp-playlist-item" data-type="{{ $quality }}"
-                                    data-path="{{ $videoUrl }}" {!! $adUrl ?? $dataVast !!}
+                                    data-path="{{ $videoUrl }}" {!! $dataVast2 ?? $dataVast !!}
                                     data-poster="{{ $poster }}" data-thumb="{{ $poster }}"
                                     data-title="{{ $arrStreamsData['stream_title'] }}"
                                     data-description="{{ $arrStreamsData['stream_description'] }}"></div>
