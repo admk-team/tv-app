@@ -12,9 +12,9 @@ body {
     background-color: var(--bgcolor);
 }
 
-/* .content {
+.content {
     padding-top: 101px;
-} */
+}
 
 .header {
     position: fixed;
