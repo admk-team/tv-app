@@ -24,7 +24,6 @@ class PageController extends Controller
             'email' => 'required | email',
             'message' => 'required',
         ]);
-
         $form_data = [
             'name' => $request->input('name'),
             'email' => $request->input('email'),
@@ -39,7 +38,12 @@ class PageController extends Controller
             'happcode' => '7376d3829575f06617d9db3f7f6836df',
         ])->post(env('API_BASE_URL') . '/sendcontactdetail', $form_data);
 
-        $responseData = $response->json();
-        return $responseData;
+        $jsonResponse = $response->json();
+        $message = $jsonResponse['app']['msg'];
+        if ($response->successful()) {
+            return back()->with('success',$message);
+        } else {
+            return back()->withErrors(['error' => 'Failed to submit contact form.']);
+        }
     }
 }

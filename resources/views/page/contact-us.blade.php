@@ -2,6 +2,7 @@
 
 @section('content')
     <section class="credential_form signForm">
+
         <form name="contact_frm" id="contact_frm" method="POST" action="{{ route('contactus.submit') }}"
             onsubmit="return validation(1, {&quot;name&quot;:{&quot;type&quot;:&quot;text&quot;,&quot;msg&quot;:&quot;Name&quot;,&quot;min&quot;:{&quot;length&quot;:1,&quot;msg&quot;:&quot;1 char&quot;},&quot;max&quot;:{&quot;length&quot;:250,&quot;msg&quot;:&quot;250 chars&quot;}},&quot;email&quot;:{&quot;type&quot;:&quot;email&quot;,&quot;msg&quot;:&quot;Email&quot;,&quot;min&quot;:{&quot;length&quot;:1,&quot;msg&quot;:&quot;1 char&quot;},&quot;max&quot;:{&quot;length&quot;:255,&quot;msg&quot;:&quot;255 chars&quot;}},&quot;message&quot;:{&quot;type&quot;:&quot;textarea&quot;,&quot;msg&quot;:&quot;Message&quot;,&quot;min&quot;:{&quot;length&quot;:1,&quot;msg&quot;:&quot;1 char&quot;},&quot;max&quot;:{&quot;length&quot;:456,&quot;msg&quot;:&quot;456 chars&quot;}}});">
             @csrf
@@ -9,8 +10,14 @@
                 <h4>Contact Us</h4>
                 <center>
                     <p style="color:red"></p>
+
                 </center>
                 <div class="cred_form">
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                            <strong>Success!</strong> {{ $message }}
+                        </div>
+                    @endif
                     <div class="row">
                         <div class="col-md-5 ind1">
                             <div class="inner-div dv1 text-white text-center">
