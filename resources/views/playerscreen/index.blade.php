@@ -193,7 +193,7 @@
         .watermark.top-left {
             top: 1em;
             width: fit-content;
-            left: 0;
+            left: 1em;
         }
 
         .watermark.top-center {
@@ -207,7 +207,7 @@
         .watermark.top-right {
             top: 1em;
             width: fit-content;
-            right: 0;
+            right: 1em;
         }
 
         .watermark.bottom-center {
@@ -221,13 +221,13 @@
         .watermark.bottom-left {
             bottom: 1em;
             width: fit-content;
-            left: 0;
+            left: 1em;
         }
 
         .watermark.bottom-right {
             bottom: 1em;
             width: fit-content;
-            right: 0;
+            right: 1em;
         }
 
         .watermark.left-center {
@@ -241,13 +241,13 @@
         .watermark.left-top {
             left: 1em;
             width: fit-content;
-            top: 0%;
+            top: 1em;
         }
 
         .watermark.left-bottom {
             left: 1em;
             width: fit-content;
-            bottom: 0%;
+            bottom: 1em;
         }
 
         .watermark.right-center {
@@ -261,13 +261,13 @@
         .watermark.right-top {
             right: 1em;
             width: fit-content;
-            top: 0%;
+            top: 1em;
         }
 
         .watermark.right-bottom {
             right: 1em;
             width: fit-content;
-            bottom: 0%;
+            bottom: 1em;
         }
 
         .watermark.left.rotate {
