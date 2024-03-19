@@ -18,6 +18,7 @@
     <link rel="shortcut icon" href="{{ $appInfo->website_faviocn ?? '' }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style-old.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/userprofile.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/tv-guide.css') }}">
     <style>
         :root {
             --bgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }};

@@ -31,6 +31,18 @@
         @endif
     @break
 
+    @case('TG')
+        {{-- @isset($data->app) --}}
+            <x-layouts.app :appInfo="$data->app->app_info">
+                @include('components.tv-guide-section')
+            </x-layouts.app>
+        {{-- @endisset --}}
+
+        {{-- <x-layouts.app :appInfo="$data->app->app_info">
+                @include('components.tv-guide-section')
+            </x-layouts.app> --}}
+    @break
+
     @default
         <x-layouts.app :appInfo="$data->app->app_info">
             @include('components.page-banner')

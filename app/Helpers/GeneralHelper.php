@@ -348,11 +348,10 @@ class GeneralHelper
         }
 
         $res = curl_exec($curl);
-        if ($rtnRes == "jsonObj")
-        {
+        if ($rtnRes == "jsonObj") {
             $arrRes = json_decode($res, true);
         }
-        
+
         if ($trace) {
             echo curl_error($curl);
             echo "<pre>";
@@ -420,14 +419,43 @@ class GeneralHelper
         $arrTopSliderData = array();
         $arrCategoriesData = array();
         $arrChannelsData = array();
-        
 
-        if ($arrData['app']['status'] == 1) {
-            if (@$arrData['app']['featured_items']['is_show'] == "Y") {
+
+        if ($arrData['app']->status == 1) {
+            if (@$arrData['app']->featured_items->is_show == "Y") {
                 $arrTopSliderData = @$arrData['app']['featured_items']['streams'];
             }
-            $arrChannelsData = $arrData['app']['channels'];
-            $arrCategoriesData = $arrData['app']['categories'];		
+            $arrChannelsData = $arrData['app']->channels;
+            // $arrCategoriesData = $arrData['app']->categories;
+        }
+
+        if ($trace) {
+            echo "<pre>";
+            echo "-----------------Top Banners Data----------------------------<br>";
+            print_r($arrTopSliderData);
+            echo "<br><br>----------------Categories Data----------------------<br>";
+            print_r($arrCategoriesData);
+
+            echo "<br><br>----------------Response Data------------------------<br>";
+            print_r($arrData);
+            die;
+        }
+
+        return array('arrTopSliderData' => $arrTopSliderData, 'arrCategoriesData' => $arrCategoriesData, 'arrChannelsData' => $arrChannelsData);
+    }
+    public static function parseMainFeedArrData__TVGuide($trace, $arrData)
+    {
+        $arrTopSliderData = array();
+        $arrCategoriesData = array();
+        $arrChannelsData = array();
+
+
+        if ($arrData->app->status == 1) {
+            if (@$arrData->app->featured_items->is_show == "Y") {
+                $arrTopSliderData = @$arrData['app']['featured_items']['streams'];
+            }
+            $arrChannelsData = $arrData->app->channels;
+            // $arrCategoriesData = $arrData['app']->categories;
         }
 
         if ($trace) {
@@ -597,7 +625,7 @@ class GeneralHelper
                 $cartMainSubCls = "ripple vertical";
                 $streamPosterKey = 'stream_portrait';
                 break;
-            case 'ST': // ST: Standard (4x3),	
+            case 'ST': // ST: Standard (4x3),
                 $cartMainCls = "landscape_slider";
                 $cartMainSubCls = "ripple";
                 $cardThumbCls = "";
@@ -609,14 +637,14 @@ class GeneralHelper
                 $cartMainSubCls = "vertical onebyone";
                 $streamPosterKey = 'stream_square';
                 break;
-            case 'BA': //Billboard Ads (1606x470)  803 : 235,	
+            case 'BA': //Billboard Ads (1606x470)  803 : 235,
                 $cartMainCls = "billboard_ads";
                 $cartMainSubCls = "ripple";
                 $cardThumbCls = "";
                 $cardThumbCls2 = "thumbnail_img billboard_img";
                 $streamPosterKey = 'stream_poster';
                 break;
-            case 'LB': // Leaderboard Ads (1350x50) 27:1,	
+            case 'LB': // Leaderboard Ads (1350x50) 27:1,
                 $cartMainCls = "leaderboard_ads";
                 $cartMainSubCls = "ripple";
                 $cardThumbCls = "";
