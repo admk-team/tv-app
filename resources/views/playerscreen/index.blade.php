@@ -6,7 +6,7 @@
     $IS_SIGNIN_BYPASS = 'N';
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
-    
+
     session('GLOBAL_PASS', 0);
     request()->server('REQUEST_METHOD');
     $protocol = request()->server('HTTPS') === 'on' ? 'https' : 'http';
@@ -65,14 +65,14 @@
             \Illuminate\Support\Facades\Redirect::to(route('monetization'))->send();
         }
     }
-    
+
     $mType = 'video';
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
     }
     $apiPath = App\Services\Api::endpoint('/mngstrmdur');
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN');
-    
+
     // here get the video duration
     $seekFunStr = '';
     $arrFormData4VideoState = [];
@@ -88,7 +88,7 @@
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
         $seekFunStr = "this.currentTime($streamDurationInSec);";
     }
-    
+
     // Here Set Ad URL in Session
     $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
     if (!session('ADS_INFO')) {
@@ -100,7 +100,7 @@
             ],
         ]);
     }
-    
+
     $useragent = request()->server('HTTP_USER_AGENT');
     $isMobileBrowser = 0;
     if (
@@ -135,9 +135,9 @@
     {
         $dataVast = '';
     }
-    
+
     $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
-    
+
     $watermark = $arrSlctItemData['watermark'] ?? null;
     ?>
 
@@ -394,7 +394,7 @@
 
                     <div class="videocentalize">
                         @if ($watermark)
-                            <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}">
+                            <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}" style="display: none;">
                                 @if ($watermark['type'] === 'text')
                                     {{ $watermark['text'] }}
                                 @else
@@ -893,8 +893,10 @@ if (!empty($arrCatData))
                     sendAjaxRes4VideoDuration('getStrmDur', data.media.mediaId, '');
                 }
 
-
-
+                let watermark = document.querySelector('.watermark');
+                if (watermark) {
+                    watermark.style.display = "block";
+                }
             });
 
             player.addEventListener("mediaPause", function(data) {
