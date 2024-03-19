@@ -80,7 +80,7 @@
             <div class="row">
                 <div class="col-md-6 foot1">
                     <div class="footer_rights">
-                        <span class="copyright">© {{ $appInfo->app_name }}</span>
+                        <span class="copyright">© {{ \App\Services\AppConfig::get()->app->app_info->app_name }}</span>
                         {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED.
                     </div>
                 </div>
