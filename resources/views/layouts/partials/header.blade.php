@@ -62,7 +62,7 @@
                             </div>
                         </li>
                     @else
-                        <a class="auth app-primary-btn rounded" href="/login">LOGI</a>
+                        <a class="auth app-primary-btn rounded" href="/login">Login</a>
                         <a class="auth app-secondary-btn rounded" href="/signup">Signup</a>
                     @endif
                 </div>
