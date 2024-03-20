@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -23,6 +24,14 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            $error = [
+                'responseMessage' => 'Sorry, You Don’t Have Access to This Content',
+                'responseStatus'  => 404,
+            ];
+            return response()->view('error.error404', compact('error'));
+        });
+
         $this->reportable(function (Throwable $e) {
             //
         });

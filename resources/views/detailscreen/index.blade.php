@@ -265,7 +265,7 @@
                             @endforeach
                             @if (!empty($stream_details['advisories']))
                                 <div class="content-person">
-                                    <dt>Advisory : </dt>
+                                    <dt>Advisory: </dt>
                                     <dd>
                                         @foreach ($stream_details['advisories'] as $i => $val)
                                             <a class="person-link"
@@ -280,7 +280,7 @@
 
                             @if (!empty($stream_details['languages']))
                                 <div class="content-person" style="margin-bottom: 20px">
-                                    <dt>Language : </dt>
+                                    <dt>Language: </dt>
                                     <dd>
                                         @foreach ($stream_details['languages'] as $i => $val)
                                             <a class="person-link"
@@ -476,13 +476,13 @@
                         {{ $message }}
                     @enderror
                 </span>
-                <form action="{{ route('addrating') }}" method="POST">
+                <form action="{{ route('addrating') }}" method="POST" onsubmit="return submitOnce()">
                     @csrf
                     <textarea name="comment" cols="30" rows="10" placeholder="Let others know what you think..."></textarea>
                     <input type="hidden" name="rating">
                     <input type="hidden" name="stream_code" value="{{ $stream_details['stream_guid'] }}">
                     <input type="hidden" name="type" value="stream">
-                    <input type="submit" value="Submit">
+                    <input type="submit" id="submitButton" value="Submit">
                 </form>
                 <hr>
             @endif
@@ -592,7 +592,7 @@
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                      </div> -->
+                                                                                                                                                                                              </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}
@@ -628,6 +628,11 @@
             }
 
             ratingField.value = parseInt(rating);
+        }
+
+        function submitOnce() {
+            document.getElementById('submitButton').disabled = true;
+            return true;
         }
     </script>
 @endsection
