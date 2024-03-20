@@ -11,7 +11,7 @@
             <ul class="links">
                 <li class="logo">
                     <a href="/">
-                        <img src="{{ $appInfo->website_logo ?? '' }}" alt="">
+                        <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt="">
                     </a>
                 </li>
 
