@@ -138,6 +138,11 @@
 
     $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
 
+    if (!$arrSlctItemData['has_ads']) {
+        $dataVast = '';
+        $dataVast2 = '';
+    }
+
     $watermark = $arrSlctItemData['watermark'] ?? null;
     ?>
 
