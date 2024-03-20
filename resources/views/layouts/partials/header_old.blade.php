@@ -103,10 +103,10 @@
                 </div>
                 <div class="links">
                     <a class="text-decoration-none" href="/login">
-                        <li class="pc">Login</li>
+                        <li class="pc">LOGIN</li>
                     </a>
                     <a class="text-decoration-none" href="/signup">
-                        <li class="pc">Signup</li>
+                        <li class="pc">Register</li>
                     </a>
                     <div class="btns">
                         <a href="/searchscreen">

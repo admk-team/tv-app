@@ -62,7 +62,7 @@
                             </div>
                         </li>
                     @else
-                        <a class="auth app-primary-btn rounded" href="/login">Login</a>
+                        <a class="auth app-primary-btn rounded" href="/login">LOGI</a>
                         <a class="auth app-secondary-btn rounded" href="/signup">Signup</a>
                     @endif
                 </div>
@@ -103,10 +103,10 @@
                 </div>
                 <div class="links">
                     <a class="text-decoration-none" href="/login">
-                        <li class="pc">Login</li>
+                        <li class="pc">LOGIN</li>
                     </a>
                     <a class="text-decoration-none" href="/signup">
-                        <li class="pc">Signup</li>
+                        <li class="pc">Register</li>
                     </a>
                     <div class="btns">
                         <a href="/searchscreen">
@@ -196,10 +196,10 @@
             @else
                 <ul class="list-unstyled">
                     <a class="text-decoration-none" href="/login">
-                        <li class="web_menu_left_option_button">Login</li>
+                        <li class="web_menu_left_option_button">LOGIN</li>
                     </a>
                     <a class="text-decoration-none" href="/signup">
-                        <li class="web_menu_left_option_button">Signup</li>
+                        <li class="web_menu_left_option_button">Register</li>
                     </a>
                 </ul>
             @endif
