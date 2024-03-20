@@ -90,7 +90,7 @@
                         @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
                             <li class="hov1">
                                 <a href="{{ $link->url }}" target="_blank">
-                                    <img src="{{ asset('assets/images/' . $link->icon_cls_name ?? '') . '.png' }}">
+                                    <img src="{{ $link->icon }}">
                                 </a>
                                 <div class="tooltip fade top in" role="tooltip">
                                     <div class="tooltip-arrow" style="left: 50%;">
