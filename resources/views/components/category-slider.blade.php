@@ -45,7 +45,7 @@
                             $cartMainCls = 'leaderboard_ads';
                             $cartMainSubCls = 'ripple';
                             $cardThumbCls = '';
-                            $cardThumbCls2 = 'thumbnail_img leaderboard_img';
+                            $cardThumbCls2 = 'thumbnail_img leaderboard_img m-auto';
                             $streamPosterKey = 'stream_poster';
                             break;
                     }
@@ -104,9 +104,7 @@
                                             </div>
                                         </a>
                                     @else
-                                        <a href="{{ $url }}"
-                                            style="display: flex;
-                                            justify-content: center;">
+                                        <a href="{{ $url }}">
                                             <div class="{{ $cardThumbCls2 }}">
                                                 <div class="trending_icon_box" {!! $stream->monetization_type == 'F' ? 'style="display: none;"' : '' !!}><img
                                                         src="{{ url('/') }}/assets/images/trending_icon.png"
