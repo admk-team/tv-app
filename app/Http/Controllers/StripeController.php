@@ -84,9 +84,12 @@ class StripeController extends Controller
             $session_id = $request->session_id; 
             // Include the Stripe PHP library 
             
-            // Set API key 
-            \Stripe\Stripe::setApiKey(\App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key);
-            //\Stripe\Stripe::setApiKey('sk_test_51L4L81HiZyMtoobwtNx6DIoBxcWloRyDLrzt7LHwBFmVeAYVI03bz18YubxoCLDgJBi0mcTeHhNn3RXlQdoj896z006odBIAaL');
+            // Set API key
+            if (env('STRIPE_TEST') === true) {
+                \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+            } else {
+                \Stripe\Stripe::setApiKey(\App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key);
+            }
             
             // Fetch the Checkout Session to display the JSON result on the success page 
             try { 
