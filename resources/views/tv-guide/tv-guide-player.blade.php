@@ -41,6 +41,7 @@
                 break;
             }
         }
+        // @dd($epgArr);
         if (isset($_COOKIE['timezoneStr']) && !empty($_COOKIE['timezoneStr'])) {
             date_default_timezone_set($_COOKIE['timezoneStr']);
         } else {
@@ -91,7 +92,7 @@
                                     $leftTime = 0;
                                 @endphp
                                 @foreach ($epgArr as $epgData)
-                                    @if ($curUnixTime <= strtotime($epgData->end_date_time_utc))
+=                                    @if ($curUnixTime <= strtotime($epgData->end_date_time_utc))
                                         @php
                                             if ($cnt == 0) {
                                                 $leftTime = $curUnixTime - strtotime($epgData->start_date_time_utc);
@@ -105,13 +106,6 @@
                                             }
                                             $cnt++;
 
-                                            // $adParam =
-                                            //     'videoId=' .
-                                            //     $arrStreamsData['stream_guid'] .
-                                            //     '&title=' .
-                                            //     $arrStreamsData['stream_title'];
-                                            // $dataVast = 'data-vast="' . url('/get-ad') . '?' . $adParam . '"';
-                                            // $dataVast = "data-vast='$adMacros'";
                                             $dataVast = 'data-vast="' . url('/get-ad') . '"';
                                             $dataVast = "data-vast='$adMacros'";
                                             if ($adUrl == '') {
@@ -161,7 +155,6 @@
                 usePlaylistToggle: false,
                 useEmbed: false,
                 // useEmbed: '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_is_show_share_icon }}',
-                useEmbed: false,
                 useTime: false,
                 usePip: true,
                 useCc: true,

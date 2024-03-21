@@ -747,11 +747,9 @@
                                     $cnt = 0;
                                     $ARR_FEED_DATA = \App\Helpers\GeneralHelper::parseMainFeedArrData(0, (array) $data);
                                     $channels = $ARR_FEED_DATA['arrChannelsData'];
-                                    if (!empty($channels)) {
-                                        foreach ($channels as $key => $channel) {
-                                            $episodeDisplayed = false;
-                                        }
-                                    }
+                                    // foreach ($channels as $key => $channel) {
+                                    //     $episodeDisplayed = false;
+                                    // }
                                 @endphp
                                 @foreach ($channels as $key => $channel)
                                     @php
@@ -774,9 +772,10 @@
                                             $episodeDisplayed = false; // Initialize the flag
                                         @endphp
                                         @foreach ($channel->epg as $show)
+                                        {{-- @dd($channel->epg); --}}
                                             @php
-                                                $showTime = strtotime($show->start_time);
-                                                $showTime1 = strtotime($show->end_time);
+                                                $showTime = strtotime($show->start_date_time_utc);
+                                                $showTime1 = strtotime($show->end_date_time_utc);
                                                 date_default_timezone_set('Asia/Kolkata');
                                                 $current = date('H:i:s');
                                                 $currentTime = strtotime($current);
@@ -795,18 +794,18 @@
                                                 style="display: flex; width: {{ $detect }}px;">
                                                 <div class="tooltip">
                                                     <a
-                                                        href="{{ route('player.tvguide', ['channelGuid' => $channel->id]) }}">
-                                                        {{-- href="{{ $showTime <= $currentTime ? $show->poster : 'javascript:void(0)' }}"> --}}
+                                                        href="{{route('player.tvguide', ['channelGuid' => $channel->id]) }}">
+                                                        {{-- href="{{ $showTime <= $currentTime ? route('player.tvguide', ['channelGuid' => $channel->id]) : '' }}"> --}}
+                                                        {{-- <a href="{{$showTime <= $currentTime ? $show->poster : ''}}"> --}}
                                                         <div class="shows-eps">
                                                             <p>{{ $show->title }}</p>
                                                             <p>{{ $show->duration }} MIN</p>
                                                         </div>
+                                                        {{-- </a> --}}
                                                     </a>
                                                     <span class="tooltiptext">
-                                                        <a>
-                                                            <a
-                                                                href="{{ route('player.tvguide', ['channelGuid' => $channel->id]) }}">{{ $show->title }}</a>
-                                                        </a>
+                                                        <a
+                                                            href="{{ route('player.tvguide', ['channelGuid' => $channel->id]) }}">{{ $show->title }}</a>
                                                     </span>
                                                 </div>
                                             </div>
