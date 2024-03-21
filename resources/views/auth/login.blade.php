@@ -12,6 +12,11 @@
                             {{ session('error') }}
                         @endif
                     </p>
+                    <p style="color:red">
+                        @isset($data['app']['msg'])
+                            {{ $data['app']['msg'] }}
+                        @endisset
+                    </p>
                 </center>
                 <div class="cred_form">
                     <div class="row">
@@ -77,10 +82,14 @@
                                     </span>
                                 </div>
                                 <div class="form-group text-right forgotPsw">
-                                    <p class="d-flex justify-content-end py-1"><a class="text-decoration-none"
-                                            href="https://stage.24flix.tv/forgotpassword">FORGOT
-                                            PASSWORD?</a></p>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="py-1"><a class="text-decoration-none" href="/verify">EMAIL
+                                                VERIFICATION?</a></p>
+                                        <p class="py-1"><a class="text-decoration-none" href="/forgot">FORGOT
+                                                PASSWORD?</a></p>
+                                    </div>
                                 </div>
+
                                 <div class="form-group">
                                     <button class="btn rounded" type="submit">LOGIN</button>
                                 </div>
