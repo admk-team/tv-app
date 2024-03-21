@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Http;
 use App\Services\Api;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -59,5 +60,64 @@ class LoginController extends Controller
         $user_data = $response->json();
 
         return view('profile.index', compact('user_data'));
+    }
+
+    public function verify()
+    {
+        return view("auth.verify_email");
+    }
+
+    public function verifyEmail(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+        ]);
+        $response = Http::timeout(300)->withHeaders(Api::headers(
+            [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ]
+        ))
+            ->asForm()
+            ->post(Api::endpoint('/mngappusrs'), [
+                'requestAction' => 'varifyEmail',
+                'email' => $validated['email'],
+
+            ]);
+
+        if ($response) {
+            $data = $response->json();
+            return view("auth.verify_email", compact('data'));
+        }
+    }
+
+
+    public function forgot()
+    {
+        return view("auth.forgot_password");
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+        ]);
+        $response = Http::timeout(300)->withHeaders(Api::headers(
+            [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ]
+        ))
+            ->asForm()
+            ->post(Api::endpoint('/mngappusrs'), [
+                'requestAction' => 'forgotAccountPassword',
+                'email' => $validated['email'],
+
+            ]);
+
+        if ($response) {
+            $data = $response->json();
+            return view("auth.forgot_password", compact('data'));
+        }
     }
 }
