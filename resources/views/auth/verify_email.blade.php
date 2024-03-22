@@ -6,6 +6,11 @@
             <div class="inner-cred">
                 <h4>EMAIL VERIFICATION</h4>
                 <center>
+                    <p style="color:red">
+                        @if (session()->has('error'))
+                            {{ session('error') }}
+                        @endif
+                    </p>
                     @if (isset($data['app']['status']) && $data['app']['status'] == 0)
                         <p style="color:red; font-weight: 400;">
                             @isset($data['app']['msg'])
