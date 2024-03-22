@@ -846,88 +846,88 @@
                         </div>
                     </div>
                 </div>
-                <div>
-
-                </div>
             </div>
-            <script>
-                var divs = document.getElementsByTagName('div');
-                const now = new Date();
-                const hours = now.getHours();
-                const minutes = now.getMinutes();
-                const seconds = now.getSeconds();
-                const amOrPm = hours >= 12 ? 'PM' : 'AM';
+        </div>
+    </div>
+</section>
+<script>
+    var divs = document.getElementsByTagName('div');
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+    const amOrPm = hours >= 12 ? 'PM' : 'AM';
 
-                let newMinutes = minutes - 30;
-                let newHours = hours;
+    let newMinutes = minutes - 30;
+    let newHours = hours;
 
-                if (newMinutes < 0) {
-                    newHours = (hours - 1 + 24) % 24;
-                    newMinutes += 60;
-                }
+    if (newMinutes < 0) {
+        newHours = (hours - 1 + 24) % 24;
+        newMinutes += 60;
+    }
 
-                // Adjust minutes
-                if (newMinutes >= 1 && newMinutes <= 30) {
-                    newMinutes = 0;
-                } else if (newMinutes >= 31 && newMinutes <= 59) {
-                    newMinutes = 30;
-                }
-                const hours12 = newHours > 12 ? newHours - 12 : newHours;
-                const currentTime = `${hours12}:${newMinutes < 10 ? '0' : ''}${newMinutes} ${amOrPm}`;
+    // Adjust minutes
+    if (newMinutes >= 1 && newMinutes <= 30) {
+        newMinutes = 0;
+    } else if (newMinutes >= 31 && newMinutes <= 59) {
+        newMinutes = 30;
+    }
+    const hours12 = newHours > 12 ? newHours - 12 : newHours;
+    const currentTime = `${hours12}:${newMinutes < 10 ? '0' : ''}${newMinutes} ${amOrPm}`;
 
-                for (var i = 0; i < divs.length; i++) {
-                    if (divs[i].innerText === currentTime) {
-                        divs[i].scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start',
-                            inline: 'start'
-                        });
-                        break;
-                    }
-                }
+    for (var i = 0; i < divs.length; i++) {
+        if (divs[i].innerText === currentTime) {
+            divs[i].scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'start'
+            });
+            break;
+        }
+    }
 
-                function updateCurrentTimeLine() {
-                    const now = new Date();
+    function updateCurrentTimeLine() {
+        const now = new Date();
 
-                    const hours = now.getHours();
-                    const minutes = now.getMinutes();
-                    const time = hours + ':' + minutes;
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const time = hours + ':' + minutes;
 
-                    function convertH2M(timeInHour) {
-                        var timeParts = timeInHour.split(":");
-                        return Number(timeParts[0]) * 60 + Number(timeParts[1]);
-                    }
-                    var timeInMinutes = convertH2M(time);
-                    let totalMinutes;
+        function convertH2M(timeInHour) {
+            var timeParts = timeInHour.split(":");
+            return Number(timeParts[0]) * 60 + Number(timeParts[1]);
+        }
+        var timeInMinutes = convertH2M(time);
+        let totalMinutes;
 
-                    if (minutes > 30) {
-                        totalMinutes = minutes - 30; // Changed var to let
-                    } else {
-                        totalMinutes = minutes;
-                    }
-                    let marginLeft;
-                    var userAgent = navigator.userAgent;
-                    if (/Mobi/.test(userAgent)) {
-                        marginLeft = 300 + timeInMinutes * 5;
-                    } else {
-                        marginLeft = 300 + timeInMinutes * 10;
-                    }
-                    const currentTimeLine = document.getElementById('current-time-line');
-                    currentTimeLine.style.marginLeft = `${marginLeft}px`;
-                }
-                setInterval(updateCurrentTimeLine, 100);
-            </script>
+        if (minutes > 30) {
+            totalMinutes = minutes - 30; // Changed var to let
+        } else {
+            totalMinutes = minutes;
+        }
+        let marginLeft;
+        var userAgent = navigator.userAgent;
+        if (/Mobi/.test(userAgent)) {
+            marginLeft = 300 + timeInMinutes * 5;
+        } else {
+            marginLeft = 300 + timeInMinutes * 10;
+        }
+        const currentTimeLine = document.getElementById('current-time-line');
+        currentTimeLine.style.marginLeft = `${marginLeft}px`;
+    }
+    setInterval(updateCurrentTimeLine, 100);
+</script>
 
-            <script>
-                function setCookie(name, value, days) {
-                    var expires = "";
-                    if (days) {
-                        var date = new Date();
-                        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                        expires = "; expires=" + date.toUTCString();
-                    }
-                    document.cookie = name + "=" + (value || "") + expires + "; path=/";
-                }
-                var timezone = moment.tz.guess();
-                setCookie("timezoneStr", timezone, 1);
-            </script>
+<script>
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+    var timezone = moment.tz.guess();
+    setCookie("timezoneStr", timezone, 1);
+</script>
