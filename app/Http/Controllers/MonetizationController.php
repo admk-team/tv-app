@@ -71,4 +71,9 @@ class MonetizationController extends Controller
     {
         return view('monetization.cancel');
     }
+
+    public function applyCoupon(Request $request)
+    {
+        
+    }
 }

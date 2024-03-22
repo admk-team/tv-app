@@ -311,6 +311,28 @@
                             </div>
                             <div class="card-plan-link"><a href="{{ session('REDIRECT_TO_SCREEN') }}">Change</a></div>
                         </div>
+
+                        {{-- Apply Coupon --}}
+                        @if (!session('coupon_applied'))
+                        <div class="mt-4">
+                            <form action="{{ url('/apply-coupon') }}" method="POST">
+                                @csrf
+                                <div class="input-group">
+                                    <input type="text" class="form-control text-black" name="coupon_code" placeholder="Enter Coupon Code" required>
+                                    <button type="submit" class="btn btn-secondary" type="button" id="button-addon2">Apply</button>
+                                </div>
+                            </form>
+                        </div>
+                        @endif
+
+                        @if (session()->has('coupon_applied_success'))
+                        <div class="mt-4 text-success text-center"><strong>{{ session()->get('coupon_applied_success') }}</strong></div>
+                        @endif
+
+                        @if (session()->has('coupon_applied_error') || true)
+                        <div class="mt-2 text-danger text-center"><strong>{{ session()->get('coupon_applied_error') }}</strong></div>
+                        @endif
+                        
                         <div class="card-payment-button">
                             <form action="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->PAYPAL_SANDBOX == "true"? env('PAYPAL_SANDBOX_URL'): env('PAYPAL_URL') }}" method="POST">
                                 <input type="hidden" name="business"
