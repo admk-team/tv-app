@@ -6,16 +6,20 @@
             <div class="inner-cred">
                 <h4>FORGOT PASSWORD</h4>
                 <center>
-                    <p style="color:red">
-                        @if (session()->has('error'))
-                            {{ session('error') }}
-                        @endif
-                    </p>
-                    <p style="color:red">
-                        @isset($data['app']['msg'])
-                            {{ $data['app']['msg'] }}
-                        @endisset
-                    </p>
+                    @if (isset($data['app']['status']) && $data['app']['status'] == 0)
+                        <p style="color:red; font-weight: 400;">
+                            @isset($data['app']['msg'])
+                                {{ $data['app']['msg'] }}
+                            @endisset
+                        </p>
+                    @endif
+                    @if (isset($data['app']['status']) && $data['app']['status'] == 1)
+                        <p style="color:rgb(0, 131, 0); font-weight: 400;">
+                            @isset($data['app']['msg'])
+                                {{ $data['app']['msg'] }}
+                            @endisset
+                        </p>
+                    @endif
                 </center>
                 <form name="verify_frm" id="verify_frm" method="POST" action="{{ route('forgot') }}">
                     @csrf
