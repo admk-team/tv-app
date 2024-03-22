@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Http;
 
 class TvGuidePlayerController extends Controller
 {
-    public function index($channelGuid)
+    public function index($channelGuid, $menuSlug)
     {
-        $menuSlug = 'live-tv-guide';
+        // $menuSlug = 'live-tv-guide';
 
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/{$menuSlug}"));

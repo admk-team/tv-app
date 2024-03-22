@@ -46,7 +46,12 @@ Route::post('signup', [RegisterController::class, 'register'])->name('register')
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::get('logout', [LogoutController::class, 'index'])->name('logout');
-
+//Email Verification
+Route::get('verify', [LoginController::class, 'verify'])->name('verify');
+Route::post('verify', [LoginController::class, 'verifyEmail'])->name('verify');
+//forgot password
+Route::get('forgot', [LoginController::class, 'forgot'])->name('forgot');
+Route::post('forgot', [LoginController::class, 'forgotPassword'])->name('forgot');
 // Authenticated Routes
 Route::middleware('auth.user')->group(function () {
     Route::match(['get', 'post'], 'monetization', [MonetizationController::class, 'index'])->name('monetization');
@@ -93,4 +98,4 @@ Route::get('screener/{code}/{itemIndex?}', [ScreenerController::class, 'player']
 Route::post('screener/authenticate/{code}', [ScreenerController::class, 'authenticate'])->name('screener.authenticate');
 
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
-Route::get('/epgplayer/{channelGuid}', [TvGuidePlayerController::class, 'index'])->name('player.tvguide');
+Route::get('/epgplayer/{channelGuid}/{slug}', [TvGuidePlayerController::class, 'index'])->name('player.tvguide');
