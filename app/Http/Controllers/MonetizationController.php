@@ -20,6 +20,11 @@ class MonetizationController extends Controller
                     'SUBS_TYPE',
                     'MONETIZATION_GUID',
                     'PAYMENT_INFORMATION',
+
+                    'PLAN',
+                    'MONETIZATION_TYPE',
+                    'PLAN_TYPE',
+                    'PLAN_PERIOD',
                 ])
             ]);
             $planData = $request->all();
@@ -74,6 +79,25 @@ class MonetizationController extends Controller
 
     public function applyCoupon(Request $request)
     {
+        $response = Http::withHeaders(Api::headers())
+            ->post(Api::endpoint('/coupon'), [
+                'offer' => $request->coupon_code,
+            ]);
         
+        $responseJSON = $response->json();
+
+        if ($responseJSON['status'] === 0) {
+            session()->flash('coupon_applied_error', 'The coupon is invalid or expired!');
+            return back();
+        }
+
+        $amount = session('MONETIZATION.AMOUNT');
+        $discount = ($responseJSON['data']['percentage'] / 100) * $amount;
+        $finalAmount = $amount - $discount;
+        session()->put('MONETIZATION.AMOUNT', $finalAmount);
+
+        session()->flash('coupon_applied_success', 'Coupont successfully applied!');
+        session()->put('coupon_applied', true);
+        return back();
     }
 }
