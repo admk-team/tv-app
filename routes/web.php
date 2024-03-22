@@ -92,4 +92,4 @@ Route::get('screener/{code}/{itemIndex?}', [ScreenerController::class, 'player']
 Route::post('screener/authenticate/{code}', [ScreenerController::class, 'authenticate'])->name('screener.authenticate');
 
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
-Route::get('/epgplayer/{channelGuid}', [TvGuidePlayerController::class, 'index'])->name('player.tvguide');
+Route::get('/epgplayer/{channelGuid}/{slug}', [TvGuidePlayerController::class, 'index'])->name('player.tvguide');

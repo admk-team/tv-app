@@ -1,4 +1,4 @@
-*{
+* {
     box-sizing: border-box;
 }
 
@@ -96,6 +96,7 @@ pre {
     position: relative;
     border: 1px solid #000 !important;
     border-left: 0 !important;
+    background: #e1f3f4;
 }
 
 .timeline {
@@ -105,7 +106,7 @@ pre {
     display: inline-flex !important;
     position: sticky;
     top: 0;
-    z-index: 99999;
+    /* z-index: 99999; */
 }
 
 .timeline .list {
@@ -291,6 +292,10 @@ pre {
 
 .channels::-webkit-scrollbar {
     width: 10px;
+}
+
+.not_available .shows {
+    border-right: 0px !important;
 }
 
 @media screen and (max-width: 992px) {
