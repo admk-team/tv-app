@@ -516,6 +516,8 @@ p {
     text-decoration-color: #0F0F0F !important;
     outline: none;
     border: none;
+    position: absolute;
+    z-index: 999999;
 }
 
 .top-10-slider-wrapper {
