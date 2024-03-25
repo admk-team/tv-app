@@ -14,6 +14,7 @@ class MonetizationController extends Controller
         $planData = null;
         
         if (strtolower($request->method()) === 'post') {
+            session()->forget('coupon_applied'); // Remove old
             session()->put([
                 'MONETIZATION' => $request->only([
                     'AMOUNT',
@@ -92,7 +93,13 @@ class MonetizationController extends Controller
         }
 
         $amount = session('MONETIZATION.AMOUNT');
-        $discount = ($responseJSON['data']['percentage'] / 100) * $amount;
+        $discount = 0;
+        if ($responseJSON['data']['discount_type'] === 'percentage') {
+            $discount = ($responseJSON['data']['discount'] / 100) * $amount;
+        }
+        else {
+            $discount = $responseJSON['data']['discount'];
+        }
         $finalAmount = $amount - $discount;
         session()->put('MONETIZATION.AMOUNT', $finalAmount);
 

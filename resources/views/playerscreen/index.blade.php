@@ -37,6 +37,7 @@
     $isBuyed = $arrSlctItemData['is_buyed'];
     $monetizationType = $arrSlctItemData['monetization_type'];
     if ($monetizationType != 'F' && $isBuyed == 'N') {
+        session()->forget('coupon_applied'); // Remove old
         session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
         if (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE']) {
             session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
