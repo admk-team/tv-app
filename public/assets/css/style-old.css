@@ -595,7 +595,7 @@ section.sliders {
 .thumbnail_img {
     border-radius: 0px;
     overflow: hidden;
-    margin: 0 10px;
+    margin-left: 66px;
     width: calc(calc(100vw / 5.6) - 10px);
     height: 430px;
     position: relative;
