@@ -61,6 +61,7 @@
         }
 
         $cb = time();
+        $isLocalHost = false;
         $userIP = \App\Helpers\GeneralHelper::getRealIpAddr();
         $channelName = urlencode(\App\Services\AppConfig::get()->app->app_info->app_name);
         $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
@@ -92,7 +93,7 @@
                                     $leftTime = 0;
                                 @endphp
                                 @foreach ($epgArr as $epgData)
-=                                    @if ($curUnixTime <= strtotime($epgData->end_date_time_utc))
+                                    = @if ($curUnixTime <= strtotime($epgData->end_date_time_utc))
                                         @php
                                             if ($cnt == 0) {
                                                 $leftTime = $curUnixTime - strtotime($epgData->start_date_time_utc);
