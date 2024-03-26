@@ -32,8 +32,8 @@
     <!-- Navigation Start  -->
     <nav class="navbar navbar-expand-lg fixed-top border-bottom-0">
         <div class="container-fluid">
-            <a class="navbar-brand img-fluid" href="https://24flix.tv"><img alt="logo"
-                    src="{{ $data->app->app_info->website_faviocn ?? '' }}" width="150px" class="img-fluid" /></a>
+            <a class="navbar-brand img-fluid" href="/home"><img alt="logo"
+                src="{{ $data->app->app_info->website_logo ?? '' }}" width="100px" class="img-fluid" /></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon text-white"></span>

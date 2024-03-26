@@ -92,82 +92,93 @@
         </div>
     </section>
     <section>
-
-        <img src="{{ asset('assets/landing_theme_assets/mean/images/slider.png') }}" class="img-fluid"
-            style="width: 100%; height: 500px;">
+        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
+            @if ($page->page_type === 'AJS' && $page->section_type === 'banner' && $page->status === 1)
+                <img src="{{ $page->image ?? asset('assets/landing_theme_assets/mean/images/slider.png') }}"
+                    class="img-fluid" style="width: 100%; height: 500px;">
+            @endif
+        @endforeach
     </section>
     <!-- Main Slider Section End -->
-    <section class="bg-black our-story-card">
-        <div class="container py-3">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <h3 class="fw-bold text-white">Enjoy on your TV.</h3>
-                    <h4 class="text-white">
-                        Watch on smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray players and more.
-                    </h4>
+    @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
+        @if ($page->page_type === 'AJS' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+            <section class="bg-black our-story-card">
+                <div class="container py-3">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h3 class="fw-bold text-white">{{ $page->title ?? 'Enjoy on your TV.' }}</h3>
+                            <h4 class="text-white">
+                                {{ $page->description ?? 'Watch on smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray players and more.' }}
+                            </h4>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative">
+                                <img src="  {{ asset('assets/landing_theme_assets/mean/images/tv.png') }}"
+                                    class="img-fluid">
+                                <img src=" {{ $page->image }}" class="img-fluid tv-image">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="position-relative">
-                        <img src="  {{ asset('assets/landing_theme_assets/mean/images/tv.png') }}" class="img-fluid">
-                        <img src=" {{ asset('assets/landing_theme_assets/mean/images/banner.jpg') }}"
-                            class="img-fluid tv-image">
-
+            </section>
+        @endif
+        @if ($page->page_type === 'AJS' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+        <section class="bg-black our-story-card">
+            <div class="container py-5">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center">
+                        <div class="position-relative">
+                            <img src=" {{ $page->image }}" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="fw-bold text-white">{{ $page->title ?? 'Continue Watching & Favorites' }}</h3>
+                        <h4 class="text-white">
+                            {{ $page->description ??
+                                '    Continue watching exactly where you stopped and save your favorite fitness classes to watch later.' }}
+                        </h4>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <section class="bg-black our-story-card">
-        <div class="container py-5">
-            <div class="row align-items-center">
-                <div class="col-md-6 text-center">
-                    <div class="position-relative">
-
-                        <img src="{{ asset('assets/landing_theme_assets/mean/images/mobile.png') }}"
-                            class="img-fluid">
+        </section>
+        @endif
+        @if ($page->page_type === 'AJS' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+        <section class="bg-black our-story-card">
+            <div class="container py-5">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h3 class="fw-bold text-white">{{ $page->title ?? 'Enjoy On Your TV And Mobile' }}Enjoy On Your TV And Mobile</h3>
+                        <h4 class="text-white">
+                            {{ $page->description ??
+                                '   Access to thousands of fitness classes and videos right on your phone, table, TV or PC' }}
+                           
+                        </h4>
+    
+                        <ul class="list-unstyled d-flex flex-wrap fs-5 text-secondary mt-3">
+                            <li>Watch Now: </li>
+    
+                            <li><img src="  {{ asset('assets/landing_theme_assets/mean/images/roku_icon.png') }}"
+                                    width="50"> </li>
+                            <li><img src="   {{ asset('assets/landing_theme_assets/mean/images/firetv_icon.png') }}"
+                                    width="50"></li>
+                            <li><img src="  {{ asset('assets/landing_theme_assets/mean/images/appletv.png') }}"
+                                    width="50"></li>
+                            <li><img src=" {{ asset('assets/landing_theme_assets/mean/images/tizenapp.png') }}"
+                                    width="50"></li>
+                        </ul>
+                        <button class="btn btn-primary">Download Now</button>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <h3 class="fw-bold text-white">Continue Watching & Favorites</h3>
-                    <h4 class="text-white">
-                        Continue watching exactly where you stopped and save your favorite fitness classes to watch
-                        later.
-                    </h4>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="bg-black our-story-card">
-        <div class="container py-5">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <h3 class="fw-bold text-white">Enjoy On Your TV And Mobile</h3>
-                    <h4 class="text-white">
-                        Access to thousands of fitness classes and videos right on your phone, table, TV or PC</h4>
-
-                    <ul class="list-unstyled d-flex flex-wrap fs-5 text-secondary mt-3">
-                        <li>Watch Now: </li>
-
-                        <li><img src="  {{ asset('assets/landing_theme_assets/mean/images/roku_icon.png') }}"
-                                width="50"> </li>
-                        <li><img src="   {{ asset('assets/landing_theme_assets/mean/images/firetv_icon.png') }}"
-                                width="50"></li>
-                        <li><img src="  {{ asset('assets/landing_theme_assets/mean/images/appletv.png') }}"
-                                width="50"></li>
-                        <li><img src=" {{ asset('assets/landing_theme_assets/mean/images/tizenapp.png') }}"
-                                width="50"></li>
-                    </ul>
-                    <button class="btn btn-primary">Download Now</button>
-                </div>
-                <div class="col-md-6">
-                    <div class="position-relative">
-                        <img src="  {{ asset('assets/landing_theme_assets/mean/images/devices.png') }}"
-                            class="img-fluid">
+                    <div class="col-md-6">
+                        <div class="position-relative">
+                            <img src="{{ $page->image }}"
+                                class="img-fluid">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+        @endif
+    @endforeach
 
     <section class="bg-black our-story-card" style="display:none;">
         <div class="container">
@@ -187,10 +198,14 @@
                                 aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in felis
-                                    dignissim, imperdiet nulla vitae, condimentum nulla. Ut scelerisque a nisl sit amet
-                                    facilisis. Etiam blandit iaculis tellus, vitae condimentum leo congue a. Vivamus in
-                                    vehicula massa. Pellentesque libero libero, commodo lacinia volutpat non, tincidunt
-                                    at lectus. Maecenas ipsum turpis, viverra vitae lacus eu, fringilla ultricies erat.
+                                    dignissim, imperdiet nulla vitae, condimentum nulla. Ut scelerisque a nisl
+                                    sit amet
+                                    facilisis. Etiam blandit iaculis tellus, vitae condimentum leo congue a.
+                                    Vivamus in
+                                    vehicula massa. Pellentesque libero libero, commodo lacinia volutpat non,
+                                    tincidunt
+                                    at lectus. Maecenas ipsum turpis, viverra vitae lacus eu, fringilla
+                                    ultricies erat.
                                     Aenean hendrerit maximus sodales.
                                 </div>
                             </div>
@@ -206,11 +221,16 @@
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                                 data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    Quisque sapien augue, ornare id leo a, tristique elementum justo. Praesent non nulla
-                                    sagittis, sollicitudin justo id, varius erat. Nunc sed pharetra nisl. Cras et
-                                    suscipit felis, in lacinia sapien. Integer venenatis sagittis massa, eu eleifend
-                                    nibh venenatis in. Pellentesque a aliquet urna. Curabitur tortor metus, ultrices sed
-                                    mi at, sagittis imperdiet turpis. Suspendisse nec luctus nunc. Fusce in arcu quis
+                                    Quisque sapien augue, ornare id leo a, tristique elementum justo. Praesent
+                                    non nulla
+                                    sagittis, sollicitudin justo id, varius erat. Nunc sed pharetra nisl. Cras
+                                    et
+                                    suscipit felis, in lacinia sapien. Integer venenatis sagittis massa, eu
+                                    eleifend
+                                    nibh venenatis in. Pellentesque a aliquet urna. Curabitur tortor metus,
+                                    ultrices sed
+                                    mi at, sagittis imperdiet turpis. Suspendisse nec luctus nunc. Fusce in arcu
+                                    quis
                                     lacus mollis ultrices.
                                 </div>
                             </div>
@@ -226,9 +246,12 @@
                             <div id="collapseThree" class="accordion-collapse collapse"
                                 aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    Praesent nec ipsum scelerisque dui condimentum pellentesque eu at lectus. Vivamus
-                                    purus purus, bibendum in vestibulum ac, pharetra sit amet sapien. Nunc luctus, orci
-                                    vel luctus cursus, nibh nisl ullamcorper ipsum, eu malesuada arcu augue id nisi. In
+                                    Praesent nec ipsum scelerisque dui condimentum pellentesque eu at lectus.
+                                    Vivamus
+                                    purus purus, bibendum in vestibulum ac, pharetra sit amet sapien. Nunc
+                                    luctus, orci
+                                    vel luctus cursus, nibh nisl ullamcorper ipsum, eu malesuada arcu augue id
+                                    nisi. In
                                     auctor mi ac ante tincidunt tincidunt.
                                 </div>
                             </div>
@@ -252,7 +275,8 @@
                     <div class="input-group mb-3">
                         <input type="text" class="form-control p-3" placeholder="Recipient's username"
                             aria-label="Recipient's username" aria-describedby="button-addon2">
-                        <button class="btn btn-primary p-3" type="button" id="button-addon2">Get Started</button>
+                        <button class="btn btn-primary p-3" type="button" id="button-addon2">Get
+                            Started</button>
                     </div>
                 </div>
             </div>
