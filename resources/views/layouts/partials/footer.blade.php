@@ -9,8 +9,13 @@
                         @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
                             @if ($page->display_on == 'F')
                                 <li>
-                                    <a class="text-decoration-none"
-                                        href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
+                                    @if ($page->type == 'E')
+                                        <a class="text-decoration-none"
+                                            href="{{ $page->link }}">{{ $page->page_title }}</a>
+                                    @else
+                                        <a class="text-decoration-none"
+                                            href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
+                                    @endif
                                 </li>
                             @endif
                         @endforeach
