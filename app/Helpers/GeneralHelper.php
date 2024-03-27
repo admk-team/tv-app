@@ -420,12 +420,19 @@ class GeneralHelper
         $arrCategoriesData = array();
         $arrChannelsData = array();
 
-
         if ($arrData['app']->status == 1) {
             if (@$arrData['app']->featured_items->is_show == "Y") {
                 $arrTopSliderData = @$arrData['app']['featured_items']['streams'];
             }
-            $arrChannelsData = $arrData['app']->channels;
+            // Check if 'channels' property exists
+            if (isset($arrData['app']->channels)) {
+                $arrChannelsData = $arrData['app']->channels;
+            }
+            // Check if 'categories' property exists
+            if (isset($arrData['app']->categories)) {
+                $arrCategoriesData = $arrData['app']->categories;
+            }
+            // $arrChannelsData = $arrData['app']->channels;
             // $arrCategoriesData = $arrData['app']->categories;
         }
 
