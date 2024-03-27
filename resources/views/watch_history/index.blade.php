@@ -35,12 +35,12 @@
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10">
                 <div class="listing_box">
-                    <div class="slider_title_box">
-                        <div class="list_heading text-center">
-                            <h1>Watch History</h1>
-                        </div>
-                    </div>
                     @if (isset($data['app']['streams']) && is_array($data['app']['streams']))
+                        <div class="slider_title_box" style="margin-top: 50px;">
+                            <div class="list_heading text-center">
+                                <h1>Watch History</h1>
+                            </div>
+                        </div>
                         @foreach ($data['app']['streams'] as $key => $stream)
                             @if ($key >= 30)
                             @break
@@ -164,6 +164,12 @@
                             </div>
                         </div>
                     @endforeach
+                @else
+                    <div class="slider_title_box" style="margin-top: 50px; margin-bottom: 50px;">
+                        <div class="list_heading text-center">
+                            <h1>Watch History not Found</h1>
+                        </div>
+                    </div>
                 @endif
             </div>
         </div>
