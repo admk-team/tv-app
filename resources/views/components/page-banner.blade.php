@@ -2,7 +2,9 @@
     @php
         $currentDate = now(); // Assuming you're using Laravel, this gets the current date and time
         $startDate = \Carbon\Carbon::parse($data->app->app_info->announcement->announcement_start_date);
-        $endDate = $data->app->app_info->announcement->announcement_end_date ? \Carbon\Carbon::parse($data->app->app_info->announcement->announcement_end_date) : null;
+        $endDate = $data->app->app_info->announcement->announcement_end_date
+            ? \Carbon\Carbon::parse($data->app->app_info->announcement->announcement_end_date)
+            : null;
     @endphp
 
     @if ($currentDate->greaterThanOrEqualTo($startDate) && (!$endDate || $currentDate->lessThanOrEqualTo($endDate)))
@@ -55,7 +57,7 @@
                                         <i class="bi bi-dot"></i>
                                     </span>
                                 @endif
-                                <span>{{ $stream->formatted_duration ?? '' }}</span>
+                                <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream->stream_duration) ?? '' }}</span>
                                 <div class="badges">
                                     <span class="badge">{{ $stream->content_qlt ?? '' }}</span>
                                     <span class="badge">{{ $stream->content_rating ?? '' }}</span>
