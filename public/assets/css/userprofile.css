@@ -9,11 +9,11 @@
 
 .all__profiles {
     width: 100%;
-    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding-block: 4rem;
+    margin-bottom: 2rem;
 }
 .whoIsWatching {
     width: 70%;
