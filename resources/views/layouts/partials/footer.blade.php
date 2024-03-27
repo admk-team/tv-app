@@ -7,11 +7,11 @@
                     <h5 class="footer_title">Get to Know Us</h5>
                     <ul class="footer_link px-0">
                         @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                            @if ($page->displayOn == 'F')
+                            @if ($page->displayOn === 'F')
                                 <li>
-                                    @if ($page->pageType == 'E')
+                                    @if ($page->pageType === 'E')
                                         <a class="text-decoration-none"
-                                            href="{{ $page->link }}">{{ $page->page_title }}</a>
+                                            href="{{ $page->externalLink }}">{{ $page->page_title }}</a>
                                     @else
                                         <a class="text-decoration-none"
                                             href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
