@@ -7,7 +7,7 @@
                     <h5 class="footer_title">Get to Know Us</h5>
                     <ul class="footer_link px-0">
                         @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                            @if ($page->displayOn == 'F')
+                            @if ($page->display_on == 'F')
                                 <li>
                                     <a class="text-decoration-none"
                                         href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
