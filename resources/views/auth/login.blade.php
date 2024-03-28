@@ -7,6 +7,11 @@
             <div class="login_page main_pg inner-cred">
                 <h4>Login</h4>
                 <center>
+                    <p style="color:green">
+                        @if (session()->has('success'))
+                            {{ session('success') }}
+                        @endif
+                    </p>
                     <p style="color:red">
                         @if (session()->has('error'))
                             {{ session('error') }}
