@@ -14,7 +14,6 @@
                         <img src="{{ $appInfo->website_logo ?? '' }}" alt="">
                     </a>
                 </li>
-
                 @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
                     @if (
                         \App\Services\AppConfig::get()->app->app_info->web_menu === '' ||
@@ -22,6 +21,19 @@
                         @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
                             <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
                                 <li class="pc">{{ $menu->menu_title }}</li>
+                            </a>
+                        @endif
+                    @endif
+                @endforeach
+                @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
+                    @if ($page->displayOn === 'H' || $page->displayOn === 'B')
+                        @if ($page->pageType === 'E')
+                            <a class="text-decoration-none" href="{!! $page->externalLink !!}" target="_blank">
+                                <li class="pc">{{ $page->page_title }}</li>
+                            </a>
+                        @else
+                            <a class="text-decoration-none" href="/page/{{ $page->page_slug }}">
+                                <li class="pc">{{ $page->page_title }}</li>
                             </a>
                         @endif
                     @endif
