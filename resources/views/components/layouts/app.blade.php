@@ -58,7 +58,7 @@
 </head>
 
 <body>
-
+{{App::abort(500);}}
     @include('layouts.partials.header')
 
     <div class="content">
