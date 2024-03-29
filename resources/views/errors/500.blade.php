@@ -2,8 +2,9 @@
 @extends('layouts.app')
 @section('content')
     <div class="container ">
-        <div class="d-flex align-items-center justify-content-center " style="height: 50vh;">
-            <h1 class="text-white">Something Went Wrong</h1>
+        <div class="d-flex flex-column  align-items-center justify-content-center " style="height: 50vh;">
+            <h2 class="text-white">Something Went Wrong</h2>
+            <p class="text-white">Please get in touch with the admin for support</p>
         </div>
     </div>
 @endsection
