@@ -19,12 +19,10 @@
                             @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
                                 @if ($count >= 8)
                                 @break
-
                             @endif
                             @php
                                 $count++;
                             @endphp
-
                             <a class="nav-link" href="/{{ $menu->menu_slug }}">
                                 <div id="movies" class="clsiconmenu"
                                     style="background: url('{{ $menu->tv_menu_icon_active ?? '' }}');">
@@ -32,31 +30,36 @@
                                 </div>
                                 {{ $menu->menu_title }}
                             </a>
-                        @endforeach
-                        @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                            @if ($count >= 10)
-                            @break
+                        @endif
+                    @endforeach
 
-                            @if ($page->displayOn === 'H' || $page->displayOn === 'B')
-                                @if ($page->pageType === 'E')
-                                    <a class="nav-link" href="{!! $page->externalLink !!}">
-                                        <div id="movies" class="clsiconmenu"
-                                            style="background: url('{{ $page->page_banner_poster ?? '' }}');">
-                                            &nbsp;
-                                        </div>
-                                        {{ $page->page_title }}
-                                    </a>
-                                @else
-                                    <a class="nav-link" href="/page/{{ $page->page_slug }}">
-                                        <div id="movies" class="clsiconmenu"
-                                            style="background: url('{{ $page->page_banner_poster ?? '' }}');">
-                                            &nbsp;
-                                        </div>
-                                        {{ $page->page_title }}
-                                    </a>
-                                @endif
-                            @endif
-                        @endforeach
+                    @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
+                        @if ($count >= 10)
+                        @break
+                    @endif
+                    @php
+                        $count++;
+                    @endphp
+                    @if ($page->displayOn === 'H' || $page->displayOn === 'B')
+                        @if ($page->pageType === 'E')
+                            <a class="nav-link" href="{!! $page->externalLink !!}">
+                                <div id="movies" class="clsiconmenu"
+                                    style="background: url('{{ $page->page_banner_poster ?? '' }}');">
+                                    &nbsp;
+                                </div>
+                                {{ $page->page_title }}
+                            </a>
+                        @else
+                            <a class="nav-link" href="/page/{{ $page->page_slug }}">
+                                <div id="movies" class="clsiconmenu"
+                                    style="background: url('{{ $page->page_banner_poster ?? '' }}');">
+                                    &nbsp;
+                                </div>
+                                {{ $page->page_title }}
+                            </a>
+                        @endif
+                    @endif
+                @endforeach
             </li>
             {{--  <div class="btns">
                     <a href="/searchscreen">
