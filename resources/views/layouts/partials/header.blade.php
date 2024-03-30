@@ -63,7 +63,9 @@
                         </li>
                     @else
                         <a class="auth app-primary-btn rounded" href="/login">Login</a>
-                        <a class="auth app-secondary-btn rounded" href="/signup">Signup</a>
+                        @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
+                            <a class="auth app-secondary-btn rounded" href="/signup">Signup</a>
+                        @endif
                     @endif
                 </div>
             @endif

@@ -103,10 +103,12 @@
                                     <input type="hidden" name="requestAction" value="validateUserAccount">
                                     <input type="hidden" name="headerRedirectUrl" value="signin">
                                 </div>
-                                <div class="input_groupbox alreadyText mt-3">
-                                    <p>Do not have an account? <a class="text-decoration-none"
-                                            href="{{ route('register') }}">Click here to Register</a></p>
-                                </div>
+                                @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
+                                    <div class="input_groupbox alreadyText mt-3">
+                                        <p>Do not have an account? <a class="text-decoration-none"
+                                                href="{{ route('register') }}">Click here to Register</a></p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
