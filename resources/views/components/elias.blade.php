@@ -73,7 +73,7 @@
                         </div>
                     </div>
                 </nav>
-                <div class="a8jOE">
+                <div class="a8jOE" style="background-image: url(../images/bg-mobile.jpg);">
                     <div class="m4M3j">
                         <div class="f1Far">
                             <div class="MQJzq"></div>

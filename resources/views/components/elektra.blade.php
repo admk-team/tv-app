@@ -13,10 +13,16 @@
 
 <body>
     <div class="our_storycard">
-
-        <div class="content_bgsnew"><img src="{{ asset('assets/landing_theme_assets/netflix/images/backs.jpg') }}">
-            <div class="concord_gradient"></div>
-        </div>
+        @if (isset($data->app->landingpages))
+            @foreach ($data->app->landingpages as $page)
+                @if ($page->page_type === 'Ele' && $page->section_type === 'banner' && $page->status === 1)
+                    <div class="content_bgsnew"> <img
+                            src="{{ $page->image ?? asset('assets/landing_theme_assets/netflix/images/backs.jpg') }}">
+                        <div class="concord_gradient"></div>
+                    </div>
+                @endif
+            @endforeach
+        @endif
 
         <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 shadow-sm">
             <h5 class="my-0 mr-md-auto font-weight-normal text-white">{{ $data->app->app_info->app_name ?? '' }}</h5>
@@ -28,9 +34,17 @@
 
         <div class="position-relative overflow-hidden p-3 p-md-5 text-center">
             <div class="col-md-8 p-lg-8 mx-auto my-8">
-                <h1 class="display-4 unlimmited_headers">Unlimited movies, TV shows and more.</h1>
-                <p class="lead cards_headtitles">Watch anywhere. Cancel anytime.</p>
-                <p class="leadinsttiltes">Ready to watch? Enter your email to create or restart your membership.</p>
+                @foreach ($data->app->landingpages as $page)
+                    @if ($page->page_type === 'Ele' && $page->section_type === 'banner' && $page->status === 1)
+                        <h1 class="display-4 unlimmited_headers">
+                            {{ $page->title ?? 'Unlimited movies, TV shows and more.' }}</h1>
+                        <p class="lead cards_headtitles">{{ $page->subtitle ?? 'Watch anywhere. Cancel anytime.' }}
+                        </p>
+                        <p class="leadinsttiltes">
+                            {{ $page->description ?? 'Ready to watch? Enter your email to create or restart your membership.' }}
+                        </p>
+                    @endif
+                @endforeach
                 <div class="input-group is-invalid">
                     <div class="custom-file customins">
                         <input type="text" class="form-control form_inputsss" placeholder="Email Address">
@@ -44,95 +58,103 @@
             <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
         </div>
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 col-md-7">
-                <div class="leftinbox">
-                    <div class="leftinpars">
-                        <h1>Watch on your TV</h1>
-                        <p>Unlimited Movies, TV Series on your TV, Phone, Tablet and Computer.</p>
+    @if (isset($data->app->landingpages))
+        @foreach ($data->app->landingpages as $page)
+            @if ($page->page_type === 'Ele' && $page->section_type === 'section' && $page->status === 1)
+                @if ($page->order % 2 === 1)
+                    <!-- First design for odd order -->
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-7">
+                                <div class="leftinbox">
+                                    <div class="leftinpars">
+                                        <h1>{{ $page->title ?? 'Watch on your TV.' }}</h1>
+                                        <p> {{ $page->description ?? 'Unlimited Movies, TV Series on your TV, Phone, Tablet and Computer.' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-5">
+                                <div class="rightinpars">
+                                    <img src=" {{ $page->image }}" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of first row box -->
+                @else
+                    <!-- Second design for even order -->
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="rightinpars">
+                                    <img src=" {{ $page->image }}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-7">
+                                <div class="leftinbox">
+                                    <div class="leftinpars">
+                                        <h1>{{ $page->title ?? 'Watch on your TV.' }}</h1>
+                                        <p> {{ $page->description ?? 'Unlimited Movies, TV Series on your TV, Phone, Tablet and Computer.' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of first row box -->
+                @endif
+                <div class="our_storycard"></div>
+            @endif
+
+            {{--  <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-7">
+                        <div class="leftinbox">
+                            <div class="leftinpars">
+                                <h1>Watch everywhere.</h1>
+                                <p>Unlimited movies, TV series on Roku TV, FireTV, Tizen and Apple. For download click
+                                    on below
+                                    buttons.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-5">
+                        <div class="rightinpars">
+
+                            <img src="{{ asset('assets/landing_theme_assets/netflix/images/device-pile-in.png') }}"
+                                alt="">
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-5">
-                <div class="rightinpars">
+            <!-- Start of first row box -->
+            <div class="our_storycard"></div>
 
-                    <img src="{{ asset('assets/landing_theme_assets/netflix/images/tv.png') }}" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End of first row box -->
-    <div class="our_storycard"></div>
-    <!-- Start of first row box -->
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 col-md-5">
-                <div class="rightinpars">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="rightinpars">
 
-                    <img src="{{ asset('assets/landing_theme_assets/netflix/images/mobiless.jpg') }}" alt="">
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-7">
-                <div class="leftinbox">
-                    <div class="leftinpars">
-                        <h1>Watch Anytime, Anywhere.</h1>
-                        <p>Save on your favorites to watch later. Resume where you stop watching. Download the App
-                            today!</p>
+                            <img src="{{ asset('assets/landing_theme_assets/netflix/images/childrensnew.png') }}"
+                                alt="">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-7">
+                        <div class="leftinbox">
+                            <div class="leftinpars">
+                                <h1>Hundreds of Movies & Shows for Kids</h1>
+                                <p>Kids can watch unlimited movies and shows anywhere at anytime. Download our app and
+                                    start
+                                    watching.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- End of first row box -->
-    <div class="our_storycard"></div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 col-md-7">
-                <div class="leftinbox">
-                    <div class="leftinpars">
-                        <h1>Watch everywhere.</h1>
-                        <p>Unlimited movies, TV series on Roku TV, FireTV, Tizen and Apple. For download click on below
-                            buttons.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-5">
-                <div class="rightinpars">
-
-                    <img src="{{ asset('assets/landing_theme_assets/netflix/images/device-pile-in.png') }}"
-                        alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Start of first row box -->
-    <div class="our_storycard"></div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 col-md-5">
-                <div class="rightinpars">
-
-                    <img src="{{ asset('assets/landing_theme_assets/netflix/images/childrensnew.png') }}"
-                        alt="">
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-7">
-                <div class="leftinbox">
-                    <div class="leftinpars">
-                        <h1>Hundreds of Movies & Shows for Kids</h1>
-                        <p>Kids can watch unlimited movies and shows anywhere at anytime. Download our app and start
-                            watching.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End of first row box -->
-
-    <div class="our_storycard"></div>
+            <!-- End of first row box -->  --}}
+        @endforeach
+    @endif
 
     <!-- Start of first row box -->
     <div class="accrodingin">
