@@ -167,7 +167,7 @@
                 @else
                     <div class="slider_title_box" style="margin-top: 50px; margin-bottom: 50px;">
                         <div class="list_heading text-center">
-                            <h1>Watch History not Found</h1>
+                            <h1>To start building your watch history, please begin watching content</h1>
                         </div>
                     </div>
                 @endif

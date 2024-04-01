@@ -7,6 +7,11 @@
             <div class="login_page main_pg inner-cred">
                 <h4>Login</h4>
                 <center>
+                    <p style="color:green">
+                        @if (session()->has('success'))
+                            {{ session('success') }}
+                        @endif
+                    </p>
                     <p style="color:red">
                         @if (session()->has('error'))
                             {{ session('error') }}
@@ -98,10 +103,12 @@
                                     <input type="hidden" name="requestAction" value="validateUserAccount">
                                     <input type="hidden" name="headerRedirectUrl" value="signin">
                                 </div>
-                                <div class="input_groupbox alreadyText mt-3">
-                                    <p>Do not have an account? <a class="text-decoration-none"
-                                            href="{{ route('register') }}">Click here to Register</a></p>
-                                </div>
+                                @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
+                                    <div class="input_groupbox alreadyText mt-3">
+                                        <p>Do not have an account? <a class="text-decoration-none"
+                                                href="{{ route('register') }}">Click here to Register</a></p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
