@@ -19,6 +19,9 @@
                         \App\Services\AppConfig::get()->app->app_info->web_menu === '' ||
                             \App\Services\AppConfig::get()->app->app_info->web_menu == 'Left')
                         @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
+                            @if ($menu->menu_type === 'FA' && !session()->has('USER_DETAILS.USER_CODE'))
+                                @continue
+                            @endif
                             <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
                                 <li class="pc">{{ $menu->menu_title }}</li>
                             </a>
