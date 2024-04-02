@@ -2337,16 +2337,16 @@ body {
 .Row {
     display: flex;
     flex-wrap: wrap;
-    margin-right: -5px;
-    margin-left: -5px
+    /* margin-right: 5px; */
+    margin-left: 20px;
 }
 
-@media(max-width: 767px) {
+/* @media(max-width: 767px) {
     .Row {
         margin-right: -2px;
         margin-left: -2px
     }
-}
+} */
 
 .Row--no-gutters {
     margin-right: 0;
@@ -10416,7 +10416,7 @@ html.is-firetv-hyb {
     position: relative;
     width: 100%;
     min-height: auto;
-    background-image: url(../images/moviesbg-mobile.jpg);
+    /* background-image: url(../images/moviesbg-mobile.jpg); */
     background-size: cover;
     background-repeat: no-repeat
 }

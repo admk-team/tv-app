@@ -14,42 +14,60 @@
 
 <body class="intl property-in">
     <style>
-        body.intl {
-            background-image: url("{{ asset('assets/landing_theme_assets/paramount/images/image.jpg') }}");
-        }
+        @if (isset($data->app->landingpages))
+            @foreach ($data->app->landingpages as $page)
+                @if ($page->page_type === 'HYP' && $page->section_type === 'banner' && $page->status === 1)
+                    @if ($page->image)
+                        body.intl {
+                            background-image: url('{{ asset($page->image) }}');
+                        }
 
-        @media (min-width: 768px) {
-            body.intl {
-                background-image: url("{{ asset('assets/landing_theme_assets/paramount/images/image.jpg') }}");
-            }
-        }
+                        @media (min-width: 768px) {
+                            body.intl {
+                                background-image: url('{{ asset($page->image) }}');
+                            }
+                        }
 
-        @media (min-width: 1440px) {
-            body.intl {
-                background-image: url("{{ asset('assets/landing_theme_assets/paramount/images/image.jpg') }}");
-            }
-        }
+                        @media (min-width: 1440px) {
+                            body.intl {
+                                background-image: url('{{ asset($page->image) }}');
+                            }
+                        }
+                    @endif
+                @endif
+            @endforeach
+        @endif
     </style>
 
     <section class="padded-container">
+        @if (isset($data->app->landingpages))
+            @foreach ($data->app->landingpages as $page)
+                @if ($page->page_type === 'HYP' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+                    <div class="logo">
+                        <img alt="{{ $data->app->app_info->app_name ?? '' }} logo" src="{{ $page->image ?? '' }}"
+                            width="100%">
+                    </div>
+                    <div class="header">
+                        @php
+                            $words = explode(' ', $page->title ?? '');
+                            $totalWords = count($words);
+                        @endphp
 
-        <div class="logo">
-            <img alt="
-            {{ $appName }} logo" src="{{ $data->app->app_info->website_logo ?? '' }}"
-                width="100%">
-        </div>
-        <div class="header">
-
-            <p>ALL FAITH</p>
-            <p>MOVIES & SHOWS</p>
-            <p>WATCH ANYWHERE</p>
-
-        </div>
-
-        <div class="info-text">
-            <p>{{ $appName }} is the place place to watch all of your favorite Faith and Family Movies and TV
-                Series. Watch exclusive premieres and originals. Create an account and Start Watching today.</p>
-        </div>
+                        @for ($i = 0; $i < $totalWords; $i += 3)
+                            <p>
+                                @for ($j = $i; $j < min($i + 3, $totalWords); $j++)
+                                    {{ $words[$j] }}
+                                @endfor
+                            </p>
+                        @endfor
+                    </div>
+                    <div class="info-text">
+                        <p>{{ $page->description ?? '24 Flix is the place place to watch all of your favorite Faith and Family Movies and TV Series. Watch exclusive premieres and originals. Create an account and Start Watching today.' }}
+                        </p>
+                    </div>
+                @endif
+            @endforeach
+        @endif
 
         <div class="grid">
 
@@ -60,7 +78,8 @@
             </div>
 
             <form id="feedback-form">
-                <div class="share-text">Share your email address to stay-up-to-date on {{ $appName }} News.</div>
+                <div class="share-text">Share your email address to stay-up-to-date on
+                    {{ $data->app->app_info->app_name ?? '' }} News.</div>
 
                 <div class="grid-wrapper">
                     <div class="grid-item span-cols">
@@ -79,12 +98,14 @@
 
                     <div class="grid-item">
                         <div class="agreement-text">
-                            By clicking the submit button, you agree to {{ $appName }} using your email address to
+                            By clicking the submit button, you agree to {{ $data->app->app_info->app_name ?? '' }}
+                            using your email address to
                             send you marketing communications, updates, special offers and other information about Faith
                             Channel. You can unsubscribe at any time.
                             <a href="javascript:void(0);">Privacy Policy</a>.
                             <div class="grid3">
-                                {{ $appName }} is available in select markets. Content varies by region and
+                                {{ $data->app->app_info->app_name ?? '' }} is available in select markets. Content
+                                varies by region and
                                 subject
                                 to change.
                             </div>
