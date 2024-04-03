@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/netflix/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/netflix/css/netflix.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/mean/css/style.css') }}">
 </head>
 
 <body>
@@ -163,7 +164,7 @@
                 <h2 class="accordion-header" id="flush-headingOne">
                     <button class="accordion-button faq_question collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                        What is {{ $appName }}? <svg id="thin-x" viewBox="0 0 26 26"
+                        What is {{ $data->app->app_info->app_name ?? '' }}? <svg id="thin-x" viewBox="0 0 26 26"
                             class="svg-icon svg-icon-thin-x svg-closed" focusable="true">
                             <path
                                 d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z">
@@ -173,7 +174,8 @@
                 </h2>
                 <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
                     data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body acrodinbibody">With {{ $appName }}, you can watch thousands of
+                    <div class="accordion-body acrodinbibody">With {{ $data->app->app_info->app_name ?? '' }}, you can
+                        watch thousands of
                         Movies, TV Series and Children content from your Mobile App, TV App, Tablet or PC</div>
                 </div>
             </div>
@@ -191,7 +193,8 @@
                 </h2>
                 <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
                     data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body acrodinbibody">{{ $appName }} Only Cost $6.99 a month or $69 a
+                    <div class="accordion-body acrodinbibody">{{ $data->app->app_info->app_name ?? '' }} Only Cost
+                        $6.99 a month or $69 a
                         year
                     </div>
                 </div>
@@ -233,7 +236,7 @@
     </div>
     <div class="our_storycard"></div>
 
-    <!-- Start of first row box -->
+    {{--  <!-- Start of first row box -->
     <div class="accrodingin">
         <div class="row">
             <p class="demonsson">Questions? Call 000-800-919-1694</p>
@@ -274,8 +277,89 @@
 
         </div>
 
-    </div>
+    </div>  --}}
+    <!-- Section: Links  -->
+    <section class="bg-black text-grey p-0">
+        <div class="container text-center text-md-start pt-1">
+            <!-- Grid row -->
+            <div class="row mt-3">
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-4 text-white">
+                        Get to Know Us
+                    </h6>
+                    @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
+                        @if ($page->displayOn == 'F')
+                            <p>
+                                <a class="text-reset"
+                                    href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
+                            </p>
+                        @endif
+                    @endforeach
 
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-4 text-white">
+                        Top Categories
+                    </h6>
+                    @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
+                        <p>
+                            <a class="text-reset"
+                                href="{{ route('category', $category->cat_guid) }}">{{ $category->cat_title }}</a>
+                        </p>
+                    @endforeach
+                </div>
+                <!-- Grid column -->
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-4 text-white">
+                        Let Us Help You
+                    </h6>
+                    <p>
+                        <a href="/signin" class="text-reset">Login</a>
+                    </p>
+                    <p>
+                        <a href="/signup" class="text-reset">Register</a>
+                    </p>
+                    <p>
+                        <a href="javascript:void(0)" class="text-reset">Download Apps</a>
+                    </p>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+    </section>
+    <!-- Section: Links  -->
+    <!-- Copyright -->
+    <div class="container-fluid footer_bottom">
+        <div class="d-flex justify-content-between  p-2">
+            <div class=" text-white fs-14px">
+                © {{ $data->app->app_info->app_name ?? '' }}
+                {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
+            <div class=" text-end text-white">
+                @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
+                    <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset">
+                        <img src="{{ $link->icon }} " style="width: 30px;">
+                    </a>
+                @endforeach
+                {{--  <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">
+                    <i class="fab fa-youtube"></i>
+                </a>
+
+                <a href="Facebook.com/24flix" target="_blank" class="me-4 text-reset">
+                    <i class="fab fa-facebook-f"></i>  --}}
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright -->
 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"

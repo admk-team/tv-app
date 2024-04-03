@@ -11,6 +11,10 @@
     <meta name="charset" content="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/tubi/css/tubi.css') }}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/netflix/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/netflix/css/netflix.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/mean/css/style.css') }}">
 </head>
 
 <body style="background:black;margin:0">
@@ -346,41 +350,7 @@
                                 <div class="QQCZW">
                                     <ul>
                                         <li class="AI3Of">
-                                            <div class="ECk_t">Is 24 Flix really Free? <svg class="Z0g3x fnEny"
-                                                    preserveAspectRatio="xMidYMid meet" style="fill:currentcolor"
-                                                    viewBox="0 0 26 26" role="img">
-                                                    <title>Plus Icon</title>
-                                                    <path fill="currentColor"
-                                                        d="M13 .2c.9 0 1.6.7 1.6 1.6v9.6h9.6a1.6 1.6 0 110 3.2h-9.6v9.6a1.6 1.6 0 11-3.2 0v-9.6H1.8a1.6 1.6 0 110-3.2h9.6V1.8c0-.9.7-1.6 1.6-1.6z"
-                                                        fill-rule="evenodd"></path>
-                                                </svg>
-                                            </div>
-                                            <div class="l1yIj"> {{ $data->app->app_info->app_name ?? '' }} is the
-                                                leading free, premium,
-                                                on demand video streaming app. We have the largest library of
-                                                content with thousands of movies and television shows, the best
-                                                streaming technology, and a personalization engine to recommend the
-                                                best content for you. Available on all of your devices, we give you
-                                                the best way to discover new content, completely free.</div>
-                                        </li>
-                                        <li class="AI3Of">
-                                            <div class="ECk_t">Can I watch on my TV? <svg class="Z0g3x fnEny"
-                                                    preserveAspectRatio="xMidYMid meet" style="fill:currentcolor"
-                                                    viewBox="0 0 26 26" role="img">
-                                                    <title>Plus Icon</title>
-                                                    <path fill="currentColor"
-                                                        d="M13 .2c.9 0 1.6.7 1.6 1.6v9.6h9.6a1.6 1.6 0 110 3.2h-9.6v9.6a1.6 1.6 0 11-3.2 0v-9.6H1.8a1.6 1.6 0 110-3.2h9.6V1.8c0-.9.7-1.6 1.6-1.6z"
-                                                        fill-rule="evenodd"></path>
-                                                </svg>
-                                            </div>
-                                            <div class="l1yIj">Yes! {{ $data->app->app_info->app_name ?? '' }} is a
-                                                free (and legal)
-                                                video streaming application. To keep our service free and legal, we
-                                                include ads, which monetize the content that our partners, such as
-                                                MGM, Lionsgate, and Paramount, provide to us!</div>
-                                        </li>
-                                        <li class="AI3Of">
-                                            <div class="ECk_t">What are some features of 24 Flix? <svg
+                                            <div class="ECk_t toggle-accordian">Is 24 Flix really Free? <svg
                                                     class="Z0g3x fnEny" preserveAspectRatio="xMidYMid meet"
                                                     style="fill:currentcolor" viewBox="0 0 26 26" role="img">
                                                     <title>Plus Icon</title>
@@ -389,7 +359,44 @@
                                                         fill-rule="evenodd"></path>
                                                 </svg>
                                             </div>
-                                            <div class="l1yIj">Yes! {{ $data->app->app_info->app_name ?? '' }} is a
+                                            <div class="l1yIj" style="display:none;">
+                                                {{ $data->app->app_info->app_name ?? '' }} is the
+                                                leading free, premium,
+                                                on demand video streaming app. We have the largest library of
+                                                content with thousands of movies and television shows, the best
+                                                streaming technology, and a personalization engine to recommend the
+                                                best content for you. Available on all of your devices, we give you
+                                                the best way to discover new content, completely free.</div>
+                                        </li>
+                                        <li class="AI3Of">
+                                            <div class="ECk_t toggle-accordian">Can I watch on my TV? <svg
+                                                    class="Z0g3x fnEny" preserveAspectRatio="xMidYMid meet"
+                                                    style="fill:currentcolor" viewBox="0 0 26 26" role="img">
+                                                    <title>Plus Icon</title>
+                                                    <path fill="currentColor"
+                                                        d="M13 .2c.9 0 1.6.7 1.6 1.6v9.6h9.6a1.6 1.6 0 110 3.2h-9.6v9.6a1.6 1.6 0 11-3.2 0v-9.6H1.8a1.6 1.6 0 110-3.2h9.6V1.8c0-.9.7-1.6 1.6-1.6z"
+                                                        fill-rule="evenodd"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="l1yIj" style="display:none;">Yes!
+                                                {{ $data->app->app_info->app_name ?? '' }} is a
+                                                free (and legal)
+                                                video streaming application. To keep our service free and legal, we
+                                                include ads, which monetize the content that our partners, such as
+                                                MGM, Lionsgate, and Paramount, provide to us!</div>
+                                        </li>
+                                        <li class="AI3Of">
+                                            <div class="ECk_t toggle-accordian">What are some features of 24 Flix? <svg
+                                                    class="Z0g3x fnEny" preserveAspectRatio="xMidYMid meet"
+                                                    style="fill:currentcolor" viewBox="0 0 26 26" role="img">
+                                                    <title>Plus Icon</title>
+                                                    <path fill="currentColor"
+                                                        d="M13 .2c.9 0 1.6.7 1.6 1.6v9.6h9.6a1.6 1.6 0 110 3.2h-9.6v9.6a1.6 1.6 0 11-3.2 0v-9.6H1.8a1.6 1.6 0 110-3.2h9.6V1.8c0-.9.7-1.6 1.6-1.6z"
+                                                        fill-rule="evenodd"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="l1yIj" style="display:none;">Yes!
+                                                {{ $data->app->app_info->app_name ?? '' }} is a
                                                 legal (and free)
                                                 video streaming application. To keep our service legal and free, we
                                                 include ads, which monetize the content that our partners, such as
@@ -427,164 +434,86 @@
                     @endforeach
                 @endif
                 <div class="ka_NW">
-                    <div class="Container Ay8eh">
-                        <div class="Row M6oaW">
-                            <div class="gcp3k">
-                                <a href="">
-                                    <img alt="logo" src="{{ $data->app->app_info->website_logo ?? '' }}"
-                                        width="35" height="35">
+                    <!-- Section: Links  -->
+                    <section class="bg-black text-grey p-0">
+                        <div class="container text-center text-md-start pt-1">
+                            <!-- Grid row -->
+                            <div class="row mt-3">
+                                <!-- Grid column -->
+                                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                                    <!-- Links -->
+                                    <h6 class="text-uppercase fw-bold mb-4 text-white">
+                                        Get to Know Us
+                                    </h6>
+                                    @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
+                                        @if ($page->displayOn == 'F')
+                                            <p>
+                                                <a class="text-reset"
+                                                    href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
+                                            </p>
+                                        @endif
+                                    @endforeach
+
+                                </div>
+                                <!-- Grid column -->
+
+                                <!-- Grid column -->
+                                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                                    <!-- Links -->
+                                    <h6 class="text-uppercase fw-bold mb-4 text-white">
+                                        Top Categories
+                                    </h6>
+                                    @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
+                                        <p>
+                                            <a class="text-reset"
+                                                href="{{ route('category', $category->cat_guid) }}">{{ $category->cat_title }}</a>
+                                        </p>
+                                    @endforeach
+                                </div>
+                                <!-- Grid column -->
+                                <!-- Grid column -->
+                                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                                    <!-- Links -->
+                                    <h6 class="text-uppercase fw-bold mb-4 text-white">
+                                        Let Us Help You
+                                    </h6>
+                                    <p>
+                                        <a href="/signin" class="text-reset">Login</a>
+                                    </p>
+                                    <p>
+                                        <a href="/signup" class="text-reset">Register</a>
+                                    </p>
+                                    <p>
+                                        <a href="javascript:void(0)" class="text-reset">Download Apps</a>
+                                    </p>
+                                </div>
+                                <!-- Grid column -->
+                            </div>
+                            <!-- Grid row -->
+                        </div>
+                    </section>
+                    <!-- Section: Links  -->
+                    <!-- Copyright -->
+                    <div class="container-fluid footer_bottom">
+                        <div class="d-flex justify-content-between  p-2">
+                            <div class=" text-white fs-14px">
+                                © {{ $data->app->app_info->app_name ?? '' }}
+                                {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
+                            <div class=" text-end text-white">
+                                @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
+                                    <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset">
+                                        <img src="{{ $link->icon }} " style="width: 30px;">
+                                    </a>
+                                @endforeach
+                                {{--  <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                
+                                <a href="Facebook.com/24flix" target="_blank" class="me-4 text-reset">
+                                    <i class="fab fa-facebook-f"></i>  --}}
                                 </a>
                             </div>
-                            <div class="xj1tn"></div>
-                            <div class="Col Col--4 Col--lg-3 Col--xl-1-5 Col--xxl-2 B2EMM">
-                                <div class="I06GC">
-                                    <div class="UpphA">
-
-                                        <a href="Youtube.com/@24flix" target="_blank" class="ATag cPn2e"><img
-                                                src="https://24flix.tv/images/youtube.png"></a>
-
-                                        <a href="Facebook.com/24flix" target="_blank" class="ATag cPn2e"><img
-                                                src="https://24flix.tv/images/facebook.png"></a>
-                                        <!-- <a href="javascript:void(0);"  class="ATag cPn2e">
-                                          <svg class="Z0g3x EviMn" preserveAspectRatio="xMidYMid meet" style="fill:currentcolor" viewBox="0 0 20 20" role="img">
-                                            <title>Facebook</title>
-                                            <path fill="currentColor" fill-rule="evenodd" d="M2 0C.938 0 0 1.063 0 1.97v16.093C0 19.03 1.063 20 2 20h9v-8H8V9h3V7c-.318-2.573 1.26-3.98 4-4 .668.02 1.617.103 2 0v3h-2c-.957-.16-1.2.436-1 1v2h3l-1 3h-2v8h3.938c1.03 0 2.062-.938 2.062-1.938V1.97C20 1.03 18.937 0 17.937 0H2z"></path>
-                                          </svg>
-                                        </a>
-                                        <a href="javascript:void(0);"  class="ATag x4TVQ">
-                                          <svg class="Z0g3x" preserveAspectRatio="xMidYMid meet" style="fill:currentcolor" viewBox="0 0 20 20" role="img">
-                                            <title>Instagram</title>
-                                            <g fill="currentColor" fill-rule="evenodd">
-                                              <path d="M10 0C7.284 0 6.944.012 5.877.06 4.813.11 4.087.278 3.45.525c-.658.256-1.216.598-1.772 1.153C1.123 2.234.78 2.792.525 3.45.278 4.086.11 4.812.06 5.877.012 6.944 0 7.284 0 10s.012 3.057.06 4.123c.05 1.065.218 1.79.465 2.428.256.658.598 1.216 1.153 1.77.556.558 1.114.9 1.772 1.155.636.248 1.363.417 2.427.464 1.067.048 1.407.06 4.123.06s3.057-.012 4.123-.06c1.064-.048 1.79-.217 2.428-.465.658-.255 1.216-.597 1.77-1.154.558-.554.9-1.112 1.155-1.77.248-.636.417-1.362.464-2.427.048-1.066.06-1.407.06-4.123s-.012-3.056-.06-4.123c-.048-1.065-.217-1.79-.465-2.427-.255-.658-.597-1.216-1.154-1.772-.554-.555-1.112-.897-1.77-1.153C15.915.278 15.188.11 14.124.06 13.057.012 12.716 0 10 0m0 2c2.606 0 2.914.01 3.943.057.952.044 1.468.202 1.812.336.455.177.78.39 1.123.73.34.34.552.667.73 1.12.133.346.292.862.335 1.814C17.99 7.087 18 7.394 18 10s-.01 2.914-.057 3.943c-.043.952-.202 1.468-.335 1.812-.178.455-.39.78-.73 1.123-.343.34-.668.552-1.123.73-.344.133-.86.292-1.812.335-1.03.047-1.337.057-3.943.057s-2.914-.01-3.943-.057c-.952-.043-1.468-.202-1.813-.335-.454-.178-.78-.39-1.12-.73-.342-.343-.554-.668-.73-1.123-.135-.344-.293-.86-.337-1.812C2.01 12.913 2 12.606 2 10s.01-2.914.057-3.943c.044-.952.202-1.468.336-1.813.177-.454.39-.78.73-1.12.34-.342.667-.554 1.12-.73.346-.135.862-.293 1.814-.337C7.087 2.01 7.394 2 10 2"></path>
-                                              <path d="M10 13c-1.657 0-3-1.343-3-3 0-1.656 1.343-3 3-3s3 1.344 3 3c0 1.657-1.343 3-3 3m0-8c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m6 0c0 .553-.447 1-1 1-.553 0-1-.447-1-1 0-.553.447-1 1-1 .553 0 1 .447 1 1"></path>
-                                            </g>
-                                          </svg>
-                                        </a>
-                                        <a href="javascript:void(0);" class="ATag dscSD">
-                                          <svg class="Z0g3x" preserveAspectRatio="xMidYMid meet" style="fill:currentcolor" viewBox="0 0 20 17" role="img">
-                                            <title>Twitter</title>
-                                            <path d="M6 17c7.837 0 11.965-6.156 12-11-.035-.67-.035-.844 0-1 .756-.59 1.45-1.297 2-2-.75.218-1.543.433-2 1 .5-.978 1.14-1.77 1-3-.358.763-1.24 1.095-2 1C15.29.647 12.69.568 11 2c-1.03 1.084-1.48 2.555-1 4-3.45-.204-6.524-1.74-9-4C.303 3.584.86 5.945 3 7c-.99.11-1.63-.062-2 0-.2 1.6 1.178 3.255 3 4-.512-.202-1.146-.178-2 0 .777 1.35 2.318 2.478 4 3-1.38.635-3.175 1.246-5 1-.35.244-.675.223-1 0 1.877 1.37 4.06 2 6 2" fill="currentColor" fill-rule="evenodd"></path>
-                                          </svg>
-                                        </a>
-                                        <a href="javascript:void(0);"  class="ATag yFrHA">
-                                          <svg class="Z0g3x" preserveAspectRatio="xMidYMid meet" style="fill:currentcolor" viewBox="0 0 15 15" role="img">
-                                            <title>LinkedIn</title>
-                                            <path d="M13.89 0H1.11A1.1 1.1 0 0 0 0 1.08v12.84A1.1 1.1 0 0 0 1.11 15h12.78A1.1 1.1 0 0 0 15 13.92V1.08A1.1 1.1 0 0 0 13.89 0zM4 13H2V5h2zm0-9H2V2h2zm9 9h-2.24V9.2c0-.91 0-2.07-1.17-2.07s-1.35 1-1.35 2V13H6V5.19h2.15v1.07A2.33 2.33 0 0 1 10.31 5C12.58 5 13 6.62 13 8.72z"></path>
-                                          </svg>
-                                        </a> -->
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                    </div>
-                    <div class="Row BYCDX">
-                        <div class="Col Col--4 Col--lg-3 Col--xl-1-5 Col--xxl-2 CgXhT"></div>
-                        <div class="Col Col--4 Col--lg-3 Col--xl-1-5 Col--xxl-2 CgXhT"></div>
-                    </div>
-                    <div class="Row XRKgF">
-                        <div class="Col Col--4 Col--lg-3 Col--xl-1-5 Col--xxl-2">
-                            <ul class="ZIbts">
-                                <li class="aBVGi">COMPANY</li>
-                                <li>
-                                    <a href="javascript:void(0);" class="ATag">About Us</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);" class="ATag">Careers</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);" class="ATag">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="Col Col--4 Col--lg-3 Col--xl-1-5 Col--xxl-2">
-                            <ul class="ZIbts">
-                                <li class="aBVGi">SUPPORT</li>
-                                <li>
-                                    <a class="ATag" href="javascript:void(0);">Contact Support</a>
-                                </li>
-                                <li>
-                                    <a class="ATag" href="javascript:void(0);">Help Center</a>
-                                </li>
-                                <li>
-                                    <a class="ATag" href="javascript:void(0);">Supported Devices</a>
-                                </li>
-                                <li>
-                                    <a class="ATag" href="javascript:void(0);">Activate Your Device</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="Col Col--4 Col--lg-3 Col--xl-1-5 Col--xxl-2">
-                            <ul class="ZIbts">
-                                <li class="aBVGi">PARTNERS</li>
-                                <li>
-                                    <a href="javascript:void(0);" class="ATag">Advertise with Us</a>
-                                </li>
-                                <li>
-                                    <a class="ATag" href="javascript:void(0);">Partner with Us</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="Col Col--4 Col--lg-3 Col--xl-1-5 Col--xxl-2">
-                            <ul class="ZIbts">
-                                <li class="aBVGi">GET THE APPS</li>
-                                <li>
-                                    <a href="javascript:void(0);" class="ATag">iOS</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);" class="ATag">Android</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);" class="ATag">Roku</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);" class="ATag">Amazon Fire</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="Col Col--4 Col--lg-3 Col--xl-1-5 Col--xxl-2">
-                            <ul class="ZIbts">
-                                <li class="aBVGi">PRESS</li>
-                                <li>
-                                    <a href="javascript:void(0);" class="ATag">Press Releases</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);" class="ATag">Tubi in the News</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="Col Col--4 Col--lg-3 Col--xl-1-5 Col--xxl-2">
-                            <ul class="ZIbts">
-                                <li class="aBVGi">LEGAL</li>
-                                <li>
-                                    <a class="ATag" href="javascript:void(0);">Privacy Policy (Updated)</a>
-                                </li>
-                                <li>
-                                    <a class="ATag" href="javascript:void(0);">Terms of Use (Updated)</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="zbLtJ">
-                        <div class="EELlk">
-                            <a href="javascript:void(0);" class="ATag pgZbK"></a>
-                            <a href="javascript:void(0);" class="ATag yPGO9"></a>
-                        </div>
-                        <div class="ApbYa">
-                            <div class="uo5wS">
-                                <div>Copyright © 2023 {{ $data->app->app_info->app_name ?? '' }}, Inc.</div>
-                                <div> {{ $data->app->app_info->app_name ?? '' }} is a registered trademark of
-                                    {{ $data->app->app_info->app_name ?? '' }},
-                                    Inc. <br /> All rights reserved. </div>
-                            </div>
-                            <div class="aUJcG">Device ID: 7068ad12-78d0-4c73-b4c3-d71b6066539f</div>
-                        </div>
-                        <div class="_97LI">Made with <svg class="Z0g3x" preserveAspectRatio="xMidYMid meet"
-                                style="fill:currentcolor" viewBox="0 0 10 9" role="img">
-                                <title>Heart</title>
-                                <path fill="currentColor" fill-rule="evenodd"
-                                    d="M9.024 2.58C8.88 1.163 7.87 0 6.448 0c-.766 0-1.453.335-1.924.866C4.05.336 3.364 0 2.6 0 1.175 0 .165 1.162.023 2.58c-.11 1.086.132 2.537 1.197 3.91 1.106 1.424 2.946 2.318 2.946 2.318.227.115.48.103.694 0 0 0 1.86-.894 2.967-2.318C8.89 5.117 9.132 3.666 9.024 2.58">
-                                </path>
-                            </svg> in San Francisco </div>
                     </div>
                 </div>
             </div>
@@ -592,6 +521,18 @@
     </div>
     </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
+
+    <script>
+        $('.toggle-accordian').click(function(event) {
+            $(this).next().slideToggle();
+        })
+    </script>
 </body>
 
 </html>

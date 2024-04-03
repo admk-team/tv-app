@@ -322,7 +322,6 @@
         </div>
     </section>
     <!-- Section: Links  -->
-
     <!-- Copyright -->
     <div class="container-fluid footer_bottom">
         <div class="row justify-content-sm-center justify-content-md-between p-2">
@@ -330,13 +329,17 @@
                 © {{ $data->app->app_info->app_name ?? '' }}
                 {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
             <div class="col-md-6 text-end text-white">
-
-                <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">
+                @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
+                    <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset">
+                        <img src="{{ $link->icon }} " style="width: 30px;">
+                    </a>
+                @endforeach
+                {{--  <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">
                     <i class="fab fa-youtube"></i>
                 </a>
 
                 <a href="Facebook.com/24flix" target="_blank" class="me-4 text-reset">
-                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-facebook-f"></i>  --}}
                 </a>
             </div>
         </div>
