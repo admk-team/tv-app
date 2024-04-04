@@ -56,7 +56,7 @@ Route::post('forgot', [LoginController::class, 'forgotPassword'])->name('forgot'
 Route::middleware('auth.user')->group(function () {
     Route::match(['get', 'post'], 'monetization', [MonetizationController::class, 'index'])->name('monetization');
     Route::post('apply-coupon', [MonetizationController::class, 'applyCoupon'])->name('apply-coupon');
-    Route::get('monetization/success', [MonetizationController::class, 'success'])->name('monetization.success');
+    Route::match(['get', 'post'], 'monetization/success', [MonetizationController::class, 'success'])->name('monetization.success');
     Route::get('monetization/cancel', [MonetizationController::class, 'cancel'])->name('monetization.cancel');
     Route::post('stripe/checkout', [StripeController::class, 'checkout'])->name('stripe.checkout');
     Route::get('stripe/success', [StripeController::class, 'success'])->name('stripe.success');
