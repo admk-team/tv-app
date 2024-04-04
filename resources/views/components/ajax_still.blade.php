@@ -92,15 +92,16 @@
         </div>
     </section>
     <section>
-        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
-            @if ($page->page_type === 'AJS' && $page->section_type === 'banner' && $page->status === 1)
-                <img src="{{ $page->image ?? asset('assets/landing_theme_assets/mean/images/slider.png') }}"
-                    class="img-fluid" style="width: 100%; height: 500px;">
-            @endif
-        @endforeach
+        @if (isset($data->app->landingpages))
+            @foreach ($data->app->landingpages as $page)
+                @if ($page->page_type === 'AJS' && $page->section_type === 'banner' && $page->status === 1)
+                    <img src="{{ $page->image ?? asset('assets/landing_theme_assets/mean/images/slider.png') }}"
+                        class="img-fluid" style="width: 100%; height: 500px;">
+                @endif
+            @endforeach
     </section>
     <!-- Main Slider Section End -->
-    @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
+    @foreach ($data->app->landingpages as $page)
         @if ($page->page_type === 'AJS' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
             <section class="bg-black our-story-card">
                 <div class="container py-3">
@@ -123,63 +124,63 @@
             </section>
         @endif
         @if ($page->page_type === 'AJS' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
-        <section class="bg-black our-story-card">
-            <div class="container py-5">
-                <div class="row align-items-center">
-                    <div class="col-md-6 text-center">
-                        <div class="position-relative">
-                            <img src=" {{ $page->image }}" class="img-fluid">
+            <section class="bg-black our-story-card">
+                <div class="container py-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 text-center">
+                            <div class="position-relative">
+                                <img src=" {{ $page->image }}" class="img-fluid">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="fw-bold text-white">{{ $page->title ?? 'Continue Watching & Favorites' }}</h3>
+                            <h4 class="text-white">
+                                {{ $page->description ??
+                                    '    Continue watching exactly where you stopped and save your favorite fitness classes to watch later.' }}
+                            </h4>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <h3 class="fw-bold text-white">{{ $page->title ?? 'Continue Watching & Favorites' }}</h3>
-                        <h4 class="text-white">
-                            {{ $page->description ??
-                                '    Continue watching exactly where you stopped and save your favorite fitness classes to watch later.' }}
-                        </h4>
-                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
         @endif
         @if ($page->page_type === 'AJS' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
-        <section class="bg-black our-story-card">
-            <div class="container py-5">
-                <div class="row align-items-center">
-                    <div class="col-md-6">
-                        <h3 class="fw-bold text-white">{{ $page->title ?? 'Enjoy On Your TV And Mobile' }}Enjoy On Your TV And Mobile</h3>
-                        <h4 class="text-white">
-                            {{ $page->description ??
-                                '   Access to thousands of fitness classes and videos right on your phone, table, TV or PC' }}
-                           
-                        </h4>
-    
-                        <ul class="list-unstyled d-flex flex-wrap fs-5 text-secondary mt-3">
-                            <li>Watch Now: </li>
-    
-                            <li><img src="  {{ asset('assets/landing_theme_assets/mean/images/roku_icon.png') }}"
-                                    width="50"> </li>
-                            <li><img src="   {{ asset('assets/landing_theme_assets/mean/images/firetv_icon.png') }}"
-                                    width="50"></li>
-                            <li><img src="  {{ asset('assets/landing_theme_assets/mean/images/appletv.png') }}"
-                                    width="50"></li>
-                            <li><img src=" {{ asset('assets/landing_theme_assets/mean/images/tizenapp.png') }}"
-                                    width="50"></li>
-                        </ul>
-                        <button class="btn btn-primary">Download Now</button>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="position-relative">
-                            <img src="{{ $page->image }}"
-                                class="img-fluid">
+            <section class="bg-black our-story-card">
+                <div class="container py-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h3 class="fw-bold text-white">{{ $page->title ?? 'Enjoy On Your TV And Mobile' }}Enjoy On
+                                Your TV And Mobile</h3>
+                            <h4 class="text-white">
+                                {{ $page->description ??
+                                    '   Access to thousands of fitness classes and videos right on your phone, table, TV or PC' }}
+
+                            </h4>
+
+                            <ul class="list-unstyled d-flex flex-wrap fs-5 text-secondary mt-3">
+                                <li>Watch Now: </li>
+
+                                <li><img src="  {{ asset('assets/landing_theme_assets/mean/images/roku_icon.png') }}"
+                                        width="50"> </li>
+                                <li><img src="   {{ asset('assets/landing_theme_assets/mean/images/firetv_icon.png') }}"
+                                        width="50"></li>
+                                <li><img src="  {{ asset('assets/landing_theme_assets/mean/images/appletv.png') }}"
+                                        width="50"></li>
+                                <li><img src=" {{ asset('assets/landing_theme_assets/mean/images/tizenapp.png') }}"
+                                        width="50"></li>
+                            </ul>
+                            <button class="btn btn-primary">Download Now</button>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative">
+                                <img src="{{ $page->image }}" class="img-fluid">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
         @endif
     @endforeach
-
+    @endif
     <section class="bg-black our-story-card" style="display:none;">
         <div class="container">
             <div class="row justify-content-center">
@@ -351,13 +352,17 @@
                 © {{ $data->app->app_info->app_name ?? '' }}
                 {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
             <div class="col-md-6 text-end text-white">
-
-                <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">
+                @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
+                    <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset">
+                        <img src="{{ $link->icon }} " style="width: 30px;">
+                    </a>
+                @endforeach
+                {{--  <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">
                     <i class="fab fa-youtube"></i>
                 </a>
 
                 <a href="Facebook.com/24flix" target="_blank" class="me-4 text-reset">
-                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-facebook-f"></i>  --}}
                 </a>
             </div>
         </div>
