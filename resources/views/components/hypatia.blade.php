@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/paramount/css/bootstrap.min.css') }}">
 </head>
 
-<body class="intl property-in" style="overflow: hidden;">
+<body class="intl property-in">
     <style>
         @if (isset($data->app->landingpages))
             @foreach ($data->app->landingpages as $page)
