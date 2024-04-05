@@ -24,7 +24,7 @@ class HomeController extends Controller
             $item->formatted_duration = $duration[0] . ' Hour ' . $duration[1] . ' Minutes';
         }
 
-        if (AppConfig::getMenuBySlug($slug)->menu_type === 'FA') {
+        if (AppConfig::getMenuBySlug($slug)?->menu_type === 'FA') {
             $categories = (array) $data->app->categories;
             foreach ($categories['streams'] as $i => $category) {
                 $categories['streams'][$i] = (array) $category;
