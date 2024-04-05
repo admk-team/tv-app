@@ -40,7 +40,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto">
-                    <a class="btn btn-primary px-4" href="/signin">Sign In </a>
+                    <a class="btn btn-primary px-4" href="/login">Sign In </a>
                 </div>
             </div>
         </div>
@@ -307,13 +307,13 @@
                         Let Us Help You
                     </h6>
                     <p>
-                        <a href="/signin" class="text-reset">Login</a>
+                        <a href="/login" class="text-reset">Login</a>
                     </p>
                     <p>
                         <a href="/signup" class="text-reset">Register</a>
                     </p>
                     <p>
-                        <a href="javascript:void(0)" class="text-reset">Download Apps</a>
+                       <a href="/download-apps" class="text-reset">Download Apps</a>
                     </p>
                 </div>
                 <!-- Grid column -->

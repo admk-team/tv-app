@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <div class="SVozw Z21oI">
-                            <a class="knq9q" href="/signin">Sign In</a>
+                            <a class="knq9q" href="/login">Sign In</a>
                             <a class="Ii6WJ" href="/signup">Register</a>
                             <div class="QlsWG">
                                 <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none"
@@ -133,7 +133,7 @@
                                                 <div class="LLBYg FWbqn">
                                                     {{ $page->description ?? ' Movies and Shows that are FREE and Safe for the entire family.' }}
                                                 </div>
-                                                <a href="/signin">
+                                                <a href="/login">
                                                     <button class="Button Button--large">
                                                         <div class="Button__bg"></div>
                                                         <div class="Button__content">Start Watching</div>
@@ -478,13 +478,13 @@
                                         Let Us Help You
                                     </h6>
                                     <p>
-                                        <a href="/signin" class="text-reset">Login</a>
+                                        <a href="/login" class="text-reset">Login</a>
                                     </p>
                                     <p>
                                         <a href="/signup" class="text-reset">Register</a>
                                     </p>
                                     <p>
-                                        <a href="javascript:void(0)" class="text-reset">Download Apps</a>
+                                       <a href="/download-apps" class="text-reset">Download Apps</a>
                                     </p>
                                 </div>
                                 <!-- Grid column -->
