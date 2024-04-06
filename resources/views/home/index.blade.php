@@ -32,9 +32,9 @@
     @break
 
     @case('TG')
-            <x-layouts.app :appInfo="$data->app->app_info">
-                @include('components.tv-guide-section')
-            </x-layouts.app>
+        <x-layouts.app :appInfo="$data->app->app_info">
+            @include('components.tv-guide-section')
+        </x-layouts.app>
     @break
 
     @default

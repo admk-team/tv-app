@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Services\Api;
+use App\Services\AppConfig;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
@@ -23,7 +24,7 @@ class HomeController extends Controller
             $item->formatted_duration = $duration[0] . ' Hour ' . $duration[1] . ' Minutes';
         }
 
-        if ($slug === "my-favs") {
+        if (AppConfig::getMenuBySlug($slug)?->menu_type === 'FA') {
             $categories = (array) $data->app->categories;
             foreach ($categories['streams'] as $i => $category) {
                 $categories['streams'][$i] = (array) $category;

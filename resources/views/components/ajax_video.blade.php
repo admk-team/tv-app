@@ -33,43 +33,50 @@
     <nav class="navbar navbar-expand-lg fixed-top border-bottom-0">
         <div class="container-fluid">
             <a class="navbar-brand img-fluid" href="/home"><img alt="logo"
-                src="{{ $data->app->app_info->website_logo ?? '' }}" width="100px" class="img-fluid" /></a>
+                    src="{{ $data->app->app_info->website_logo ?? '' }}" width="100px" class="img-fluid" /></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon text-white"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto">
-                    <a class="btn btn-primary px-4" href="/signin">Sign In </a>
+                    <a class="btn btn-primary px-4" href="/login">Sign In </a>
                 </div>
             </div>
         </div>
     </nav>
+
     <!-- Navigation End  -->
 
     <!-- Main Slider Section -->
     <section>
-        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="bg-crimsonblack">
-                        <video autoplay playsinline muted loop>
-                            <!-- <source src="homepage-video.webm" type="video/webm"> -->
-                            <source
-                                src="https://player.vimeo.com/progressive_redirect/playback/830374923/rendition/720p/file.mp4?loc=external&signature=314a23119f729b0f79a31da6232ead8a19419dc7a7adb8289183ce83d4763593"
-                                type="video/mp4">
-                        </video>
-                        <div class="carousel-caption">
-                            <h4>Your online cinema for unlimited access to Premium Inspirational Films.</h4>
-                            <p style="display:none;">
-                                Stay Healthy and Fit with a variety of fitness classes
-                            </p>
-                            <a class="btn btn-primary px-4" href="/signup">Sign Up</a>
+        @if (isset($data->app->landingpages))
+            @foreach ($data->app->landingpages as $page)
+                @if ($page->page_type === 'AJV' && $page->section_type === 'banner' && $page->status === 1)
+                    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="bg-crimsonblack">
+                                    <video autoplay playsinline muted loop>
+                                        <!-- <source src="homepage-video.webm" type="video/webm"> -->
+                                        <source
+                                            src=" {{ $page->video_url ?? 'https://player.vimeo.com/progressive_redirect/playback/830374923/rendition/720p/file.mp4?loc=external&signature=314a23119f729b0f79a31da6232ead8a19419dc7a7adb8289183ce83d4763593' }}"
+                                            type="video/mp4">
+                                    </video>
+                                    <div class="carousel-caption">
+
+                                        <h4> {{ $page->title ?? 'Your online cinema for unlimited access to Premium Inspirational Films' }}
+                                        </h4>
+                                        <p style="display:none;">
+                                            {{ $page->description ?? 'Stay Healthy and Fit with a variety of fitness classes' }}
+                                            Stay Healthy and Fit with a variety of fitness classes
+                                        </p>
+                                        <a class="btn btn-primary px-4" href="/signup">Sign Up</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
+                        <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
                 data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
@@ -79,75 +86,91 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button> -->
-        </div>
+                    </div>
+                @endif
+            @endforeach
     </section>
     <!-- Main Slider Section End -->
-    <section class="bg-black our-story-card">
-        <div class="container py-3">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <h3 class="fw-bold text-white">Enjoy on your TV.</h3>
-                    <h4 class="text-white">Unlimited access to Premium Inspirational Films. </h4>
-                </div>
-                <div class="col-md-6">
-                    <div class="position-relative">
-
-                        <img src="  {{ asset('assets/landing_theme_assets/mean/images/tv.png') }}" class="img-fluid">
-                        <img src=" {{ asset('assets/landing_theme_assets/mean/images/banner.jpg') }}"
-                            class="img-fluid tv-image">
-
+    @foreach ($data->app->landingpages as $page)
+        @if ($page->page_type === 'AJV' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+            <section class="bg-black our-story-card">
+                <div class="container py-3">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h3 class="fw-bold text-white">{{ $page->title ?? 'Enjoy on your TV.' }}</h3>
+                            <h4 class="text-white">
+                                {{ $page->description ?? 'Watch on smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray players and more.' }}
+                            </h4>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative">
+                                <img src="  {{ asset('assets/landing_theme_assets/mean/images/tv.png') }}"
+                                    class="img-fluid">
+                                <img src=" {{ $page->image }}" class="img-fluid tv-image">
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-    <section class="bg-black our-story-card">
-        <div class="container py-5">
-            <div class="row align-items-center">
-                <div class="col-md-6 text-center">
-                    <div class="position-relative">
-                        <img src="{{ asset('assets/landing_theme_assets/mean/images/mobile.png') }}"
-                            class="img-fluid">
+            </section>
+        @endif
+        @if ($page->page_type === 'AJV' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+            <section class="bg-black our-story-card">
+                <div class="container py-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 text-center">
+                            <div class="position-relative">
+                                <img src=" {{ $page->image }}" class="img-fluid">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="fw-bold text-white">{{ $page->title ?? 'Continue Watching & Favorites' }}</h3>
+                            <h4 class="text-white">
+                                {{ $page->description ??
+                                    '    Continue watching exactly where you stopped and save your favorite fitness classes to watch later.' }}
+                            </h4>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <h3 class="fw-bold text-white">Favorites & Continue Watching</h3>
-                    <h4 class="text-white">Be entertained and inspired by powerful stories of love, faith and hope that
-                        will warm your hearts</h4>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="bg-black our-story-card">
-        <div class="container py-5">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <h3 class="fw-bold text-white">Download Our Apps Today</h3>
-                    <h4 class="text-white">Download from many platforms and Stream on all your devices</h4>
+            </section>
+        @endif
+        @if ($page->page_type === 'AJV' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+            <section class="bg-black our-story-card">
+                <div class="container py-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h3 class="fw-bold text-white">{{ $page->title ?? 'Enjoy On Your TV And Mobile' }}Enjoy On
+                                Your TV And Mobile</h3>
+                            <h4 class="text-white">
+                                {{ $page->description ??
+                                    '   Access to thousands of fitness classes and videos right on your phone, table, TV or PC' }}
 
-                    <ul class="list-unstyled d-flex flex-wrap fs-5 text-secondary mt-3">
-                        <li>Watch Now: </li>
-                        <li><img src="  {{ asset('assets/landing_theme_assets/mean/images/roku_icon.png') }}"
-                                width="50"> </li>
-                        <li><img src="   {{ asset('assets/landing_theme_assets/mean/images/firetv_icon.png') }}"
-                                width="50"></li>
-                        <li><img src="  {{ asset('assets/landing_theme_assets/mean/images/appletv.png') }}"
-                                width="50"></li>
-                        <li><img src=" {{ asset('assets/landing_theme_assets/mean/images/tizenapp.png') }}"
-                                width="50"></li>
-                    </ul>
-                    <button class="btn btn-primary">Download Now</button>
-                </div>
-                <div class="col-md-6">
-                    <div class="position-relative">
-                        <img src="  {{ asset('assets/landing_theme_assets/mean/images/devices.png') }}"
-                            class="img-fluid">
+                            </h4>
+
+                            <ul class="list-unstyled d-flex flex-wrap fs-5 text-secondary mt-3">
+                                <li>Watch Now: </li>
+
+                                <li><img src="  {{ asset('assets/landing_theme_assets/mean/images/roku_icon.png') }}"
+                                        width="50"> </li>
+                                <li><img src="   {{ asset('assets/landing_theme_assets/mean/images/firetv_icon.png') }}"
+                                        width="50"></li>
+                                <li><img src="  {{ asset('assets/landing_theme_assets/mean/images/appletv.png') }}"
+                                        width="50"></li>
+                                <li><img src=" {{ asset('assets/landing_theme_assets/mean/images/tizenapp.png') }}"
+                                        width="50"></li>
+                            </ul>
+                            <button class="btn btn-primary">Download Now</button>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative">
+                                <img src="{{ $page->image }}" class="img-fluid">
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
+            </section>
+        @endif
+    @endforeach
+    @endif
     <section class="bg-black our-story-card" style="display:none;">
         <div class="container">
             <div class="row justify-content-center">
@@ -284,13 +307,13 @@
                         Let Us Help You
                     </h6>
                     <p>
-                        <a href="/signin" class="text-reset">Login</a>
+                        <a href="/login" class="text-reset">Login</a>
                     </p>
                     <p>
                         <a href="/signup" class="text-reset">Register</a>
                     </p>
                     <p>
-                        <a href="javascript:void(0)" class="text-reset">Download Apps</a>
+                       <a href="/download-apps" class="text-reset">Download Apps</a>
                     </p>
                 </div>
                 <!-- Grid column -->
@@ -299,7 +322,6 @@
         </div>
     </section>
     <!-- Section: Links  -->
-
     <!-- Copyright -->
     <div class="container-fluid footer_bottom">
         <div class="row justify-content-sm-center justify-content-md-between p-2">
@@ -307,13 +329,17 @@
                 © {{ $data->app->app_info->app_name ?? '' }}
                 {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
             <div class="col-md-6 text-end text-white">
-
-                <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">
+                @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
+                    <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset">
+                        <img src="{{ $link->icon }} " style="width: 30px;">
+                    </a>
+                @endforeach
+                {{--  <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">
                     <i class="fab fa-youtube"></i>
                 </a>
 
                 <a href="Facebook.com/24flix" target="_blank" class="me-4 text-reset">
-                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-facebook-f"></i>  --}}
                 </a>
             </div>
         </div>
