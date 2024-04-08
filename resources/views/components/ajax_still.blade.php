@@ -25,7 +25,12 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
         rel="stylesheet">
-
+    <link rel="stylesheet" href="{{ asset('assets/css/style-old.css') }}">
+    <style type="text/css">
+        .userimg {
+            background: -webkit-linear-gradient(90deg, hsla(19, 99%, 50%, 1) 0%, hsla(34, 100%, 50%, 1) 100%) !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -40,7 +45,35 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto">
-                    <a class="btn btn-primary px-3 mx-2" href="/login">Sign In</a>
+                    @if (session()->has('USER_DETAILS'))
+                        <li class="nav-item">
+                            <div class="dropdown dropdin">
+                                <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)"
+                                    data-index=0>
+                                    <div class="userimg">{{ session('USER_DETAILS')['USER_NAME'][0] }}</div>
+                                </div>
+                                <ul class="dropdown_menus profiledropin avtartMenu" style="display: none;">
+                                    <li style="display: none;"><a href="update-profile.php"><span
+                                                class="userno">user-26</span></a></li>
+                                    <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a>
+                                    </li>
+                                    <li><a class="text-decoration-none"
+                                            href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
+                                            Profiles</a></li>
+                                    {{-- <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction History</a></li> --}}
+                                    <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
+                                            Password</a></li>
+                                    @if (\App\Services\AppConfig::get()->app->app_info->watch_history === 1)
+                                        <li><a class="text-decoration-none" href="{{ route('watch.history') }}">Watch
+                                                History</a></li>
+                                    @endif
+                                    <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    @else
+                        <a class="btn btn-primary px-3 mx-2" href="/login">Sign In</a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -165,7 +198,7 @@
                                 <li><img src=" {{ asset('assets/landing_theme_assets/mean/images/tizenapp.png') }}"
                                         width="50"></li>
                             </ul>
-                            <button class="btn btn-primary">Download Now</button>
+                            <a href="/download-apps"><button class="btn btn-primary">Download Now</button></a>
                         </div>
                         <div class="col-md-6">
                             <div class="position-relative">
@@ -375,5 +408,12 @@
     </script>
 
 </body>
+@push('scripts')
+    <script>
+        function dropdownHandle(e) {
+            $(`.profiledropin:eq(${$(e).data('index')})`).slideToggle();
+        }
+    </script>
+@endpush
 
 </html>

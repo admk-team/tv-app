@@ -156,7 +156,7 @@
                                 <li><img src=" {{ asset('assets/landing_theme_assets/mean/images/tizenapp.png') }}"
                                         width="50"></li>
                             </ul>
-                            <button class="btn btn-primary">Download Now</button>
+                            <a href="/download-apps"><button class="btn btn-primary">Download Now</button></a>
                         </div>
                         <div class="col-md-6">
                             <div class="position-relative">
