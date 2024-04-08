@@ -38,11 +38,11 @@
                 @foreach ($data->app->landingpages as $page)
                     @if ($page->page_type === 'Ele' && $page->section_type === 'banner' && $page->status === 1)
                         <h1 class="display-4 unlimmited_headers">
-                            {{ $page->title ?? 'Unlimited movies, TV shows and more.' }}</h1>
-                        <p class="lead cards_headtitles">{{ $page->subtitle ?? 'Watch anywhere. Cancel anytime.' }}
+                            {{ $page->title ?? '' }}</h1>
+                        <p class="lead cards_headtitles">{{ $page->subtitle ?? '' }}
                         </p>
                         <p class="leadinsttiltes">
-                            {{ $page->description ?? 'Ready to watch? Enter your email to create or restart your membership.' }}
+                            {{ $page->description ?? '' }}
                         </p>
                     @endif
                 @endforeach
@@ -69,8 +69,8 @@
                             <div class="col-sm-12 col-md-7">
                                 <div class="leftinbox">
                                     <div class="leftinpars">
-                                        <h1>{{ $page->title ?? 'Watch on your TV.' }}</h1>
-                                        <p> {{ $page->description ?? 'Unlimited Movies, TV Series on your TV, Phone, Tablet and Computer.' }}
+                                        <h1>{{ $page->title ?? '' }}</h1>
+                                        <p> {{ $page->description ?? '' }}
                                         </p>
                                     </div>
                                 </div>
@@ -95,8 +95,8 @@
                             <div class="col-sm-12 col-md-7">
                                 <div class="leftinbox">
                                     <div class="leftinpars">
-                                        <h1>{{ $page->title ?? 'Watch on your TV.' }}</h1>
-                                        <p> {{ $page->description ?? 'Unlimited Movies, TV Series on your TV, Phone, Tablet and Computer.' }}
+                                        <h1>{{ $page->title ?? '' }}</h1>
+                                        <p> {{ $page->description ?? '' }}
                                         </p>
                                     </div>
                                 </div>
@@ -328,7 +328,7 @@
                         <a href="/signup" class="text-reset">Register</a>
                     </p>
                     <p>
-                       <a href="/download-apps" class="text-reset">Download Apps</a>
+                        <a href="/download-apps" class="text-reset">Download Apps</a>
                     </p>
                 </div>
                 <!-- Grid column -->

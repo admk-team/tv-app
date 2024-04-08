@@ -131,7 +131,7 @@
                                                     @endforeach
                                                 </h1>
                                                 <div class="LLBYg FWbqn">
-                                                    {{ $page->description ?? ' Movies and Shows that are FREE and Safe for the entire family.' }}
+                                                    {{ $page->description ?? '' }}
                                                 </div>
                                                 <a href="/login">
                                                     <button class="Button Button--large">
@@ -154,13 +154,13 @@
                                 @if ($page->page_type === 'Eli' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
                                     <div class="Row BVyG0">
                                         <div class="Col Col--12 Col--md-8">
-                                            <h2 class="H1"> {{ $page->title ?? 'Stream Anywhere' }}</h2>
+                                            <h2 class="H1"> {{ $page->title ?? '' }}</h2>
                                         </div>
                                     </div>
                                     <div class="Row BVyG0">
                                         <div class="Col Col--12 Col--md-6">
                                             <div class="LLBYg l4FB_ FWbqn">
-                                                {{ $page->description ?? 'You can find 24 Flix on all of the major App Stores including IOS, Android, Roku, Apple TV, Amazon Fire TV, Samsung, LG, Vidaa and on the web.' }}
+                                                {{ $page->description ?? '' }}
                                             </div>
                                         </div>
                                     </div>
@@ -323,13 +323,13 @@
                                 Cu6Nx">
                                     <div class="Row BVyG0">
                                         <div class="Col Col--12">
-                                            <h2 class="H1">{{ $page->title ?? 'Thousands of titles' }}</h2>
+                                            <h2 class="H1">{{ $page->title ?? '' }}</h2>
                                         </div>
                                     </div>
                                     <div class="Row BVyG0">
                                         <div class="Col Col--12 Col--md-6">
                                             <div class="LLBYg FWbqn">
-                                                {{ $page->description ?? 'On 24 Flix, you can watch Unlimited Family-Friendly Movies and Shows that never includes language, nudity or extreme violence. You don’t need a credit card or pay anything. Just watch for FREE.' }}
+                                                {{ $page->description ?? '' }}
                                             </div>
                                         </div>
                                     </div>
@@ -415,10 +415,9 @@
                                 <div class="Container Cu6Nx">
                                     <div class="Row kGgaU BVyG0">
                                         <div class="Col Col--12 Col--md-6 BfEsx">
-                                            <h2>{{ $page->title ?? 'Get an account today' }}</h2>
+                                            <h2>{{ $page->title ?? '' }}</h2>
                                             <div class="LLBYg moRjH FWbqn">
-                                                {{ $page->description ??
-                                                    'With your free 24 Flix account, you can resume watching anywhere and save movies on your favorites.' }}
+                                                {{ $page->description ?? '' }}
                                             </div>
                                             <a href="/signup">
                                                 <button class="Button Button--large Button--secondary">
@@ -484,7 +483,7 @@
                                         <a href="/signup" class="text-reset">Register</a>
                                     </p>
                                     <p>
-                                       <a href="/download-apps" class="text-reset">Download Apps</a>
+                                        <a href="/download-apps" class="text-reset">Download Apps</a>
                                     </p>
                                 </div>
                                 <!-- Grid column -->

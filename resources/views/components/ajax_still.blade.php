@@ -107,9 +107,9 @@
                 <div class="container py-3">
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <h3 class="fw-bold text-white">{{ $page->title ?? 'Enjoy on your TV.' }}</h3>
+                            <h3 class="fw-bold text-white">{{ $page->title ?? '' }}</h3>
                             <h4 class="text-white">
-                                {{ $page->description ?? 'Watch on smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray players and more.' }}
+                                {{ $page->description ?? '' }}
                             </h4>
                         </div>
                         <div class="col-md-6">
@@ -133,10 +133,9 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <h3 class="fw-bold text-white">{{ $page->title ?? 'Continue Watching & Favorites' }}</h3>
+                            <h3 class="fw-bold text-white">{{ $page->title ?? '' }}</h3>
                             <h4 class="text-white">
-                                {{ $page->description ??
-                                    '    Continue watching exactly where you stopped and save your favorite fitness classes to watch later.' }}
+                                {{ $page->description ?? '' }}
                             </h4>
                         </div>
                     </div>
@@ -148,11 +147,9 @@
                 <div class="container py-5">
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <h3 class="fw-bold text-white">{{ $page->title ?? 'Enjoy On Your TV And Mobile' }}Enjoy On
-                                Your TV And Mobile</h3>
+                            <h3 class="fw-bold text-white">{{ $page->title ?? '' }}</h3>
                             <h4 class="text-white">
-                                {{ $page->description ??
-                                    '   Access to thousands of fitness classes and videos right on your phone, table, TV or PC' }}
+                                {{ $page->description ?? '' }}
 
                             </h4>
 
@@ -172,7 +169,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="position-relative">
-                               <a href="/download-apps" <img src="{{ $page->image }}" class="img-fluid"></a>
+                                <a href="/download-apps" <img src="{{ $page->image }}" class="img-fluid"></a>
                             </div>
                         </div>
                     </div>
@@ -336,7 +333,7 @@
                         <a href="/signup" class="text-reset">Register</a>
                     </p>
                     <p>
-                       <a href="/download-apps" class="text-reset">Download Apps</a>
+                        <a href="/download-apps" class="text-reset">Download Apps</a>
                     </p>
                 </div>
                 <!-- Grid column -->

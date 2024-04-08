@@ -62,7 +62,7 @@
                         @endfor
                     </div>
                     <div class="info-text">
-                        <p>{{ $page->description ?? '24 Flix is the place place to watch all of your favorite Faith and Family Movies and TV Series. Watch exclusive premieres and originals. Create an account and Start Watching today.' }}
+                        <p>{{ $page->description ?? '' }}
                         </p>
                     </div>
                 @endif

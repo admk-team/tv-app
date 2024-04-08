@@ -65,11 +65,11 @@
                                     </video>
                                     <div class="carousel-caption">
 
-                                        <h4> {{ $page->title ?? 'Your online cinema for unlimited access to Premium Inspirational Films' }}
+                                        <h4> {{ $page->title ?? '' }}
                                         </h4>
                                         <p style="display:none;">
-                                            {{ $page->description ?? 'Stay Healthy and Fit with a variety of fitness classes' }}
-                                            Stay Healthy and Fit with a variety of fitness classes
+                                            {{ $page->description ?? '' }}
+
                                         </p>
                                         <a class="btn btn-primary px-4" href="/signup">Sign Up</a>
                                     </div>
@@ -97,9 +97,9 @@
                 <div class="container py-3">
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <h3 class="fw-bold text-white">{{ $page->title ?? 'Enjoy on your TV.' }}</h3>
+                            <h3 class="fw-bold text-white">{{ $page->title ?? '' }}</h3>
                             <h4 class="text-white">
-                                {{ $page->description ?? 'Watch on smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray players and more.' }}
+                                {{ $page->description ?? '' }}
                             </h4>
                         </div>
                         <div class="col-md-6">
@@ -123,10 +123,9 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <h3 class="fw-bold text-white">{{ $page->title ?? 'Continue Watching & Favorites' }}</h3>
+                            <h3 class="fw-bold text-white">{{ $page->title ?? '' }}</h3>
                             <h4 class="text-white">
-                                {{ $page->description ??
-                                    '    Continue watching exactly where you stopped and save your favorite fitness classes to watch later.' }}
+                                {{ $page->description ?? '' }}
                             </h4>
                         </div>
                     </div>
@@ -138,11 +137,10 @@
                 <div class="container py-5">
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <h3 class="fw-bold text-white">{{ $page->title ?? 'Enjoy On Your TV And Mobile' }}Enjoy On
+                            <h3 class="fw-bold text-white">{{ $page->title ?? '' }}Enjoy On
                                 Your TV And Mobile</h3>
                             <h4 class="text-white">
-                                {{ $page->description ??
-                                    '   Access to thousands of fitness classes and videos right on your phone, table, TV or PC' }}
+                                {{ $page->description ?? '' }}
 
                             </h4>
 
@@ -313,7 +311,7 @@
                         <a href="/signup" class="text-reset">Register</a>
                     </p>
                     <p>
-                       <a href="/download-apps" class="text-reset">Download Apps</a>
+                        <a href="/download-apps" class="text-reset">Download Apps</a>
                     </p>
                 </div>
                 <!-- Grid column -->
