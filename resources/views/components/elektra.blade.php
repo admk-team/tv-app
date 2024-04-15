@@ -10,6 +10,98 @@
     <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/netflix/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/netflix/css/netflix.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/mean/css/style.css') }}">
+
+    <style>
+        :root {
+            --bgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }};
+            --themeActiveColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }};
+            --headerBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->headerBgColor }};
+            --themePrimaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }};
+            --themeSecondaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeSecondaryTxtColor }};
+            --navbarMenucolor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarMenucolor }};
+            --navbarSearchColor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarSearchColor }};
+            --footerbtmBgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->footerbtmBgcolor }};
+            --slidercardBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardBgColor }};
+            --slidercardTitlecolor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardTitlecolor }};
+            --slidercardCatColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardCatColor }};
+            --cardDesColor: {{ \App\Services\AppConfig::get()->app->website_colors->cardDesColor }};
+        }
+    </style>
+
+    <style>
+        .nav_btnlink {
+            cursor: pointer;
+        }
+
+        .userimg {
+            width: 40px;
+            height: 40px;
+            border-radius: 50% 50%;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--themePrimaryTxtColor);
+            padding: 4px 2px;
+            text-align: center;
+            background: var(--themeActiveColor);
+        }
+
+        .dropdown_menus {
+            position: absolute;
+            top: 161%;
+            left: 0;
+            z-index: 1000;
+            float: left;
+            min-width: 10rem;
+            padding: .5rem 0;
+            margin: .125rem 0 0;
+            font-size: 1rem;
+            display: none;
+            color: #212529;
+            text-align: left;
+            list-style: none;
+            background-color: var(--themePrimaryTxtColor);
+            background-clip: padding-box;
+            border: 1px solid rgba(0, 0, 0, .15);
+            border-radius: .25rem
+        }
+
+        .avtartMenu {
+            padding-bottom: 0 !important;
+            padding-top: 0 !important;
+            min-width: 167px !important;
+            margin-top: 5px !important;
+            left: unset !important;
+            right: 0 !important;
+            border: unset !important;
+            background-clip: unset !important;
+            box-shadow: 0 1px 5px 0 rgb(0 0 0 / 22%);
+        }
+
+        ul.profiledropin {
+            padding: 0px 0px !important;
+            margin: 0px 0px !important;
+        }
+
+        ul.profiledropin li a {
+            font-size: 14px;
+            font-family: 'Noto Sans';
+            padding: 6px 10px;
+            display: block;
+            width: 100%;
+            color: black;
+        }
+
+        ul.profiledropin li a:hover {
+            background: var(--themeActiveColor);
+            color: var(--themePrimaryTxtColor);
+        }
+
+        .avtartMenu li a {
+            font-size: 14px !important;
+            text-transform: capitalize !important;
+            font-family: inherit !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,7 +122,36 @@
             <nav class="my-2 my-md-0 mr-md-3">
                 <a class="p-2 text-white" href="/page/contact-us">Support</a>
             </nav>
-            <a class="btn btn-danger" href="/signup">Signup</a>
+            @if (session()->has('USER_DETAILS'))
+                <div class="dropdown dropdin">
+                    <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)"
+                        data-index=0>
+                        <div class="userimg">{{ session('USER_DETAILS')['USER_NAME'][0] }}</div>
+                    </div>
+                    <ul class="dropdown_menus profiledropin avtartMenu" style="display: none;">
+                        <li style="display: none;"><a href="update-profile.php"><span
+                                    class="userno">user-26</span></a></li>
+                        <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a>
+                        </li>
+                        <li><a class="text-decoration-none"
+                                href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
+                                Profiles</a></li>
+                        {{-- <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
+                    History</a></li> --}}
+                        <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
+                                Password</a>
+                        </li>
+                        @if (\App\Services\AppConfig::get()->app->app_info->watch_history === 1)
+                            <li><a class="text-decoration-none" href="{{ route('watch.history') }}">Watch
+                                    History</a>
+                            </li>
+                        @endif
+                        <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
+                    </ul>
+                </div>
+            @else
+                <a class="btn btn-danger" href="/signup">Signup</a>
+            @endif
         </div>
 
         <div class="position-relative overflow-hidden p-3 p-md-5 text-center">
@@ -362,11 +483,18 @@
     <!-- Copyright -->
 
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
+
+    <script>
+        function dropdownHandle(e) {
+            $(`.profiledropin:eq(${$(e).data('index')})`).slideToggle();
+        }
     </script>
 </body>
 
