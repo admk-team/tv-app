@@ -224,9 +224,9 @@
                         </div>
                         <div class="col-md-6">
                             <div class="position-relative">
-                                <img src="  {{ asset('assets/landing_theme_assets/mean/images/tv.png') }}"
-                                    class="img-fluid">
-                                <img src=" {{ $page->image }}" class="img-fluid tv-image">
+                                {{--  <img src="  {{ asset('assets/landing_theme_assets/mean/images/tv.png') }}"
+                                    class="img-fluid">  --}}
+                                <img src=" {{ $page->image }}" class="img-fluid">
                             </div>
                         </div>
                     </div>
@@ -289,96 +289,65 @@
         @endif
     @endforeach
     @endif
-    <section class="bg-black our-story-card" style="display:none;">
+    <!-- Section: FAQ -->
+    @if (isset($data->app->landingpages) && array_reduce($data->app->landingpages, fn($carry, $item) => $carry || ($item->section_type === 'faq' && $item->page_type === 'AJV'), false))
+    <section class="bg-black our-story-card">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <h1 class="text-center mb-5">Frequently Asked Questions</h1>
                     <div class="accordion" id="accordionExample">
+                        @foreach ($data->app->landingpages as $page)
+                        @if ($page->page_type === 'AJV' && $page->section_type === 'faq' && $page->status === 1)
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingOne">
                                 <button class="accordion-button fs-5 fw-bold" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true"
-                                    aria-controls="collapseOne">
-                                    What is hadassah TV?
+                                    data-bs-toggle="collapse" data-bs-target="#collapseOne{{$loop->index}}" aria-expanded="true"
+                                    aria-controls="collapseOne{{$loop->index}}">
+                                    {{ $page->title ?? '' }}
                                 </button>
                             </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse show"
+                            <div id="collapseOne{{$loop->index}}" class="accordion-collapse collapse"
                                 aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in felis
-                                    dignissim, imperdiet nulla vitae, condimentum nulla. Ut scelerisque a nisl sit amet
-                                    facilisis. Etiam blandit iaculis tellus, vitae condimentum leo congue a. Vivamus in
-                                    vehicula massa. Pellentesque libero libero, commodo lacinia volutpat non, tincidunt
-                                    at lectus. Maecenas ipsum turpis, viverra vitae lacus eu, fringilla ultricies erat.
-                                    Aenean hendrerit maximus sodales.
+                                   {{ $page->description ?? '' }}
                                 </div>
                             </div>
                         </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingTwo">
-                                <button class="accordion-button collapsed fs-5 fw-bold" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
-                                    aria-controls="collapseTwo">
-                                    Where can i watch?
-                                </button>
-                            </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Quisque sapien augue, ornare id leo a, tristique elementum justo. Praesent non nulla
-                                    sagittis, sollicitudin justo id, varius erat. Nunc sed pharetra nisl. Cras et
-                                    suscipit felis, in lacinia sapien. Integer venenatis sagittis massa, eu eleifend
-                                    nibh venenatis in. Pellentesque a aliquet urna. Curabitur tortor metus, ultrices sed
-                                    mi at, sagittis imperdiet turpis. Suspendisse nec luctus nunc. Fusce in arcu quis
-                                    lacus mollis ultrices.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingThree">
-                                <button class="accordion-button collapsed fs-5 fw-bold" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
-                                    aria-controls="collapseThree">
-                                    How do i cancel?
-                                </button>
-                            </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse"
-                                aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Praesent nec ipsum scelerisque dui condimentum pellentesque eu at lectus. Vivamus
-                                    purus purus, bibendum in vestibulum ac, pharetra sit amet sapien. Nunc luctus, orci
-                                    vel luctus cursus, nibh nisl ullamcorper ipsum, eu malesuada arcu augue id nisi. In
-                                    auctor mi ac ante tincidunt tincidunt.
-                                </div>
-                            </div>
-                        </div>
+                        @endif
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
 
     </section>
-    <!-- Footer -->
+    @endif
 
+    @if (isset($data->app->landingpages))
+    @foreach ($data->app->landingpages as $page)
+        @if ($page->page_type === 'AJV' && $page->section_type === 'membership' && $page->status === 1)
     <!-- Section: Social media -->
-    <section class="bg-black our-story-card py-1" style="display:none">
+    <section class="bg-black our-story-card py-1">
         <div class="container">
             <div class="row justify-content-center p-4">
                 <div class="col-12 col-md-8 col-xl-8 text-center">
                     <h5 class="text-white mb-3">
-                        Ready to watch? Enter your email to create or restart your membership.
+                        {{ $page->description ?? '' }}
                     </h5>
                     <div class="input-group mb-3">
                         <input type="text" class="form-control p-3" placeholder="Recipient's username"
                             aria-label="Recipient's username" aria-describedby="button-addon2">
-                        <button class="btn btn-primary p-3" type="button" id="button-addon2">Get Started</button>
+                        <button class="btn btn-primary p-3" type="button" id="button-addon2">Get
+                            Started</button>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Right -->
     </section>
+    @endif
+    @endforeach
+    @endif
     <!-- Footer -->
 
     <!-- Section: Links  -->

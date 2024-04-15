@@ -118,19 +118,21 @@
         @endif
 
         <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 shadow-sm">
-            <h5 class="my-0 mr-md-auto font-weight-normal text-white">{{ $data->app->app_info->app_name ?? '' }}</h5>
+            {{--  <h5 class="my-0 mr-md-auto font-weight-normal text-white">{{ $data->app->app_info->app_name ?? '' }}</h5>
+              --}}
+              <a class="my-0 mr-md-auto img-fluid" href="/home"><img alt="logo"
+                src="{{ $data->app->app_info->website_logo ?? '' }}" width="100px" class="img-fluid" /></a>
             <nav class="my-2 my-md-0 mr-md-3">
                 <a class="p-2 text-white" href="/page/contact-us">Support</a>
             </nav>
             @if (session()->has('USER_DETAILS'))
                 <div class="dropdown dropdin">
-                    <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)"
-                        data-index=0>
+                    <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>
                         <div class="userimg">{{ session('USER_DETAILS')['USER_NAME'][0] }}</div>
                     </div>
                     <ul class="dropdown_menus profiledropin avtartMenu" style="display: none;">
-                        <li style="display: none;"><a href="update-profile.php"><span
-                                    class="userno">user-26</span></a></li>
+                        <li style="display: none;"><a href="update-profile.php"><span class="userno">user-26</span></a>
+                        </li>
                         <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a>
                         </li>
                         <li><a class="text-decoration-none"
@@ -278,84 +280,68 @@
         @endforeach
     @endif
 
-    <!-- Start of first row box -->
-    <div class="accrodingin">
-        <div class="accordion accordion-flush" id="accordionFlushExample">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingOne">
-                    <button class="accordion-button faq_question collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                        What is {{ $data->app->app_info->app_name ?? '' }}? <svg id="thin-x" viewBox="0 0 26 26"
-                            class="svg-icon svg-icon-thin-x svg-closed" focusable="true">
-                            <path
-                                d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z">
-                            </path>
-                        </svg>
-                    </button>
-                </h2>
-                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
-                    data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body acrodinbibody">With {{ $data->app->app_info->app_name ?? '' }}, you can
-                        watch thousands of
-                        Movies, TV Series and Children content from your Mobile App, TV App, Tablet or PC</div>
-                </div>
+    <!-- Start FAQ-->
+    @if (isset($data->app->landingpages) &&
+            array_reduce(
+                $data->app->landingpages,
+                fn($carry, $item) => $carry || ($item->section_type === 'faq' && $item->page_type === 'Ele'),
+                false))
+        <div class="d-flex justify-content-center">
+            <div class="leftinpars">
+                <h1>Frequently Asked Questions</h1>
             </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingTwo">
-                    <button class="accordion-button faq_question collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                        How much does it cost? <svg id="thin-x" viewBox="0 0 26 26"
-                            class="svg-icon svg-icon-thin-x svg-closed" focusable="true">
-                            <path
-                                d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z">
-                            </path>
-                        </svg>
-                    </button>
-                </h2>
-                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
-                    data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body acrodinbibody">{{ $data->app->app_info->app_name ?? '' }} Only Cost
-                        $6.99 a month or $69 a
-                        year
+        </div>
+        @foreach ($data->app->landingpages as $page)
+            @if ($page->page_type === 'Ele' && $page->section_type === 'faq' && $page->status === 1)
+                <div class="accrodingin">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne{{$loop->index}}">
+                                <button class="accordion-button faq_question collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseOne{{$loop->index}}"
+                                    aria-expanded="false" aria-controls="flush-collapseOne{{$loop->index}}">
+                                    {{ $page->title ?? '' }} <svg id="thin-x" viewBox="0 0 26 26"
+                                        class="svg-icon svg-icon-thin-x svg-closed" focusable="true">
+                                        <path
+                                            d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne{{$loop->index}}" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingOne"
+                                data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body acrodinbibody">{{ $page->description ?? '' }}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingThree">
-                    <button class="accordion-button faq_question collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#flush-collapseThree" aria-expanded="false"
-                        aria-controls="flush-collapseThree">
-                        Can I cancel? <svg id="thin-x" viewBox="0 0 26 26"
-                            class="svg-icon svg-icon-thin-x svg-closed" focusable="true">
-                            <path
-                                d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z">
-                            </path>
-                        </svg>
-                    </button>
-                </h2>
-                <div id="flush-collapseThree" class="accordion-collapse collapse"
-                    aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body acrodinbibody">You can try it and cancel anytime.</div>
-                </div>
-            </div>
-        </div>
-    </div>
+            @endif
+        @endforeach
+        <div class="our_storycard"></div>
+    @endif
 
-    <div class="position-relative overflow-hidden p-3 p-md-5 text-center">
-        <div class="col-md-8 p-lg-8 mx-auto my-8">
-            <p class="leadinsttiltes">Ready to watch? Enter your email to create or restart your membership.</p>
+    @if (isset($data->app->landingpages))
+        @foreach ($data->app->landingpages as $page)
+            @if ($page->page_type === 'Ele' && $page->section_type === 'membership' && $page->status === 1)
+                <div class="position-relative overflow-hidden p-3 p-md-5 text-center">
+                    <div class="col-md-8 p-lg-8 mx-auto my-8">
+                        <p class="leadinsttiltes"> {{ $page->description ?? '' }}</p>
 
-            <div class="input-group is-invalid">
-                <div class="custom-file customins">
-                    <input type="text" class="form-control form_inputsss" placeholder="Email Address">
+                        <div class="input-group is-invalid">
+                            <div class="custom-file customins">
+                                <input type="text" class="form-control form_inputsss" placeholder="Email Address">
+                            </div>
+                            <div class="input-group-append">
+                                <button class="btn btn-danger btn_dangin">Get Started</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="input-group-append">
-                    <button class="btn btn-danger btn_dangin">Get Started</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="our_storycard"></div>
+                <div class="our_storycard"></div>
+            @endif
+        @endforeach
+    @endif
 
     {{--  <!-- Start of first row box -->
     <div class="accrodingin">

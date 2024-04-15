@@ -6,28 +6,36 @@
     @break
 
     @case('HO')
-        @if ($data->app->app_info->landing_theme == 'AJS')
-            @include('components.ajax_still')
-        @elseif ($data->app->app_info->landing_theme == 'HYP')
-            @include('components.hypatia')
-        @elseif ($data->app->app_info->landing_theme == 'AJV')
-            @include('components.ajax_video')
-        @elseif ($data->app->app_info->landing_theme == 'Ele')
-            @include('components.elektra')
-        @elseif ($data->app->app_info->landing_theme == 'Eli')
-            @include('components.elias')
-        @elseif ($data->app->app_info->landing_theme == 'NRE')
+        @if (session()->has('USER_DETAILS'))
             <x-layouts.app :appInfo="$data->app->app_info">
                 @include('components.page-banner')
                 @include('components.category-slider')
                 @include('components.download-box')
             </x-layouts.app>
         @else
-            <x-layouts.app :appInfo="$data->app->app_info">
-                @include('components.page-banner')
-                @include('components.category-slider')
-                @include('components.download-box')
-            </x-layouts.app>
+            @if ($data->app->app_info->landing_theme == 'AJS')
+                @include('components.ajax_still')
+            @elseif ($data->app->app_info->landing_theme == 'HYP')
+                @include('components.hypatia')
+            @elseif ($data->app->app_info->landing_theme == 'AJV')
+                @include('components.ajax_video')
+            @elseif ($data->app->app_info->landing_theme == 'Ele')
+                @include('components.elektra')
+            @elseif ($data->app->app_info->landing_theme == 'Eli')
+                @include('components.elias')
+            @elseif ($data->app->app_info->landing_theme == 'NRE')
+                <x-layouts.app :appInfo="$data->app->app_info">
+                    @include('components.page-banner')
+                    @include('components.category-slider')
+                    @include('components.download-box')
+                </x-layouts.app>
+            @else
+                <x-layouts.app :appInfo="$data->app->app_info">
+                    @include('components.page-banner')
+                    @include('components.category-slider')
+                    @include('components.download-box')
+                </x-layouts.app>
+            @endif
         @endif
     @break
 
