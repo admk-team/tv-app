@@ -397,7 +397,7 @@
                         Get to Know Us
                     </h6>
                     @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                        @if ($page->displayOn == 'F')
+                    @if ($page->displayOn === 'F' || $page->displayOn === 'B')
                             <p>
                                 <a class="text-reset"
                                     href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>

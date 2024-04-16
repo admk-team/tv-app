@@ -40,13 +40,14 @@
     </style>
 
     <section class="padded-container">
-        @if (isset($data->app->landingpages))
-            @foreach ($data->app->landingpages as $page)
-                @if ($page->page_type === 'HYP' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+       
                     <div class="logo">
-                        <img alt="{{ $data->app->app_info->app_name ?? '' }} logo" src="{{ $page->image ?? '' }}"
+                        <img alt="{{ $data->app->app_info->app_name ?? '' }} logo" src="{{ $data->app->app_info->website_logo ?? '' }}"
                             width="100%">
                     </div>
+                    @if (isset($data->app->landingpages))
+                    @foreach ($data->app->landingpages as $page)
+                        @if ($page->page_type === 'HYP' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
                     <div class="header">
                         @php
                             $words = explode(' ', $page->title ?? '');
@@ -76,44 +77,46 @@
                 <div class="rule-line"></div>
 
             </div>
+            @if (isset($data->app->landingpages))
+                @foreach ($data->app->landingpages as $page)
+                    @if ($page->page_type === 'HYP' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+                        <form id="feedback-form">
+                            <div class="share-text">{{ $page->title ?? '' }}</div>
 
-            <form id="feedback-form">
-                <div class="share-text">Share your email address to stay-up-to-date on
-                    {{ $data->app->app_info->app_name ?? '' }} News.</div>
+                            <div class="grid-wrapper">
+                                <div class="grid-item span-cols">
+                                    <div class="field-wrapper field-wrapper--floating-label field-wrapper--undefined"
+                                        value="">
+                                        <input maxlength="320" tabindex="2" type="text" name="email"
+                                            id="email" value="" placeholder="Enter Email">
+                                    </div>
+                                </div>
+                                <div class="grid-item span-cols relativ">
+                                    <div class="g-recaptcha"></div>
+                                    <button tabindex="3" class="button submit" id="submit_btn">
+                                        <div class="button__text">Submit</div>
+                                    </button>
+                                </div>
 
-                <div class="grid-wrapper">
-                    <div class="grid-item span-cols">
-                        <div class="field-wrapper field-wrapper--floating-label field-wrapper--undefined"
-                            value="">
-                            <input maxlength="320" tabindex="2" type="text" name="email" id="email"
-                                value="" placeholder="Enter Email">
-                        </div>
-                    </div>
-                    <div class="grid-item span-cols relativ">
-                        <div class="g-recaptcha"></div>
-                        <button tabindex="3" class="button submit" id="submit_btn">
-                            <div class="button__text">Submit</div>
-                        </button>
-                    </div>
-
-                    <div class="grid-item">
-                        <div class="agreement-text">
-                            By clicking the submit button, you agree to {{ $data->app->app_info->app_name ?? '' }}
-                            using your email address to
-                            send you marketing communications, updates, special offers and other information about Faith
-                            Channel. You can unsubscribe at any time.
-                            <a href="javascript:void(0);">Privacy Policy</a>.
-                            <div class="grid3">
-                                {{ $data->app->app_info->app_name ?? '' }} is available in select markets. Content
-                                varies by region and
-                                subject
-                                to change.
+                                <div class="grid-item">
+                                    <div class="agreement-text">
+                                        By clicking the submit button, you agree to
+                                        {{ $page->description ?? '' }}
+                                        {{--  <a href="javascript:void(0);">Privacy Policy</a>.  --}}
+                                        {{--  <div class="grid3">
+                                            {{ $data->app->app_info->app_name ?? '' }} is available in select markets.
+                                            Content
+                                            varies by region and
+                                            subject
+                                            to change.
+                                        </div>  --}}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-
+                        </form>
+                    @endif
+                @endforeach
+            @endif
             <div class="email-success hide">
                 Success! Stay tuned for updates.
             </div>
@@ -123,12 +126,13 @@
     <!-- Start of footer text-->
     <footer>
         <div class="footer-links">
-            <a href="javascript:void(0);">Terms of Use</a>|
-            <a href="javascript:void(0);">Privacy Policy</a>|
-            <a href="javascript:void(0);">Cookies</a>|
-            <a href="javascript:void(0)" class="ot-sdk-show-settings">Manage Cookies</a>
+            <a href="{{ route('login') }}">Login</a>|
+            <a href="{{ route('register') }}">Register</a>|
+            <a href="{{ route('downloadapps') }}">Download Apps</a>|
+            <a href="{{ route('subscription') }}" class="ot-sdk-show-settings">Subscription Plans</a>
         </div>
-        <div class="copyright">© <span id="copyright-year"></span> {{ $data->app->app_info->app_name ?? '' }}. All
+        <div class="copyright">© <span id="copyright-year"></span> {{ $data->app->app_info->app_name ?? '' }}
+            {{ date('Y') }} - {{ date('Y', strtotime('+1 years')) }}. All
             Rights Reserved.</div>
     </footer>
     <!-- End of footer text-->
