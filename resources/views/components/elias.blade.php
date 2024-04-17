@@ -120,7 +120,7 @@
                     <div class="EcToA">
                         <div class="SVozw">
                             <div class="vxDaw">
-                                <div class="_SoAG">
+                                {{--  <div class="_SoAG">
                                     <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg" data-test-id="icons-menu" role="img">
                                         <title>Menu Icon</title>
@@ -134,7 +134,7 @@
                                             d="M20 13H4C3.448 13 3 12.552 3 12C3 11.448 3.448 11 4 11H20C20.553 11 21 11.448 21 12C21 12.552 20.553 13 20 13Z"
                                             fill="currentColor"></path>
                                     </svg>
-                                </div>
+                                </div>  --}}
                             </div>
                             <a href="">
                                 <img alt="logo" src="{{ $data->app->app_info->website_logo ?? '' }}" width="70px"
@@ -181,6 +181,7 @@
                                 <a class="knq9q" href="/login">Sign In</a>
                                 <a class="Ii6WJ" href="/signup">Register</a>
                             @endif
+                            <form class="qnV1a" action="{{ route('search') }}">
                             <div class="QlsWG">
                                 <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" data-test-id="icons-search" role="img"
@@ -193,11 +194,10 @@
                                         d="M18.636 17.214L20.708 19.294C21.098 19.685 21.097 20.318 20.706 20.708C20.511 20.903 20.255 21 20 21C19.744 21 19.487 20.902 19.291 20.706L17.219 18.626L18.636 17.214Z"
                                         fill="currentColor"></path>
                                 </svg>
-                                <form class="qnV1a" action="{{ route('search') }}">
                                     <input type="text" name="searchKeyword" id="searchKeyword" value=""
                                         class="ZLiF0" required="" placeholder="Find movies, TV shows and more" />
-                                </form>
                             </div>
+                        </form>
                         </div>
                     </div>
                 </nav>
@@ -507,6 +507,18 @@
         function dropdownHandle(e) {
             $(`.profiledropin:eq(${$(e).data('index')})`).slideToggle();
         }
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Listen for click event on the SVG icon
+            $('.phovn').click(function(event) {
+                // Prevent the default behavior of the SVG click
+                event.preventDefault();
+                
+                // Trigger the form submission
+                $(this).closest('form').submit();
+            });
+        });
     </script>
 </body>
 

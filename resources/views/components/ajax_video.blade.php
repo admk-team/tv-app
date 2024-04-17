@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,97 +26,97 @@
         href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
         rel="stylesheet">
 
-        <style>
-            :root {
-                --bgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }};
-                --themeActiveColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }};
-                --headerBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->headerBgColor }};
-                --themePrimaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }};
-                --themeSecondaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeSecondaryTxtColor }};
-                --navbarMenucolor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarMenucolor }};
-                --navbarSearchColor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarSearchColor }};
-                --footerbtmBgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->footerbtmBgcolor }};
-                --slidercardBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardBgColor }};
-                --slidercardTitlecolor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardTitlecolor }};
-                --slidercardCatColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardCatColor }};
-                --cardDesColor: {{ \App\Services\AppConfig::get()->app->website_colors->cardDesColor }};
-            }
-        </style>
-    
-        <style>
-            .nav_btnlink {
-                cursor: pointer;
-            }
-    
-            .userimg {
-                width: 40px;
-                height: 40px;
-                border-radius: 50% 50%;
-                font-size: 20px;
-                font-weight: bold;
-                color: var(--themePrimaryTxtColor);
-                padding: 4px 2px;
-                text-align: center;
-                background: var(--themeActiveColor);
-            }
-    
-            .dropdown_menus {
-                position: absolute;
-                top: 161%;
-                left: 0;
-                z-index: 1000;
-                float: left;
-                min-width: 10rem;
-                padding: .5rem 0;
-                margin: .125rem 0 0;
-                font-size: 1rem;
-                display: none;
-                color: #212529;
-                text-align: left;
-                list-style: none;
-                background-color: var(--themePrimaryTxtColor);
-                background-clip: padding-box;
-                border: 1px solid rgba(0, 0, 0, .15);
-                border-radius: .25rem
-            }
-    
-            .avtartMenu {
-                padding-bottom: 0 !important;
-                padding-top: 0 !important;
-                min-width: 167px !important;
-                margin-top: 5px !important;
-                left: unset !important;
-                right: 0 !important;
-                border: unset !important;
-                background-clip: unset !important;
-                box-shadow: 0 1px 5px 0 rgb(0 0 0 / 22%);
-            }
-    
-            ul.profiledropin {
-                padding: 0px 0px !important;
-                margin: 0px 0px !important;
-            }
-    
-            ul.profiledropin li a {
-                font-size: 14px;
-                font-family: 'Noto Sans';
-                padding: 6px 10px;
-                display: block;
-                width: 100%;
-                color: black;
-            }
-    
-            ul.profiledropin li a:hover {
-                background: var(--themeActiveColor);
-                color: var(--themePrimaryTxtColor);
-            }
-    
-            .avtartMenu li a {
-                font-size: 14px !important;
-                text-transform: capitalize !important;
-                font-family: inherit !important;
-            }
-        </style>
+    <style>
+        :root {
+            --bgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }};
+            --themeActiveColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }};
+            --headerBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->headerBgColor }};
+            --themePrimaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }};
+            --themeSecondaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeSecondaryTxtColor }};
+            --navbarMenucolor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarMenucolor }};
+            --navbarSearchColor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarSearchColor }};
+            --footerbtmBgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->footerbtmBgcolor }};
+            --slidercardBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardBgColor }};
+            --slidercardTitlecolor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardTitlecolor }};
+            --slidercardCatColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardCatColor }};
+            --cardDesColor: {{ \App\Services\AppConfig::get()->app->website_colors->cardDesColor }};
+        }
+    </style>
+
+    <style>
+        .nav_btnlink {
+            cursor: pointer;
+        }
+
+        .userimg {
+            width: 40px;
+            height: 40px;
+            border-radius: 50% 50%;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--themePrimaryTxtColor);
+            padding: 4px 2px;
+            text-align: center;
+            background: var(--themeActiveColor);
+        }
+
+        .dropdown_menus {
+            position: absolute;
+            top: 161%;
+            left: 0;
+            z-index: 1000;
+            float: left;
+            min-width: 10rem;
+            padding: .5rem 0;
+            margin: .125rem 0 0;
+            font-size: 1rem;
+            display: none;
+            color: #212529;
+            text-align: left;
+            list-style: none;
+            background-color: var(--themePrimaryTxtColor);
+            background-clip: padding-box;
+            border: 1px solid rgba(0, 0, 0, .15);
+            border-radius: .25rem
+        }
+
+        .avtartMenu {
+            padding-bottom: 0 !important;
+            padding-top: 0 !important;
+            min-width: 167px !important;
+            margin-top: 5px !important;
+            left: unset !important;
+            right: 0 !important;
+            border: unset !important;
+            background-clip: unset !important;
+            box-shadow: 0 1px 5px 0 rgb(0 0 0 / 22%);
+        }
+
+        ul.profiledropin {
+            padding: 0px 0px !important;
+            margin: 0px 0px !important;
+        }
+
+        ul.profiledropin li a {
+            font-size: 14px;
+            font-family: 'Noto Sans';
+            padding: 6px 10px;
+            display: block;
+            width: 100%;
+            color: black;
+        }
+
+        ul.profiledropin li a:hover {
+            background: var(--themeActiveColor);
+            color: var(--themePrimaryTxtColor);
+        }
+
+        .avtartMenu li a {
+            font-size: 14px !important;
+            text-transform: capitalize !important;
+            font-family: inherit !important;
+        }
+    </style>
 
 </head>
 
@@ -133,8 +134,7 @@
                 <div class="navbar-nav ms-auto">
                     @if (session()->has('USER_DETAILS'))
                         <div class="dropdown dropdin">
-                            <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)"
-                                data-index=0>
+                            <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>
                                 <div class="userimg">{{ session('USER_DETAILS')['USER_NAME'][0] }}</div>
                             </div>
                             <ul class="dropdown_menus profiledropin avtartMenu" style="display: none;">
@@ -179,13 +179,11 @@
                                 <div class="bg-crimsonblack">
                                     <video autoplay playsinline muted loop>
                                         <!-- <source src="homepage-video.webm" type="video/webm"> -->
-                                        <source
-                                            src=" {{ $page->video_url ?? '' }}"
-                                            type="video/mp4">
+                                        <source src=" {{ $page->video_url ?? '' }}" type="video/mp4">
                                     </video>
                                     <div class="carousel-caption">
                                         @if (isset($page->title))
-                                        <h1 class="fw-bold text-white">{{ $page->title ?? '' }}</h1>
+                                            <h1 class="fw-bold text-white">{{ $page->title ?? '' }}</h1>
                                         @endif
                                         <p style="display:none;">
                                             {{ $page->description ?? '' }}
@@ -290,63 +288,72 @@
     @endforeach
     @endif
     <!-- Section: FAQ -->
-    @if (isset($data->app->landingpages) && array_reduce($data->app->landingpages, fn($carry, $item) => $carry || ($item->section_type === 'faq' && $item->page_type === 'AJV'), false))
-    <section class="bg-black our-story-card">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <h1 class="text-center mb-5">Frequently Asked Questions</h1>
-                    <div class="accordion" id="accordionExample">
-                        @foreach ($data->app->landingpages as $page)
-                        @if ($page->page_type === 'AJV' && $page->section_type === 'faq' && $page->status === 1)
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button fs-5 fw-bold" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapseOne{{$loop->index}}" aria-expanded="true"
-                                    aria-controls="collapseOne{{$loop->index}}">
-                                    {{ $page->title ?? '' }}
-                                </button>
-                            </h2>
-                            <div id="collapseOne{{$loop->index}}" class="accordion-collapse collapse"
-                                aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                   {{ $page->description ?? '' }}
-                                </div>
-                            </div>
+    @if (isset($data->app->landingpages) &&
+            array_reduce(
+                $data->app->landingpages,
+                fn($carry, $item) => $carry || ($item->section_type === 'faq' && $item->page_type === 'AJV'),
+                false))
+        <section class="bg-black our-story-card">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <h1 class="text-center mb-5">Frequently Asked Questions</h1>
+                        <div class="accordion" id="accordionExample">
+                            @foreach ($data->app->landingpages as $page)
+                                @if ($page->page_type === 'AJV' && $page->section_type === 'faq' && $page->status === 1)
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button fs-5 fw-bold" type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#collapseOne{{ $loop->index }}" aria-expanded="true"
+                                                aria-controls="collapseOne{{ $loop->index }}">
+                                                {{ $page->title ?? '' }}
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne{{ $loop->index }}" class="accordion-collapse collapse"
+                                            aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                {{ $page->description ?? '' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
                         </div>
-                        @endif
-                        @endforeach
                     </div>
                 </div>
             </div>
-        </div>
 
-    </section>
+        </section>
     @endif
 
     @if (isset($data->app->landingpages))
-    @foreach ($data->app->landingpages as $page)
-        @if ($page->page_type === 'AJV' && $page->section_type === 'membership' && $page->status === 1)
-    <!-- Section: Social media -->
-    <section class="bg-black our-story-card py-1">
-        <div class="container">
-            <div class="row justify-content-center p-4">
-                <div class="col-12 col-md-8 col-xl-8 text-center">
-                    <h5 class="text-white mb-3">
-                        {{ $page->description ?? '' }}
-                    </h5>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control p-3" placeholder="Recipient's username"
-                            aria-label="Recipient's username" aria-describedby="button-addon2">
-                        <button class="btn btn-primary p-3" type="button" id="button-addon2">Get
-                            Started</button>
+        @foreach ($data->app->landingpages as $page)
+            @if ($page->page_type === 'AJV' && $page->section_type === 'membership' && $page->status === 1)
+                <!-- Section: Social media -->
+                <section class="bg-black our-story-card py-1">
+                    <div class="container">
+                        <div class="row justify-content-center p-4">
+                            <div class="col-12 col-md-8 col-xl-8 text-center">
+                                <h5 class="text-white mb-3">
+                                    {{ $page->description ?? '' }}
+                                </h5>
+                                <form id="form">
+                                    <div class="input-group mb-3">
+                                        <input type="email" name="email" id="email" class="form-control p-3"
+                                            placeholder="Email Address" aria-label="Recipient's username"
+                                            aria-describedby="button-addon2">
+                                        <button class="btn btn-primary p-3" type="button" id="submit">Get
+                                            Started</button>
+                                    </div>
+                                    <span class="text-danger email-error"></span> <!-- Error message span -->
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    @endif
-    @endforeach
+                </section>
+            @endif
+        @endforeach
     @endif
     <!-- Footer -->
 
@@ -362,7 +369,7 @@
                         Get to Know Us
                     </h6>
                     @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                    @if ($page->displayOn === 'F' || $page->displayOn === 'B')
+                        @if ($page->displayOn === 'F' || $page->displayOn === 'B')
                             <p>
                                 <a class="text-reset"
                                     href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
@@ -434,13 +441,7 @@
     <!-- Copyright -->
     </footer>
     <!-- Footer -->
-
-
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
-    </script>
+    @include('components.includes.script1')
 
     <script>
         function dropdownHandle(e) {

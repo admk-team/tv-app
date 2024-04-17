@@ -87,20 +87,22 @@
                             <div class="share-text">{{ $page->title ?? '' }}</div>
 
                             <div class="grid-wrapper">
+                                <form id="form">
                                 <div class="grid-item span-cols">
                                     <div class="field-wrapper field-wrapper--floating-label field-wrapper--undefined"
                                         value="">
-                                        <input maxlength="320" tabindex="2" type="text" name="email"
+                                        <input maxlength="320" tabindex="2" type="email" name="email"
                                             id="email" value="" placeholder="Enter Email">
                                     </div>
                                 </div>
                                 <div class="grid-item span-cols relativ">
                                     <div class="g-recaptcha"></div>
-                                    <button tabindex="3" class="button submit" id="submit_btn">
+                                    <button type="submit" tabindex="3" class="button submit" id="submit">
                                         <div class="button__text">Submit</div>
                                     </button>
                                 </div>
-
+                                <span class="text-danger email-error"></span> <!-- Error message span -->
+                              </form>
                                 <div class="grid-item">
                                     <div class="agreement-text">
                                         By clicking the submit button, you agree to
@@ -139,6 +141,9 @@
             Rights Reserved.</div>
     </footer>
     <!-- End of footer text-->
+   
+    @include('components.includes.script1')
+    
 </body>
 
 </html>

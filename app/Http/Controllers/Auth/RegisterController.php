@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\Http;
 
 class RegisterController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('auth.register');
+        $data = $request->input();
+        unset($data['_token']);
+        return view('auth.register', compact('data'));
     }
 
     public function register(RegisterRequest $request)

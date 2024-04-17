@@ -123,7 +123,7 @@
               <a class="my-0 mr-md-auto img-fluid" href="/home"><img alt="logo"
                 src="{{ $data->app->app_info->website_logo ?? '' }}" width="100px" class="img-fluid" /></a>
             <nav class="my-2 my-md-0 mr-md-3">
-                <a class="p-2 text-white" href="/page/login">Login</a>
+                <a class="p-2 text-white" href="/login">Login</a>
             </nav>
             @if (session()->has('USER_DETAILS'))
                 <div class="dropdown dropdin">
@@ -169,14 +169,19 @@
                         </p>
                     @endif
                 @endforeach
-                <div class="input-group is-invalid">
-                    <div class="custom-file customins">
-                        <input type="text" class="form-control form_inputsss" placeholder="Email Address">
+                <form id="form">
+                    <div class="input-group is-invalid">
+                        <div class="custom-file customins">
+                            <input type="email" name="email" class="form-control form_inputsss" placeholder="Email Address" required>
+                            <!-- Adding type="email" and required attributes -->
+                        </div>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-danger btn_dangin" id="submit">Get Started</button>
+                        </div>
                     </div>
-                    <div class="input-group-append">
-                        <button class="btn btn-danger btn_dangin">Get Started</button>
-                    </div>
-                </div>
+                    <span class="text-danger email-error"></span> <!-- Error message span -->
+                </form>
+                
             </div>
             <div class="product-device shadow-sm d-none d-md-block"></div>
             <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
@@ -328,14 +333,18 @@
                     <div class="col-md-8 p-lg-8 mx-auto my-8">
                         <p class="leadinsttiltes"> {{ $page->description ?? '' }}</p>
 
-                        <div class="input-group is-invalid">
-                            <div class="custom-file customins">
-                                <input type="text" class="form-control form_inputsss" placeholder="Email Address">
+                        <form id="form1">
+                            <div class="input-group is-invalid">
+                                <div class="custom-file customins">
+                                    <input type="email" name="email" class="form-control form_inputsss" placeholder="Email Address" required>
+                                    <!-- Adding type="email" and required attributes -->
+                                </div>
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-danger btn_dangin" id="submit1">Get Started</button>
+                                </div>
                             </div>
-                            <div class="input-group-append">
-                                <button class="btn btn-danger btn_dangin">Get Started</button>
-                            </div>
-                        </div>
+                            <span class="text-danger email-error"></span> <!-- Error message span -->
+                        </form>
                     </div>
                 </div>
                 <div class="our_storycard"></div>
@@ -467,21 +476,13 @@
         </div>
     </div>
     <!-- Copyright -->
-
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
-    </script>
-
+    @include('components.includes.script')
     <script>
         function dropdownHandle(e) {
             $(`.profiledropin:eq(${$(e).data('index')})`).slideToggle();
         }
     </script>
+   
 </body>
 
 </html>
