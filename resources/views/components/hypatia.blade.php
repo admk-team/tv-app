@@ -38,8 +38,11 @@
             @endforeach
         @endif
     </style>
-
-    <section class="padded-container">
+    <div class="signup-login">
+        <a href="{{ route('login') }}">Login</a> | 
+        <a href="{{ route('register') }}">Register</a>
+    </div>
+    <section class="padded-container padded-container d-flex flex-column justify-content-center">
        
                     <div class="logo">
                         <img alt="{{ $data->app->app_info->app_name ?? '' }} logo" src="{{ $data->app->app_info->website_logo ?? '' }}"
@@ -125,19 +128,17 @@
     </section>
     <!-- Start of footer text-->
     <footer>
-        <div class="footer-links">
+        <div class="footer-links text-center">
             <a href="{{ route('login') }}">Login</a>|
             <a href="{{ route('register') }}">Register</a>|
             <a href="{{ route('downloadapps') }}">Download Apps</a>|
             <a href="{{ route('subscription') }}" class="ot-sdk-show-settings">Subscription Plans</a>
         </div>
-        <div class="copyright">© <span id="copyright-year"></span> {{ $data->app->app_info->app_name ?? '' }}
+        <div class="copyright text-center">© <span id="copyright-year"></span> {{ $data->app->app_info->app_name ?? '' }}
             {{ date('Y') }} - {{ date('Y', strtotime('+1 years')) }}. All
             Rights Reserved.</div>
     </footer>
     <!-- End of footer text-->
 </body>
-
-
 
 </html>
