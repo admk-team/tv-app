@@ -211,15 +211,18 @@
             </button> -->
         </div>
     </section>
-    <section>
+    <section style="position: relative;">
         @if (isset($data->app->landingpages))
             @foreach ($data->app->landingpages as $page)
                 @if ($page->page_type === 'AJS' && $page->section_type === 'banner' && $page->status === 1)
-                    <img src="{{ $page->image ?? asset('assets/landing_theme_assets/mean/images/slider.png') }}"
-                        class="img-fluid" style="width: 100%; height: 500px;">
+                    <div style="position: relative;">
+                        <img src="{{ $page->image ?? '' }}" class="img-fluid" style="width: 100%; height: 500px;">
+                        <a class="btn btn-primary px-3 mx-2" href="/signup" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">Sign Up</a>
+                    </div>
                 @endif
             @endforeach
     </section>
+    
     <!-- Main Slider Section End -->
     @foreach ($data->app->landingpages as $page)
         @if ($page->page_type === 'AJS' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
@@ -227,10 +230,10 @@
                 <div class="container py-3">
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <h3 class="fw-bold text-white">{{ $page->title ?? '' }}</h3>
-                            <h4 class="text-white">
+                            <h2 class="fw-bold text-white">{{ $page->title ?? '' }}</h2>
+                            <h5 class="text-white">
                                 {{ $page->description ?? '' }}
-                            </h4>
+                            </h5>
                         </div>
                         <div class="col-md-6">
                             <div class="position-relative">
@@ -253,10 +256,10 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <h3 class="fw-bold text-white">{{ $page->title ?? '' }}</h3>
-                            <h4 class="text-white">
+                            <h2 class="fw-bold text-white">{{ $page->title ?? '' }}</h2>
+                            <h5 class="text-white">
                                 {{ $page->description ?? '' }}
-                            </h4>
+                            </h5>
                         </div>
                     </div>
                 </div>
@@ -267,11 +270,10 @@
                 <div class="container py-5">
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <h3 class="fw-bold text-white">{{ $page->title ?? '' }}</h3>
-                            <h4 class="text-white">
+                            <h2 class="fw-bold text-white">{{ $page->title ?? '' }}</h2>
+                            <h5 class="text-white">
                                 {{ $page->description ?? '' }}
-
-                            </h4>
+                            </h5>
 
                             <ul class="list-unstyled d-flex flex-wrap fs-5 text-secondary mt-3">
                                 <li>Watch Now: </li>

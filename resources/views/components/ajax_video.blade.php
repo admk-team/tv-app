@@ -215,10 +215,10 @@
                 <div class="container py-3">
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <h3 class="fw-bold text-white">{{ $page->title ?? '' }}</h3>
-                            <h4 class="text-white">
+                           <h2 class="fw-bold text-white">{{ $page->title ?? '' }}</h2>
+                            <h5 class="text-white">
                                 {{ $page->description ?? '' }}
-                            </h4>
+                            </h5>
                         </div>
                         <div class="col-md-6">
                             <div class="position-relative">
@@ -241,10 +241,10 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <h3 class="fw-bold text-white">{{ $page->title ?? '' }}</h3>
-                            <h4 class="text-white">
+                           <h2 class="fw-bold text-white">{{ $page->title ?? '' }}</h2>
+                            <h5 class="text-white">
                                 {{ $page->description ?? '' }}
-                            </h4>
+                            </h5>
                         </div>
                     </div>
                 </div>
@@ -255,12 +255,10 @@
                 <div class="container py-5">
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <h3 class="fw-bold text-white">{{ $page->title ?? '' }}Enjoy On
-                                Your TV And Mobile</h3>
-                            <h4 class="text-white">
+                           <h2 class="fw-bold text-white">{{ $page->title ?? '' }}</h2>
+                            <h5 class="text-white">
                                 {{ $page->description ?? '' }}
-
-                            </h4>
+                            </h5>
 
                             <ul class="list-unstyled d-flex flex-wrap fs-5 text-secondary mt-3">
                                 <li>Watch Now: </li>
