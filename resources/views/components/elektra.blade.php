@@ -123,7 +123,7 @@
               <a class="my-0 mr-md-auto img-fluid" href="/home"><img alt="logo"
                 src="{{ $data->app->app_info->website_logo ?? '' }}" width="100px" class="img-fluid" /></a>
             <nav class="my-2 my-md-0 mr-md-3">
-                <a class="p-2 text-white" href="/page/contact-us">Support</a>
+                <a class="p-2 text-white" href="/page/login">Login</a>
             </nav>
             @if (session()->has('USER_DETAILS'))
                 <div class="dropdown dropdin">
@@ -397,7 +397,7 @@
                         Get to Know Us
                     </h6>
                     @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                        @if ($page->displayOn == 'F')
+                    @if ($page->displayOn === 'F' || $page->displayOn === 'B')
                             <p>
                                 <a class="text-reset"
                                     href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>

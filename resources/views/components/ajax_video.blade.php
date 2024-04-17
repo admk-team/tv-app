@@ -180,12 +180,12 @@
                                     <video autoplay playsinline muted loop>
                                         <!-- <source src="homepage-video.webm" type="video/webm"> -->
                                         <source
-                                            src=" {{ $page->video_url ?? 'https://player.vimeo.com/progressive_redirect/playback/830374923/rendition/720p/file.mp4?loc=external&signature=314a23119f729b0f79a31da6232ead8a19419dc7a7adb8289183ce83d4763593' }}"
+                                            src=" {{ $page->video_url ?? '' }}"
                                             type="video/mp4">
                                     </video>
                                     <div class="carousel-caption">
                                         @if (isset($page->title))
-                                            <h4> {{ $page->title }}</h4>
+                                        <h1 class="fw-bold text-white">{{ $page->title ?? '' }}</h1>
                                         @endif
                                         <p style="display:none;">
                                             {{ $page->description ?? '' }}
@@ -362,7 +362,7 @@
                         Get to Know Us
                     </h6>
                     @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                        @if ($page->displayOn == 'F')
+                    @if ($page->displayOn === 'F' || $page->displayOn === 'B')
                             <p>
                                 <a class="text-reset"
                                     href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
