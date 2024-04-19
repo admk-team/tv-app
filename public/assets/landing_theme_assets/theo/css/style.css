@@ -1,0 +1,273 @@
+.wrapper__landing__page {
+  background-color: #000;
+  position: relative;
+}
+.wrapper__landing__page::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(to right, #306eed 40%, rgb(216, 15, 47) 60%) left;
+}
+.active {
+  background-color: rgba(216, 15, 47, 0.4);
+}
+.header {
+  /* min-height: 100vh; */
+  width: 100%;
+  /* background-image: linear-gradient(rgba(4, 9, 30, 0.4), rgba(4, 9, 30, 0.4)),
+    url(asset/image24.png); */
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+.custom__button {
+  background-color: rgba(216, 15, 47, 1);
+  font-size: 15px;
+  padding-block: 0.4rem;
+  padding-inline: 1.6rem;
+}
+.custom__button:hover {
+  background-color: rgba(216, 15, 47, 0.8); /* Change background color on hover */
+}
+.mySlides {
+  border: 8px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+}
+.mySlides img {
+  border-radius: 16px;
+}
+.inner__section h4 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+.inner__section h4 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+.inner__section h4 span {
+  color: rgba(216, 15, 47, 1);
+}
+.movie__links ul li a:hover {
+  color: rgba(216, 15, 47, 1);
+}
+
+.arrow__icons span {
+  margin: 0 5px;
+  font-size: 2rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#imageContainer {
+  max-width: 100%;
+  height: auto;
+}
+#displayedImage {
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+}
+.playstore > div {
+  width: 10%;
+}
+.playstore > div img {
+  width: 100%;
+  cursor: pointer;
+}
+#slider {
+  display: flex;
+  overflow: hidden;
+  width: 100%; /* Ensure the slider takes the full width of its container */
+}
+
+#slider img {
+  width: 100%; /* Make the images responsive, taking the full width of the slider */
+  height: auto; /* Maintain the aspect ratio of the images */
+}
+.devices__text {
+  font-weight: 700;
+  font-size: 3.1rem;
+  text-align: center;
+}
+.devices {
+  position: relative;
+}
+
+.devices span {
+  color: #d80f2f;
+}
+.devices__icons img {
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  max-width: 150px;
+}
+.devices::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.devices__icons li {
+  position: relative;
+  transition: all 0.3s ease-in;
+}
+/* 
+.devices__icons li::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 4px;
+  background-color: #d80f2f;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.devices__icons li:hover::after {
+  opacity: 1;
+} */
+
+.banner {
+
+  background: linear-gradient(180deg, #181717 0%, rgba(24, 24, 24, 0.3) 100%);
+
+}
+.banner h2 {
+  font-size: 3rem;
+}
+.banner span {
+  color: #d80f2f;
+}
+.app__icons > div {
+  width: 60px;
+}
+.app__icons > div img {
+  width: 100%;
+  height: auto;
+}
+.tv__links {
+  position: relative;
+  padding-block: 2rem;
+}
+.gradient {
+  position: absolute;
+  top: 0;
+  right: 0%;
+  width: 100%;
+}
+.tv__links span {
+  color: #d80f2f;
+}
+
+.membership__section {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.048);
+}
+.membership__section::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.1)
+  ),
+  url("{{ asset('assets/landing_theme_assets/theo/images/gradient.png') }}");
+    
+  background-position: right;
+  opacity: 1;
+  z-index: 99;
+}
+.membership__section::after {
+  position: absolute;
+  content: "";
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 5px;
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.1)
+  ),
+  url("../assets/landing_theme_assets/theo/images/gradient.png");
+  background-position: left;
+  opacity: 1;
+}
+
+.membership {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 40px;
+  padding: 6px 6px;
+}
+.membership input {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  padding: 8px 12px;
+  color: #fff;
+  width: 100%;
+  max-width: 100%;
+}
+.membership a {
+  white-space: nowrap;
+}
+.footer {
+  padding: 4rem 2rem;
+}
+
+/* //Slider   */
+.text-red {
+  color: #d80f2f !important;
+  border-bottom: 2px solid #d80f2f;
+}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .prev,
+  .next,
+  .text {
+    font-size: 11px;
+  }
+}
+
+/* Watch Now  */
+.watch__now {
+  background: -webkit-linear-gradient(90deg, #306eed 4.14%, #dd0c29 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  font-size: 18px;
+}

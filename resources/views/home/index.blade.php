@@ -23,6 +23,8 @@
                 @include('components.elektra')
             @elseif ($data->app->app_info->landing_theme == 'Eli')
                 @include('components.elias')
+            @elseif ($data->app->app_info->landing_theme == 'Theo')
+                @include('components.theo')
             @elseif ($data->app->app_info->landing_theme == 'NRE')
                 <x-layouts.app :appInfo="$data->app->app_info">
                     @include('components.page-banner')
