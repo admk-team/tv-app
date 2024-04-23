@@ -87,7 +87,7 @@
                                                 @if (isset($data->app->categories))
                                                     @php $count = 0; @endphp
                                                     @foreach ($data->app->categories ?? [] as $category)
-                                                      @if (!empty($category->streams) && !empty($category->cat_title))
+                                                        @if (!empty($category->streams) && !empty($category->cat_title))
                                                             @if ($count < 7)
                                                                 <!-- Check if count is less than 10 -->
                                                                 <li id="{{ $category->cat_guid ?? '' }}"
@@ -117,7 +117,7 @@
                                     @if (isset($data->app->categories))
                                         @php $count = 0; @endphp
                                         @foreach ($data->app->categories ?? [] as $category)
-                                          @if (!empty($category->streams) && !empty($category->cat_title))
+                                            @if (!empty($category->streams) && !empty($category->cat_title))
                                                 @if ($count < 7)
                                                     <div class="mySlides">
                                                         @foreach ($category->streams as $index => $stream)
@@ -282,34 +282,29 @@
             </div>
         @endif
     </section>
- 
-@endforeach
+    @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 5)
+        <section class="tv__links">
+            <div class="tv__icons m-auto w-25 ">
+                <div class=" d-flex gap-5 align-items-center justify-content-center py-4 ">
+                    <p class="p-0 m-0 watch__now">Watch Now</p>
+                    <div class="col-md-4 d-flex  align-items-center gap-2 app__icons">
+                        @foreach (explode(',', $page->icon) as $iconUrl)
+                            <div><a class="text-center"><img src="{{ $iconUrl }}" alt=""
+                                        srcset=""></a></div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class=" d-flex gap-5 align-items-center justify-content-center py-4 ">
+                    <a href="/download-apps"
+                        class="text-decoration-none text-white border-2 rounded-pill custom__button">Download</a>
 
-@foreach ($data->app->landingpages as $page)
-    @if ($page->page_type === 'Theo' && $page->section_type === 'membership' && $page->status === 1)
-    <section class="tv__links">
-        <div class="tv__icons m-auto w-25 ">
-            <div class=" d-flex gap-5 align-items-center justify-content-center py-4 ">
-                <p class="p-0 m-0 watch__now">Watch Now</p>
-                <div class="col-md-4 d-flex  align-items-center gap-2 app__icons">
-                    <div><a class="text-center"><img
-                                src="{{ asset('assets/landing_theme_assets/theo/images/icon1.png') }}"
-                                alt="" srcset=""></a></div>
-                    <div><a class="text-center"><img
-                                src="{{ asset('assets/landing_theme_assets/theo/images/icon2.png') }}"
-                                alt="" srcset=""></a></div>
-                    <div><a class="text-center"><img
-                                src="{{ asset('assets/landing_theme_assets/theo/images/icon3.png') }}"
-                                alt="" srcset=""></a></div>
                 </div>
             </div>
-            <div class=" d-flex gap-5 align-items-center justify-content-center py-4 ">
-                <a href="/download-apps"
-                    class="text-decoration-none text-white border-2 rounded-pill custom__button">Download</a>
-    
-            </div>
-        </div>
-    </section>
+        </section>
+    @endif
+@endforeach
+@foreach ($data->app->landingpages as $page)
+    @if ($page->page_type === 'Theo' && $page->section_type === 'membership' && $page->status === 1)
         <!-- Section: Social media -->
         <section class="membership__section py-5">
             <div class="row d-flex align-items-center justify-content-center m-auto text-white py-5">
