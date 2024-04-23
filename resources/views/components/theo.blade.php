@@ -55,8 +55,7 @@
                     @foreach ($data->app->landingpages as $page)
                         @if ($page->page_type === 'Theo' && $page->section_type === 'banner' && $page->status === 1)
                             <div class="col-md-6">
-                                <div
-                                    class="d-flex align-items-center justify-content-center flex-column m-auto inner__section">
+                                <div class="d-flex align-items-center justify-content-center flex-column m-auto inner__section">
                                     <p class="fs-2 p-0 m-0">{{ $page->title ?? '' }}</p>
                                     <h4 class="text-center">
                                         @if (isset($page->subtitle))
@@ -74,9 +73,7 @@
                                         @endif
                                     </h4>
                                     <p class="fs-5 text-center"> {{ $page->description ?? '' }}</p>
-                                    <a href="/signup"
-                                        class="text-decoration-none border-2 text-white rounded-pill custom__button my-4">Start
-                                        Streaming</a>
+                                    <a href="/signup" class="text-decoration-none border-2 text-white rounded-pill custom__button my-4">Start Streaming</a>
                                 </div>
 
                                 <div class="movie__type mt-3">
@@ -138,7 +135,8 @@
                                 @endforeach
                             @endif
                         </div>
-
+                        @endif
+                        @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
                         <div class="playstore d-flex gap-5 py-4">
                             <h5>Download Now</h5>
                             @foreach (explode(',', $page->icon) as $iconUrl)
@@ -146,7 +144,6 @@
                             @endforeach
                         </div>
                     </div>
-
                 </div>
             @endif
         @endforeach
@@ -155,7 +152,7 @@
 </section>
 @if (isset($data->app->landingpages))
 @foreach ($data->app->landingpages as $page)
-    @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+    @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
         <section class="devices">
             <div class="row d-flex align-items-center justify-content-center m-auto text-white">
                 <div class="col-md-6  py-5">
@@ -203,7 +200,7 @@
         </section>
     @endif
     <section class="banner">
-        @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+        @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
             <div
                 class="row d-flex align-items-center justify-content-center m-auto text-white py-3 banner__section1 d-block">
                 <div class="col-md-6">
@@ -229,7 +226,7 @@
                 </div>
             </div>
         @endif
-        @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+        @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 4)
             <div
                 class="row d-flex align-items-center justify-content-center m-auto text-white py-3  banner__section2 d-none">
                 <div class="col-md-6">
@@ -255,7 +252,7 @@
                 </div>
             </div>
         @endif
-        @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 4)
+        @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 5)
             <div
                 class="row d-flex align-items-center justify-content-center m-auto text-white py-3 banner__section3 d-none">
                 <div class="col-md-6">
@@ -282,17 +279,17 @@
             </div>
         @endif
     </section>
-    @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 5)
+    @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 6)
         <section class="tv__links">
             <div class="tv__icons m-auto w-25 ">
                 <div class=" d-flex gap-5 align-items-center justify-content-center py-4 ">
-                    <p class="p-0 m-0 watch__now">Watch Now</p>
+                    <p class="p-0 m-0 watch__now">{{ $page->title ?? '' }}</p>
                     <div class="col-md-4 d-flex  align-items-center gap-2 app__icons">
                         @foreach (explode(',', $page->icon) as $iconUrl)
                             <div><a class="text-center"><img src="{{ $iconUrl }}" alt=""
                                         srcset=""></a></div>
                         @endforeach
-                    </div>
+                    </div> 
                 </div>
                 <div class=" d-flex gap-5 align-items-center justify-content-center py-4 ">
                     <a href="/download-apps"
