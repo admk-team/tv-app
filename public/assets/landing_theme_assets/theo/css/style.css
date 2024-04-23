@@ -10,7 +10,7 @@
   background: linear-gradient(to right, #306eed 40%, rgb(216, 15, 47) 60%) left;
 }
 .active {
-  background-color: rgba(216, 15, 47, 0.4);
+  background-color: var(--themeActiveColor);
 }
 .header {
   /* min-height: 100vh; */
@@ -22,13 +22,13 @@
   position: relative;
 }
 .custom__button {
-  background-color: rgba(216, 15, 47, 1);
+  background-color:var(--themeActiveColor);
   font-size: 15px;
   padding-block: 0.4rem;
   padding-inline: 1.6rem;
 }
 .custom__button:hover {
-  background-color: rgba(216, 15, 47, 0.8); /* Change background color on hover */
+  background-color: var(--themeActiveColor); /* Change background color on hover */
 }
 .mySlides {
   border: 8px solid rgba(255, 255, 255, 0.15);
@@ -48,10 +48,10 @@
   font-weight: 700;
 }
 .inner__section h4 span {
-  color: rgba(216, 15, 47, 1);
+  color: var(--themeActiveColor);
 }
 .movie__links ul li a:hover {
-  color: rgba(216, 15, 47, 1);
+  color: var(--themeActiveColor);
 }
 
 .arrow__icons span {
@@ -100,7 +100,7 @@
 }
 
 .devices span {
-  color: #d80f2f;
+  color: var(--themeActiveColor);
 }
 .devices__icons img {
   z-index: 2;
@@ -146,7 +146,7 @@
   font-size: 3rem;
 }
 .banner span {
-  color: #d80f2f;
+  color: var(--themeActiveColor);
 }
 .app__icons > div {
   width: 60px;
@@ -166,7 +166,7 @@
   width: 100%;
 }
 .tv__links span {
-  color: #d80f2f;
+  color: var(--themeActiveColor);
 }
 
 .membership__section {
@@ -229,8 +229,8 @@
 
 /* //Slider   */
 .text-red {
-  color: #d80f2f !important;
-  border-bottom: 2px solid #d80f2f;
+  color: var(--themeActiveColor) !important;
+  border-bottom: 2px solid var(--themeActiveColor);
 }
 
 /* Slideshow container */

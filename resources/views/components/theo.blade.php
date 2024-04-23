@@ -16,11 +16,18 @@
     <link rel="stylesheet" href=" {{ asset('assets/landing_theme_assets/theo/css/style.css') }}">
 </head>
 <style>
-    .header {
-        background-image: linear-gradient(rgba(4, 9, 30, 0.4), rgba(4, 9, 30, 0.4)),
-            url({{ asset('assets/landing_theme_assets/theo/images/image24.png') }});
-    }
-
+    @if (isset($data->app->landingpages))
+        @foreach ($data->app->landingpages as $page)
+            @if ($page->page_type === 'Theo' && $page->section_type === 'banner' && $page->status === 1)
+                @if ($page->image)
+                    .header {
+                        background-image: linear-gradient(rgba(4, 9, 30, 0.4), rgba(4, 9, 30, 0.4)),
+                            url({{ asset($page->image) }});
+                    }
+                @endif
+            @endif
+        @endforeach
+    @endif
     .membership__section::before {
 
         background-image: linear-gradient(rgba(255, 255, 255, 0.1),
@@ -32,6 +39,21 @@
         background-image: linear-gradient(rgba(255, 255, 255, 0.1),
                 rgba(255, 255, 255, 0.1)),
             url({{ asset('assets/landing_theme_assets/theo/images/gradient.png') }});
+    }
+
+    :root {
+        --bgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }};
+        --themeActiveColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }};
+        --headerBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->headerBgColor }};
+        --themePrimaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }};
+        --themeSecondaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeSecondaryTxtColor }};
+        --navbarMenucolor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarMenucolor }};
+        --navbarSearchColor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarSearchColor }};
+        --footerbtmBgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->footerbtmBgcolor }};
+        --slidercardBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardBgColor }};
+        --slidercardTitlecolor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardTitlecolor }};
+        --slidercardCatColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardCatColor }};
+        --cardDesColor: {{ \App\Services\AppConfig::get()->app->website_colors->cardDesColor }};
     }
 </style>
 
@@ -55,7 +77,8 @@
                     @foreach ($data->app->landingpages as $page)
                         @if ($page->page_type === 'Theo' && $page->section_type === 'banner' && $page->status === 1)
                             <div class="col-md-6">
-                                <div class="d-flex align-items-center justify-content-center flex-column m-auto inner__section">
+                                <div
+                                    class="d-flex align-items-center justify-content-center flex-column m-auto inner__section">
                                     <p class="fs-2 p-0 m-0">{{ $page->title ?? '' }}</p>
                                     <h4 class="text-center">
                                         @if (isset($page->subtitle))
@@ -73,7 +96,9 @@
                                         @endif
                                     </h4>
                                     <p class="fs-5 text-center"> {{ $page->description ?? '' }}</p>
-                                    <a href="/signup" class="text-decoration-none border-2 text-white rounded-pill custom__button my-4">Start Streaming</a>
+                                    <a href="/signup"
+                                        class="text-decoration-none border-2 text-white rounded-pill custom__button my-4">Start
+                                        Streaming</a>
                                 </div>
 
                                 <div class="movie__type mt-3">
@@ -135,28 +160,77 @@
                                 @endforeach
                             @endif
                         </div>
-                        @endif
-                        @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
-                        <div class="playstore d-flex gap-5 py-4">
-                            <h5>Download Now</h5>
-                            @foreach (explode(',', $page->icon) as $iconUrl)
-                                <div><img src="{{ $iconUrl }}" alt=""></div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
             @endif
-        @endforeach
-    @endif
+            @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+                <div class="playstore d-flex gap-5 py-4">
+                    <h5>Download Now</h5>
+                    @foreach (explode(',', $page->icon) as $iconUrl)
+                        <div><img src="{{ $iconUrl }}" alt=""></div>
+                    @endforeach
+                </div>
+</div>
+</div>
+@endif
+@endforeach
+@endif
 </div>
 </section>
 @if (isset($data->app->landingpages))
 @foreach ($data->app->landingpages as $page)
-    @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
-        <section class="devices">
-            <div class="row d-flex align-items-center justify-content-center m-auto text-white">
-                <div class="col-md-6  py-5">
-                    <p class="devices__text text-center mb-4">
+@if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+    <section class="devices">
+        <div class="row d-flex align-items-center justify-content-center m-auto text-white">
+            <div class="col-md-6  py-5">
+                <p class="devices__text text-center mb-4">
+                    @if (isset($page->title))
+                        @php
+                            $titleWords = explode(' ', $page->title);
+                            $firstWord = $titleWords[0] ?? '';
+                            $secondWord = $titleWords[1] ?? '';
+                            $thirdWord = $titleWords[2] ?? '';
+                            $fourthWord = $titleWords[3] ?? '';
+                            $fifthhWord = $titleWords[4] ?? '';
+                            $sixthWord = $titleWords[5] ?? '';
+                            $remainingWords = implode(' ', array_slice($titleWords, 6)); // Concatenate remaining words
+                        @endphp
+                        {{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}
+                        {{ $fourthWord }} <span>{{ $fifthhWord }} {{ $sixthWord }} </span>
+                        {{ $remainingWords }}
+                    @else
+                    @endif
+                </p>
+                <ul
+                    class="devices__icons row d-flex align-items-center justify-content-between px-3 mb-4 text-center">
+                    <li class="col-md-2  list-unstyled devices__section active" role="button">
+                        <img id="tv"
+                            src="{{ asset('assets/landing_theme_assets/theo/images/tv.png') }}"
+                            alt="" srcset="">
+                        <p>TV</p>
+                    </li>
+                    <li class="col-md-2 list-unstyled devices__section" role="button">
+                        <img id="laptop" class="mb-3"
+                            src="{{ asset('assets/landing_theme_assets/theo/images/tab_mobile.png') }}"
+                            alt="" srcset="">
+                        <p>Tablet & Mobile</p>
+                    </li>
+                    <li class="col-md-2 list-unstyled devices__section" role="button">
+                        <img id="all__Secreens"
+                            src="{{ asset('assets/landing_theme_assets/theo/images/laptop.png') }}"
+                            alt="" srcset="">
+                        <p>Desktop & Laptop</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+@endif
+<section class="banner">
+    @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+        <div
+            class="row d-flex align-items-center justify-content-center m-auto text-white py-3 banner__section1 d-block">
+            <div class="col-md-6">
+                <div class="row d-flex align-items-center justify-content-center ">
+                    <h2 class="text-center mt-4 fw-bolder">
                         @if (isset($page->title))
                             @php
                                 $titleWords = explode(' ', $page->title);
@@ -164,212 +238,163 @@
                                 $secondWord = $titleWords[1] ?? '';
                                 $thirdWord = $titleWords[2] ?? '';
                                 $fourthWord = $titleWords[3] ?? '';
-                                $fifthhWord = $titleWords[4] ?? '';
-                                $sixthWord = $titleWords[5] ?? '';
-                                $remainingWords = implode(' ', array_slice($titleWords, 6)); // Concatenate remaining words
+                                $remainingWords = implode(' ', array_slice($titleWords, 4)); // Concatenate remaining words
                             @endphp
-                            {{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}
-                            {{ $fourthWord }} <span>{{ $fifthhWord }} {{ $sixthWord }} </span>
-                            {{ $remainingWords }}
+                            {{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}<span>
+                                {{ $fourthWord }}</span> {{ $remainingWords }}
                         @else
                         @endif
-                    </p>
-                    <ul
-                        class="devices__icons row d-flex align-items-center justify-content-between px-3 mb-4 text-center">
-                        <li class="col-md-2  list-unstyled devices__section active" role="button">
-                            <img id="tv"
-                                src="{{ asset('assets/landing_theme_assets/theo/images/tv.png') }}"
-                                alt="" srcset="">
-                            <p>TV</p>
-                        </li>
-                        <li class="col-md-2 list-unstyled devices__section" role="button">
-                            <img id="laptop" class="mb-3"
-                                src="{{ asset('assets/landing_theme_assets/theo/images/tab_mobile.png') }}"
-                                alt="" srcset="">
-                            <p>Tablet & Mobile</p>
-                        </li>
-                        <li class="col-md-2 list-unstyled devices__section" role="button">
-                            <img id="all__Secreens"
-                                src="{{ asset('assets/landing_theme_assets/theo/images/laptop.png') }}"
-                                alt="" srcset="">
-                            <p>Desktop & Laptop</p>
-                        </li>
-                    </ul>
+                    </h2>
+                    <p class="text-center fs-5 mb-5"> {{ $page->description ?? '' }}</p>
+                    <img class="img-fluid" src="{{ $page->image }}" alt="">
                 </div>
             </div>
-        </section>
+        </div>
     @endif
-    <section class="banner">
-        @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
-            <div
-                class="row d-flex align-items-center justify-content-center m-auto text-white py-3 banner__section1 d-block">
-                <div class="col-md-6">
-                    <div class="row d-flex align-items-center justify-content-center ">
-                        <h2 class="text-center mt-4 fw-bolder">
-                            @if (isset($page->title))
-                                @php
-                                    $titleWords = explode(' ', $page->title);
-                                    $firstWord = $titleWords[0] ?? '';
-                                    $secondWord = $titleWords[1] ?? '';
-                                    $thirdWord = $titleWords[2] ?? '';
-                                    $fourthWord = $titleWords[3] ?? '';
-                                    $remainingWords = implode(' ', array_slice($titleWords, 4)); // Concatenate remaining words
-                                @endphp
-                                {{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}<span>
-                                    {{ $fourthWord }}</span> {{ $remainingWords }}
-                            @else
-                            @endif
-                        </h2>
-                        <p class="text-center fs-5 mb-5"> {{ $page->description ?? '' }}</p>
-                        <img class="img-fluid" src="{{ $page->image }}" alt="">
-                    </div>
+    @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 4)
+        <div
+            class="row d-flex align-items-center justify-content-center m-auto text-white py-3  banner__section2 d-none">
+            <div class="col-md-6">
+                <div class="row d-flex align-items-center justify-content-center ">
+                    <h2 class="text-center mt-4 fw-bolder">
+                        @if (isset($page->title))
+                            @php
+                                $titleWords = explode(' ', $page->title);
+                                $firstWord = $titleWords[0] ?? '';
+                                $secondWord = $titleWords[1] ?? '';
+                                $thirdWord = $titleWords[2] ?? '';
+                                $fourthWord = $titleWords[3] ?? '';
+                                $remainingWords = implode(' ', array_slice($titleWords, 4)); // Concatenate remaining words
+                            @endphp
+                            {{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}<span>
+                                {{ $fourthWord }}</span> {{ $remainingWords }}
+                        @else
+                        @endif
+                    </h2>
+                    <p class="text-center fs-5 mb-5"> {{ $page->description ?? '' }}</p>
+                    <img class="img-fluid" src="{{ $page->image }}" alt="">
                 </div>
             </div>
-        @endif
-        @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 4)
-            <div
-                class="row d-flex align-items-center justify-content-center m-auto text-white py-3  banner__section2 d-none">
-                <div class="col-md-6">
-                    <div class="row d-flex align-items-center justify-content-center ">
-                        <h2 class="text-center mt-4 fw-bolder">
-                            @if (isset($page->title))
-                                @php
-                                    $titleWords = explode(' ', $page->title);
-                                    $firstWord = $titleWords[0] ?? '';
-                                    $secondWord = $titleWords[1] ?? '';
-                                    $thirdWord = $titleWords[2] ?? '';
-                                    $fourthWord = $titleWords[3] ?? '';
-                                    $remainingWords = implode(' ', array_slice($titleWords, 4)); // Concatenate remaining words
-                                @endphp
-                                {{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}<span>
-                                    {{ $fourthWord }}</span> {{ $remainingWords }}
-                            @else
-                            @endif
-                        </h2>
-                        <p class="text-center fs-5 mb-5"> {{ $page->description ?? '' }}</p>
-                        <img class="img-fluid" src="{{ $page->image }}" alt="">
-                    </div>
+        </div>
+    @endif
+    @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 5)
+        <div
+            class="row d-flex align-items-center justify-content-center m-auto text-white py-3 banner__section3 d-none">
+            <div class="col-md-6">
+                <div class="row d-flex align-items-center justify-content-center ">
+                    <h2 class="text-center mt-4 fw-bolder">
+                        @if (isset($page->title))
+                            @php
+                                $titleWords = explode(' ', $page->title);
+                                $firstWord = $titleWords[0] ?? '';
+                                $secondWord = $titleWords[1] ?? '';
+                                $thirdWord = $titleWords[2] ?? '';
+                                $fourthWord = $titleWords[3] ?? '';
+                                $remainingWords = implode(' ', array_slice($titleWords, 4)); // Concatenate remaining words
+                            @endphp
+                            {{ $firstWord }} {{ $secondWord }} {{ $thirdWord }} <span>
+                                {{ $fourthWord }}</span> {{ $remainingWords }}
+                        @else
+                        @endif
+                    </h2>
+                    <p class="text-center fs-5 mb-5"> {{ $page->description ?? '' }}</p>
+                    <img class="img-fluid" src="{{ $page->image }}" alt="">
                 </div>
             </div>
-        @endif
-        @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 5)
-            <div
-                class="row d-flex align-items-center justify-content-center m-auto text-white py-3 banner__section3 d-none">
-                <div class="col-md-6">
-                    <div class="row d-flex align-items-center justify-content-center ">
-                        <h2 class="text-center mt-4 fw-bolder">
-                            @if (isset($page->title))
-                                @php
-                                    $titleWords = explode(' ', $page->title);
-                                    $firstWord = $titleWords[0] ?? '';
-                                    $secondWord = $titleWords[1] ?? '';
-                                    $thirdWord = $titleWords[2] ?? '';
-                                    $fourthWord = $titleWords[3] ?? '';
-                                    $remainingWords = implode(' ', array_slice($titleWords, 4)); // Concatenate remaining words
-                                @endphp
-                                {{ $firstWord }} {{ $secondWord }} {{ $thirdWord }} <span>
-                                    {{ $fourthWord }}</span> {{ $remainingWords }}
-                            @else
-                            @endif
-                        </h2>
-                        <p class="text-center fs-5 mb-5"> {{ $page->description ?? '' }}</p>
-                        <img class="img-fluid" src="{{ $page->image }}" alt="">
-                    </div>
+        </div>
+    @endif
+</section>
+@if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 6)
+    <section class="tv__links">
+        <div class="tv__icons m-auto w-25 ">
+            <div class=" d-flex gap-5 align-items-center justify-content-center py-4 ">
+                <p class="p-0 m-0 watch__now">{{ $page->title ?? '' }}</p>
+                <div class="col-md-4 d-flex  align-items-center gap-2 app__icons">
+                    @foreach (explode(',', $page->icon) as $iconUrl)
+                        <div><a class="text-center"><img src="{{ $iconUrl }}" alt=""
+                                    srcset=""></a></div>
+                    @endforeach
                 </div>
             </div>
-        @endif
-    </section>
-    @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 6)
-        <section class="tv__links">
-            <div class="tv__icons m-auto w-25 ">
-                <div class=" d-flex gap-5 align-items-center justify-content-center py-4 ">
-                    <p class="p-0 m-0 watch__now">{{ $page->title ?? '' }}</p>
-                    <div class="col-md-4 d-flex  align-items-center gap-2 app__icons">
-                        @foreach (explode(',', $page->icon) as $iconUrl)
-                            <div><a class="text-center"><img src="{{ $iconUrl }}" alt=""
-                                        srcset=""></a></div>
-                        @endforeach
-                    </div> 
-                </div>
-                <div class=" d-flex gap-5 align-items-center justify-content-center py-4 ">
-                    <a href="/download-apps"
-                        class="text-decoration-none text-white border-2 rounded-pill custom__button">Download</a>
+            <div class=" d-flex gap-5 align-items-center justify-content-center py-4 ">
+                <a href="/download-apps"
+                    class="text-decoration-none text-white border-2 rounded-pill custom__button">Download</a>
 
-                </div>
             </div>
-        </section>
-    @endif
+        </div>
+    </section>
+@endif
 @endforeach
 @foreach ($data->app->landingpages as $page)
-    @if ($page->page_type === 'Theo' && $page->section_type === 'membership' && $page->status === 1)
-        <!-- Section: Social media -->
-        <section class="membership__section py-5">
-            <div class="row d-flex align-items-center justify-content-center m-auto text-white py-5">
-                <div class="col-md-6">
-                    <div
-                        class="tv__icons row d-flex align-items-center justify-content-center gap-3 flex-column mb-3">
-                        <div class="col-md-12">
-                            <h4 class="text-center"> {{ $page->description ?? '' }}</h4>
-                        </div>
-                        <form id="form">
-                            <div class="col-md-12">
-                                <div class="membership d-flex justify-content-between">
-                                    <input type="text" name="email" id="email"
-                                        placeholder="Enter Email">
-                                    <a href=""
-                                        id="submit"class="text-decoration-none text-white border-2 rounded-pill custom__button">Get
-                                        Started</a>
-                                </div>
-                                <span
-                                    class="d-flex align-items-center justify-content-center text-danger email-error"></span>
-                            </div>
-
-                        </form>
+@if ($page->page_type === 'Theo' && $page->section_type === 'membership' && $page->status === 1)
+    <!-- Section: Social media -->
+    <section class="membership__section py-5">
+        <div class="row d-flex align-items-center justify-content-center m-auto text-white py-5">
+            <div class="col-md-6">
+                <div
+                    class="tv__icons row d-flex align-items-center justify-content-center gap-3 flex-column mb-3">
+                    <div class="col-md-12">
+                        <h4 class="text-center"> {{ $page->description ?? '' }}</h4>
                     </div>
+                    <form id="form">
+                        <div class="col-md-12">
+                            <div class="membership d-flex justify-content-between">
+                                <input type="text" name="email" id="email"
+                                    placeholder="Enter Email">
+                                <a href=""
+                                    id="submit"class="text-decoration-none text-white border-2 rounded-pill custom__button">Get
+                                    Started</a>
+                            </div>
+                            <span
+                                class="d-flex align-items-center justify-content-center text-danger email-error"></span>
+                        </div>
+
+                    </form>
                 </div>
-        </section>
-    @endif
+            </div>
+    </section>
+@endif
 @endforeach
 @endif
 <div class="container m-auto">
 <div class="row g-2 text-white footer">
-    <div class="col-md-3">
-        <div class="mb-3"> <a href="/home" class="text-decoration-none"><img
-                    src="{{ $data->app->app_info->website_logo ?? '' }}" alt="Logo"
-                    width="130px"></a></div>
-        <p><b>Powered By</b> {{ $data->app->app_info->app_name ?? '' }}</p>
+<div class="col-md-3">
+    <div class="mb-3"> <a href="/home" class="text-decoration-none"><img
+                src="{{ $data->app->app_info->website_logo ?? '' }}" alt="Logo" width="130px"></a>
     </div>
-    <div class="col-md-3">
-        <h5 class="mb-4">GET TO KNOW US</h5>
-        <ul class="d-flex align-items-start flex-column list-unstyled">
+    <p><b>Powered By</b> {{ $data->app->app_info->app_name ?? '' }}</p>
+</div>
+<div class="col-md-3">
+    <h5 class="mb-4">GET TO KNOW US</h5>
+    <ul class="d-flex align-items-start flex-column list-unstyled">
 
-            @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                @if ($page->displayOn === 'F' || $page->displayOn === 'B')
-                    <li><a href="/page/{{ $page->page_slug }}"
-                            class="text-decoration-none text-white lh-lg">{{ $page->page_title }}</a></li>
-                @endif
-            @endforeach
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h5 class="mb-4">TOP CATEGORIES</h5>
-        <ul class="d-flex align-items-start flex-column list-unstyled ">
-            @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
-                <li><a href="{{ route('category', $category->cat_guid) }}"
-                        class="text-decoration-none text-white lh-lg">{{ $category->cat_title }}</a></li>
-            @endforeach
+        @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
+            @if ($page->displayOn === 'F' || $page->displayOn === 'B')
+                <li><a href="/page/{{ $page->page_slug }}"
+                        class="text-decoration-none text-white lh-lg">{{ $page->page_title }}</a></li>
+            @endif
+        @endforeach
+    </ul>
+</div>
+<div class="col-md-3">
+    <h5 class="mb-4">TOP CATEGORIES</h5>
+    <ul class="d-flex align-items-start flex-column list-unstyled ">
+        @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
+            <li><a href="{{ route('category', $category->cat_guid) }}"
+                    class="text-decoration-none text-white lh-lg">{{ $category->cat_title }}</a></li>
+        @endforeach
 
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h5 class="mb-4">LET US HELP YOU</h5>
-        <ul class="d-flex align-items-start flex-column list-unstyled ">
-            <li><a href="/login" class="text-decoration-none text-white lh-lg">Login</a></li>
-            <li><a href="/signup" class="text-decoration-none text-white lh-lg">Register</a></li>
-            <li><a href="/download-apps" class="text-decoration-none text-white lh-lg">Download Apps</a>
-            </li>
-        </ul>
-    </div>
+    </ul>
+</div>
+<div class="col-md-3">
+    <h5 class="mb-4">LET US HELP YOU</h5>
+    <ul class="d-flex align-items-start flex-column list-unstyled ">
+        <li><a href="/login" class="text-decoration-none text-white lh-lg">Login</a></li>
+        <li><a href="/signup" class="text-decoration-none text-white lh-lg">Register</a></li>
+        <li><a href="/download-apps" class="text-decoration-none text-white lh-lg">Download Apps</a>
+        </li>
+    </ul>
+</div>
 </div>
 </div>
 
