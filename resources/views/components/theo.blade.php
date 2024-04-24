@@ -63,12 +63,18 @@
         <section class="header">
             <nav class="nav-links container">
                 <ul class="list-unstyled d-flex align-items-center justify-content-between pt-4">
-                    <li><a href="/home" class="text-decoration-none"><img
-                                src="{{ $data->app->app_info->website_logo ?? '' }}" alt="Logo" width="100px"></a>
+                    <li>
+                        <a href="/home" class="text-decoration-none mr-3">
+                            <img src="{{ $data->app->app_info->website_logo ?? '' }}" alt="Logo" width="100px">
+                        </a>
+                        <a href="/home?browse=true"
+                            class="text-decoration-none text-white border-2 rounded-pill px-3">Browse</a>
                     </li>
+
                     <li><a href="/login"
                             class="text-decoration-none text-white border-2 rounded-pill custom__button">Sign In</a>
                     </li>
+
                 </ul>
             </nav>
 
@@ -110,7 +116,7 @@
                                                     @php $count = 0; @endphp
                                                     @foreach ($data->app->categories ?? [] as $category)
                                                         @if (!empty($category->streams) && !empty($category->cat_title))
-                                                            @if ($count < 7)
+                                                            @if ($count < 5)
                                                                 <!-- Check if count is less than 10 -->
                                                                 <li id="{{ $category->cat_guid ?? '' }}"
                                                                     class="nav-link text-decoration-none text-white"
@@ -127,13 +133,13 @@
 
                                         </ul>
                                     </div>
-
-                                    <div class="arrow__icons">
+                                    <div class="arrow__icons mb-3">
                                         <a class="prev text-decoration-none text-white" role="button"
                                             onclick="plusSlides(-1)">❮</a>
                                         <a class="next text-decoration-none text-white" role="button"
                                             onclick="plusSlides(1)">❯</a>
                                     </div>
+
                                 </div>
                                 <div class="slideshow-container my-4">
                                     @if (isset($data->app->categories))
@@ -162,13 +168,27 @@
                         </div>
             @endif
             @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
-                <div class="playstore d-flex gap-5 py-4">
-                    <h5>Download Now</h5>
-                    @foreach (explode(',', $page->icon) as $iconUrl)
-                        <div><img src="{{ $iconUrl }}" alt=""></div>
-                    @endforeach
-                </div>
-</div>
+                @if (!empty($page->appstore_link) || !empty($page->playstore_link))
+                    <div class="playstore d-flex gap-2 py-4">
+                        <h5>{{ $page->title ?? '' }}</h5>
+                        @if (!empty($page->appstore_link))
+                            <div>
+                                <a href="{{ $page->appstore_link ?? '' }}">
+                                    <img
+                                        src="{{ asset('assets/landing_theme_assets/theo/images/apple.png') }}">
+                                </a>
+                            </div>
+                        @endif
+                        @if (!empty($page->playstore_link))
+                            <div>
+                                <a href="{{ $page->playstore_link ?? '' }}">
+                                    <img
+                                        src="{{ asset('assets/landing_theme_assets/theo/images/play.png') }}">
+                                </a>
+                            </div>
+                        @endif
+                    </div>
+                @endif
 </div>
 @endif
 @endforeach
@@ -200,15 +220,15 @@
                     @endif
                 </p>
                 <ul
-                    class="devices__icons row d-flex align-items-center justify-content-between px-3 mb-4 text-center">
-                    <li class="col-md-2  list-unstyled devices__section active" role="button">
+                    class="devices__icons  d-flex align-items-center justify-content-between px-3 mb-4 text-center">
+                    <li class="col-md-2  list-unstyled devices__section" role="button">
                         <img id="tv"
                             src="{{ asset('assets/landing_theme_assets/theo/images/tv.png') }}"
                             alt="" srcset="">
                         <p>TV</p>
                     </li>
                     <li class="col-md-2 list-unstyled devices__section" role="button">
-                        <img id="laptop" class="mb-3"
+                        <img id="laptop" class="mb-1"
                             src="{{ asset('assets/landing_theme_assets/theo/images/tab_mobile.png') }}"
                             alt="" srcset="">
                         <p>Tablet & Mobile</p>
@@ -401,7 +421,7 @@
 </div>
 @include('components.includes.script1')
 <script>
-    const deviceSections = document.querySelectorAll('.devices__section');
+    const deviceSections = document.querySelectorAll('.devices__section img');
     const sliderLinks = document.querySelectorAll('.slider-links li');
     const bannerSections = [
         document.querySelector('.banner__section1'),
@@ -415,6 +435,8 @@
                 if (section !== item) {
                     section.classList.remove('active');
                 }
+                section.classList.remove('active');
+
             });
             item.classList.add('active');
 

@@ -33,8 +33,7 @@
 .mySlides {
   border: 8px solid rgba(255, 255, 255, 0.15);
   border-radius: 24px;
-  height: 526px;
-  overflow: hidden;
+  
 }
 .mySlides img {
   border-radius: 16px;
@@ -78,6 +77,7 @@
 }
 .playstore > div img {
   width: 100%;
+  min-width: 150px;
   /* cursor: pointer; */
 }
 #slider {
@@ -102,11 +102,17 @@
 .devices span {
   color: var(--themeActiveColor);
 }
+.devices__icons
+{
+  min-width: 100px;
+
+}
 .devices__icons img {
   z-index: 2;
-  width: 100%;
+  /* width: 100%; */
   height: auto;
-  max-width: 150px;
+  max-width: 100px;
+  padding: 0.8rem;
 }
 .devices::after {
   position: absolute;
@@ -261,12 +267,31 @@
 }
 
 /* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
+@media only screen and (max-width: 768px) {
   .prev,
   .next,
   .text {
     font-size: 11px;
   }
+  .movie__links ul{
+    font-size: 10px;
+  }
+  .playstore > div img {
+    width: 100%;
+    min-width: 108px;
+    /* cursor: pointer; */
+}
+.playstore > div {
+  align-items: center !important;
+  width: 24%;
+}
+.devices__icons img {
+  z-index: 2;
+  /* width: 100%; */
+  height: auto;
+  max-width: 100px;
+  padding: 1.8rem;
+}
 }
 
 /* Watch Now  */
@@ -276,4 +301,29 @@
   -webkit-text-fill-color: transparent;
   font-weight: 700;
   font-size: 18px;
+}
+@media only screen and (min-width: 2000px) and (max-width: 3500px) {
+  .movie__links ul {
+    font-size: 20px;
+    margin-left: 195px;
+    /* max-width: 101px; */
+    margin-right: 171px;
+}
+  .playstore > div img {
+    width: 100%;
+    min-width: 108px;
+    cursor: pointer;
+  }
+  .playstore > div {
+    align-items: center !important;
+    width: 24%;
+  }
+  .devices__icons img {
+    z-index: 2;
+    /* width: 100%; */
+    height: auto;
+    max-width: 100px;
+    padding: 1.8rem;
+  }
+  
 }
