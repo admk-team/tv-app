@@ -160,6 +160,7 @@
                             </ul>
                         </div>
                     @else
+                        <a href="/home?browse=true" class="text-decoration-none text-white border-2 rounded-pill">Browse Content</a>
                         <a class="btn btn-primary px-4" href="/login">Sign In </a>
                     @endif
                 </div>

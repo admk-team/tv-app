@@ -68,7 +68,7 @@
                             <img src="{{ $data->app->app_info->website_logo ?? '' }}" alt="Logo" width="100px">
                         </a>
                         <a href="/home?browse=true"
-                            class="text-decoration-none text-white border-2 rounded-pill px-3">Browse Content</a>
+                            class="browse text-decoration-none text-white border-2">Browse Content</a>
                     </li>
 
                     <li><a href="/login"

@@ -125,7 +125,7 @@
         <div class="container-fluid">
             <a class="navbar-brand img-fluid" href="/home"><img alt="logo"
                     src="{{ $data->app->app_info->website_logo ?? '' }}" width="100px" class="img-fluid" /></a>
-            <a href="/home?browse=true" class="text-decoration-none text-white border-2 rounded-pill px-3">Browse Content</a>
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon text-white"></span>
@@ -160,6 +160,7 @@
                             </ul>
                         </div>
                     @else
+                        <a href="/home?browse=true" class="text-decoration-none text-white border-2 rounded-pill">Browse Content</a>
                         <a class="btn btn-primary px-3 mx-2" href="/login">Sign In</a>
                     @endif
                 </div>
