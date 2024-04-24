@@ -143,7 +143,7 @@
                             <div class="ItzA1">
                                 <div class="S1MTF W5KqS">
                                     <a href="/home?browse=true"
-                                    class="knq9q"><span>Browse</span></a>
+                                    class="knq9q"><span>Browse Content</span></a>
                                 </div>
                             </div>
                         </div>

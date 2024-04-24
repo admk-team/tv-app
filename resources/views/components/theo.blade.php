@@ -68,7 +68,7 @@
                             <img src="{{ $data->app->app_info->website_logo ?? '' }}" alt="Logo" width="100px">
                         </a>
                         <a href="/home?browse=true"
-                            class="text-decoration-none text-white border-2 rounded-pill px-3">Browse</a>
+                            class="text-decoration-none text-white border-2 rounded-pill px-3">Browse Content</a>
                     </li>
 
                     <li><a href="/login"
@@ -135,15 +135,14 @@
 
                                         </ul>
                                     </div>
-                                    <div class="arrow__icons mb-3">
-                                        <a class="prev text-decoration-none text-white" role="button"
-                                            onclick="plusSlides(-1)">❮</a>
-                                        <a class="next text-decoration-none text-white" role="button"
-                                            onclick="plusSlides(1)">❯</a>
+                                    <div class="arrow__icons mb-3 gap-2">
+                                        <a class="prev text-decoration-none text-white mr-2" role="button" onclick="plusSlides(-1)">❮</a>
+                                        <a class="next text-decoration-none text-white" role="button" onclick="plusSlides(1)">❯</a>
                                     </div>
+                                    
 
                                 </div>
-                                <div class="slideshow-container my-4">
+                                <div class="slideshow-container">
                                     @if (isset($data->app->categories))
                                         @php $count = 0; @endphp
                                         @foreach ($data->app->categories ?? [] as $category)
@@ -202,7 +201,7 @@
 @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
     <section class="devices">
         <div class="row d-flex align-items-center justify-content-center m-auto text-white">
-            <div class="col-md-6  py-5">
+            <div class="col-md-6">
                 <p class="devices__text text-center mb-4">
                     @if (isset($page->title))
                         @php

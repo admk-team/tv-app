@@ -42,7 +42,7 @@
         
     </div>
     <div class="signup-login">
-        <a href="/home?browse=true">Browse</a> | 
+        <a href="/home?browse=true">Browse Content</a> | 
         <a href="/login">Login</a> | 
         @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
         <a href="/signup">SignUp</a>
