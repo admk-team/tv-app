@@ -125,6 +125,7 @@
         <div class="container-fluid">
             <a class="navbar-brand img-fluid" href="/home"><img alt="logo"
                     src="{{ $data->app->app_info->website_logo ?? '' }}" width="100px" class="img-fluid" /></a>
+            <a href="/home?browse=true" class="text-decoration-none text-white border-2 rounded-pill px-3">Browse</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon text-white"></span>
@@ -217,7 +218,9 @@
                 @if ($page->page_type === 'AJS' && $page->section_type === 'banner' && $page->status === 1)
                     <div style="position: relative;">
                         <img src="{{ $page->image ?? '' }}" class="img-fluid" style="width: 100%; height: 500px;">
+                        @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
                         <a class="btn btn-primary px-3 mx-2" href="/signup" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">Sign Up</a>
+                        @endif
                     </div>
                 @endif
             @endforeach
@@ -413,9 +416,11 @@
                     <p>
                         <a href="/login" class="text-reset">Login</a>
                     </p>
+                    @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
                     <p>
                         <a href="/signup" class="text-reset">Register</a>
                     </p>
+                    @endif
                     <p>
                         <a href="/download-apps" class="text-reset">Download Apps</a>
                     </p>
