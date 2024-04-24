@@ -148,7 +148,7 @@
                                         @php $count = 0; @endphp
                                         @foreach ($data->app->categories ?? [] as $category)
                                             @if (!empty($category->streams) && !empty($category->cat_title))
-                                                @if ($count < 7)
+                                                @if ($count < 5)
                                                     <div class="mySlides">
                                                         @foreach ($category->streams as $index => $stream)
                                                             @if ($index < 5)
