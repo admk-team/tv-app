@@ -224,7 +224,7 @@
                     <li class="col-md-2  list-unstyled devices__section" role="button">
                         <img id="tv"
                             src="{{ asset('assets/landing_theme_assets/theo/images/tv.png') }}"
-                            alt="" srcset="">
+                            alt="" srcset="" class="active">
                         <p>TV</p>
                     </li>
                     <li class="col-md-2 list-unstyled devices__section" role="button">
