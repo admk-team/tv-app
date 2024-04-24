@@ -102,9 +102,11 @@
                                         @endif
                                     </h4>
                                     <p class="fs-5 text-center"> {{ $page->description ?? '' }}</p>
+                                    @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
                                     <a href="/signup"
                                         class="text-decoration-none border-2 text-white rounded-pill custom__button my-4">Start
                                         Streaming</a>
+                                    @endif
                                 </div>
 
                                 <div class="movie__type mt-3">
