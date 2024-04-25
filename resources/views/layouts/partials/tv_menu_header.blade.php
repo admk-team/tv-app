@@ -14,15 +14,16 @@
                     @php
                         $count = 0;
                     @endphp
-                    <li class="nav-item">
-                        @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
-                            @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
-                                @if ($count >= 8)
-                                @break
-                            @endif
-                            @php
-                                $count++;
-                            @endphp
+
+                    @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
+                        @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
+                            @if ($count >= 8)
+                            @break
+                        @endif
+                        @php
+                            $count++;
+                        @endphp
+                        <li class="nav-item">
                             <a class="nav-link" href="/{{ $menu->menu_slug }}">
                                 <div id="movies" class="clsiconmenu"
                                     style="background: url('{{ $menu->tv_menu_icon_active ?? '' }}');">
@@ -30,18 +31,20 @@
                                 </div>
                                 {{ $menu->menu_title }}
                             </a>
-                        @endif
-                    @endforeach
-
-                    @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                        @if ($count >= 10)
-                        @break
+                        </li>
                     @endif
-                    @php
-                        $count++;
-                    @endphp
-                    @if ($page->displayOn === 'H' || $page->displayOn === 'B')
-                        @if ($page->pageType === 'E')
+                @endforeach
+
+                @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
+                    @if ($count >= 10)
+                    @break
+                @endif
+                @php
+                    $count++;
+                @endphp
+                @if ($page->displayOn === 'H' || $page->displayOn === 'B')
+                    @if ($page->pageType === 'E')
+                        <li class="nav-item">
                             <a class="nav-link" href="{!! $page->externalLink !!}">
                                 <div id="movies" class="clsiconmenu"
                                     style="background: url('{{ $page->page_banner_poster ?? '' }}');">
@@ -49,7 +52,9 @@
                                 </div>
                                 {{ $page->page_title }}
                             </a>
-                        @else
+                        </li>
+                    @else
+                        <li class="nav-item">
                             <a class="nav-link" href="/page/{{ $page->page_slug }}">
                                 <div id="movies" class="clsiconmenu"
                                     style="background: url('{{ $page->page_banner_poster ?? '' }}');">
@@ -57,10 +62,11 @@
                                 </div>
                                 {{ $page->page_title }}
                             </a>
-                        @endif
+                        </li>
                     @endif
-                @endforeach
-            </li>
+                @endif
+            @endforeach
+
             {{--  <div class="btns">
                     <a href="/searchscreen">
                         <i class="bi bi-search search-icon"></i>
