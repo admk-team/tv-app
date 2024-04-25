@@ -34,15 +34,23 @@ body {
   position: relative;
 }
 .navbar__items {
-  width: 90%;
+  width: 100%;
   margin: auto;
 }
-.logo__item {
-  width: 100px;
+@media (min-width: 600px) {
+  .navbar__items {
+    width: 90%;
+  }
 }
+
 .logo__item img {
-  width: 100%;
+  width: 62px;
   height: auto;
+}
+@media (min-width: 600px) {
+  .logo__item img {
+    width: 100px;
+  }
 }
 .custom-button {
   background-color: transparent;
@@ -58,10 +66,14 @@ body {
   background-color: var(--primary-button-color);
 }
 .content-wrapper {
-  width: 60%;
   margin: auto;
   text-align: center;
   margin-top: 3.5rem;
+}
+@media (min-width: 600px) {
+  .content-wrapper {
+    width: 60%;
+  }
 }
 .content-wrapper p {
   width: 80%;

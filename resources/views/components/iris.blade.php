@@ -32,11 +32,13 @@
 
     <div class="wrapper">
         <nav class="py-3">
-            <ul class="d-flex align-items-center justify-content-between navbar__items">
-                <li class="logo__item list-unstyled" role="button">
+            <ul class="d-flex align-items-center justify-content-between navbar__items px-2">
+                <li class="logo__item list-unstyled d-flex gap-2 gap-md-3 align-items-center" role="button">
                     <a href="/home">
                         <img src="{{ $data->app->app_info->website_logo ?? '' }}" alt="Logo">
                     </a>
+                    <a href="/home?browse=true"
+                            class="browse text-decoration-none text-white border-2">Browse Content</a>
                 </li>
                 <div class="d-flex gap-3">
                     <li class="list-unstyled"><a href="/login"
@@ -74,7 +76,7 @@
                             <a href="/signup" class="text-decoration-none text-white custom-button">Get Started</a>
 
                             <div class="menu">
-                                <ul class="d-flex align-items-center justify-content-center gap-2">
+                                <ul class="d-flex align-items-center justify-content-center gap-2 flex-wrap gap-3 gap-md-2 ps-0">
                                     @if (isset($data->app->categories))
                                         @php $count = 0; @endphp
                                         @foreach ($data->app->categories ?? [] as $category)
@@ -99,7 +101,7 @@
                                 @php $count = 0; @endphp
                                 @foreach ($data->app->categories ?? [] as $category)
                                     @if (!empty($category->streams) && !empty($category->cat_title))
-                                        @if ($count < 7)
+                                        @if ($count < 5)
                                             <div class="mySlides" style="{{ $count !== 0? 'display: none;': '' }}">
                                                 @foreach ($category->streams as $index => $stream)
                                                     @if ($index < 5)
@@ -122,7 +124,7 @@
             @endif
             @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
                 @if (!empty($page->appstore_link) || !empty($page->playstore_link))
-                    <div class="download__apps d-flex align-items-center justify-content-around py-4">
+                    <div class="download__apps d-flex align-items-center justify-content-around py-4 flex-wrap flex-md-nowrap">
                         <div>
                             @php
                             if ($page->title) {
@@ -269,7 +271,7 @@
     @foreach ($data->app->landingpages as $page)
         @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 6)
             <!-- Watch Now Section  -->
-            <div class="d-flex align-items-center justify-content-around channels my-4">
+            <div class="d-flex align-items-center justify-content-around channels my-4 flex-column flex-md-row">
                 <div class="text-white">
                     <h4>{{ $page->title ?? '' }}</h4>
                 </div>
