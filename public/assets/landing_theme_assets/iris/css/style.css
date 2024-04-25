@@ -181,3 +181,9 @@ footer span {
 .mySlides .active {
   display: block;
 }
+
+@media only screen and (max-width: 500px) {
+  .browse{
+    font-size: 10px;
+  }
+}  
