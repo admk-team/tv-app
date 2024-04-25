@@ -122,6 +122,7 @@
               --}}
               <a class="my-0 mr-md-auto img-fluid" href="/home"><img alt="logo"
                 src="{{ $data->app->app_info->website_logo ?? '' }}" width="100px" class="img-fluid" /></a>
+                <a href="/home?browse=true" class="text-decoration-none text-white border-2 rounded-pill px-3">Browse Content</a>
             <nav class="my-2 my-md-0 mr-md-3">
                 <a class="p-2 text-white" href="/login">Login</a>
             </nav>
@@ -152,7 +153,9 @@
                     </ul>
                 </div>
             @else
+            @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
                 <a class="btn btn-danger" href="/signup">Signup</a>
+            @endif
             @endif
         </div>
 
@@ -440,9 +443,11 @@
                     <p>
                         <a href="/login" class="text-reset">Login</a>
                     </p>
+                    @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
                     <p>
                         <a href="/signup" class="text-reset">Register</a>
                     </p>
+                    @endif
                     <p>
                         <a href="/download-apps" class="text-reset">Download Apps</a>
                     </p>

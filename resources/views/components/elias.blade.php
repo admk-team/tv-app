@@ -140,11 +140,12 @@
                                 <img alt="logo" src="{{ $data->app->app_info->website_logo ?? '' }}" width="70px"
                                     class="img-fluid">
                             </a>
-                            {{--  <div class="ItzA1">
+                            <div class="ItzA1">
                                 <div class="S1MTF W5KqS">
-                                    <span>Browse</span>
+                                    <a href="/home?browse=true"
+                                    class="knq9q"><span>Browse Content</span></a>
                                 </div>
-                            </div>  --}}
+                            </div>
                         </div>
                         <div class="SVozw Z21oI">
                             @if (session()->has('USER_DETAILS'))
@@ -179,7 +180,9 @@
                                 </div>
                             @else
                                 <a class="knq9q" href="/login">Sign In</a>
+                                @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
                                 <a class="Ii6WJ" href="/signup">Register</a>
+                                @endif
                             @endif
                             <form class="qnV1a" action="{{ route('search') }}">
                             <div class="QlsWG">
@@ -389,12 +392,14 @@
                                             <div class="LLBYg moRjH FWbqn">
                                                 {{ $page->description ?? '' }}
                                             </div>
+                                            @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
                                             <a href="/signup">
                                                 <button class="Button Button--large Button--secondary">
                                                     <div class="Button__bg"></div>
                                                     <div class="Button__content">Register Free</div>
                                                 </button>
                                             </a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -450,9 +455,11 @@
                                     <p>
                                         <a href="/login" class="text-reset">Login</a>
                                     </p>
+                                    @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
                                     <p>
                                         <a href="/signup" class="text-reset">Register</a>
                                     </p>
+                                    @endif
                                     <p>
                                         <a href="/download-apps" class="text-reset">Download Apps</a>
                                     </p>

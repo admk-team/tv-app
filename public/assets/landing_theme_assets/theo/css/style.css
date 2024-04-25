@@ -238,7 +238,12 @@
   color: var(--themeActiveColor) !important;
   border-bottom: 2px solid var(--themeActiveColor);
 }
-
+.prev,
+  .next,
+  .text {
+    font-size: 15px;
+    margin-right: 12px;
+  }
 /* Slideshow container */
 .slideshow-container {
   max-width: 1000px;
@@ -272,9 +277,10 @@
   .next,
   .text {
     font-size: 11px;
+    margin-right: 8px;
   }
   .movie__links ul{
-    font-size: 10px;
+    font-size: 9px;
   }
   .playstore > div img {
     width: 100%;
@@ -293,7 +299,12 @@
   padding: 1.8rem;
 }
 }
+@media only screen and (max-width: 370px) {
+.browse{
+  font-size: 12px;
+}
 
+}
 /* Watch Now  */
 .watch__now {
   background: -webkit-linear-gradient(90deg, #306eed 4.14%, #dd0c29 100%);

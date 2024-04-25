@@ -68,7 +68,7 @@
                             <img src="{{ $data->app->app_info->website_logo ?? '' }}" alt="Logo" width="100px">
                         </a>
                         <a href="/home?browse=true"
-                            class="text-decoration-none text-white border-2 rounded-pill px-3">Browse</a>
+                            class="browse text-decoration-none text-white border-2">Browse Content</a>
                     </li>
 
                     <li><a href="/login"
@@ -102,9 +102,11 @@
                                         @endif
                                     </h4>
                                     <p class="fs-5 text-center"> {{ $page->description ?? '' }}</p>
+                                    @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
                                     <a href="/signup"
                                         class="text-decoration-none border-2 text-white rounded-pill custom__button my-4">Start
                                         Streaming</a>
+                                    @endif
                                 </div>
 
                                 <div class="movie__type mt-3">
@@ -133,20 +135,19 @@
 
                                         </ul>
                                     </div>
-                                    <div class="arrow__icons mb-3">
-                                        <a class="prev text-decoration-none text-white" role="button"
-                                            onclick="plusSlides(-1)">❮</a>
-                                        <a class="next text-decoration-none text-white" role="button"
-                                            onclick="plusSlides(1)">❯</a>
+                                    <div class="arrow__icons mb-3 gap-2">
+                                        <a class="prev text-decoration-none text-white mr-2" role="button" onclick="plusSlides(-1)">❮</a>
+                                        <a class="next text-decoration-none text-white" role="button" onclick="plusSlides(1)">❯</a>
                                     </div>
+                                    
 
                                 </div>
-                                <div class="slideshow-container my-4">
+                                <div class="slideshow-container">
                                     @if (isset($data->app->categories))
                                         @php $count = 0; @endphp
                                         @foreach ($data->app->categories ?? [] as $category)
                                             @if (!empty($category->streams) && !empty($category->cat_title))
-                                                @if ($count < 7)
+                                                @if ($count < 5)
                                                     <div class="mySlides">
                                                         @foreach ($category->streams as $index => $stream)
                                                             @if ($index < 5)
@@ -200,7 +201,7 @@
 @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
     <section class="devices">
         <div class="row d-flex align-items-center justify-content-center m-auto text-white">
-            <div class="col-md-6  py-5">
+            <div class="col-md-6">
                 <p class="devices__text text-center mb-4">
                     @if (isset($page->title))
                         @php
@@ -224,7 +225,7 @@
                     <li class="col-md-2  list-unstyled devices__section" role="button">
                         <img id="tv"
                             src="{{ asset('assets/landing_theme_assets/theo/images/tv.png') }}"
-                            alt="" srcset="">
+                            alt="" srcset="" class="active">
                         <p>TV</p>
                     </li>
                     <li class="col-md-2 list-unstyled devices__section" role="button">

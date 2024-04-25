@@ -38,9 +38,15 @@
             @endforeach
         @endif
     </style>
+    <div class="">
+        
+    </div>
     <div class="signup-login">
-        <a href="{{ route('login') }}">Login</a> | 
-        <a href="{{ route('register') }}">Register</a>
+        <a href="/home?browse=true">Browse Content</a> | 
+        <a href="/login">Login</a> | 
+        @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
+        <a href="/signup">SignUp</a>
+        @endif
     </div>
     <section class="padded-container padded-container d-flex flex-column justify-content-center">
        
@@ -132,7 +138,9 @@
     <footer>
         <div class="footer-links text-center">
             <a href="{{ route('login') }}">Login</a>|
+            @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
             <a href="{{ route('register') }}">Register</a>|
+            @endif
             <a href="{{ route('downloadapps') }}">Download Apps</a>|
             <a href="{{ route('subscription') }}" class="ot-sdk-show-settings">Subscription Plans</a>
         </div>
