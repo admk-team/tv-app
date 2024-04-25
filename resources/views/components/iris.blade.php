@@ -25,6 +25,19 @@
             --slidercardCatColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardCatColor }};
             --cardDesColor: {{ \App\Services\AppConfig::get()->app->website_colors->cardDesColor }};
         }
+
+        @if (isset($data->app->landingpages))
+        @foreach ($data->app->landingpages as $page)
+            @if ($page->page_type === 'Iris' && $page->section_type === 'banner' && $page->status === 1)
+                @if ($page->image)
+                    .wrapper {
+                        background-image: linear-gradient(rgba(4, 9, 30, 0.4), rgba(4, 9, 30, 0.4)),
+                            url({{ asset($page->image) }});
+                    }
+                @endif
+            @endif
+        @endforeach
+    @endif
     </style>
 </head>
 
