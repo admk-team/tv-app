@@ -6,9 +6,10 @@
     @if (Route::is('detailscreen', 'playerscreen'))
         @yield('meta-tags')
     @else
-        <meta property="og:title" content="{{ @$data->app->app_info->seo_title ?? '' }}" />
-        <meta property="og:image" content="{{ @$data->app->app_info->seo_image ?? '' }}" />
-        <meta property="og:description" content="{!! @$data->app->app_info->seo_description ?? '' !!}" />
+        <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
+        <meta property="og:image" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_image ?? '' }}" />
+        <meta property="og:description" content="{!! strip_tags(\App\Services\AppConfig::get()->app->app_info->seo_description ?? '') !!}" />
+
     @endif
     <title>
         {{ $appInfo->app_name ?? '' }}@stack('title')

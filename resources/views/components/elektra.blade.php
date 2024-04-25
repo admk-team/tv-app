@@ -3,6 +3,10 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
+    <meta property="og:image" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_image ?? '' }}" />
+    <meta property="og:description" content="{!! strip_tags(\App\Services\AppConfig::get()->app->app_info->seo_description ?? '') !!}" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $data->app->app_info->app_name ?? '' }}</title>
     <link rel="icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
