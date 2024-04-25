@@ -17,7 +17,7 @@
 
                     @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
                         @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
-                            @if ($count >= 8)
+                            @if ($count >= 10)
                             @break
                         @endif
                         @php
