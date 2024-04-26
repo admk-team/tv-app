@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+@extends('components.layouts.landingpage_layout')
 
-<head>
-    <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
-    <meta property="og:image" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_image ?? '' }}" />
-    <meta property="og:description" content="{!! strip_tags(\App\Services\AppConfig::get()->app->app_info->seo_description ?? '') !!}" />
-
-    <title>{{ $data->app->app_info->app_name ?? '' }}</title>
-    <link rel="icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
+@section('head')
     <meta http-equiv="x-dns-prefetch-control" content="on" />
     <meta http-equiv="Pragma" content="no-control" />
     <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
@@ -19,101 +11,15 @@
     <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/netflix/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/netflix/css/netflix.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/mean/css/style.css') }}">
-
     <style>
-        :root {
-            --bgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }};
-            --themeActiveColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }};
-            --headerBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->headerBgColor }};
-            --themePrimaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }};
-            --themeSecondaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeSecondaryTxtColor }};
-            --navbarMenucolor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarMenucolor }};
-            --navbarSearchColor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarSearchColor }};
-            --footerbtmBgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->footerbtmBgcolor }};
-            --slidercardBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardBgColor }};
-            --slidercardTitlecolor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardTitlecolor }};
-            --slidercardCatColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardCatColor }};
-            --cardDesColor: {{ \App\Services\AppConfig::get()->app->website_colors->cardDesColor }};
+        .body {
+            background: black;
+            margin: 0;
         }
     </style>
+@endsection
 
-    <style>
-        .nav_btnlink {
-            cursor: pointer;
-        }
-
-        .userimg {
-            width: 40px;
-            height: 40px;
-            border-radius: 50% 50%;
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--themePrimaryTxtColor);
-            padding: 4px 2px;
-            text-align: center;
-            background: var(--themeActiveColor);
-        }
-
-        .dropdown_menus {
-            position: absolute;
-            top: 161%;
-            left: 0;
-            z-index: 1000;
-            float: left;
-            min-width: 10rem;
-            padding: .5rem 0;
-            margin: .125rem 0 0;
-            font-size: 1rem;
-            display: none;
-            color: #212529;
-            text-align: left;
-            list-style: none;
-            background-color: var(--themePrimaryTxtColor);
-            background-clip: padding-box;
-            border: 1px solid rgba(0, 0, 0, .15);
-            border-radius: .25rem
-        }
-
-        .avtartMenu {
-            padding-bottom: 0 !important;
-            padding-top: 0 !important;
-            min-width: 167px !important;
-            margin-top: 5px !important;
-            left: unset !important;
-            right: 0 !important;
-            border: unset !important;
-            background-clip: unset !important;
-            box-shadow: 0 1px 5px 0 rgb(0 0 0 / 22%);
-        }
-
-        ul.profiledropin {
-            padding: 0px 0px !important;
-            margin: 0px 0px !important;
-        }
-
-        ul.profiledropin li a {
-            font-size: 14px;
-            font-family: 'Noto Sans';
-            padding: 6px 10px;
-            display: block;
-            width: 100%;
-            color: black;
-        }
-
-        ul.profiledropin li a:hover {
-            background: var(--themeActiveColor);
-            color: var(--themePrimaryTxtColor);
-        }
-
-        .avtartMenu li a {
-            font-size: 14px !important;
-            text-transform: capitalize !important;
-            font-family: inherit !important;
-        }
-    </style>
-</head>
-
-<body style="background:black;margin:0">
+@section('content')
     <div>
         <div class="FCmbE" style="background:#10141F">
             <div class="g5L2R">
@@ -146,8 +52,7 @@
                             </a>
                             <div class="ItzA1">
                                 <div class="S1MTF W5KqS">
-                                    <a href="/home?browse=true"
-                                    class="knq9q"><span>Browse Content</span></a>
+                                    <a href="/home?browse=true" class="knq9q"><span>Browse Content</span></a>
                                 </div>
                             </div>
                         </div>
@@ -161,8 +66,7 @@
                                     <ul class="dropdown_menus profiledropin avtartMenu" style="display: none;">
                                         <li style="display: none;"><a href="update-profile.php"><span
                                                     class="userno">user-26</span></a></li>
-                                        <li><a class="text-decoration-none"
-                                                href="{{ route('profile.index') }}">Profiles</a>
+                                        <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a>
                                         </li>
                                         <li><a class="text-decoration-none"
                                                 href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
@@ -173,8 +77,7 @@
                                                 Password</a>
                                         </li>
                                         @if (\App\Services\AppConfig::get()->app->app_info->watch_history === 1)
-                                            <li><a class="text-decoration-none"
-                                                    href="{{ route('watch.history') }}">Watch
+                                            <li><a class="text-decoration-none" href="{{ route('watch.history') }}">Watch
                                                     History</a>
                                             </li>
                                         @endif
@@ -185,26 +88,26 @@
                             @else
                                 <a class="knq9q" href="/login">Sign In</a>
                                 @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
-                                <a class="Ii6WJ" href="/signup">Register</a>
+                                    <a class="Ii6WJ" href="/signup">Register</a>
                                 @endif
                             @endif
                             <form class="qnV1a" action="{{ route('search') }}">
-                            <div class="QlsWG">
-                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" data-test-id="icons-search" role="img"
-                                    class="phovn">
-                                    <title>Search Icon</title>
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5ZM4.125 10.5C4.125 14.015 6.985 16.875 10.5 16.875C14.015 16.875 16.875 14.015 16.875 10.5C16.875 6.985 14.015 4.125 10.5 4.125C6.985 4.125 4.125 6.985 4.125 10.5Z"
-                                        fill="currentColor"></path>
-                                    <path
-                                        d="M18.636 17.214L20.708 19.294C21.098 19.685 21.097 20.318 20.706 20.708C20.511 20.903 20.255 21 20 21C19.744 21 19.487 20.902 19.291 20.706L17.219 18.626L18.636 17.214Z"
-                                        fill="currentColor"></path>
-                                </svg>
+                                <div class="QlsWG">
+                                    <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" data-test-id="icons-search" role="img"
+                                        class="phovn">
+                                        <title>Search Icon</title>
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5ZM4.125 10.5C4.125 14.015 6.985 16.875 10.5 16.875C14.015 16.875 16.875 14.015 16.875 10.5C16.875 6.985 14.015 4.125 10.5 4.125C6.985 4.125 4.125 6.985 4.125 10.5Z"
+                                            fill="currentColor"></path>
+                                        <path
+                                            d="M18.636 17.214L20.708 19.294C21.098 19.685 21.097 20.318 20.706 20.708C20.511 20.903 20.255 21 20 21C19.744 21 19.487 20.902 19.291 20.706L17.219 18.626L18.636 17.214Z"
+                                            fill="currentColor"></path>
+                                    </svg>
                                     <input type="text" name="searchKeyword" id="searchKeyword" value=""
                                         class="ZLiF0" required="" placeholder="Find movies, TV shows and more" />
-                            </div>
-                        </form>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </nav>
@@ -317,7 +220,7 @@
                                 @endif
                             @endforeach
                         @endif
-                       
+
                     </div>
                 </div>
                 @if (isset($data->app->landingpages))
@@ -363,8 +266,7 @@
                                                 @if ($page->page_type === 'Eli' && $page->section_type === 'faq' && $page->status === 1)
                                                     <li class="AI3Of">
                                                         <div class="ECk_t toggle-accordian"> {{ $page->title ?? '' }}
-                                                            <svg class="Z0g3x fnEny"
-                                                                preserveAspectRatio="xMidYMid meet"
+                                                            <svg class="Z0g3x fnEny" preserveAspectRatio="xMidYMid meet"
                                                                 style="fill:currentcolor" viewBox="0 0 26 26"
                                                                 role="img">
                                                                 <title>Plus Icon</title>
@@ -397,12 +299,12 @@
                                                 {{ $page->description ?? '' }}
                                             </div>
                                             @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
-                                            <a href="/signup">
-                                                <button class="Button Button--large Button--secondary">
-                                                    <div class="Button__bg"></div>
-                                                    <div class="Button__content">Register Free</div>
-                                                </button>
-                                            </a>
+                                                <a href="/signup">
+                                                    <button class="Button Button--large Button--secondary">
+                                                        <div class="Button__bg"></div>
+                                                        <div class="Button__content">Register Free</div>
+                                                    </button>
+                                                </a>
                                             @endif
                                         </div>
                                     </div>
@@ -460,9 +362,9 @@
                                         <a href="/login" class="text-reset">Login</a>
                                     </p>
                                     @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
-                                    <p>
-                                        <a href="/signup" class="text-reset">Register</a>
-                                    </p>
+                                        <p>
+                                            <a href="/signup" class="text-reset">Register</a>
+                                        </p>
                                     @endif
                                     <p>
                                         <a href="/download-apps" class="text-reset">Download Apps</a>
@@ -502,6 +404,9 @@
     </div>
     </div>
     </div>
+
+@endsection
+@section('scripts')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
@@ -525,12 +430,10 @@
             $('.phovn').click(function(event) {
                 // Prevent the default behavior of the SVG click
                 event.preventDefault();
-                
+
                 // Trigger the form submission
                 $(this).closest('form').submit();
             });
         });
     </script>
-</body>
-
-</html>
+@endsection

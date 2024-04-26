@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('components.layouts.landingpage_layout')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
-    <meta property="og:image" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_image ?? '' }}" />
-    <meta property="og:description" content="{!! strip_tags(\App\Services\AppConfig::get()->app->app_info->seo_description ?? '') !!}" />
-
-    <title>{{ $data->app->app_info->app_name ?? '' }}</title>
+@section('head')
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -18,51 +10,35 @@
         integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href=" {{ asset('assets/landing_theme_assets/theo/css/style.css') }}">
-</head>
-<style>
-    @if (isset($data->app->landingpages))
-        @foreach ($data->app->landingpages as $page)
-            @if ($page->page_type === 'Theo' && $page->section_type === 'banner' && $page->status === 1)
-                @if ($page->image)
-                    .header {
-                        background-image: linear-gradient(rgba(4, 9, 30, 0.4), rgba(4, 9, 30, 0.4)),
-                            url({{ asset($page->image) }});
-                    }
+    <style>
+        @if (isset($data->app->landingpages))
+            @foreach ($data->app->landingpages as $page)
+                @if ($page->page_type === 'Theo' && $page->section_type === 'banner' && $page->status === 1)
+                    @if ($page->image)
+                        .header {
+                            background-image: linear-gradient(rgba(4, 9, 30, 0.4), rgba(4, 9, 30, 0.4)),
+                                url({{ asset($page->image) }});
+                        }
+                    @endif
                 @endif
-            @endif
-        @endforeach
-    @endif
-    .membership__section::before {
+            @endforeach
+        @endif
+        .membership__section::before {
 
-        background-image: linear-gradient(rgba(255, 255, 255, 0.1),
-                rgba(255, 255, 255, 0.1)),
-            url({{ asset('assets/landing_theme_assets/theo/images/gradient.png') }});
-    }
+            background-image: linear-gradient(rgba(255, 255, 255, 0.1),
+                    rgba(255, 255, 255, 0.1)),
+                url({{ asset('assets/landing_theme_assets/theo/images/gradient.png') }});
+        }
 
-    .membership__section::after {
-        background-image: linear-gradient(rgba(255, 255, 255, 0.1),
-                rgba(255, 255, 255, 0.1)),
-            url({{ asset('assets/landing_theme_assets/theo/images/gradient.png') }});
-    }
+        .membership__section::after {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.1),
+                    rgba(255, 255, 255, 0.1)),
+                url({{ asset('assets/landing_theme_assets/theo/images/gradient.png') }});
+        }
+    </style>
+@endsection
 
-    :root {
-        --bgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }};
-        --themeActiveColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }};
-        --headerBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->headerBgColor }};
-        --themePrimaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }};
-        --themeSecondaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeSecondaryTxtColor }};
-        --navbarMenucolor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarMenucolor }};
-        --navbarSearchColor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarSearchColor }};
-        --footerbtmBgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->footerbtmBgcolor }};
-        --slidercardBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardBgColor }};
-        --slidercardTitlecolor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardTitlecolor }};
-        --slidercardCatColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardCatColor }};
-        --cardDesColor: {{ \App\Services\AppConfig::get()->app->website_colors->cardDesColor }};
-    }
-</style>
-
-<body>
-
+@section('content')
     <div class="wrapper__landing__page">
         <section class="header">
             <nav class="nav-links container">
@@ -71,12 +47,12 @@
                         <a href="/home" class="text-decoration-none mr-3">
                             <img src="{{ $data->app->app_info->website_logo ?? '' }}" alt="Logo" width="100px">
                         </a>
-                        <a href="/home?browse=true"
-                            class="browse text-decoration-none text-white border-2">Browse Content</a>
+                        <a href="/home?browse=true" class="browse text-decoration-none text-white border-2">Browse
+                            Content</a>
                     </li>
 
-                    <li><a href="/login"
-                            class="text-decoration-none text-white border-2 rounded-pill custom__button">Sign In</a>
+                    <li><a href="/login" class="text-decoration-none text-white border-2 rounded-pill custom__button">Sign
+                            In</a>
                     </li>
 
                 </ul>
@@ -107,9 +83,9 @@
                                     </h4>
                                     <p class="fs-5 text-center"> {{ $page->description ?? '' }}</p>
                                     @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
-                                    <a href="/signup"
-                                        class="text-decoration-none border-2 text-white rounded-pill custom__button my-4">Start
-                                        Streaming</a>
+                                        <a href="/signup"
+                                            class="text-decoration-none border-2 text-white rounded-pill custom__button my-4">Start
+                                            Streaming</a>
                                     @endif
                                 </div>
 
@@ -140,10 +116,12 @@
                                         </ul>
                                     </div>
                                     <div class="arrow__icons mb-3 gap-2">
-                                        <a class="prev text-decoration-none text-white mr-2" role="button" onclick="plusSlides(-1)">❮</a>
-                                        <a class="next text-decoration-none text-white" role="button" onclick="plusSlides(1)">❯</a>
+                                        <a class="prev text-decoration-none text-white mr-2" role="button"
+                                            onclick="plusSlides(-1)">❮</a>
+                                        <a class="next text-decoration-none text-white" role="button"
+                                            onclick="plusSlides(1)">❯</a>
                                     </div>
-                                    
+
 
                                 </div>
                                 <div class="slideshow-container">
@@ -187,8 +165,7 @@
                         @if (!empty($page->playstore_link))
                             <div>
                                 <a href="{{ $page->playstore_link ?? '' }}">
-                                    <img
-                                        src="{{ asset('assets/landing_theme_assets/theo/images/play.png') }}">
+                                    <img src="{{ asset('assets/landing_theme_assets/theo/images/play.png') }}">
                                 </a>
                             </div>
                         @endif
@@ -227,8 +204,7 @@
                 <ul
                     class="devices__icons  d-flex align-items-center justify-content-between px-3 mb-4 text-center">
                     <li class="col-md-2  list-unstyled devices__section" role="button">
-                        <img id="tv"
-                            src="{{ asset('assets/landing_theme_assets/theo/images/tv.png') }}"
+                        <img id="tv" src="{{ asset('assets/landing_theme_assets/theo/images/tv.png') }}"
                             alt="" srcset="" class="active">
                         <p>TV</p>
                     </li>
@@ -424,6 +400,8 @@
 </div>
 
 </div>
+@endsection
+@section('scripts')
 @include('components.includes.script1')
 <script>
     const deviceSections = document.querySelectorAll('.devices__section img');
@@ -553,7 +531,4 @@
     // // Call the function to randomize images when the page loads
     // window.addEventListener('load', randomizeImages);
 </script>
-
-</body>
-
-</html>
+@endsection
