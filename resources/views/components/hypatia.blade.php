@@ -1,46 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('components.layouts.landingpage_layout')
 
-<head>
-    <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
-    <meta property="og:image" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_image ?? '' }}" />
-    <meta property="og:description" content="{!! strip_tags(\App\Services\AppConfig::get()->app->app_info->seo_description ?? '') !!}" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $data->app->app_info->app_name ?? '' }}</title>
+@section('head')
+<link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/paramount/css/paramount.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/paramount/css/bootstrap.min.css') }}">
+    @if (isset($data->app->landingpages))
+        @foreach ($data->app->landingpages as $page)
+            @if ($page->page_type === 'HYP' && $page->section_type === 'banner' && $page->status === 1)
+                @if ($page->image)
+                <style>
+                    .body.intl {
+                        background-image: url('{{ asset($page->image) }}');
+                    }
 
-    <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/paramount/css/paramount.css') }}">
-    <link rel="icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
-    <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/paramount/css/bootstrap.min.css') }}">
-</head>
-
-<body class="intl property-in">
-    <style>
-        @if (isset($data->app->landingpages))
-            @foreach ($data->app->landingpages as $page)
-                @if ($page->page_type === 'HYP' && $page->section_type === 'banner' && $page->status === 1)
-                    @if ($page->image)
+                    @media (min-width: 768px) {
                         body.intl {
                             background-image: url('{{ asset($page->image) }}');
                         }
+                    }
 
-                        @media (min-width: 768px) {
-                            body.intl {
-                                background-image: url('{{ asset($page->image) }}');
-                            }
+                    @media (min-width: 1440px) {
+                        body.intl {
+                            background-image: url('{{ asset($page->image) }}');
                         }
-
-                        @media (min-width: 1440px) {
-                            body.intl {
-                                background-image: url('{{ asset($page->image) }}');
-                            }
-                        }
-                    @endif
+                    }
+                </style>
                 @endif
-            @endforeach
-        @endif
-    </style>
+            @endif
+        @endforeach
+    @endif
+@endsection
+
+@section('content')
+
+<body class="intl property-in">
+   
     <div class="">
         
     </div>
@@ -153,8 +146,11 @@
     </footer>
     <!-- End of footer text-->
    
-    @include('components.includes.script1')
+    
     
 </body>
 
-</html>
+@endsection
+@section('scripts')
+@include('components.includes.script1')
+@endsection
