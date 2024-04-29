@@ -40,6 +40,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Temporary landing page route
+Route::view('/new3', 'components.new3');
+
 // Authentication
 Route::get('signup', [RegisterController::class, 'index'])->name('register');
 Route::post('signup', [RegisterController::class, 'register'])->name('register');
