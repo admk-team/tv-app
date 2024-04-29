@@ -55,7 +55,7 @@
                         <div class="list_heading">
                             <h1>{{ $category->cat_title ?? '' }}</h1>
                         </div>
-                        @if (!in_array($category->cat_title, ['New Release', 'Top 10', 'Trending', 'Continue Watching']))
+                        @if (($category->is_show_view_more ?? 'N') === 'Y')
                             <div class="list_change_btn"><a href="{{ route('category', $category->cat_guid) }}">View
                                     All</a></div>
                         @endif
