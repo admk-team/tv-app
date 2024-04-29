@@ -59,7 +59,7 @@
                     <p>Escape into a realm of movies, TV series, documentaries, and beyond. From heart-pounding
                         thrillers to heartwarming dramas, find it all on 24 Flix.</p>
                     <div class="mt-2 mt-sm-4 mt-md-5 mb-2">
-                        <a href="/" class="btn-primary-new border">Get Started</a>
+                        <a href="/" class="btn-primary-new border get-started-btn">Get Started</a>
                     </div>
                 </div>
             </div>
