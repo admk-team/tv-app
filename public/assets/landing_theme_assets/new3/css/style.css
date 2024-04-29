@@ -7,6 +7,13 @@ body {
     color: white;
 }
 
+.content-wrapper {
+    max-width: 1820px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .logo {
     width: 70px;
 }
@@ -272,8 +279,33 @@ body {
     opacity: 1 !important;
 }
 
+.sec-device {
+    padding-bottom: 136px;
+    border: 1px solid;
+
+border-image-source: linear-gradient(90deg, #002A92 0%, #002A92 50%, rgba(255, 255, 255, 0) 100%);
+
+
+}
+
 .sec-device .tab-btns {
     border-bottom: 1px solid rgba(255,255,255, 0.1);
+    margin-bottom: 2rem;
+}
+@media(min-width: 768px) {
+    .sec-device .tab-btns {
+        margin-bottom: 3rem;
+    }
+}
+@media(min-width: 1200px) {
+    .sec-device .tab-btns {
+        margin-bottom: 4rem;
+    }
+}
+@media(min-width: 1400px) {
+    .sec-device .tab-btns {
+        margin-bottom: 6rem;
+    }
 }
 
 .sec-device .tab-btns > div {
@@ -298,4 +330,29 @@ body {
 .sec-device .tab-btns > div.active {
     color: #0748E8;
     border-bottom: 3px solid #0748E8;
+}
+
+.sec-device .tab-content h1 {
+    font-size: 60px;
+    font-weight: 700;
+    margin-bottom: 1.6rem;
+}
+.sec-device .tab-content h1 span {
+    color: #0748E8;
+}
+
+.sec-device .tab-content p {
+    font-size: 30px;
+    font-weight: 400;
+    margin-bottom: 3.5rem;
+}
+
+.sec-device .tab-content .platforms {
+    margin-bottom: 3rem;
+}
+
+.sec-device .tab-content .platforms .text {
+    font-size: 20px;
+    font-weight: 600;
+    color: #0748E8;
 }
