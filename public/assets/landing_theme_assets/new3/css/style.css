@@ -10,6 +10,17 @@ body {
 .logo {
     width: 70px;
 }
+.apps__links > div {
+    width: 30%;
+    height: auto;
+  }
+  .apps__links img {
+    width: 100%;
+    border: 1px solid var(--primary-button-color);
+    border-radius: 40px;
+    padding-inline: 1rem;
+    padding-block: 0.1rem;
+  }
 @media (min-width: 576px) {
     .logo {
         width: 101px;

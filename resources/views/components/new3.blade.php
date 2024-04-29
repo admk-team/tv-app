@@ -8,6 +8,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
     <link href="{{ asset('assets/landing_theme_assets/new3/css/style.css') }}" rel="stylesheet">
+    <style>
+        body {
+            background-image: linear-gradient(rgba(4, 9, 30, 0.4), rgba(4, 9, 30, 0.4)),
+                url("{{ asset('assets/landing_theme_assets/new3/images/banner.png') }}");
+        }        
+    </style>
 </head>
 
 <body>
@@ -27,14 +33,55 @@
     <!-- START: Hero Section -->
     <section class="sec-hero d-flex flex-column justify-content-center align-items-center px-2 px-md-3 mb-5">
         <div class="tab-btns d-flex justify-content-between w-100">
-            <div class="active">Comedy</div>
+            @if (isset($data->app->categories))
+            @php $count = 0; @endphp
+            @foreach ($data->app->categories ?? [] as $category)
+                @if (!empty($category->streams) && !empty($category->cat_title))
+                    @if ($count == 0)
+                        <div class="active">{{ $category->cat_title ?? '' }}</div>
+                    @else
+                        <div>{{ $category->cat_title ?? '' }}</div>
+                    @endif
+                    @php $count++; @endphp
+                    @if ($count >= 5) 
+                        @break
+                    @endif
+                @endif
+            @endforeach
+        @endif
+            {{--  <div class="active">Comedy</div>
             <div>Romance</div>
             <div>Action</div>
             <div>Drama</div>
-            <div>Staff Pick</div>
+            <div>Staff Pick</div>  --}}
         </div>
         <div class="tabs position-relative">
-            <div class="tab-content px-sm-4 px-md-5 active">
+            @if (isset($data->app->categories))
+            @php $count = 0; @endphp
+            @foreach ($data->app->categories ?? [] as $category)
+                @if (!empty($category->streams) && !empty($category->cat_title))
+                    @if ($count < 5)
+                        <div class="tab-content px-sm-4 px-md-5 @if ($count == 0) active @endif"> <!-- Added active class here -->
+                            <div class="poster-slides">
+                                @foreach ($category->streams as $index => $stream)
+                                    @if ($index < 5)
+                                        <img src="{{ $stream->stream_poster }}">
+                                    @else
+                                        @break
+                                    @endif
+                                @endforeach
+                                <div class="overlay"></div>
+                            </div>
+                        </div>
+                        @php $count++; @endphp
+                    @else
+                        @break
+                    @endif
+                @endif
+            @endforeach
+        @endif
+        
+            {{--  <div class="tab-content px-sm-4 px-md-5 active">
                 <div class="poster-slides">
                     <img src="{{ asset('assets/landing_theme_assets/new3/images/hero.png') }}">
                     <img src="{{ asset('assets/landing_theme_assets/new3/images/tiger.png') }}">
@@ -51,7 +98,7 @@
                     <img src="{{ asset('assets/landing_theme_assets/new3/images/hero.png') }}">
                     <div class="overlay"></div>
                 </div>
-            </div>
+            </div>  --}}
             <div class="text-content px-sm-4 px-md-5 d-flex flex-column justify-content-end">
                 <div class="wrapper">
                     <h3>Welcome to 24 flix</h3>
@@ -64,6 +111,21 @@
                 </div>
             </div>
         </div>
+        <div class="apps__links d-flex align-items-center justify-content-center gap-3 mt-3">
+            {{--  @if (!empty($page->playstore_link))  --}}
+            <h5>Download Now</h5>
+                <div>
+                    <a href=""><img src="{{ asset('assets/landing_theme_assets/iris/images/play.png') }}" alt=""
+                        srcset=""></a>
+                </div>
+            {{--  @endif
+            @if (!empty($page->appstore_link))  --}}
+                <div>
+                    <a href=""><img src="{{ asset('assets/landing_theme_assets/iris/images/apple.png') }}" alt=""
+                    srcset=""></a>
+                </div>
+            {{--  @endif  --}}
+        </div>
     </section>
     <!-- END: Hero Section -->
 
@@ -74,7 +136,7 @@
             Samsung, LG, Vidaa and on the web.</p>
         <div class="video">
             <video width="400" autoplay>
-                <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" type="video/mp4">
+                <source src="https://player.vimeo.com/progressive_redirect/playback/830374923/rendition/720p/file.mp4?loc=external&signature=314a23119f729b0f79a31da6232ead8a19419dc7a7adb8289183ce83d4763593" type="video/mp4">
             </video>
         </div>
     </div>
