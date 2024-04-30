@@ -18,7 +18,7 @@
 
 <body>
     <!-- START: Top Header -->
-    <header class="d-flex justify-content-between align-items-center px-2 px-md-3 py-2 mb-3">
+    <header class="content-wrapper d-flex justify-content-between align-items-center px-2 px-md-3 py-2 mb-3">
         <a href="/home">
             <img src="{{ asset('assets/landing_theme_assets/new3/images/logo.png') }}" class="logo" />
         </a>
@@ -31,7 +31,7 @@
     <!-- END: Top Header -->
 
     <!-- START: Hero Section -->
-    <section class="sec-hero d-flex flex-column justify-content-center align-items-center px-2 px-md-3 mb-5">
+    <section class="sec-hero content-wrapper d-flex flex-column justify-content-center align-items-center px-2 px-md-3 mb-5">
         <div class="tab-btns d-flex justify-content-between w-100">
             @if (isset($data->app->categories))
             @php $count = 0; @endphp
@@ -131,9 +131,11 @@
 
     <!-- START: Video Section -->
     <div class="sec-video mb-5">
-        <h1><span>Stream</span> Anywhere</h1>
-        <p>You can find 24 Flix on all of the major App Stores including IOS, Android, Roku, Apple TV, Amazon Fire TV,
-            Samsung, LG, Vidaa and on the web.</p>
+        <div class="content-wrapper">
+            <h1><span>Stream</span> Anywhere</h1>
+            <p>You can find 24 Flix on all of the major App Stores including IOS, Android, Roku, Apple TV, Amazon Fire TV,
+                Samsung, LG, Vidaa and on the web.</p>
+        </div>
         <div class="video">
             <video width="400" autoplay>
                 <source src="https://player.vimeo.com/progressive_redirect/playback/830374923/rendition/720p/file.mp4?loc=external&signature=314a23119f729b0f79a31da6232ead8a19419dc7a7adb8289183ce83d4763593" type="video/mp4">
@@ -143,28 +145,47 @@
     <!-- END: Video Section -->
 
     <!-- START: Device Section -->
-    <div class="sec-device">
-        <div class="tab-btns d-flex gap-2 gap-sm-3 gap-md-4 gap-lg-5">
+    <div class="sec-device content-wrapper px-2 px-md-3 mb-5">
+        <div class="tab-btns d-flex gap-3 gap-sm-3 gap-md-4 gap-lg-5">
             <div class="active"><span>TV</span></div>
             <div><span>Tablet & Mobile</span></div>
             <div><span>Desktop & Laptop</span></div>
         </div>
 
-        <div class="mt-5"></div>
+        <div class="tabs">
+            <div class="tab-content active">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h1>Enjoy on your <span>Television</span></h1>
+                        <p>Watch on smart TVs, Chromecast, Apple TV, Blu-ray players and more.</p>
+                        <div class="platforms d-flex align-items-center gap-3 gap-md-4">
+                            <div class="text">Watch Now:</div>
+                            <div class="icons">
+                                <img src="{{ asset('assets/landing_theme_assets/new3/images/roku.png') }}" width="66px">
+                                <img src="{{ asset('assets/landing_theme_assets/new3/images/firetv.png') }}" width="66px">
+                                <img src="{{ asset('assets/landing_theme_assets/new3/images/appletv.png') }}" width="66px">
+                            </div>
+                        </div>
+                        <a href="" class="btn-primary-new">Download Now</a>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- END: Device Section -->
 
     <script>
         (function() {
-            const tabBtns = document.querySelectorAll('.tab-btns > div');
-            const tabContents = document.querySelectorAll('.tab-content');
+            const tabBtns = document.querySelectorAll('.sec-hero .tab-btns > div');
+            const tabContents = document.querySelectorAll('.sec-hero .tab-content');
             tabBtns.forEach((btn, index) => {
                 btn.addEventListener('click', () => {
                     if (!tabContents[index]) {
                         return;
                     }
-                    document.querySelector('.tab-btns .active').classList.remove('active');
-                    document.querySelector('.tab-content.active').classList.remove('active');
+                    document.querySelector('.sec-hero .tab-btns .active').classList.remove('active');
+                    document.querySelector('.sec-hero .tab-content.active').classList.remove('active');
                     btn.classList.add('active');
                     tabContents[index].classList.add('active');
                 });
@@ -185,6 +206,22 @@
                     }
                 }, 3500);
             })
+        })();
+
+        (function() {
+            const tabBtns = document.querySelectorAll('.sec-device .tab-btns > div > span');
+            const tabContents = document.querySelectorAll('.sec-device .tab-content');
+            tabBtns.forEach((btn, index) => {
+                btn.addEventListener('click', () => {
+                    if (!tabContents[index]) {
+                        return;
+                    }
+                    document.querySelector('.sec-device .tab-btns .active').classList.remove('active');
+                    document.querySelector('.sec-device .tab-content.active').classList.remove('active');
+                    btn.parentNode.classList.add('active');
+                    tabContents[index].classList.add('active');
+                });
+            });
         })();
     </script>
 </body>
