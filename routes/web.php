@@ -42,6 +42,7 @@ use Illuminate\Support\Facades\Route;
 
 // Temporary landing page route
 Route::view('/new3', 'components.new3');
+Route::view('/lyra', 'components.lyra');
 
 // Authentication
 Route::get('signup', [RegisterController::class, 'index'])->name('register');
