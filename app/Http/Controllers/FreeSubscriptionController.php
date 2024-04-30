@@ -26,6 +26,10 @@ class FreeSubscriptionController extends Controller
                 'paymentInformation' => session('MONETIZATION')['PAYMENT_INFORMATION'],
             ]);
 
+        if (session('MONETIZATION')['SUBS_TYPE'] !== 'S') {
+            return redirect(session('REDIRECT_TO_SCREEN'));
+        }
+
         return view('free-subscription.index');
     }
 }
