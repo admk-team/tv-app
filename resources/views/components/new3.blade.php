@@ -145,7 +145,7 @@
     <!-- END: Video Section -->
 
     <!-- START: Device Section -->
-    <div class="sec-device content-wrapper px-2 px-md-3 mb-5">
+    <div class="sec-device content-wrapper px-2 px-md-3">
         <div class="tab-btns d-flex gap-3 gap-sm-3 gap-md-4 gap-lg-5">
             <div class="active"><span>TV</span></div>
             <div><span>Tablet & Mobile</span></div>
@@ -155,7 +155,7 @@
         <div class="tabs">
             <div class="tab-content active">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-8 order-last order-md-first">
                         <h1>Enjoy on your <span>Television</span></h1>
                         <p>Watch on smart TVs, Chromecast, Apple TV, Blu-ray players and more.</p>
                         <div class="platforms d-flex align-items-center gap-3 gap-md-4">
@@ -166,14 +166,77 @@
                                 <img src="{{ asset('assets/landing_theme_assets/new3/images/appletv.png') }}" width="66px">
                             </div>
                         </div>
-                        <a href="" class="btn-primary-new">Download Now</a>
+                        <a href="" class="btn-primary-new device-download-btn">Download Now</a>
                     </div>
-                    <div class="col-md-4"></div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <img class="device-img" src="https://play-lh.googleusercontent.com/GD78NlC-yoQXcLsvTc3JLr_VVR5YKQp43FOfWLB7e5lwU_La_hy4olpMaj0_yY7ScgQ">
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content">
+                <div class="row">
+                    <div class="col-md-8 order-last order-md-first">
+                        <h1>Enjoy on your <span>Tab & Mobile.</span></h1>
+                        <p>Watch on smart TVs, Chromecast, Apple TV, Blu-ray players and more.</p>
+                        <div class="platforms d-flex align-items-center gap-3 gap-md-4">
+                            <div class="text">Watch Now:</div>
+                            <div class="icons">
+                                <img src="{{ asset('assets/landing_theme_assets/new3/images/roku.png') }}" width="66px">
+                                <img src="{{ asset('assets/landing_theme_assets/new3/images/firetv.png') }}" width="66px">
+                                <img src="{{ asset('assets/landing_theme_assets/new3/images/appletv.png') }}" width="66px">
+                            </div>
+                        </div>
+                        <a href="" class="btn-primary-new device-download-btn">Download Now</a>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <img class="device-img" src="https://play-lh.googleusercontent.com/GD78NlC-yoQXcLsvTc3JLr_VVR5YKQp43FOfWLB7e5lwU_La_hy4olpMaj0_yY7ScgQ">
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content">
+                <div class="row">
+                    <div class="col-md-8 order-last order-md-first">
+                        <h1>Enjoy on your <span>Desktop & Laptop.</span></h1>
+                        <p>Watch on smart TVs, Chromecast, Apple TV, Blu-ray players and more.</p>
+                        <div class="platforms d-flex align-items-center gap-3 gap-md-4">
+                            <div class="text">Watch Now:</div>
+                            <div class="icons">
+                                <img src="{{ asset('assets/landing_theme_assets/new3/images/roku.png') }}" width="66px">
+                                <img src="{{ asset('assets/landing_theme_assets/new3/images/firetv.png') }}" width="66px">
+                                <img src="{{ asset('assets/landing_theme_assets/new3/images/appletv.png') }}" width="66px">
+                            </div>
+                        </div>
+                        <a href="" class="btn-primary-new device-download-btn">Download Now</a>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <img class="device-img" src="https://play-lh.googleusercontent.com/GD78NlC-yoQXcLsvTc3JLr_VVR5YKQp43FOfWLB7e5lwU_La_hy4olpMaj0_yY7ScgQ">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div>      
     <!-- END: Device Section -->
+
+    <!-- START: CTA Section -->
+    <div class="sec-cta content-wrapper px-2 px-md-3">
+        <div class="row">
+            <div class="col-md-5 text">
+                <h1>Ready to <span>watch?</span></h1>
+                <p>Enter your email to create or restart your membership.</p>
+            </div>
+            <div class="col-md-7 form d-flex align-items-center">
+                <form class="flex-grow-1 max-w-100">
+                    <div class="field d-flex align-items-center">
+                        <input type="text" placeholder="Enter your Email">
+                        <button class="btn-primary-new get-started-btn">Get Started</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END: CTA Section -->
 
     <script>
         (function() {
