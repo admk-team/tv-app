@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #0748E8;
+    --primary-color:  var(--themeActiveColor);
 }
 
 body {
@@ -90,7 +90,8 @@ body {
 }
 
 .sec-hero .tab-btns > div.active {
-    color: white;
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
 }
 
 .sec-hero .tab-btns > div:hover {
@@ -257,7 +258,11 @@ body {
         font-size: 20px;
     }
 }
-
+.sec-video{
+    border-radius: 40px;
+    background-color: rgba(255, 255, 255, 0.048);
+    max-width: 100%;
+} 
 .sec-video h1 {
     font-size: 70px;
     font-weight: 700;
@@ -265,10 +270,11 @@ body {
     max-width: 1144px;
     margin: auto;
     margin-bottom: 2rem;
+    
 }
 
 .sec-video h1 span {
-    color: #0748E8;
+    color: var(--primary-color);
 }
 
 .sec-video p {
@@ -341,8 +347,8 @@ body {
 }
 
 .sec-device .tab-btns > div.active {
-    color: #0748E8;
-    border-bottom: 3px solid #0748E8;
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
 }
 
 .sec-device .tab-content h1 {
@@ -351,7 +357,7 @@ body {
     margin-bottom: 1rem;
 }
 .sec-device .tab-content h1 span {
-    color: #0748E8;
+    color: var(--primary-color);
 }
 
 .sec-device .tab-content p {
@@ -367,7 +373,7 @@ body {
 .sec-device .tab-content .platforms .text {
     font-size: 20px;
     font-weight: 600;
-    color: #0748E8;
+    color: var(--primary-color);
 }
 
 @media (min-width: 576px) {
@@ -411,7 +417,7 @@ body {
     text-align: center;
 }
 .sec-cta .text h1 span {
-    color: #0748E8;
+    color: var(--primary-color);
 }
 
 .sec-cta .text p {
@@ -422,7 +428,7 @@ body {
 }
 
 .sec-cta .field {
-    border: 0.5px solid #0748E8;
+    border: 0.5px solid var(--primary-color);
     background: #D9D9D91A;
     border-radius: 100px;
     padding: 8px 10px;
@@ -453,7 +459,17 @@ body {
     border-radius: 100px;
     border: none;
 }
-
+.footer {
+    background-color: rgba(255, 255, 255, 0.048);
+    padding: 4rem 18rem;
+    max-width: 100%;
+  }
+  .sec-cta {
+    border-radius: 40px;
+    background-color: rgba(255, 255, 255, 0.048);
+    max-width: 100%;
+    margin-bottom: 8px;
+  }
 @media (min-width: 576px) {
     /* .sec-cta .text h1 {
         font-size: 60px;
@@ -495,9 +511,10 @@ body {
         border-radius: 100px;
         border: none;
     }
-    @media (max-width:768) {
+}
+    @media (max-width:768px) {
         .sec-cta .field {
-            border: 0.5px solid #0748E8;
+            border: 0.5px solid var(--primary-color);
             background: #D9D9D91A;
             border-radius: 100px;
             padding: 3px 10px;
@@ -511,5 +528,43 @@ body {
             color: #909090;
             font-size: 14px;
         }
+        .sec-cta .field .get-started-btn {
+            padding: 10px 30px;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 100px;
+            border: none;
+            text-wrap: nowrap;
+        }
+        .sec-cta .field input::placeholder {
+            color: #909090;
+            font-size: 12px;
+        }
+        .footer {
+            background-color: rgba(255, 255, 255, 0.048);
+            padding: 2rem 1rem;
+            max-width: 100%;
+        }
+        
 }
+@media (max-width:400px) {
+    .sec-cta .field .get-started-btn {
+        padding: 7px 23px;
+        font-size: 8px;
+        font-weight: 500;
+        border-radius: 100px;
+        border: none;
+        text-wrap: nowrap;
+    }
+  
+}
+@media (max-width:399px) {
+    .sec-cta .field .get-started-btn {
+        padding: 2px 11px;
+        font-size: 8px;
+        /* font-weight: 500; */
+        border-radius: 100px;
+        border: none;
+        text-wrap: nowrap;
+    }
 }
