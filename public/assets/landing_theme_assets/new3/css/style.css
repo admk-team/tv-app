@@ -282,10 +282,7 @@ body {
 .sec-device {
     padding-bottom: 136px;
     border: 1px solid;
-
-border-image-source: linear-gradient(90deg, #002A92 0%, #002A92 50%, rgba(255, 255, 255, 0) 100%);
-
-
+    border-image: linear-gradient(90deg, #002A92 0%, #002A92 50%, rgba(255, 255, 255, 0) 100%);
 }
 
 .sec-device .tab-btns {
@@ -314,9 +311,14 @@ border-image-source: linear-gradient(90deg, #002A92 0%, #002A92 50%, rgba(255, 2
 
 .sec-device .tab-btns > div {
     color: #9F9F9F;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 600;
     margin-bottom: -2px;
+}
+@media (min-width: 768px) {
+    .sec-device .tab-btns > div {
+        font-size: 18px;
+    }
 }
 
 .sec-device .tab-btns > div span {
@@ -333,18 +335,18 @@ border-image-source: linear-gradient(90deg, #002A92 0%, #002A92 50%, rgba(255, 2
 }
 
 .sec-device .tab-content h1 {
-    font-size: 60px;
+    font-size: 32px;
     font-weight: 700;
-    margin-bottom: 1.6rem;
+    margin-bottom: 1rem;
 }
 .sec-device .tab-content h1 span {
     color: #0748E8;
 }
 
 .sec-device .tab-content p {
-    font-size: 30px;
+    font-size: 16px;
     font-weight: 400;
-    margin-bottom: 3.5rem;
+    margin-bottom: 2rem;
 }
 
 .sec-device .tab-content .platforms {
@@ -355,4 +357,148 @@ border-image-source: linear-gradient(90deg, #002A92 0%, #002A92 50%, rgba(255, 2
     font-size: 20px;
     font-weight: 600;
     color: #0748E8;
+}
+
+@media (min-width: 576px) {
+    .sec-device .tab-content h1 {
+        font-size: 42px;
+        margin-bottom: 1.6rem;
+    }
+
+    .sec-device .tab-content p {
+        font-size: 21px;
+        margin-bottom: 2rem;
+    }
+
+    .device-download-btn {
+        padding: 14px 45px;
+        font-size: 20px;
+        font-weight: 600;
+    }
+}
+
+@media (min-width: 992px) {
+    .sec-device .tab-content h1 {
+        font-size: 60px;
+        margin-bottom: 1.6rem;
+    }
+
+    .sec-device .tab-content p {
+        font-size: 30px;
+        margin-bottom: 3.5rem;
+    }
+}
+
+.sec-device .device-img {
+    max-width: 100%;
+}
+
+.sec-cta .text h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-align: center;
+}
+.sec-cta .text h1 span {
+    color: #0748E8;
+}
+
+.sec-cta .text p {
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 22px;
+    text-align: center;
+}
+
+.sec-cta .field {
+    border: 0.5px solid #0748E8;
+    background: #D9D9D91A;
+    border-radius: 100px;
+    padding: 8px 10px;
+}
+
+.sec-cta .field input {
+    flex-grow: 1;
+    border-radius: 100px;
+    padding-left: 50px;
+    background-color: transparent;
+    border: none;
+    color: #909090;
+    font-size: 22px;
+}
+.sec-cta .field input:focus, .sec-cta .field input:focus-visible {
+    border: none;
+    outline: none;
+}
+.sec-cta .field input::placeholder {
+    color: #909090;
+    font-size: 22px;
+}
+
+.sec-cta .field .get-started-btn {
+    padding: 26px 68px;
+    font-size: 20px;
+    font-weight: 500;
+    border-radius: 100px;
+    border: none;
+}
+
+@media (min-width: 576px) {
+    /* .sec-cta .text h1 {
+        font-size: 60px;
+        margin-bottom: 22px;
+    }
+    .sec-cta .text p {
+        font-size: 30px;
+    } */
+}
+
+@media (min-width: 768px) {
+    .sec-cta .text h1 {
+        font-size: 60px;
+        margin-bottom: 22px;
+        text-align: left;
+    }
+    .sec-cta .text p {
+        font-size: 30px;
+        text-align: left;
+    }
+
+    .sec-cta .field .get-started-btn {
+        padding: 16px 32px;
+    }
+}
+
+@media (min-width: 992px) {
+}
+
+@media (min-width: 1200px) {
+    
+}
+
+@media (min-width: 1400px) {
+    .sec-cta .field .get-started-btn {
+        padding: 26px 68px;
+        font-size: 20px;
+        font-weight: 500;
+        border-radius: 100px;
+        border: none;
+    }
+    @media (max-width:768) {
+        .sec-cta .field {
+            border: 0.5px solid #0748E8;
+            background: #D9D9D91A;
+            border-radius: 100px;
+            padding: 3px 10px;
+        }
+        .sec-cta .field input {
+            flex-grow: 1;
+            border-radius: 106px;
+            padding-left: 40px;
+            background-color: transparent;
+            border: none;
+            color: #909090;
+            font-size: 14px;
+        }
+}
 }
