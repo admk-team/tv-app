@@ -56,7 +56,7 @@
                                     <select name="content_rating[]" class="form-control app_code_select" id="content_rating"
                                         multiple="multiple"
                                         style="color: #000 !important; background-color: #fff !important; width:465px">
-                                        @foreach ($user_data['all_ratings'] as $rating)
+                                        @foreach (($user_data['all_ratings'] ?? []) as $rating)
                                             @if ($rating['title'])
                                                 <option value="{{ $rating['code'] }}">{{ $rating['title'] }}</option>
                                             @endif
