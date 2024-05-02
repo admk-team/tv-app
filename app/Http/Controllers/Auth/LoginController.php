@@ -95,9 +95,7 @@ class LoginController extends Controller
 
         $response = Http::withHeaders(Api::headers())
             ->asForm()
-            ->get(Api::endpoint("/userprofiles?id={$responseJson['app']['data']['user_id']}&user_data={$xyz}&user_device={$finalresultDevice}"), [
-                'type' => 'advisory',
-            ]);
+            ->get(Api::endpoint("/userprofiles?id={$responseJson['app']['data']['user_id']}&user_data={$xyz}&user_device={$finalresultDevice}"));
 
         $user_data = $response->json();
 
