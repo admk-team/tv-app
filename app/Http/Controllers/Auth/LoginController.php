@@ -46,6 +46,47 @@ class LoginController extends Controller
         ]);
         $profile = \App\Services\AppConfig::get()->app->app_info->profile_manage;
 
+        $finalresultDevice = null;
+        // Get the user agent string
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+
+        // Check if the user agent indicates a mobile device
+        $isMobile = (bool)preg_match('/Mobile|Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i', $userAgent);
+
+        // Check if the user agent indicates a tablet device
+        $isTablet = (bool)preg_match('/iPad|Android|Tablet/i', $userAgent);
+
+        // Initialize a variable to store the matched browser
+        $matchedBrowser = "Unknown";
+
+        // Detect browsers
+        if (strpos($userAgent, 'Chrome') !== false) {
+            $matchedBrowser = "Chrome";
+        } elseif (strpos($userAgent, 'Firefox') !== false) {
+            $matchedBrowser = "Firefox";
+        } elseif (strpos($userAgent, 'Safari') !== false) {
+            $matchedBrowser = "Safari";
+        } elseif (strpos($userAgent, 'Edge') !== false) {
+            $matchedBrowser = "Microsoft Edge";
+        } elseif (strpos($userAgent, 'MSIE') !== false || strpos($userAgent, 'Trident/') !== false) {
+            $matchedBrowser = "Internet Explorer";
+        }
+
+        // Output the information
+        // echo "Is Mobile: " . ($isMobile ? 'Yes' : 'No') . "<br>";
+        // echo "Is Tablet: " . ($isTablet ? 'Yes' : 'No') . "<br>";
+        $mobile = $isMobile ? true : false;
+        $tablet = $isTablet ? true : false;
+        if ($mobile) {
+            $finalresultDevice = 'mobile';
+        } elseif ($isTablet) {
+            $finalresultDevice = 'tablet';
+        } else {
+            $finalresultDevice = $matchedBrowser;
+        }
+
+        $xyz = base64_encode(request()->ip());
+
         if (session()->has('REDIRECT_TO_SCREEN')) {
             $redirectUrl = session('REDIRECT_TO_SCREEN');
             session()->forget('REDIRECT_TO_SCREEN');
@@ -54,9 +95,10 @@ class LoginController extends Controller
 
         $response = Http::withHeaders(Api::headers())
             ->asForm()
-            ->get(Api::endpoint('/userprofiles/' . $responseJson['app']['data']['user_id']), [
+            ->get(Api::endpoint("/userprofiles?id={$responseJson['app']['data']['user_id']}&user_data={$xyz}&user_device={$finalresultDevice}&user_code={$responseJson['app']['data']['user_code']}"), [
                 'type' => 'advisory',
             ]);
+
         $user_data = $response->json();
 
         return view('profile.index', compact('user_data'));

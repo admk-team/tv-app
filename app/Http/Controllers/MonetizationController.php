@@ -101,8 +101,11 @@ class MonetizationController extends Controller
             $discount = $responseJSON['data']['discount'];
         }
         $finalAmount = $amount - $discount;
-        if ($finalAmount < 0.99) {
-            $finalAmount = 1;
+        // if ($finalAmount < 0.99) {
+        //     $finalAmount = 1;
+        // }
+        if ($finalAmount < 0) {
+            $finalAmount = 0;
         }
 
         session()->put('MONETIZATION.AMOUNT', $finalAmount);

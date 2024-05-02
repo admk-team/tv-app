@@ -348,12 +348,12 @@
                                     value="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->payment_currency_code }}">
                                 <input type="hidden" name="return" value="{{ url('/monetization/success') }}">
                                 <input type="hidden" name="cancel_return" value="{{ url('/monetization/cancel') }}">
-                                @if (($planData['PLAN_TYPE'] ?? null) != 'T' && \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_paypal_payment_active == "true")
+                                @if (($planData['PLAN_TYPE'] ?? null) != 'T' && \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_paypal_payment_active == "true" && $planData['AMOUNT'] > 0)
                                     <button type="submit" class="btn paypal_btn"><i class="fa fa-paypal"
                                             aria-hidden="true"></i>
                                         Pay with Paypal</button>
                                 @endif
-                                @if (($planData['PLAN_TYPE'] ?? false) == 'T')
+                                @if (($planData['PLAN_TYPE'] ?? false) == 'T' || $planData['AMOUNT'] <= 0)
                                     <a href="{{ route('free-subscription') }}"
                                         class="mt-2 w-100 btn btn-lg btn-primary">Get
                                         Free Access</a>
