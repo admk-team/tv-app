@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $data->app->app_info->app_name ?? '' }}</title>
+    <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
+    <meta property="og:image" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_image ?? '' }}" />
+    <meta property="og:description" content="{!! strip_tags(\App\Services\AppConfig::get()->app->app_info->seo_description ?? '') !!}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
     <link href="{{ asset('assets/landing_theme_assets/apollo/css/style.css') }}" rel="stylesheet">
@@ -117,20 +120,22 @@
 @endif
 @if ($page->page_type === 'Apollo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
 @if (!empty($page->appstore_link) || !empty($page->playstore_link))
-<div class="apps__links d-flex align-items-center justify-content-center gap-3 mt-3">
-@if (!empty($page->playstore_link))
+<div class="apps__links d-flex align-items-center justify-content-center gap-3 mt-3 flex-column flex-md-row">
 <h5>Download Now</h5>
+<div class="d-flex w-100 align-items-center">
+    @if (!empty($page->playstore_link))
 <div>
-    <a href=""><img src="{{ asset('assets/landing_theme_assets/iris/images/play.png') }}"
+    <a href="{{ $page->playstore_link}}"><img src="{{ asset('assets/landing_theme_assets/iris/images/play.png') }}" style="max-width: 240px;"
             alt="" srcset=""></a>
 </div>
 @endif
             @if (!empty($page->appstore_link))
 <div>
-    <a href=""><img src="{{ asset('assets/landing_theme_assets/iris/images/apple.png') }}"
+    <a href="{{ $page->appstore_link}}"><img src="{{ asset('assets/landing_theme_assets/iris/images/apple.png') }}" style="max-width: 240px;"
             alt="" srcset=""></a>
 </div>
 @endif
+</div>
 </div>
 @endif
 @endif
@@ -140,7 +145,7 @@
 @foreach ($data->app->landingpages as $page)
 @if ($page->page_type === 'Apollo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
 <!-- START: Video Section -->
-<div class="sec-video mb-5">
+<div class="sec-video mb-5  px-sm-4 px-md-5">
 <div class="content-wrapper">
     @if (isset($page->title))
     @php
@@ -188,7 +193,7 @@
                 $remainingWords = implode(' ', array_slice($titleWords, 3)); // Concatenate remaining words
             @endphp
            <span>
-                <h1>{{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}<span>{{ $remainingWords }}</span></h1>
+                <h1>{{ $firstWord }} {{ $secondWord }} {{ $thirdWord }} <span>{{ $remainingWords }}</span></h1>
         @else
         @endif
             
@@ -197,7 +202,7 @@
             @endforeach
             @foreach ($data->app->landingpages as $page)
 @if ($page->page_type === 'Apollo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 6)
-            <div class="platforms d-flex align-items-center gap-3 gap-md-4">
+            <div class="platforms d-flex align-items-center gap-3 gap-md-4 flex-column flex-md-row">
                 <div class="text">Watch Now:</div>
                 <div class="icons">
                     <img src="{{ asset('assets/landing_theme_assets/apollo/images/roku.png') }}"
@@ -234,7 +239,7 @@
                 $remainingWords = implode(' ', array_slice($titleWords, 3)); // Concatenate remaining words
             @endphp
            <span>
-                <h1>{{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}<span>{{ $remainingWords }}</span></h1>
+                <h1>{{ $firstWord }} {{ $secondWord }} {{ $thirdWord }} <span>{{ $remainingWords }}</span></h1>
         @else
         @endif
             
@@ -260,7 +265,7 @@
                 $remainingWords = implode(' ', array_slice($titleWords, 3)); // Concatenate remaining words
             @endphp
            <span>
-                <h1>{{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}<span>{{ $remainingWords }}</span></h1>
+                <h1>{{ $firstWord }} {{ $secondWord }} {{ $thirdWord }} <span>{{ $remainingWords }}</span></h1>
         @else
         @endif
             
@@ -280,8 +285,8 @@
 @foreach ($data->app->landingpages as $page)
 @if ($page->page_type === 'Apollo' && $page->section_type === 'membership' && $page->status === 1)
 <!-- START: CTA Section -->
-<div class="sec-cta content-wrapper px-5 px-md-3 py-5 py-md-3 ">
-<div class="row px-5">
+<div class="sec-cta content-wrapper px-5 px-md-3 py-5 py-md-3 px-sm-1 px-md-1">
+<div class="row ">
 <div class="col-md-5 text">
     @if (isset($page->description))
     @php
