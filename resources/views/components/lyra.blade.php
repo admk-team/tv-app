@@ -18,9 +18,9 @@
         </a>
         <nav class="d-flex gap-2 gap-md-3 align-items-center">
             <a href="" class="browse-btn">Browse Content</a>
-            <form>
-                <div class="input-group bg-danger">
-                    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <form class="search-form">
+                <div class="input-group">
+                    {{-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"> --}}
                     <button class="search-icon">
                         <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="21" cy="21" r="20.6" stroke="white" stroke-width="0.8"/>
