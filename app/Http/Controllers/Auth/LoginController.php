@@ -18,34 +18,6 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $response = Http::timeout(300)->withHeaders(Api::headers())
-            ->asForm()
-            ->post(Api::endpoint('/mngappusrs'), [
-                'requestAction' => 'validateUserAccount',
-                'email' => $request->email,
-                'password' => $request->password,
-                'isBypassEmailVerificationStep' => 'Y'
-            ]);
-        $responseJson = $response->json();
-
-        if ($responseJson['app']['status'] === 0) {
-            return back()->with('error', $responseJson['app']['msg']);
-        }
-
-        session([
-            'USER_DETAILS' => [
-                'USER_ACCOUNT_PASS' => $request->password ?? null,
-                'USER_CODE' => $responseJson['app']['data']['user_code'] ?? null,
-                'USER_NAME' => $responseJson['app']['data']['name'] ?? null,
-                'USER_PICTURE' => $responseJson['app']['data']['picture'] ?? null,
-                'USER_ACCOUNT_STATUS' => $responseJson['app']['data']['account_status'] ?? null,
-                'USER_EMAIL' => $responseJson['app']['data']['email'] ?? null,
-                'USER_ID' => $responseJson['app']['data']['user_id'] ?? null,
-            ],
-            'msgTrue' => 1,
-        ]);
-        $profile = \App\Services\AppConfig::get()->app->app_info->profile_manage;
-
         $finalresultDevice = null;
         // Get the user agent string
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
@@ -86,6 +58,34 @@ class LoginController extends Controller
         }
 
         $xyz = base64_encode(request()->ip());
+
+        $response = Http::timeout(300)->withHeaders(Api::headers())
+            ->asForm()
+            ->post(Api::endpoint("/mngappusrs?user_data={$xyz}&user_device={$finalresultDevice}"), [
+                'requestAction' => 'validateUserAccount',
+                'email' => $request->email,
+                'password' => $request->password,
+                'isBypassEmailVerificationStep' => 'Y'
+            ]);
+        $responseJson = $response->json();
+
+        if ($responseJson['app']['status'] === 0) {
+            return back()->with('error', $responseJson['app']['msg']);
+        }
+
+        session([
+            'USER_DETAILS' => [
+                'USER_ACCOUNT_PASS' => $request->password ?? null,
+                'USER_CODE' => $responseJson['app']['data']['user_code'] ?? null,
+                'USER_NAME' => $responseJson['app']['data']['name'] ?? null,
+                'USER_PICTURE' => $responseJson['app']['data']['picture'] ?? null,
+                'USER_ACCOUNT_STATUS' => $responseJson['app']['data']['account_status'] ?? null,
+                'USER_EMAIL' => $responseJson['app']['data']['email'] ?? null,
+                'USER_ID' => $responseJson['app']['data']['user_id'] ?? null,
+            ],
+            'msgTrue' => 1,
+        ]);
+        $profile = \App\Services\AppConfig::get()->app->app_info->profile_manage;
 
         if (session()->has('REDIRECT_TO_SCREEN')) {
             $redirectUrl = session('REDIRECT_TO_SCREEN');
