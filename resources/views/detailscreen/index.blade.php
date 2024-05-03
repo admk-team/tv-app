@@ -587,6 +587,12 @@
                                         <div class="trending_icon_box" {!! $strBrige !!}><img
                                                 src="{{ url('/') }}/assets/images/trending_icon.png"
                                                 alt="{{ $arrStreamsData['stream_title'] }}"></div>
+                                        @if (($arrStreamsData['is_newly_added'] ?? 'N') === 'Y')
+                                            <div class="newly-added-label">
+                                                <span>New Episode</span>
+                                                <span>Watch Now</span>
+                                            </div>
+                                        @endif
                                         <img onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'"
                                             src="{{ $arrStreamsData['stream_poster'] }}"
                                             alt="{{ $arrStreamsData['stream_title'] }}">

@@ -7605,3 +7605,31 @@ ul.dropsmenubox li a.dropdown-item:hover {
     margin-left: 0px;
 
 }
+
+.newly-added-label {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: auto;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-weight: 700;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    overflow: hidden;
+    font-size: 12px;
+}
+
+.newly-added-label > span:nth-child(1) {
+    background-color: var(--themeActiveColor);
+    color: var(--themePrimaryTxtColor);
+    padding: 6px 8px;
+}
+.newly-added-label > span:nth-child(2) {
+    background-color: white;
+    color: black;
+    padding: 6px 8px;
+}
