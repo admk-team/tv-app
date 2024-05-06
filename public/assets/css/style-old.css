@@ -7633,3 +7633,9 @@ ul.dropsmenubox li a.dropdown-item:hover {
     color: black;
     padding: 6px 8px;
 }
+
+.empty-search-result {
+    color: var(--themePrimaryTxtColor);
+    text-align: center;
+    padding: 2rem 0;
+}
