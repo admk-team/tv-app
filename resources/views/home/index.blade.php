@@ -27,7 +27,7 @@
                 @elseif ($data->app->app_info->landing_theme == 'AJV')
                     @include('components.ajax_video')
                 @elseif ($data->app->app_info->landing_theme == 'Ele')
-                    @include('components.elektra')
+                    @include('components.lyra')
                 @elseif ($data->app->app_info->landing_theme == 'Eli')
                     @include('components.elias')
                 @elseif ($data->app->app_info->landing_theme == 'Theo')
