@@ -122,7 +122,8 @@ body {
 }
 .our_storycard {
     background: transparent;
-    border-bottom: 8px solid #222;
+    border-bottom: 2px solid;
+    border-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(216, 15, 47, 1), rgba(255, 255, 255, 0)) 1;
     color: #fff;
     margin-bottom: 0;
     padding: 10px 5% 50px;
@@ -186,12 +187,12 @@ color: #D80F2F;
     padding-inline: 0.rem;
     padding-block: 0.1rem;
     max-width: 100%;
+    
 }
 .sec-video {
     border-radius: 40px;
     background-color: rgba(255, 255, 255, 0.048);
     max-width: 100%;
-   
 }
 .content-wrapper {
     max-width: 1820px;
@@ -377,11 +378,33 @@ color: #D80F2F;
     display: block;
     width: 30% !important;
 }
-.footer {
-    background-color: rgba(255, 255, 255, 0.048);
-    padding: 4rem 18rem;
-    max-width: 100%;
+.owl-stage {
+    margin: auto;
 }
+
+.owl-stage img {
+    margin: auto !important;
+}
+
+.owl-item {
+    height: 100%;
+}
+.owl-carousel .owl-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+footer {
+    border-top: 2px solid;
+    border-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(216, 15, 47, 1), rgba(255, 255, 255, 0)) 1;
+    width: 80%;
+    margin: auto;
+    padding-block: 2rem;
+    color: #fff;
+  }
+  footer span {
+    color: var(--primary-button-color);
+  }
 @media (max-width:576px) {
     .cards_headtitles {
         font-size: 22px;
@@ -497,11 +520,6 @@ color: #D80F2F;
 }
 
 @media (max-width:768px) {
-    .footer {
-        background-color: rgba(255, 255, 255, 0.048);
-        padding: 2rem 1rem;
-        max-width: 100%;
-    }
     .apps__links {
         /* text-wrap: nowrap;
          */
