@@ -691,6 +691,12 @@ if (!empty($arrCatData))
                                 <div class="trending_icon_box" {!! $strBrige !!}><img
                                         src="{{ asset('/assets/images/trending_icon.png') }}"
                                         alt="{{ $arrStreamsData['stream_title'] }}"></div>
+                                @if (($arrStreamsData['is_newly_added'] ?? 'N') === 'Y')
+                                    <div class="newly-added-label">
+                                        <span>New Episode</span>
+                                        <span>Watch Now</span>
+                                    </div>
+                                @endif
                                 <img src="{{ $arrStreamsData['stream_poster'] }}"
                                     alt="{{ $arrStreamsData['stream_title'] }}">
                                 <div class="detail_box_hide">
