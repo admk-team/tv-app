@@ -110,6 +110,11 @@
                                                         src="{{ url('/') }}/assets/images/trending_icon.png"
                                                         alt="Trending">
                                                 </div>
+                                                @if (($stream->is_newly_added ?? 'N') === 'Y')
+                                                    <div class="newly-added-label">
+                                                        <span>New Episode</span>
+                                                    </div>
+                                                @endif
                                                 <div class="{{ $cardThumbCls }}">
                                                     <img src="{{ $stream->{$streamPosterKey} }}"
                                                         alt="{{ $stream->stream_title }}">

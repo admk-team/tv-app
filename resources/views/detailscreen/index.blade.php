@@ -590,7 +590,6 @@
                                         @if (($arrStreamsData['is_newly_added'] ?? 'N') === 'Y')
                                             <div class="newly-added-label">
                                                 <span>New Episode</span>
-                                                <span>Watch Now</span>
                                             </div>
                                         @endif
                                         <img onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'"
