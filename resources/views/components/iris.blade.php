@@ -28,20 +28,22 @@
             --slidercardCatColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardCatColor }};
             --cardDesColor: {{ \App\Services\AppConfig::get()->app->website_colors->cardDesColor }};
         }
-
-        @if (isset($data->app->landingpages))
+    </style>
+    @if (isset($data->app->landingpages))
         @foreach ($data->app->landingpages as $page)
             @if ($page->page_type === 'Iris' && $page->section_type === 'banner' && $page->status === 1)
                 @if ($page->image)
-                    .wrapper {
-                        background-image: linear-gradient(rgba(4, 9, 30, 0.4), rgba(4, 9, 30, 0.4)),
-                            url({{ asset($page->image) }});
-                    }
+                    <style>
+                        .wrapper {
+                            background-image: linear-gradient(rgba(4, 9, 30, 0.4), rgba(4, 9, 30, 0.4)),
+                                url({{ asset($page->image) }});
+                        }
+                    </style>
                 @endif
             @endif
         @endforeach
     @endif
-    </style>
+
 </head>
 
 <body>
@@ -53,8 +55,8 @@
                     <a href="/home">
                         <img src="{{ $data->app->app_info->website_logo ?? '' }}" alt="Logo">
                     </a>
-                    <a href="/home?browse=true"
-                            class="browse text-decoration-none text-white border-2">Browse Content</a>
+                    <a href="/home?browse=true" class="browse text-decoration-none text-white border-2">Browse
+                        Content</a>
                 </li>
                 <div class="d-flex gap-3">
                     <li class="list-unstyled"><a href="/login"
@@ -92,14 +94,16 @@
                             <a href="/signup" class="text-decoration-none text-white custom-button">Get Started</a>
 
                             <div class="menu">
-                                <ul class="d-flex align-items-center justify-content-center gap-2 flex-wrap gap-3 gap-md-2 ps-0">
+                                <ul
+                                    class="d-flex align-items-center justify-content-center gap-2 flex-wrap gap-3 gap-md-2 ps-0">
                                     @if (isset($data->app->categories))
                                         @php $count = 0; @endphp
                                         @foreach ($data->app->categories ?? [] as $category)
                                             @if (!empty($category->streams) && !empty($category->cat_title))
                                                 @if ($count < 5)
                                                     <!-- Check if count is less than 10 -->
-                                                    <li id="{{ $category->cat_guid ?? '' }}" class="list-unstyled category-slide-btns"><a
+                                                    <li id="{{ $category->cat_guid ?? '' }}"
+                                                        class="list-unstyled category-slide-btns"><a
                                                             href="javascript:void(0)"
                                                             class="text-decoration-none text-white custom-button {{ $count === 0 ? 'active' : '' }}">{{ $category->cat_title ?? '' }}</a>
                                                     </li>
@@ -118,7 +122,7 @@
                                 @foreach ($data->app->categories ?? [] as $category)
                                     @if (!empty($category->streams) && !empty($category->cat_title))
                                         @if ($count < 5)
-                                            <div class="mySlides" style="{{ $count !== 0? 'display: none;': '' }}">
+                                            <div class="mySlides" style="{{ $count !== 0 ? 'display: none;' : '' }}">
                                                 @foreach ($category->streams as $index => $stream)
                                                     @if ($index < 5)
                                                         <img src="{{ $stream->stream_poster }}"
@@ -140,29 +144,33 @@
             @endif
             @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
                 @if (!empty($page->appstore_link) || !empty($page->playstore_link))
-                    <div class="download__apps d-flex align-items-center justify-content-around py-4 flex-wrap flex-md-nowrap">
+                    <div
+                        class="download__apps d-flex align-items-center justify-content-around py-4 flex-wrap flex-md-nowrap">
                         <div>
                             @php
-                            if ($page->title) {
-                                $words = explode(" ", $page->title);
-                                $lastWord = end($words);
-                                array_pop($words);
-                                $words = implode(" ", $words);
-                            }
+                                if ($page->title) {
+                                    $words = explode(' ', $page->title);
+                                    $lastWord = end($words);
+                                    array_pop($words);
+                                    $words = implode(' ', $words);
+                                }
                             @endphp
-                            <h4 class="text-nowrap">{{ $words?? '' }} <span>{{ $lastWord?? '' }}</span></h4>
+                            <h4 class="text-nowrap">{{ $words ?? '' }} <span>{{ $lastWord ?? '' }}</span>
+                            </h4>
                         </div>
                         <div class="apps__links d-flex align-items-center justify-content-center gap-3">
                             @if (!empty($page->playstore_link))
                                 <div>
-                                    <a href="{{ $page->playstore_link ?? '' }}"><img src="{{ asset('assets/landing_theme_assets/iris/images/play.png') }}" alt=""
-                                        srcset=""></a>
+                                    <a href="{{ $page->playstore_link ?? '' }}"><img
+                                            src="{{ asset('assets/landing_theme_assets/iris/images/play.png') }}"
+                                            alt="" srcset=""></a>
                                 </div>
                             @endif
                             @if (!empty($page->appstore_link))
                                 <div>
-                                    <a href="{{ $page->appstore_link ?? '' }}"><img src="{{ asset('assets/landing_theme_assets/iris/images/apple.png') }}" alt=""
-                                    srcset=""></a>
+                                    <a href="{{ $page->appstore_link ?? '' }}"><img
+                                            src="{{ asset('assets/landing_theme_assets/iris/images/apple.png') }}"
+                                            alt="" srcset=""></a>
                                 </div>
                             @endif
                         </div>
@@ -178,10 +186,37 @@
 <section class="content-wrapper text-white">
 <!-- Devices Section  -->
 <div class="devices__section">
-    @if (isset($data->app->landingpages))
-        @foreach ($data->app->landingpages as $page)
-            @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
-                <h1 class="poppins-bold">
+@if (isset($data->app->landingpages))
+    @foreach ($data->app->landingpages as $page)
+        @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+            <h1 class="poppins-bold">
+                @if (isset($page->title))
+                    @php
+                        $titleWords = explode(' ', $page->title);
+                        $firstWord = $titleWords[0] ?? '';
+                        $secondWord = $titleWords[1] ?? '';
+                        $thirdWord = $titleWords[2] ?? '';
+                        $fourthWord = $titleWords[3] ?? '';
+                        $fifthhWord = $titleWords[4] ?? '';
+                        $sixthWord = $titleWords[5] ?? '';
+                        $remainingWords = implode(' ', array_slice($titleWords, 6)); // Concatenate remaining words
+                    @endphp
+                    {{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}
+                    {{ $fourthWord }} <span>{{ $fifthhWord }} {{ $sixthWord }} </span>
+                    {{ $remainingWords }}
+                @else
+                @endif
+            </h1>
+            <div class="icons d-flex align-items-center justify-content-between">
+                <div class="w-100 active tv_icon"><i class="fa-solid fa-tv"></i></div>
+                <div class="w-100 tb_icon"><i class="fa-solid fa-tablet-screen-button"></i></div>
+                <div class="w-100 desktop_icon"><i class="fa-solid fa-desktop"></i></div>
+            </div>
+        @endif
+
+        @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+            <div class="tv_images">
+                <h2 class="poppins-semibold">
                     @if (isset($page->title))
                         @php
                             $titleWords = explode(' ', $page->title);
@@ -189,162 +224,144 @@
                             $secondWord = $titleWords[1] ?? '';
                             $thirdWord = $titleWords[2] ?? '';
                             $fourthWord = $titleWords[3] ?? '';
-                            $fifthhWord = $titleWords[4] ?? '';
-                            $sixthWord = $titleWords[5] ?? '';
-                            $remainingWords = implode(' ', array_slice($titleWords, 6)); // Concatenate remaining words
+                            $remainingWords = implode(' ', array_slice($titleWords, 4)); // Concatenate remaining words
                         @endphp
-                        {{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}
-                        {{ $fourthWord }} <span>{{ $fifthhWord }} {{ $sixthWord }} </span>
-                        {{ $remainingWords }}
+                        {{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}<span>
+                            {{ $fourthWord }}</span> {{ $remainingWords }}
                     @else
                     @endif
-                </h1>
-                <div class="icons d-flex align-items-center justify-content-between">
-                    <div class="w-100 active tv_icon"><i class="fa-solid fa-tv"></i></div>
-                    <div class="w-100 tb_icon"><i class="fa-solid fa-tablet-screen-button"></i></div>
-                    <div class="w-100 desktop_icon"><i class="fa-solid fa-desktop"></i></div>
-                </div>
-            @endif
-            
-            @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
-                <div class="tv_images">
-                    <h2 class="poppins-semibold">
-                        @if (isset($page->title))
-                            @php
-                                $titleWords = explode(' ', $page->title);
-                                $firstWord = $titleWords[0] ?? '';
-                                $secondWord = $titleWords[1] ?? '';
-                                $thirdWord = $titleWords[2] ?? '';
-                                $fourthWord = $titleWords[3] ?? '';
-                                $remainingWords = implode(' ', array_slice($titleWords, 4)); // Concatenate remaining words
-                            @endphp
-                            {{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}<span>
-                                {{ $fourthWord }}</span> {{ $remainingWords }}
-                        @else
-                        @endif
-                    </h2>
-                    <p class="poppins-regular mb-5">{{ $page->description ?? '' }}</p>
-                    <div class="device__images py-4">
-                        <img src="{{ $page->image }}" alt=""
-                            srcset="">
-                    </div>
-                </div>
-            @endif
-
-            @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 4)
-                <div class="tv_images d-none">
-                    <h2 class="poppins-semibold">
-                        @if (isset($page->title))
-                            @php
-                                $titleWords = explode(' ', $page->title);
-                                $firstWord = $titleWords[0] ?? '';
-                                $secondWord = $titleWords[1] ?? '';
-                                $thirdWord = $titleWords[2] ?? '';
-                                $fourthWord = $titleWords[3] ?? '';
-                                $remainingWords = implode(' ', array_slice($titleWords, 4)); // Concatenate remaining words
-                            @endphp
-                            {{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}<span>
-                                {{ $fourthWord }}</span> {{ $remainingWords }}
-                        @else
-                        @endif
-                    </h2>
-                    <p class="poppins-regular mb-5">{{ $page->description ?? '' }}</p>
-                    <div class="device__images py-4">
-                        <img src="{{ $page->image }}" alt=""
-                            srcset="">
-                    </div>
-                </div>
-            @endif
-            
-            @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 5)
-                <div class="tv_images d-none">
-                    <h2 class="poppins-semibold">
-                        @if (isset($page->title))
-                            @php
-                                $titleWords = explode(' ', $page->title);
-                                $firstWord = $titleWords[0] ?? '';
-                                $secondWord = $titleWords[1] ?? '';
-                                $thirdWord = $titleWords[2] ?? '';
-                                $fourthWord = $titleWords[3] ?? '';
-                                $remainingWords = implode(' ', array_slice($titleWords, 4)); // Concatenate remaining words
-                            @endphp
-                            {{ $firstWord }} {{ $secondWord }} {{ $thirdWord }} <span>
-                                {{ $fourthWord }}</span> {{ $remainingWords }}
-                        @else
-                        @endif
-                    </h2>
-                    <p class="poppins-regular mb-5">{{ $page->description ?? '' }}</p>
-                    <div class="device__images py-4">
-                        <img src="{{ $page->image }}" alt=""
-                            srcset="">
-                    </div>
-                </div>
-            @endif
-        @endforeach
-    @endif
-</div>
-@if (isset($data->app->landingpages))
-    @foreach ($data->app->landingpages as $page)
-        @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 6)
-            <!-- Watch Now Section  -->
-            <div class="d-flex align-items-center justify-content-around channels my-4 flex-column flex-md-row">
-                <div class="text-white">
-                    <h4>{{ $page->title ?? '' }}</h4>
-                </div>
-                <div class="d-flex align-items-center justify-content-center tv__channels">
-                    @foreach (explode(',', $page->icon) as $iconUrl)
-                        <div><img src="{{ $iconUrl }}" alt=""
-                                srcset=""></div>
-                    @endforeach
+                </h2>
+                <p class="poppins-regular mb-5">{{ $page->description ?? '' }}</p>
+                <div class="device__images py-4">
+                    <img src="{{ $page->image }}" alt="" srcset="">
                 </div>
             </div>
+        @endif
 
-            <!-- Download Button  -->
-            <div class="download__button">
-            <a href="/download-apps" class="text-decoration-none text-white custom-button active">Download Now</a>
+        @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 4)
+            <div class="tv_images d-none">
+                <h2 class="poppins-semibold">
+                    @if (isset($page->title))
+                        @php
+                            $titleWords = explode(' ', $page->title);
+                            $firstWord = $titleWords[0] ?? '';
+                            $secondWord = $titleWords[1] ?? '';
+                            $thirdWord = $titleWords[2] ?? '';
+                            $fourthWord = $titleWords[3] ?? '';
+                            $remainingWords = implode(' ', array_slice($titleWords, 4)); // Concatenate remaining words
+                        @endphp
+                        {{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}<span>
+                            {{ $fourthWord }}</span> {{ $remainingWords }}
+                    @else
+                    @endif
+                </h2>
+                <p class="poppins-regular mb-5">{{ $page->description ?? '' }}</p>
+                <div class="device__images py-4">
+                    <img src="{{ $page->image }}" alt="" srcset="">
+                </div>
+            </div>
+        @endif
+
+        @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 5)
+            <div class="tv_images d-none">
+                <h2 class="poppins-semibold">
+                    @if (isset($page->title))
+                        @php
+                            $titleWords = explode(' ', $page->title);
+                            $firstWord = $titleWords[0] ?? '';
+                            $secondWord = $titleWords[1] ?? '';
+                            $thirdWord = $titleWords[2] ?? '';
+                            $fourthWord = $titleWords[3] ?? '';
+                            $remainingWords = implode(' ', array_slice($titleWords, 4)); // Concatenate remaining words
+                        @endphp
+                        {{ $firstWord }} {{ $secondWord }} {{ $thirdWord }} <span>
+                            {{ $fourthWord }}</span> {{ $remainingWords }}
+                    @else
+                    @endif
+                </h2>
+                <p class="poppins-regular mb-5">{{ $page->description ?? '' }}</p>
+                <div class="device__images py-4">
+                    <img src="{{ $page->image }}" alt="" srcset="">
+                </div>
             </div>
         @endif
     @endforeach
 @endif
-</section>
+</div>
+@if (isset($data->app->landingpages))
+@foreach ($data->app->landingpages as $page)
+    @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 6)
+        <!-- Watch Now Section  -->
+        <div class="d-flex align-items-center justify-content-around channels my-4 flex-column flex-md-row">
+            <div class="text-white">
+                <h4>{{ $page->title ?? '' }}</h4>
+            </div>
+            <div class="d-flex align-items-center justify-content-center tv__channels">
+                @foreach (explode(',', $page->icon) as $iconUrl)
+                    <div><img src="{{ $iconUrl }}" alt="" srcset=""></div>
+                @endforeach
+            </div>
+        </div>
 
+        <!-- Download Button  -->
+        <div class="download__button">
+            <a href="/download-apps" class="text-decoration-none text-white custom-button active">Download
+                Now</a>
+        </div>
+    @endif
+@endforeach
+@endif
+</section>
 <footer>
-<div class="row">
-<div class="col-md-3 mb-3">
-    <a href="/home">
-        <img class="img-fluid mb-4" src="{{ $data->app->app_info->website_logo ?? '' }}"
-        alt="" srcset="" width="150px">
-    </a>
-    <p class="p-0 m-0 text-white">Powered By</p>
-    <p class="p-0 m-0 text-white">{{ $data->app->app_info->app_name ?? '' }}</p>
-</div>
-<div class="col-md-3 ">
-    <h5 class="mb-4"><span>GET</span> TO KNOW US</h5>
-    <ul class="d-flex align-items-start flex-column list-unstyled">
-        @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-            @if ($page->displayOn === 'F' || $page->displayOn === 'B')
-                <li><a href="/page/{{ $page->page_slug }}" class="text-decoration-none text-white lh-lg">{{ $page->page_title }}</a></li>
-            @endif
-        @endforeach
-    </ul>
-</div>
-<div class="col-md-3">
-    <h5 class="mb-4"><span>TOP</span> CATEGORIES</h5>
-    <ul class="d-flex align-items-start flex-column list-unstyled ">
-        @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
-            <li><a href="{{ route('category', $category->cat_guid) }}" class="text-decoration-none text-white lh-lg">{{ $category->cat_title }}</a></li>
-        @endforeach
-    </ul>
-</div>
-<div class="col-md-3">
-    <h5 class="mb-4"><span>LET US</span> HELP YOU</h5>
-    <ul class="d-flex align-items-start flex-column list-unstyled ">
-        <li><a href="/login" class="text-decoration-none text-white lh-lg">Login</a></li>
-        <li><a href="/signup" class="text-decoration-none text-white lh-lg">Register</a></li>
-        <li><a href="/download-apps" class="text-decoration-none text-white lh-lg">Register</a></li>
-    </ul>
-</div>
-</div>
+    <div class="row mt-5">
+        <div class="col-md-3 mb-3">
+            <a href="/home">
+                <img class="img-fluid mb-4" src="{{ $data->app->app_info->website_logo ?? '' }}" alt=""
+                    srcset="" width="150px">
+            </a>
+            <p class="p-0 m-0 text-white">Powered By</p>
+            <p class="p-0 m-0 text-white">{{ $data->app->app_info->app_name ?? '' }}</p>
+        </div>
+        <div class="col-md-3 ">
+            <h5 class="mb-4"><span>GET</span> TO KNOW US</h5>
+            <ul class="d-flex align-items-start flex-column list-unstyled">
+                @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
+                    @if ($page->displayOn === 'F' || $page->displayOn === 'B')
+                        <li><a href="/page/{{ $page->page_slug }}"
+                                class="text-decoration-none text-white lh-lg">{{ $page->page_title }}</a></li>
+                    @endif
+                @endforeach
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <h5 class="mb-4"><span>TOP</span> CATEGORIES</h5>
+            <ul class="d-flex align-items-start flex-column list-unstyled ">
+                @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
+                    <li><a href="{{ route('category', $category->cat_guid) }}"
+                            class="text-decoration-none text-white lh-lg">{{ $category->cat_title }}</a></li>
+                @endforeach
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <h5 class="mb-4"><span>LET US</span> HELP YOU</h5>
+            <ul class="d-flex align-items-start flex-column list-unstyled ">
+                <li><a href="/login" class="text-decoration-none text-white lh-lg">Login</a></li>
+                <li><a href="/signup" class="text-decoration-none text-white lh-lg">Register</a></li>
+                <li><a href="/download-apps" class="text-decoration-none text-white lh-lg">Download Apps</a></li>
+            </ul>
+        </div>
+        
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="footer_rights">
+                    <span class="copyright">© {{ \App\Services\AppConfig::get()->app->app_info->app_name }}</span>
+                    {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED.
+                </div>
+            </div>
+        </div>
+    </div>
 </footer>
 
 <script>
@@ -389,7 +406,7 @@
     });
 
 
-    (function () {
+    (function() {
         const slideBtns = document.querySelectorAll('.category-slide-btns');
         const slides = document.querySelectorAll('.mySlides');
         slideBtns.forEach((btn, btnIndex) => {
@@ -397,8 +414,7 @@
                 slides.forEach((slide, slideIndex) => {
                     if (slideIndex === btnIndex) {
                         slide.style.display = "block";
-                    }
-                    else {
+                    } else {
                         slide.style.display = "none";
                     }
                 });
@@ -413,8 +429,7 @@
                 if (activeImg.nextElementSibling) {
                     activeImg.classList.remove('active');
                     activeImg.nextElementSibling.classList.add('active');
-                }
-                else {
+                } else {
                     activeImg.classList.remove('active');
                     firstImg.classList.add('active');
                 }

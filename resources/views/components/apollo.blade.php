@@ -318,47 +318,57 @@
 @endif
 <!-- END: CTA Section -->
 <!-- start: footer Section -->
-<div class="container m-auto footer">
-<div class="row g-2 text-white ">
-<div class="col-md-3">
-    <div class="mb-3"> <a href="/home" class="text-decoration-none"><img
-                src="{{ $data->app->app_info->website_logo ?? '' }}" alt="Logo" width="130px"></a>
+<footer>
+    <div class="row mt-5">
+        <div class="col-md-3 mb-3">
+            <a href="/home">
+                <img class="img-fluid mb-4" src="{{ $data->app->app_info->website_logo ?? '' }}" alt=""
+                    srcset="" width="150px">
+            </a>
+            <p class="p-0 m-0 text-white">Powered By</p>
+            <p class="p-0 m-0 text-white">{{ $data->app->app_info->app_name ?? '' }}</p>
+        </div>
+        <div class="col-md-3 ">
+            <h5 class="mb-4"><span>GET</span> TO KNOW US</h5>
+            <ul class="d-flex align-items-start flex-column list-unstyled">
+                @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
+                    @if ($page->displayOn === 'F' || $page->displayOn === 'B')
+                        <li><a href="/page/{{ $page->page_slug }}"
+                                class="text-decoration-none text-white lh-lg">{{ $page->page_title }}</a></li>
+                    @endif
+                @endforeach
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <h5 class="mb-4"><span>TOP</span> CATEGORIES</h5>
+            <ul class="d-flex align-items-start flex-column list-unstyled ">
+                @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
+                    <li><a href="{{ route('category', $category->cat_guid) }}"
+                            class="text-decoration-none text-white lh-lg">{{ $category->cat_title }}</a></li>
+                @endforeach
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <h5 class="mb-4"><span>LET US</span> HELP YOU</h5>
+            <ul class="d-flex align-items-start flex-column list-unstyled ">
+                <li><a href="/login" class="text-decoration-none text-white lh-lg">Login</a></li>
+                <li><a href="/signup" class="text-decoration-none text-white lh-lg">Register</a></li>
+                <li><a href="/download-apps" class="text-decoration-none text-white lh-lg">Download Apps</a></li>
+            </ul>
+        </div>
+        
     </div>
-    <p><b>Powered By</b> {{ $data->app->app_info->app_name ?? '' }}</p>
-</div>
-<div class="col-md-3">
-    <h5 class="mb-4">GET TO KNOW US</h5>
-    <ul class="d-flex align-items-start flex-column list-unstyled">
-
-        @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-            @if ($page->displayOn === 'F' || $page->displayOn === 'B')
-                <li><a href="/page/{{ $page->page_slug }}"
-                        class="text-decoration-none text-white lh-lg">{{ $page->page_title }}</a></li>
-            @endif
-        @endforeach
-    </ul>
-</div>
-<div class="col-md-3">
-    <h5 class="mb-4">TOP CATEGORIES</h5>
-    <ul class="d-flex align-items-start flex-column list-unstyled ">
-        @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
-            <li><a href="{{ route('category', $category->cat_guid) }}"
-                    class="text-decoration-none text-white lh-lg">{{ $category->cat_title }}</a></li>
-        @endforeach
-
-    </ul>
-</div>
-<div class="col-md-3">
-    <h5 class="mb-4">LET US HELP YOU</h5>
-    <ul class="d-flex align-items-start flex-column list-unstyled ">
-        <li><a href="/login" class="text-decoration-none text-white lh-lg">Login</a></li>
-        <li><a href="/signup" class="text-decoration-none text-white lh-lg">Register</a></li>
-        <li><a href="/download-apps" class="text-decoration-none text-white lh-lg">Download Apps</a>
-        </li>
-    </ul>
-</div>
-</div>
-</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="footer_rights">
+                    <span class="copyright">© {{ \App\Services\AppConfig::get()->app->app_info->app_name }}</span>
+                    {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED.
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 <!-- end: footer Section -->
 @include('components.includes.script1')
 <script>
