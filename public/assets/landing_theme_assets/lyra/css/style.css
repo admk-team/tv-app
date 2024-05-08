@@ -1,5 +1,5 @@
 :root {
-    --primary-color:#D80F2F;
+    --primary-color: var(--themeActiveColor);
 }
 
 body {
@@ -140,13 +140,13 @@ body {
     max-width: 387px;
 }
 .membership_dec span{
-color: #D80F2F;
+color: var(--primary-color);
 }
 .membership {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 40px;
     /* padding: 6px 6px; */
-    border: 0.5px solid #D80F2F;
+    border: 0.5px solid var(--primary-color);
     text-wrap: nowrap;
 }
 .membership input {
@@ -160,7 +160,7 @@ color: #D80F2F;
    
 }
 .custom__button {
-    background-color: #D80F2F;
+    background-color: var(--primary-color);
     font-size: 15px;
     padding-block: 0.4rem;
     padding-inline: 1.6rem;
@@ -182,7 +182,7 @@ color: #D80F2F;
 
 .apps__links img {
     width: 120px;
-    border: 1px solid #D80F2F;
+    border: 1px solid var(--primary-color);
     border-radius: 40px;
     padding-inline: 0.rem;
     padding-block: 0.1rem;
@@ -208,7 +208,7 @@ color: #D80F2F;
     font-weight: 700;
 }
 .sec-video h1 span {
-    color: #D80F2F;
+    color: var(--primary-color);
 }
 
 
@@ -232,11 +232,11 @@ color: #D80F2F;
     font-weight: 700;
 }
 .sec-device h1 span {
-    color: #D80F2F;
+    color: var(--primary-color);
 }
 .tab-btns{
     border-top-right-radius: 20px;
-    background: #D80F2F;
+    background: var(--primary-color);
     border-top-left-radius: 20px;
 }
 .tab-btns>div>span {
