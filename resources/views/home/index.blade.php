@@ -34,8 +34,10 @@
                     @include('components.theo')
                 @elseif ($data->app->app_info->landing_theme == 'Iris')
                     @include('components.iris')
-                    @elseif ($data->app->app_info->landing_theme == 'Apollo')
+                @elseif ($data->app->app_info->landing_theme == 'Apollo')
                     @include('components.apollo')
+                    @elseif ($data->app->app_info->landing_theme == 'lyra')
+                    @include('components.lyra')
                 @elseif ($data->app->app_info->landing_theme == 'NRE')
                     <x-layouts.app :appInfo="$data->app->app_info">
                         @include('components.page-banner')
