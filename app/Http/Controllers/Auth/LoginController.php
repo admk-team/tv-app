@@ -34,17 +34,23 @@ class LoginController extends Controller
         $matchedBrowser = "Unknown";
 
         // Detect browsers
-        if (strpos($userAgent, 'Chrome') !== false) {
+        if (strpos($userAgent, 'Edge') !== false) {
+            // New Edge based on Chromium
+            $matchedBrowser = "Microsoft Edge (Chromium)";
+        } elseif (strpos($userAgent, 'Edg') !== false) {
+            // Legacy Edge
+            $matchedBrowser = "Microsoft Edge (Legacy)";
+        } elseif (strpos($userAgent, 'Chrome') !== false) {
             $matchedBrowser = "Chrome";
         } elseif (strpos($userAgent, 'Firefox') !== false) {
             $matchedBrowser = "Firefox";
-        } elseif (strpos($userAgent, 'Safari') !== false) {
+        } elseif (strpos($userAgent, 'Safari') !== false && strpos($userAgent, 'Chrome') === false) {
+            // Ensure it's not Chrome disguised as Safari
             $matchedBrowser = "Safari";
-        } elseif (strpos($userAgent, 'Edge') !== false) {
-            $matchedBrowser = "Microsoft Edge";
         } elseif (strpos($userAgent, 'MSIE') !== false || strpos($userAgent, 'Trident/') !== false) {
             $matchedBrowser = "Internet Explorer";
         }
+
 
         // Output the information
         // echo "Is Mobile: " . ($isMobile ? 'Yes' : 'No') . "<br>";
