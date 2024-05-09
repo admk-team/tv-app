@@ -7639,3 +7639,13 @@ ul.dropsmenubox li a.dropdown-item:hover {
     text-align: center;
     padding: 2rem 0;
 }
+
+.trail-redirect-message {
+    background-color: var(--themeActiveColor);
+    color: var(--themePrimaryTxtColor);
+    max-width: 1000.89px;
+    margin: 1rem auto;
+    padding: .8rem 1.2rem;
+    font-weight: 600;
+    border-radius: 2px;
+}

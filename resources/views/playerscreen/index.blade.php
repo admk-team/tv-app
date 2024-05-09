@@ -32,18 +32,27 @@
         session('REDIRECT_TO_SCREEN', url('/playerscreen/' . $streamGuid));
         \App\Helpers\GeneralHelper::headerRedirect(url('/signin'));
     }
+
     //monetioztion
+    $redirectUrl = null;
+    $redirectDelay = 1;
+    if (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE']) {
+        session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
+        session()->save();
+        $redirectUrl = route('login');
+    }
     $sharingURL = route('playerscreen', $streamGuid);
     $isBuyed = $arrSlctItemData['is_buyed'];
     $monetizationType = $arrSlctItemData['monetization_type'];
-    if ($monetizationType != 'F' && $isBuyed == 'N') {
+    if ($monetizationType != 'F' && $isBuyed == 'N' && !$redirectUrl) {
         session()->forget('coupon_applied'); // Remove old
         session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
-        if (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE']) {
-            session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
-            session()->save();
-            \Illuminate\Support\Facades\Redirect::to(route('login'))->send();
-        } elseif ($monetizationType == 'S') {
+        // if (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE']) {
+        //     session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
+        //     session()->save();
+        //     \Illuminate\Support\Facades\Redirect::to(route('login'))->send();
+        // }
+        if ($monetizationType == 'S') {
             $sArr['REQUEST_FROM'] = 'player';
             session(['MONETIZATION' => $sArr]);
             session()->save();
@@ -130,7 +139,7 @@
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
     $adMacros = $adUrl."&width=1920&height=1080&cb=$cb&".(!$isLocalHost? "uip=$userIP&": "")."device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
-    $dataVast = "data-vast='$adMacros'";
+    $dataVast = "data-vasts='$adMacros'";
 
     if ($isMobileBrowser == 1 || $adUrl == '')
     {
@@ -145,6 +154,7 @@
     }
 
     $watermark = $arrSlctItemData['watermark'] ?? null;
+
     ?>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
@@ -397,7 +407,7 @@
                     </section>
                     <?php else: ?>
 
-
+                    <div class="trail-redirect-message d-none">You will be redirected to login in <span class="time">45 second</span></div>
                     <div class="videocentalize">
                         @if ($watermark)
                             <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}" style="display: none;">
@@ -882,7 +892,13 @@ if (!empty($arrCatData))
                 // return true; // Prime number
             }
 
-
+            @if ($redirectUrl)
+                const trial = getTrial();
+                trial.onRedirect(() => {
+                    player.pauseMedia();
+                    window.location.href = '{{ $redirectUrl }}';
+                })
+            @endif
 
             var isFirstTIme = true
             player.addEventListener('mediaStart', function(data) {
@@ -910,8 +926,13 @@ if (!empty($arrCatData))
                 }
             });
 
-            player.addEventListener("mediaPause", function(data) {
+            player.addEventListener("mediaPlay", function(data) {
+                @if ($redirectUrl)
+                    trial.start();
+                @endif
+            });
 
+            player.addEventListener("mediaPause", function(data) {
                 //alert(data.instance.getCurrentTime());
                 //get media duration
                 //alert(data.instance.getDuration());
@@ -919,6 +940,9 @@ if (!empty($arrCatData))
                 sendAjaxRes4VideoDuration('saveStrmDur', data.media.mediaId, data.instance
                     .getCurrentTime());
 
+                @if ($redirectUrl)
+                    trial.pause();
+                @endif
             });
 
             player.addEventListener("mediaEnd", function(data) {
@@ -987,4 +1011,58 @@ if (!empty($arrCatData))
             }
         }
     </script>
+
+    @if ($redirectUrl)
+        <script>
+            // Trial
+            function getTrial() {
+                let redirectCallback = () => {};
+
+                const onRedirect = (callback) => redirectCallback = callback;
+
+                let displayCountDown = 30;
+                let countDownInterval = null;
+                const displayCountDownMessage = () => {
+                    const messageBox = document.querySelector('.trail-redirect-message');
+                    const messageTime = messageBox.querySelector('.time');
+                    messageTime.textContent = `${displayCountDown} second${displayCountDown > 1? 's': ''}`;
+                    messageBox.classList.remove('d-none');
+
+                    countDownInterval = setInterval(() => {
+                        --displayCountDown;
+                        console.log("After countdonwn", displayCountDown);
+                        messageTime.textContent = `${displayCountDown} second${displayCountDown > 1? 's': ''}`;
+                        if (displayCountDown === 0) clearInterval(countDownInterval);
+                    }, 1000);
+                };
+
+                let duration = {{ $redirectDelay }} * 60000;
+                let redirectTimeout = null;
+                let messageDisplayTimeout = null;
+                let startTime = null;
+
+                const start = () => {
+                    startTime = new Date();
+                    redirectTimeout = setTimeout(redirectCallback, duration);
+                    const messageDisplayDelay = duration - 30000;
+                    messageDisplayTimeout = setTimeout(displayCountDownMessage, messageDisplayDelay >= 0? messageDisplayDelay: 0);
+                };
+
+                const pause = () => {
+                    if (redirectTimeout) clearTimeout(redirectTimeout);
+                    if (messageDisplayTimeout) clearTimeout(messageDisplayTimeout);
+                    if (countDownInterval) clearInterval(countDownInterval);
+
+                    const currentTime = new Date();
+                    duration = duration - (currentTime.getTime() - startTime.getTime());
+                };
+
+                return {
+                    start,
+                    pause,
+                    onRedirect,
+                };
+            }
+        </script>
+    @endif
 @endpush
