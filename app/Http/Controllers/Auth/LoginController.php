@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Services\Api;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
-use App\Services\Api;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
@@ -21,6 +22,7 @@ class LoginController extends Controller
         $finalresultDevice = null;
         // Get the user agent string
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        Log::info($userAgent);
 
         // Check if the user agent indicates a mobile device
         $isMobile = (bool)preg_match('/Mobile|Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i', $userAgent);
