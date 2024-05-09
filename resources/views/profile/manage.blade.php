@@ -19,7 +19,7 @@
                 <h1>Manage Profiles</h1>
             </div>
             <div class="d-flex flex-column" style="margin-top:50px; margin-left: 200px; margin-bottom:200px">
-                @foreach ($user_data['user_profiles'] as $user)
+                @foreach (($user_data['user_profiles'] ?? []) as $user)
                     <div class="row" style="margin: 20px;">
                         <div>
                             <h4>Profile Name: </h4>
@@ -32,7 +32,7 @@
                                 @csrf
                                 <select name="content_rating[]" class="form-control app_code_select"
                                     id="{{ $user['id'] }}_content_rating" multiple="multiple" style="width:465px">
-                                    @foreach ($user_data['all_ratings'] as $rating)
+                                    @foreach (($user_data['all_ratings'] ?? []) as $rating)
                                         @php
                                             $selected = collect(old('content_rating'))->contains($rating['title']) || (isset($rating['code']) && in_array($rating['code'], explode(',', $user['content_rating']))) ? 'selected' : '';
                                         @endphp
