@@ -35,8 +35,7 @@
 
     //monetioztion
     $redirectUrl = null;
-    $redirectDelay = 1;
-    if (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE']) {
+    if ($limitWatchTime === 'yes' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
         session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
         session()->save();
         $redirectUrl = route('login');
@@ -47,12 +46,11 @@
     if ($monetizationType != 'F' && $isBuyed == 'N' && !$redirectUrl) {
         session()->forget('coupon_applied'); // Remove old
         session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
-        // if (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE']) {
-        //     session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
-        //     session()->save();
-        //     \Illuminate\Support\Facades\Redirect::to(route('login'))->send();
-        // }
-        if ($monetizationType == 'S') {
+        if ($limitWatchTime === 'no' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
+            session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
+            session()->save();
+            \Illuminate\Support\Facades\Redirect::to(route('login'))->send();
+        } else if ($monetizationType == 'S') {
             $sArr['REQUEST_FROM'] = 'player';
             session(['MONETIZATION' => $sArr]);
             session()->save();
@@ -139,7 +137,7 @@
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
     $adMacros = $adUrl."&width=1920&height=1080&cb=$cb&".(!$isLocalHost? "uip=$userIP&": "")."device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
-    $dataVast = "data-vasts='$adMacros'";
+    $dataVast = "data-vast='$adMacros'";
 
     if ($isMobileBrowser == 1 || $adUrl == '')
     {
@@ -1036,7 +1034,7 @@ if (!empty($arrCatData))
                     }, 1000);
                 };
 
-                let duration = {{ $redirectDelay }} * 60000;
+                let duration = {{ $watchTimeDuration }} * 60000;
                 let redirectTimeout = null;
                 let messageDisplayTimeout = null;
                 let startTime = null;
