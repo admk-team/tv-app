@@ -21,7 +21,16 @@ class PlayerScreenController extends Controller
             }
             abort(404);
         }
-        return view("playerscreen.index", ['arrRes' => $data, 'streamGuid' => $id]);
+
+        $limitWatchTime = $data['app']['app_info']['limit_watch_time'];
+        $watchTimeDuration = $data['app']['app_info']['watch_time_duration'];
+
+        return view("playerscreen.index", [
+            'arrRes' => $data,
+            'streamGuid' => $id,
+            'limitWatchTime' => $limitWatchTime,
+            'watchTimeDuration' => $watchTimeDuration,
+        ]);
     }
 
     public function checkPassword(Request $request)
