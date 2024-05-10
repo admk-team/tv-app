@@ -17,6 +17,21 @@
             margin: 0;
         }
     </style>
+    @if (isset($data->app->landingpages))
+    @foreach ($data->app->landingpages as $page)
+        @if ($page->page_type === 'Eli' && $page->section_type === 'banner' && $page->status === 1)
+            @if ($page->image)
+            <style>
+                @media(min-width: 768px) {
+                    .a8jOE .m4M3j  {
+                        background-image: url('{{ asset($page->image) }}');
+                    }
+                }
+            </style>
+            @endif
+        @endif
+    @endforeach
+@endif
 @endsection
 
 @section('content')
@@ -111,297 +126,293 @@
                         </div>
                     </div>
                 </nav>
-                @if (isset($data->app->landingpages))
-                    @foreach ($data->app->landingpages as $page)
-                        @if ($page->page_type === 'Eli' && $page->section_type === 'banner' && $page->status === 1)
-                            <div class="a8jOE" style="background-image: url({{ $page->image ?? '' }});">
-                        @endif
-                    @endforeach
-                @endif
-                <div class="m4M3j">
-                    <div class="f1Far">
-                        <div class="MQJzq"></div>
+                <div class="a8jOE">
+                    <div class="m4M3j">
+                        <div class="f1Far">
+                            <div class="MQJzq"></div>
+                            <div class="Container Cu6Nx">
+                                <div class="Row kGgaU">
+                                    @if (isset($data->app->landingpages))
+                                        @foreach ($data->app->landingpages as $page)
+                                            @if ($page->page_type === 'Eli' && $page->section_type === 'banner' && $page->status === 1)
+                                                <div class="Col Col--12 Col--md-12 BfEsx">
+                                                    <h1 class="H1">
+                                                        @php
+                                                            $titleLines = explode('<br />', $page->title ?? '');
+                                                            $lineCount = 0;
+                                                        @endphp
+
+                                                        @foreach ($titleLines as $line)
+                                                            @php
+                                                                $words = explode(' ', $line);
+                                                                $wordCount = count($words);
+                                                                $start = 0;
+                                                                $end = 0;
+                                                            @endphp
+
+                                                            @while ($start < $wordCount)
+                                                                @php
+                                                                    if ($lineCount === 0) {
+                                                                        $end = min($start + 6, $wordCount);
+                                                                    } elseif ($lineCount === 1) {
+                                                                        $end = min($start + 1, $wordCount);
+                                                                    } else {
+                                                                        $end = min($start + 3, $wordCount);
+                                                                    }
+                                                                @endphp
+
+                                                                <span>{{ implode(' ', array_slice($words, $start, $end - $start)) }}</span><br />
+
+                                                                @php
+                                                                    $start = $end;
+                                                                @endphp
+                                                            @endwhile
+
+                                                            @php
+                                                                $lineCount++;
+                                                            @endphp
+                                                        @endforeach
+                                                    </h1>
+                                                    <div class="LLBYg FWbqn">
+                                                        {{ $page->description ?? '' }}
+                                                    </div>
+                                                    <a href="/login">
+                                                        <button class="Button Button--large">
+                                                            <div class="Button__bg"></div>
+                                                            <div class="Button__content">Start Watching</div>
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="CSz1m">
                         <div class="Container Cu6Nx">
-                            <div class="Row kGgaU">
-                                @if (isset($data->app->landingpages))
-                                    @foreach ($data->app->landingpages as $page)
-                                        @if ($page->page_type === 'Eli' && $page->section_type === 'banner' && $page->status === 1)
-                                            <div class="Col Col--12 Col--md-12 BfEsx">
-                                                <h1 class="H1">
-                                                    @php
-                                                        $titleLines = explode('<br />', $page->title ?? '');
-                                                        $lineCount = 0;
-                                                    @endphp
-
-                                                    @foreach ($titleLines as $line)
-                                                        @php
-                                                            $words = explode(' ', $line);
-                                                            $wordCount = count($words);
-                                                            $start = 0;
-                                                            $end = 0;
-                                                        @endphp
-
-                                                        @while ($start < $wordCount)
-                                                            @php
-                                                                if ($lineCount === 0) {
-                                                                    $end = min($start + 6, $wordCount);
-                                                                } elseif ($lineCount === 1) {
-                                                                    $end = min($start + 1, $wordCount);
-                                                                } else {
-                                                                    $end = min($start + 3, $wordCount);
-                                                                }
-                                                            @endphp
-
-                                                            <span>{{ implode(' ', array_slice($words, $start, $end - $start)) }}</span><br />
-
-                                                            @php
-                                                                $start = $end;
-                                                            @endphp
-                                                        @endwhile
-
-                                                        @php
-                                                            $lineCount++;
-                                                        @endphp
+                            @if (isset($data->app->landingpages))
+                                @foreach ($data->app->landingpages as $page)
+                                    @if ($page->page_type === 'Eli' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+                                        <div class="Row BVyG0">
+                                            <div class="Col Col--12 Col--md-8">
+                                                <h2 class="H1"> {{ $page->title ?? '' }}</h2>
+                                            </div>
+                                        </div>
+                                        <div class="Row BVyG0">
+                                            <div class="Col Col--12 Col--md-6">
+                                                <div class="LLBYg l4FB_ FWbqn">
+                                                    {{ $page->description ?? '' }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="Row BVyG0">
+                                            <div class="Col Col--12 Col--sMd-8 Col--md-7 Col--lg-6 Col--xl-4">
+                                                <ul class="ylxZk c9BsI">
+                                                    @foreach (explode(',', $page->icon) as $iconUrl)
+                                                        <li class="fww4G">
+                                                            <img src="{{ $iconUrl }}" class="img-fluid">
+                                                        </li>
                                                     @endforeach
-                                                </h1>
+                                                </ul>
+                                                <div class="BVyG0">
+                                                    <a href="javascript:void(0);">
+                                                        <button
+                                                            class="Button Button--large Button--secondary Button--inverse">
+                                                            <div class="Button__bg"></div>
+                                                            <div class="Button__content">Supported Devices</div>
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endif
+
+                        </div>
+                    </div>
+                    @if (isset($data->app->landingpages))
+                        @foreach ($data->app->landingpages as $page)
+                            @if ($page->page_type === 'Eli' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+                                <div class="ziHOc" style="background-image: url({{ $page->image ?? '' }})">
+                                    <div class="Container
+                                Cu6Nx">
+                                        <div class="Row BVyG0">
+                                            <div class="Col Col--12">
+                                                <h2 class="H1">{{ $page->title ?? '' }}</h2>
+                                            </div>
+                                        </div>
+                                        <div class="Row BVyG0">
+                                            <div class="Col Col--12 Col--md-6">
                                                 <div class="LLBYg FWbqn">
                                                     {{ $page->description ?? '' }}
                                                 </div>
-                                                <a href="/login">
-                                                    <button class="Button Button--large">
-                                                        <div class="Button__bg"></div>
-                                                        <div class="Button__content">Start Watching</div>
-                                                    </button>
-                                                </a>
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="CSz1m">
-                    <div class="Container Cu6Nx">
-                        @if (isset($data->app->landingpages))
-                            @foreach ($data->app->landingpages as $page)
-                                @if ($page->page_type === 'Eli' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
-                                    <div class="Row BVyG0">
-                                        <div class="Col Col--12 Col--md-8">
-                                            <h2 class="H1"> {{ $page->title ?? '' }}</h2>
-                                        </div>
-                                    </div>
-                                    <div class="Row BVyG0">
-                                        <div class="Col Col--12 Col--md-6">
-                                            <div class="LLBYg l4FB_ FWbqn">
-                                                {{ $page->description ?? '' }}
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="Row BVyG0">
-                                        <div class="Col Col--12 Col--sMd-8 Col--md-7 Col--lg-6 Col--xl-4">
-                                            <ul class="ylxZk c9BsI">
-                                                @foreach (explode(',', $page->icon) as $iconUrl)
-                                                    <li class="fww4G">
-                                                        <img src="{{ $iconUrl }}" class="img-fluid">
-                                                    </li>
+                                </div>
+                            @endif
+                        @endforeach
+                    @endif
+                    @if (isset($data->app->landingpages) &&
+                            array_reduce(
+                                $data->app->landingpages,
+                                fn($carry, $item) => $carry || ($item->section_type === 'faq' && $item->page_type === 'Eli'),
+                                false))
+                        <div class="CSz1m">
+                            <div class="Container Cu6Nx">
+                                <div class="Row BVyG0">
+                                    <div class="Col Col--12 Col--md-8">
+                                        <h2 class="H1">Frequently Asked Questions</h2>
+                                    </div>
+                                </div>
+                                <div class="Row BVyG0">
+                                    <div class="Col Col--12 Col--md-6">
+                                        <div class="QQCZW">
+                                            <ul>
+                                                @foreach ($data->app->landingpages as $page)
+                                                    @if ($page->page_type === 'Eli' && $page->section_type === 'faq' && $page->status === 1)
+                                                        <li class="AI3Of">
+                                                            <div class="ECk_t toggle-accordian"> {{ $page->title ?? '' }}
+                                                                <svg class="Z0g3x fnEny"
+                                                                    preserveAspectRatio="xMidYMid meet"
+                                                                    style="fill:currentcolor" viewBox="0 0 26 26"
+                                                                    role="img">
+                                                                    <title>Plus Icon</title>
+                                                                    <path fill="currentColor"
+                                                                        d="M13 .2c.9 0 1.6.7 1.6 1.6v9.6h9.6a1.6 1.6 0 110 3.2h-9.6v9.6a1.6 1.6 0 11-3.2 0v-9.6H1.8a1.6 1.6 0 110-3.2h9.6V1.8c0-.9.7-1.6 1.6-1.6z"
+                                                                        fill-rule="evenodd"></path>
+                                                                </svg>
+                                                            </div>
+                                                            <div class="l1yIj" style="display:none;">
+                                                                {{ $page->description ?? '' }}</div>
+                                                        </li>
+                                                    @endif
                                                 @endforeach
                                             </ul>
-                                            <div class="BVyG0">
-                                                <a href="javascript:void(0);">
-                                                    <button class="Button Button--large Button--secondary Button--inverse">
-                                                        <div class="Button__bg"></div>
-                                                        <div class="Button__content">Supported Devices</div>
-                                                    </button>
-                                                </a>
-                                            </div>
                                         </div>
-                                    </div>
-                                @endif
-                            @endforeach
-                        @endif
-
-                    </div>
-                </div>
-                @if (isset($data->app->landingpages))
-                    @foreach ($data->app->landingpages as $page)
-                        @if ($page->page_type === 'Eli' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
-                            <div class="ziHOc" style="background-image: url({{ $page->image ?? '' }})">
-                                <div class="Container
-                                Cu6Nx">
-                                    <div class="Row BVyG0">
-                                        <div class="Col Col--12">
-                                            <h2 class="H1">{{ $page->title ?? '' }}</h2>
-                                        </div>
-                                    </div>
-                                    <div class="Row BVyG0">
-                                        <div class="Col Col--12 Col--md-6">
-                                            <div class="LLBYg FWbqn">
-                                                {{ $page->description ?? '' }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-                @endif
-                @if (isset($data->app->landingpages) &&
-                        array_reduce(
-                            $data->app->landingpages,
-                            fn($carry, $item) => $carry || ($item->section_type === 'faq' && $item->page_type === 'Eli'),
-                            false))
-                    <div class="CSz1m">
-                        <div class="Container Cu6Nx">
-                            <div class="Row BVyG0">
-                                <div class="Col Col--12 Col--md-8">
-                                    <h2 class="H1">Frequently Asked Questions</h2>
-                                </div>
-                            </div>
-                            <div class="Row BVyG0">
-                                <div class="Col Col--12 Col--md-6">
-                                    <div class="QQCZW">
-                                        <ul>
-                                            @foreach ($data->app->landingpages as $page)
-                                                @if ($page->page_type === 'Eli' && $page->section_type === 'faq' && $page->status === 1)
-                                                    <li class="AI3Of">
-                                                        <div class="ECk_t toggle-accordian"> {{ $page->title ?? '' }}
-                                                            <svg class="Z0g3x fnEny" preserveAspectRatio="xMidYMid meet"
-                                                                style="fill:currentcolor" viewBox="0 0 26 26"
-                                                                role="img">
-                                                                <title>Plus Icon</title>
-                                                                <path fill="currentColor"
-                                                                    d="M13 .2c.9 0 1.6.7 1.6 1.6v9.6h9.6a1.6 1.6 0 110 3.2h-9.6v9.6a1.6 1.6 0 11-3.2 0v-9.6H1.8a1.6 1.6 0 110-3.2h9.6V1.8c0-.9.7-1.6 1.6-1.6z"
-                                                                    fill-rule="evenodd"></path>
-                                                            </svg>
-                                                        </div>
-                                                        <div class="l1yIj" style="display:none;">
-                                                            {{ $page->description ?? '' }}</div>
-                                                    </li>
-                                                @endif
-                                            @endforeach
-                                        </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endif
-                @if (isset($data->app->landingpages))
-                    @foreach ($data->app->landingpages as $page)
-                        @if ($page->page_type === 'Eli' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
-                            <div class="cgg2s">
-                                <div class="Container Cu6Nx">
-                                    <div class="Row kGgaU BVyG0">
-                                        <div class="Col Col--12 Col--md-6 BfEsx">
-                                            <h2>{{ $page->title ?? '' }}</h2>
-                                            <div class="LLBYg moRjH FWbqn">
-                                                {{ $page->description ?? '' }}
+                    @endif
+                    @if (isset($data->app->landingpages))
+                        @foreach ($data->app->landingpages as $page)
+                            @if ($page->page_type === 'Eli' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+                                <div class="cgg2s">
+                                    <div class="Container Cu6Nx">
+                                        <div class="Row kGgaU BVyG0">
+                                            <div class="Col Col--12 Col--md-6 BfEsx">
+                                                <h2>{{ $page->title ?? '' }}</h2>
+                                                <div class="LLBYg moRjH FWbqn">
+                                                    {{ $page->description ?? '' }}
+                                                </div>
+                                                @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
+                                                    <a href="/signup">
+                                                        <button class="Button Button--large Button--secondary">
+                                                            <div class="Button__bg"></div>
+                                                            <div class="Button__content">Register Free</div>
+                                                        </button>
+                                                    </a>
+                                                @endif
                                             </div>
-                                            @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
-                                                <a href="/signup">
-                                                    <button class="Button Button--large Button--secondary">
-                                                        <div class="Button__bg"></div>
-                                                        <div class="Button__content">Register Free</div>
-                                                    </button>
-                                                </a>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endif
-                    @endforeach
-                @endif
+                            @endif
+                        @endforeach
+                    @endif
 
-                <div class="ka_NW">
-                    <!-- Section: Links  -->
-                    <section class="bg-black text-grey p-0">
-                        <div class="container text-center text-md-start pt-1">
-                            <!-- Grid row -->
-                            <div class="row mt-3">
-                                <!-- Grid column -->
-                                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                                    <!-- Links -->
-                                    <h6 class="text-uppercase fw-bold mb-4 text-white">
-                                        Get to Know Us
-                                    </h6>
-                                    @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                                        @if ($page->displayOn === 'F' || $page->displayOn === 'B')
+                    <div class="ka_NW">
+                        <!-- Section: Links  -->
+                        <section class="bg-black text-grey p-0">
+                            <div class="container text-center text-md-start pt-1">
+                                <!-- Grid row -->
+                                <div class="row mt-3">
+                                    <!-- Grid column -->
+                                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                                        <!-- Links -->
+                                        <h6 class="text-uppercase fw-bold mb-4 text-white">
+                                            Get to Know Us
+                                        </h6>
+                                        @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
+                                            @if ($page->displayOn === 'F' || $page->displayOn === 'B')
+                                                <p>
+                                                    <a class="text-reset"
+                                                        href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
+                                                </p>
+                                            @endif
+                                        @endforeach
+
+                                    </div>
+                                    <!-- Grid column -->
+
+                                    <!-- Grid column -->
+                                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                                        <!-- Links -->
+                                        <h6 class="text-uppercase fw-bold mb-4 text-white">
+                                            Top Categories
+                                        </h6>
+                                        @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
                                             <p>
                                                 <a class="text-reset"
-                                                    href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
+                                                    href="{{ route('category', $category->cat_guid) }}">{{ $category->cat_title }}</a>
+                                            </p>
+                                        @endforeach
+                                    </div>
+                                    <!-- Grid column -->
+                                    <!-- Grid column -->
+                                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                                        <!-- Links -->
+                                        <h6 class="text-uppercase fw-bold mb-4 text-white">
+                                            Let Us Help You
+                                        </h6>
+                                        <p>
+                                            <a href="/login" class="text-reset">Login</a>
+                                        </p>
+                                        @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
+                                            <p>
+                                                <a href="/signup" class="text-reset">Register</a>
                                             </p>
                                         @endif
-                                    @endforeach
-
-                                </div>
-                                <!-- Grid column -->
-
-                                <!-- Grid column -->
-                                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                                    <!-- Links -->
-                                    <h6 class="text-uppercase fw-bold mb-4 text-white">
-                                        Top Categories
-                                    </h6>
-                                    @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
                                         <p>
-                                            <a class="text-reset"
-                                                href="{{ route('category', $category->cat_guid) }}">{{ $category->cat_title }}</a>
+                                            <a href="/download-apps" class="text-reset">Download Apps</a>
                                         </p>
-                                    @endforeach
+                                    </div>
+                                    <!-- Grid column -->
                                 </div>
-                                <!-- Grid column -->
-                                <!-- Grid column -->
-                                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                                    <!-- Links -->
-                                    <h6 class="text-uppercase fw-bold mb-4 text-white">
-                                        Let Us Help You
-                                    </h6>
-                                    <p>
-                                        <a href="/login" class="text-reset">Login</a>
-                                    </p>
-                                    @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
-                                        <p>
-                                            <a href="/signup" class="text-reset">Register</a>
-                                        </p>
-                                    @endif
-                                    <p>
-                                        <a href="/download-apps" class="text-reset">Download Apps</a>
-                                    </p>
-                                </div>
-                                <!-- Grid column -->
+                                <!-- Grid row -->
                             </div>
-                            <!-- Grid row -->
-                        </div>
-                    </section>
-                    <!-- Section: Links  -->
-                    <!-- Copyright -->
-                    <div class="container-fluid footer_bottom">
-                        <div class="d-flex justify-content-between  p-2">
-                            <div class=" text-white fs-14px">
-                                © {{ $data->app->app_info->app_name ?? '' }}
-                                {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
-                            <div class=" text-end text-white">
-                                @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
-                                    <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset">
-                                        <img src="{{ $link->icon }} " style="width: 30px;">
-                                    </a>
-                                @endforeach
-                                {{--  <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">
+                        </section>
+                        <!-- Section: Links  -->
+                        <!-- Copyright -->
+                        <div class="container-fluid footer_bottom">
+                            <div class="d-flex justify-content-between  p-2">
+                                <div class=" text-white fs-14px">
+                                    © {{ $data->app->app_info->app_name ?? '' }}
+                                    {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
+                                <div class=" text-end text-white">
+                                    @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
+                                        <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset">
+                                            <img src="{{ $link->icon }} " style="width: 30px;">
+                                        </a>
+                                    @endforeach
+                                    {{--  <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">
                                     <i class="fab fa-youtube"></i>
                                 </a>
                 
                                 <a href="Facebook.com/24flix" target="_blank" class="me-4 text-reset">
                                     <i class="fab fa-facebook-f"></i>  --}}
-                                </a>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     </div>
 
