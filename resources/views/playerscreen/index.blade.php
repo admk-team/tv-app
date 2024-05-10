@@ -137,7 +137,7 @@
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
     $adMacros = $adUrl."&width=1920&height=1080&cb=$cb&".(!$isLocalHost? "uip=$userIP&": "")."device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
-    $dataVast = "data-vast='$adMacros'";
+    $dataVast = "data-vasts='$adMacros'";
 
     if ($isMobileBrowser == 1 || $adUrl == '')
     {
@@ -1020,7 +1020,7 @@ if (!empty($arrCatData))
 
                 let displayCountDown = 30;
                 let countDownInterval = null;
-                const displayCountDownMessage = () => {
+                const startCountDown = () => {
                     const messageBox = document.querySelector('.trail-redirect-message');
                     const messageTime = messageBox.querySelector('.time');
                     messageTime.textContent = `${displayCountDown} second${displayCountDown > 1? 's': ''}`;
@@ -1028,27 +1028,27 @@ if (!empty($arrCatData))
 
                     countDownInterval = setInterval(() => {
                         --displayCountDown;
-                        console.log("After countdonwn", displayCountDown);
                         messageTime.textContent = `${displayCountDown} second${displayCountDown > 1? 's': ''}`;
-                        if (displayCountDown === 0) clearInterval(countDownInterval);
+                        
+                        if (displayCountDown === 0) {
+                            clearInterval(countDownInterval);
+                            redirectCallback();
+                        };
                     }, 1000);
                 };
 
                 let duration = {{ $watchTimeDuration }} * 60000;
-                let redirectTimeout = null;
-                let messageDisplayTimeout = null;
+                let countDownTimeout = null;
                 let startTime = null;
 
                 const start = () => {
                     startTime = new Date();
-                    redirectTimeout = setTimeout(redirectCallback, duration);
-                    const messageDisplayDelay = duration - 30000;
-                    messageDisplayTimeout = setTimeout(displayCountDownMessage, messageDisplayDelay >= 0? messageDisplayDelay: 0);
+                    const countDownDelay = duration - 30000;
+                    countDownTimeout = setTimeout(startCountDown, countDownDelay >= 0? countDownDelay: 0);
                 };
 
                 const pause = () => {
-                    if (redirectTimeout) clearTimeout(redirectTimeout);
-                    if (messageDisplayTimeout) clearTimeout(messageDisplayTimeout);
+                    if (countDownTimeout) clearTimeout(countDownTimeout);
                     if (countDownInterval) clearInterval(countDownInterval);
 
                     const currentTime = new Date();
