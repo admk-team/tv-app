@@ -137,7 +137,7 @@
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
     $adMacros = $adUrl."&width=1920&height=1080&cb=$cb&".(!$isLocalHost? "uip=$userIP&": "")."device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
-    $dataVast = "data-vasts='$adMacros'";
+    $dataVast = "data-vast='$adMacros'";
 
     if ($isMobileBrowser == 1 || $adUrl == '')
     {
@@ -1029,7 +1029,7 @@ if (!empty($arrCatData))
                     countDownInterval = setInterval(() => {
                         --displayCountDown;
                         messageTime.textContent = `${displayCountDown} second${displayCountDown > 1? 's': ''}`;
-                        
+
                         if (displayCountDown === 0) {
                             clearInterval(countDownInterval);
                             redirectCallback();
