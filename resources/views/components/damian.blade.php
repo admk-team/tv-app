@@ -82,7 +82,7 @@
                                 @foreach (explode(',', $page->icon) as $iconUrl)
                                     @if ($iconUrl)
                                     <div class="logo-item">
-                                        <img src="{{ $iconUrl }}" width="100%" alt="" srcset="">
+                                        <img src="{{ $iconUrl }}" width="100px" alt="" srcset="">
                                     </div>
                                     @endif
                                 @endforeach
