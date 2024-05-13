@@ -208,10 +208,20 @@
                 @endif
             </h1>
             <div class="icons d-flex align-items-center justify-content-between">
-                <div class="w-100 active tv_icon"><i class="fa-solid fa-tv"></i></div>
-                <div class="w-100 tb_icon"><i class="fa-solid fa-tablet-screen-button"></i></div>
-                <div class="w-100 desktop_icon"><i class="fa-solid fa-desktop"></i></div>
+                <div class="w-100 active tv_icon">
+                    <i class="fa-solid fa-tv"></i>
+                    <span>TV</span>
+                </div>
+                <div class="w-100 tb_icon">
+                    <i class="fa-solid fa-tablet-screen-button"></i>
+                    <span>Tablet</span>
+                </div>
+                <div class="w-100 desktop_icon">
+                    <i class="fa-solid fa-desktop"></i>
+                    <span>Desktop</span>
+                </div>
             </div>
+            
         @endif
 
         @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
