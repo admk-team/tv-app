@@ -20,10 +20,9 @@ body {
 .apps__links {
     text-wrap: nowrap;
 }
-.apps__links>div {
+.apps__links > div {
     width: 30%;
     height: auto;
- 
 }
 
 .apps__links img {
@@ -36,7 +35,7 @@ body {
 
 .btn-primary-new {
     background-color: var(--primary-color);
-    color: #FFFFFF !important;
+    color: #ffffff !important;
     border-radius: 31px;
     padding: 6px 18px;
     text-decoration: none;
@@ -59,7 +58,7 @@ body {
 }
 
 .browse-btn {
-    color: #9F9F9F;
+    color: #9f9f9f;
     font-weight: 600;
     text-decoration: none;
     font-size: 14px;
@@ -70,22 +69,20 @@ body {
     margin-bottom: 1.4rem;
 }
 
-
-
-.sec-hero .tab-btns>div {
-    color: #9F9F9F;
+.sec-hero .tab-btns > div {
+    color: #9f9f9f;
     font-size: 16px;
     font-weight: 400;
     cursor: pointer;
-    transition: color .2s;
+    transition: color 0.2s;
 }
 
-.sec-hero .tab-btns>div.active {
+.sec-hero .tab-btns > div.active {
     color: var(--primary-color);
     border-bottom: 3px solid var(--primary-color);
 }
 
-.sec-hero .tab-btns>div:hover {
+.sec-hero .tab-btns > div:hover {
     color: white;
 }
 
@@ -112,7 +109,6 @@ body {
     position: relative;
 }
 
-
 .poster-slides img {
     width: 100%;
     min-height: 100%;
@@ -123,13 +119,24 @@ body {
 
 .poster-slides img.active {
     display: block;
+    background: linear-gradient(
+        0.26deg,
+        rgba(0, 0, 0, 0.6) 0.26%,
+        rgba(0, 0, 0, 0.6) 41.33%,
+        rgba(0, 0, 0, 0) 99.81%
+    );
 }
 
 .poster-slides .overlay {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: linear-gradient(0.26deg, rgba(0, 0, 0, 0.8) 0.26%, rgba(0, 0, 0, 0.6) 41.33%, rgba(0, 0, 0, 0) 99.81%);
+    background: linear-gradient(
+        0.26deg,
+        rgba(0, 0, 0, 0.8) 0.26%,
+        rgba(0, 0, 0, 0.6) 41.33%,
+        rgba(0, 0, 0, 0) 99.81%
+    );
     z-index: 2;
 }
 
@@ -147,8 +154,6 @@ body {
     margin: 0 auto;
     padding: 0 1rem 1rem;
 }
-
-
 
 .sec-hero .text-content .wrapper h3 {
     font-size: 14px;
@@ -182,9 +187,8 @@ body {
 
 .sec-video {
     border-radius: 40px;
-    background-color: rgba(255, 255, 255, 0.048);
+    /* background-color: rgba(255, 255, 255, 0.048); */
     max-width: 100%;
-   
 }
 
 .sec-video h1 {
@@ -194,7 +198,6 @@ body {
     max-width: 1144px;
     margin: auto;
     margin-bottom: 2rem;
-
 }
 
 .sec-video h1 span {
@@ -225,7 +228,12 @@ body {
 .sec-device {
     padding-bottom: 136px;
     border: 1px solid;
-    border-image: linear-gradient(90deg, #002A92 0%, #002A92 50%, rgba(255, 255, 255, 0) 100%);
+    border-image: linear-gradient(
+        90deg,
+        #002a92 0%,
+        #002a92 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
 }
 
 .sec-device .tab-btns {
@@ -233,23 +241,22 @@ body {
     margin-bottom: 2rem;
 }
 
-.sec-device .tab-btns>div {
+.sec-device .tab-btns > div {
     padding-bottom: 1.2rem;
 }
 
-.sec-device .tab-btns>div {
-    color: #9F9F9F;
+.sec-device .tab-btns > div {
+    color: #9f9f9f;
     font-size: 14px;
     font-weight: 600;
     margin-bottom: -2px;
 }
 
-
-.sec-device .tab-btns>div span {
+.sec-device .tab-btns > div span {
     cursor: pointer;
 }
 
-.sec-device .tab-btns>div.active {
+.sec-device .tab-btns > div.active {
     color: var(--primary-color);
     border-bottom: 3px solid var(--primary-color);
 }
@@ -281,7 +288,6 @@ body {
     text-wrap: nowrap;
 }
 
-
 .sec-device .device-img {
     max-width: 100%;
 }
@@ -306,7 +312,7 @@ body {
 
 .sec-cta .field {
     border: 0.5px solid var(--primary-color);
-    background: #D9D9D91A;
+    background: #d9d9d91a;
     border-radius: 100px;
     padding: 8px 10px;
     text-wrap: nowrap;
@@ -343,15 +349,21 @@ body {
 
 footer {
     border-top: 2px solid;
-    border-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(216, 15, 47, 1), rgba(255, 255, 255, 0)) 1;
+    border-image: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0),
+            rgba(216, 15, 47, 1),
+            rgba(255, 255, 255, 0)
+        )
+        1;
     width: 80%;
     margin: auto;
     padding-block: 2rem;
     color: #fff;
-  }
-  footer span {
+}
+footer span {
     color: var(--primary-color);
-  }
+}
 
 .sec-cta {
     border-radius: 40px;
@@ -360,9 +372,7 @@ footer {
     margin-bottom: 8px;
 }
 
-
-
-@media (max-width:399px) {
+@media (max-width: 399px) {
     .sec-cta .field .get-started-btn {
         padding: 2px 11px;
         font-size: 8px;
@@ -372,7 +382,7 @@ footer {
         text-wrap: nowrap;
     }
 }
-@media (max-width:400px) {
+@media (max-width: 400px) {
     .sec-cta .field .get-started-btn {
         padding: 7px 23px;
         font-size: 8px;
@@ -381,7 +391,6 @@ footer {
         border: none;
         text-wrap: nowrap;
     }
-
 }
 @media (min-width: 576px) {
     .btn-primary-new,
@@ -437,10 +446,10 @@ footer {
     }
 }
 
-@media (max-width:768px) {
+@media (max-width: 768px) {
     .sec-cta .field {
         border: 0.5px solid var(--primary-color);
-        background: #D9D9D91A;
+        background: #d9d9d91a;
         border-radius: 100px;
         padding: 3px 10px;
     }
@@ -472,13 +481,12 @@ footer {
     .sec-device {
         padding-bottom: 43px;
     }
-
 }
-@media(min-width: 768px) {
+@media (min-width: 768px) {
     .sec-device .tab-btns {
         margin-bottom: 3rem;
     }
-    .sec-device .tab-btns>div {
+    .sec-device .tab-btns > div {
         font-size: 18px;
     }
     .sec-cta .text h1 {
@@ -558,7 +566,7 @@ footer {
     }
 }
 
-@media(min-width: 1200px) {
+@media (min-width: 1200px) {
     .sec-device .tab-btns {
         margin-bottom: 4rem;
     }
@@ -586,14 +594,14 @@ footer {
     .poster-slides {
         height: 675px;
     }
-    .sec-hero .text-content .wrapper>* {
+    .sec-hero .text-content .wrapper > * {
         width: 80%;
     }
 }
 @media (max-width: 420px) {
     .sec-cta .field {
         border: 0.5px solid var(--primary-color);
-        background: #D9D9D91A;
+        background: #d9d9d91a;
         border-radius: 100px;
         padding: 2px 10px;
         margin-left: -18px;
@@ -607,4 +615,3 @@ footer {
         text-wrap: nowrap;
     }
 }
-

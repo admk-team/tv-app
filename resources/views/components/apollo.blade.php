@@ -27,14 +27,41 @@
             --cardDesColor: {{ \App\Services\AppConfig::get()->app->website_colors->cardDesColor }};
         }
 
-        body {
+        /* body {
             background-image: linear-gradient(rgba(4, 9, 30, 0.4), rgba(4, 9, 30, 0.4)),
                 url("{{ asset('assets/landing_theme_assets/apollo/images/banner.png') }}");
-        }
+        } */
+    .bg-image {
+     /* background-image: linear-gradient(rgba(4, 9, 30, 0.2), rgba(4, 9, 30, 0.2)),
+        url("{{ asset('assets/landing_theme_assets/apollo/images/banner.png') }}"); */
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    padding: 1rem;
+}
+
+
     </style>
+     @if (isset($data->app->landingpages))
+        @foreach ($data->app->landingpages as $page)
+            @if ($page->page_type === 'Apollo' && $page->section_type === 'banner' && $page->status === 1)
+                @if ($page->image)
+                    <style>
+                        .bg-image {
+                            background-image: linear-gradient(rgba(4, 9, 30, 0.2), rgba(4, 9, 30, 0.2)),url({{ asset($page->image) }});
+                        }
+                    </style>
+                @endif
+            @endif
+        @endforeach
+    @endif
 </head>
 
 <body>
+    {{-- start Bg-Image div  --}}
+
+    <div class="bg-image">
     <!-- START: Top Header -->
     <header class="content-wrapper d-flex justify-content-between align-items-center px-2 px-md-3 py-2 mb-3">
         <a href="/home">
@@ -120,7 +147,7 @@
 @endif
 @if ($page->page_type === 'Apollo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
 @if (!empty($page->appstore_link) || !empty($page->playstore_link))
-<div class="apps__links d-flex align-items-center justify-content-center gap-3 mt-3 flex-column flex-md-row">
+<div class="apps__links d-flex align-items-center justify-content-center gap-3 mt-5 flex-column flex-md-row">
 <h5>Download Now</h5>
 <div class="d-flex w-100 align-items-center">
     @if (!empty($page->playstore_link))
@@ -141,6 +168,7 @@
 @endif
 @endforeach
 </section>
+</div>
 <!-- END: Hero Section -->
 @foreach ($data->app->landingpages as $page)
 @if ($page->page_type === 'Apollo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
@@ -158,6 +186,8 @@
 @endif
 <p>{{ $page->description ?? '' }}</p>
 </div>
+
+{{-- End Bg-Image div  --}}
 @if (isset($page->video_url))
 <div class="video">
 <video width="400" autoplay playsinline muted loop>
@@ -172,7 +202,7 @@
 @endif
 @endforeach
 @foreach ($data->app->landingpages as $page)
-@if ($page->page_type === 'Apollo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)  
+@if ($page->page_type === 'Apollo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
 <!-- START: Device Section -->
 <div class="sec-device content-wrapper px-2 px-md-3">
 <div class="tab-btns d-flex gap-3 gap-sm-3 gap-md-4 gap-lg-5">
@@ -196,7 +226,7 @@
                 <h1>{{ $firstWord }} {{ $secondWord }} {{ $thirdWord }} <span>{{ $remainingWords }}</span></h1>
         @else
         @endif
-            
+
             <p>{{ $page->description ?? '' }}</p>
             @endif
             @endforeach
@@ -222,7 +252,7 @@
         <div class="col-md-4 mb-3 mb-md-0">
             <img class="device-img"
                 src="{{ $page->image }}">
-        </div> 
+        </div>
     </div>
 </div>
 @endif
@@ -242,7 +272,7 @@
                 <h1>{{ $firstWord }} {{ $secondWord }} {{ $thirdWord }} <span>{{ $remainingWords }}</span></h1>
         @else
         @endif
-            
+
             <p>{{ $page->description ?? '' }}</p>
         </div>
         <div class="col-md-4 mb-3 mb-md-0">
@@ -268,7 +298,7 @@
                 <h1>{{ $firstWord }} {{ $secondWord }} {{ $thirdWord }} <span>{{ $remainingWords }}</span></h1>
         @else
         @endif
-            
+
             <p>{{ $page->description ?? '' }}</p>
         </div>
         <div class="col-md-4 mb-3 mb-md-0">
@@ -356,7 +386,7 @@
                 <li><a href="/download-apps" class="text-decoration-none text-white lh-lg">Download Apps</a></li>
             </ul>
         </div>
-        
+
     </div>
     <div class="container">
         <div class="row">
