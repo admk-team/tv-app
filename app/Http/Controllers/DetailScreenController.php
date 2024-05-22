@@ -30,8 +30,7 @@ class DetailScreenController extends Controller
     public function addRating(Request $request)
     {
         $request->validate([
-            'rating' => 'sometimes',
-            'like_status' => 'sometimes',
+            'rating' => 'required',
         ], [
             'rating.required' => 'Please rate the stream'
         ]);
