@@ -21,7 +21,8 @@ class DetailScreenController extends Controller
 
         $responseRatings = Http::withHeaders(Api::headers())
             ->get(Api::endpoint('/userrating/get/' . $streamGuId . '/stream'));
-        $data['stream_details']['ratings'] = $responseRatings->json()['data'];
+            $data['stream_details']['ratings'] = $responseRatings->json()['data'];
+            // dd($data['stream_details']['ratings']);
 
         return view("detailscreen.index", $data);
     }
@@ -29,18 +30,18 @@ class DetailScreenController extends Controller
     public function addRating(Request $request)
     {
         $request->validate([
-            'rating' => 'required',
+            'rating' => 'sometimes',
+            'like_status' => 'sometimes',
         ], [
             'rating.required' => 'Please rate the stream'
         ]);
-
         $response = Http::withHeaders(Api::headers())
             ->asForm()
             ->timeout(300)
             ->post(Api::endpoint('/userrating/store'), [
                 'app_code' => env('APP_CODE'),
                 'user_id' => session('USER_DETAILS')['USER_ID'],
-                'rating' => $request->rating,
+                'rating' => $request->rating ?? 0,
                 'comment' => $request->comment ?? '',
                 'stream_code' => $request->type == 'stream' ? $request->stream_code : '',
                 'show_code' => $request->type == 'show' ? $request->stream_code : '',
