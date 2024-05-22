@@ -691,7 +691,7 @@
                                             ? $stream_details['ratings'][0]['rating']
                                             : null;
                                     @endphp
-                                    @if ($likeStatus == 5)
+                                    @if ($likeStatus == 5 || $likeStatus == 4 || $likeStatus == 3)
                                         <div class="like active" style="rotate: 180deg">
                                             <svg fill="#c54f3f" height="27px" width="27px" version="1.1"
                                                 id="Capa_1" xmlns="http://www.w3.org/2000/svg"
