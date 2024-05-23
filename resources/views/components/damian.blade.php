@@ -79,13 +79,13 @@
                     <!-- Brand Logos  -->
                     <div class="brand__logos container">
                         <div class="d-flex align-items-center justify-content-between gap-5 py-2">
-                                @foreach (explode(',', $page->icon) as $iconUrl)
-                                    @if ($iconUrl)
+                            @foreach (explode(',', $page->icon) as $iconUrl)
+                                @if ($iconUrl)
                                     <div class="logo-item">
                                         <img src="{{ $iconUrl }}" width="100px" alt="" srcset="">
                                     </div>
-                                    @endif
-                                @endforeach
+                                @endif
+                            @endforeach
                         </div>
                     </div>
                 @endif
@@ -306,8 +306,14 @@
                         <a href="/home"><img src="{{ $data->app->app_info->website_logo ?? '' }}" width="140px"
                                 alt="Logo"></a>
                     </div>
-                    <p class="text-danger p-0 mt-3 mb-0 text-center">Powered By</p>
-                    <p class="text-center">{{ $data->app->app_info->app_name ?? '' }}</p>
+                    <p class="text-danger p-0 mt-3 mb-0 text-center">
+                        {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_txt ?? '' }}</p>
+                    <a class="text-decoration-none"
+                        href="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_url ?? '' }}">
+                        <p class="text-center">
+                            {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}
+                        </p>
+                    </a>
                 </div>
                 <div class="col-md-3">
                     <h5 class="mb-4">GET TO KNOW US</h5>

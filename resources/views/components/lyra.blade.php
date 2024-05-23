@@ -385,8 +385,14 @@
                     <img class="img-fluid mb-4" src="{{ $data->app->app_info->website_logo ?? '' }}" alt=""
                         srcset="" width="150px">
                 </a>
-                <p class="p-0 m-0 text-white">Powered By</p>
-                <p class="p-0 m-0 text-white">{{ $data->app->app_info->app_name ?? '' }}</p>
+                <p class="p-0 m-0 text-white">
+                    {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_txt ?? '' }}</p>
+                <a class="text-decoration-none"
+                    href="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_url ?? '' }}">
+                    <p class="p-0 m-0 text-white">
+                        {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}
+                    </p>
+                </a>
             </div>
             <div class="col-md-3 ">
                 <h5 class="mb-4"><span>GET</span> TO KNOW US</h5>
