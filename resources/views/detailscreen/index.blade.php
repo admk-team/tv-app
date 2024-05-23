@@ -680,14 +680,8 @@
                             @endfor
                         @else
                             {{-- Thumbs  --}}
-                            {{-- @for ($i = 0; $i < $review['rating']; $i++) --}}
-                            <div class="user-rating" style=" margin-top: 25px; display: flex; gap: 12px;">
-                                @php
-                                    $likeStatus = isset($stream_details['ratings'][0]['rating'])
-                                        ? $stream_details['ratings'][0]['rating']
-                                        : null;
-                                @endphp
-                                @if ($likeStatus == 5 || $likeStatus == 4 || $likeStatus == 3)
+                            <div class="user-rating" style="margin-top: 25px; display: flex; gap: 12px;">
+                                @if ($review['rating'] >= 3)
                                     <div class="like active" style="rotate: 180deg">
                                         <svg fill="#c54f3f" height="27px" width="27px" version="1.1" id="Capa_1"
                                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -703,7 +697,6 @@
                                                 </g>
                                             </g>
                                         </svg>
-
                                     </div>
                                 @else
                                     <div class="dislike">
@@ -723,7 +716,6 @@
                                         </svg>
                                     </div>
                                 @endif
-                                {{-- @endfor --}}
                             </div>
                         @endif
                     </div>
@@ -809,7 +801,7 @@
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                                                                                                                                                                                                      </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                          </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}
