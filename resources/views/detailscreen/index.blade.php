@@ -269,9 +269,9 @@
                                     <dd>
                                         @foreach ($stream_details['advisories'] as $i => $val)
                                             <a class="person-link"
-                                                href="{{ route('advisory', $val['code']) }}">{{ $val['title'] }}
+                                                href="{{ route('advisory', $val['code']) }}">{{ $val['title'] }}</a>
                                                 @if (count($stream_details['advisories']) - 1 !== $i)
-                                                    ,
+                                                <span class="test-comma">, </span>
                                                 @endif
                                         @endforeach
                                     </dd>
@@ -279,23 +279,37 @@
                             @endif
 
                             @if (!empty($stream_details['languages']))
-                                <div class="content-person" style="margin-bottom: 20px">
+                                <div class="content-person" >
                                     <dt>Language: </dt>
                                     <dd>
                                         @foreach ($stream_details['languages'] as $i => $val)
                                             <a class="person-link"
-                                                href="{{ route('language', $val['code']) }}">{{ $val['title'] }}
+                                                href="{{ route('language', $val['code']) }}">{{ $val['title'] }}</a>
                                                 @if (count($stream_details['languages']) - 1 !== $i)
-                                                    ,
+                                                <span class="test-comma">, </span>
                                                 @endif
                                         @endforeach
                                     </dd>
                                 </div>
                             @endif
+                            @if (!empty($stream_details['tags']))
+                            <div class="content-person">
+                                <dt>Tags: </dt>
+                                <dd>
+                                    @foreach ($stream_details['tags'] as $i => $val)
+                                        <a class="person-link"
+                                            href="{{ route('tag', $val['code']) }}">{{ $val['title'] }}</a>
+                                            @if (count($stream_details['tags']) - 1 !== $i)
+                                            <span class="test-comma">, </span>
+                                            @endif
+                                    @endforeach
+                                </dd>
+                            </div>
+                        @endif
                         </dl>
                     </dl>
 
-                    <div class="button_groupbox d-flex align-items-center">
+                    <div class="button_groupbox d-flex align-items-center mt-4">
                         <div class="btn_box movieDetailPlay">
                             <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
                                 class="app-primary-btn rounded">
