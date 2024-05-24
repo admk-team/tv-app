@@ -11,8 +11,7 @@ class PlayerScreenController extends Controller
 {
     public function index($id)
     {
-        // $xyz = base64_encode(request()->ip());
-        $xyz = "MTU0LjE5Mi4xMzYuOA==";
+        $xyz = base64_encode(request()->ip());
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/getitemplayerdetail/{$id}?user_data={$xyz}"));
         $data = $response->json();
