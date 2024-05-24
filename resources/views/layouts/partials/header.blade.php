@@ -1,246 +1,187 @@
 <style>
+    body {
+        overflow-x: hidden;
+    }
+
+    .border-hover {
+        cursor: pointer;
+        position: relative;
+        transition: all 1s;
+        padding: 8px 12px;
+
+    }
+
+    .border-hover::after,
+    .border-hover::before {
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        transition: all 1s;
+        border: 0 solid transparent;
+        /* Initially no border and transparent */
+    }
+
+    .border-hover::after {
+        top: -1px;
+        left: -1px;
+        border-top-width: 0;
+        border-left-width: 0;
+    }
+
+    .border-hover::before {
+        bottom: -1px;
+        right: -1px;
+        border-bottom-width: 0;
+        border-right-width: 0;
+    }
+
+    .border-hover:hover {
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .border-hover:hover::before,
+    .border-hover:hover::after {
+        border-color: var(--themeActiveColor);
+        border-top-width: 2px;
+        border-left-width: 2px;
+        border-bottom-width: 2px;
+        border-right-width: 2px;
+    }
+
+
+
     ul.profiledropin li a {
         color: black !important;
     }
+
+    #split_menu_links:hover a {
+        /* transform: scale(.5); */
+        opacity: 0.2;
+        filter: blur(5px);
+        background-color: var(--themeActiveColor);
+        border-radius: 4px;
+    }
+
+    #split_menu_links a:hover {
+        /* transform: scale(1); */
+        opacity: 1;
+        filter: blur(0);
+        text-decoration: none;
+        color: #fff;
+        border-radius: 4px;
+        padding: 8px 12px;
+    }
+
+    .menu-icon {
+        display: none;
+    }
+
+    .menu-icon i {
+        display: none;
+    }
+
+    @media only screen and (max-width: 768px) {
+        .centered-header .menu-links {
+            display: none !important;
+        }
+
+        .menu-icon i {
+            color: #fff;
+            font-size: 2rem;
+            background-color: var(--themeActiveColor);
+            border-radius: 4px;
+            padding: 0.2rem;
+            display: block;
+        }
+
+        .menu-icon {
+            display: block;
+        }
+
+        .navbar-toggler {
+            display: none;
+        }
+
+        .side-header {
+            display: none;
+        }
+
+        /* Split Navbar   */
+        .wrapper {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-content: center;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .split_nav {
+            display: none !important;
+        }
+
+    }
+
+    .navbar-toggler-icon {
+        filter: brightness(10.5);
+        order: 3;
+    }
+
+    .side-header {
+        position: absolute;
+        top: 3%;
+        right: 5%;
+        width: 100%;
+        color: white;
+        transform: translateX(200%);
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        opacity: 0;
+        visibility: hidden;
+        overflow: hidden;
+    }
+
+    .side-header.show {
+        transform: translateX(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .navbar-toggler {
+        order: 3;
+    }
+
+    body.no-scroll {
+        overflow: hidden;
+    }
 </style>
-@if (\App\Services\AppConfig::get()->app->app_info->web_menu == 'Center')
+
+{{-- @if (\App\Services\AppConfig::get()->app->app_info->web_menu == 'Center')
     @include('layouts.partials.tv_menu_header')
 @else
-    <header class="header">
-        <nav class="inner">
-            <ul class="links">
-                <li class="logo">
-                    <a href="/">
-                        <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt="">
-                    </a>
-                </li>
-                @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
-                    @if (
-                        \App\Services\AppConfig::get()->app->app_info->web_menu === '' ||
-                            \App\Services\AppConfig::get()->app->app_info->web_menu == 'Left')
-                        @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
-                            @if ($menu->menu_type === 'FA' && !session()->has('USER_DETAILS.USER_CODE'))
-                                @continue
-                            @endif
-                            <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
-                                <li class="pc">{{ $menu->menu_title }}</li>
-                            </a>
-                        @endif
-                    @endif
-                @endforeach
-                @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                    @if ($page->displayOn === 'H' || $page->displayOn === 'B')
-                        @if ($page->pageType === 'E')
-                            <a class="text-decoration-none" href="{!! $page->externalLink !!}" target="_blank">
-                                <li class="pc">{{ $page->page_title }}</li>
-                            </a>
-                        @else
-                            <a class="text-decoration-none" href="/page/{{ $page->page_slug }}">
-                                <li class="pc">{{ $page->page_title }}</li>
-                            </a>
-                        @endif
-                    @endif
-                @endforeach
-            </ul>
-            @if (\App\Services\AppConfig::get()->app->app_info->web_menu === '')
-                <div class="btns">
-                    <a href="/searchscreen">
-                        <i class="bi bi-search search-icon"></i>
-                    </a>
-                    @if (session()->has('USER_DETAILS'))
-                        <li class="nav-item">
-                            <div class="dropdown dropdin">
-                                <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)"
-                                    data-index=0>
-                                    <div class="userimg">{{ session('USER_DETAILS')['USER_NAME'][0] }}</div>
-                                </div>
-                                <ul class="dropdown_menus profiledropin avtartMenu" style="display: none;">
-                                    <li style="display: none;"><a href="update-profile.php"><span
-                                                class="userno">user-26</span></a></li>
-                                    <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a>
-                                    </li>
-                                    <li><a class="text-decoration-none"
-                                            href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
-                                            Profiles</a></li>
-                                    {{-- <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
-                                History</a></li> --}}
-                                    <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
-                                            Password</a>
-                                    </li>
-                                    @if (\App\Services\AppConfig::get()->app->app_info->watch_history === 1)
-                                        <li><a class="text-decoration-none" href="{{ route('watch.history') }}">Watch
-                                                History</a>
-                                        </li>
-                                    @endif
-                                    <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    @else
-                        <a class="auth app-primary-btn rounded" href="/login">Login</a>
-                        @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
-                            <a class="auth app-secondary-btn rounded" href="/signup">Signup</a>
-                        @endif
-                    @endif
-                </div>
-            @endif
-            @if (\App\Services\AppConfig::get()->app->app_info->web_menu === 'Left')
-                <div class="btns">
-                    @if (session()->has('USER_DETAILS'))
-                        <li class="nav-item">
-                            <div class="dropdown dropdin">
-                                <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)"
-                                    data-index=0>
-                                    <div class="userimg">{{ session('USER_DETAILS')['USER_NAME'][0] }}</div>
-                                </div>
-                                <ul class="dropdown_menus profiledropin avtartMenu" style="display: none;">
-                                    <li style="display: none;"><a href="update-profile.php"><span
-                                                class="userno">user-26</span></a></li>
-                                    <li><a class="text-decoration-none"
-                                            href="{{ route('profile.index') }}">Profiles</a>
-                                    </li>
-                                    <li><a class="text-decoration-none"
-                                            href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
-                                            Profiles</a></li>
-                                    {{-- <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
-                                History</a></li> --}}
-                                    <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
-                                            Password</a>
-                                    </li>
-                                    @if (\App\Services\AppConfig::get()->app->app_info->watch_history === 1)
-                                        <li><a class="text-decoration-none" href="{{ route('watch.history') }}">Watch
-                                                History</a>
-                                        </li>
-                                    @endif
-                                    <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    @else
-                </div>
-                <div class="links">
-                    <a class="text-decoration-none" href="/login">
-                        <li class="pc">LOGIN</li>
-                    </a>
-                    <a class="text-decoration-none" href="/signup">
-                        <li class="pc">Register</li>
-                    </a>
-                    <div class="btns">
-                        <a href="/searchscreen">
-                            <i class="bi bi-search search-icon"></i>
-                        </a>
-                    </div>
-                </div>
-            @endif
+    @include('layouts.partials.default-header')
+@endif --}}
 
+
+@if (
+    \App\Services\AppConfig::get()->app->app_info->web_menu == 'default' ||
+        \App\Services\AppConfig::get()->app->app_info->web_menu == 'left')
+    @include('layouts.partials.default-header')
+@elseif (\App\Services\AppConfig::get()->app->app_info->web_menu == 'center')
+    @include('layouts.partials.tv_menu_header')
+@elseif (\App\Services\AppConfig::get()->app->app_info->web_menu == 'righSide-Header')
+    @include('layouts.partials.side-header')
+@elseif (\App\Services\AppConfig::get()->app->app_info->web_menu == 'centered-Header')
+    @include('layouts.partials.centered-header')
+@elseif (\App\Services\AppConfig::get()->app->app_info->web_menu == 'splitNav-Header')
+    @include('layouts.partials.split-center-header')
+@elseif (\App\Services\AppConfig::get()->app->app_info->web_menu == 'splitNavButton-Header')
+    @include('layouts.partials.split-nav-button-header')
 @endif
 
-<div class="menu-icon" onclick="mobileMenuHandler()">
-    <i class="bi bi-list"></i>
-</div>
-</nav>
-<div class="mbl-menu">
-    <i class="bi bi-x-lg close-icon" onclick="mobileMenuHandler()"></i>
-    <ul>
-        @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
-            @if (
-                \App\Services\AppConfig::get()->app->app_info->web_menu === '' ||
-                    \App\Services\AppConfig::get()->app->app_info->web_menu == 'Left')
-                @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
-                    <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
-                        <li class="pc">{{ $menu->menu_title }}</li>
-                    </a>
-                @endif
-            @endif
-        @endforeach
-        @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-            @if ($page->displayOn === 'H' || $page->displayOn === 'B')
-                @if ($page->pageType === 'E')
-                    <a class="text-decoration-none" href="{!! $page->externalLink !!}" target="_blank">
-                        <li class="pc">{{ $page->page_title }}</li>
-                    </a>
-                @else
-                    <a class="text-decoration-none" href="/page/{{ $page->page_slug }}">
-                        <li class="pc">{{ $page->page_title }}</li>
-                    </a>
-                @endif
-            @endif
-        @endforeach
-    </ul>
-    @if (\App\Services\AppConfig::get()->app->app_info->web_menu === '')
-        <div class="btns">
-            <a href="/searchscreen">
-                <i class="bi bi-search search-icon"></i>
-            </a>
-            @if (session()->has('USER_DETAILS'))
-                <li class="nav-item">
-                    <div class="dropdown dropdin">
-                        <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=1>
-                            <div class="userimg">u</div>
-                        </div>
-                        <ul class="dropdown_menus profiledropin avtartMenu gap-0"
-                            style="display: none; left: 50% !important; position: absolute; transform: translateX(-50%);">
-                            <li style="display: none;"><a href="update-profile.php"><span
-                                        class="userno">user-26</span></a></li>
-                            <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a>
-                            </li>
-                            <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
-                                    History</a></li>
-                            <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
-                                    Password</a>
-                            </li>
-                            <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
-                        </ul>
-                    </div>
-                </li>
-            @else
-                <a class="auth app-primary-btn" href="/login">Login</a>
-                <a class="auth app-secondary-btn" href="{{ route('register') }}">Signup</a>
-            @endif
-        </div>
-    @endif
-    @if (\App\Services\AppConfig::get()->app->app_info->web_menu === 'Left')
-        <div class="btns">
 
-            @if (session()->has('USER_DETAILS'))
-                <li class="nav-item">
-                    <div class="dropdown dropdin">
-                        <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=1>
-                            <div class="userimg">u</div>
-                        </div>
-                        <ul class="dropdown_menus profiledropin avtartMenu gap-0"
-                            style="display: none; left: 50% !important; position: absolute; transform: translateX(-50%);">
-                            <li style="display: none;"><a href="update-profile.php"><span
-                                        class="userno">user-26</span></a></li>
-                            <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a>
-                            </li>
-                            <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
-                                    History</a></li>
-                            <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
-                                    Password</a>
-                            </li>
-                            <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
-                        </ul>
-                    </div>
-                </li>
-            @else
-                <ul class="list-unstyled">
-                    <a class="text-decoration-none" href="/login">
-                        <li class="web_menu_left_option_button">LOGIN</li>
-                    </a>
-                    <a class="text-decoration-none" href="/signup">
-                        <li class="web_menu_left_option_button">Register</li>
-                    </a>
-                </ul>
-            @endif
-            <a href="/searchscreen">
-                <i class="bi bi-search search-icon"></i>
-            </a>
-        </div>
-    @endif
-</div>
-</header>
-@endif
+
 @push('scripts')
     <script>
         function mobileMenuHandler() {
@@ -257,5 +198,21 @@
         function dropdownHandle(e) {
             $(`.profiledropin:eq(${$(e).data('index')})`).slideToggle();
         }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const sideHeader = document.querySelector('.side-header');
+            const navbarToggler = document.querySelector('.navbar-toggler');
+            const body = document.body;
+
+            navbarToggler.addEventListener('click', () => {
+                sideHeader.classList.toggle('show');
+                if (sideHeader.classList.contains('show')) {
+                    sideHeader.style.overflow = "hidden";
+                } else {
+                    sideHeader.style.overflow = "hidden";
+                }
+
+            });
+        });
     </script>
 @endpush
