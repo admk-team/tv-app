@@ -24,7 +24,9 @@ body {
     background-color: var(--headerBgColor);
     z-index: 1000;
 }
-
+.centered-header {
+    background-color: var(--headerBgColor);
+}
 .header .inner {
     display: flex;
     justify-content: space-between;
