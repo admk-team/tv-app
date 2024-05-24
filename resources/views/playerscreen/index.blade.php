@@ -307,9 +307,10 @@
         }
 
         @if ($redirectUrl)
-            .mvp-input-progress {
+            .mvp-input-progress, .mvp-skip-backward-toggle, .mvp-skip-forward-toggle, .mvp-rewind-toggle {
                 cursor: not-allowed !important; 
             }
+            
         @endif
     </style>
 
@@ -935,6 +936,9 @@ if (!empty($arrCatData))
                 @if ($redirectUrl)
                     trial.start();
                     document.querySelector('.mvp-input-progress').disabled = true;
+                    document.querySelector('.mvp-skip-backward-toggle').disabled = true;
+                    document.querySelector('.mvp-skip-forward-toggle').disabled = true;
+                    document.querySelector('.mvp-rewind-toggle').disabled = true;
                 @endif
             });
 
