@@ -137,7 +137,7 @@
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
     $adMacros = $adUrl."&width=1920&height=1080&cb=$cb&".(!$isLocalHost? "uip=$userIP&": "")."device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
-    $dataVast = "data-vast='$adMacros'";
+    $dataVast = "data-vasts='$adMacros'";
 
     if ($isMobileBrowser == 1 || $adUrl == '')
     {
@@ -305,6 +305,12 @@
             -webkit-user-drag: none;
             user-select: none;
         }
+
+        @if ($redirectUrl)
+            .mvp-input-progress {
+                cursor: not-allowed !important; 
+            }
+        @endif
     </style>
 
     <?php if(session("GLOBAL_PASS") == 1){ ?>
@@ -405,8 +411,8 @@
                     </section>
                     <?php else: ?>
 
-                    <div class="trail-redirect-message d-none">You will be redirected to login in <span class="time">45 second</span></div>
                     <div class="videocentalize">
+                        <div class="trail-redirect-message">You will be redirected to login in <span class="time">45 second</span></div>
                         @if ($watermark)
                             <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}" style="display: none;">
                                 @if ($watermark['type'] === 'text')
@@ -894,6 +900,7 @@ if (!empty($arrCatData))
                 const trial = getTrial();
                 trial.onRedirect(() => {
                     player.pauseMedia();
+                    player.destroyMedia();
                     window.location.href = '{{ $redirectUrl }}';
                 })
             @endif
@@ -927,6 +934,7 @@ if (!empty($arrCatData))
             player.addEventListener("mediaPlay", function(data) {
                 @if ($redirectUrl)
                     trial.start();
+                    document.querySelector('.mvp-input-progress').disabled = true;
                 @endif
             });
 
@@ -1024,7 +1032,7 @@ if (!empty($arrCatData))
                     const messageBox = document.querySelector('.trail-redirect-message');
                     const messageTime = messageBox.querySelector('.time');
                     messageTime.textContent = `${displayCountDown} second${displayCountDown > 1? 's': ''}`;
-                    messageBox.classList.remove('d-none');
+                    messageBox.classList.add('show-player-popup');
 
                     countDownInterval = setInterval(() => {
                         --displayCountDown;
