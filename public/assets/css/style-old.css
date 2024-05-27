@@ -14,6 +14,7 @@ ul {
     list-style-type: none;
 }
 
+
 header {
     position: relative;
 }
@@ -7640,12 +7641,32 @@ ul.dropsmenubox li a.dropdown-item:hover {
     padding: 2rem 0;
 }
 
+.videocentalize {
+    overflow: hidden;
+}
+
 .trail-redirect-message {
-    background-color: var(--themeActiveColor);
-    color: var(--themePrimaryTxtColor);
+    /* background-color: var(--themeActiveColor); */
+    background-color: #353b49;
+    /* color: var(--themePrimaryTxtColor); */
+    color: #eee;
     max-width: 1000.89px;
-    margin: 1rem auto;
+    width: fit-content;
+    /* margin: 1rem auto; */
     padding: .8rem 1.2rem;
     font-weight: 600;
     border-radius: 2px;
+    position: absolute;
+    z-index: 1;
+    bottom: 68px;
+    height: fit-content;
+    right: 18px;
+    user-select: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease-in-out;
+    transform: translateX(400px);
+}
+
+.trail-redirect-message.show-player-popup {
+    transform: translateX(0);
 }
