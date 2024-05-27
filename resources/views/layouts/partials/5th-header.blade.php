@@ -3,49 +3,40 @@
             <li class="logo">
                 <a href="/">
                     <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt=""
-                        width="80px" height="80px">
+                    width="80px" height="80px">
                 </a>
             </li>
+            
+            <ul class="nav-links-items">
+                @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
+                    @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
+                        @if ($menu->menu_type === 'FA' && !session()->has('USER_DETAILS.USER_CODE'))
+                            @continue
+                        @endif
+                        <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
+                            <li class="pc">{{ $menu->menu_title }}</li>
+                        </a>
+                    @endif
+                @endforeach
+                @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
+                    @if ($page->displayOn === 'H' || $page->displayOn === 'B')
+                        @if ($page->pageType === 'E')
+                            <a class="text-decoration-none" href="{!! $page->externalLink !!}" target="_blank">
+                                <li class="pc">{{ $page->page_title }}</li>
+                            </a>
+                        @else
+                            <a class="text-decoration-none" href="/page/{{ $page->page_slug }}">
+                                <li class="pc">{{ $page->page_title }}</li>
+                            </a>
+                        @endif
+                    @endif
+                @endforeach
+            </ul>
 
-            <div class="side-header position-relative ">
-                <div class="pt-4 pb-3 d-flex align-items-center justify-content-center flex-column">
-                    <div class="inner d-flex align-items-center justify-content-around gap-5 mb-4">
-                        <ul class="menu-links d-flex align-items-center justify-content-center gap-5 flex-wrap mb-0">
-                            @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
-                                @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
-                                    @if ($menu->menu_type === 'FA' && !session()->has('USER_DETAILS.USER_CODE'))
-                                        @continue
-                                    @endif
-                                    <a class="text-decoration-none text-white" href="/{{ $menu->menu_slug }}">
-                                        <li class="pc">{{ $menu->menu_title }}</li>
-                                    </a>
-                                @endif
-                            @endforeach
-                            @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                                @if ($page->displayOn === 'H' || $page->displayOn === 'B')
-                                    @if ($page->pageType === 'E')
-                                        <a class="text-decoration-none text-white" href="{!! $page->externalLink !!}"
-                                            target="_blank">
-                                            <li class="pc">{{ $page->page_title }}</li>
-                                        </a>
-                                    @else
-                                        <a class="text-decoration-none text-white" href="/page/{{ $page->page_slug }}">
-                                            <li class="pc">{{ $page->page_title }}</li>
-                                        </a>
-                                    @endif
-                                @endif
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="btns mt-4">
+            <div class="btns">
                 <a href="/searchscreen">
                     <i class="bi bi-search search-icon"></i>
                 </a>
-                <button class="navbar-toggler order-3" type="button">
-                    <i class="fa fa-bars" style="color:white;"></i>
-                </button>
                 @if (session()->has('USER_DETAILS'))
                     <li class="nav-item">
                         <div class="dropdown dropdin">
@@ -70,8 +61,7 @@
                                             History</a>
                                     </li>
                                 @endif
-                                <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a>
-                                </li>
+                                <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
                             </ul>
                         </div>
                     </li>

@@ -78,23 +78,40 @@
         display: none;
     }
 
-    .menu-icon i {
+    /* .menu-icon i {
         display: none;
+    } */
+
+    @media only screen and (max-width: 1100px) {
+
+        .header .inner {
+            flex-direction: column;
+        }
     }
 
     @media only screen and (max-width: 768px) {
-        .centered-header .menu-links {
+        .header .inner {
+            flex-direction: row;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav-links-items {
             display: none !important;
         }
 
+        .menu-links {
+            display: none !important;
+        }
+
+        /*
         .menu-icon i {
             color: #fff;
-            font-size: 2rem;
-            background-color: var(--themeActiveColor);
             border-radius: 4px;
-            padding: 0.2rem;
             display: block;
+
         }
+        */
 
         .menu-icon {
             display: block;
@@ -155,6 +172,35 @@
     body.no-scroll {
         overflow: hidden;
     }
+
+    .nav-links-items {
+        background-color: var(--themeActiveColor);
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        gap: 1rem;
+        margin-bottom: 0 !important;
+        padding-left: 0 !important;
+    }
+
+    .nav-links-items li {
+        padding: 1rem;
+    }
+
+    .nav-links-items a {
+        color: #000;
+        font-weight: 600;
+    }
+
+    .nav-links-items li:hover {
+        color: #fff;
+        background-color: red;
+    }
+
+    .nav-links-items li.active:hover {
+        color: #fff;
+        background-color: red;
+    }
 </style>
 
 {{-- @if (\App\Services\AppConfig::get()->app->app_info->web_menu == 'Center')
@@ -178,6 +224,8 @@
     @include('layouts.partials.split-center-header')
 @elseif (\App\Services\AppConfig::get()->app->app_info->web_menu == 'splitNavButton-Header')
     @include('layouts.partials.split-nav-button-header')
+@elseif (\App\Services\AppConfig::get()->app->app_info->web_menu == 'darkNavLinks-Header')
+    @include('layouts.partials.5th-header')
 @endif
 
 
@@ -202,17 +250,39 @@
         document.addEventListener('DOMContentLoaded', (event) => {
             const sideHeader = document.querySelector('.side-header');
             const navbarToggler = document.querySelector('.navbar-toggler');
-            const body = document.body;
+
+            // Check localStorage for the side-header state
+            if (localStorage.getItem('sideHeaderState') === 'show') {
+                sideHeader.classList.add('show');
+                sideHeader.style.overflow = "hidden";
+            }
 
             navbarToggler.addEventListener('click', () => {
                 sideHeader.classList.toggle('show');
                 if (sideHeader.classList.contains('show')) {
                     sideHeader.style.overflow = "hidden";
+                    localStorage.setItem('sideHeaderState', 'show');
                 } else {
                     sideHeader.style.overflow = "hidden";
+                    localStorage.setItem('sideHeaderState', 'hide');
                 }
-
             });
         });
+
+        // document.addEventListener('DOMContentLoaded', (event) => {
+        //     const sideHeader = document.querySelector('.side-header');
+        //     const navbarToggler = document.querySelector('.navbar-toggler');
+        //     const body = document.body;
+
+        //     navbarToggler.addEventListener('click', () => {
+        //         sideHeader.classList.toggle('show');
+        //         if (sideHeader.classList.contains('show')) {
+        //             sideHeader.style.overflow = "hidden";
+        //         } else {
+        //             sideHeader.style.overflow = "hidden";
+        //         }
+
+        //     });
+        // });
     </script>
 @endpush
