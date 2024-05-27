@@ -6,33 +6,36 @@
                     width="100px">
             </a>
         </div>
-        <nav class="inner split_nav d-flex align-items-center justify-content-between gap-5 mx-4">
-            <ul id="split_menu_links" class="d-flex align-items-center justify-content-center gap-5 flex-wrap mb-0"
-                style="padding-left: 0 !important;">
-                @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
-                    @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
-                        @if ($menu->menu_type === 'FA' && !session()->has('USER_DETAILS.USER_CODE'))
-                            @continue
-                        @endif
-                        <a class="text-decoration-none text-white" href="/{{ $menu->menu_slug }}">
-                            <li class="pc">{{ $menu->menu_title }}</li>
-                        </a>
-                    @endif
-                @endforeach
-                @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                    @if ($page->displayOn === 'H' || $page->displayOn === 'B')
-                        @if ($page->pageType === 'E')
-                            <a class="text-decoration-none text-white" href="{!! $page->externalLink !!}" target="_blank">
-                                <li class="pc">{{ $page->page_title }}</li>
-                            </a>
-                        @else
-                            <a class="text-decoration-none text-white" href="/page/{{ $page->page_slug }}">
-                                <li class="pc">{{ $page->page_title }}</li>
+        <nav class="inner  d-flex align-items-center justify-content-between gap-5 mx-4">
+            <div class="split_nav">
+                <ul id="split_menu_links" class="d-flex align-items-center justify-content-center gap-5 flex-wrap mb-0"
+                    style="padding-left: 0 !important;">
+                    @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
+                        @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
+                            @if ($menu->menu_type === 'FA' && !session()->has('USER_DETAILS.USER_CODE'))
+                                @continue
+                            @endif
+                            <a class="text-decoration-none text-white" href="/{{ $menu->menu_slug }}">
+                                <li class="pc">{{ $menu->menu_title }}</li>
                             </a>
                         @endif
-                    @endif
-                @endforeach
-            </ul>
+                    @endforeach
+                    @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
+                        @if ($page->displayOn === 'H' || $page->displayOn === 'B')
+                            @if ($page->pageType === 'E')
+                                <a class="text-decoration-none text-white" href="{!! $page->externalLink !!}"
+                                    target="_blank">
+                                    <li class="pc">{{ $page->page_title }}</li>
+                                </a>
+                            @else
+                                <a class="text-decoration-none text-white" href="/page/{{ $page->page_slug }}">
+                                    <li class="pc">{{ $page->page_title }}</li>
+                                </a>
+                            @endif
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
 
             <div class="btns d-flex align-items-center gap-3">
                 <a href="/searchscreen" class="search-box text-white">
@@ -73,9 +76,10 @@
                         <a class="auth app-secondary-btn rounded" href="/signup">Signup</a>
                     @endif
                 @endif
-                {{-- <div class="menu-icon" onclick="mobileMenuHandler()">
-                            <i class="bi bi-list"></i>
-                        </div> --}}
+
+            </div>
+            <div class="menu-icon" onclick="mobileMenuHandler()">
+                <i class="bi bi-list"></i>
             </div>
         </nav>
         <div class="mbl-menu">
@@ -180,8 +184,6 @@
                 </div>
             @endif
         </div>
-        <div class="menu-icon mx-4" onclick="mobileMenuHandler()">
-            <i class="bi bi-list"></i>
-        </div>
+
     </div>
 </header>

@@ -1,4 +1,4 @@
-    <header class="centered-header  d-flex align-items-center justify-content-center pt-4 pb-3">
+    <header class="centered-header d-flex align-items-center justify-content-center pt-4 pb-3">
         <nav class="inner d-flex align-items-center justify-content-center flex-column gap-2">
             <a href="/" class="text-center">
                 <img  src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt="Logo" width="100px">
