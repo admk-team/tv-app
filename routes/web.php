@@ -19,6 +19,7 @@ use App\Http\Controllers\PasswordUpdateController;
 use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QualityController;
@@ -107,3 +108,5 @@ Route::post('screener/authenticate/{code}', [ScreenerController::class, 'authent
 
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
 Route::get('/epgplayer/{channelGuid}/{slug}', [TvGuidePlayerController::class, 'index'])->name('player.tvguide');
+//Newsletter
+Route::post('newsletter', [NewsLetterController::class, 'newLetter'])->name('newsletter');
