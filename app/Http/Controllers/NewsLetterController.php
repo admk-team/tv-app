@@ -13,22 +13,25 @@ class NewsLetterController extends Controller
         $validated = $request->validate([
             'email' => 'required|email',
         ]);
-        dd(  $validated);
-        $response = Http::timeout(300)->withHeaders(Api::headers(
-            [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-            ]
-        ))
-            ->asForm()
-            ->post(Api::endpoint('/mngappusrs'), [
-                'requestAction' => 'newLetter',
-                'email' => $validated['email'],
-            ]);
-
+    
+        $response = Http::timeout(300)->withHeaders(Api::headers([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ]))
+        ->asForm()
+        ->post(Api::endpoint('/mngappusrs'), [
+            'requestAction' => 'newLetter',
+            'email' => $validated['email'],
+        ]);
+    
         if ($response) {
             $data = $response->json();
-            return back();
+            session()->flash('data', $data);
+        } else {
+            session()->flash('error', 'An error occurred while processing your request.');
         }
+    
+        return redirect()->back()->withFragment('newsletter-section');
     }
+    
 }

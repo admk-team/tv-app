@@ -76,6 +76,7 @@
                     margin: auto;
                     border-radius: 15px
                 }
+
                 #subscribe-form input[type="email"] {
                     padding: 10px;
                     font-size: 16px;
@@ -85,6 +86,7 @@
                     color: #fff;
                     width: 100%;
                 }
+
                 #subscribe-form button {
                     padding: 10px 20px;
                     font-size: 16px;
@@ -95,25 +97,56 @@
                     border-radius: 5px;
                     margin-left: 10px;
                 }
+
                 @media only screen and (max-width: 600px) {
                     #subscribe-form {
                         width: 70%;
                         flex-direction: column;
                     }
+
                     #subscribe-form button {
                         width: 100%;
                     }
-                  }
+                }
             </style>
-            @if (isset(\App\Services\AppConfig::get()->app->app_info->newsletter) && \App\Services\AppConfig::get()->app->app_info->newsletter === 1)
-            <div class="row">
-                    <h6 class="text-center text-white">Subscribe to our Newsletter</h6>
-                    <form id="subscribe-form" method="POST" action="{{ route('newsletter') }}">
-                        @csrf
-                        <input type="email" id="email-input"  name="email" placeholder="Enter your email" required>
-                        <button class="app-primary-btn rounded" type="submit">Subscribe</button>
-                    </form>
-            </div>
+            @if (isset(\App\Services\AppConfig::get()->app->app_info->newsletter) &&
+                    \App\Services\AppConfig::get()->app->app_info->newsletter === 1)
+                    <div id="newsletter-section" class="row">
+                        <h5 class="text-center text-white">Subscribe to our Newsletter</h5>
+                        <center>
+                            <p style="color:red">
+                                @if (session()->has('error'))
+                                    {{ session('error') }}
+                                @endif
+                            </p>
+                            @if (session()->has('data'))
+                                @php
+                                    $data = session('data');
+                                @endphp
+                                @if (isset($data['app']['status']) && $data['app']['status'] == 0)
+                                    <p style="color:red; font-weight: 400;">
+                                        @isset($data['app']['msg'])
+                                            {{ $data['app']['msg'] }}
+                                        @endisset
+                                    </p>
+                                @endif
+                                @if (isset($data['app']['status']) && $data['app']['status'] == 1)
+                                    <p style="color:rgb(0, 131, 0); font-weight: 400;">
+                                        @isset($data['app']['msg'])
+                                            {{ $data['app']['msg'] }}
+                                        @endisset
+                                    </p>
+                                @endif
+                            @endif
+                        </center>
+                        <form id="subscribe-form" method="POST" action="{{ route('newsletter') }}">
+                            @csrf
+                            <input type="email" id="email-input" name="email" placeholder="Enter your email" required>
+                            <button class="app-primary-btn rounded" type="submit">Subscribe</button>
+                        </form>
+                    </div>
+                    
+                    
             @endif
             <div class="row">
                 <div class="col-sm-6 col-md-12 footer_rights" style="text-align: center;">
@@ -159,3 +192,24 @@
         </div>
     </div>
 </footer>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('subscribe-form');
+        form.addEventListener('submit', function(event) {
+            // Get the current URL
+            const currentUrl = window.location.href;
+    
+            // Check if the URL already contains a fragment
+            const hasFragment = currentUrl.includes('#');
+    
+            // Form action URL
+            const formAction = form.action;
+    
+            // Append the fragment identifier if not already present
+            if (!hasFragment) {
+                form.action = formAction + '#newsletter-section';
+            }
+        });
+    });
+    </script>
+    
