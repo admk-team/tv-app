@@ -65,50 +65,6 @@
                     </ul>
                 </div>
             </div>
-            <style>
-                #subscribe-form {
-                    display: inline-flex;
-                    justify-content: center;
-                    align-items: center;
-                    border: 1px solid #ccc;
-                    width: 50%;
-                    padding: 8px 12px;
-                    margin: auto;
-                    border-radius: 15px
-                }
-
-                #subscribe-form input[type="email"] {
-                    padding: 10px;
-                    font-size: 16px;
-                    border: none;
-                    outline: none;
-                    background-color: transparent;
-                    color: #fff;
-                    width: 100%;
-                }
-
-                #subscribe-form button {
-                    padding: 10px 20px;
-                    font-size: 16px;
-                    border: none;
-                    background-color: #28a745;
-                    color: white;
-                    cursor: pointer;
-                    border-radius: 5px;
-                    margin-left: 10px;
-                }
-
-                @media only screen and (max-width: 600px) {
-                    #subscribe-form {
-                        width: 70%;
-                        flex-direction: column;
-                    }
-
-                    #subscribe-form button {
-                        width: 100%;
-                    }
-                }
-            </style>
             @if (isset(\App\Services\AppConfig::get()->app->app_info->newsletter) &&
                     \App\Services\AppConfig::get()->app->app_info->newsletter === 1)
                     <div id="newsletter-section" class="row">

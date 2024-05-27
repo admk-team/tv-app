@@ -2521,6 +2521,49 @@ footer {
     padding: 33px 33px;
 }
 
+#subscribe-form {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    width: 50%;
+    padding: 8px 12px;
+    margin: auto;
+    border-radius: 15px
+}
+
+#subscribe-form input[type="email"] {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: #fff;
+    width: 100%;
+}
+
+#subscribe-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color:  var(--themeActiveColor);
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+    #subscribe-form {
+        width: 70%;
+        flex-direction: column;
+    }
+
+    #subscribe-form button {
+        width: 100%;
+    }
+}
+
 h5.footer_title {
     font-size: 18px;
     color: #E0E0E0;
