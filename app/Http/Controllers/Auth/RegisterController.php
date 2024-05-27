@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Services\Api;
+use App\Services\AppConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -57,6 +58,10 @@ class RegisterController extends Controller
             $redirectUrl = session('REDIRECT_TO_SCREEN');
             session()->forget('REDIRECT_TO_SCREEN');
             return redirect($redirectUrl);
+        }
+
+        if ((AppConfig::get()->app->app_info->subscription_on_signup ?? 'no') === 'yes') {
+            return redirect(route('subscription'));
         }
 
         return redirect(route('profile.index'));
