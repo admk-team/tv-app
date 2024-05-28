@@ -1,14 +1,13 @@
 <header class="pt-4">
     <div class="wrapper">
-        <div class="d-block py-3 my-2" style="padding-left: 2rem;">
+        <div class="py-3 px-2 my-2 header__logo d-block">
             <a href="/">
-                <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt="Logo"
-                    width="100px">
+                <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt="Logo">
             </a>
         </div>
         <nav class="inner  d-flex align-items-center justify-content-between gap-5 mx-4">
             <div class="split_nav">
-                <ul id="split_menu_links" class="d-flex align-items-center justify-content-center gap-5 flex-wrap mb-0"
+                <ul id="split_menu_links" class="d-flex align-items-center justify-content-center gap-4 flex-wrap mb-0"
                     style="padding-left: 0 !important;">
                     @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
                         @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
