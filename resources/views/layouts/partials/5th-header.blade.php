@@ -1,12 +1,11 @@
     <header class="header">
         <nav class="inner mt-2">
-            <li class="logo">
+            <div class="header__logo">
                 <a href="/">
-                    <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt=""
-                    width="80px" height="80px">
+                    <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}">
                 </a>
-            </li>
-            
+            </div>
+
             <ul class="nav-links-items">
                 @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
                     @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))

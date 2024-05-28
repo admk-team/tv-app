@@ -1,16 +1,15 @@
     <header class="header">
         <nav class="inner mt-2">
-            <li class="logo">
-                <a href="/">
-                    <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt=""
-                        width="80px" height="80px">
-                </a>
-            </li>
+        <div class="header__logo d-block">
+            <a href="/">
+                <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt="Logo">
+            </a>
+        </div>
 
             <div class="side-header position-relative ">
                 <div class="pt-4 pb-3 d-flex align-items-center justify-content-center flex-column">
                     <div class="inner d-flex align-items-center justify-content-around gap-5 mb-4">
-                        <ul class="menu-links d-flex align-items-center justify-content-center gap-5 flex-wrap mb-0">
+                        <ul class="menu-links d-flex align-items-center justify-content-center gap-4 flex-wrap mb-0">
                             @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
                                 @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
                                     @if ($menu->menu_type === 'FA' && !session()->has('USER_DETAILS.USER_CODE'))

@@ -1,9 +1,8 @@
 <header class="pt-4">
     <div class="wrapper d-flex align-items-center justify-content-around ">
-        <div class="py-3 my-2" style="padding-left: 2rem;">
+        <div class="py-3 my-2 header__logo">
             <a href="/">
-                <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt="Logo"
-                    width="100px">
+                <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt="Logo">
             </a>
         </div>
         <div class="btns d-flex align-items-center gap-3">
@@ -51,7 +50,7 @@
         </div>
     </div>
     <nav class="mx-4 split_nav">
-        <ul class="d-flex align-items-center justify-content-center gap-5 flex-wrap mb-0"
+        <ul class="d-flex align-items-center justify-content-center gap-1 flex-wrap mb-0"
             style="padding-left: 0 !important;">
             @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
                 @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
