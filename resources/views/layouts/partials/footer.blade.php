@@ -79,14 +79,14 @@
                                 @php
                                     $data = session('data');
                                 @endphp
-                                @if (isset($data['app']['status']) && $data['app']['status'] == 0)
+                                @if (isset($data['app']['status']) && $data['app']['status'] == 3)
                                     <p style="color:red; font-weight: 400;">
                                         @isset($data['app']['msg'])
                                             {{ $data['app']['msg'] }}
                                         @endisset
                                     </p>
                                 @endif
-                                @if (isset($data['app']['status']) && $data['app']['status'] == 1)
+                                @if (isset($data['app']['status']) && $data['app']['status'] == 4)
                                     <p style="color:rgb(0, 131, 0); font-weight: 400;">
                                         @isset($data['app']['msg'])
                                             {{ $data['app']['msg'] }}
