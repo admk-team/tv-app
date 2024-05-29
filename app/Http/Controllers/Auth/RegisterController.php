@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\GeneralHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Services\Api;
@@ -60,7 +61,7 @@ class RegisterController extends Controller
             return redirect($redirectUrl);
         }
 
-        if ((AppConfig::get()->app->app_info->subscription_on_signup ?? 'no') === 'yes') {
+        if (GeneralHelper::subscriptionIsRequired()) {
             return redirect(route('subscription'));
         }
 

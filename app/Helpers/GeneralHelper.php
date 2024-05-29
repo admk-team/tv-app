@@ -2,6 +2,10 @@
 
 namespace App\Helpers;
 
+use App\Services\Api;
+use App\Services\AppConfig;
+use Illuminate\Support\Facades\Http;
+
 class GeneralHelper
 {
     public static function replaceDataInList($string, $list)
@@ -668,5 +672,32 @@ class GeneralHelper
         list($fname, $lname) = explode(" ", $name);
         $shortName = substr($fname, 0, 1) . substr($lname, 0, 1);
         return $shortName;
+    }
+
+    public static function isSubscribed()
+    {
+        $response = Http::withHeaders(Api::headers())
+            ->get(Api::endpoint('/check-subscription'));
+        
+        if (!$response->successful()) {
+            return false;
+        }
+
+        $responseJson = $response->json();
+
+        if (isset($responseJson['is_subscribed']) && $responseJson['is_subscribed'] === true) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function subscriptionIsRequired()
+    {
+        if ((AppConfig::get()->app->app_info->subscription_on_signup ?? 'no') === 'yes' && !self::isSubscribed()) {
+            return true;
+        }
+
+        return false;
     }
 }

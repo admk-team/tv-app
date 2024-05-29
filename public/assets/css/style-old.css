@@ -7713,3 +7713,13 @@ ul.dropsmenubox li a.dropdown-item:hover {
 .trail-redirect-message.show-player-popup {
     transform: translateX(0);
 }
+
+.subscription-required-msg {
+    background-color: var(--themeActiveColor);
+    color: var(--navbarMenucolor);
+    padding: 8px 12px;
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: bold;
+    font-size: 18px;
+}

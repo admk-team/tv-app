@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Services\Api;
 use Illuminate\Http\Request;
+use App\Helpers\GeneralHelper;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -99,6 +100,11 @@ class LoginController extends Controller
             $redirectUrl = session('REDIRECT_TO_SCREEN');
             session()->forget('REDIRECT_TO_SCREEN');
             return redirect($redirectUrl);
+        }
+
+        // If subscription is required and is not subscribed redirect to subscription page
+        if (GeneralHelper::subscriptionIsRequired()) {
+            return redirect(route('subscription'));
         }
 
         $response = Http::withHeaders(Api::headers())

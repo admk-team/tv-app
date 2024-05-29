@@ -4,6 +4,9 @@
     <div class="login_page topinnew_gaps pt-0">
         <div class="demo10">
             <div class="container" style="max-width: 1140px;">
+                @if (\App\Helpers\GeneralHelper::subscriptionIsRequired())
+                    <div class="subscription-required-msg">Subscribe to watch content!</div>
+                @endif
                 <div class="detailtitle">Subscription Plans</div>
                 <div class="row">
                     @foreach (\App\Services\AppConfig::get()->app->s_plan as $plan)

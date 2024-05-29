@@ -74,6 +74,20 @@
         }
     }
 
+    // Check if subscription is required for all content and is not subscribed
+    if (\App\Helpers\GeneralHelper::subscriptionIsRequired() && $isBuyed == 'N') {
+        if ($limitWatchTime === 'no' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
+            session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
+            session()->save();
+            \Illuminate\Support\Facades\Redirect::to(route('login'))->send();
+        }
+        else if (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE'])) {
+            session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
+            session()->save();
+            \Illuminate\Support\Facades\Redirect::to(route('subscription'))->send();
+        }
+    }
+
     $mType = 'video';
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
