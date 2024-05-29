@@ -106,7 +106,7 @@
                                     @else
                                         <a href="{{ $url }}">
                                             <div class="{{ $cardThumbCls2 }}">
-                                                <div class="trending_icon_box" {!! $stream->monetization_type == 'F' ? 'style="display: none;"' : '' !!}><img
+                                                <div class="trending_icon_box" {!! (!$stream->monetization_type || $stream->monetization_type == 'F') ? 'style="display: none;"' : '' !!}><img
                                                         src="{{ url('/') }}/assets/images/trending_icon.png"
                                                         alt="Trending">
                                                 </div>
