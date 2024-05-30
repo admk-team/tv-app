@@ -648,6 +648,7 @@
                         <input type="text" class="share_formbox" id="sharingURL" value="{{ $sharingURL }}"
                             readonly>
                         <input type="button" class="submit_btn share_btnbox" value="Copy">
+                    </form>
                 </div>
             </div>
         </div>
