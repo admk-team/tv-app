@@ -12,9 +12,7 @@ class ProfileController extends Controller
     {
         $response = Http::withHeaders(Api::headers())
             ->asForm()
-            ->get(Api::endpoint('/userprofiles?id=' . session('USER_DETAILS.USER_ID')), [
-                'type' => 'advisory',
-            ]);
+            ->get(Api::endpoint('/userprofiles?id=' . session('USER_DETAILS.USER_ID')));
         $user_data = $response->json();
 
         return view('profile.index', compact('user_data'));
