@@ -112,7 +112,6 @@ class LoginController extends Controller
             ->get(Api::endpoint("/userprofiles?id={$responseJson['app']['data']['user_id']}&user_data={$xyz}&user_device={$finalresultDevice}"));
 
         $user_data = $response->json();
-
         return view('profile.index', compact('user_data'));
     }
 
