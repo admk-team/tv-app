@@ -1,4 +1,4 @@
-    <header class="header">
+    <header class="header fixed-menu">
         <nav class="inner mt-2">
         <div class="header__logo d-block">
             <a href="/">

@@ -1,4 +1,4 @@
-<section class="header">
+<section class="header fixed-menu">
     <div class="container-fluid">
         <nav class="navbar navbar-expand-md fixed-top">
             <a class="navbar-brand" href="/"><img alt="logo"

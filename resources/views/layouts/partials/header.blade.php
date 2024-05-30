@@ -5,7 +5,6 @@
 
     .header__logo {
         width: 100px;
-        height: 100px;
     }
 
     .header__logo img {
@@ -241,6 +240,41 @@
         color: #fff;
         background-color: red;
     }
+
+    /* Fixed menus */
+.fixed-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Adjust z-index as needed */
+}
+.fixed-menu2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Adjust z-index as needed */
+}
+
+/* Non-fixed menus */
+.non-fixed-menu {
+  /* Add your styling for non-fixed menus */
+}
+
+/* Content */
+.content {
+  padding-top: 0; /* Initially no padding */
+}
+
+/* Add padding to content when menus are fixed */
+.fixed-menu ~ .content {
+  padding-top: 100px; /* Adjust the value as needed */
+}
+.fixed-menu2 ~ .content {
+  padding-top: 280px; /* Adjust the value as needed */
+}
+
 </style>
 
 {{-- @if (\App\Services\AppConfig::get()->app->app_info->web_menu == 'Center')
