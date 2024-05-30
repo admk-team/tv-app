@@ -1,4 +1,4 @@
-    <header class="header">
+    <header class="header fixed-menu">
         <nav class="inner">
             <ul class="links">
                 <li class="logo">

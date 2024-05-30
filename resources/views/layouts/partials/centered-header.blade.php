@@ -1,4 +1,4 @@
-    <header class="centered-header d-flex align-items-center justify-content-center pt-4 pb-3">
+    <header class="centered-header d-flex align-items-center justify-content-center pt-4 pb-3 ">
         <nav class="inner d-flex align-items-center justify-content-center flex-column gap-2">
             <div class="py-3 my-2 header__logo">
                 <a href="/">
@@ -74,38 +74,6 @@
                     <i class="bi bi-list"></i>
                 </div>
             </div>
-            <div class="btns">
-                @if (session()->has('USER_DETAILS'))
-                    <li class="nav-item">
-                        <div class="dropdown dropdin">
-                            <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>
-                                <div class="userimg">{{ session('USER_DETAILS')['USER_NAME'][0] }}</div>
-                            </div>
-                            <ul class="dropdown_menus profiledropin avtartMenu" style="display: none;">
-                                <li style="display: none;"><a href="update-profile.php"><span
-                                            class="userno">user-26</span></a></li>
-                                <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a>
-                                </li>
-                                <li><a class="text-decoration-none"
-                                        href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
-                                        Profiles</a></li>
-                                {{-- <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
-                                History</a></li> --}}
-                                <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
-                                        Password</a>
-                                </li>
-                                @if (\App\Services\AppConfig::get()->app->app_info->watch_history === 1)
-                                    <li><a class="text-decoration-none" href="{{ route('watch.history') }}">Watch
-                                            History</a>
-                                    </li>
-                                @endif
-                                <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                @else
-            </div>
-            @endif
         </nav>
         <div class="mbl-menu">
             <i class="bi bi-x-lg close-icon" onclick="mobileMenuHandler()"></i>
