@@ -150,7 +150,11 @@
     //&app_bundle=669112
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
-    $adMacros = $adUrl."&width=1920&height=1080&cb=$cb&".(!$isLocalHost? "uip=$userIP&": "")."device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+    if (parse_url($adUrl, PHP_URL_QUERY)) {
+        $adMacros = $adUrl."&width=1920&height=1080&cb=$cb&".(!$isLocalHost? "uip=$userIP&": "")."device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+    } else {
+        $adMacros = $adUrl."?width=1920&height=1080&cb=$cb&".(!$isLocalHost? "uip=$userIP&": "")."device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+    }
     $dataVast = "data-vast='$adMacros'";
 
     if ($isMobileBrowser == 1 || $adUrl == '')
