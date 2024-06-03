@@ -164,6 +164,14 @@
 
     $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
 
+    if (!$arrSlctItemData['has_global_ads']) {
+        $dataVast = '';
+    }
+
+    if (!$arrSlctItemData['has_individual_ads']) {
+        $dataVast2 = '';
+    }
+
     if (!$arrSlctItemData['has_ads']) {
         $dataVast = '';
         $dataVast2 = '';
@@ -452,7 +460,7 @@
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-title="{{ $arrSlctItemData['stream_title'] }}"
                                     data-description="{{ $arrSlctItemData['stream_description'] }}"
-                                    {!! $dataVast2 ?? $dataVast !!}>
+                                    {!! $dataVast2? $dataVast2: $dataVast !!}>
 
                                 </div>
                                 <?php
@@ -478,7 +486,7 @@
                       }
                      ?>
                                 <div class="mvp-playlist-item" data-type="{{ $quality }}"
-                                    data-path="{{ $videoUrl }}" {!! $dataVast2 ?? $dataVast !!}
+                                    data-path="{{ $videoUrl }}" {!! $dataVast2? $dataVast2: $dataVast !!}
                                     data-poster="{{ $poster }}" data-thumb="{{ $poster }}"
                                     data-title="{{ $arrStreamsData['stream_title'] }}"
                                     data-description="{{ $arrStreamsData['stream_description'] }}"></div>
