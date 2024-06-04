@@ -23,18 +23,26 @@
                         @endisset
                     </p>
                 </center>
-                <div class="cred_form">
-                    @if (Request::get('user_login') & Request::get('token'))
+                @if (Request::get('user_login') & Request::get('token'))
+                    <div class="cred_form2">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="inner-div dv2">
-                                    <div class="form-group">
-                                        <button class="btn rounded" type="submit">LOGIN</button>
-                                    </div>
+                            {{-- <div class="col-md-12"> --}}
+                            <div class="inner-div">
+                                <div class="form-group">
+                                    <input type="hidden" name="requestAction" value="validateUserAccount">
+                                    <input type="hidden" name="user_code" value="{{ Request::get('user_login') }}">
+                                    <input type="hidden" name="admin_code" value="{{ Request::get('token') }}">
+                                    <input type="hidden" name="headerRedirectUrl" value="signin">
+                                    <button class="btn rounded"
+                                        style="max-width: 220px; margin-left: 40%; margin-bottom:10%" type="submit">Login
+                                        As Viewer</button>
                                 </div>
                             </div>
+                            {{-- </div> --}}
                         </div>
-                    @else
+                    </div>
+                @else
+                    <div class="cred_form">
                         <div class="row">
 
                             <div class="col-md-6 ind1">
@@ -124,8 +132,9 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
-                </div>
+                    </div>
+                @endif
+
             </div>
         </form>
     </section>

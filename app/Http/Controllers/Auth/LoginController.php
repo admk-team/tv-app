@@ -61,7 +61,7 @@ class LoginController extends Controller
 
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->asForm()
-            ->post(Api::endpoint("/mngappusrs?user_data={$xyz}&user_device={$finalresultDevice}"), [
+            ->post(Api::endpoint("/mngappusrs?user_data={$xyz}&user_device={$finalresultDevice}&user_code={$request->user_code}&admin_code={$request->admin_code}"), [
                 'requestAction' => 'validateUserAccount',
                 'email' => $request->email,
                 'password' => $request->password,
@@ -93,11 +93,11 @@ class LoginController extends Controller
             return redirect($redirectUrl);
         }
 
-        $response = Http::withHeaders(Api::headers())
+        $responseprofile = Http::withHeaders(Api::headers())
             ->asForm()
             ->get(Api::endpoint("/userprofiles?id={$responseJson['app']['data']['user_id']}&user_data={$xyz}&user_device={$finalresultDevice}"));
 
-        $user_data = $response->json();
+        $user_data = $responseprofile->json();
 
         return view('profile.index', compact('user_data'));
     }

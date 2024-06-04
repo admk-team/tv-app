@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class LoginRequest extends FormRequest
 {
@@ -21,10 +22,21 @@ class LoginRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rule = [
             'email' => 'required | email',
             'password' => 'required'
         ];
+
+        if (Request::has('user_code')) {
+            $rule = [
+                'email' => 'nullable | email',
+                'password' => 'nullable',
+                'user_code' => 'required',
+                'admin_code' => 'required',
+            ];
+        }
+
+        return $rule;
     }
 
     public function messages(): array
