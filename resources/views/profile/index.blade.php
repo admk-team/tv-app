@@ -95,7 +95,7 @@
             // Fetch user profiles from API
             $.ajax({
                 type: "GET",
-                url: '{{ env('API_BASE_URL') }}' + '/userprofiles/' +
+                url: '{{ env('API_BASE_URL') }}' + '/userprofiles?id=' +
                     '{{ session('USER_DETAILS')['USER_ID'] }}',
                 dataType: 'json',
             }).done(function(data) {

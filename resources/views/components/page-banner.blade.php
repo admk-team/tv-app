@@ -59,8 +59,12 @@
                                 @endif
                                 <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream->stream_duration) ?? '' }}</span>
                                 <div class="badges">
-                                    <span class="badge">{{ $stream->content_qlt ?? '' }}</span>
-                                    <span class="badge">{{ $stream->content_rating ?? '' }}</span>
+                                    @if (isset($stream->content_qlt) && !empty($stream->content_qlt))
+                                        <span class="badge">{{ $stream->content_qlt }}</span>
+                                    @endif
+                                    @if (isset($stream->content_rating) && !empty($stream->content_rating))
+                                        <span class="badge">{{ $stream->content_rating }}</span>
+                                    @endif
                                 </div>
                             </div>
                             <p class="description">

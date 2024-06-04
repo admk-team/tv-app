@@ -103,7 +103,7 @@ body {
   width: 100%;
   border: 1px solid var(--primary-button-color);
   border-radius: 40px;
-  padding-inline: 1rem;
+  /* padding-inline: 1rem; */
   padding-block: 0.1rem;
 }
 .home__section span
@@ -130,18 +130,27 @@ body {
   max-width: 80%;
   margin: auto;
   margin-bottom: 2rem;
-    cursor: pointer;
-
+  cursor: pointer;
 }
+
 .devices__section .icons > div.active {
   background-color: rgba(243, 156, 18, 0.4);
-  border: 2px solid #f39c12;
+  border: 2px solid var(--primary-button-color);
+}
+
+.devices__section .icons > div {
+  text-align: center; /* Center align the icon and the text */
 }
 
 .devices__section .icons > div > i {
   font-size: 2rem;
   padding-block: 0.6rem;
 }
+
+.devices__section .icons > div > span {
+  display: block; /* Ensure each span is on a new line */
+}
+
 .device__images {
   width: 80%;
   height: auto;

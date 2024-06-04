@@ -152,7 +152,7 @@
     document.querySelector('#searchKeyword').addEventListener('input', debounce((event) => {
         const url = event.target.closest('form').action;
         const keyword = event.target.value;
-        if (keyword.length !== 0 && keyword.length < 4) {
+        if (keyword.length !== 0 && keyword.length < 3) {
             return;
         }
 

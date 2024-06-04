@@ -14,6 +14,7 @@ ul {
     list-style-type: none;
 }
 
+
 header {
     position: relative;
 }
@@ -2518,6 +2519,49 @@ footer {
 .footer_section {
     background: var(--defaultcolor);
     padding: 33px 33px;
+}
+
+#subscribe-form {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    width: 50%;
+    padding: 8px 12px;
+    margin: auto;
+    border-radius: 15px
+}
+
+#subscribe-form input[type="email"] {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: #fff;
+    width: 100%;
+}
+
+#subscribe-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color:  var(--themeActiveColor);
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+    #subscribe-form {
+        width: 70%;
+        flex-direction: column;
+    }
+
+    #subscribe-form button {
+        width: 100%;
+    }
 }
 
 h5.footer_title {
@@ -7638,4 +7682,44 @@ ul.dropsmenubox li a.dropdown-item:hover {
     color: var(--themePrimaryTxtColor);
     text-align: center;
     padding: 2rem 0;
+}
+
+.videocentalize {
+    overflow: hidden;
+}
+
+.trail-redirect-message {
+    /* background-color: var(--themeActiveColor); */
+    background-color: #353b49;
+    /* color: var(--themePrimaryTxtColor); */
+    color: #eee;
+    max-width: 1000.89px;
+    width: fit-content;
+    /* margin: 1rem auto; */
+    padding: .8rem 1.2rem;
+    font-weight: 600;
+    border-radius: 2px;
+    position: absolute;
+    z-index: 1;
+    bottom: 68px;
+    height: fit-content;
+    right: 18px;
+    user-select: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease-in-out;
+    transform: translateX(400px);
+}
+
+.trail-redirect-message.show-player-popup {
+    transform: translateX(0);
+}
+
+.subscription-required-msg {
+    background-color: var(--themeActiveColor);
+    color: var(--navbarMenucolor);
+    padding: 8px 12px;
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: bold;
+    font-size: 18px;
 }

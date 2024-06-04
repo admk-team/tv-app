@@ -19,11 +19,13 @@ use App\Http\Controllers\PasswordUpdateController;
 use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QualityController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ScreenerController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\TvGuidePlayerController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\YearController;
@@ -42,7 +44,7 @@ use Illuminate\Support\Facades\Route;
 
 // Temporary landing page route
 Route::view('/new3', 'components.new3');
-Route::view('/lyra', 'components.lyra');
+Route::view('/lyra', 'components.damian');
 // Route::view('/new3', 'components.new3');
 
 // Authentication
@@ -93,6 +95,8 @@ Route::get('rating/{code}', [RatingController::class, 'index'])->name('rating');
 
 Route::get('advisory/{id}', [AdvisoryController::class, 'index'])->name('advisory');
 Route::get('language/{id}', [LanguageController::class, 'index'])->name('language');
+Route::get('tag/{id}', [TagController::class, 'index'])->name('tag');
+
 
 Route::get('person/{id?}', [PersonController::class, 'index'])->name('person');
 Route::post('addrating', [DetailScreenController::class, 'addRating'])->name('addrating');
@@ -104,3 +108,5 @@ Route::post('screener/authenticate/{code}', [ScreenerController::class, 'authent
 
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
 Route::get('/epgplayer/{channelGuid}/{slug}', [TvGuidePlayerController::class, 'index'])->name('player.tvguide');
+//Newsletter
+Route::post('newsletter', [NewsLetterController::class, 'newLetter'])->name('newsletter');

@@ -24,7 +24,9 @@ body {
     background-color: var(--headerBgColor);
     z-index: 1000;
 }
-
+.centered-header {
+    background-color: var(--headerBgColor);
+}
 .header .inner {
     display: flex;
     justify-content: space-between;
@@ -126,7 +128,7 @@ body {
     color: var(--navbarMenucolor);
 }
 
-.header .menu-icon {
+.menu-icon {
     background-color: var(--themeActiveColor);
     border-radius: 5px;
     padding: 0px 4px;
@@ -135,7 +137,7 @@ body {
     align-items: center;
 }
 
-.header .menu-icon i {
+.menu-icon i {
     font-size: 32px;
     color: #fff;
 }

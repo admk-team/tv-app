@@ -10293,7 +10293,7 @@ html.is-firetv-hyb {
 @media(min-width: 768px) {
     .a8jOE .m4M3j {
         height: 56.25vw;
-        background-image: url(../images/bg.jpg)
+        /* background-image: url(../images/bg.jpg) */
     }
 }
 

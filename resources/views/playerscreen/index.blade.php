@@ -32,18 +32,25 @@
         session('REDIRECT_TO_SCREEN', url('/playerscreen/' . $streamGuid));
         \App\Helpers\GeneralHelper::headerRedirect(url('/signin'));
     }
+
     //monetioztion
+    $redirectUrl = null;
+    if ($limitWatchTime === 'yes' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
+        session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
+        session()->save();
+        $redirectUrl = route('login');
+    }
     $sharingURL = route('playerscreen', $streamGuid);
     $isBuyed = $arrSlctItemData['is_buyed'];
     $monetizationType = $arrSlctItemData['monetization_type'];
-    if ($monetizationType != 'F' && $isBuyed == 'N') {
+    if ($monetizationType != 'F' && $isBuyed == 'N' && !$redirectUrl) {
         session()->forget('coupon_applied'); // Remove old
         session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
-        if (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE']) {
+        if ($limitWatchTime === 'no' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
             session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
             session()->save();
             \Illuminate\Support\Facades\Redirect::to(route('login'))->send();
-        } elseif ($monetizationType == 'S') {
+        } else if ($monetizationType == 'S') {
             $sArr['REQUEST_FROM'] = 'player';
             session(['MONETIZATION' => $sArr]);
             session()->save();
@@ -64,6 +71,20 @@
             session(['MONETIZATION' => $sArr]);
             session()->save();
             \Illuminate\Support\Facades\Redirect::to(route('monetization'))->send();
+        }
+    }
+
+    // Check if subscription is required for all content and is not subscribed
+    if (\App\Helpers\GeneralHelper::subscriptionIsRequired() && $isBuyed == 'N') {
+        if ($limitWatchTime === 'no' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
+            session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
+            session()->save();
+            \Illuminate\Support\Facades\Redirect::to(route('login'))->send();
+        }
+        else if (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE'])) {
+            session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
+            session()->save();
+            \Illuminate\Support\Facades\Redirect::to(route('subscription'))->send();
         }
     }
 
@@ -129,7 +150,11 @@
     //&app_bundle=669112
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
-    $adMacros = $adUrl."&width=1920&height=1080&cb=$cb&".(!$isLocalHost? "uip=$userIP&": "")."device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+    if (parse_url($adUrl, PHP_URL_QUERY)) {
+        $adMacros = $adUrl."&width=1920&height=1080&cb=$cb&".(!$isLocalHost? "uip=$userIP&": "")."device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+    } else {
+        $adMacros = $adUrl."?width=1920&height=1080&cb=$cb&".(!$isLocalHost? "uip=$userIP&": "")."device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+    }
     $dataVast = "data-vast='$adMacros'";
 
     if ($isMobileBrowser == 1 || $adUrl == '')
@@ -139,12 +164,21 @@
 
     $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
 
+    if (!$arrSlctItemData['has_global_ads']) {
+        $dataVast = '';
+    }
+
+    if (!$arrSlctItemData['has_individual_ads']) {
+        $dataVast2 = '';
+    }
+
     if (!$arrSlctItemData['has_ads']) {
         $dataVast = '';
         $dataVast2 = '';
     }
 
     $watermark = $arrSlctItemData['watermark'] ?? null;
+
     ?>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
@@ -297,6 +331,13 @@
             -webkit-user-drag: none;
             user-select: none;
         }
+
+        @if ($redirectUrl)
+            .mvp-input-progress, .mvp-skip-backward-toggle, .mvp-skip-forward-toggle, .mvp-rewind-toggle {
+                cursor: not-allowed !important; 
+            }
+            
+        @endif
     </style>
 
     <?php if(session("GLOBAL_PASS") == 1){ ?>
@@ -397,8 +438,8 @@
                     </section>
                     <?php else: ?>
 
-
                     <div class="videocentalize">
+                        <div class="trail-redirect-message">You will be redirected to login in <span class="time">45 second</span></div>
                         @if ($watermark)
                             <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}" style="display: none;">
                                 @if ($watermark['type'] === 'text')
@@ -419,7 +460,7 @@
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-title="{{ $arrSlctItemData['stream_title'] }}"
                                     data-description="{{ $arrSlctItemData['stream_description'] }}"
-                                    {!! $dataVast2 ?? $dataVast !!}>
+                                    {!! $dataVast2? $dataVast2: $dataVast !!}>
 
                                 </div>
                                 <?php
@@ -445,7 +486,7 @@
                       }
                      ?>
                                 <div class="mvp-playlist-item" data-type="{{ $quality }}"
-                                    data-path="{{ $videoUrl }}" {!! $dataVast2 ?? $dataVast !!}
+                                    data-path="{{ $videoUrl }}" {!! $dataVast2? $dataVast2: $dataVast !!}
                                     data-poster="{{ $poster }}" data-thumb="{{ $poster }}"
                                     data-title="{{ $arrStreamsData['stream_title'] }}"
                                     data-description="{{ $arrStreamsData['stream_description'] }}"></div>
@@ -633,6 +674,7 @@
                         <input type="text" class="share_formbox" id="sharingURL" value="{{ $sharingURL }}"
                             readonly>
                         <input type="button" class="submit_btn share_btnbox" value="Copy">
+                    </form>
                 </div>
             </div>
         </div>
@@ -882,7 +924,14 @@ if (!empty($arrCatData))
                 // return true; // Prime number
             }
 
-
+            @if ($redirectUrl)
+                const trial = getTrial();
+                trial.onRedirect(() => {
+                    player.pauseMedia();
+                    player.destroyMedia();
+                    window.location.href = '{{ $redirectUrl }}';
+                })
+            @endif
 
             var isFirstTIme = true
             player.addEventListener('mediaStart', function(data) {
@@ -910,8 +959,17 @@ if (!empty($arrCatData))
                 }
             });
 
-            player.addEventListener("mediaPause", function(data) {
+            player.addEventListener("mediaPlay", function(data) {
+                @if ($redirectUrl)
+                    trial.start();
+                    document.querySelector('.mvp-input-progress').disabled = true;
+                    document.querySelector('.mvp-skip-backward-toggle').disabled = true;
+                    document.querySelector('.mvp-skip-forward-toggle').disabled = true;
+                    document.querySelector('.mvp-rewind-toggle').disabled = true;
+                @endif
+            });
 
+            player.addEventListener("mediaPause", function(data) {
                 //alert(data.instance.getCurrentTime());
                 //get media duration
                 //alert(data.instance.getDuration());
@@ -919,6 +977,9 @@ if (!empty($arrCatData))
                 sendAjaxRes4VideoDuration('saveStrmDur', data.media.mediaId, data.instance
                     .getCurrentTime());
 
+                @if ($redirectUrl)
+                    trial.pause();
+                @endif
             });
 
             player.addEventListener("mediaEnd", function(data) {
@@ -987,4 +1048,58 @@ if (!empty($arrCatData))
             }
         }
     </script>
+
+    @if ($redirectUrl)
+        <script>
+            // Trial
+            function getTrial() {
+                let redirectCallback = () => {};
+
+                const onRedirect = (callback) => redirectCallback = callback;
+
+                let displayCountDown = 30;
+                let countDownInterval = null;
+                const startCountDown = () => {
+                    const messageBox = document.querySelector('.trail-redirect-message');
+                    const messageTime = messageBox.querySelector('.time');
+                    messageTime.textContent = `${displayCountDown} second${displayCountDown > 1? 's': ''}`;
+                    messageBox.classList.add('show-player-popup');
+
+                    countDownInterval = setInterval(() => {
+                        --displayCountDown;
+                        messageTime.textContent = `${displayCountDown} second${displayCountDown > 1? 's': ''}`;
+
+                        if (displayCountDown === 0) {
+                            clearInterval(countDownInterval);
+                            redirectCallback();
+                        };
+                    }, 1000);
+                };
+
+                let duration = {{ $watchTimeDuration }} * 60000;
+                let countDownTimeout = null;
+                let startTime = null;
+
+                const start = () => {
+                    startTime = new Date();
+                    const countDownDelay = duration - 30000;
+                    countDownTimeout = setTimeout(startCountDown, countDownDelay >= 0? countDownDelay: 0);
+                };
+
+                const pause = () => {
+                    if (countDownTimeout) clearTimeout(countDownTimeout);
+                    if (countDownInterval) clearInterval(countDownInterval);
+
+                    const currentTime = new Date();
+                    duration = duration - (currentTime.getTime() - startTime.getTime());
+                };
+
+                return {
+                    start,
+                    pause,
+                    onRedirect,
+                };
+            }
+        </script>
+    @endif
 @endpush

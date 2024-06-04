@@ -8,22 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <!-- Link jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <style>
-        :root {
-            --bgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }};
-            --themeActiveColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }};
-            --headerBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->headerBgColor }};
-            --themePrimaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }};
-            --themeSecondaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeSecondaryTxtColor }};
-            --navbarMenucolor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarMenucolor }};
-            --navbarSearchColor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarSearchColor }};
-            --footerbtmBgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->footerbtmBgcolor }};
-            --slidercardBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardBgColor }};
-            --slidercardTitlecolor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardTitlecolor }};
-            --slidercardCatColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardCatColor }};
-            --cardDesColor: {{ \App\Services\AppConfig::get()->app->website_colors->cardDesColor }};
-        }
-    </style>
     @if (isset($data->app->landingpages))
         @foreach ($data->app->landingpages as $page)
             @if ($page->page_type === 'lyra' && $page->section_type === 'banner' && $page->status === 1)
@@ -125,51 +109,53 @@
                                             @endphp
                                             <span>{{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}</span>
                                             {{ $remainingWords }}
+                                        @else
+                                        @endif
                                     </h4>
-                                @else
-                @endif
-    </div>
-    <div class="col-md-12">
-        <div class="membership d-flex justify-content-between">
-            <input type="text" name="email" id="email" placeholder="Enter Email">
-            <a href="" id="submit"class="text-decoration-none text-white border-2  custom__button">Get
-                Started</a>
-        </div>
-        <span class="d-flex align-items-center justify-content-center text-danger email-error"></span>
-    </div>
-    </div>
-    </div>
-    </div>
-    @endif
-    @endforeach
-    @endif
-    @if (isset($data->app->landingpages))
-        @foreach ($data->app->landingpages as $page)
-            @if ($page->page_type === 'lyra' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
-                @if (!empty($page->appstore_link) || !empty($page->playstore_link))
-                    <div class="apps__links mt-5">
-                        <h5 style="display: inline-block"> {{ $page->title ?? '' }}</h5>
-                        <div class="d-flex  align-items-center gap-3">
-                            @if (!empty($page->appstore_link))
-                                <div>
-                                    <a href="{{ $page->appstore_link ?? '' }}"><img
-                                            src="{{ asset('assets/landing_theme_assets/iris/images/play.png') }}"
-                                            style="max-width: 240px;" alt="" srcset=""></a>
                                 </div>
-                            @endif
-                            @if (!empty($page->playstore_link))
-                                <div>
-                                    <a href="{{ $page->playstore_link ?? '' }}"><img
-                                            src="{{ asset('assets/landing_theme_assets/iris/images/apple.png') }}"
-                                            style="max-width: 240px;" alt="" srcset=""></a>
+                                <div class="col-md-12">
+                                    <div class="membership d-flex justify-content-between">
+                                        <input type="text" name="email" id="email" placeholder="Enter Email">
+                                        <a href=""
+                                            id="submit"class="text-decoration-none text-white border-2  custom__button">Get
+                                            Started</a>
+                                    </div>
+                                    <span
+                                        class="d-flex align-items-center justify-content-center text-danger email-error"></span>
                                 </div>
-                            @endif
+                            </div>
                         </div>
                     </div>
                 @endif
-            @endif
-        @endforeach
-    @endif
+            @endforeach
+        @endif
+        @if (isset($data->app->landingpages))
+            @foreach ($data->app->landingpages as $page)
+                @if ($page->page_type === 'lyra' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+                    @if (!empty($page->appstore_link) || !empty($page->playstore_link))
+                        <div class="apps__links mt-5">
+                            <h5 style="display: inline-block"> {{ $page->title ?? '' }}</h5>
+                            <div class="d-flex  align-items-center gap-3">
+                                @if (!empty($page->appstore_link))
+                                    <div>
+                                        <a href="{{ $page->appstore_link ?? '' }}"><img
+                                                src="{{ asset('assets/landing_theme_assets/iris/images/play.png') }}"
+                                                style="max-width: 240px;" alt="" srcset=""></a>
+                                    </div>
+                                @endif
+                                @if (!empty($page->playstore_link))
+                                    <div>
+                                        <a href="{{ $page->playstore_link ?? '' }}"><img
+                                                src="{{ asset('assets/landing_theme_assets/iris/images/apple.png') }}"
+                                                style="max-width: 240px;" alt="" srcset=""></a>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+                @endif
+            @endforeach
+        @endif
     </div>
     <!-- END: Hero Section -->
     <!-- START: App stores Section -->
@@ -196,7 +182,7 @@
                                 <img src="{{ $iconUrl }}" class="me-3" max-width="100%">
                             @endif
                         @endforeach
-                      
+
                     </div>
                 </div>
             @endif
@@ -399,8 +385,14 @@
                     <img class="img-fluid mb-4" src="{{ $data->app->app_info->website_logo ?? '' }}" alt=""
                         srcset="" width="150px">
                 </a>
-                <p class="p-0 m-0 text-white">Powered By</p>
-                <p class="p-0 m-0 text-white">{{ $data->app->app_info->app_name ?? '' }}</p>
+                <p class="p-0 m-0 text-white">
+                    {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_txt ?? '' }}</p>
+                <a class="text-decoration-none"
+                    href="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_url ?? '' }}">
+                    <p class="p-0 m-0 text-white">
+                        {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}
+                    </p>
+                </a>
             </div>
             <div class="col-md-3 ">
                 <h5 class="mb-4"><span>GET</span> TO KNOW US</h5>

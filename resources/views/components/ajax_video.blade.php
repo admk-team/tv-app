@@ -152,42 +152,45 @@
                     </div>
                 </div>
             </section>
-        @endif
-        @if ($page->page_type === 'AJV' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
-            <section class="bg-black our-story-card">
-                <div class="container py-5">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <h2 class="fw-bold text-white">{{ $page->title ?? '' }}</h2>
-                            <h5 class="text-white">
-                                {{ $page->description ?? '' }}
-                            </h5>
-
-                            <ul class="list-unstyled d-flex flex-wrap fs-5 text-secondary mt-3">
-                                <li>Watch Now: </li>
-
-                                <li><img src="  {{ asset('assets/landing_theme_assets/mean/images/roku_icon.png') }}"
-                                        width="50"> </li>
-                                <li><img src="   {{ asset('assets/landing_theme_assets/mean/images/firetv_icon.png') }}"
-                                        width="50"></li>
-                                <li><img src="  {{ asset('assets/landing_theme_assets/mean/images/appletv.png') }}"
-                                        width="50"></li>
-                                <li><img src=" {{ asset('assets/landing_theme_assets/mean/images/tizenapp.png') }}"
-                                        width="50"></li>
-                            </ul>
-                            <a href="/download-apps"><button class="btn btn-primary">Download Now</button></a>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="position-relative">
-                                <img src="{{ $page->image }}" class="img-fluid">
+            @endif
+            @endforeach
+            @foreach ($data->app->landingpages as $page)
+            @if ($page->page_type === 'AJV' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+                <section class="bg-black our-story-card">
+                    <div class="container py-5">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <h2 class="fw-bold text-white">{{ $page->title ?? '' }}</h2>
+                                <h5 class="text-white">
+                                    {{ $page->description ?? '' }}
+                                </h5>
+                                @endif
+                                @endforeach
+                                @foreach ($data->app->landingpages as $page)
+                                @if ($page->page_type === 'AJV' && $page->section_type === 'section' && $page->status === 1 && $page->order === 4)
+                                    <ul class="list-unstyled d-flex flex-wrap fs-5 text-secondary mt-3">
+                                        <li>{{ $page->title ?? '' }}</li>
+                                        @foreach (explode(',', $page->icon) as $iconUrl)
+                                            <li><img src="{{ $iconUrl }}" width="50"> </li>
+                                        @endforeach
+                                    </ul>
+                                    <a href="/download-apps"><button class="btn btn-primary">Download Now</button></a>
+                                    @endif
+                                    @endforeach
+                                    @foreach ($data->app->landingpages as $page)
+                                @if ($page->page_type === 'AJV' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+                            </div>
+                            <div class="col-md-6">
+                                <div class="position-relative">
+                                    <img src="{{ $page->image }}" class="img-fluid">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            @endif
+        @endforeach
         @endif
-    @endforeach
-    @endif
     <!-- Section: FAQ -->
     @if (isset($data->app->landingpages) &&
             array_reduce(
