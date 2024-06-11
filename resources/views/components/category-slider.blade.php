@@ -73,7 +73,7 @@
                             @endphp
                             <div class="item">
                                 <div class="{{ $cartMainSubCls }}">
-                                    @if ($category->cat_title == 'Top 10')
+                                    @if ($category->is_top10 === 'Y')
                                         <a href="{{ $url }}">
                                             <div class="d-flex cursor-pointer position-relative">
                                                 <a class="top-10-slider-wrapper" href="{{ $url }}"></a>
