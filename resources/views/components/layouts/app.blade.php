@@ -56,6 +56,7 @@
     </style>
     {{-- Custom Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    @yield('head')
 </head>
 
 <body>
