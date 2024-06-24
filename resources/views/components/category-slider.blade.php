@@ -83,26 +83,27 @@
                                                             src="{{ url('/') }}/assets/images/trending_icon.png"
                                                             alt="Trending">
                                                     </div> --}}
-                                                    @if (($stream->monetization_type ?? 'F') !== 'F')
-                                                        <div class="trending_icon_box">
-                                                            @if ($stream->premium_icon ?? null)
-                                                                @php
-                                                                $premium_icon = json_decode($stream->premium_icon, true);
-                                                                @endphp
-                                                                @if ($premium_icon['type'] === 'html')
-                                                                    <div style="width: 40px; height: 40px;">
-                                                                        {!! $premium_icon['icon'] !!}
-                                                                    </div>
-                                                                @else
-                                                                    <img src="{{ $premium_icon['icon'] }}" alt="icon" width="40px" height="40px">
-                                                                @endif
+                                                    
+                                                    <div class="trending_icon_box">
+                                                        @if ($stream->premium_icon ?? null)
+                                                            @php
+                                                            $premium_icon = json_decode($stream->premium_icon, true);
+                                                            @endphp
+                                                            @if ($premium_icon['type'] === 'html')
+                                                                <div style="width: 40px; height: 40px;">
+                                                                    {!! $premium_icon['icon'] !!}
+                                                                </div>
                                                             @else
-                                                                    <img
-                                                                    src="{{ url('/') }}/assets/images/trending_icon.png"
-                                                                    alt="Trending">
+                                                                <img src="{{ $premium_icon['icon'] }}" alt="icon" width="40px" height="40px">
                                                             @endif
-                                                        </div>
-                                                    @endif
+                                                        @else
+                                                            @if (($stream->monetization_type ?? 'F') !== 'F')
+                                                                <img
+                                                                src="{{ url('/') }}/assets/images/trending_icon.png"
+                                                                alt="Trending">
+                                                            @endif
+                                                        @endif
+                                                    </div>
 
                                                     <div class="{{ $cardThumbCls }}">
                                                         <img src="{{ $stream->{$streamPosterKey} }}"
@@ -131,26 +132,26 @@
                                                         src="{{ url('/') }}/assets/images/trending_icon.png"
                                                         alt="Trending">
                                                 </div> --}}
-                                                @if (($stream->monetization_type ?? 'F') !== 'F')
-                                                    <div class="trending_icon_box">
-                                                        @if ($stream->premium_icon ?? null)
-                                                            @php
-                                                            $premium_icon = json_decode($stream->premium_icon, true);
-                                                            @endphp
-                                                            @if ($premium_icon['type'] === 'html')
-                                                                <div class="svg">
-                                                                    {!! $premium_icon['icon'] !!}
-                                                                </div>
-                                                            @else
-                                                                <img src="{{ $premium_icon['icon'] }}" alt="icon">
-                                                            @endif
+                                                <div class="trending_icon_box">
+                                                    @if ($stream->premium_icon ?? null)
+                                                        @php
+                                                        $premium_icon = json_decode($stream->premium_icon, true);
+                                                        @endphp
+                                                        @if ($premium_icon['type'] === 'html')
+                                                            <div class="svg">
+                                                                {!! $premium_icon['icon'] !!}
+                                                            </div>
                                                         @else
-                                                                <img
-                                                                src="{{ url('/') }}/assets/images/trending_icon.png"
-                                                                alt="Trending">
+                                                            <img src="{{ $premium_icon['icon'] }}" alt="icon">
                                                         @endif
-                                                    </div>
-                                                @endif
+                                                    @else
+                                                        @if (($stream->monetization_type ?? 'F') !== 'F')
+                                                            <img
+                                                            src="{{ url('/') }}/assets/images/trending_icon.png"
+                                                            alt="Trending">
+                                                        @endif
+                                                    @endif
+                                                </div>
                                                 @if (($stream->is_newly_added ?? 'N') === 'Y')
                                                     <div class="newly-added-label">
                                                         <span>New Episode</span>
