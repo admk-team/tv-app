@@ -24,11 +24,13 @@
     @include('components.sliders.magic_slider')
 @elseif(isset($data->app->app_info->slider_section) && $data->app->app_info->slider_section == 'swiper')
     @include('components.sliders.swiper')
+@elseif(isset($data->app->app_info->slider_section) && $data->app->app_info->slider_section == 'fade')
+    @include('components.sliders.fade_slide')
 @else
     @include('components.sliders.owl_wrapper')
 @endif
 {{--    --}}
-{{--  @include('components.sliders.fade_slide')  --}}
+
 {{-- Fade slider --}}
 {{-- <div id="carouselExampleFade" class="carousel slide carousel-fade">
     <div class="carousel-inner">
