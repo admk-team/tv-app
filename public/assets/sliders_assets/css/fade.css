@@ -1,0 +1,89 @@
+.mySlides::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #000000e6, rgba(0, 0, 0, 0) 70%);
+    pointer-events: none;
+}
+
+.travel-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    color: white;
+    z-index: 1;
+}
+
+.travel-info h1 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.travel-info .timestamp {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.travel-info .timestamp span {
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.travel-info .timestamp .badges {
+    display: flex;
+    gap: 5px;
+    margin-left: 8px;
+}
+
+.travel-info .timestamp .badge {
+    display: block;
+    border: solid 1px #c9c9c9;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.travel-info .description {
+    font-size: 14px;
+    font-weight: 300;
+    display: -webkit-box;
+    white-space: normal;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 20px;
+    margin-bottom: 15px;
+}
+
+.travel-info .btns {
+    display: flex;
+    gap: 10px;
+}
+
+.travel-info .btns a {
+    padding: 8px 15px;
+}
+
+.mySlides img {
+    width: 100%;
+}
+
+.demo {
+    width: 100%;
+    cursor: pointer;
+    margin-top: 14px;
+}
+.w3-content {
+    max-width: 1190px;
+}
