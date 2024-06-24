@@ -1,6 +1,6 @@
 @section('head')
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    {{--  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">  --}}
     <link rel="stylesheet" href="{{ asset('assets/sliders_assets/css/swiper.css') }}">
 @endsection
 
@@ -10,7 +10,7 @@
         <div class="swiper-wrapper">
             @if ($data->app->featured_items->is_show ?? '' == 'Y')
                 @foreach ($data->app->featured_items->streams ?? [] as $stream)
-                    <div class="swiper-slide w3-animate-fading">
+                    <div class="swiper-slide">
                         <img class="thumbnail__image" src="{{ $stream->feature_poster ?? '' }}" alt="">
                         <div class="travel-info">
                             <h1 class="content-heading" title="{{ $stream->stream_title ?? '' }}">
