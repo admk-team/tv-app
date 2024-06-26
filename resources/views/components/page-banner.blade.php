@@ -28,11 +28,13 @@
     @include('components.sliders.fade_slide')
 @elseif(isset($data->app->app_info->slider_section) && $data->app->app_info->slider_section == 'animated')
     @include('components.sliders.animation')
+    @elseif(isset($data->app->app_info->slider_section) && $data->app->app_info->slider_section == 'hero')
+    @include('components.sliders.hero_slider')
 @else
     @include('components.sliders.owl_wrapper')
 @endif
 {{--    --}}
-
+ {{--  @include('components.sliders.hero_slider')  --}}
 {{-- Fade slider --}}
 {{-- <div id="carouselExampleFade" class="carousel slide carousel-fade">
     <div class="carousel-inner">
