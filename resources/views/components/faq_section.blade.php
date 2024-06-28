@@ -1,7 +1,4 @@
 @if (isset($data->app->app_info->faq_section) && $data->app->app_info->faq_section == 1)
-    @section('head')
-        <link rel="stylesheet" href="{{ asset('assets/css/faq_style.css') }}">
-    @endsection
     <!-- START: FAQ Section -->
     <!-- Start FAQ-->
     @if (isset($data->app->landingpages) &&

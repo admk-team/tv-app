@@ -20,6 +20,9 @@
     <link rel="shortcut icon" href="{{ \App\Services\AppConfig::get()->app->app_info->website_faviocn ?? '' }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style-old.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/userprofile.css') }}">
+    @if (isset($data->app->app_info->faq_section) && $data->app->app_info->faq_section == 1)
+    <link rel="stylesheet" href="{{ asset('assets/css/faq_style.css') }}">
+    @endif
     <style>
         :root {
             --bgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }};

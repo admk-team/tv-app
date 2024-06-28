@@ -1,6 +1,5 @@
 @section('head')
     <link rel="stylesheet" href="{{ asset('assets/sliders_assets/css/hero_slider.css') }}">
-   
 @endsection
 
 <div id="carouselExampleCaptions" class="carousel mb-3" data-bs-ride="carousel" data-bs-interval="3000">

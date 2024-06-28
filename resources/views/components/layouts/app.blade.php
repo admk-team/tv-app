@@ -56,6 +56,9 @@
     </style>
     {{-- Custom Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    @if (isset($appInfo->faq_section) && $appInfo->faq_section == 1)
+    <link rel="stylesheet" href="{{ asset('assets/css/faq_style.css') }}">
+    @endif
     @yield('head')
 </head>
 
