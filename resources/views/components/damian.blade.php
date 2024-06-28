@@ -260,7 +260,7 @@
     <!-- memebership  -->
     @if (isset($data->app->landingpages))
         @foreach ($data->app->landingpages as $page)
-            @if ($page->page_type === 'lyra' && $page->section_type === 'membership' && $page->status === 1)
+            @if ($page->page_type === 'damian' && $page->section_type === 'membership' && $page->status === 1)
                 <section class="membership">
                     <div class="container">
                         <div class=" row">
