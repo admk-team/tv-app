@@ -194,7 +194,7 @@
                         <div class="Container Cu6Nx">
                             @if (isset($data->app->landingpages))
                                 @foreach ($data->app->landingpages as $page)
-                                    @if ($page->page_type === 'Eli' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+                                    @if ($page->page_type === 'Eli' && $page->section_type === 'anywhere')
                                         <div class="Row BVyG0">
                                             <div class="Col Col--12 Col--md-8">
                                                 <h2 class="H1"> {{ $page->title ?? '' }}</h2>
@@ -235,7 +235,7 @@
                     </div>
                     @if (isset($data->app->landingpages))
                         @foreach ($data->app->landingpages as $page)
-                            @if ($page->page_type === 'Eli' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+                            @if ($page->page_type === 'Eli' && $page->section_type === 'watch_now')
                                 <div class="ziHOc" style="background-image: url({{ $page->image ?? '' }})">
                                     <div class="Container
                                 Cu6Nx">
@@ -300,7 +300,7 @@
                     @endif
                     @if (isset($data->app->landingpages))
                         @foreach ($data->app->landingpages as $page)
-                            @if ($page->page_type === 'Eli' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+                            @if ($page->page_type === 'Eli' && $page->section_type === 'membership')
                                 <div class="cgg2s">
                                     <div class="Container Cu6Nx">
                                         <div class="Row kGgaU BVyG0">

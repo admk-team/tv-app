@@ -52,7 +52,7 @@
                     </div>
                     @if (isset($data->app->landingpages))
                     @foreach ($data->app->landingpages as $page)
-                        @if ($page->page_type === 'HYP' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+                        @if ($page->page_type === 'HYP' && $page->section_type === 'anywhere')
                     <div class="header">
                         @php
                             $words = explode(' ', $page->title ?? '');
@@ -84,7 +84,7 @@
             </div>
             @if (isset($data->app->landingpages))
                 @foreach ($data->app->landingpages as $page)
-                    @if ($page->page_type === 'HYP' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+                    @if ($page->page_type === 'HYP' && $page->section_type === 'membership')
                         <form id="feedback-form">
                             <div class="share-text">{{ $page->title ?? '' }}</div>
 

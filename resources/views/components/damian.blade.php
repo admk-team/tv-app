@@ -97,7 +97,7 @@
         <div class="container">
             @if (isset($data->app->landingpages))
                 @foreach ($data->app->landingpages as $page)
-                    @if ($page->page_type === 'damian' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+                    @if ($page->page_type === 'damian' && $page->section_type === 'download')
                         @if (!empty($page->appstore_link) || !empty($page->playstore_link))
                             <div class="download__now ">
                                 <h3 class="m-0">
@@ -130,7 +130,7 @@
                             </div>
                         @endif
                     @endif
-                    @if ($page->page_type === 'damian' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+                    @if ($page->page_type === 'damian' && $page->section_type === 'tv_section')
                         <div class="device-data">
                             <h1 class="text-center">
                                 @if (isset($page->title))
@@ -149,7 +149,7 @@
                                 <p class="text-center">{{ $page->description ?? '' }}</p>
                         </div>
                     @endif
-                    @if ($page->page_type === 'damian' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+                    @if ($page->page_type === 'damian' && $page->section_type === 'tablet_section')
                         <div class="device-data d-none">
                             <h1 class="text-center">
                                 @if (isset($page->title))
@@ -168,7 +168,7 @@
                                 <p class="text-center">{{ $page->description ?? '' }}</p>
                         </div>
                     @endif
-                    @if ($page->page_type === 'damian' && $page->section_type === 'section' && $page->status === 1 && $page->order === 4)
+                    @if ($page->page_type === 'damian' && $page->section_type === 'desktop_section')
                         <div class="device-data d-none">
                             <h1 class="text-center">
                                 @if (isset($page->title))
@@ -211,17 +211,17 @@
                     <div class="stream__images">
                         @if (isset($data->app->landingpages))
                             @foreach ($data->app->landingpages as $page)
-                                @if ($page->page_type === 'damian' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+                                @if ($page->page_type === 'damian' && $page->section_type === 'tv_section')
                                     <div class="tv_images">
                                         <img src="{{ $page->image ?? '' }}" alt="">
                                     </div>
                                 @endif
-                                @if ($page->page_type === 'damian' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+                                @if ($page->page_type === 'damian' && $page->section_type === 'tablet_section' )
                                     <div class="tv_images d-none">
                                         <img src="{{ $page->image ?? '' }}" alt="">
                                     </div>
                                 @endif
-                                @if ($page->page_type === 'damian' && $page->section_type === 'section' && $page->status === 1 && $page->order === 4)
+                                @if ($page->page_type === 'damian' && $page->section_type === 'desktop_section')
                                     <div class="tv_images d-none">
                                         <img src="{{ $page->image ?? '' }}" alt="">
                                     </div>

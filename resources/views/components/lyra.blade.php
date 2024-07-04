@@ -131,7 +131,7 @@
         @endif
         @if (isset($data->app->landingpages))
             @foreach ($data->app->landingpages as $page)
-                @if ($page->page_type === 'lyra' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+                @if ($page->page_type === 'lyra' && $page->section_type === 'download')
                     @if (!empty($page->appstore_link) || !empty($page->playstore_link))
                         <div class="apps__links mt-5">
                             <h5 style="display: inline-block"> {{ $page->title ?? '' }}</h5>
@@ -161,7 +161,7 @@
     <!-- START: App stores Section -->
     @if (isset($data->app->landingpages))
         @foreach ($data->app->landingpages as $page)
-            @if ($page->page_type === 'lyra' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+            @if ($page->page_type === 'lyra' && $page->section_type === 'anywhere')
                 <div class="sec-video d-flex flex-column justify-content-center align-items-center text-center mb-5 mt-5">
                     <div class="col-8 mx-auto">
                         @if (isset($page->title))
@@ -192,7 +192,7 @@
     <!-- START: Section Devices Section -->
     @if (isset($data->app->landingpages))
         @foreach ($data->app->landingpages as $page)
-            @if ($page->page_type === 'lyra' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+            @if ($page->page_type === 'lyra' && $page->section_type === 'tv_section')
                 <div
                     class="sec-device tab-content active-device d-flex flex-column justify-content-center align-items-center text-center d-none mt-5">
                     <div class="col-8 mx-auto">
@@ -213,7 +213,7 @@
                     </div>
                 </div>
             @endif
-            @if ($page->page_type === 'lyra' && $page->section_type === 'section' && $page->status === 1 && $page->order === 4)
+            @if ($page->page_type === 'lyra' && $page->section_type === 'tablet_section')
                 <div
                     class="sec-device tab-content d-flex flex-column justify-content-center align-items-center text-center d-none mt-5">
                     <div class="col-8 mx-auto">
@@ -234,7 +234,7 @@
                     </div>
                 </div>
             @endif
-            @if ($page->page_type === 'lyra' && $page->section_type === 'section' && $page->status === 1 && $page->order === 5)
+            @if ($page->page_type === 'lyra' && $page->section_type === 'desktop_section')
                 <div
                     class="sec-device tab-content d-flex flex-column justify-content-center align-items-center text-center d-none mt-5">
                     <div class="col-8 mx-auto">
@@ -259,7 +259,7 @@
     @endif
     @if (isset($data->app->landingpages))
         @foreach ($data->app->landingpages as $page)
-            @if ($page->page_type === 'lyra' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+            @if ($page->page_type === 'lyra' && $page->section_type === 'tv_section')
                 <div class="tab-btns d-flex justify-content-center align-items-center text-center gap-5">
                     <div class="active" data-target="tv-details"><span>TV</span></div>
                     <div data-target="tablet-details"><span>Tablet & Mobile</span></div>
@@ -270,7 +270,7 @@
     @endif
     @if (isset($data->app->landingpages))
         @foreach ($data->app->landingpages as $page)
-            @if ($page->page_type === 'lyra' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+            @if ($page->page_type === 'lyra' && $page->section_type === 'tv_section')
                 <div class="container mt-3 active-device d-none tab-image"
                     style="background-color: rgba(255, 255, 255, 0.048)">
                     <div class="row justify-content-center">
@@ -280,7 +280,7 @@
                     </div>
                 </div>
             @endif
-            @if ($page->page_type === 'lyra' && $page->section_type === 'section' && $page->status === 1 && $page->order === 4)
+            @if ($page->page_type === 'lyra' && $page->section_type === 'tablet_section')
                 <div class="container mt-3 d-none tab-image" style="background-color: rgba(255, 255, 255, 0.048)">
                     <div class="row justify-content-center">
                         <div class="col-12 text-center">
@@ -289,7 +289,7 @@
                     </div>
                 </div>
             @endif
-            @if ($page->page_type === 'lyra' && $page->section_type === 'section' && $page->status === 1 && $page->order === 5)
+            @if ($page->page_type === 'lyra' && $page->section_type === 'desktop_section')
                 <div class="container mt-3 d-none tab-image" style="background-color: rgba(255, 255, 255, 0.048)">
                     <div class="row justify-content-center">
                         <div class="col-12 text-center">
@@ -304,21 +304,18 @@
     <!-- START: watch now Section -->
     @if (isset($data->app->landingpages))
         @foreach ($data->app->landingpages as $page)
-            @if ($page->page_type === 'lyra' && $page->section_type === 'section' && $page->status === 1 && $page->order === 6)
+            @if ($page->page_type === 'lyra' && $page->section_type === 'watch_now')
                 <section class="tv__links">
                     <div class="tv__icons m-auto w-25 ">
                         <div class=" d-flex gap-5 align-items-center justify-content-center py-4 ">
-                            <p class="p-0 m-0 watch__now">Watch Here</p>
+                            <p class="p-0 m-0 watch__now"> {{ $page->title ?? '' }}</p>
                             <div class="col-md-4 d-flex  align-items-center gap-2 app__icons">
-                                <div><a class="text-center"><img
-                                            src="https://onlinechannel.io/storage/images/landing_page/icons/WatchHere_2024-04-23_04-58-57_66277851d69c4.png"
-                                            alt="" srcset=""></a></div>
-                                <div><a class="text-center"><img
-                                            src="https://onlinechannel.io/storage/images/landing_page/icons/WatchHere_2024-04-23_04-58-57_66277851d6c0d.png"
-                                            alt="" srcset=""></a></div>
-                                <div><a class="text-center"><img
-                                            src="https://onlinechannel.io/storage/images/landing_page/icons/WatchHere_2024-04-23_04-58-57_66277851d6d5e.png"
-                                            alt="" srcset=""></a></div>
+                                @foreach (explode(',', $page->icon) as $iconUrl)
+                                    <div>
+                                        <a class="text-center"><img src="{{ $iconUrl }}"
+                                                alt=""srcset=""></a>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                         <div class=" d-flex gap-5 align-items-center justify-content-center py-4 ">

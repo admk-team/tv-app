@@ -113,7 +113,7 @@
     </section>
     <!-- Main Slider Section End -->
     @foreach ($data->app->landingpages as $page)
-        @if ($page->page_type === 'AJV' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+        @if ($page->page_type === 'AJV' && $page->section_type === 'tv_section')
             <section class="bg-black our-story-card">
                 <div class="container py-3">
                     <div class="row align-items-center">
@@ -134,7 +134,7 @@
                 </div>
             </section>
         @endif
-        @if ($page->page_type === 'AJV' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+        @if ($page->page_type === 'AJV' && $page->section_type === 'tablet_section')
             <section class="bg-black our-story-card">
                 <div class="container py-5">
                     <div class="row align-items-center">
@@ -155,7 +155,7 @@
             @endif
             @endforeach
             @foreach ($data->app->landingpages as $page)
-            @if ($page->page_type === 'AJV' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+            @if ($page->page_type === 'AJV' && $page->section_type === 'desktop_section')
                 <section class="bg-black our-story-card">
                     <div class="container py-5">
                         <div class="row align-items-center">
@@ -167,7 +167,7 @@
                                 @endif
                                 @endforeach
                                 @foreach ($data->app->landingpages as $page)
-                                @if ($page->page_type === 'AJV' && $page->section_type === 'section' && $page->status === 1 && $page->order === 4)
+                                @if ($page->page_type === 'AJV' && $page->section_type === 'watch_now')
                                     <ul class="list-unstyled d-flex flex-wrap fs-5 text-secondary mt-3">
                                         <li>{{ $page->title ?? '' }}</li>
                                         @foreach (explode(',', $page->icon) as $iconUrl)
@@ -178,7 +178,7 @@
                                     @endif
                                     @endforeach
                                     @foreach ($data->app->landingpages as $page)
-                                @if ($page->page_type === 'AJV' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+                                @if ($page->page_type === 'AJV' && $page->section_type === 'desktop_section')
                             </div>
                             <div class="col-md-6">
                                 <div class="position-relative">

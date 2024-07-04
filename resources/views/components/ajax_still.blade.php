@@ -118,7 +118,7 @@
     <section style="position: relative;">
         @if (isset($data->app->landingpages))
             @foreach ($data->app->landingpages as $page)
-                @if ($page->page_type === 'AJS' && $page->section_type === 'banner' && $page->status === 1)
+                @if ($page->page_type === 'AJS' && $page->section_type === 'banner')
                     <div style="position: relative;">
                         <img src="{{ $page->image ?? '' }}" class="img-fluid" style="width: 100%; height: 500px;">
                         @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
@@ -133,7 +133,7 @@
 
     <!-- Main Slider Section End -->
     @foreach ($data->app->landingpages as $page)
-        @if ($page->page_type === 'AJS' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+        @if ($page->page_type === 'AJS' && $page->section_type === 'tv_section')
             <section class="bg-black our-story-card">
                 <div class="container py-3">
                     <div class="row align-items-center">
@@ -154,7 +154,7 @@
                 </div>
             </section>
         @endif
-        @if ($page->page_type === 'AJS' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+        @if ($page->page_type === 'AJS' && $page->section_type === 'tablet_section')
             <section class="bg-black our-story-card">
                 <div class="container py-5">
                     <div class="row align-items-center">
@@ -175,7 +175,7 @@
         @endif
         @endforeach
         @foreach ($data->app->landingpages as $page)
-        @if ($page->page_type === 'AJS' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+        @if ($page->page_type === 'AJS' && $page->section_type === 'desktop_section')
             <section class="bg-black our-story-card">
                 <div class="container py-5">
                     <div class="row align-items-center">
@@ -187,7 +187,7 @@
                             @endif
                             @endforeach
                             @foreach ($data->app->landingpages as $page)
-                            @if ($page->page_type === 'AJS' && $page->section_type === 'section' && $page->status === 1 && $page->order === 4)
+                            @if ($page->page_type === 'AJS' && $page->section_type === 'watch_now')
                                 <ul class="list-unstyled d-flex flex-wrap fs-5 text-secondary mt-3">
                                     <li>{{ $page->title ?? '' }}</li>
                                     @foreach (explode(',', $page->icon) as $iconUrl)
@@ -198,7 +198,7 @@
                                 @endif
                                 @endforeach
                                 @foreach ($data->app->landingpages as $page)
-                            @if ($page->page_type === 'AJS' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+                            @if ($page->page_type === 'AJS' && $page->section_type === 'tablet_section')
                         </div>
                         <div class="col-md-6">
                             <div class="position-relative">

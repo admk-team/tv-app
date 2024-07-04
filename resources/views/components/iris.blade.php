@@ -143,7 +143,7 @@
                     @endif
                 </div>
             @endif
-            @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+            @if ($page->page_type === 'Iris' && $page->section_type === 'download')
                 @if (!empty($page->appstore_link) || !empty($page->playstore_link))
                     <div
                         class="download__apps d-flex align-items-center justify-content-around py-4 flex-wrap flex-md-nowrap">
@@ -189,7 +189,7 @@
 <div class="devices__section">
 @if (isset($data->app->landingpages))
     @foreach ($data->app->landingpages as $page)
-        @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+        @if ($page->page_type === 'Iris' && $page->section_type === 'anywhere')
             <h1 class="poppins-bold">
                 @if (isset($page->title))
                     @php
@@ -224,7 +224,7 @@
             </div>
         @endif
 
-        @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+        @if ($page->page_type === 'Iris' && $page->section_type === 'tv_section')
             <div class="tv_images">
                 <h2 class="poppins-semibold">
                     @if (isset($page->title))
@@ -248,7 +248,7 @@
             </div>
         @endif
 
-        @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 4)
+        @if ($page->page_type === 'Iris' && $page->section_type === 'tablet_section')
             <div class="tv_images d-none">
                 <h2 class="poppins-semibold">
                     @if (isset($page->title))
@@ -272,7 +272,7 @@
             </div>
         @endif
 
-        @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 5)
+        @if ($page->page_type === 'Iris' && $page->section_type === 'desktop_section')
             <div class="tv_images d-none">
                 <h2 class="poppins-semibold">
                     @if (isset($page->title))
@@ -300,7 +300,7 @@
 </div>
 @if (isset($data->app->landingpages))
 @foreach ($data->app->landingpages as $page)
-    @if ($page->page_type === 'Iris' && $page->section_type === 'section' && $page->status === 1 && $page->order === 6)
+    @if ($page->page_type === 'Iris' && $page->section_type === 'watch_now')
         <!-- Watch Now Section  -->
         <div class="d-flex align-items-center justify-content-around channels my-4 flex-column flex-md-row">
             <div class="text-white">

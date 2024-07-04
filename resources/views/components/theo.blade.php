@@ -153,7 +153,7 @@
                             @endif
                         </div>
             @endif
-            @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+            @if ($page->page_type === 'Theo' && $page->section_type === 'download')
                 @if (!empty($page->appstore_link) || !empty($page->playstore_link))
                     <div class="playstore d-flex gap-2 py-4">
                         <h5>{{ $page->title ?? '' }}</h5>
@@ -182,7 +182,7 @@
 </section>
 @if (isset($data->app->landingpages))
 @foreach ($data->app->landingpages as $page)
-@if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+@if ($page->page_type === 'Theo' && $page->section_type === 'anywhere')
     <section class="devices">
         <div class="row d-flex align-items-center justify-content-center m-auto text-white">
             <div class="col-md-6">
@@ -229,7 +229,7 @@
     </section>
 @endif
 <section class="banner">
-    @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+    @if ($page->page_type === 'Theo' && $page->section_type === 'tv_section')
         <div
             class="row d-flex align-items-center justify-content-center m-auto text-white py-3 banner__section1 d-block">
             <div class="col-md-6">
@@ -255,7 +255,7 @@
             </div>
         </div>
     @endif
-    @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 4)
+    @if ($page->page_type === 'Theo' && $page->section_type === 'tablet_section')
         <div
             class="row d-flex align-items-center justify-content-center m-auto text-white py-3  banner__section2 d-none">
             <div class="col-md-6">
@@ -281,7 +281,7 @@
             </div>
         </div>
     @endif
-    @if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 5)
+    @if ($page->page_type === 'Theo' && $page->section_type === 'desktop_section')
         <div
             class="row d-flex align-items-center justify-content-center m-auto text-white py-3 banner__section3 d-none">
             <div class="col-md-6">
@@ -308,7 +308,7 @@
         </div>
     @endif
 </section>
-@if ($page->page_type === 'Theo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 6)
+@if ($page->page_type === 'Theo' && $page->section_type === 'watch_now')
     <section class="tv__links">
         <div class="tv__icons m-auto w-25 ">
             <div class=" d-flex gap-5 align-items-center justify-content-center py-4 ">

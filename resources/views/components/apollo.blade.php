@@ -145,7 +145,7 @@
         </div>
 </div>
 @endif
-@if ($page->page_type === 'Apollo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+@if ($page->page_type === 'Apollo' && $page->section_type === 'download')
 @if (!empty($page->appstore_link) || !empty($page->playstore_link))
 <div
     class="apps__links d-flex align-items-center justify-content-center gap-3 mt-5 flex-column flex-md-row">
@@ -174,7 +174,7 @@
 </div>
 <!-- END: Hero Section -->
 @foreach ($data->app->landingpages as $page)
-@if ($page->page_type === 'Apollo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
+@if ($page->page_type === 'Apollo' && $page->section_type === 'anywhere')
 <!-- START: Video Section -->
 <div class="sec-video mb-5  px-sm-4 px-md-5">
     <div class="content-wrapper">
@@ -203,7 +203,7 @@
 @endif
 @endforeach
 @foreach ($data->app->landingpages as $page)
-@if ($page->page_type === 'Apollo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+@if ($page->page_type === 'Apollo' && $page->section_type === 'tv_section')
 <!-- START: Device Section -->
 <div class="sec-device content-wrapper px-2 px-md-3">
     <div class="tab-btns d-flex gap-3 gap-sm-3 gap-md-4 gap-lg-5">
@@ -225,7 +225,8 @@
                         @endphp
                         <span>
                             <h1>{{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}
-                                <span>{{ $remainingWords }}</span></h1>
+                                <span>{{ $remainingWords }}</span>
+                            </h1>
                         @else
                     @endif
 
@@ -233,20 +234,20 @@
 @endif
 @endforeach
 @foreach ($data->app->landingpages as $page)
-@if ($page->page_type === 'Apollo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 6)
+@if ($page->page_type === 'Apollo' && $page->section_type === 'watch_now')
 <div class="platforms d-flex align-items-center gap-3 gap-md-4 flex-column flex-md-row">
-    <div class="text">Watch Now:</div>
+    <div class="text"> {{ $page->title ?? '' }}</div>
     <div class="icons">
-        <img src="{{ asset('assets/landing_theme_assets/apollo/images/roku.png') }}" width="66px">
-        <img src="{{ asset('assets/landing_theme_assets/apollo/images/firetv.png') }}" width="66px">
-        <img src="{{ asset('assets/landing_theme_assets/apollo/images/appletv.png') }}" width="66px">
+        @foreach (explode(',', $page->icon) as $iconUrl)
+            <img src="{{ $iconUrl }}" width="66px">
+        @endforeach
     </div>
 </div>
 <a href="/download-apps" class="btn-primary-new device-download-btn">Download Now</a>
 @endif
 @endforeach
 @foreach ($data->app->landingpages as $page)
-@if ($page->page_type === 'Apollo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
+@if ($page->page_type === 'Apollo' && $page->section_type === 'tv_section')
 </div>
 <div class="col-md-4 mb-3 mb-md-0">
     <img class="device-img" src="{{ $page->image }}">
@@ -254,7 +255,7 @@
 </div>
 </div>
 @endif
-@if ($page->page_type === 'Apollo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 4)
+@if ($page->page_type === 'Apollo' && $page->section_type === 'tablet_section')
 <div class="tab-content">
     <div class="row">
         <div class="col-md-8 order-last order-md-first">
@@ -268,7 +269,8 @@
                 @endphp
                 <span>
                     <h1>{{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}
-                        <span>{{ $remainingWords }}</span></h1>
+                        <span>{{ $remainingWords }}</span>
+                    </h1>
                 @else
             @endif
 
@@ -280,7 +282,7 @@
     </div>
 </div>
 @endif
-@if ($page->page_type === 'Apollo' && $page->section_type === 'section' && $page->status === 1 && $page->order === 5)
+@if ($page->page_type === 'Apollo' && $page->section_type === 'desktop_section')
 <div class="tab-content">
     <div class="row">
         <div class="col-md-8 order-last order-md-first">
@@ -294,7 +296,8 @@
                 @endphp
                 <span>
                     <h1>{{ $firstWord }} {{ $secondWord }} {{ $thirdWord }}
-                        <span>{{ $remainingWords }}</span></h1>
+                        <span>{{ $remainingWords }}</span>
+                    </h1>
                 @else
             @endif
 
