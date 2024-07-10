@@ -84,26 +84,40 @@
                                                             alt="Trending">
                                                     </div> --}}
                                                     
-                                                    <div class="trending_icon_box">
-                                                        @if ($stream->premium_icon ?? null)
-                                                            @php
-                                                            $premium_icon = json_decode($stream->premium_icon, true);
-                                                            @endphp
-                                                            @if ($premium_icon['type'] === 'html')
-                                                                <div style="width: 40px; height: 40px;">
-                                                                    {!! $premium_icon['icon'] !!}
-                                                                </div>
-                                                            @else
-                                                                <img src="{{ $premium_icon['icon'] }}" alt="icon" width="40px" height="40px">
+                                                    {{-- Premium Icon And Content Label --}}
+                                                    @if(!in_array($category->card_type, ['BA', 'LB']))
+                                                        <div class="trending_icon_box">
+                                                            @if ($stream->premium_icon ?? null)
+                                                                @php
+                                                                $premium_icon = json_decode($stream->premium_icon, true);
+                                                                @endphp
+                                                                @if ($premium_icon['type'] === 'html')
+                                                                    <div class="svg">
+                                                                        {!! $premium_icon['icon'] !!}
+                                                                    </div>
+                                                                @else
+                                                                    <img src="{{ $premium_icon['icon'] }}" alt="icon">
+                                                                @endif
+                                                            {{-- @else
+                                                                @if (($stream->monetization_type ?? 'F') !== 'F')
+                                                                    <img
+                                                                    src="{{ url('/') }}/assets/images/trending_icon.png"
+                                                                    alt="Trending">
+                                                                @endif --}}
                                                             @endif
-                                                        @else
-                                                            @if (($stream->monetization_type ?? 'F') !== 'F')
-                                                                <img
-                                                                src="{{ url('/') }}/assets/images/trending_icon.png"
-                                                                alt="Trending">
+                                                        </div>
+                                                        @if (!($stream->premium_icon ?? null))
+                                                            @if ((($stream->label_free ?? null) && $stream->monetization_type === 'F') || (($stream->label_premium ?? null) && $stream->monetization_type !== 'F'))
+                                                                <div class="content-label" style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                                    @if ($stream->monetization_type === 'F')
+                                                                        {{ $stream->label_free }}
+                                                                    @else
+                                                                        {{ $stream->label_premium }}
+                                                                    @endif
+                                                                </div>
                                                             @endif
                                                         @endif
-                                                    </div>
+                                                    @endif
 
                                                     <div class="{{ $cardThumbCls }}">
                                                         <img src="{{ $stream->{$streamPosterKey} }}"
@@ -132,26 +146,42 @@
                                                         src="{{ url('/') }}/assets/images/trending_icon.png"
                                                         alt="Trending">
                                                 </div> --}}
-                                                <div class="trending_icon_box">
-                                                    @if ($stream->premium_icon ?? null)
-                                                        @php
-                                                        $premium_icon = json_decode($stream->premium_icon, true);
-                                                        @endphp
-                                                        @if ($premium_icon['type'] === 'html')
-                                                            <div class="svg">
-                                                                {!! $premium_icon['icon'] !!}
-                                                            </div>
-                                                        @else
-                                                            <img src="{{ $premium_icon['icon'] }}" alt="icon">
+
+                                                {{-- Premium Icon And Content Label --}}
+                                                @if(!in_array($category->card_type, ['BA', 'LB']))
+                                                    <div class="trending_icon_box">
+                                                        @if ($stream->premium_icon ?? null)
+                                                            @php
+                                                            $premium_icon = json_decode($stream->premium_icon, true);
+                                                            @endphp
+                                                            @if ($premium_icon['type'] === 'html')
+                                                                <div class="svg">
+                                                                    {!! $premium_icon['icon'] !!}
+                                                                </div>
+                                                            @else
+                                                                <img src="{{ $premium_icon['icon'] }}" alt="icon">
+                                                            @endif
+                                                        {{-- @else
+                                                            @if (($stream->monetization_type ?? 'F') !== 'F')
+                                                                <img
+                                                                src="{{ url('/') }}/assets/images/trending_icon.png"
+                                                                alt="Trending">
+                                                            @endif --}}
                                                         @endif
-                                                    @else
-                                                        @if (($stream->monetization_type ?? 'F') !== 'F')
-                                                            <img
-                                                            src="{{ url('/') }}/assets/images/trending_icon.png"
-                                                            alt="Trending">
+                                                    </div>
+                                                    @if (!($stream->premium_icon ?? null))
+                                                        @if ((($stream->label_free ?? null) && $stream->monetization_type === 'F') || (($stream->label_premium ?? null) && $stream->monetization_type !== 'F'))
+                                                            <div class="content-label" style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                                @if ($stream->monetization_type === 'F')
+                                                                    {{ $stream->label_free }}
+                                                                @else
+                                                                    {{ $stream->label_premium }}
+                                                                @endif
+                                                            </div>
                                                         @endif
                                                     @endif
-                                                </div>
+                                                @endif
+
                                                 @if (($stream->is_newly_added ?? 'N') === 'Y')
                                                     <div class="newly-added-label">
                                                         <span>New Episode</span>

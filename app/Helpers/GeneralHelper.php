@@ -700,4 +700,43 @@ class GeneralHelper
 
         return false;
     }
+
+    public static function generateGradient($color) {
+        static $results = [];
+
+        if (isset($results[$color])) {
+            return $results[$color];
+        }
+
+        // Helper function to adjust brightness of a color
+        $adjustBrightness = function ($hex, $steps) {
+            // Normalize the steps
+            $steps = max(-255, min(255, $steps));
+    
+            // Parse the color into its RGB components
+            $r = hexdec(substr($hex, 1, 2));
+            $g = hexdec(substr($hex, 3, 2));
+            $b = hexdec(substr($hex, 5, 2));
+    
+            // Adjust brightness
+            $r = max(0, min(255, $r + $steps));
+            $g = max(0, min(255, $g + $steps));
+            $b = max(0, min(255, $b + $steps));
+    
+            // Convert back to hex
+            return sprintf("#%02x%02x%02x", $r, $g, $b);
+        };
+    
+        // Generate two additional colors by adjusting brightness
+        $color1 = $adjustBrightness($color, -50); // Darker
+        $color2 = $adjustBrightness($color, 50);  // Lighter
+    
+        // Create the CSS gradient string
+        $gradient = "background-image: linear-gradient(90deg, $color1, $color, $color2);";
+
+        // Cache result for future calls
+        $results[$color] = $gradient;
+
+        return $gradient;
+    }
 }
