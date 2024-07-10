@@ -67,33 +67,33 @@
                                 </p>
     
                             </div>
-                            <div class="footer-social-icon mt-3">
-                                <span>Follow us</span>
-                                @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
-                                    <a href="{{ $link->url }}" target="_blank" class="social-icon">
-                                        <img src="{{ $link->icon }}"
-                                            alt="{{ $link->title }}">
-                                    </a>
-                                @endforeach
-                            </div>
+                           
                         </div>
                     </div>
                 @else
-                <div class="col-xl-2 col-lg-6 col-md-12 mb-50 order-2 order-lg-5 mb-3">
+                <div class="col-xl-2 col-lg-6 col-md-12  order-2 order-lg-5 mb-3">
                     <div class="footer-widget">
                         <div class="footer-widget-heading">
                             <h3>Get to Know Us</h3>
                         </div>
                         <ul class="list">
-                            @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
+                            @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
+                            @if ($page->displayOn === 'F' || $page->displayOn === 'B')
                                 <li>
-                                    <a class="text-decoration-none" href="{{ route('category', $category->cat_guid) }}">{{ $category->cat_title }}</a>
+                                    @if ($page->pageType === 'E')
+                                        <a class="text-decoration-none" href="{!! $page->externalLink !!}"
+                                            target="_blank">{{ $page->page_title }}</a>
+                                    @else
+                                        <a class="text-decoration-none"
+                                            href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
+                                    @endif
                                 </li>
-                            @endforeach
+                            @endif
+                        @endforeach
                         </ul>
                     </div>
                 </div>
-                <div class="col-xl-4 col-lg-3 col-md-6 mb-50 order-1 order-lg-1 mb-3">
+                <div class="col-xl-4 col-lg-3 col-md-6  order-1 order-lg-1 mb-3">
                     <div class="footer-widget">
                         <div class="footer-logo">
                             <a href="/home"><img
@@ -123,7 +123,7 @@
                 </div>
                 @endif
               
-                <div class="col-xl-2 col-lg-3 col-md-6 mb-30 order-3 order-lg-2 mb-3">
+                <div class="col-xl-2 col-lg-3 col-md-6  order-3 order-lg-2 mb-3">
                     <div class="footer-widget">
                         <div class="footer-widget-heading">
                             <h3>Top Categories</h3>
@@ -137,7 +137,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-xl-2 col-lg-3 col-md-6 mb-30 order-4 order-lg-3 mb-3">
+                <div class="col-xl-2 col-lg-3 col-md-6  order-4 order-lg-3 mb-3">
                     <div class="footer-widget">
                         <div class="footer-widget-heading">
                             <h3>Top TV Shows</h3>
@@ -151,7 +151,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-xl-2 col-lg-3 col-md-6 mb-30 order-5 order-lg-4 mb-3">
+                <div class="col-xl-2 col-lg-3 col-md-6  order-5 order-lg-4 mb-3">
                     <div class="footer-widget">
                         <div class="footer-widget-heading">
                             <h3>Let Us Help You</h3>
@@ -172,6 +172,7 @@
                         </ul>
                     </div>
                 </div>
+               
             </div>
         </div>
     </div>
