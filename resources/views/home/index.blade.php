@@ -10,7 +10,7 @@
             <x-layouts.app :appInfo="$data->app->app_info">
                 @include('components.page-banner')
                 @include('components.category-slider')
-                @include('components.download-box')
+                @include('components.enjoy-tv-box')
                 @include('components.faq_section')
             </x-layouts.app>
         @else
@@ -18,7 +18,7 @@
                 <x-layouts.app :appInfo="$data->app->app_info">
                     @include('components.page-banner')
                     @include('components.category-slider')
-                    @include('components.download-box')
+                    @include('components.enjoy-tv-box')
                     @include('components.faq_section')
                 </x-layouts.app>
             @else
@@ -46,14 +46,14 @@
                     <x-layouts.app :appInfo="$data->app->app_info">
                         @include('components.page-banner')
                         @include('components.category-slider')
-                        @include('components.download-box')
+                        @include('components.enjoy-tv-box')
                         @include('components.faq_section')
                     </x-layouts.app>
                 @else
                     <x-layouts.app :appInfo="$data->app->app_info">
                         @include('components.page-banner')
                         @include('components.category-slider')
-                        @include('components.download-box')
+                        @include('components.enjoy-tv-box')
                         @include('components.faq_section')
                     </x-layouts.app>
                 @endif
