@@ -26,11 +26,6 @@
                                             <button type="submit"><i class="fab fa-telegram-plane"></i></button>
                                         </form>
                                         <center>
-                                            <p style="color:red">
-                                                @if (session()->has('error'))
-                                                    {{ session('error') }}
-                                                @endif
-                                            </p>
                                             @if (session()->has('data'))
                                                 @php
                                                     $data = session('data');
@@ -66,7 +61,7 @@
         <div class="footer-content  gradient-bg pt-5 pb-5">
             <div class="row">
                
-                <div class="col-xl-2 col-lg-3 col-md-6 mt-5">
+                <div class="col-xl-2 col-lg-3 col-md-6">
                     <div class="footer-widget">
                         <div class="footer-logo">
                             <a href="/home"><img
@@ -115,7 +110,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-xl-2 col-lg-3 col-md-6   mb-3">
+                <div class="col-xl-2 col-lg-3 col-md-6 mb-3">
                     <div class="footer-widget">
                         <div class="footer-widget-heading">
                             <h3>Let Us Help You</h3>

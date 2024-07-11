@@ -3,7 +3,7 @@
     padding: 0px;
 }
 .footer-section {
-  background: var(--defaultcolor);
+  background: var(--bgcolor);
   position: relative;
 }
 .footer-cta {
@@ -35,7 +35,7 @@
   z-index: 2;
 }
 .gradient-bg {
-  background: linear-gradient(to bottom, rgba(247, 147, 30, 0.2),rgba(247, 147, 30, 0.8) );
+  background: linear-gradient(to bottom, var(--bgcolor),var(--themeActiveColor) );
   padding: 20px;
   border-radius: 8px;
 }
@@ -51,18 +51,18 @@
   margin-bottom: 30px;
 }
 .footer-logo img {
-  max-width: 100%;
+  max-width: 70%;
 }
 .footer-text p{
   margin-bottom: 14px;
-  font-size: 18px;
+  font-size: 16px;
   color:  var(--themePrimaryTxtColor);
   line-height: 28px;
 }
 .footer-text p a{
   margin-bottom: 14px;
-  font-size: 16px;
-  color:  var(--themeActiveColor);
+  font-size: 17px;
+  color:  var(--themePrimaryTxtColor);
   line-height: 28px;
 }
 .footer-social-icon span {

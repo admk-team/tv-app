@@ -65,9 +65,16 @@
                                         <span>{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}</span>
                                     </a>
                                 </p>
-    
                             </div>
-                           
+                            <div class="footer-social-icon mt-3">
+                            <span>Follow us</span>
+                            @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
+                                <a href="{{ $link->url }}" target="_blank" class="social-icon">
+                                    <img src="{{ $link->icon }}"
+                                        alt="{{ $link->title }}">
+                                </a>
+                            @endforeach
+                        </div>
                         </div>
                     </div>
                 @else
