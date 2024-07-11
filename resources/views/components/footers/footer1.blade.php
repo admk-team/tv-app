@@ -9,7 +9,7 @@
                     <div class="col-xl-4 col-lg-6 col-md-12 mb-50 order-2 order-lg-5 mb-3" id="newsletter-section">
                         <div class="footer-widget">
                             <div class="footer-widget-heading">
-                                <h3>Subscribe</h3>
+                                <h3>NEWSLETTER</h3>
                             </div>
                             <div class="footer-text mb-25">
                                 <p>Don’t miss to subscribe to our Newsletter, kindly fill the form below.</p>

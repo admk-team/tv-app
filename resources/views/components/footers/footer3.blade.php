@@ -4,15 +4,16 @@
     <div class="main">
         <div class="logo row">
             <div class="footer-header">
-                <a href="/home"><img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" class="manik"
-                    alt=""></a>
+                <a href="/home"><img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}"
+                        class="manik" alt=""></a>
             </div>
             <div class="logo-des">
                 <p>
                     {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_txt ?? '' }}:
                     <a class="text-decoration-none"
                         href="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_url ?? '' }}">
-                        <span class="text-white text-bold">{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}</span>
+                        <span
+                            class="text-white text-bold">{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}</span>
                     </a>
                 </p>
             </div>
@@ -76,7 +77,7 @@
                 \App\Services\AppConfig::get()->app->app_info->newsletter === 1)
             <div class="newsletter row" id="newsletter-section">
                 <div class="footer-header">
-                    <h3>Newsletter</h3>
+                    <h3>NEWSLETTER</h3>
                 </div>
                 <div class="newsletter-des">
                     <form id="subscribe-form-footer" method="POST" action="{{ route('newsletter') }}">
@@ -93,14 +94,16 @@
                                     $data = session('data');
                                 @endphp
                                 @if (isset($data['app']['status']) && $data['app']['status'] == 3)
-                                    <p style="color: red;font-weight: 400; margin: 3%; margin-left: 0%; margin-right: 10%;">
+                                    <p
+                                        style="color: red;font-weight: 400; margin: 3%; margin-left: 0%; margin-right: 10%;">
                                         @isset($data['app']['msg'])
                                             {{ $data['app']['msg'] }}
                                         @endisset
                                     </p>
                                 @endif
                                 @if (isset($data['app']['status']) && $data['app']['status'] == 4)
-                                    <p style="color:rgb(0, 131, 0); font-weight: 400;  margin: 3%; margin-left: 0%;margin-right: 10%;">
+                                    <p
+                                        style="color:rgb(0, 131, 0); font-weight: 400;  margin: 3%; margin-left: 0%;margin-right: 10%;">
                                         @isset($data['app']['msg'])
                                             {{ $data['app']['msg'] }}
                                         @endisset
@@ -109,14 +112,13 @@
                             @endif
                         </center>
                     </form>
-                  
+
                     <div class="icons">
                         @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
-                        <a href="{{ $link->url }}" target="_blank">
-                            <i class="social-icon">
-                            <img src="https://onlinechannel.io/storage/images/social_icon/Youtube_2024-03-20_03-39-41.png"
-                            alt="{{ $link->title }}"></i></a>
-                    @endforeach
+                            <a href="{{ $link->url }}" target="_blank">
+                                <i class="social-icon">
+                                    <img src="{{ $link->icon }}" alt="{{ $link->title }}"></i></a>
+                        @endforeach
                     </div>
                 </div>
             </div>

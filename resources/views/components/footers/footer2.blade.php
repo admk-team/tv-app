@@ -11,7 +11,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-xl-4 col-lg-4 col-md-6">
                                     <div class="footer-widget-heading">
-                                        <h1>Subscribe</h1>
+                                        <h1>NEWSLETTER</h1>
                                     </div>
                                     <div class="footer-text">
                                         <p>Don’t miss to subscribe to our Newsletter, kindly fill the form below.</p>
