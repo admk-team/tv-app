@@ -18,12 +18,24 @@ class DetailScreenController extends Controller
             abort(404);
         }
         $streamGuId = $data['stream_details']['stream_guid'];
+        $imdb = $data['stream_details']['imdb'];
 
         $responseRatings = Http::withHeaders(Api::headers())
             ->get(Api::endpoint('/userrating/get/' . $streamGuId . '/stream'));
-            $data['stream_details']['ratings'] = $responseRatings->json()['data'];
-            // dd($data['stream_details']['ratings']);
+        $data['stream_details']['ratings'] = $responseRatings->json()['data'];
+        // dd($data['stream_details']['ratings']);
 
+        if ($imdb !== "") {
+            $responseImdb = Http::timeout(300)
+                ->get("http://www.omdbapi.com/?i={$imdb}&apikey=da5b7118");
+
+            $imdbDetails = $responseImdb->json();
+            if ($imdbDetails !== null) {
+                $data['stream_details']['cast'] = $imdbDetails['Actors'];
+                $data['stream_details']['director'] = $imdbDetails['Director'];
+                $data['stream_details']['writer'] = $imdbDetails['Writer'];
+            }
+        }
         return view("detailscreen.index", $data);
     }
 

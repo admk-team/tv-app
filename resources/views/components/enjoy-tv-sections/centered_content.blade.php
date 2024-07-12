@@ -1,4 +1,4 @@
-   @section('head')
+ 
        <style>
            .background_section {
                position: relative;
@@ -24,7 +24,6 @@
                padding: 20px;
            }
        </style>
-   @endsection
    <div class="content">
        <section class="show_box">
            <div class="container-fluid add_box">
