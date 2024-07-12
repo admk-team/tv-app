@@ -10,7 +10,7 @@
                             <div class="footer-logo-wrapper">
                                 <a href="/home">
                                     <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}"
-                                        alt="BootstrapBrain Logo">
+                                        alt="BootstrapBrain Logo" style="max-width: 100%;">
                                 </a>
                             </div>
                             <div class="social-media-wrapper mt-5">
@@ -33,9 +33,9 @@
                 </div>
                 <div class="col-12 col-lg-9 bg-dark-costum py-4 py-md-5 py-xxl-8">
                     <div class="row justify-content-center">
-                        <div class="col-12 col-md-11 col-xxl-10">
+                        <div class="col-12 col-md-11 col-xxl-11">
                             <div class="row gy-4 gy-sm-0">
-                                <div class="col-lg-3 col-md-12 col-sm-12">
+                                <div class="col-lg-2 col-md-12 col-sm-12">
                                     <div class="widget">
                                         <h4 class="widget-title mb-4 text-white">Let Us Help You</h4>
                                         <ul class="list-unstyled">
@@ -60,7 +60,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-3 col-md-12 col-sm-12">
+                                <div class="col-lg-2 col-md-12 col-sm-12">
                                     <div class="widget">
                                         <h4 class="widget-title mb-4 text-white">Top Categories</h4>
                                         <ul class="list-unstyled">
@@ -73,7 +73,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-12 col-sm-12">
+                                <div class="col-lg-2 col-md-12 col-sm-12">
                                     <div class="widget">
                                         <h4 class="widget-title mb-4 text-white">Top TV Shows</h4>
                                         <ul class="list-unstyled">
@@ -86,83 +86,106 @@
                                         </ul>
                                     </div>
                                 </div>
-                                @if (isset(\App\Services\AppConfig::get()->app->app_info->newsletter) &&
-                                \App\Services\AppConfig::get()->app->app_info->newsletter === 1)
-                                <div class="col-lg-3 col-md-12 col-sm-12 mb-3" id="newsletter-section">
+                                <div class="col-lg-2 col-md-12 col-sm-12">
                                     <div class="widget">
-                                        <h4 class="widget-title mb-4 text-white">Our Newsletter</h4>
-                                        <p class="mb-4 text-white">
-                                            Subscribe to our newsletter today and get the inside scoop delivered
-                                            straight to your inbox.</p>
-                                            <form id="subscribe-form-footer" method="POST"
-                                            action="{{ route('newsletter') }}">
-                                            @csrf
-                                            <div class="row gy-2">
-                                                <div class="col-12">
-                                                    <div class="input-group">
-                                                        <span class="input-group-text" id="email-newsletter-addon">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                height="16" fill="currentColor"
-                                                                class="bi bi-envelope" viewBox="0 0 16 16">
-                                                                <path
-                                                                    d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
-                                                            </svg>
-                                                        </span>
-                                                        <input type="email" id="email-input-footer" name="email" class="form-control text-black"
-                                                            placeholder="Email Address" aria-label="email-newsletter"
-                                                            aria-describedby="email-newsletter-addon" required>
-                                                    </div>
-                                                    <center>
-                                                        @if (session()->has('data'))
-                                                            @php
-                                                                $data = session('data');
-                                                            @endphp
-                                                            @if (isset($data['app']['status']) && $data['app']['status'] == 3)
-                                                                <p
-                                                                    style="color: red;font-weight: 400;">
-                                                                    @isset($data['app']['msg'])
-                                                                        {{ $data['app']['msg'] }}
-                                                                    @endisset
-                                                                </p>
-                                                            @endif
-                                                            @if (isset($data['app']['status']) && $data['app']['status'] == 4)
-                                                                <p
-                                                                    style="color:rgb(0, 131, 0); font-weight: 400;">
-                                                                    @isset($data['app']['msg'])
-                                                                        {{ $data['app']['msg'] }}
-                                                                    @endisset
-                                                                </p>
-                                                            @endif
+                                        <h4 class="widget-title mb-4 text-white">Get to Know Us</h4>
+                                        <ul class="list-unstyled">
+                                            @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
+                                                @if ($page->displayOn === 'F' || $page->displayOn === 'B')
+                                                    <li>
+                                                        @if ($page->pageType === 'E')
+                                                            <a class="text-white text-decoration-none"
+                                                                href="{!! $page->externalLink !!}"
+                                                                target="_blank">{{ $page->page_title }}</a>
+                                                        @else
+                                                            <a class="text-white text-decoration-none"
+                                                                href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
                                                         @endif
-                                                    </center>
-                                                </div>
-                                               
-                                                <div class="col-12">
-                                                    <div class="d-grid">
-                                                        <button class="btn btn-primary"
-                                                            type="submit">Subscribe</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
+                                                @endif
+                                                </li>
+                                            @endforeach
+                                        </ul>
                                     </div>
                                 </div>
-                                @endif 
+                                @if (isset(\App\Services\AppConfig::get()->app->app_info->newsletter) &&
+                                        \App\Services\AppConfig::get()->app->app_info->newsletter === 1)
+                                    <div class="col-lg-3 col-md-12 col-sm-12 mb-3" id="newsletter-section">
+                                        <div class="widget">
+                                            <h4 class="widget-title mb-4 text-white">Our Newsletter</h4>
+                                            <p class="mb-4 text-white">
+                                                Subscribe to our newsletter today and get the inside scoop delivered
+                                                straight to your inbox.</p>
+                                            <form id="subscribe-form-footer" method="POST"
+                                                action="{{ route('newsletter') }}">
+                                                @csrf
+                                                <div class="row gy-2">
+                                                    <div class="col-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text" id="email-newsletter-addon">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                    height="16" fill="currentColor"
+                                                                    class="bi bi-envelope" viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
+                                                                </svg>
+                                                            </span>
+                                                            <input type="email" id="email-input-footer" name="email"
+                                                                class="form-control text-black"
+                                                                placeholder="Email Address"
+                                                                aria-label="email-newsletter"
+                                                                aria-describedby="email-newsletter-addon" required>
+                                                        </div>
+                                                        <center>
+                                                            @if (session()->has('data'))
+                                                                @php
+                                                                    $data = session('data');
+                                                                @endphp
+                                                                @if (isset($data['app']['status']) && $data['app']['status'] == 3)
+                                                                    <p
+                                                                        style="color: red;font-weight: 400; margin:5%; margin-bottom:0%; margin-top:2%">
+                                                                        @isset($data['app']['msg'])
+                                                                            {{ $data['app']['msg'] }}
+                                                                        @endisset
+                                                                    </p>
+                                                                @endif
+                                                                @if (isset($data['app']['status']) && $data['app']['status'] == 4)
+                                                                    <p
+                                                                        style="color:rgb(0, 131, 0); font-weight: 400; margin:5%; margin-bottom:0%; margin-top:2%">
+                                                                        @isset($data['app']['msg'])
+                                                                            {{ $data['app']['msg'] }}
+                                                                        @endisset
+                                                                    </p>
+                                                                @endif
+                                                            @endif
+                                                        </center>
+                                                    </div>
+
+                                                    <div class="col-12">
+                                                        <div class="d-grid">
+                                                            <button class="btn btn-primary"
+                                                                type="submit">Subscribe</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                             <div class="row mt-6 border-top border-light-subtle">
-                                <div class="credits text-secondary mt-2 fs-7">
+                                <div class="credits text-white mt-2 fs-7">
                                     <p>
                                         {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_txt ?? '' }}:
                                         <a class="text-decoration-none"
                                             href="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_url ?? '' }}">
                                             <span
                                                 class="text-white text-bold">{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}</span>
-                                        </a> 
-                                    </p> 
+                                        </a>
+                                    </p>
                                 </div>
                                 <div class="text-white footer-copyright-wrapper mt-6">
                                     {{ \App\Services\AppConfig::get()->app->app_info->app_name }}
-                                        {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} All Right Reserved
+                                    {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} All Right Reserved
                                 </div>
                             </div>
                         </div>

@@ -16,8 +16,8 @@
         @else
             @if (request()->browse)
                 <x-layouts.app :appInfo="$data->app->app_info">
-                    @include('components.page-banner')
-                    @include('components.category-slider')
+                    {{--  @include('components.page-banner')
+                    @include('components.category-slider')  --}}
                     @include('components.enjoy-tv-box')
                     @include('components.faq_section')
                 </x-layouts.app>
