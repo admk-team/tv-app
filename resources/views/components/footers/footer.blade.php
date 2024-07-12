@@ -1,4 +1,4 @@
-{{--  @if (isset(\App\Services\AppConfig::get()->app->app_info->footer_section) &&
+@if (isset(\App\Services\AppConfig::get()->app->app_info->footer_section) &&
         \App\Services\AppConfig::get()->app->app_info->footer_section === 'default')
     @include('components.footers.default')
 @elseif (isset(\App\Services\AppConfig::get()->app->app_info->footer_section) &&
@@ -18,5 +18,5 @@
     @include('components.footers.footer5')
 @else
     @include('components.footers.default')
-@endif  --}}
-@include('components.footers.footer5')
+@endif
+{{--  @include('components.footers.footer5')  --}}
