@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Http;
 
 class FollowController extends Controller
 {
-    public function follow(Request $request, $id)
+    public function follow(Request $request, $code)
     {
         try {
             $response = Http::timeout(300)->withHeaders(Api::headers())->asForm()
                 ->post(Api::endpoint('/toggle/follow'), [
-                    'actor_id' => $id,
+                'actor_id' => $code,
                 ]);
             if ($response->successful()) {
                 return back();

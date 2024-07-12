@@ -113,4 +113,4 @@ Route::get('/epgplayer/{channelGuid}/{slug}', [TvGuidePlayerController::class, '
 //Newsletter
 Route::post('newsletter', [NewsLetterController::class, 'newLetter'])->name('newsletter');
 
-Route::get('follow/{id?}', [FollowController::class, 'follow'])->name('toggle.follow');
+Route::get('follow/{code?}', [FollowController::class, 'follow'])->name('toggle.follow');
