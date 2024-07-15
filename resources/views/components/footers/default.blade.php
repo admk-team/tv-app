@@ -120,6 +120,11 @@
     </div>
     <div class="footer_bottom">
         <div class="container-fluid">
+              <form action="{{ route('toggle.subscribe') }}" method="POST">
+                    @csrf
+                    @method('POST')
+                    <input class="btn btn-primary" type="submit" value="Subscribe">
+                </form>
             <div class="row">
                 <div class="col-md-6 foot1">
                     <div class="footer_rights">
@@ -144,6 +149,8 @@
                         @endforeach
                     </ul>
                 </div>
+
+
             </div>
         </div>
     </div>
