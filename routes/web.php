@@ -18,6 +18,8 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\PasswordUpdateController;
 use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChannelSubscribe;
+use App\Http\Controllers\ChannelSubscribeController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\NewsLetterController;
@@ -114,3 +116,5 @@ Route::get('/epgplayer/{channelGuid}/{slug}', [TvGuidePlayerController::class, '
 Route::post('newsletter', [NewsLetterController::class, 'newLetter'])->name('newsletter');
 
 Route::get('follow/{code?}', [FollowController::class, 'follow'])->name('toggle.follow');
+Route::post('channel/subscribe', [ChannelSubscribeController::class, 'toggleSubscribe'])->name('toggle.subscribe');
+
