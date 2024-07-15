@@ -765,7 +765,8 @@ section.sliders {
     z-index: 9;
 }
 
-.trending_icon_box img, .trending_icon_box .svg {
+.trending_icon_box img,
+.trending_icon_box .svg {
     width: 30px;
     height: 30px;
 }
@@ -2551,7 +2552,7 @@ footer {
     padding: 10px 20px;
     font-size: 16px;
     border: none;
-    background-color:  var(--themeActiveColor);
+    background-color: var(--themeActiveColor);
     color: white;
     cursor: pointer;
     border-radius: 5px;
@@ -7224,50 +7225,86 @@ ul.dropsmenubox li a.dropdown-item:hover {
 }
 
 /** For Ads size **/
-.leaderboard_img,
-.leaderboard_img img {
-    width: 1350px !important;
+.leaderboard_img {
+    width: 100% !important;
+    /* Ensure container takes full width */
     height: 100px !important;
+    /* Fixed height for the container */
+    display: flex;
+    /* Use Flexbox for centering */
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
     max-width: 100%;
-
+    /* Ensure container doesn't exceed viewport width */
+    margin: auto;
+    /* Center container if it's inside another element */
+    overflow: hidden;
+    /* Hide any overflowing content */
 }
 
 .leaderboard_img img {
-    object-fit: fill !important;
-
+    width: 100%;
+    /* Scale image to container width */
+    height: auto;
+    /* Maintain aspect ratio */
+    max-width: 100%;
+    /* Prevent image from exceeding container width */
+    object-fit: contain !important;
+    /* Ensure image fits within container while maintaining aspect ratio */
+    display: block;
+    /* Remove any default inline spacing */
 }
 
 .leaderboard_ads {
     max-width: calc(100vw - 96px);
+    /* Adjust max width for responsive design */
     overflow: hidden;
+    /* Hide any overflowing content */
+    display: flex;
+    /* Use Flexbox for centering */
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
 }
 
 .leaderboard_img .detail_box_hide {
     display: none !important;
+    /* Hide detail box */
 }
 
-.thumbnail_img.leaderboard_img:hover {
+.leaderboard_img:hover {
     -ms-transform: scale(1);
     -webkit-transform: scale(1);
     transform: scale(1);
 }
 
-.billboard_img,
-.billboard_img img {
-    width: 1606px !important;
-    height: 470px !important;
+.billboard_img {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     max-width: 100%;
     margin: auto;
+    overflow: hidden;
 }
 
 .billboard_img img {
-    object-fit: fill !important;
-
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain !important;
 }
 
 .billboard_ads {
     max-width: calc(100vw - 96px);
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .billboard_img .detail_box_hide {
@@ -7281,7 +7318,7 @@ ul.dropsmenubox li a.dropdown-item:hover {
 }
 
 
-@media(max-width: 1460px) {
+/* @media(max-width: 1460px) {
 
     .leaderboard_img,
     .leaderboard_img img {
@@ -7459,7 +7496,7 @@ ul.dropsmenubox li a.dropdown-item:hover {
         width: 200px !important;
         height: 58px !important;
     }
-}
+} */
 
 
 
@@ -7672,12 +7709,13 @@ ul.dropsmenubox li a.dropdown-item:hover {
     font-size: 12px;
 }
 
-.newly-added-label > span:nth-child(1) {
+.newly-added-label>span:nth-child(1) {
     background-color: var(--themeActiveColor);
     color: var(--themePrimaryTxtColor);
     padding: 6px 8px;
 }
-.newly-added-label > span:nth-child(2) {
+
+.newly-added-label>span:nth-child(2) {
     background-color: white;
     color: black;
     padding: 6px 8px;
