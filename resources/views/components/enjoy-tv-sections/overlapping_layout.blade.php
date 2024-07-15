@@ -18,18 +18,28 @@
           justify-content: center;
           flex-direction: column;
       }
+.image_area {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
 
-      .image_area {
-          width: 100%;
-          height: 50vh;
-          overflow: hidden;
-      }
+.image_area img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%; /* Ensures full width */
+    height: auto; /* Maintains aspect ratio */
+    transform: translate(-50%, -50%); /* Centers the image */
+}
 
-      .image_area img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-      }
+
+
+
   </style>
 
   <div class="content">
@@ -55,7 +65,7 @@
                                   Apps</button></a>
                       </div>
                       <div class="image_area">
-                <img src="{{ $data->app->app_info->website_homescrn_poster ?? '' }}"  alt="Feature Image">
+                          <img src="{{ $data->app->app_info->website_homescrn_poster ?? '' }}" alt="Feature Image">
                       </div>
                   </div>
               </div>
