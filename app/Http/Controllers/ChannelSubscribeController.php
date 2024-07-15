@@ -23,4 +23,22 @@ class ChannelSubscribeController extends Controller
             return back()->with('erros', 'An error occurred while processing your request.');
         }
     }
+
+    public function checkSubscriptionStatus()
+    {
+        $responseData = Http::timeout(300)->withHeaders(Api::headers())
+            ->get('http://127.0.0.1:8000/api/f/v1/channel/subscribe/check');
+        // dd($responseData->json());
+        if ($responseData->successful()) {
+            return response()->json([
+                'success' => true,
+                'subscribed' => $responseData->json('subscribed', false)
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to retrieve subscription status'
+            ], 200);
+        }
+    }
 }
