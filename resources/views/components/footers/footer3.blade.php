@@ -7,7 +7,7 @@
                 <a href="/home"><img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}"
                         class="manik" alt=""></a>
             </div>
-            <div class="logo-des">
+            {{-- <div class="logo-des">
                 <p>
                     {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_txt ?? '' }}:
                     <a class="text-decoration-none"
@@ -16,7 +16,7 @@
                             class="text-white text-bold">{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}</span>
                     </a>
                 </p>
-            </div>
+            </div> --}}
         </div>
         <div class="link row">
             <div class="footer-header">
@@ -123,7 +123,18 @@
                 </div>
             </div>
         @endif
-
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-12 footer_rights" style="text-align: center;">
+            <ul class="footer_link px-0">
+                <li>
+                    <span
+                        class="copyright">{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_txt ?? '' }}</span>
+                    <a class="text-decoration-none"
+                        href="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_url ?? '' }}">{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}</a>
+                </li>
+            </ul>
+        </div>
     </div>
     <div class="copyright">
         <hr>
