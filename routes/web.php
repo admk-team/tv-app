@@ -32,6 +32,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\TvGuidePlayerController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\YearController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,6 +50,9 @@ use Illuminate\Support\Facades\Route;
 Route::view('/new3', 'components.new3');
 Route::view('/lyra', 'components.damian');
 // Route::view('/new3', 'components.new3');
+
+
+Route::get('/check-channel-status', [ChannelSubscribeController::class, 'checkSubscriptionStatus'])->name('check.subscription.status');
 
 // Authentication
 Route::get('signup', [RegisterController::class, 'index'])->name('register');
@@ -117,4 +121,3 @@ Route::post('newsletter', [NewsLetterController::class, 'newLetter'])->name('new
 
 Route::get('follow/{code?}', [FollowController::class, 'follow'])->name('toggle.follow');
 Route::post('channel/subscribe', [ChannelSubscribeController::class, 'toggleSubscribe'])->name('toggle.subscribe');
-

@@ -60,6 +60,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/faq_style.css') }}">
     @endif
     @yield('head')
+
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 
 <body>
