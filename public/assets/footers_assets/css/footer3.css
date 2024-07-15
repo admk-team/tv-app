@@ -85,7 +85,8 @@
     font-size: 22px;
     margin-bottom: 20px;
 }
-.footer-header h3{
+
+.footer-header h3 {
     font-size: 22px;
     margin-bottom: 20px;
     text-wrap: nowrap;
@@ -111,9 +112,11 @@
 .subcribe {
     display: flex;
 }
-.logo-power{
+
+.logo-power {
     color: var(--themeActiveColor);
 }
+
 input[type=email] {
     border: none;
     padding-bottom: 5px;
@@ -123,15 +126,19 @@ input[type=email] {
     outline: none;
     color: #fff;
 }
+
 #email-input-footer::placeholder {
-    color: var(--themePrimaryTxtColor); /* Replace with your desired color code */
+    color: var(--themePrimaryTxtColor);
+    /* Replace with your desired color code */
 }
-.submit-button{
-        background: transparent;
-        border: none;
-        outline: none;
-        color: aliceblue;
+
+.submit-button {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: aliceblue;
 }
+
 .sub-icon {
     margin: 7px;
     margin-right: 15px;
@@ -155,9 +162,11 @@ input[type=email] {
     font-size: 1.1rem;
     margin: 2%;
 }
+
 .social-icon {
     position: relative;
 }
+
 .social-icon img {
     max-width: 25px;
     font-size: 6px;
