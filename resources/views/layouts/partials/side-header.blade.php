@@ -45,7 +45,7 @@
                 <button class="navbar-toggler order-3" type="button">
                     <i class="fa fa-bars" style="color:white;"></i>
                 </button>
-                @if (session()->has('USER_DETAILS'))
+               @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                     <li class="nav-item">
                         <div class="dropdown dropdin">
                             <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>
@@ -114,7 +114,7 @@
                 <a href="/searchscreen">
                     <i class="bi bi-search search-icon"></i>
                 </a>
-                @if (session()->has('USER_DETAILS'))
+               @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                     <li class="nav-item">
                         <div class="dropdown dropdin">
                             <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=1>
