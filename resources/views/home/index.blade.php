@@ -6,7 +6,7 @@
     @break
 
     @case('HO')
-        @if (session()->has('USER_DETAILS'))
+       @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
             <x-layouts.app :appInfo="$data->app->app_info">
                 @include('components.page-banner')
                 @include('components.category-slider')

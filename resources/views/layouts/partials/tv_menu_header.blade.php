@@ -79,7 +79,7 @@
                     </button>
                 </a>
             </li>
-            @if (session()->has('USER_DETAILS'))
+           @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
                         aria-expanded="false">
