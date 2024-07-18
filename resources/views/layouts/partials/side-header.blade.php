@@ -1,10 +1,10 @@
     <header class="header fixed-menu">
         <nav class="inner mt-2">
-        <div class="header__logo d-block">
-            <a href="/">
-                <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt="Logo">
-            </a>
-        </div>
+            <div class="header__logo d-block">
+                <a href="/">
+                    <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt="Logo">
+                </a>
+            </div>
 
             <div class="side-header position-relative ">
                 <div class="pt-4 pb-3 d-flex align-items-center justify-content-center flex-column">
@@ -59,8 +59,9 @@
                                 <li><a class="text-decoration-none"
                                         href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
                                         Profiles</a></li>
-                                {{-- <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
-                                History</a></li> --}}
+                                <li><a class="text-decoration-none"
+                                        href="{{ route('transaction-history') }}">Transaction
+                                        History</a></li>
                                 <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
                                         Password</a>
                                 </li>
