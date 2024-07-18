@@ -38,9 +38,9 @@ class RegisterController extends Controller
             ]);
         $responseJson = $response->json();
         
-        if (array_key_exists('errors', $responseJson) && is_array($responseJson['errors'])) {
-            return back()->with('error', reset($responseJson['errors'])[0]);
-        }   
+        if ($responseJson['app']['status'] === 0) {
+            return back()->with('error', $responseJson['app']['msg']);
+        }    
 
         session([
             'USER_DETAILS' => [
