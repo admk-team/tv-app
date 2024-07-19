@@ -157,8 +157,9 @@
     .side-header {
         position: absolute;
         top: 3%;
-        right: 5%;
-        width: 100%;
+        /* right: 5%; */
+        /* width: 100%; */
+        width: 60%;
         color: white;
         transform: translateX(200%);
         transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
