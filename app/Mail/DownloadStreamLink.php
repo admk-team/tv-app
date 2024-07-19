@@ -17,13 +17,12 @@ class DownloadStreamLink extends Mailable
      * Create a new message instance.
      */
     public $title;
-    public $url;
-    public $data;
+    public $playback_url;
 
     public function __construct($data)
     {
         $this->title = $data['title'];
-        $this->url = $data['playback_url'];
+        $this->playback_url = $data['playback_url'];
     }
 
     /**
@@ -42,7 +41,11 @@ class DownloadStreamLink extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.download-stream-link'
+            markdown: 'mail.download-stream-link',
+            with: [
+                'title' => $this->title,
+                'playback_url' => $this->playback_url,
+            ],
         );
     }
 

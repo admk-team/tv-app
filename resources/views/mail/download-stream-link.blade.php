@@ -1,13 +1,12 @@
 @component('mail::message')
 # Progress Complete
 
-
 <p>Title: {{ $title }}</p>
 <br>
 
-<x-mail::button :url="$url">
+@component('mail::button', ['url' => $playback_url])
 Download
-</x-mail::button>
+@endcomponent
 
 Thanks,<br>
 {{ config('app.name') }}

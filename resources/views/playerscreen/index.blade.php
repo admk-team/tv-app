@@ -501,19 +501,21 @@
                             </div>
                         </div>
                         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
-
-                        <div class="float-end">
-                            <form id="DownloadForm">
-                                @csrf
-                                <span id="success-message" class="text-success"></span>
-                                <span id="error-message" class="text-danger"></span>
-                                <input type="hidden" name="stream_url" value="{{ $arrStreamsData['stream_url'] }}">
-                                <input type="hidden" name="stream_title"
-                                    value="{{ $arrSlctItemData['stream_title'] }}">
-                                <button style="submit" id="submit_btn" class="btn btn-primary"><span class="px-1"><i
-                                            class="ri-arrow-down-line"></i></span>Download</button>
-                            </form>
-                        </div>
+                            @if (!empty($arrSlctItemData['is_download']) && $arrSlctItemData['is_download'] == 1)
+                                <div class="float-end">
+                                    <form id="DownloadForm">
+                                        @csrf
+                                        <span id="success-message" class="text-success"></span>
+                                        <span id="error-message" class="text-danger"></span>
+                                        <input type="hidden" name="stream_url"
+                                            value="{{ $arrStreamsData['stream_url'] }}">
+                                        <input type="hidden" name="stream_title"
+                                            value="{{ $arrSlctItemData['stream_title'] }}">
+                                        <button style="submit" id="submit_btn" class="btn btn-primary"><span
+                                                class="px-1"><i class="ri-arrow-down-line"></i></span>Download</button>
+                                    </form>
+                                </div>
+                            @endif
                         @endif
                     </div>
                     <?php endif; ?>
@@ -768,7 +770,7 @@ if (!empty($arrCatData))
                                             {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                         </div>
                                         <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                              </div> -->
+                                                                                                                                                                                      </div> -->
                                         <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                         <div class="content_description">{{ $arrStreamsData['stream_description'] }}</div>
                                     </div>
@@ -1136,11 +1138,12 @@ if (!empty($arrCatData))
                 contentType: false,
                 cache: false,
             }).then(function(response) {
-                $('#success-message').text(response.message).fadeIn().delay(3000).fadeOut();
+                $('#success-message').text(response.message).fadeIn().delay(6000).fadeOut();
             }).fail(function(response) {
-                const errorMessage = response.responseJSON ? response.responseJSON.message :
-                    'An error occurred';
-                $('#error-message').text(errorMessage).fadeIn().delay(3000).fadeOut
+                /* const errorMessage = response.responseJSON ? response.responseJSON.message :
+                    'An error occurred'; */
+                const errorMessage = 'An error occurred';
+                $('#error-message').text(errorMessage).fadeIn().delay(6000).fadeOut
             });
         });
     </script>

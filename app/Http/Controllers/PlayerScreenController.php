@@ -15,7 +15,7 @@ class PlayerScreenController extends Controller
         if (env('NO_IP_ADDRESS') === true) { // For localhost
             $xyz = "MTU0LjE5Mi4xMzguMzY=";
         }
-        
+
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/getitemplayerdetail/{$id}?user_data={$xyz}"));
         $data = $response->json();
@@ -25,7 +25,6 @@ class PlayerScreenController extends Controller
             }
             abort(404);
         }
-
         $limitWatchTime = $data['app']['app_info']['limit_watch_time'];
         $watchTimeDuration = $data['app']['app_info']['watch_time_duration'];
 
@@ -43,10 +42,10 @@ class PlayerScreenController extends Controller
         if (env('NO_IP_ADDRESS') === true) { // For localhost
             $xyz = "MTU0LjE5Mi4xMzguMzY=";
         }
-        
+
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/getprivateitemplayerdetail/{$id}?user_data={$xyz}"));
-            
+
         $data = $response->json();
         if ($data['app']['stream_details'] === []) {
             if ($data['geoerror'] ?? null) {
