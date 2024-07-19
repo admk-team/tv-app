@@ -29,7 +29,7 @@
             <nav class="my-2 my-md-0 mr-md-3">
                 <a class="p-2 text-white" href="/login">Login</a>
             </nav>
-            @if (session()->has('USER_DETAILS'))
+           @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                 <div class="dropdown dropdin">
                     <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>
                         <div class="userimg">{{ session('USER_DETAILS')['USER_NAME'][0] }}</div>
