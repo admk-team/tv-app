@@ -5,6 +5,9 @@
     padding: 0px 0px 0px 65px;
 
     }
+    .text-white-custom{
+      color: var(--themePrimaryTxtColor)
+    }
     </style>
 <div class="content">
     <section class="show_box">
@@ -20,11 +23,11 @@
           <div class="col-md-6 col-sm-6">
             <div class="right_side_box">
               <div class="about_site_design">
-                <h1 class="text-white">
+                <h1 class="text-white-custom">
                   Enjoy on your TV and Mobile
                   <div class="circleins"></div>
                 </h1>
-                <p class="text-white">Unlimited stream, movies and TV shows on OTT Platforms.</p>
+                <p class="text-white-custom">Unlimited stream, movies and TV shows on OTT Platforms.</p>
                 <div class="about_add">
                   <span>Watch Now:</span>
                   <span class="roku"><img src="https://24flix.tv/assets/images/roku_icon.png" alt="Roku"></span>

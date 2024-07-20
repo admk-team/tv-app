@@ -37,7 +37,7 @@
 }
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #000;
+  background-color: var(--bgcolor);
   margin: auto;
 }
 
@@ -253,7 +253,7 @@ body {
   height: auto;
 }
 .faqs {
-  background: rgba(7, 24, 34, 1);
+  background: var(--bgcolor);
   color: var(--primary-text-color);
   padding-block: 3rem;
 }
@@ -279,12 +279,12 @@ body {
 
 .accordion.active,
 .accordion:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--themeActiveColor);
 }
 
 .panel {
   padding: 0 18px;
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--themeActiveColor);
   display: none;
   overflow: hidden;
   transition: 4s ease;
@@ -298,11 +298,11 @@ body {
   font-size: 1.5rem; /* Adjust icon size */
 }
 .membership {
-  /* background: rgba(255, 255, 255, 0.2); */
-  background-color: #38454d;
+  background-color: var(--bgcolor);
   color: var(--primary-text-color);
   padding-block: 3rem;
   position: relative;
+  border: 0.5px solid  var(--themeActiveColor);
 }
 .membership::before {
   content: "";
@@ -346,8 +346,18 @@ body {
 footer {
   padding-block: 3rem;
   color: var(--primary-text-color);
-  background-color: #071822;
+  /* background-color: var(--bgcolor); */
+  background-image: linear-gradient(
+    rgba(4, 9, 30, 0.4),
+    var(--themeActiveColor) 100%,
+    rgb(246, 246, 246) 15%
+  );
 }
+
+.foooter-text{
+  color: var(--primary-text-color);
+}
+
 
 @media (max-width: 767.98px) {
   .hero__video video {

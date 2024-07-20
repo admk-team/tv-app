@@ -64,7 +64,7 @@
         color: black !important;
     }
 
-    #split_menu_links:hover a {
+    {{--  #split_menu_links:hover a {
         /* transform: scale(.5); */
         opacity: 0.2;
         filter: blur(5px);
@@ -77,18 +77,18 @@
         opacity: 1;
         filter: blur(0);
         text-decoration: none;
-        color: #fff;
+        color: var(--themePrimaryTxtColor);
         border-radius: 4px;
         padding: 8px 12px;
-    }
+    }  --}}
 
     .menu-icon {
         display: none;
     }
 
-    /* .menu-icon i {
-        display: none;
-    } */
+    .header-text {
+        color: var(--themePrimaryTxtColor);
+    } 
 
     @media only screen and (max-width: 1100px) {
 
@@ -114,7 +114,7 @@
 
         /*
         .menu-icon i {
-            color: #fff;
+            color: var(--themePrimaryTxtColor);
             border-radius: 4px;
             display: block;
 
@@ -198,13 +198,13 @@
     }
 
     .nav-links-items a {
-        color: #000;
+        color: var(--themePrimaryTxtColor);
         font-weight: 600;
     }
 
     .nav-links-items li:hover {
-        color: #fff;
-        background-color: red;
+        color: var(--themePrimaryTxtColor);
+        background-color: var(--bgcolor);
     }
 
     .nav-links-items li:first-child:hover {
@@ -218,19 +218,19 @@
     }
 
     /* .nav-links-items li:hover:not(:first-child):not(:last-child) {
-    color: #fff;
+    color: var(--themePrimaryTxtColor);
     background-color: red;
 }
 
 .nav-links-items li:first-child:hover {
-    color: #fff;
+    color: var(--themePrimaryTxtColor);
     background-color: red;
     border-top-left-radius: 40px;
     border-bottom-left-radius: 40px;
 }
 
 .nav-links-items li:last-child:hover {
-    color: #fff;
+    color: var(--themePrimaryTxtColor);
     background-color: red;
     border-top-right-radius: 40px;
 } */
@@ -238,8 +238,8 @@
 
 
     .nav-links-items li.active:hover {
-        color: #fff;
-        background-color: red;
+        color: var(--themePrimaryTxtColor);
+        background-color: var(--bgcolor);
     }
 
     /* Fixed menus */

@@ -13,6 +13,9 @@
         height: 100%;
         object-fit: none;
     }
+    .text-white-custom {
+        color: var(--themePrimaryTxtColor)
+    }
 </style>
 <div class="content">
     <section class="show_box">
@@ -21,8 +24,8 @@
                 <div class="col-md-12">
                     <div class="text_above_image">
                         <div class="text_content">
-                            <h1 class="text-white">Enjoy on your TV and Mobile</h1>
-                            <p class="text-white">Unlimited stream,
+                            <h1 class="text-white-custom">Enjoy on your TV and Mobile</h1>
+                            <p class="text-white-custom">Unlimited stream,
                                 movies and TV shows on OTT Platforms.</p>
                             <div class="about_add"><span>Watch Now:</span><span class="roku"><img
                                         src="https://24flix.tv/assets/images/roku_icon.png" alt="Roku"></span><span

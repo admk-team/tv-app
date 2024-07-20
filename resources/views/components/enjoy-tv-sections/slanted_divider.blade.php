@@ -7,7 +7,11 @@
     }
 
     .slanted_text_box {
-        background: #151515;
+        background-image: linear-gradient(
+            rgba(4, 9, 30, 0.4),
+            var(--themeActiveColor) 100%,
+            rgb(246, 246, 246) 15%
+          );
         clip-path: polygon(0 25%, 100% 0, 100% 100%, 0 100%);
         padding: 4rem 0;
     }

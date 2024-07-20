@@ -3,8 +3,8 @@
 }
 
 body {
-    background-color: #000000;
-    color: white;
+    background-color: var(--bgcolor);
+    color:var(--themePrimaryTxtColor);
 }
 
 .content-wrapper {
@@ -25,7 +25,7 @@ body {
 
 .btn-primary-new {
     background-color: var(--primary-color);
-    color: #FFFFFF !important;
+    color: var(--themePrimaryTxtColor) !important;
     border-radius: 31px;
     padding: 6px 18px;
     text-decoration: none;
@@ -35,9 +35,9 @@ body {
     border: 1px solid var(--primary-color);
 }
 .btn-primary-new-outline {
-    background-color: #000;
+    background-color: var(--bgcolor);
     border: 1px solid var(--primary-color);
-    color: white !important;
+    color: var(--themePrimaryTxtColor) !important;
     border-radius: 31px;
     padding: 6px 18px;
     text-decoration: none;
@@ -46,7 +46,7 @@ body {
     font-weight: 500;
 }
 .browse-btn {
-    color: white;
+    color: var(--navbarSearchColor);
     font-weight: 600;
     text-decoration: none;
     font-size: 14px;
@@ -82,8 +82,8 @@ body {
     width: 100%;
 }
 .concord_gradient {
-    background: rgba(0, 0, 0, 0.1);
-    background-image: linear-gradient(6deg, rgba(0, 0, 0, 0.8) 0, transparent 100%, rgba(0, 0, 0, -0.2));
+    background: var(--bgcolor);
+    background-image: linear-gradient(6deg, var(--primary-color) 0, transparent 100%, rgba(0, 0, 0, -0.2));
     bottom: 0;
     left: 0;
     position: absolute;
@@ -154,7 +154,7 @@ color: var(--primary-color);
     border: none;
     background-color: transparent;
     padding: 8px 12px;
-    color: #fff;
+    color: var(--themePrimaryTxtColor);
     width: 100%;
     max-width: 100%;
    
@@ -248,17 +248,17 @@ color: var(--primary-color);
 
 .tab-btns>div.active span {
     font-weight: bold;
-    color: white; /* Color for active tab */
+    color: var(--themePrimaryTxtColor); /* Color for active tab */
 }
 
 .tab-btns>div.active {
-    border-bottom: 3px solid white;
+    border-bottom: 3px solid var(--themePrimaryTxtColor);
     font-weight: 900;
     font-size: 36px;
 }
 
 .stream-icons{
-    background: white;
+    background: var(--bgcolor);
 }
 .tv__links {
     position: relative;
@@ -290,18 +290,18 @@ color: var(--primary-color);
     padding: 0.8em 2.2em 0.8em 1.2em;
     position: relative;
     width: 100%;
-    background: #303030;
-    color: #fff;
+    background:  var(--bgcolor);
+    color: var(--themePrimaryTxtColor);
     text-align: left;
     display: block;
 }
 .accrodingin {
     margin: .1em auto;
     width: 67%;
-    border: 2px solid white;
+    border: 2px solid var(--themePrimaryTxtColor);
 }
 .faq_question .svg-icon-thin-x {
-    fill: #fff;
+    fill: var(--themePrimaryTxtColor);
     height: 1em;
     position: absolute;
     right: 1em;
@@ -315,7 +315,8 @@ color: var(--primary-color);
     padding: 1.2em;
     font-size: 1rem;
     font-weight: 400;
-    color: #fff;
+    color: var(--themePrimaryTxtColor);
+    background:  var(--bgcolor);
 }
 
 
@@ -358,7 +359,7 @@ color: var(--primary-color);
   }
   
   .membership {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--bgcolor);
     border-radius: 40px;
     /* padding: 6px 6px; */
   }
@@ -367,7 +368,7 @@ color: var(--primary-color);
     border: none;
     background-color: transparent;
     padding: 8px 12px;
-    color: #fff;
+    color: var(--themePrimaryTxtColor);
     width: 100%;
     max-width: 100%;
   }
@@ -396,14 +397,18 @@ color: var(--primary-color);
 }
 footer {
     border-top: 2px solid;
-    border-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(216, 15, 47, 1), rgba(255, 255, 255, 0)) 1;
+    border-image: linear-gradient(to right, var(--bgcolor), var(--primary-color), var(--bgcolor)) 1;
     width: 80%;
     margin: auto;
     padding-block: 2rem;
-    color: #fff;
+    color: var(--themePrimaryTxtColor);
+    
   }
   footer span {
     color: var(--primary-button-color);
+  }
+  .foooter-text{
+    color: var(--primary-text-color);
   }
 @media (max-width:576px) {
     .cards_headtitles {
@@ -412,7 +417,7 @@ footer {
         font-weight: bold;
     }
     .cards_headtitles span {
-        -webkit-text-stroke: 1px white;
+        -webkit-text-stroke: 1px var(--themePrimaryTxtColor);
         font-weight: 600;
         font-size: 24px;
     }
@@ -432,14 +437,14 @@ footer {
         font-weight: bold;
     }
     .cards_headtitles span {
-        -webkit-text-stroke: 1px white;
+        -webkit-text-stroke: 1px var(--themePrimaryTxtColor);
         font-weight: 600;
         font-size: 33px;
     }
     .leadinsttiltes {
         font-family: Inter, sans-serif;
         font-size: 15px;
-        color: #fff;
+        color: var(--themePrimaryTxtColor);
     }
 }
 @media (min-width: 530px) and (max-width:630px) {
@@ -452,14 +457,14 @@ footer {
         font-weight: bold;
     }
     .cards_headtitles span {
-        -webkit-text-stroke: 1px white;
+        -webkit-text-stroke: 1px var(--themePrimaryTxtColor);
         font-weight: 600;
         font-size: 29px;
     }
     .leadinsttiltes {
         font-family: Inter, sans-serif;
         font-size: 13px;
-        color: #fff;
+        color: var(--themePrimaryTxtColor);
     }
 }
 @media (min-width: 460px) and (max-width:530px) {
@@ -472,14 +477,14 @@ footer {
         font-weight: bold;
     }
     .cards_headtitles span {
-        -webkit-text-stroke: 1px white;
+        -webkit-text-stroke: 1px var(--themePrimaryTxtColor);
         font-weight: 600;
         font-size: 25px;
     }
     .leadinsttiltes {
         font-family: Inter, sans-serif;
         font-size: 10px;
-        color: #fff;
+        color: var(--themePrimaryTxtColor);
     }
 }
 @media (max-width:460px) {
@@ -500,14 +505,14 @@ footer {
         font-weight: bold;
     }
     .cards_headtitles span {
-        -webkit-text-stroke: 1px white;
+        -webkit-text-stroke: 1px var(--themePrimaryTxtColor);
         font-weight: 600;
         font-size: 22px;
     }
     .leadinsttiltes {
         font-family: Inter, sans-serif;
         font-size: 10px;
-        color: #fff;
+        color: var(--themePrimaryTxtColor);
     }
 }
 @media (min-width: 576px) {

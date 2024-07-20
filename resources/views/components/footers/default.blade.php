@@ -70,7 +70,7 @@
             @if (isset(\App\Services\AppConfig::get()->app->app_info->newsletter) &&
                     \App\Services\AppConfig::get()->app->app_info->newsletter === 1)
                 <div id="newsletter-section" class="row">
-                    <h5 class="text-center text-white">Subscribe to our Newsletter</h5>
+                    <h5 class="text-center copyright">Subscribe to our Newsletter</h5>
                     <center>
                         <p style="color:red">
                             @if (session()->has('error'))

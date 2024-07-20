@@ -15,7 +15,7 @@
                                     @if ($menu->menu_type === 'FA' && !session()->has('USER_DETAILS.USER_CODE'))
                                         @continue
                                     @endif
-                                    <a class="text-decoration-none text-white" href="/{{ $menu->menu_slug }}">
+                                    <a class="text-decoration-none header-text" href="/{{ $menu->menu_slug }}">
                                         <li class="pc">{{ $menu->menu_title }}</li>
                                     </a>
                                 @endif
@@ -23,12 +23,12 @@
                             @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
                                 @if ($page->displayOn === 'H' || $page->displayOn === 'B')
                                     @if ($page->pageType === 'E')
-                                        <a class="text-decoration-none text-white" href="{!! $page->externalLink !!}"
+                                        <a class="text-decoration-none header-text" href="{!! $page->externalLink !!}"
                                             target="_blank">
                                             <li class="pc">{{ $page->page_title }}</li>
                                         </a>
                                     @else
-                                        <a class="text-decoration-none text-white" href="/page/{{ $page->page_slug }}">
+                                        <a class="text-decoration-none header-text" href="/page/{{ $page->page_slug }}">
                                             <li class="pc">{{ $page->page_title }}</li>
                                         </a>
                                     @endif
