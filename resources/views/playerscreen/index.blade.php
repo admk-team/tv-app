@@ -453,6 +453,15 @@
                         @endif
                         <div id="wrapper">
                             <div class="trail-redirect-message">You will be redirected to login in <span class="time">45 second</span></div>
+
+                            @if ($arrSlctItemData['overlay_ad'] ?? null)
+                                <div class="overlay-ad d-none">
+                                    <button class="btn-close-ad" onclick="hideOverlayAd()"><i class="bi bi-x-lg"></i></button>
+                                    <a href="{{ $arrSlctItemData['overlay_ad']['target_url'] ?? 'javascript:void(0)' }}" target="_blank" onclick="overlayAdClick()">
+                                        <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}" alt="overlay ad" />
+                                    </a>
+                                </div>
+                            @endif
                         </div>
                         <!-- LIST OF PLAYLISTS -->
                         <div id="mvp-playlist-list">
@@ -980,6 +989,8 @@ if (!empty($arrCatData))
                 if (watermark) {
                     watermark.style.display = "block";
                 }
+
+                showOverlayAd();
             });
 
             player.addEventListener("mediaPlay", function(data) {
@@ -1042,6 +1053,16 @@ if (!empty($arrCatData))
             $.get("<?php echo $dataVast3 ?? ''; ?>", function(data, status) {
                 //alert("Data: " + data + "\nStatus: " + status);
             });
+        }
+
+        function showOverlayAd() {
+            $('.overlay-ad').removeClass('d-none');
+        }
+        function hideOverlayAd() {
+            $('.overlay-ad').addClass('d-none');
+        }
+        function overlayAdClick() {
+            player.pauseMedia();
         }
     </script>
     <script>
