@@ -439,7 +439,6 @@
                     <?php else: ?>
 
                     <div class="videocentalize">
-                        <div class="trail-redirect-message">You will be redirected to login in <span class="time">45 second</span></div>
                         @if ($watermark)
                             <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}" style="display: none;">
                                 @if ($watermark['type'] === 'text')
@@ -449,7 +448,9 @@
                                 @endif
                             </div>
                         @endif
-                        <div id="wrapper"></div>
+                        <div id="wrapper">
+                            <div class="trail-redirect-message">You will be redirected to login in <span class="time">45 second</span></div>
+                        </div>
                         <!-- LIST OF PLAYLISTS -->
                         <div id="mvp-playlist-list">
                             <div class="mvp-global-playlist-data"></div>
