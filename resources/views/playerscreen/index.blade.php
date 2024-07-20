@@ -457,9 +457,13 @@
                             @if ($arrSlctItemData['overlay_ad'] ?? null)
                                 <div class="overlay-ad d-none">
                                     <button class="btn-close-ad" onclick="hideOverlayAd()"><i class="bi bi-x-lg"></i></button>
-                                    <a href="{{ $arrSlctItemData['overlay_ad']['target_url'] ?? 'javascript:void(0)' }}" target="_blank" onclick="overlayAdClick()">
+                                    @if ($arrSlctItemData['overlay_ad']['target_url'])
+                                        <a href="{{ $arrSlctItemData['overlay_ad']['target_url'] }}" target="_blank" onclick="overlayAdClick()">
+                                            <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}" alt="overlay ad" />
+                                        </a>
+                                    @else
                                         <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}" alt="overlay ad" />
-                                    </a>
+                                    @endif
                                 </div>
                             @endif
                         </div>
