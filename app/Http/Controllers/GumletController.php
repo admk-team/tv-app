@@ -6,9 +6,8 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Jobs\CheckVideoProgress;
-use App\Mail\DownloadStreamLink;
 use App\Models\Video;
-use Illuminate\Support\Facades\Mail;
+
 
 class GumletController extends Controller
 {
@@ -18,26 +17,20 @@ class GumletController extends Controller
         $streamUrl = $request->input('stream_url');
         $title = $request->input('stream_title');
 
-        // Check if the video is already present
-        $existingVideo = Video::where('source_url', $streamUrl)
+        $video = Video::where('source_url', $streamUrl)
             ->where('title', $title)
             ->where('status', 'completed')
             ->first();
-        if (session()->has('USER_DETAILS')) {
-            $userEmail = session('USER_DETAILS')['USER_EMAIL']  ?? '';
+
+        if ($video) {
+            // $response = Http::get($video->playback_url);
+            // return response($response->body(), 200)
+            //     ->header('Content-Type', $response->header('Content-Type'))
+            //     ->header('Content-Disposition', 'attachment; filename="video.mp4"');
+            return redirect($video->playback_url)->header('Content-Type', 'video/mp4')
+            ->header('Content-Disposition', 'attachment; filename="video.mp4"');
         }
 
-        if ($existingVideo) {
-            Mail::to($userEmail)->send(new DownloadStreamLink([
-                'title' => $existingVideo->title,
-                'playback_url' => $existingVideo->playback_url,
-            ]));
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Video is already available. You will receive an email with the download link.',
-            ]);
-        }
 
         // Proceed with the conversion if video is not present
         $client = new Client();
@@ -81,5 +74,4 @@ class GumletController extends Controller
             ]);
         }
     }
-
 }

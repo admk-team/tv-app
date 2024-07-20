@@ -52,6 +52,7 @@ Route::view('/new3', 'components.new3');
 Route::view('/lyra', 'components.damian');
 // Route::view('/new3', 'components.new3');
 
+Route::post('/video', [GumletController::class, 'uploadGumlet'])->name('video.convert');
 
 Route::get('/check-channel-status', [ChannelSubscribeController::class, 'checkSubscriptionStatus'])->name('check.subscription.status');
 
@@ -123,8 +124,6 @@ Route::post('newsletter', [NewsLetterController::class, 'newLetter'])->name('new
 Route::get('follow/{code?}', [FollowController::class, 'follow'])->name('toggle.follow');
 Route::post('channel/subscribe', [ChannelSubscribeController::class, 'toggleSubscribe'])->name('toggle.subscribe');
 
-Route::middleware('throttle:3,1')->group(
-    function () {
-        Route::post('/convert', [GumletController::class, 'uploadGumlet'])->name('video.convert');
-    }
-);
+
+
+// Route::get('/video/{uuid}/download', [GumletController::class, 'download'])->name('video.download');
