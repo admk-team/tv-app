@@ -36,7 +36,7 @@
                 <a href="/searchscreen" class="search-box text-white">
                     <i class="bi bi-search search-icon"></i>
                 </a>
-                @if (session()->has('USER_DETAILS'))
+               @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                     <li class="nav-item">
                         <div class="dropdown dropdin">
                             <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>

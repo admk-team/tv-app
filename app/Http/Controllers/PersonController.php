@@ -15,6 +15,7 @@ class PersonController extends Controller
         $responseJson = $response->json();
 
         $data = $responseJson['data'];
-        return view('person.index', compact('data'));
+        $follows = $responseJson['follows'];
+        return view('person.index', compact('data', 'follows'));
     }
 }

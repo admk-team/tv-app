@@ -30,7 +30,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto">
-                    @if (session()->has('USER_DETAILS'))
+                   @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                         <div class="dropdown dropdin">
                             <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>
                                 <div class="userimg">{{ session('USER_DETAILS')['USER_NAME'][0] }}</div>

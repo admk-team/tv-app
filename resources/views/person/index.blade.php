@@ -40,9 +40,19 @@
                         <h1 class="text-white">
                             {{ $data['name'] }}
                         </h1>
+                       @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                            @if ($follows)
+                                <div class="d-inline-block">
+                                    <a href="{{ route('toggle.follow', $data['code']) }}" class="btn btn-primary">Unfollow</a>
+                                </div>
+                            @else
+                                <div class="d-inline-block">
+                                    <a href="{{ route('toggle.follow', $data['code']) }}" class="btn btn-primary">Follow</a>
+                                </div>
+                            @endif
+                        @endif
                         @if ($data['description'])
                             <div class="about-actor text-white" style="font-size:large;">
-                                {{--  <h2>Bio</h2>  --}}
                                 {!! $data['description'] !!}
                             </div>
                         @endif

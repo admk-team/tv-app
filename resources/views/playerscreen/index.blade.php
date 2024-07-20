@@ -50,7 +50,7 @@
             session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
             session()->save();
             \Illuminate\Support\Facades\Redirect::to(route('login'))->send();
-        } else if ($monetizationType == 'S') {
+        } elseif ($monetizationType == 'S') {
             $sArr['REQUEST_FROM'] = 'player';
             session(['MONETIZATION' => $sArr]);
             session()->save();
@@ -80,8 +80,7 @@
             session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
             session()->save();
             \Illuminate\Support\Facades\Redirect::to(route('login'))->send();
-        }
-        else if (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE'])) {
+        } elseif (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE'])) {
             session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
             session()->save();
             \Illuminate\Support\Facades\Redirect::to(route('subscription'))->send();
@@ -151,14 +150,13 @@
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
     if (parse_url($adUrl, PHP_URL_QUERY)) {
-        $adMacros = $adUrl."&width=1920&height=1080&cb=$cb&".(!$isLocalHost? "uip=$userIP&": "")."device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+        $adMacros = $adUrl . "&width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     } else {
-        $adMacros = $adUrl."?width=1920&height=1080&cb=$cb&".(!$isLocalHost? "uip=$userIP&": "")."device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+        $adMacros = $adUrl . "?width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     }
     $dataVast = "data-vast='$adMacros'";
 
-    if ($isMobileBrowser == 1 || $adUrl == '')
-    {
+    if ($isMobileBrowser == 1 || $adUrl == '') {
         $dataVast = '';
     }
 
@@ -182,6 +180,7 @@
     ?>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
     <script src="{{ asset('assets/js/new.js') }}"></script>
     <script src="{{ asset('assets/js/vast.js') }}"></script>
     <script src="{{ asset('assets/js/share_manager.js') }}"></script>
@@ -333,10 +332,13 @@
         }
 
         @if ($redirectUrl)
-            .mvp-input-progress, .mvp-skip-backward-toggle, .mvp-skip-forward-toggle, .mvp-rewind-toggle {
-                cursor: not-allowed !important; 
+            .mvp-input-progress,
+            .mvp-skip-backward-toggle,
+            .mvp-skip-forward-toggle,
+            .mvp-rewind-toggle {
+                cursor: not-allowed !important;
             }
-            
+
         @endif
     </style>
 
@@ -440,7 +442,8 @@
 
                     <div class="videocentalize">
                         @if ($watermark)
-                            <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}" style="display: none;">
+                            <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}"
+                                style="display: none;">
                                 @if ($watermark['type'] === 'text')
                                     {{ $watermark['text'] }}
                                 @else
@@ -457,11 +460,12 @@
                             <div class="playlist-video">
 
                                 <div class="mvp-playlist-item" data-type="{{ $mType }}"
-                                    data-path="{{ $streamUrl }}" data-poster="{{ $arrSlctItemData['stream_poster'] }}"
+                                    data-path="{{ $streamUrl }}"
+                                    data-poster="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-title="{{ $arrSlctItemData['stream_title'] }}"
                                     data-description="{{ $arrSlctItemData['stream_description'] }}"
-                                    {!! $dataVast2? $dataVast2: $dataVast !!}>
+                                    {!! $dataVast2 ? $dataVast2 : $dataVast !!}>
 
                                 </div>
                                 <?php
@@ -487,18 +491,36 @@
                       }
                      ?>
                                 <div class="mvp-playlist-item" data-type="{{ $quality }}"
-                                    data-path="{{ $videoUrl }}" {!! $dataVast2? $dataVast2: $dataVast !!}
+                                    data-path="{{ $videoUrl }}" {!! $dataVast2 ? $dataVast2 : $dataVast !!}
                                     data-poster="{{ $poster }}" data-thumb="{{ $poster }}"
                                     data-title="{{ $arrStreamsData['stream_title'] }}"
                                     data-description="{{ $arrStreamsData['stream_description'] }}"></div>
                                 <?php
-                    }
-                   ?>
+                            }
+                            ?>
                             </div>
                         </div>
+                        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+                            @if (!empty($arrSlctItemData['is_download']) && $arrSlctItemData['is_download'] == 1)
+                                <div class="float-end">
+                                    <form id="DownloadForm">
+                                        @csrf
+                                        <span id="success-message" class="text-success"></span>
+                                        <span id="error-message" class="text-danger"></span>
+                                        <input type="hidden" name="stream_url"
+                                            value="{{ $arrStreamsData['stream_url'] }}">
+                                        <input type="hidden" name="stream_title"
+                                            value="{{ $arrSlctItemData['stream_title'] }}">
+                                        <button style="submit" id="submit_btn" class="btn btn-primary"><span
+                                                class="px-1"><i class="ri-arrow-down-line"></i></span>Download</button>
+                                    </form>
+                                </div>
+                            @endif
+                        @endif
                     </div>
                     <?php endif; ?>
                 </div>
+
             </div>
         </div>
 
@@ -748,7 +770,7 @@ if (!empty($arrCatData))
                                             {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                         </div>
                                         <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                      </div> -->
+                                                                                                                                                                                      </div> -->
                                         <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                         <div class="content_description">{{ $arrStreamsData['stream_description'] }}</div>
                                     </div>
@@ -995,17 +1017,16 @@ if (!empty($arrCatData))
 
         });
 
-        document.body.addEventListener("click", function (evt) {
+        document.body.addEventListener("click", function(evt) {
             //console.dir(this);
             //note evt.target can be a nested element, not the body element, resulting in misfires
             //console.log(evt.target);
-            if (player.getMediaPlaying())
-            {
-            // alert(player);
+            if (player.getMediaPlaying()) {
+                // alert(player);
                 mediaId = player.getCurrentMediaData().mediaId
                 console.log(player.getCurrentMediaData());
                 console.log(player.getCurrentTime());
-            //  alert("body clicked");
+                //  alert("body clicked");
                 sendAjaxRes4VideoDuration('saveStrmDur', mediaId, player.getCurrentTime());
             }
         });
@@ -1084,7 +1105,7 @@ if (!empty($arrCatData))
                 const start = () => {
                     startTime = new Date();
                     const countDownDelay = duration - 30000;
-                    countDownTimeout = setTimeout(startCountDown, countDownDelay >= 0? countDownDelay: 0);
+                    countDownTimeout = setTimeout(startCountDown, countDownDelay >= 0 ? countDownDelay : 0);
                 };
 
                 const pause = () => {
@@ -1103,4 +1124,27 @@ if (!empty($arrCatData))
             }
         </script>
     @endif
+
+    <script>
+        $('#submit_btn').on('click', function(event) {
+            event.preventDefault();
+            const formData = new FormData(document.getElementById("DownloadForm"));
+
+            $.ajax({
+                type: 'POST',
+                data: formData,
+                url: "{{ route('video.convert') }}",
+                processData: false,
+                contentType: false,
+                cache: false,
+            }).then(function(response) {
+                $('#success-message').text(response.message).fadeIn().delay(6000).fadeOut();
+            }).fail(function(response) {
+                /* const errorMessage = response.responseJSON ? response.responseJSON.message :
+                    'An error occurred'; */
+                const errorMessage = 'An error occurred';
+                $('#error-message').text(errorMessage).fadeIn().delay(6000).fadeOut
+            });
+        });
+    </script>
 @endpush

@@ -233,36 +233,63 @@
                     <div class="about-movie aboutmovie_gaps">{{ $stream_details['stream_description'] }}</div>
                     <dl class="movies_listview">
                         <dl>
-                            @foreach ($stream_details['starring_data'] as $roleKey => $persons)
-                                @if (!empty($persons))
+                            @if (isset($stream_details['cast']) || isset($stream_details['director']) || isset($stream_details['writer']))
+                                @if ($stream_details['cast'])
                                     <div class="content-person">
-                                        <dt>{{ $roleKey }}:</dt>
+                                        <dt>Cast:</dt>
                                         <dd>
-                                            @php
-                                                if (!is_array($persons)) {
-                                                    $persons = explode(',', $persons);
-                                                }
-                                            @endphp
-
-                                            @foreach ($persons as $i => $person)
-                                                @if (is_array($person))
-                                                    <a class="person-link"
-                                                        href="{{ route('person', $person['id']) }}">{{ $person['title'] }}</a>
-                                                    @if (!$loop->last)
-                                                        <span class="test-comma">, </span>
-                                                    @endif
-                                                @else
-                                                    <a class="person-link"
-                                                        href="{{ route('person', $person) }}">{{ $person }}</a>
-                                                    @if (!$loop->last)
-                                                        <span class="test-comma">, </span>
-                                                    @endif
-                                                @endif
-                                            @endforeach
+                                            {{ $stream_details['cast'] }}
                                         </dd>
                                     </div>
                                 @endif
-                            @endforeach
+                                @if ($stream_details['director'])
+                                    <div class="content-person">
+                                        <dt>Cast:</dt>
+                                        <dd>
+                                            {{ $stream_details['director'] }}
+                                        </dd>
+                                    </div>
+                                @endif
+                                @if ($stream_details['writer'])
+                                    <div class="content-person">
+                                        <dt>Cast:</dt>
+                                        <dd>
+                                            {{ $stream_details['writer'] }}
+                                        </dd>
+                                    </div>
+                                @endif
+                            @else
+                                @foreach ($stream_details['starring_data'] as $roleKey => $persons)
+                                    @if (!empty($persons))
+                                        <div class="content-person">
+                                            <dt>{{ $roleKey }}:</dt>
+                                            <dd>
+                                                @php
+                                                    if (!is_array($persons)) {
+                                                        $persons = explode(',', $persons);
+                                                    }
+                                                @endphp
+
+                                                @foreach ($persons as $i => $person)
+                                                    @if (is_array($person))
+                                                        <a class="person-link"
+                                                            href="{{ route('person', $person['id']) }}">{{ $person['title'] }}</a>
+                                                        @if (!$loop->last)
+                                                            <span class="test-comma">, </span>
+                                                        @endif
+                                                    @else
+                                                        <a class="person-link"
+                                                            href="{{ route('person', $person) }}">{{ $person }}</a>
+                                                        @if (!$loop->last)
+                                                            <span class="test-comma">, </span>
+                                                        @endif
+                                                    @endif
+                                                @endforeach
+                                            </dd>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endif
                             @if (!empty($stream_details['advisories']))
                                 <div class="content-person">
                                     <dt>Advisory: </dt>
@@ -270,42 +297,42 @@
                                         @foreach ($stream_details['advisories'] as $i => $val)
                                             <a class="person-link"
                                                 href="{{ route('advisory', $val['code']) }}">{{ $val['title'] }}</a>
-                                                @if (count($stream_details['advisories']) - 1 !== $i)
+                                            @if (count($stream_details['advisories']) - 1 !== $i)
                                                 <span class="test-comma">, </span>
-                                                @endif
+                                            @endif
                                         @endforeach
                                     </dd>
                                 </div>
                             @endif
 
                             @if (!empty($stream_details['languages']))
-                                <div class="content-person" >
+                                <div class="content-person">
                                     <dt>Language: </dt>
                                     <dd>
                                         @foreach ($stream_details['languages'] as $i => $val)
                                             <a class="person-link"
                                                 href="{{ route('language', $val['code']) }}">{{ $val['title'] }}</a>
-                                                @if (count($stream_details['languages']) - 1 !== $i)
+                                            @if (count($stream_details['languages']) - 1 !== $i)
                                                 <span class="test-comma">, </span>
-                                                @endif
+                                            @endif
                                         @endforeach
                                     </dd>
                                 </div>
                             @endif
                             @if (!empty($stream_details['tags']))
-                            <div class="content-person">
-                                <dt>Tags: </dt>
-                                <dd>
-                                    @foreach ($stream_details['tags'] as $i => $val)
-                                        <a class="person-link"
-                                            href="{{ route('tag', $val['code']) }}">{{ $val['title'] }}</a>
+                                <div class="content-person">
+                                    <dt>Tags: </dt>
+                                    <dd>
+                                        @foreach ($stream_details['tags'] as $i => $val)
+                                            <a class="person-link"
+                                                href="{{ route('tag', $val['code']) }}">{{ $val['title'] }}</a>
                                             @if (count($stream_details['tags']) - 1 !== $i)
-                                            <span class="test-comma">, </span>
+                                                <span class="test-comma">, </span>
                                             @endif
-                                    @endforeach
-                                </dd>
-                            </div>
-                        @endif
+                                        @endforeach
+                                    </dd>
+                                </div>
+                            @endif
                         </dl>
                     </dl>
 
@@ -815,7 +842,7 @@
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                                                                                                                                                                                                                          </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}
