@@ -54,8 +54,9 @@
                                 <li><a class="text-decoration-none"
                                         href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
                                         Profiles</a></li>
-                                {{-- <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
-                                History</a></li> --}}
+                                <li><a class="text-decoration-none"
+                                        href="{{ route('transaction-history') }}">Transaction
+                                        History</a></li>
                                 <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
                                         Password</a>
                                 </li>

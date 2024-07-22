@@ -91,6 +91,9 @@
                             <li><a class="dropdown-item"
                                     href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
                                     Profiles</a></li>
+                            <li><a class="text-decoration-none"
+                                    href="{{ route('transaction-history') }}">Transaction
+                                    History</a></li>
                             <li><a class="dropdown-item" href="{{ route('password.edit') }}">Change
                                     Password</a></li>
                             @if (\App\Services\AppConfig::get()->app->app_info->watch_history === 1)

@@ -23,8 +23,8 @@
                             <li><a class="text-decoration-none"
                                     href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
                                     Profiles</a></li>
-                            {{-- <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
-                                History</a></li> --}}
+                            <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
+                                    History</a></li>
                             <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
                                     Password</a>
                             </li>
@@ -65,7 +65,8 @@
             @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
                 @if ($page->displayOn === 'H' || $page->displayOn === 'B')
                     @if ($page->pageType === 'E')
-                        <a class="text-decoration-none text-white border-hover" href="{!! $page->externalLink !!}" target="_blank">
+                        <a class="text-decoration-none text-white border-hover" href="{!! $page->externalLink !!}"
+                            target="_blank">
                             <li class="pc">{{ $page->page_title }}</li>
                         </a>
                     @else
