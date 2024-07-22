@@ -306,11 +306,11 @@
                         <a href="/home"><img src="{{ $data->app->app_info->website_logo ?? '' }}" width="140px"
                                 alt="Logo"></a>
                     </div>
-                    <p class="text-danger p-0 mt-3 mb-0 text-center">
+                    <p class="foooter-text p-0 mt-3 mb-0 text-center">
                         {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_txt ?? '' }}</p>
-                    <a class="text-decoration-none"
+                    <a class="text-decoration-none "
                         href="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_url ?? '' }}">
-                        <p class="text-center">
+                        <p class="text-center foooter-text">
                             {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}
                         </p>
                     </a>
@@ -321,7 +321,7 @@
                         @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
                             @if ($page->displayOn === 'F' || $page->displayOn === 'B')
                                 <li><a href="/page/{{ $page->page_slug }}"
-                                        class="text-decoration-none text-white lh-lg">{{ $page->page_title }}</a></li>
+                                        class="text-decoration-none foooter-text lh-lg">{{ $page->page_title }}</a></li>
                             @endif
                         @endforeach
                     </ul>
@@ -331,16 +331,16 @@
                     <ul class="d-flex align-items-start flex-column list-unstyled">
                         @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
                             <li><a href="{{ route('category', $category->cat_guid) }}"
-                                    class="text-decoration-none text-white lh-lg">{{ $category->cat_title }}</a></li>
+                                    class="text-decoration-none foooter-text lh-lg">{{ $category->cat_title }}</a></li>
                         @endforeach
                     </ul>
                 </div>
                 <div class="col-md-3">
                     <h5 class="mb-4">LET US HELP YOU</h5>
                     <ul class="d-flex align-items-start flex-column list-unstyled">
-                        <li><a href="/login" class="text-decoration-none text-white lh-lg">Login</a></li>
-                        <li><a href="/signup" class="text-decoration-none text-white lh-lg">Register</a></li>
-                        <li><a href="/download-apps" class="text-decoration-none text-white lh-lg">Download Apps</a></li>
+                        <li><a href="/login" class="text-decoration-none foooter-text lh-lg">Login</a></li>
+                        <li><a href="/signup" class="text-decoration-none foooter-text lh-lg">Register</a></li>
+                        <li><a href="/download-apps" class="text-decoration-none foooter-text lh-lg">Download Apps</a></li>
                     </ul>
                 </div>
             </div>

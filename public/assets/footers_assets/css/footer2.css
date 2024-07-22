@@ -198,14 +198,14 @@
 
 
 .copyright-area {
-  background: #202020;
+  background: var(--footerbtmBgcolor);
   padding: 25px 0;
 }
 
 .copyright-text p {
   margin: 0;
   font-size: 14px;
-  color: #878787;
+  color: var(--themePrimaryTxtColor);
 }
 
 .copyright-text p a {
@@ -223,7 +223,7 @@
 
 .footer-menu li a {
   font-size: 14px;
-  color: #878787;
+  color:var(--themePrimaryTxtColor);
 }
 
 /* .footer-social-icon {

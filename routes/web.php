@@ -18,6 +18,9 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\PasswordUpdateController;
 use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChannelSubscribe;
+use App\Http\Controllers\ChannelSubscribeController;
+use App\Http\Controllers\GumletController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\NewsLetterController;
@@ -30,6 +33,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\TvGuidePlayerController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\YearController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +51,9 @@ use Illuminate\Support\Facades\Route;
 Route::view('/new3', 'components.new3');
 Route::view('/lyra', 'components.damian');
 // Route::view('/new3', 'components.new3');
+
+
+Route::get('/check-channel-status', [ChannelSubscribeController::class, 'checkSubscriptionStatus'])->name('check.subscription.status');
 
 // Authentication
 Route::get('signup', [RegisterController::class, 'index'])->name('register');
@@ -114,3 +121,10 @@ Route::get('/epgplayer/{channelGuid}/{slug}', [TvGuidePlayerController::class, '
 Route::post('newsletter', [NewsLetterController::class, 'newLetter'])->name('newsletter');
 
 Route::get('follow/{code?}', [FollowController::class, 'follow'])->name('toggle.follow');
+Route::post('channel/subscribe', [ChannelSubscribeController::class, 'toggleSubscribe'])->name('toggle.subscribe');
+
+Route::middleware('throttle:3,1')->group(
+    function () {
+        Route::post('/convert', [GumletController::class, 'uploadGumlet'])->name('video.convert');
+    }
+);

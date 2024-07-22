@@ -154,7 +154,7 @@ body {
   height: var(--swiper-pagination-bullet-height, var(--swiper-pagination-bullet-size, 8px));
   display: inline-block;
   border-radius: var(--swiper-pagination-bullet-border-radius, 23%);
-  background: white;
+  background: var(--themePrimaryTxtColor);
   opacity: var(--swiper-pagination-bullet-inactive-opacity, 1);
 }
 .swiper-pagination {

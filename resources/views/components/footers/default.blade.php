@@ -70,7 +70,7 @@
             @if (isset(\App\Services\AppConfig::get()->app->app_info->newsletter) &&
                     \App\Services\AppConfig::get()->app->app_info->newsletter === 1)
                 <div id="newsletter-section" class="row">
-                    <h5 class="text-center text-white">Subscribe to our Newsletter</h5>
+                    <h5 class="text-center copyright">Subscribe to our Newsletter</h5>
                     <center>
                         <p style="color:red">
                             @if (session()->has('error'))
@@ -96,12 +96,13 @@
                                 </p>
                             @endif
                         @endif
+                        <form id="subscribe-form" method="POST" action="{{ route('newsletter') }}">
+                            @csrf
+                            <input type="email" id="email-input" name="email" placeholder="Enter your email"
+                                required>
+                            <button class="app-primary-btn rounded" type="submit">Subscribe</button>
+                        </form>
                     </center>
-                    <form id="subscribe-form" method="POST" action="{{ route('newsletter') }}">
-                        @csrf
-                        <input type="email" id="email-input" name="email" placeholder="Enter your email" required>
-                        <button class="app-primary-btn rounded" type="submit">Subscribe</button>
-                    </form>
                 </div>
             @endif
             <div class="row">
@@ -120,6 +121,14 @@
     </div>
     <div class="footer_bottom">
         <div class="container-fluid">
+            {{-- <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+                @csrf
+                <button id="subscribe-button-toggle" class="app-primary-btn rounded" type="submit">
+                    Loading...
+                </button>
+                <div id="response-message">{{ session('status') }}</div> <!-- To display status messages -->
+            </form> --}}
+
             <div class="row">
                 <div class="col-md-6 foot1">
                     <div class="footer_rights">
@@ -144,30 +153,64 @@
                         @endforeach
                     </ul>
                 </div>
+
+
             </div>
         </div>
     </div>
 </footer>
 
 @push('scripts')
-    <script>
+    <!-- Form Action Fragment Identifier Handling -->
+   <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('subscribe-form');
-            form.addEventListener('submit', function(event) {
-                // Get the current URL
-                const currentUrl = window.location.href;
+            if (form) {
+                form.addEventListener('submit', function(event) {
+                    const currentUrl = window.location.href;
+                    const hasFragment = currentUrl.includes('#');
+                    const formAction = form.action;
+                    if (!hasFragment) {
+                        form.action = formAction + '#newsletter-section';
+                    }
+                });
+            }
+        });
+    </script>
 
-                // Check if the URL already contains a fragment
-                const hasFragment = currentUrl.includes('#');
+    <!-- AJAX Request to Check Subscription Status -->
+    <script>
+        $(document).ready(function() {
+            // Set up AJAX to include CSRF token
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
-                // Form action URL
-                const formAction = form.action;
-
-                // Append the fragment identifier if not already present
-                if (!hasFragment) {
-                    form.action = formAction + '#newsletter-section';
+            $.ajax({
+                url: "{{ route('check.subscription.status') }}",
+                method: "GET",
+                success: function(response) {
+                    console.log('Response:', response);
+                    if (response.success) {
+                        if (response.subscribed) {
+                            $('#subscribe-button-toggle').text('Unsubscribe');
+                        } else {
+                            $('#subscribe-button-toggle').text('Subscribe');
+                        }
+                    } else {
+                        $('#subscribe-button-toggle').text('Subscribe');
+                        console.error('Subscription check failed:', response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#subscribe-button-toggle').text('Subscribe'); // Default to Subscribe on error
+                    console.error('AJAX error:', error); // Debugging AJAX error
+                    console.error('Response text:', xhr.responseText); // Log the response text for debugging
                 }
             });
         });
     </script>
 @endpush
+

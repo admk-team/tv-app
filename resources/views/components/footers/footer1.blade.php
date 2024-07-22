@@ -6,7 +6,7 @@
             <div class="row">
                 @if (isset(\App\Services\AppConfig::get()->app->app_info->newsletter) &&
                         \App\Services\AppConfig::get()->app->app_info->newsletter === 1)
-                    <div class="col-xl-4 col-lg-6 col-md-12 mb-50 order-2 order-lg-5 mb-3" id="newsletter-section">
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-50 order-2 order-lg-5 mb-3" id="newsletter-section">
                         <div class="footer-widget">
                             <div class="footer-widget-heading">
                                 <h3>NEWSLETTER</h3>
@@ -50,7 +50,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-2 col-lg-3 col-md-6 mb-50 order-1 order-lg-1 mb-3">
+                    <div class="col-xl-3 col-lg-3 col-md-6 mb-50 order-1 order-lg-1 mb-3">
                         <div class="footer-widget">
                             <div class="footer-logo">
                                 <a href="/home"><img
@@ -67,69 +67,67 @@
                                 </p>
                             </div>
                             <div class="footer-social-icon mt-3">
-                            <span>Follow us</span>
-                            @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
-                                <a href="{{ $link->url }}" target="_blank" class="social-icon">
-                                    <img src="{{ $link->icon }}"
-                                        alt="{{ $link->title }}">
-                                </a>
-                            @endforeach
-                        </div>
+                                <span>Follow us</span>
+                                @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
+                                    <a href="{{ $link->url }}" target="_blank" class="social-icon">
+                                        <img src="{{ $link->icon }}" alt="{{ $link->title }}">
+                                    </a>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 @else
-                <div class="col-xl-2 col-lg-6 col-md-12  order-2 order-lg-5 mb-3">
-                    <div class="footer-widget">
-                        <div class="footer-widget-heading">
-                            <h3>Get to Know Us</h3>
-                        </div>
-                        <ul class="list">
-                            @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                            @if ($page->displayOn === 'F' || $page->displayOn === 'B')
-                                <li>
-                                    @if ($page->pageType === 'E')
-                                        <a class="text-decoration-none" href="{!! $page->externalLink !!}"
-                                            target="_blank">{{ $page->page_title }}</a>
-                                    @else
-                                        <a class="text-decoration-none"
-                                            href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
+                    <div class="col-xl-2 col-lg-6 col-md-12  order-2 order-lg-5 mb-3">
+                        <div class="footer-widget">
+                            <div class="footer-widget-heading">
+                                <h3>Get to Know Us</h3>
+                            </div>
+                            <ul class="list">
+                                @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
+                                    @if ($page->displayOn === 'F' || $page->displayOn === 'B')
+                                        <li>
+                                            @if ($page->pageType === 'E')
+                                                <a class="text-decoration-none" href="{!! $page->externalLink !!}"
+                                                    target="_blank">{{ $page->page_title }}</a>
+                                            @else
+                                                <a class="text-decoration-none"
+                                                    href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
+                                            @endif
+                                        </li>
                                     @endif
-                                </li>
-                            @endif
-                        @endforeach
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-3 col-md-6  order-1 order-lg-1 mb-3">
-                    <div class="footer-widget">
-                        <div class="footer-logo">
-                            <a href="/home"><img
-                                    src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}"
-                                    class="img-fluid" alt="logo"></a>
+                                @endforeach
+                            </ul>
                         </div>
-                        <div class="footer-text">
-                            <p>
-                                {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_txt ?? '' }}:
-                                <a class="text-decoration-none"
-                                    href="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_url ?? '' }}">
-                                    <span>{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}</span>
-                                </a>
-                            </p>
+                    </div>
+                    <div class="col-xl-4 col-lg-3 col-md-6  order-1 order-lg-1 mb-3">
+                        <div class="footer-widget">
+                            <div class="footer-logo">
+                                <a href="/home"><img
+                                        src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}"
+                                        class="img-fluid" alt="logo"></a>
+                            </div>
+                            <div class="footer-text">
+                                <p>
+                                    {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_txt ?? '' }}:
+                                    <a class="text-decoration-none"
+                                        href="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_url ?? '' }}">
+                                        <span>{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}</span>
+                                    </a>
+                                </p>
 
-                        </div>
-                        <div class="footer-social-icon mt-3">
-                            <span>Follow us</span>
-                            @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
-                                <a href="{{ $link->url }}" target="_blank" class="social-icon">
-                                    <img src="{{ $link->icon }}"
-                                        alt="{{ $link->title }}">
-                                </a>
-                            @endforeach
+                            </div>
+                            <div class="footer-social-icon mt-3">
+                                <span>Follow us</span>
+                                @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
+                                    <a href="{{ $link->url }}" target="_blank" class="social-icon">
+                                        <img src="{{ $link->icon }}" alt="{{ $link->title }}">
+                                    </a>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endif
-              
+
                 <div class="col-xl-2 col-lg-3 col-md-6  order-3 order-lg-2 mb-3">
                     <div class="footer-widget">
                         <div class="footer-widget-heading">
@@ -138,7 +136,8 @@
                         <ul class="list">
                             @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
                                 <li>
-                                    <a class="text-decoration-none" href="{{ route('category', $category->cat_guid) }}">{{ $category->cat_title }}</a>
+                                    <a class="text-decoration-none"
+                                        href="{{ route('category', $category->cat_guid) }}">{{ $category->cat_title }}</a>
                                 </li>
                             @endforeach
                         </ul>
@@ -152,7 +151,8 @@
                         <ul class="list">
                             @foreach (\App\Services\AppConfig::get()->app->top_show->streams as $stream)
                                 <li>
-                                    <a class="text-decoration-none" href="/detailscreen/{{ $stream->stream_guid }}">{{ $stream->show_title }}</a>
+                                    <a class="text-decoration-none"
+                                        href="/detailscreen/{{ $stream->stream_guid }}">{{ $stream->show_title }}</a>
                                 </li>
                             @endforeach
                         </ul>
@@ -174,12 +174,13 @@
                                 <a class="text-decoration-none" href="{{ route('downloadapps') }}">Download Apps</a>
                             </li>
                             <li>
-                                <a class="text-decoration-none" href="{{ route('subscription') }}">Subscription Plans</a>
+                                <a class="text-decoration-none" href="{{ route('subscription') }}">Subscription
+                                    Plans</a>
                             </li>
                         </ul>
                     </div>
                 </div>
-               
+
             </div>
         </div>
     </div>

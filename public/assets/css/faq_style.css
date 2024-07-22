@@ -4,8 +4,8 @@
     padding: 0.8em 2.2em 0.8em 1.2em;
     position: relative;
     width: 100%;
-    background: #303030;
-    color: #fff;
+    background: var(--bgcolor);
+    color: var(--themePrimaryTxtColor);
     text-align: left;
     display: block;
     border-radius: 10px;
@@ -20,12 +20,12 @@
     width: 90%;
     border: 2px solid var(--themeActiveColor);
     border-radius: 15px;
-    background: #303030;
+    background: var(--bgcolor);
     padding: 5px;
 }
 
 .faq_question .svg-icon-thin-x {
-    fill: #fff;
+    fill: var(--themePrimaryTxtColor);
     height: 1em;
     position: absolute;
     right: 1em;
@@ -40,21 +40,21 @@
     padding: 1.2em;
     font-size: 1rem;
     font-weight: 400;
-    color: #fff;
+    color: var(--themePrimaryTxtColor);
 }
 
 .accordion-button:focus {
-    border-color: #303030;
-    box-shadow: #303030;
+    border-color: var(--bgcolor);
+    box-shadow: var(--bgcolor);
 }
 
 .accordion-button:not(.collapsed) {
     color: var(--themePrimaryTxtColor);
-    background-color: #303030;
-    box-shadow: inset 0 calc(-1 * #303030) 0 #303030;
+    background-color: var(--bgcolor);
+    box-shadow: inset 0 calc(-1 * var(--bgcolor)) 0 var(--bgcolor);
 }
 .accordion {
-     --bs-accordion-bg: : #303030; 
+     --bs-accordion-bg: : var(--bgcolor); 
 }
 .sec-device {
     border-radius: 40px;
