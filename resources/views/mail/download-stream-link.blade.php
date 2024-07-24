@@ -4,9 +4,10 @@
 <p>Title: {{ $title }}</p>
 <br>
 
-@component('mail::button', ['url' => $playback_url])
+@component('mail::button', ['url' => route('video.download', ['streamId' => $id])])
 Download
 @endcomponent
+
 
 Thanks,<br>
 {{ config('app.name') }}

@@ -69,10 +69,16 @@ class CheckVideoProgress implements ShouldQueue
     protected function sendCompletionEmail($statusOutput)
     {
         $data = [
+            'id' => $this->videoId,
             'title' => $this->videoDetailData['title'],
             'playback_url' => $statusOutput['output']['playback_url'],
         ];
-        Mail::to('recipient@example.com')->send(new DownloadStreamLink($data));
+
+        Log::info($data);
+        if (session()->has('USER_DETAILS')) {
+            $userEmail =  session('USER_DETAILS')['USER_EMAIL'];
+        }
+        Mail::to($userEmail)->send(new DownloadStreamLink($data));
     }
 
     public function failed(): void

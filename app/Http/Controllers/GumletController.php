@@ -17,6 +17,7 @@ class GumletController extends Controller
         $streamUrl = $request->input('stream_url');
         $title = $request->input('stream_title');
 
+
         $video = Video::where('source_url', $streamUrl)
             ->where('title', $title)
             ->where('status', 'completed')
@@ -88,5 +89,34 @@ class GumletController extends Controller
                 return back()->with('message', 'You will receive an email with the download link once the video is processed.');
             }
         }
+    }
+
+    public function download($streamId)
+    {
+        $video = Video::findOrFail($streamId);
+        $videoUrl = $video->playback_url;
+        $response = Http::head($videoUrl);
+        if (!$response->successful()) {
+            return response()->json(['error' => 'Failed to fetch video headers'], 500);
+        }
+
+        // Get content type and content length
+        $contentType = $response->header('Content-Type', 'application/octet-stream');
+        $contentLength = $response->header('Content-Length');
+
+        // Set headers for the response
+        return response()->stream(function () use ($videoUrl) {
+            $stream = fopen($videoUrl, 'r');
+            while (!feof($stream)) {
+                echo fread($stream, 8192);
+                flush();
+            }
+            fclose($stream);
+        }, 200, [
+            'Content-Type' => $contentType,
+            'Content-Disposition' => 'attachment; filename="video.mp4"',
+            'Content-Transfer-Encoding' => 'binary',
+            'Content-Length' => $contentLength,
+        ]);
     }
 }
