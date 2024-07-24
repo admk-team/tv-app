@@ -72,7 +72,6 @@ class CheckVideoProgress implements ShouldQueue
             'title' => $this->videoDetailData['title'],
             'playback_url' => $statusOutput['output']['playback_url'],
         ];
-
         Mail::to('recipient@example.com')->send(new DownloadStreamLink($data));
     }
 

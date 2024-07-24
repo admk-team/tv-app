@@ -516,20 +516,23 @@
                         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
                             @if (!empty($arrSlctItemData['is_download']) && $arrSlctItemData['is_download'] == 1)
                                 <div class="float-end">
-                                    <form id="DownloadForm">
+                                    <form action="{{ route('video.convert') }}" method="POST">
                                         @csrf
-                                        <span id="success-message" class="text-success"></span>
+                                         @if (session('message'))
+                <span id="success-message" class="text-success"> {{ session('message') }}</span>
+            @endif
                                         <span id="error-message" class="text-danger"></span>
                                         <input type="hidden" name="stream_url"
                                             value="{{ $arrStreamsData['stream_url'] }}">
                                         <input type="hidden" name="stream_title"
                                             value="{{ $arrSlctItemData['stream_title'] }}">
-                                        <button style="submit" id="submit_btn" class="btn btn-primary"><span
+                                        <button type="submit" class="btn btn-primary"><span
                                                 class="px-1"><i class="ri-arrow-down-line"></i></span>Download</button>
                                     </form>
                                 </div>
                             @endif
                         @endif
+                        <a href=""></a>
                     </div>
                     <?php endif; ?>
                 </div>
@@ -1158,17 +1161,16 @@ if (!empty($arrCatData))
             $.ajax({
                 type: 'POST',
                 data: formData,
-                url: "{{ route('video.convert') }}",
+               url: "{{ route('video.convert') }}",
                 processData: false,
                 contentType: false,
                 cache: false,
             }).then(function(response) {
                 $('#success-message').text(response.message).fadeIn().delay(6000).fadeOut();
+                /* window.location.href = response.download_url; */
             }).fail(function(response) {
-                /* const errorMessage = response.responseJSON ? response.responseJSON.message :
-                    'An error occurred'; */
-                const errorMessage = 'An error occurred';
-                $('#error-message').text(errorMessage).fadeIn().delay(6000).fadeOut
+                const errorMessage = response.responseJSON.message || 'An error occurred';
+               $('#error-message').text(errorMessage).fadeIn().delay(6000).fadeOut();
             });
         });
     </script>
