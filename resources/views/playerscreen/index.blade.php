@@ -503,9 +503,11 @@
                         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
                             @if (!empty($arrSlctItemData['is_download']) && $arrSlctItemData['is_download'] == 1)
                                 <div class="float-end">
-                                    <form  action="{{ route('video.convert') }}" method="POST">
+                                    <form action="{{ route('video.convert') }}" method="POST">
                                         @csrf
-                                        <span id="success-message" class="text-success"></span>
+                                         @if (session('message'))
+                <span id="success-message" class="text-success"> {{ session('message') }}</span>
+            @endif
                                         <span id="error-message" class="text-danger"></span>
                                         <input type="hidden" name="stream_url"
                                             value="{{ $arrStreamsData['stream_url'] }}">
