@@ -19,11 +19,13 @@ class DownloadStreamLink extends Mailable
      */
     public $title;
     public $playback_url;
+    public $id;
 
     public function __construct($data)
     {
         $this->title = $data['title'];
         $this->playback_url = $data['playback_url'];
+        $this->id = $data['id'];
     }
 
     /**
@@ -46,6 +48,7 @@ class DownloadStreamLink extends Mailable
             with: [
                 'title' => $this->title,
                 'playback_url' => $this->playback_url,
+                'id' => $this->id,
             ],
         );
     }

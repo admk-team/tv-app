@@ -34,6 +34,7 @@ use App\Http\Controllers\TvGuidePlayerController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\YearController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,12 +48,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
+Route::get('/cmd/{cmd}', function ($cmd) {
+    Artisan::call("$cmd");
+    echo "<pre>";
+    return Artisan::output();
+});
+
+
 // Temporary landing page route
 Route::view('/new3', 'components.new3');
 Route::view('/lyra', 'components.damian');
 // Route::view('/new3', 'components.new3');
 
 Route::post('/video', [GumletController::class, 'uploadGumlet'])->name('video.convert');
+Route::get('video/download/{streamId}', [GumletController::class, 'download'])->name('video.download');
 
 Route::get('/check-channel-status', [ChannelSubscribeController::class, 'checkSubscriptionStatus'])->name('check.subscription.status');
 
