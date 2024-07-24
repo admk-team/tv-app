@@ -69,11 +69,11 @@
                 var streams = data.streams.slice(currentIndex, currentIndex + batchSize);
 
                 streams.forEach(function(stream) {
-                    var url;
+                    var url = "{{ route('detailscreen', ':id') }}".replace(':id', stream.stream_guid);
                     if (stream.stream_type === 'A') {
                         url = stream.stream_promo_url;
                         if (stream.is_external_ad === 'N') {
-                            url = "{{ route('detailscreen', ':id') }}".replace(':id', stream.stream_guid);
+                            url = "{{ route('detailscreen', ':id') }}".replace(':id', stream.stream_promo_url);
                         }
                     } else {
                         url = "{{ route('detailscreen', ':id') }}".replace(':id', stream.stream_guid);

@@ -111,6 +111,7 @@
                                                                 @endif --}}
                                                             @endif
                                                         </div>
+                                                        @if ($stream->stream_type !== 'A')
                                                         @if (!($stream->premium_icon ?? null))
                                                             @if (
                                                                 (($stream->label_free ?? null) && $stream->monetization_type === 'F') ||
@@ -124,6 +125,7 @@
                                                                     @endif
                                                                 </div>
                                                             @endif
+                                                        @endif
                                                         @endif
                                                     @endif
 
@@ -184,6 +186,7 @@
                                                             @endif --}}
                                                         @endif
                                                     </div>
+                                                    @if ($stream->stream_type !== 'A')
                                                     @if (!($stream->premium_icon ?? null))
                                                         @if (
                                                             (($stream->label_free ?? null) && $stream->monetization_type === 'F') ||
@@ -197,6 +200,7 @@
                                                                 @endif
                                                             </div>
                                                         @endif
+                                                    @endif
                                                     @endif
                                                 @endif
 
