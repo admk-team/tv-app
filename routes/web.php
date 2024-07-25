@@ -63,7 +63,7 @@ Route::view('/lyra', 'components.damian');
 // Route::view('/new3', 'components.new3');
 
 Route::post('/video', [GumletController::class, 'uploadGumlet'])->name('video.convert');
-Route::get('video/download/{streamId}', [GumletController::class, 'download'])->name('video.download');
+Route::get('video/download/{streamId}', [GumletController::class, 'download'])->middleware('throttle:3,1')->name('video.download');
 
 Route::get('/check-channel-status', [ChannelSubscribeController::class, 'checkSubscriptionStatus'])->name('check.subscription.status');
 

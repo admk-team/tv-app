@@ -84,7 +84,12 @@ class GumletController extends Controller
                 ];
 
                 $video = Video::create($videoDetailData);
-                CheckVideoProgress::dispatch($video->id);
+                $userEmail = session('USER_DETAILS')['USER_EMAIL'];
+
+                if ($video->id && $userEmail) {
+                    CheckVideoProgress::dispatch($video->id, $userEmail);
+                }
+
 
                 return back()->with('message', 'You will receive an email with the download link once the video is processed.');
             }
