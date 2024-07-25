@@ -117,17 +117,23 @@
                     </ul>
                 </div>
             </div>
+            {{--  <link rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+            <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+                @csrf
+                <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
+                    <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
+                    <span id="subscribe-text"></span>
+                </button>
+                <div id="response-message">{{ session('status') }}</div>
+            </form>  --}}
+
+
         </div>
     </div>
     <div class="footer_bottom">
         <div class="container-fluid">
-            {{-- <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
-                @csrf
-                <button id="subscribe-button-toggle" class="app-primary-btn rounded" type="submit">
-                    Loading...
-                </button>
-                <div id="response-message">{{ session('status') }}</div> <!-- To display status messages -->
-            </form> --}}
 
             <div class="row">
                 <div class="col-md-6 foot1">
@@ -162,7 +168,7 @@
 
 @push('scripts')
     <!-- Form Action Fragment Identifier Handling -->
-   <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('subscribe-form');
             if (form) {
@@ -178,7 +184,7 @@
         });
     </script>
 
-    <!-- AJAX Request to Check Subscription Status -->
+    {{--  <!-- AJAX Request to Check Subscription Status -->
     <script>
         $(document).ready(function() {
             // Set up AJAX to include CSRF token
@@ -187,7 +193,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
+        
             $.ajax({
                 url: "{{ route('check.subscription.status') }}",
                 method: "GET",
@@ -195,22 +201,26 @@
                     console.log('Response:', response);
                     if (response.success) {
                         if (response.subscribed) {
-                            $('#subscribe-button-toggle').text('Unsubscribe');
+                            $('#subscribe-icon').removeClass('fa-bell').addClass('fa-bell-slash');
+                            $('#subscribe-text').text('');
                         } else {
-                            $('#subscribe-button-toggle').text('Subscribe');
+                            $('#subscribe-icon').removeClass('fa-bell-slash').addClass('fa-bell');
+                            $('#subscribe-text').text('');
                         }
                     } else {
-                        $('#subscribe-button-toggle').text('Subscribe');
+                        $('#subscribe-icon').removeClass('fa-bell-slash').addClass('fa-bell');
+                        $('#subscribe-text').text('');
                         console.error('Subscription check failed:', response.message);
                     }
                 },
                 error: function(xhr, status, error) {
-                    $('#subscribe-button-toggle').text('Subscribe'); // Default to Subscribe on error
+                    $('#subscribe-icon').removeClass('fa-bell-slash').addClass('fa-bell');
+                    $('#subscribe-text').text('Subscribe'); // Default to Subscribe on error
                     console.error('AJAX error:', error); // Debugging AJAX error
                     console.error('Response text:', xhr.responseText); // Log the response text for debugging
                 }
             });
         });
-    </script>
+        
+    </script>  --}}
 @endpush
-

@@ -42,12 +42,12 @@
                         </h1>
                        @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                             @if ($follows)
-                                <div class="d-inline-block">
-                                    <a href="{{ route('toggle.follow', $data['code']) }}" class="btn btn-primary">Unfollow</a>
+                                <div class="d-inline-block mt-3 mb-3">
+                                    <a href="{{ route('toggle.follow', $data['code']) }}" class="auth app-secondary-btn rounded">Unfollow</a>
                                 </div>
                             @else
-                                <div class="d-inline-block">
-                                    <a href="{{ route('toggle.follow', $data['code']) }}" class="btn btn-primary">Follow</a>
+                                <div class="d-inline-block mt-3 mb-3">
+                                    <a href="{{ route('toggle.follow', $data['code']) }}" class="auth app-secondary-btn rounded">Follow</a>
                                 </div>
                             @endif
                         @endif

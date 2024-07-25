@@ -79,7 +79,19 @@
                     </button>
                 </a>
             </li>
-           @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+            @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                <li class="nav-item">
+                    <div class="mt-2">
+                    <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+                        @csrf
+                        <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
+                            <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
+                            <span id="subscribe-text"></span>
+                        </button>
+                        <div id="response-message">{{ session('status') }}</div>
+                    </form>
+                    </div>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
                         aria-expanded="false">
@@ -91,7 +103,7 @@
                             <li><a class="dropdown-item"
                                     href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
                                     Profiles</a></li>
-                            <li><a class="text-decoration-none"
+                            <li><a class="dropdown-item"
                                     href="{{ route('transaction-history') }}">Transaction
                                     History</a></li>
                             <li><a class="dropdown-item" href="{{ route('password.edit') }}">Change

@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
     body {
         overflow-x: hidden;
@@ -80,15 +81,13 @@
         color: var(--themePrimaryTxtColor);
         border-radius: 4px;
         padding: 8px 12px;
-    }  --}}
-
-    .menu-icon {
+    }  --}} .menu-icon {
         display: none;
     }
 
     .header-text {
         color: var(--themePrimaryTxtColor);
-    } 
+    }
 
     @media only screen and (max-width: 1100px) {
 
@@ -243,39 +242,45 @@
     }
 
     /* Fixed menus */
-.fixed-menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000; /* Adjust z-index as needed */
-}
-.fixed-menu2 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000; /* Adjust z-index as needed */
-}
+    .fixed-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        /* Adjust z-index as needed */
+    }
 
-/* Non-fixed menus */
-.non-fixed-menu {
-  /* Add your styling for non-fixed menus */
-}
+    .fixed-menu2 {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        /* Adjust z-index as needed */
+    }
 
-/* Content */
-.content {
-  padding-top: 0; /* Initially no padding */
-}
+    /* Non-fixed menus */
+    .non-fixed-menu {
+        /* Add your styling for non-fixed menus */
+    }
 
-/* Add padding to content when menus are fixed */
-.fixed-menu ~ .content {
-  padding-top: 100px; /* Adjust the value as needed */
-}
-.fixed-menu2 ~ .content {
-  padding-top: 280px; /* Adjust the value as needed */
-}
+    /* Content */
+    .content {
+        padding-top: 0;
+        /* Initially no padding */
+    }
 
+    /* Add padding to content when menus are fixed */
+    .fixed-menu~.content {
+        padding-top: 100px;
+        /* Adjust the value as needed */
+    }
+
+    .fixed-menu2~.content {
+        padding-top: 280px;
+        /* Adjust the value as needed */
+    }
 </style>
 
 {{-- @if (\App\Services\AppConfig::get()->app->app_info->web_menu == 'Center')
@@ -359,5 +364,44 @@
 
         //     });
         // });
+    </script>
+    <!-- AJAX Request to Check Subscription Status -->
+    <script>
+        $(document).ready(function() {
+            // Set up AJAX to include CSRF token
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: "{{ route('check.subscription.status') }}",
+                method: "GET",
+                success: function(response) {
+                    console.log('Response:', response);
+                    if (response.success) {
+                        if (response.subscribed) {
+                            $('#subscribe-icon').removeClass('fa-bell').addClass('fa-bell-slash');
+                            $('#subscribe-text').text('');
+                        } else {
+                            $('#subscribe-icon').removeClass('fa-bell-slash').addClass('fa-bell');
+                            $('#subscribe-text').text('');
+                        }
+                    } else {
+                        $('#subscribe-icon').removeClass('fa-bell-slash').addClass('fa-bell');
+                        $('#subscribe-text').text('');
+                        console.error('Subscription check failed:', response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#subscribe-icon').removeClass('fa-bell-slash').addClass('fa-bell');
+                    $('#subscribe-text').text('Subscribe'); // Default to Subscribe on error
+                    console.error('AJAX error:', error); // Debugging AJAX error
+                    console.error('Response text:', xhr
+                    .responseText); // Log the response text for debugging
+                }
+            });
+        });
     </script>
 @endpush

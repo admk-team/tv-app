@@ -127,7 +127,21 @@ body {
     border-color: transparent;
     color: var(--navbarMenucolor);
 }
-
+.sub-btn-icon {
+    text-decoration: none;
+    background-color: var(--themeActiveColor);
+    color: var(--navbarMenucolor);
+    font-weight: 500;
+    border: solid 1px transparent;
+    padding: 3px 8px;
+    font-size: 15px;
+    transition: all 0.3s;
+}
+.sub-btn-icon:hover {
+    background-color: transparent;
+    border-color: var(--themeActiveColor);
+    color: var(--themeActiveColor);
+}
 .menu-icon {
     background-color: var(--themeActiveColor);
     border-radius: 5px;

@@ -10,6 +10,14 @@
                 <i class="bi bi-search search-icon"></i>
             </a>
            @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+           <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+            @csrf
+            <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
+                <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
+                <span id="subscribe-text"></span>
+            </button>
+            <div id="response-message">{{ session('status') }}</div>
+        </form>
                 <li class="nav-item">
                     <div class="dropdown dropdin">
                         <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>
@@ -110,6 +118,14 @@
                     <i class="bi bi-search search-icon"></i>
                 </a>
                @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+               <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+                @csrf
+                <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
+                    <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
+                    <span id="subscribe-text"></span>
+                </button>
+                <div id="response-message">{{ session('status') }}</div>
+            </form>
                     <li class="nav-item">
                         <div class="dropdown dropdin">
                             <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=1>
@@ -141,6 +157,14 @@
             <div class="btns">
 
                @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+               <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+                @csrf
+                <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
+                    <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
+                    <span id="subscribe-text"></span>
+                </button>
+                <div id="response-message">{{ session('status') }}</div>
+            </form>
                     <li class="nav-item">
                         <div class="dropdown dropdin">
                             <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=1>
