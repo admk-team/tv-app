@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Jobs\CheckVideoProgress;
 use App\Models\Video;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class GumletController extends Controller
 {
@@ -83,8 +84,7 @@ class GumletController extends Controller
                 ];
 
                 $video = Video::create($videoDetailData);
-
-                CheckVideoProgress::dispatch($video->id, $videoDetailData);
+                CheckVideoProgress::dispatch($video->id);
 
                 return back()->with('message', 'You will receive an email with the download link once the video is processed.');
             }

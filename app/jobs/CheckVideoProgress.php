@@ -19,19 +19,22 @@ class CheckVideoProgress implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $videoId;
-    protected $videoDetailData;
 
-    public function __construct($videoId, $videoDetailData)
+    public function __construct($videoId)
     {
         $this->videoId = $videoId;
-        $this->videoDetailData = $videoDetailData;
     }
 
     public function handle()
     {
         $client = new Client();
         $video = Video::find($this->videoId);
-        $statusUrl = $this->videoDetailData['status_url'];
+
+        if (!$video) {
+            Log::error('Video not found: ' . $this->videoId);
+            return;
+        }
+        $statusUrl = $video->status_url;
 
         if (!filter_var($statusUrl, FILTER_VALIDATE_URL)) {
             Log::error('Invalid status URL: ' . $statusUrl);
@@ -47,6 +50,10 @@ class CheckVideoProgress implements ShouldQueue
             ]);
 
             $statusOutput = json_decode($response->getBody(), true);
+            if (is_null($statusOutput) || !isset($statusOutput['progress'])) {
+                Log::error('Invalid response from status URL: ' . $statusUrl);
+                break;
+            }
             $progress = $statusOutput['progress'];
 
             if ($progress == 100) {
@@ -54,35 +61,27 @@ class CheckVideoProgress implements ShouldQueue
                 $video->update([
                     'status' => 'completed',
                     'playback_url' => $statusOutput['output']['playback_url'],
-                    // 'thumbnail_url' => $statusOutput['output']['thumbnail_url'],
                 ]);
 
-                $this->sendCompletionEmail($statusOutput);
+                $data = [
+                    'id' => $video->id,
+                    'title' => $video->title,
+                ];
+                if (session()->has('USER_DETAILS')) {
+                    $userEmail =  session('USER_DETAILS')['USER_EMAIL'];
+                }
+                Mail::to($userEmail)->send(new DownloadStreamLink($data));
                 break;
             }
 
             // Sleep for a while before checking again (e.g., 10 seconds)
             sleep(10);
-        } while ($progress < 100);
+        } while ($progress < 99);
     }
 
-    protected function sendCompletionEmail($statusOutput)
+    public function failed(Throwable $exception)
     {
-        $data = [
-            'id' => $this->videoId,
-            'title' => $this->videoDetailData['title'],
-            'playback_url' => $statusOutput['output']['playback_url'],
-        ];
-
-        Log::info($data);
-        if (session()->has('USER_DETAILS')) {
-            $userEmail =  session('USER_DETAILS')['USER_EMAIL'];
-        }
-        Mail::to($userEmail)->send(new DownloadStreamLink($data));
+        Log::error("Error in CheckVideoProgress job: " . $exception->getMessage());
     }
 
-    public function failed(): void
-    {
-        logger()->error("error on job");
-    }
 }
