@@ -25,32 +25,32 @@ class GumletController extends Controller
                 'stream_title' => $title,
             ]);
         $responseData = $response->json();
-        dd($responseData);
-
         $message = $responseData['message'];
-        if (!$responseData['video_url']) {
+
+        if ($responseData['status'] == 'pending') {
+            return back()->with('message', $message);
+        } else {
+            $videoUrl = $responseData['video_url'];
+            $response = Http::head($videoUrl);
+            if (!$response->successful()) {
+                return response()->json(['error' => 'Failed to fetch video headers'], 500);
+            }
+            $contentType = $response->header('Content-Type', 'application/octet-stream');
+            $contentLength = $response->header('Content-Length');
+            return response()->stream(function () use ($videoUrl) {
+                $stream = fopen($videoUrl, 'r');
+                while (!feof($stream)) {
+                    echo fread($stream, 8192);
+                    flush();
+                }
+                fclose($stream);
+            }, 200, [
+                'Content-Type' => $contentType,
+                'Content-Disposition' => 'attachment; filename="video.mp4"',
+                'Content-Transfer-Encoding' => 'binary',
+                'Content-Length' => $contentLength,
+            ]);
             return back()->with('message', $message);
         }
-        $videoUrl = $responseData['video_url'];
-        $response = Http::head($videoUrl);
-        if (!$response->successful()) {
-            return response()->json(['error' => 'Failed to fetch video headers'], 500);
-        }
-        $contentType = $response->header('Content-Type', 'application/octet-stream');
-        $contentLength = $response->header('Content-Length');
-        return response()->stream(function () use ($videoUrl) {
-            $stream = fopen($videoUrl, 'r');
-            while (!feof($stream)) {
-                echo fread($stream, 8192);
-                flush();
-            }
-            fclose($stream);
-        }, 200, [
-            'Content-Type' => $contentType,
-            'Content-Disposition' => 'attachment; filename="video.mp4"',
-            'Content-Transfer-Encoding' => 'binary',
-            'Content-Length' => $contentLength,
-        ]);
-        return back()->with('message', $message);
     }
 }
