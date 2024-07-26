@@ -135,6 +135,4 @@ Route::post('newsletter', [NewsLetterController::class, 'newLetter'])->name('new
 Route::get('follow/{code?}', [FollowController::class, 'follow'])->name('toggle.follow');
 Route::post('channel/subscribe', [ChannelSubscribeController::class, 'toggleSubscribe'])->name('toggle.subscribe');
 
-
-
-// Route::get('/video/{uuid}/download', [GumletController::class, 'download'])->name('video.download');
+Route::post('video/download', [GumletController::class, 'uploadGumlet'])->name('video.convert');
