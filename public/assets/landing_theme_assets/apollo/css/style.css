@@ -3,8 +3,8 @@
 }
 
 body {
-    background-color: #000000;
-    color: white;
+    background-color: var(--bgcolor);
+    color: var(--themePrimaryTxtColor);;
 }
 
 .content-wrapper {
@@ -349,13 +349,7 @@ body {
 
 footer {
     border-top: 2px solid;
-    border-image: linear-gradient(
-            to right,
-            rgba(255, 255, 255, 0),
-            rgba(216, 15, 47, 1),
-            rgba(255, 255, 255, 0)
-        )
-        1;
+    border-image: linear-gradient(to right, var(--bgcolor), var(--primary-color), var(--bgcolor)) 1;
     width: 80%;
     margin: auto;
     padding-block: 2rem;
@@ -371,7 +365,9 @@ footer span {
     max-width: 100%;
     margin-bottom: 8px;
 }
-
+.foooter-text{
+    color: var(--themePrimaryTxtColor);
+  }
 @media (max-width: 399px) {
     .sec-cta .field .get-started-btn {
         padding: 2px 11px;
@@ -418,6 +414,7 @@ footer span {
         font-size: 21px;
     }
     .sec-video h1 {
+        color: var(--themePrimaryTxtColor);
         font-size: 42px;
     }
     .sec-hero .text-content .wrapper {
@@ -530,6 +527,7 @@ footer span {
         font-size: 25px;
     }
     .sec-video h1 {
+        color: var(--themePrimaryTxtColor);
         font-size: 50px;
     }
 }
@@ -550,6 +548,7 @@ footer span {
         font-size: 28px;
     }
     .sec-video h1 {
+        color: var(--themePrimaryTxtColor);
         font-size: 55px;
     }
     .sec-device .tab-content h1 {
@@ -586,6 +585,7 @@ footer span {
         font-size: 30px;
     }
     .sec-video h1 {
+        color: var(--themePrimaryTxtColor);
         font-size: 60px;
     }
     .sec-device .tab-btns {

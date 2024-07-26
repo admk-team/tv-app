@@ -23,14 +23,14 @@
         <div class="container-fluid">
             <a class="navbar-brand img-fluid" href="/home"><img alt="logo"
                     src="{{ $data->app->app_info->website_logo ?? '' }}" width="100px" class="img-fluid" /></a>
-            <a href="/home?browse=true" class="text-decoration-none text-white border-2">Browse Content</a>
+            <a href="/home?browse=true" class="text-decoration-none text-white-costum border-2">Browse Content</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon text-white"></span>
+                <span class="navbar-toggler-icon text-white-costum"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto">
-                    @if (session()->has('USER_DETAILS'))
+                   @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                         <div class="dropdown dropdin">
                             <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>
                                 <div class="userimg">{{ session('USER_DETAILS')['USER_NAME'][0] }}</div>
@@ -79,7 +79,7 @@
                         </video>
                         <div class="carousel-caption d-none d-md-block">
                             <h5>First slide label</h5>
-                            <p>
+                            <p class="text-white-costum">
                                 Nulla vitae elit libero, a pharetra augue mollis interdum.
                             </p>
                             <a class="btn btn-primary px-4 me-2" href="/login">Sign In </a>
@@ -96,7 +96,7 @@
                             </video>
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Second slide label</h5>
-                                <p>
+                                <p class="text-white-costum">
                                     Nulla vitae elit libero, a pharetra augue mollis interdum.
                                 </p>
                             </div>
@@ -138,8 +138,8 @@
                 <div class="container py-3">
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <h2 class="fw-bold text-white">{{ $page->title ?? '' }}</h2>
-                            <h5 class="text-white">
+                            <h2 class="fw-bold text-white-costum">{{ $page->title ?? '' }}</h2>
+                            <h5 class="text-white-costum">
                                 {{ $page->description ?? '' }}
                             </h5>
                         </div>
@@ -164,8 +164,8 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <h2 class="fw-bold text-white">{{ $page->title ?? '' }}</h2>
-                            <h5 class="text-white">
+                            <h2 class="fw-bold text-white-costum">{{ $page->title ?? '' }}</h2>
+                            <h5 class="text-white-costum">
                                 {{ $page->description ?? '' }}
                             </h5>
                         </div>
@@ -180,8 +180,8 @@
                 <div class="container py-5">
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <h2 class="fw-bold text-white">{{ $page->title ?? '' }}</h2>
-                            <h5 class="text-white">
+                            <h2 class="fw-bold text-white-costum">{{ $page->title ?? '' }}</h2>
+                            <h5 class="text-white-costum">
                                 {{ $page->description ?? '' }}
                             </h5>
                             @endif
@@ -260,7 +260,7 @@
                     <div class="container">
                         <div class="row justify-content-center p-4">
                             <div class="col-12 col-md-8 col-xl-8 text-center">
-                                <h5 class="text-white mb-3">
+                                <h5 class="text-white-costum mb-3">
                                     {{ $page->description ?? '' }}
                                 </h5>
                                 <form id="form">
@@ -291,12 +291,12 @@
                 <!-- Grid column -->
                 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
                     <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4 text-white">
+                    <h6 class="text-uppercase fw-bold mb-4 text-white-costum">
                         Get to Know Us
                     </h6>
                     @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
                         @if ($page->displayOn === 'F' || $page->displayOn === 'B')
-                            <p>
+                            <p class="text-white-costum">
                                 <a class="text-reset" href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
                             </p>
                         @endif
@@ -308,11 +308,11 @@
                 <!-- Grid column -->
                 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
                     <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4 text-white">
+                    <h6 class="text-uppercase fw-bold mb-4 text-white-costum">
                         Top Categories
                     </h6>
                     @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
-                        <p>
+                        <p class="text-white-costum">
                             <a class="text-reset"
                                 href="{{ route('category', $category->cat_guid) }}">{{ $category->cat_title }}</a>
                         </p>
@@ -322,18 +322,18 @@
                 <!-- Grid column -->
                 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
                     <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4 text-white">
+                    <h6 class="text-uppercase fw-bold mb-4 text-white-costum">
                         Let Us Help You
                     </h6>
-                    <p>
+                    <p class="text-white-costum">
                         <a href="/login" class="text-reset">Login</a>
                     </p>
                     @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
-                        <p>
+                        <p class="text-white-costum">
                             <a href="/signup" class="text-reset">Register</a>
                         </p>
                     @endif
-                    <p>
+                    <p class="text-white-costum">
                         <a href="/download-apps" class="text-reset">Download Apps</a>
                     </p>
                 </div>
@@ -346,10 +346,10 @@
     <!-- Copyright -->
     <div class="container-fluid footer_bottom">
         <div class="row justify-content-sm-center justify-content-md-between p-2">
-            <div class="col-md-6 text-white fs-14px">
+            <div class="col-md-6 text-white-costum fs-14px">
                 © {{ $data->app->app_info->app_name ?? '' }}
                 {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
-            <div class="col-md-6 text-end text-white">
+            <div class="col-md-6 text-end text-white-costum">
                 @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
                     <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset">
                         <img src="{{ $link->icon }} " style="width: 30px;">

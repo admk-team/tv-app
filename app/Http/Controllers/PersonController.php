@@ -13,7 +13,6 @@ class PersonController extends Controller
         $response = Http::withHeaders(Api::headers())
         ->get(Api::endpoint('/person/' . $id));
         $responseJson = $response->json();
-
         $data = $responseJson['data'];
         $follows = $responseJson['follows'];
         return view('person.index', compact('data', 'follows'));

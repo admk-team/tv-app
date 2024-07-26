@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
     body {
         overflow-x: hidden;
@@ -64,7 +65,7 @@
         color: black !important;
     }
 
-    #split_menu_links:hover a {
+    {{--  #split_menu_links:hover a {
         /* transform: scale(.5); */
         opacity: 0.2;
         filter: blur(5px);
@@ -77,18 +78,16 @@
         opacity: 1;
         filter: blur(0);
         text-decoration: none;
-        color: #fff;
+        color: var(--themePrimaryTxtColor);
         border-radius: 4px;
         padding: 8px 12px;
-    }
-
-    .menu-icon {
+    }  --}} .menu-icon {
         display: none;
     }
 
-    /* .menu-icon i {
-        display: none;
-    } */
+    .header-text {
+        color: var(--themePrimaryTxtColor);
+    }
 
     @media only screen and (max-width: 1100px) {
 
@@ -114,7 +113,7 @@
 
         /*
         .menu-icon i {
-            color: #fff;
+            color: var(--themePrimaryTxtColor);
             border-radius: 4px;
             display: block;
 
@@ -157,8 +156,9 @@
     .side-header {
         position: absolute;
         top: 3%;
-        right: 5%;
-        width: 100%;
+        /* right: 5%; */
+        /* width: 100%; */
+        width: 60%;
         color: white;
         transform: translateX(200%);
         transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
@@ -197,13 +197,13 @@
     }
 
     .nav-links-items a {
-        color: #000;
+        color: var(--themePrimaryTxtColor);
         font-weight: 600;
     }
 
     .nav-links-items li:hover {
-        color: #fff;
-        background-color: red;
+        color: var(--themePrimaryTxtColor);
+        background-color: var(--bgcolor);
     }
 
     .nav-links-items li:first-child:hover {
@@ -217,19 +217,19 @@
     }
 
     /* .nav-links-items li:hover:not(:first-child):not(:last-child) {
-    color: #fff;
+    color: var(--themePrimaryTxtColor);
     background-color: red;
 }
 
 .nav-links-items li:first-child:hover {
-    color: #fff;
+    color: var(--themePrimaryTxtColor);
     background-color: red;
     border-top-left-radius: 40px;
     border-bottom-left-radius: 40px;
 }
 
 .nav-links-items li:last-child:hover {
-    color: #fff;
+    color: var(--themePrimaryTxtColor);
     background-color: red;
     border-top-right-radius: 40px;
 } */
@@ -237,44 +237,50 @@
 
 
     .nav-links-items li.active:hover {
-        color: #fff;
-        background-color: red;
+        color: var(--themePrimaryTxtColor);
+        background-color: var(--bgcolor);
     }
 
     /* Fixed menus */
-.fixed-menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000; /* Adjust z-index as needed */
-}
-.fixed-menu2 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000; /* Adjust z-index as needed */
-}
+    .fixed-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        /* Adjust z-index as needed */
+    }
 
-/* Non-fixed menus */
-.non-fixed-menu {
-  /* Add your styling for non-fixed menus */
-}
+    .fixed-menu2 {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        /* Adjust z-index as needed */
+    }
 
-/* Content */
-.content {
-  padding-top: 0; /* Initially no padding */
-}
+    /* Non-fixed menus */
+    .non-fixed-menu {
+        /* Add your styling for non-fixed menus */
+    }
 
-/* Add padding to content when menus are fixed */
-.fixed-menu ~ .content {
-  padding-top: 100px; /* Adjust the value as needed */
-}
-.fixed-menu2 ~ .content {
-  padding-top: 280px; /* Adjust the value as needed */
-}
+    /* Content */
+    .content {
+        padding-top: 0;
+        /* Initially no padding */
+    }
 
+    /* Add padding to content when menus are fixed */
+    .fixed-menu~.content {
+        padding-top: 100px;
+        /* Adjust the value as needed */
+    }
+
+    .fixed-menu2~.content {
+        padding-top: 280px;
+        /* Adjust the value as needed */
+    }
 </style>
 
 {{-- @if (\App\Services\AppConfig::get()->app->app_info->web_menu == 'Center')
@@ -358,5 +364,44 @@
 
         //     });
         // });
+    </script>
+    <!-- AJAX Request to Check Subscription Status -->
+    <script>
+        $(document).ready(function() {
+            // Set up AJAX to include CSRF token
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: "{{ route('check.subscription.status') }}",
+                method: "GET",
+                success: function(response) {
+                    console.log('Response:', response);
+                    if (response.success) {
+                        if (response.subscribed) {
+                            $('#subscribe-icon').removeClass('fa-bell').addClass('fa-bell-slash');
+                            $('#subscribe-text').text('');
+                        } else {
+                            $('#subscribe-icon').removeClass('fa-bell-slash').addClass('fa-bell');
+                            $('#subscribe-text').text('');
+                        }
+                    } else {
+                        $('#subscribe-icon').removeClass('fa-bell-slash').addClass('fa-bell');
+                        $('#subscribe-text').text('');
+                        console.error('Subscription check failed:', response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#subscribe-icon').removeClass('fa-bell-slash').addClass('fa-bell');
+                    $('#subscribe-text').text('Subscribe'); // Default to Subscribe on error
+                    console.error('AJAX error:', error); // Debugging AJAX error
+                    console.error('Response text:', xhr
+                    .responseText); // Log the response text for debugging
+                }
+            });
+        });
     </script>
 @endpush

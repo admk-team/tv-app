@@ -26,8 +26,8 @@ class ChannelSubscribeController extends Controller
 
     public function checkSubscriptionStatus()
     {
-        $responseData = Http::timeout(300)->withHeaders(Api::headers())
-            ->get('http://127.0.0.1:8000/api/f/v1/channel/subscribe/check');
+        $responseData = Http::timeout(300)->withHeaders(Api::headers())->asForm()
+        ->get(Api::endpoint('/channel/subscribe/check'));
         // dd($responseData->json());
         if ($responseData->successful()) {
             return response()->json([

@@ -63,7 +63,7 @@
         <!-- START: Top Header -->
         <header class="content-wrapper d-flex justify-content-between align-items-center px-2 px-md-3 py-2 mb-3">
             <a href="/home">
-                <img src="{{ asset('assets/landing_theme_assets/apollo/images/logo.png') }}" class="logo" />
+                <img src="{{ $data->app->app_info->website_logo ?? '' }}" class="logo" />
             </a>
             <nav class="d-flex gap-2 gap-md-3 align-items-center">
                 <a href="/home?browse=true" class="browse-btn">Browse Content</a>
@@ -357,41 +357,41 @@
         <img class="img-fluid mb-4" src="{{ $data->app->app_info->website_logo ?? '' }}" alt=""
             srcset="" width="150px">
     </a>
-    <p class="p-0 m-0 text-white">
+    <p class="p-0 m-0  foooter-text">
         {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_txt ?? '' }}</p>
     <a class="text-decoration-none"
         href="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_url ?? '' }}">
-        <p class="p-0 m-0 text-white">
+        <p class="p-0 m-0  foooter-text">
             {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}
         </p>
     </a>
 </div>
 <div class="col-md-3 ">
-    <h5 class="mb-4"><span>GET</span> TO KNOW US</h5>
+    <h5 class="mb-4 foooter-text"><span>GET</span> TO KNOW US</h5>
     <ul class="d-flex align-items-start flex-column list-unstyled">
         @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
             @if ($page->displayOn === 'F' || $page->displayOn === 'B')
                 <li><a href="/page/{{ $page->page_slug }}"
-                        class="text-decoration-none text-white lh-lg">{{ $page->page_title }}</a></li>
+                        class="text-decoration-none  foooter-text lh-lg">{{ $page->page_title }}</a></li>
             @endif
         @endforeach
     </ul>
 </div>
 <div class="col-md-3">
-    <h5 class="mb-4"><span>TOP</span> CATEGORIES</h5>
+    <h5 class="mb-4 foooter-text"><span>TOP</span> CATEGORIES</h5>
     <ul class="d-flex align-items-start flex-column list-unstyled ">
         @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
             <li><a href="{{ route('category', $category->cat_guid) }}"
-                    class="text-decoration-none text-white lh-lg">{{ $category->cat_title }}</a></li>
+                    class="text-decoration-none  foooter-text lh-lg">{{ $category->cat_title }}</a></li>
         @endforeach
     </ul>
 </div>
 <div class="col-md-3">
-    <h5 class="mb-4"><span>LET US</span> HELP YOU</h5>
+    <h5 class="mb-4 foooter-text"><span>LET US</span> HELP YOU</h5>
     <ul class="d-flex align-items-start flex-column list-unstyled ">
-        <li><a href="/login" class="text-decoration-none text-white lh-lg">Login</a></li>
-        <li><a href="/signup" class="text-decoration-none text-white lh-lg">Register</a></li>
-        <li><a href="/download-apps" class="text-decoration-none text-white lh-lg">Download Apps</a></li>
+        <li><a href="/login" class="text-decoration-none  foooter-text lh-lg">Login</a></li>
+        <li><a href="/signup" class="text-decoration-none  foooter-text lh-lg">Register</a></li>
+        <li><a href="/download-apps" class="text-decoration-none  foooter-text lh-lg">Download Apps</a></li>
     </ul>
 </div>
 
@@ -399,7 +399,7 @@
 <div class="container">
 <div class="row">
     <div class="col-md-12 text-center">
-        <div class="footer_rights">
+        <div class="footer_rights foooter-text">
             <span class="copyright">© {{ \App\Services\AppConfig::get()->app->app_info->app_name }}</span>
             {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED.
         </div>

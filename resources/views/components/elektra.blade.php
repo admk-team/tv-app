@@ -29,7 +29,7 @@
             <nav class="my-2 my-md-0 mr-md-3">
                 <a class="p-2 text-white" href="/login">Login</a>
             </nav>
-            @if (session()->has('USER_DETAILS'))
+           @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                 <div class="dropdown dropdin">
                     <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>
                         <div class="userimg">{{ session('USER_DETAILS')['USER_NAME'][0] }}</div>
@@ -57,7 +57,7 @@
                 </div>
             @else
                 @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
-                    <a class="btn btn-danger" href="/signup">Signup</a>
+                    <a class="btn btn_signup" href="/signup">Signup</a>
                 @endif
             @endif
         </div>
@@ -83,7 +83,7 @@
                             <!-- Adding type="email" and required attributes -->
                         </div>
                         <div class="input-group-append">
-                            <button type="submit" class="btn btn-danger btn_dangin" id="submit">Get Started</button>
+                            <button type="submit" class="btn btn_dangin" id="submit">Get Started</button>
                         </div>
                     </div>
                     <span class="text-danger email-error"></span> <!-- Error message span -->
@@ -211,7 +211,7 @@
             @if ($page->page_type === 'Ele' && $page->section_type === 'membership' && $page->status === 1)
                 <div class="position-relative overflow-hidden p-3 p-md-5 text-center">
                     <div class="col-md-8 p-lg-8 mx-auto my-8">
-                        <p class="leadinsttiltes"> {{ $page->description ?? '' }}</p>
+                        <p class="membertttiltes"> {{ $page->description ?? '' }}</p>
 
                         <form id="form1">
                             <div class="input-group is-invalid">
@@ -221,7 +221,7 @@
                                     <!-- Adding type="email" and required attributes -->
                                 </div>
                                 <div class="input-group-append">
-                                    <button type="submit" class="btn btn-danger btn_dangin" id="submit1">Get
+                                    <button type="submit" class="btn  btn_dangin" id="submit1">Get
                                         Started</button>
                                 </div>
                             </div>
@@ -284,12 +284,12 @@
                 <!-- Grid column -->
                 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
                     <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4 text-white">
+                    <h6 class="text-uppercase fw-bold mb-4 text-white-costum">
                         Get to Know Us
                     </h6>
                     @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
                         @if ($page->displayOn === 'F' || $page->displayOn === 'B')
-                            <p>
+                            <p class="text-white-costum">
                                 <a class="text-reset" href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
                             </p>
                         @endif
@@ -301,11 +301,11 @@
                 <!-- Grid column -->
                 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
                     <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4 text-white">
+                    <h6 class="text-uppercase fw-bold mb-4 text-white-costum">
                         Top Categories
                     </h6>
                     @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
-                        <p>
+                        <p class="text-white-costum">
                             <a class="text-reset"
                                 href="{{ route('category', $category->cat_guid) }}">{{ $category->cat_title }}</a>
                         </p>
@@ -315,18 +315,18 @@
                 <!-- Grid column -->
                 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
                     <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4 text-white">
+                    <h6 class="text-uppercase fw-bold mb-4 text-white-costum">
                         Let Us Help You
                     </h6>
-                    <p>
+                    <p class="text-white-costum">
                         <a href="/login" class="text-reset">Login</a>
                     </p>
                     @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
-                        <p>
+                        <p class="text-white-costum">
                             <a href="/signup" class="text-reset">Register</a>
                         </p>
                     @endif
-                    <p>
+                    <p class="text-white-costum">
                         <a href="/download-apps" class="text-reset">Download Apps</a>
                     </p>
                 </div>
@@ -339,10 +339,10 @@
     <!-- Copyright -->
     <div class="container-fluid footer_bottom">
         <div class="d-flex justify-content-between  p-2">
-            <div class=" text-white fs-14px">
+            <div class=" text-white-costum fs-14px">
                 © {{ $data->app->app_info->app_name ?? '' }}
                 {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
-            <div class=" text-end text-white">
+            <div class=" text-end text-white-costum">
                 @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
                     <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset">
                         <img src="{{ $link->icon }} " style="width: 30px;">

@@ -5,7 +5,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-     background: linear-gradient(to right, var(--bgcolor), rgba(0, 0, 0, 0) 70%);
+    background: linear-gradient(to right, var(--bgcolor), rgba(0, 0, 0, 0) 70%);
     pointer-events: none;
 }
 
@@ -16,7 +16,7 @@
     width: 100%;
     padding: 20px;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-    color: white;
+    color: var(--themePrimaryTxtColor);
     z-index: 1;
 }
 

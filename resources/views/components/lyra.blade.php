@@ -94,11 +94,11 @@
         @if (isset($data->app->landingpages))
             @foreach ($data->app->landingpages as $page)
                 @if ($page->page_type === 'lyra' && $page->section_type === 'membership' && $page->status === 1)
-                    <div class="row d-flex align-items-center justify-content-center m-auto text-white py-3">
+                    <div class="row d-flex align-items-center justify-content-center m-auto foooter-text py-3">
                         <div class="col-md-6">
                             <div class=" row d-flex align-items-center justify-content-center gap-3 flex-column mb-7">
                                 <div class="col-md-12">
-                                    <h4 class="text-center text-white membership_dec">
+                                    <h4 class="text-center foooter-text membership_dec">
                                         @if (isset($page->description))
                                             @php
                                                 $titleWords = explode(' ', $page->description);
@@ -117,7 +117,7 @@
                                     <div class="membership d-flex justify-content-between">
                                         <input type="text" name="email" id="email" placeholder="Enter Email">
                                         <a href=""
-                                            id="submit"class="text-decoration-none text-white border-2  custom__button">Get
+                                            id="submit"class="text-decoration-none foooter-text border-2  custom__button">Get
                                             Started</a>
                                     </div>
                                     <span
@@ -320,7 +320,7 @@
                         </div>
                         <div class=" d-flex gap-5 align-items-center justify-content-center py-4 ">
                             <a href="/download-apps"
-                                class="text-decoration-none text-white border-2 rounded-pill custom__button">Download</a>
+                                class="text-decoration-none foooter-text border-2 rounded-pill custom__button">Download</a>
 
                         </div>
                     </div>
@@ -382,11 +382,11 @@
                     <img class="img-fluid mb-4" src="{{ $data->app->app_info->website_logo ?? '' }}" alt=""
                         srcset="" width="150px">
                 </a>
-                <p class="p-0 m-0 text-white">
+                <p class="p-0 m-0 foooter-text">
                     {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_txt ?? '' }}</p>
                 <a class="text-decoration-none"
                     href="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_url ?? '' }}">
-                    <p class="p-0 m-0 text-white">
+                    <p class="p-0 m-0 foooter-text">
                         {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}
                     </p>
                 </a>
@@ -397,7 +397,7 @@
                     @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
                         @if ($page->displayOn === 'F' || $page->displayOn === 'B')
                             <li><a href="/page/{{ $page->page_slug }}"
-                                    class="text-decoration-none text-white lh-lg">{{ $page->page_title }}</a></li>
+                                    class="text-decoration-none foooter-text lh-lg">{{ $page->page_title }}</a></li>
                         @endif
                     @endforeach
                 </ul>
@@ -407,16 +407,16 @@
                 <ul class="d-flex align-items-start flex-column list-unstyled ">
                     @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
                         <li><a href="{{ route('category', $category->cat_guid) }}"
-                                class="text-decoration-none text-white lh-lg">{{ $category->cat_title }}</a></li>
+                                class="text-decoration-none foooter-text lh-lg">{{ $category->cat_title }}</a></li>
                     @endforeach
                 </ul>
             </div>
             <div class="col-md-3">
                 <h5 class="mb-4"><span>LET US</span> HELP YOU</h5>
                 <ul class="d-flex align-items-start flex-column list-unstyled ">
-                    <li><a href="/login" class="text-decoration-none text-white lh-lg">Login</a></li>
-                    <li><a href="/signup" class="text-decoration-none text-white lh-lg">Register</a></li>
-                    <li><a href="/download-apps" class="text-decoration-none text-white lh-lg">Download Apps</a></li>
+                    <li><a href="/login" class="text-decoration-none foooter-text lh-lg">Login</a></li>
+                    <li><a href="/signup" class="text-decoration-none foooter-text lh-lg">Register</a></li>
+                    <li><a href="/download-apps" class="text-decoration-none foooter-text lh-lg">Download Apps</a></li>
                 </ul>
             </div>
 

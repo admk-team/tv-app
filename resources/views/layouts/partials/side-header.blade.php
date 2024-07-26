@@ -1,10 +1,10 @@
     <header class="header fixed-menu">
         <nav class="inner mt-2">
-        <div class="header__logo d-block">
-            <a href="/">
-                <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt="Logo">
-            </a>
-        </div>
+            <div class="header__logo d-block">
+                <a href="/">
+                    <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt="Logo">
+                </a>
+            </div>
 
             <div class="side-header position-relative ">
                 <div class="pt-4 pb-3 d-flex align-items-center justify-content-center flex-column">
@@ -15,7 +15,7 @@
                                     @if ($menu->menu_type === 'FA' && !session()->has('USER_DETAILS.USER_CODE'))
                                         @continue
                                     @endif
-                                    <a class="text-decoration-none text-white" href="/{{ $menu->menu_slug }}">
+                                    <a class="text-decoration-none header-text" href="/{{ $menu->menu_slug }}">
                                         <li class="pc">{{ $menu->menu_title }}</li>
                                     </a>
                                 @endif
@@ -23,12 +23,12 @@
                             @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
                                 @if ($page->displayOn === 'H' || $page->displayOn === 'B')
                                     @if ($page->pageType === 'E')
-                                        <a class="text-decoration-none text-white" href="{!! $page->externalLink !!}"
+                                        <a class="text-decoration-none header-text" href="{!! $page->externalLink !!}"
                                             target="_blank">
                                             <li class="pc">{{ $page->page_title }}</li>
                                         </a>
                                     @else
-                                        <a class="text-decoration-none text-white" href="/page/{{ $page->page_slug }}">
+                                        <a class="text-decoration-none header-text" href="/page/{{ $page->page_slug }}">
                                             <li class="pc">{{ $page->page_title }}</li>
                                         </a>
                                     @endif
@@ -45,7 +45,15 @@
                 <button class="navbar-toggler order-3" type="button">
                     <i class="fa fa-bars" style="color:white;"></i>
                 </button>
-                @if (session()->has('USER_DETAILS'))
+                @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                    <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+                        @csrf
+                        <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
+                            <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
+                            <span id="subscribe-text"></span>
+                        </button>
+                        <div id="response-message">{{ session('status') }}</div>
+                    </form>
                     <li class="nav-item">
                         <div class="dropdown dropdin">
                             <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>
@@ -59,8 +67,9 @@
                                 <li><a class="text-decoration-none"
                                         href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
                                         Profiles</a></li>
-                                {{-- <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
-                                History</a></li> --}}
+                                <li><a class="text-decoration-none"
+                                        href="{{ route('transaction-history') }}">Transaction
+                                        History</a></li>
                                 <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
                                         Password</a>
                                 </li>
@@ -114,7 +123,15 @@
                 <a href="/searchscreen">
                     <i class="bi bi-search search-icon"></i>
                 </a>
-                @if (session()->has('USER_DETAILS'))
+                @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                    <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+                        @csrf
+                        <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
+                            <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
+                            <span id="subscribe-text"></span>
+                        </button>
+                        <div id="response-message">{{ session('status') }}</div>
+                    </form>
                     <li class="nav-item">
                         <div class="dropdown dropdin">
                             <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=1>

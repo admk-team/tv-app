@@ -17,9 +17,19 @@ class TransactionHistoryController extends Controller
             ->asForm()
             ->post(Api::endpoint('/getsubscriptionhistory'));
         $responseJson = $response->json();
+        if (isset($responseJson['app']['subs_history'])) {
+            $subsHistory = $responseJson['app']['subs_history'];
+        } else {
+            $subsHistory = [];
+        }
 
-        $subsHistory = $responseJson['app']['subs_history'];
-        $subsMsg = $responseJson['app']['msg'];
+        if (isset($responseJson['app']['msg'])) {
+            $subsMsg = $responseJson['app']['msg'];
+        } else {
+            $subsMsg = "No Subscription History Found !";
+        }
+
+        // $subsMsg = $responseJson['app']['msg'];
         return view('transaction-history.index', compact('subsHistory', 'subsMsg'));
     }
 }

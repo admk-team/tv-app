@@ -2,6 +2,7 @@
     <div class="slider-container">
         @foreach ($data->app->categories ?? [] as $category)
             @if (!empty($category->streams))
+            
                 @php
                     $cartMainCls = 'landscape_slider';
                     $cartMainSubCls = 'ripple';
@@ -83,22 +84,26 @@
                                                             src="{{ url('/') }}/assets/images/trending_icon.png"
                                                             alt="Trending">
                                                     </div> --}}
-                                                    
+
                                                     {{-- Premium Icon And Content Label --}}
-                                                    @if(!in_array($category->card_type, ['BA', 'LB']))
+                                                    @if (!in_array($category->card_type, ['BA', 'LB']))
                                                         <div class="trending_icon_box">
                                                             @if ($stream->premium_icon ?? null)
                                                                 @php
-                                                                $premium_icon = json_decode($stream->premium_icon, true);
+                                                                    $premium_icon = json_decode(
+                                                                        $stream->premium_icon,
+                                                                        true,
+                                                                    );
                                                                 @endphp
                                                                 @if ($premium_icon['type'] === 'html')
                                                                     <div class="svg">
                                                                         {!! $premium_icon['icon'] !!}
                                                                     </div>
                                                                 @else
-                                                                    <img src="{{ $premium_icon['icon'] }}" alt="icon">
+                                                                    <img src="{{ $premium_icon['icon'] }}"
+                                                                        alt="icon">
                                                                 @endif
-                                                            {{-- @else
+                                                                {{-- @else
                                                                 @if (($stream->monetization_type ?? 'F') !== 'F')
                                                                     <img
                                                                     src="{{ url('/') }}/assets/images/trending_icon.png"
@@ -106,9 +111,13 @@
                                                                 @endif --}}
                                                             @endif
                                                         </div>
+                                                        @if ($stream->stream_type !== 'A')
                                                         @if (!($stream->premium_icon ?? null))
-                                                            @if ((($stream->label_free ?? null) && $stream->monetization_type === 'F') || (($stream->label_premium ?? null) && $stream->monetization_type !== 'F'))
-                                                                <div class="content-label" style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                            @if (
+                                                                (($stream->label_free ?? null) && $stream->monetization_type === 'F') ||
+                                                                    (($stream->label_premium ?? null) && $stream->monetization_type !== 'F'))
+                                                                <div class="content-label"
+                                                                    style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
                                                                     @if ($stream->monetization_type === 'F')
                                                                         {{ $stream->label_free }}
                                                                     @else
@@ -117,6 +126,7 @@
                                                                 </div>
                                                             @endif
                                                         @endif
+                                                        @endif
                                                     @endif
 
                                                     <div class="{{ $cardThumbCls }}">
@@ -124,16 +134,20 @@
                                                             alt="{{ $stream->stream_title }}">
                                                     </div>
                                                     <div class="detail_box_hide">
-                                                        <div class="detailbox_time">
-                                                            {{ $stream->stream_duration_timeformat ?? '' }}
-                                                        </div>
+                                                        @if ($stream->stream_duration_timeformat!=="00:00")
+                                                            <div class="detailbox_time">
+                                                                {{ $stream->stream_duration_timeformat ?? '' }}
+                                                            </div>
+                                                        @endif
                                                         <div class="deta_box">
                                                             <div class="season_title"></div>
                                                             <div class="content_title">{{ $stream->stream_title }}
                                                             </div>
-                                                            <div class="content_description">
-                                                                {{ $stream->stream_description }}
-                                                            </div>
+                                                            @if ($stream->stream_description)
+                                                                <div class="content_description">
+                                                                    {{ $stream->stream_description }}
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -148,11 +162,14 @@
                                                 </div> --}}
 
                                                 {{-- Premium Icon And Content Label --}}
-                                                @if(!in_array($category->card_type, ['BA', 'LB']))
+                                                @if (!in_array($category->card_type, ['BA', 'LB']))
                                                     <div class="trending_icon_box">
                                                         @if ($stream->premium_icon ?? null)
                                                             @php
-                                                            $premium_icon = json_decode($stream->premium_icon, true);
+                                                                $premium_icon = json_decode(
+                                                                    $stream->premium_icon,
+                                                                    true,
+                                                                );
                                                             @endphp
                                                             @if ($premium_icon['type'] === 'html')
                                                                 <div class="svg">
@@ -161,7 +178,7 @@
                                                             @else
                                                                 <img src="{{ $premium_icon['icon'] }}" alt="icon">
                                                             @endif
-                                                        {{-- @else
+                                                            {{-- @else
                                                             @if (($stream->monetization_type ?? 'F') !== 'F')
                                                                 <img
                                                                 src="{{ url('/') }}/assets/images/trending_icon.png"
@@ -169,9 +186,13 @@
                                                             @endif --}}
                                                         @endif
                                                     </div>
+                                                    @if ($stream->stream_type !== 'A')
                                                     @if (!($stream->premium_icon ?? null))
-                                                        @if ((($stream->label_free ?? null) && $stream->monetization_type === 'F') || (($stream->label_premium ?? null) && $stream->monetization_type !== 'F'))
-                                                            <div class="content-label" style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                        @if (
+                                                            (($stream->label_free ?? null) && $stream->monetization_type === 'F') ||
+                                                                (($stream->label_premium ?? null) && $stream->monetization_type !== 'F'))
+                                                            <div class="content-label"
+                                                                style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
                                                                 @if ($stream->monetization_type === 'F')
                                                                     {{ $stream->label_free }}
                                                                 @else
@@ -179,6 +200,7 @@
                                                                 @endif
                                                             </div>
                                                         @endif
+                                                    @endif
                                                     @endif
                                                 @endif
 
@@ -192,18 +214,21 @@
                                                         alt="{{ $stream->stream_title }}">
                                                 </div>
                                                 <div class="detail_box_hide">
-                                                    <div class="detailbox_time">
-                                                        {{ $stream->stream_duration_timeformat ?? '' }}
-                                                    </div>
+                                                    @if ($stream->stream_duration_timeformat!=="00:00")
+                                                        <div class="detailbox_time">
+                                                            {{ $stream->stream_duration_timeformat ?? '' }}
+                                                        </div>
+                                                    @endif
                                                     <div class="deta_box">
                                                         <div class="season_title">
                                                             {{ $stream?->stream_episode_title && $stream?->stream_episode_title !== 'NULL' ? $stream?->stream_episode_title : '' }}
                                                         </div>
                                                         <div class="content_title">{{ $stream->stream_title }}</div>
-                                                        <div class="content_description">
-                                                            {{ $stream->stream_description }}
-                                                        </div>
-
+                                                        @if ($stream->stream_description)
+                                                            <div class="content_description">
+                                                                {{ $stream->stream_description }}
+                                                            </div>
+                                                        @endif
                                                         @if ($stream->stream_watched_dur_in_pct > 1)
                                                             {{-- <div style="background-color:{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->tv_cw_unflled_color }};height:5px; border-radius:2px;margin-top:10px;">
                                                                     <div style="background-color:{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->tv_cw_flled_color }};height:5px;border-radius:2px;width:{{ $arrStreamsData['stream_watched_dur_in_pct']}}%"></div>
