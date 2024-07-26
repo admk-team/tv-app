@@ -18,71 +18,47 @@ class CheckVideoProgress implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $videoId;
-    protected $videoDetailData;
+    public $videoDetailid;
+    public $asset_id;
+    public $user_email;
 
-    public function __construct($videoId, $videoDetailData)
+    public function __construct($videoid, $userEmail)
     {
-        $this->videoId = $videoId;
-        $this->videoDetailData = $videoDetailData;
+
+        $videoDetail = Video::findOrFail($videoid);
+        $this->videoDetailid = $videoid;
+        $this->asset_id = $videoDetail->asset_id;
+        $this->user_email = $userEmail;
     }
 
     public function handle()
     {
+        $output = $this->apiCall();
+
+        if ($output['progress'] === 100) {
+            $video = Video::findOrFail($this->videoDetailid);
+            $video->update(['status' => 'completed']);
+            $data = [
+                'id' => $video->id,
+                'title' => $video->title,
+            ];
+            Mail::to($this->user_email)->send(new DownloadStreamLink($data));
+        } else {
+            self::dispatch($this->videoDetailid, $this->user_email)->delay(now()->addMinutes(2));
+        }
+    }
+
+    public function apiCall()
+    {
         $client = new Client();
-        $video = Video::find($this->videoId);
-        $statusUrl = $this->videoDetailData['status_url'];
-
-        if (!filter_var($statusUrl, FILTER_VALIDATE_URL)) {
-            Log::error('Invalid status URL: ' . $statusUrl);
-            return;
-        }
-
-        do {
-            $response = $client->request('GET', $statusUrl, [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . env('GUMLET_API_TOKEN'),
-                    'accept' => 'application/json',
-                ],
-            ]);
-
-            $statusOutput = json_decode($response->getBody(), true);
-            $progress = $statusOutput['progress'];
-
-            if ($progress == 100) {
-                // Update video status in the database
-                $video->update([
-                    'status' => 'completed',
-                    'playback_url' => $statusOutput['output']['playback_url'],
-                    // 'thumbnail_url' => $statusOutput['output']['thumbnail_url'],
-                ]);
-
-                $this->sendCompletionEmail($statusOutput);
-                break;
-            }
-
-            // Sleep for a while before checking again (e.g., 10 seconds)
-            sleep(10);
-        } while ($progress < 100);
-    }
-
-    protected function sendCompletionEmail($statusOutput)
-    {
-        $data = [
-            'id' => $this->videoId,
-            'title' => $this->videoDetailData['title'],
-            'playback_url' => $statusOutput['output']['playback_url'],
-        ];
-
-        Log::info($data);
-        if (session()->has('USER_DETAILS')) {
-            $userEmail =  session('USER_DETAILS')['USER_EMAIL'];
-        }
-        Mail::to($userEmail)->send(new DownloadStreamLink($data));
-    }
-
-    public function failed(): void
-    {
-        logger()->error("error on job");
+        $response = $client->request('GET', 'https://api.gumlet.com/v1/video/assets/' . $this->asset_id, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . env('GUMLET_API_TOKEN'),
+                'accept' => 'application/json',
+                'content-type' => 'application/json',
+            ],
+        ]);
+        $responseOutput = json_decode($response->getBody(), true);
+        return $responseOutput;
     }
 }
