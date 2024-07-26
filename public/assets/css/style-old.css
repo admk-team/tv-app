@@ -46,11 +46,11 @@ body {
     position: absolute;
     top: 0;
     right: 0;
-    color: #ffffffb0;
+    color: var(--themePrimaryTxtColor);
     transform: scale(1.5);
     margin-right: -10px;
     z-index: 10;
-    background: #141414;
+    background: var(--bgcolor);
     border-radius: 50%;
 }
 
