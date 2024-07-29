@@ -1723,8 +1723,8 @@ section.sliders {
 }
 
 .gridSection .innerAlVidBox {
-
-    max-width: 1840px;
+    max-width: 100%;
+    /* max-width: 1840px; */
     margin: 0px auto;
     /*padding-left: 35px;
     padding-right: 35px;*/
