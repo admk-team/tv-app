@@ -30,7 +30,7 @@ class DetailScreenController extends Controller
                 ->get("http://www.omdbapi.com/?i={$imdb}&apikey=da5b7118");
 
             $imdbDetails = $responseImdb->json();
-            if ($imdbDetails !== null) {
+            if ($imdbDetails !== null && $imdbDetails["Response"] !== "False" && $imdbDetails["Error"] !== "Error getting data.") {
                 $data['stream_details']['cast'] = $imdbDetails['Actors'];
                 $data['stream_details']['director'] = $imdbDetails['Director'];
                 $data['stream_details']['writer'] = $imdbDetails['Writer'];
