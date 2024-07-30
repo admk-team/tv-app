@@ -2,7 +2,6 @@
     <div class="slider-container">
         @foreach ($data->app->categories ?? [] as $category)
             @if (!empty($category->streams))
-            
                 @php
                     $cartMainCls = 'landscape_slider';
                     $cartMainSubCls = 'ripple';
@@ -111,21 +110,28 @@
                                                                 @endif --}}
                                                             @endif
                                                         </div>
-                                                        @if ($stream->stream_type !== 'A')
-                                                        @if (!($stream->premium_icon ?? null))
-                                                            @if (
-                                                                (($stream->label_free ?? null) && $stream->monetization_type === 'F') ||
-                                                                    (($stream->label_premium ?? null) && $stream->monetization_type !== 'F'))
+                                                        @if ($stream->stream_type == 'A')
+                                                            @if (isset($stream->label_ad) && $stream->label_ad !== null)
                                                                 <div class="content-label"
                                                                     style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
-                                                                    @if ($stream->monetization_type === 'F')
-                                                                        {{ $stream->label_free }}
-                                                                    @else
-                                                                        {{ $stream->label_premium }}
-                                                                    @endif
+                                                                    {{ $stream->label_ad }}
                                                                 </div>
                                                             @endif
-                                                        @endif
+                                                        @else
+                                                            @if (!($stream->premium_icon ?? null))
+                                                                @if (
+                                                                    (($stream->label_free ?? null) && $stream->monetization_type === 'F') ||
+                                                                        (($stream->label_premium ?? null) && $stream->monetization_type !== 'F'))
+                                                                    <div class="content-label"
+                                                                        style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                                        @if ($stream->monetization_type === 'F')
+                                                                            {{ $stream->label_free }}
+                                                                        @else
+                                                                            {{ $stream->label_premium }}
+                                                                        @endif
+                                                                    </div>
+                                                                @endif
+                                                            @endif
                                                         @endif
                                                     @endif
 
@@ -134,7 +140,7 @@
                                                             alt="{{ $stream->stream_title }}">
                                                     </div>
                                                     <div class="detail_box_hide">
-                                                        @if ($stream->stream_duration_timeformat!=="00:00")
+                                                        @if ($stream->stream_duration_timeformat !== '00:00')
                                                             <div class="detailbox_time">
                                                                 {{ $stream->stream_duration_timeformat ?? '' }}
                                                             </div>
@@ -186,21 +192,28 @@
                                                             @endif --}}
                                                         @endif
                                                     </div>
-                                                    @if ($stream->stream_type !== 'A')
-                                                    @if (!($stream->premium_icon ?? null))
-                                                        @if (
-                                                            (($stream->label_free ?? null) && $stream->monetization_type === 'F') ||
-                                                                (($stream->label_premium ?? null) && $stream->monetization_type !== 'F'))
+                                                    @if ($stream->stream_type == 'A')
+                                                        @if (isset($stream->label_ad) && $stream->label_ad !== null)
                                                             <div class="content-label"
                                                                 style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
-                                                                @if ($stream->monetization_type === 'F')
-                                                                    {{ $stream->label_free }}
-                                                                @else
-                                                                    {{ $stream->label_premium }}
-                                                                @endif
+                                                                {{ $stream->label_ad }}
                                                             </div>
                                                         @endif
-                                                    @endif
+                                                    @else
+                                                        @if (!($stream->premium_icon ?? null))
+                                                            @if (
+                                                                (($stream->label_free ?? null) && $stream->monetization_type === 'F') ||
+                                                                    (($stream->label_premium ?? null) && $stream->monetization_type !== 'F'))
+                                                                <div class="content-label"
+                                                                    style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                                    @if ($stream->monetization_type === 'F')
+                                                                        {{ $stream->label_free }}
+                                                                    @else
+                                                                        {{ $stream->label_premium }}
+                                                                    @endif
+                                                                </div>
+                                                            @endif
+                                                        @endif
                                                     @endif
                                                 @endif
 
@@ -214,7 +227,7 @@
                                                         alt="{{ $stream->stream_title }}">
                                                 </div>
                                                 <div class="detail_box_hide">
-                                                    @if ($stream->stream_duration_timeformat!=="00:00")
+                                                    @if ($stream->stream_duration_timeformat !== '00:00')
                                                         <div class="detailbox_time">
                                                             {{ $stream->stream_duration_timeformat ?? '' }}
                                                         </div>
