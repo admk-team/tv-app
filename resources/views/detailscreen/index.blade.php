@@ -782,7 +782,7 @@
                 foreach ($arrSeasonData as $seasonData) {
                     $cls = '';
                     if ($seasonData['is_selected'] == 'Y') {
-                        $cls = "class='seasonactive'";
+                        $cls = "class='seasonactive rounded'";
                     }
                 ?>
             <li><a href="<?php echo url('/'); ?>/detailscreen/<?php echo $seasonData['stream_guid']; ?>"
