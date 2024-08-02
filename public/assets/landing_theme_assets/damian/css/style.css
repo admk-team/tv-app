@@ -86,6 +86,7 @@ body {
 }
 .custom-btn.active {
   background-color: var(--primary-button-color);
+  color: var(--primary-text-color) !important;
 }
 .custom-btn:hover {
   background-color: var(--primary-button-color);
