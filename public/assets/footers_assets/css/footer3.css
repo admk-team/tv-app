@@ -154,13 +154,13 @@ input[type=email] {
 .icons a {
     text-decoration: none;
     color: var(--themePrimaryTxtColor);
-    border: 1px solid var(--themePrimaryTxtColor);
+    /* border: 1px solid var(--themePrimaryTxtColor); */
     justify-content: center;
-    padding: 10px;
-    border-radius: 50%;
+    /* padding: 4px; */
+    /* border-radius: 50%; */
     align-items: center;
     font-size: 1.1rem;
-    margin: 2%;
+    margin: 1%;
 }
 
 .social-icon {
@@ -168,7 +168,7 @@ input[type=email] {
 }
 
 .social-icon img {
-    max-width: 25px;
+    max-width: 30px;
     font-size: 6px;
 }
 

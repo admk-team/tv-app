@@ -108,7 +108,7 @@
                             @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
                                 <li><a href="{{ $link->url }}"> <i><img
                                                 src="{{ $link->icon }}"
-                                                alt="{{ $link->title }}" style="max-width: 22px"></i></a></li>
+                                                alt="{{ $link->title }}" style="max-width: 100%"></i></a></li>
                             @endforeach
                         </ul>
                     </div>
