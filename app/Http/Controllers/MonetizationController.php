@@ -83,7 +83,8 @@ class MonetizationController extends Controller
         $response = Http::withHeaders(Api::headers(['Accept' => 'application/json']))
             ->post(Api::endpoint('/coupon'), [
                 'offer' => $request->coupon_code,
-                'stream_code' => session('MONETIZATION.MONETIZATION_GUID'),
+                'monetization_guid' => session('MONETIZATION.MONETIZATION_GUID'),
+                'monetization_type' => session('MONETIZATION.MONETIZATION_TYPE'),
             ]);
         
         $responseJSON = $response->json();
