@@ -281,6 +281,7 @@ body {
 .accordion.active,
 .accordion:hover {
   background: var(--themeActiveColor);
+  border-radius: 10px;
 }
 
 .panel {
@@ -289,6 +290,7 @@ body {
   display: none;
   overflow: hidden;
   transition: 4s ease;
+  border-radius: 10px;
 }
 
 .plus-icon {

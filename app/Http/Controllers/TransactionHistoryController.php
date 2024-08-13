@@ -15,7 +15,7 @@ class TransactionHistoryController extends Controller
             'husercode' => session('USER_DETAILS')['USER_CODE']
         ]))
             ->asForm()
-            ->post(Api::endpoint('/getsubscriptionhistory'));
+            ->get(Api::endpoint('/getsubscriptionhistory'));
         $responseJson = $response->json();
         if (isset($responseJson['app']['subs_history'])) {
             $subsHistory = $responseJson['app']['subs_history'];

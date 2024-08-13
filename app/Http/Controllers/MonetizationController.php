@@ -80,14 +80,16 @@ class MonetizationController extends Controller
 
     public function applyCoupon(Request $request)
     {
-        $response = Http::withHeaders(Api::headers())
+        $response = Http::withHeaders(Api::headers(['Accept' => 'application/json']))
             ->post(Api::endpoint('/coupon'), [
                 'offer' => $request->coupon_code,
+                'monetization_guid' => session('MONETIZATION.MONETIZATION_GUID'),
+                'monetization_type' => session('MONETIZATION.MONETIZATION_TYPE'),
             ]);
         
         $responseJSON = $response->json();
 
-        if ($responseJSON['status'] === 0) {
+        if (($responseJSON['status'] ?? 0) === 0) {
             session()->flash('coupon_applied_error', 'The coupon is invalid or expired!');
             return back();
         }
@@ -110,7 +112,7 @@ class MonetizationController extends Controller
 
         session()->put('MONETIZATION.AMOUNT', $finalAmount);
 
-        session()->flash('coupon_applied_success', 'Coupont successfully applied!');
+        session()->flash('coupon_applied_success', 'Coupon successfully applied!');
         session()->put('coupon_applied', true);
         return back();
     }

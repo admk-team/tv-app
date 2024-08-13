@@ -72,11 +72,6 @@
                 <div id="newsletter-section" class="row">
                     <h5 class="text-center copyright">Subscribe to our Newsletter</h5>
                     <center>
-                        <p style="color:red">
-                            @if (session()->has('error'))
-                                {{ session('error') }}
-                            @endif
-                        </p>
                         @if (session()->has('data'))
                             @php
                                 $data = session('data');

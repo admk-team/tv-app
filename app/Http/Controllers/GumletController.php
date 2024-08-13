@@ -18,11 +18,13 @@ class GumletController extends Controller
     {
         $streamUrl = $request->input('stream_url');
         $title = $request->input('stream_title');
+        $streamDescription = $request->input('stream_description');
 
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->post(Api::endpoint('/video'), [
                 'stream_url' => $streamUrl,
                 'stream_title' => $title,
+            'stream_description' => $streamDescription,
             ]);
         $responseData = $response->json();
         $message = $responseData['message'];

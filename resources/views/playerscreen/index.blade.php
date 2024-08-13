@@ -519,14 +519,16 @@
                                     <form action="{{ route('video.convert') }}" method="POST">
                                         @csrf
                                          @if (session('message'))
-                <span id="success-message" class="text-success"> {{ session('message') }}</span>
-            @endif
+                                        <span id="success-message" class="text-success"> {{ session('message') }}</span>
+                                    @endif
                                         <span id="error-message" class="text-danger"></span>
                                         <input type="hidden" name="stream_url"
                                             value="{{ $arrStreamsData['stream_url'] }}">
+                                             <input type="hidden" name="stream_description"
+                                            value="{{ $arrStreamsData['stream_description'] }}">
                                         <input type="hidden" name="stream_title"
                                             value="{{ $arrSlctItemData['stream_title'] }}">
-                                        <button type="submit" class="btn btn-primary"><span
+                                        <button type="submit" class="auth app-secondary-btn rounded"><span
                                                 class="px-1"><i class="ri-arrow-down-line"></i></span>Download</button>
                                     </form>
                                 </div>

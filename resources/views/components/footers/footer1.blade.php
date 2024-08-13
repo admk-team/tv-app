@@ -22,11 +22,6 @@
                                     <button type="submit"><i class="fab fa-telegram-plane"></i></button>
                                 </form>
                                 <center>
-                                    <p style="color:red">
-                                        @if (session()->has('error'))
-                                            {{ session('error') }}
-                                        @endif
-                                    </p>
                                     @if (session()->has('data'))
                                         @php
                                             $data = session('data');
