@@ -57,9 +57,9 @@
                             </ul>
                         </div>
                     @else
-                        <a class="btn btn-primary px-4 me-2" href="/login">Sign In </a>
+                        <a class="text-white-costum btn btn-primary px-4 me-2" href="/login">Sign In </a>
                         @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
-                            <a class="btn btn-primary px-4" href="/signup">Sign Up</a>
+                            <a class="text-white-costum btn btn-primary px-4" href="/signup">Sign Up</a>
                         @endif
                     @endif
                 </div>
@@ -84,7 +84,7 @@
                             </p>
                             <a class="btn btn-primary px-4 me-2" href="/login">Sign In </a>
                             @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
-                                <a class="btn btn-primary px-4" href="/signup">Sign Up</a>
+                                <a class="text-white-costum btn btn-primary px-4" href="/signup">Sign Up</a>
                             @endif
                         </div>
                     </div>

@@ -1,5 +1,5 @@
     <header class="header fixed-menu">
-        <nav class="inner mt-2">
+        <nav class="inner">
             <div class="header__logo d-block">
                 <a href="/">
                     <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt="Logo">
