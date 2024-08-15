@@ -1,6 +1,6 @@
 <section class="header fixed-menu">
     <div class="container-fluid">
-        <nav class="navbar navbar-expand-md fixed-top">
+        <nav class="navbar navbar-expand-md fixed-top fixed-header-height">
             <a class="navbar-brand" href="/"><img alt="logo"
                     src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}"></a>
             <button class="navbar-toggler" type="button" onclick="openNav()">

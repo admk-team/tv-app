@@ -249,6 +249,7 @@
         width: 100%;
         z-index: 1000;
         /* Adjust z-index as needed */
+        
     }
 
     .fixed-menu2 {
@@ -280,6 +281,9 @@
     .fixed-menu2~.content {
         padding-top: 280px;
         /* Adjust the value as needed */
+    }
+    .fixed-header-height{
+        height: 100px;
     }
 </style>
 
