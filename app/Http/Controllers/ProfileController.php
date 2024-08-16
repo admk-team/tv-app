@@ -20,8 +20,9 @@ class ProfileController extends Controller
 
     public function view_profile($id)
     {
-        session()->push('USER_DETAILS.USER_PROFILE', $id);
-
+        // Replace the current profile ID with the new one
+        session()->put('USER_DETAILS.USER_PROFILE', $id);
+    
         return redirect()->route('home');
     }
 

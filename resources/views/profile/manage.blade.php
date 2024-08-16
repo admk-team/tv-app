@@ -36,10 +36,12 @@
                                         @php
                                             $selected = collect(old('content_rating'))->contains($rating['title']) || (isset($rating['code']) && in_array($rating['code'], explode(',', $user['content_rating']))) ? 'selected' : '';
                                         @endphp
+                                        @if($rating['title'])
                                         <option value="{{ $rating['code'] }}" {{ $selected }}
                                             style="color:black !important">
                                             {{ $rating['title'] }}
                                         </option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 <button type="button" class="app-primary-btn rounded submit" id="{{ $user['id'] }}"
