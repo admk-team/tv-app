@@ -785,7 +785,7 @@
                         $cls = "class='seasonactive rounded'";
                     }
                 ?>
-            <li><a href="<?php echo url('/'); ?>/detailscreen/<?php echo $seasonData['stream_guid']; ?>"
+            <li><a class="rounded"  href="<?php echo url('/'); ?>/detailscreen/<?php echo $seasonData['stream_guid']; ?>"
                     <?php echo $cls; ?>><?php echo $seasonData['season_title']; ?></a></li>
             <?php
                 }
