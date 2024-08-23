@@ -62,7 +62,7 @@
 
 
     ul.profiledropin li a {
-        color: black !important;
+        color: var(--bgcolor) !important;
     }
 
     {{--  #split_menu_links:hover a {

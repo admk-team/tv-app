@@ -5,13 +5,16 @@
         body {
             overflow-x: hidden;
         }
+        .text-c{
+            color:var(--themePrimaryTxtColor);
+        }
     </style>
 @endpush
 
 @section('content')
     <div class="all__profiles">
         <div class="whoIsWatching">
-            <h1 class="text-white text-center">Who's watching?</h1>
+            <h1 class="text-c text-center">Who's watching?</h1>
             <div class="memberDiv">
                 <button class="addIcon">
                     <span>Add Profile</span>
