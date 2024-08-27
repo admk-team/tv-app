@@ -1,0 +1,83 @@
+.sec-device {
+    /* padding-bottom: 15px; */
+    border: 1px solid;
+    border-image: linear-gradient(
+        90deg,
+        #002a92 0%,
+        #002a92 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+}
+
+.sec-device .tab-btns {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 2rem;
+}
+
+.sec-device .tab-btns > div {
+    padding-bottom: 1.2rem;
+}
+
+.sec-device .tab-btns > div {
+    color: var(--themePrimaryTxtColor);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: -2px;
+}
+
+.sec-device .tab-btns > div span {
+    cursor: pointer;
+}
+
+.sec-device .tab-btns > div.active {
+    color: var(--themeActiveColor);
+    border-bottom: 3px solid var(--themeActiveColor);
+}
+
+.custom-icon {
+    font-size: 3rem; /* Adjust the size as needed */
+}
+
+.pdf-icon {
+    color: var(--themeActiveColor); /* Bright blue for PDF */
+}
+
+.word-icon {
+    color: var(--themeActiveColor); /* Darker blue for Word */
+}
+
+.other-icon {
+    color: var(--themeActiveColor); /* Light blue for other file types */
+}
+
+
+.custom-text {
+    color: var(--themePrimaryTxtColor); /* Dark blue for text */
+}
+
+.custom-link {
+    color: var(--themeActiveColor); /* Dark blue for link */
+    text-decoration: none; /* Remove underline from links */
+}
+
+.custom-link:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+.custom-border {
+    border: 1px solid var(--themeActiveColor); /* Light blue border */
+}
+
+
+@media (min-width: 1400px) {
+    .sec-device .tab-btns {
+        margin-bottom: 6rem;
+    }
+}
+@media (min-width: 768px) {
+    .sec-device .tab-btns {
+        margin-bottom: 3rem;
+    }
+    .sec-device .tab-btns > div {
+        font-size: 18px;
+    }
+}

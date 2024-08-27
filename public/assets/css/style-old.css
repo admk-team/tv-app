@@ -3541,13 +3541,13 @@ ul.ott_iconlist li:hover {
 .item-ratings {
     max-width: 600px;
     width: 100%;
-    margin: 42px 0;
+    /* margin: 42px 0; */
     padding: 0px 50px;
 }
 
 .item-ratings .section-title {
     font-size: 24px;
-    color: #f7f7f9;
+    color: var(--themePrimaryTxtColor);
     margin-bottom: 0;
     font-family: 'Noto Sans';
     font-weight: 600;
@@ -3575,7 +3575,7 @@ ul.ott_iconlist li:hover {
 }
 
 .item-ratings input[type="submit"] {
-    background-color: #c54f3f;
+    background-color: var(--themeActiveColor);
     border: 0;
     margin-top: 18px;
     color: #fff;
@@ -3611,8 +3611,8 @@ ul.ott_iconlist li:hover {
 }
 
 .item-ratings .star.active svg {
-    fill: #c54f3f;
-    stroke: #c54f3f;
+    fill: var(--themeActiveColor);
+    stroke: var(--themeActiveColor);
 }
 
 .member-reviews .review .user {
@@ -3622,10 +3622,10 @@ ul.ott_iconlist li:hover {
 }
 
 .member-reviews .review .user .profile-name {
-    color: #fff;
+    color: var(--themePrimaryTxtColor);
     font-size: 15px;
     font-weight: 500;
-    background-color: #c54f3f;
+    background-color: var(--themeActiveColor);
     border-radius: 50%;
     width: 35px;
     height: 34px;
@@ -3637,12 +3637,12 @@ ul.ott_iconlist li:hover {
 
 .member-reviews .review .user .username {
     font-size: 17px;
-    color: #fff;
+    color: var(--themePrimaryTxtColor);
     font-weight: 400;
 }
 
 .review .member-comment {
-    color: #ffffffc2;
+    color: var(--themePrimaryTxtColor);
     margin-top: 4px;
 }
 
@@ -4630,8 +4630,8 @@ textarea.form-control:focus {
 }
 
 .item-reviews .stars-wrapper .star.active svg {
-    fill: #C54F3F;
-    stroke: #C54F3F;
+    fill: var(--themeActiveColor);
+    stroke: var(--themeActiveColor);
 }
 
 .item-reviews textarea {
@@ -4653,7 +4653,7 @@ textarea.form-control:focus {
 
 .item-reviews .btn {
     width: fit-content;
-    background: #c54f3f;
+    background: var(--themeActiveColor);
     margin-top: 18px;
     color: #fff;
     transition: all 0.3s;
@@ -4683,7 +4683,7 @@ textarea.form-control:focus {
 }
 
 .reviews-user-img {
-    background-color: #c54f3f;
+    background-color: var(--themeActiveColor);
     margin-right: 12px;
     border-radius: 50%;
     width: 30px;
