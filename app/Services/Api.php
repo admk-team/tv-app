@@ -13,7 +13,7 @@ class Api
     {
         $defaultHeaders = [
             'happcode' => env('APP_CODE'),
-            'devicetype' => env('DEVICETYPE_CODE')
+            'hplatform' => 'web'
         ];
 
         if (session('USER_DETAILS.USER_CODE'))
