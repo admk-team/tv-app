@@ -49,7 +49,7 @@
                                     <div class="card-body p-0">
                                         <h5 class="card-title">{{ $stream['stream_title'] }}</h5>
                                         <div class="content-timing">
-                                            @if ($stream['released_year'])
+                                            @if ($stream['released_year'] && $stream['released_year'] !== "NULL")
                                                 <a href="{{ route('year', $stream['released_year']) }}"
                                                     class="text-decoration-none">
                                                     <span class="year">{{ $stream['released_year'] }}</span>
