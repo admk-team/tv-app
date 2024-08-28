@@ -461,8 +461,8 @@
         <div id="like" class="content">
             <!--Start of season section-->
             <?php
-            $arrSeasonData = isset($seasons)? $seasons['streams']: null;
-        
+            $arrSeasonData = isset($seasons) ? $seasons['streams'] : null;
+    
             if (!empty($arrSeasonData)) {
             ?>
             <!-- Season listing -->
@@ -931,6 +931,7 @@
                 </div>
             </div>
         @endif
+
         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($stream_details['pdf']))
             <div id="pdf" class="content d-none">
                 <div class="row">
@@ -952,12 +953,10 @@
                 </div>
             </div>
         @endif
-
     </div>
-    <!--end of Ratings section-->
-    <!--Start of you might also like section-->
+@endsection
 
-    <!--end of you might also like section-->
+@push('scripts')
     <script>
         function handleStarRating(element) {
             let rating = element.dataset.rating;
@@ -1016,14 +1015,45 @@
             return true;
         }
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
-@endsection
-
-@push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        $(document).ready(function() {
+            // Function to initialize Slick slider only when needed
+            function initializeSlider() {
+                const sliderElement = $('.landscape_slider:not(.slick-initialized)');
+                if (sliderElement.length) {
+                    sliderElement.slick({
+                        slidesToShow: 3, // Adjust as needed
+                        slidesToScroll: 1,
+                        infinite: true,
+                        dots: true,
+                        arrows: true,
+                        responsive: [{
+                                breakpoint: 768,
+                                settings: {
+                                    slidesToShow: 2,
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 1,
+                                }
+                            }
+                        ]
+                    });
+                }
+            }
+
+            // Initialize slider for the first tab by default
+            initializeSlider();
+
+            // Handle tab switching
             const tabs = document.querySelectorAll('.sec-device .tab');
             const contents = document.querySelectorAll('.tab-content .content');
+
             tabs.forEach(tab => {
                 tab.addEventListener('click', function() {
                     // Remove active class from all tabs and hide all content
@@ -1035,24 +1065,23 @@
                     const activeContent = document.getElementById(this.getAttribute('data-tab'));
                     if (activeContent) {
                         activeContent.classList.remove('d-none');
-                    } 
+
+                        // If the active content contains the slider, initialize or update it
+                        if (activeContent.querySelector('.landscape_slider')) {
+                            initializeSlider();
+                            $('.landscape_slider').slick('setPosition');
+                        }
+                    }
                 });
             });
-        });
-        jQuery(document).ready(function($) {
-            $('.custom-image img').click(function(event) {
-                // detect data-id for later
-                var id = $(this).data('id');
-                // grab src to replace #featured
+
+            // Handle image click for custom gallery
+            $('.custom-image img').click(function() {
                 var src = $(this).attr('src');
-                // set featured image
                 var img = $('#custom-featured img');
 
                 img.fadeOut('fast', function() {
-                    $(this).attr({
-                        src: src,
-                    });
-                    $(this).fadeIn('fast');
+                    $(this).attr('src', src).fadeIn('fast');
                 });
             });
         });
