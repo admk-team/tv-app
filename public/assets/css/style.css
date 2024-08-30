@@ -95,6 +95,19 @@ body {
     color: var(--themeActiveColor);
 }
 
+/* ------ Report styles start ------ */
+
+.report-label {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.report-radio:checked + .report-label {
+    border-color: var(--themeActiveColor);
+}
+
+/* ------ Report styles end ------ */
+
 .app-primary-btn {
     text-decoration: none;
     background-color: var(--themeActiveColor);

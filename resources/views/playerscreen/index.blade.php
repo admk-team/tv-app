@@ -209,6 +209,25 @@
     </script>
 
     <style>
+        .loader {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #FFF;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+
+            @keyframes rotation {
+            0% {
+               transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        } 
         .videocentalize {
             position: relative;
         }
@@ -655,6 +674,12 @@
                         <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                             <a href="javascript:void(0);"><i class="fa fa-share"></i></a>
                         </div>
+                        <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#reportModalCenter">
+                            @if (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE'])) 
+                                <a href="javascript:void(0);"><i class="fa fa-triangle-exclamation"></i></a> 
+                            @endif
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -715,6 +740,58 @@
                         <input type="text" class="share_formbox" id="sharingURL" value="{{ $sharingURL }}"
                             readonly>
                         <input type="button" class="submit_btn share_btnbox" value="Copy">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div class="modal fade" id="reportModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="reportModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header pb-0">
+                    <h5 class="modal-title " id="reportModalLabel">Want to report this content?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            
+                <div class="modal-body ">                  
+                    <form class="p-3 d-flex flex-column justify-content-center w-100 mb-4" id="reportForm">
+                        @csrf
+                            <label class="px-3 alert alert-warning mb-3" id="radio-error" style="display: none;"></label>
+                            <label class="report-label alert alert-light p-2">
+                                <input type="radio" name="code" value="1" class="mx-2 report-radio small" required> 
+                                Inappropriate Content
+                            </label>
+                            <label class="report-label alert alert-light p-2">
+                                <input type="radio" name="code" value="2" class="mx-2 report-radio small" required> 
+                                Misinformation
+                            </label>
+                            <label class="report-label alert alert-light p-2">
+                                <input type="radio" name="code" value="3" class="mx-2 report-radio small" required> 
+                                Copyright Violation
+                            </label>
+                            <label class="report-label alert alert-light p-2">
+                                <input type="radio" name="code" value="4" class="mx-2 report-radio small" required> 
+                                Privacy Violation
+                            </label>
+                            <label class="report-label alert alert-light p-2">
+                                <input type="radio" name="code" value="5" class="mx-2 report-radio small" required> 
+                                Harmful or Dangerous Acts
+                            </label>
+                            <label class="report-label alert alert-light p-2">
+                                <input type="radio" name="code" value="6" class="mx-2 report-radio small" required> 
+                                Hateful or Discriminatory Content
+                            </label>
+                            <label class="report-label alert alert-light p-2">
+                                <input type="radio" name="code" value="7" class="mx-2 report-radio small" required> 
+                                Spam or Scams
+                            </label>
+                       <input type="hidden" name="user_code" value="{{ session('USER_DETAILS')['USER_CODE'] ?? ''}}">
+                       <input type="hidden" name="stream_code" value="{{ $streamGuid }}">
+                       <input type="hidden" name="app_code" value="{{ env('APP_CODE') }}">
+                        <button type="submit" id="reportSubmit" class="share_btnbox d-flex align-items-center justify-content-center">Submit <span class="loader mx-2" style="display: none;" id="loader"></span></button>
                     </form>
                 </div>
             </div>
@@ -1173,6 +1250,56 @@ if (!empty($arrCatData))
             }).fail(function(response) {
                 const errorMessage = response.responseJSON.message || 'An error occurred';
                $('#error-message').text(errorMessage).fadeIn().delay(6000).fadeOut();
+            });
+        });
+
+        $('#reportSubmit').on('click', function(event){
+            event.preventDefault();
+
+            if (!$("input[name='code']:checked").val()) {
+                $('#radio-error').show();
+                $('#radio-error').text('Please select a reason before submitting.').fadeIn().delay(5000).fadeOut();
+                return; 
+            }
+            $('#loader').show();
+            $('#reportSubmit').prop('disabled', true).val('Submitting...');
+
+
+            const formData = new FormData(document.getElementById("reportForm"));
+
+            $.ajax({
+                type: 'POST',
+                data: formData,
+                url: "{{ env('API_BASE_URL') }}/user/report", 
+                processData: false,
+                contentType: false,
+                cache: false,
+            }).then(function(response) {
+                const successMessage = response.app ? response.app.msg : 'Thank you! Your report has been submitted.';
+                $('#reportForm').fadeOut(function() {
+                    $(this).html('<div id="success-message" class="alert alert-light">' + successMessage + '</div>');
+                });
+
+            }).fail(function(response) {
+                let errorMessage = 'An error occurred';
+                /* if (response.responseJSON && response.responseJSON.app && response.responseJSON.app.msg) {
+                    errorMessage = response.responseJSON.app.msg;
+                } else if (response.responseText) {
+                    try {
+                        const jsonResponse = JSON.parse(response.responseText);
+                        if (jsonResponse.app && jsonResponse.app.msg) {
+                            errorMessage = jsonResponse.app.msg;
+                        }
+                    } catch (e) {
+                        errorMessage = response.responseText;
+                    }
+                } */
+
+                $('#radio-error').show();
+                $('#radio-error').text(errorMessage).fadeIn().delay(4000).fadeOut();
+            }).always(function() {
+                $('#loader').hide();
+                $('#reportSubmit').prop('disabled', false).val('Submit');
             });
         });
     </script>
