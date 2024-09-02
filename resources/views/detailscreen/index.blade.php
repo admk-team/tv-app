@@ -25,7 +25,10 @@
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
 
-    session()->put('REDIRECT_TO_SCREEN', $sharingURL);
+    if(session()->has('REDIRECT_TO_SCREEN')) {
+        session()->forget('REDIRECT_TO_SCREEN');
+        session()->put('REDIRECT_TO_SCREEN', $sharingURL);
+    }
     
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     
