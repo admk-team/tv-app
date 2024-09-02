@@ -107,12 +107,14 @@ class LoginController extends Controller
             return redirect(route('subscription'));
         }
 
-        $responseprofile = Http::withHeaders(Api::headers())
-            ->asForm()
-            ->get(Api::endpoint("/userprofiles?id={$responseJson['app']['data']['user_id']}&user_data={$xyz}&user_device={$finalresultDevice}"));
+        // $responseprofile = Http::withHeaders(Api::headers())
+        //     ->asForm()
+        //     ->get(Api::endpoint("/userprofiles?id={$responseJson['app']['data']['user_id']}&user_data={$xyz}&user_device={$finalresultDevice}"));
 
-        $user_data = $responseprofile->json();
-        return view('profile.index', compact('user_data'));
+        // $user_data = $responseprofile->json();
+        // return view('profile.index', compact('user_data'));
+        
+        return redirect(route('home'));
     }
 
     public function verify()

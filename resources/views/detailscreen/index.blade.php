@@ -24,6 +24,9 @@
         $mType = "type='application/x-mpegURL'";
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
+
+    session()->put('REDIRECT_TO_SCREEN', $sharingURL);
+    
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     
     $stream_code = $stream_details['stream_guid'];

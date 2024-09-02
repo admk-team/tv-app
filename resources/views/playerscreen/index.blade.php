@@ -29,7 +29,7 @@
     $adParam = 'videoId=' . $streamGuid . '&title=' . $arrSlctItemData['stream_title'];
     // Login requried
     if ($IS_SIGNIN_BYPASS == 'N' && (!session('USER_DETAILS') || session('USER_DETAILS')['USER_CODE']) && false) {
-        session('REDIRECT_TO_SCREEN', url('/playerscreen/' . $streamGuid));
+        session('IS_SIGNIN_BYPASS', url('/playerscreen/' . $streamGuid));
         \App\Helpers\GeneralHelper::headerRedirect(url('/signin'));
     }
 
@@ -40,6 +40,7 @@
         session()->save();
         $redirectUrl = route('login');
     }
+    
     $sharingURL = route('playerscreen', $streamGuid);
     $isBuyed = $arrSlctItemData['is_buyed'];
     $monetizationType = $arrSlctItemData['monetization_type'];
