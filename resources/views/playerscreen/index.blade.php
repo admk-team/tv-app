@@ -1,12 +1,18 @@
 @extends('layouts.app')
-
+@section('head')
+    {{-- Custom Css --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/details-screen-styling.css') }}">
+    <!-- Include Video.js Library -->
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet">
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+@endsection
 @section('content')
     <?php
     // Config
     $IS_SIGNIN_BYPASS = 'N';
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
-
+    
     session('GLOBAL_PASS', 0);
     request()->server('REQUEST_METHOD');
     $protocol = request()->server('HTTPS') === 'on' ? 'https' : 'http';
@@ -32,7 +38,7 @@
         session('IS_SIGNIN_BYPASS', url('/playerscreen/' . $streamGuid));
         \App\Helpers\GeneralHelper::headerRedirect(url('/signin'));
     }
-
+    
     //monetioztion
     $redirectUrl = null;
     if ($limitWatchTime === 'yes' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -74,7 +80,7 @@
             \Illuminate\Support\Facades\Redirect::to(route('monetization'))->send();
         }
     }
-
+    
     // Check if subscription is required for all content and is not subscribed
     if (\App\Helpers\GeneralHelper::subscriptionIsRequired() && $isBuyed == 'N') {
         if ($limitWatchTime === 'no' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -87,14 +93,14 @@
             \Illuminate\Support\Facades\Redirect::to(route('subscription'))->send();
         }
     }
-
+    
     $mType = 'video';
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
     }
     $apiPath = App\Services\Api::endpoint('/mngstrmdur');
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN');
-
+    
     // here get the video duration
     $seekFunStr = '';
     $arrFormData4VideoState = [];
@@ -110,7 +116,7 @@
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
         $seekFunStr = "this.currentTime($streamDurationInSec);";
     }
-
+    
     // Here Set Ad URL in Session
     $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
     if (!session('ADS_INFO')) {
@@ -122,7 +128,7 @@
             ],
         ]);
     }
-
+    
     $useragent = request()->server('HTTP_USER_AGENT');
     $isMobileBrowser = 0;
     if (
@@ -140,13 +146,13 @@
     $userAgent = urlencode(request()->server('HTTP_USER_AGENT'));
     $userIP = \App\Helpers\GeneralHelper::getRealIpAddr();
     $channelName = urlencode(\App\Services\AppConfig::get()->app->app_info->app_name);
-
+    
     $isLocalHost = false;
     $host = parse_url(url()->current())['host'];
     if (in_array($host, ['localhost', '127.0.0.1'])) {
         $isLocalHost = true;
     }
-
+    
     //&app_bundle=669112
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
@@ -156,28 +162,28 @@
         $adMacros = $adUrl . "?width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     }
     $dataVast = "data-vast='$adMacros'";
-
+    
     if ($isMobileBrowser == 1 || $adUrl == '') {
         $dataVast = '';
     }
-
+    
     $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
-
+    
     if (!$arrSlctItemData['has_global_ads']) {
         $dataVast = '';
     }
-
+    
     if (!$arrSlctItemData['has_individual_ads']) {
         $dataVast2 = '';
     }
-
+    
     if (!$arrSlctItemData['has_ads']) {
         $dataVast = '';
         $dataVast2 = '';
     }
-
+    
     $watermark = $arrSlctItemData['watermark'] ?? null;
-
+    
     ?>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
@@ -221,14 +227,16 @@
             animation: rotation 1s linear infinite;
         }
 
-            @keyframes rotation {
+        @keyframes rotation {
             0% {
-               transform: rotate(0deg);
+                transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
-        } 
+        }
+
         .videocentalize {
             position: relative;
         }
@@ -349,6 +357,18 @@
             opacity: {{ $watermark ? $watermark['opacity'] : 0 }};
             -webkit-user-drag: none;
             user-select: none;
+        }
+
+        .video-js {
+            width: 100%;
+            height: 400px;
+            background-color: var(--bgcolor);
+        }
+
+        .vjs-default-skin .vjs-big-play-button {
+            top: 50%;
+            left: 50%;
+            margin: -1em auto auto -2em;
         }
 
         @if ($redirectUrl)
@@ -472,14 +492,18 @@
                             </div>
                         @endif
                         <div id="wrapper">
-                            <div class="trail-redirect-message">You will be redirected to login in <span class="time">45 second</span></div>
+                            <div class="trail-redirect-message">You will be redirected to login in <span class="time">45
+                                    second</span></div>
 
                             @if ($arrSlctItemData['overlay_ad'] ?? null)
                                 <div class="overlay-ad d-none">
-                                    <button class="btn-close-ad" onclick="hideOverlayAd()"><i class="bi bi-x-lg"></i></button>
+                                    <button class="btn-close-ad" onclick="hideOverlayAd()"><i
+                                            class="bi bi-x-lg"></i></button>
                                     @if ($arrSlctItemData['overlay_ad']['target_url'])
-                                        <a href="{{ $arrSlctItemData['overlay_ad']['target_url'] }}" target="_blank" onclick="overlayAdClick()">
-                                            <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}" alt="overlay ad" />
+                                        <a href="{{ $arrSlctItemData['overlay_ad']['target_url'] }}" target="_blank"
+                                            onclick="overlayAdClick()">
+                                            <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}"
+                                                alt="overlay ad" />
                                         </a>
                                     @else
                                         <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}" alt="overlay ad" />
@@ -538,13 +562,14 @@
                                 <div class="float-end">
                                     <form action="{{ route('video.convert') }}" method="POST">
                                         @csrf
-                                         @if (session('message'))
-                                        <span id="success-message" class="text-success"> {{ session('message') }}</span>
-                                    @endif
+                                        @if (session('message'))
+                                            <span id="success-message" class="text-success">
+                                                {{ session('message') }}</span>
+                                        @endif
                                         <span id="error-message" class="text-danger"></span>
                                         <input type="hidden" name="stream_url"
                                             value="{{ $arrStreamsData['stream_url'] }}">
-                                             <input type="hidden" name="stream_description"
+                                        <input type="hidden" name="stream_description"
                                             value="{{ $arrStreamsData['stream_description'] }}">
                                         <input type="hidden" name="stream_title"
                                             value="{{ $arrSlctItemData['stream_title'] }}">
@@ -677,13 +702,14 @@
                         </div>
                         @if (isset(\App\Services\AppConfig::get()->app->app_info->report) &&
                                 \App\Services\AppConfig::get()->app->app_info->report === 1)
-                            <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#reportModalCenter">
-                                @if (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE'])) 
-                                    <a href="javascript:void(0);"><i class="fa fa-triangle-exclamation"></i></a> 
+                            <div class="share_circle addWtchBtn" data-bs-toggle="modal"
+                                data-bs-target="#reportModalCenter">
+                                @if (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE']))
+                                    <a href="javascript:void(0);"><i class="fa fa-triangle-exclamation"></i></a>
                                 @endif
                             </div>
                         @endif
-                        
+
                     </div>
                 </div>
                 <div class="row">
@@ -759,71 +785,103 @@
                     <h5 class="modal-title " id="reportModalLabel">Want to report this content?</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            
-                <div class="modal-body ">                  
+
+                <div class="modal-body ">
                     <form class="p-3 d-flex flex-column justify-content-center w-100 mb-4" id="reportForm">
                         @csrf
-                            <label class="px-3 alert alert-warning mb-3" id="radio-error" style="display: none;"></label>
-                            <label class="report-label alert alert-light p-2">
-                                <input type="radio" name="code" value="1" class="mx-2 report-radio small" required> 
-                                Inappropriate Content
-                            </label>
-                            <label class="report-label alert alert-light p-2">
-                                <input type="radio" name="code" value="2" class="mx-2 report-radio small" required> 
-                                Misinformation
-                            </label>
-                            <label class="report-label alert alert-light p-2">
-                                <input type="radio" name="code" value="3" class="mx-2 report-radio small" required> 
-                                Copyright Violation
-                            </label>
-                            <label class="report-label alert alert-light p-2">
-                                <input type="radio" name="code" value="4" class="mx-2 report-radio small" required> 
-                                Privacy Violation
-                            </label>
-                            <label class="report-label alert alert-light p-2">
-                                <input type="radio" name="code" value="5" class="mx-2 report-radio small" required> 
-                                Harmful or Dangerous Acts
-                            </label>
-                            <label class="report-label alert alert-light p-2">
-                                <input type="radio" name="code" value="6" class="mx-2 report-radio small" required> 
-                                Hateful or Discriminatory Content
-                            </label>
-                            <label class="report-label alert alert-light p-2">
-                                <input type="radio" name="code" value="7" class="mx-2 report-radio small" required> 
-                                Spam or Scams
-                            </label>
-                       <input type="hidden" name="user_code" value="{{ session('USER_DETAILS')['USER_CODE'] ?? ''}}">
-                       <input type="hidden" name="stream_code" value="{{ $streamGuid }}">
-                       <input type="hidden" name="app_code" value="{{ env('APP_CODE') }}">
-                        <button type="submit" id="reportSubmit" class="share_btnbox d-flex align-items-center justify-content-center">Submit <span class="loader mx-2" style="display: none;" id="loader"></span></button>
+                        <label class="px-3 alert alert-warning mb-3" id="radio-error" style="display: none;"></label>
+                        <label class="report-label alert alert-light p-2">
+                            <input type="radio" name="code" value="1" class="mx-2 report-radio small"
+                                required>
+                            Inappropriate Content
+                        </label>
+                        <label class="report-label alert alert-light p-2">
+                            <input type="radio" name="code" value="2" class="mx-2 report-radio small"
+                                required>
+                            Misinformation
+                        </label>
+                        <label class="report-label alert alert-light p-2">
+                            <input type="radio" name="code" value="3" class="mx-2 report-radio small"
+                                required>
+                            Copyright Violation
+                        </label>
+                        <label class="report-label alert alert-light p-2">
+                            <input type="radio" name="code" value="4" class="mx-2 report-radio small"
+                                required>
+                            Privacy Violation
+                        </label>
+                        <label class="report-label alert alert-light p-2">
+                            <input type="radio" name="code" value="5" class="mx-2 report-radio small"
+                                required>
+                            Harmful or Dangerous Acts
+                        </label>
+                        <label class="report-label alert alert-light p-2">
+                            <input type="radio" name="code" value="6" class="mx-2 report-radio small"
+                                required>
+                            Hateful or Discriminatory Content
+                        </label>
+                        <label class="report-label alert alert-light p-2">
+                            <input type="radio" name="code" value="7" class="mx-2 report-radio small"
+                                required>
+                            Spam or Scams
+                        </label>
+                        <input type="hidden" name="user_code" value="{{ session('USER_DETAILS')['USER_CODE'] ?? '' }}">
+                        <input type="hidden" name="stream_code" value="{{ $streamGuid }}">
+                        <input type="hidden" name="app_code" value="{{ env('APP_CODE') }}">
+                        <button type="submit" id="reportSubmit"
+                            class="share_btnbox d-flex align-items-center justify-content-center">Submit <span
+                                class="loader mx-2" style="display: none;" id="loader"></span></button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <?php
+    <div class="sec-device content-wrapper px-2 px-md-3">
+        <div class="tab-btns d-flex gap-3 gap-sm-3 gap-md-4 gap-lg-5">
+            <?php
+            $arrCatData = $ARR_FEED_DATA['arrCategoriesData'];
+            if (!empty($arrCatData)) {
+                $catTitle = $arrCatData['title'];
+            }
+            ?>
+            <div class="tab active" data-tab="like"><span>{{ $catTitle }}</span></div>
+            <!--End of season section-->
+            @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['images']))
+                <div class="tab" data-tab="images"><span>Images</span></div>
+            @endif
+            @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['pdfs']))
+                <div class="tab" data-tab="pdf"><span>Pdf</span></div>
+            @endif
+            @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['videos']))
+                <div class="tab" data-tab="video"><span>Videos</span></div>
+            @endif
+        </div>
+    </div>
+    <div class="tab-content">
+        <div id="like" class="content">
+            <?php
 $arrCatData = $ARR_FEED_DATA['arrCategoriesData'];
 $nextVideoPath = '';
 if (!empty($arrCatData))
 {
 ?>
 
-    <!--Start of thumbnail slider section-->
-    <section class="sliders">
-        <div class="slider-container">
-            <!-- Start shows -->
-            <?php
-            $strKey = 'title';
-            $catTitle = $arrCatData[$strKey];
-            ?>
-            <div class="listing_box">
-                <div class="slider_title_box">
-                    <div class="list_heading">
-                        <h1>{{ $catTitle }}</h1>
-                    </div>
-                </div>
-                <div class="landscape_slider slider slick-slider">
+            <!--Start of thumbnail slider section-->
+            <section class="sliders">
+                <div class="slider-container">
+                    <!-- Start shows -->
                     <?php
+                    $strKey = 'title';
+                    $catTitle = $arrCatData[$strKey];
+                    ?>
+                    <div class="listing_box">
+                        <div class="slider_title_box">
+                            <div class="list_heading">
+                                <h1>{{ $catTitle }}</h1>
+                            </div>
+                        </div>
+                        <div class="landscape_slider slider slick-slider">
+                            <?php
                 foreach ($arrCatData['streams'] as $arrStreamsData)
                 {
                     if ($arrStreamsData['stream_guid'] === $arrSlctItemData['stream_guid'])
@@ -849,42 +907,135 @@ if (!empty($arrCatData))
                     }
 
                     ?>
-                    <div>
-                        <a href="{{ url('/playerscreen/' . $arrStreamsData['stream_guid']) }}">
-                            <div class="thumbnail_img">
-                                <div class="trending_icon_box" {!! $strBrige !!}><img
-                                        src="{{ asset('/assets/images/trending_icon.png') }}"
-                                        alt="{{ $arrStreamsData['stream_title'] }}"></div>
-                                @if (($arrStreamsData['is_newly_added'] ?? 'N') === 'Y')
-                                    <div class="newly-added-label">
-                                        <span>New Episode</span>
-                                    </div>
-                                @endif
-                                <img src="{{ $arrStreamsData['stream_poster'] }}"
-                                    alt="{{ $arrStreamsData['stream_title'] }}">
-                                <div class="detail_box_hide">
-                                    <div class="detailbox_time">{{ $arrStreamsData['stream_duration_timeformat'] }}</div>
-                                    <div class="deta_box">
-                                        <div class="season_title">
-                                            {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
+                            <div>
+                                <a href="{{ url('/playerscreen/' . $arrStreamsData['stream_guid']) }}">
+                                    <div class="thumbnail_img">
+                                        <div class="trending_icon_box" {!! $strBrige !!}><img
+                                                src="{{ asset('/assets/images/trending_icon.png') }}"
+                                                alt="{{ $arrStreamsData['stream_title'] }}"></div>
+                                        @if (($arrStreamsData['is_newly_added'] ?? 'N') === 'Y')
+                                            <div class="newly-added-label">
+                                                <span>New Episode</span>
+                                            </div>
+                                        @endif
+                                        <img src="{{ $arrStreamsData['stream_poster'] }}"
+                                            alt="{{ $arrStreamsData['stream_title'] }}">
+                                        <div class="detail_box_hide">
+                                            <div class="detailbox_time">
+                                                {{ $arrStreamsData['stream_duration_timeformat'] }}</div>
+                                            <div class="deta_box">
+                                                <div class="season_title">
+                                                    {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
+                                                </div>
+                                                <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
+                                                                                                                                                                                                          </div> -->
+                                                <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
+                                                <div class="content_description">
+                                                    {{ $arrStreamsData['stream_description'] }}</div>
+                                            </div>
                                         </div>
-                                        <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                      </div> -->
-                                        <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
-                                        <div class="content_description">{{ $arrStreamsData['stream_description'] }}</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <?php
+                }
+                ?>
+                        </div>
+                    </div>
+                    <!-- End Shows -->
+                </div>
+            </section>
+            <?php
+}
+?>
+        </div>
+
+        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['images']))
+            <div id="images" class="content d-none">
+                <div class="container">
+                    <div class="custom-gallery row custom-border p-4">
+
+                        <!-- Featured Image -->
+                        <div class="custom-placeholder col-md-7 mb-4" id="custom-featured">
+                            <img src="{{ $arrSlctItemData['images'][0]['video_url_local'] }}" class="img-fluid p-2"
+                                style="width: 100%; height: auto; object-fit: cover;">
+                        </div>
+
+                        <!-- Thumbnail Images -->
+                        <div class="custom-gallery-images col-md-5">
+                            <div class="row">
+                                @foreach ($arrSlctItemData['images'] as $image)
+                                    <div class="custom-image col-4 mb-2">
+                                        <img src="{{ $image['video_url_local'] }}" data-id="{{ $loop->index }}"
+                                            class="img-fluid custom-border p-2"
+                                            style="width: 100%; height: 80%; object-fit: cover; cursor: pointer;">
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        @endif
+        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['pdfs']))
+            <div id="pdf" class="content d-none">
+                <div class="row">
+                    @foreach ($arrSlctItemData['pdfs'] as $pdf)
+                        <div class="col-md-3 mb-4 d-flex justify-content-center">
+                            <a href="{{ $pdf['video_url_local'] }}" target="_blank"
+                                class="d-block text-center custom-link">
+                                @if (Str::endsWith($pdf['video_url_local'], ['.pdf']))
+                                    <i class="fas fa-file-pdf custom-icon pdf-icon"></i>
+                                @elseif (Str::endsWith($pdf['video_url_local'], ['.doc', '.docx']))
+                                    <i class="fas fa-file-word custom-icon word-icon"></i>
+                                @else
+                                    <i class="fas fa-file-alt custom-icon other-icon"></i>
+                                @endif
+                                <p class="mt-2 custom-text">{{ $pdf['name'] }}</p>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['videos']))
+            <!-- Video Section -->
+            <div id="video" class="content d-none">
+                <div class="container">
+                    <div class="custom-gallery row custom-border p-4">
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <!-- Video.js Player -->
+                                <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto"
+                                    width="100%" height="auto" data-setup='{}'>
+                                    <source src="{{ $arrSlctItemData['videos'][0]['playback_url'] }}"
+                                        type="application/x-mpegURL">
+                                </video>
+                            </div>
+
+                            <!-- Thumbnail Images -->
+                            <div class="col-md-4">
+                                <div class="custom-gallery-images">
+                                    <div class="row">
+                                        @foreach ($arrSlctItemData['videos'] as $video)
+                                            <div class="custom-image col-4 mb-2">
+                                                <img src="{{ $video['thumbnail_url'] }}" data-id="{{ $loop->index }}"
+                                                    data-url="{{ $video['playback_url'] }}"
+                                                    class="img-fluid custom-border p-2"
+                                                    style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
                     </div>
-                    <?php
-                }
-                ?>
                 </div>
             </div>
-            <!-- End Shows -->
-        </div>
-    </section>
+        @endif
+    </div>
     {{--  status modal  --}}
     <div id="statusModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -903,12 +1054,10 @@ if (!empty($arrCatData))
             </div>
         </div>
     </div>
-    <?php
-}
-?>
 @endsection
 
 @push('scripts')
+
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             var isshowlist = true
@@ -1148,9 +1297,11 @@ if (!empty($arrCatData))
         function showOverlayAd() {
             $('.overlay-ad').removeClass('d-none');
         }
+
         function hideOverlayAd() {
             $('.overlay-ad').addClass('d-none');
         }
+
         function overlayAdClick() {
             player.pauseMedia();
         }
@@ -1244,7 +1395,7 @@ if (!empty($arrCatData))
             $.ajax({
                 type: 'POST',
                 data: formData,
-               url: "{{ route('video.convert') }}",
+                url: "{{ route('video.convert') }}",
                 processData: false,
                 contentType: false,
                 cache: false,
@@ -1253,17 +1404,17 @@ if (!empty($arrCatData))
                 /* window.location.href = response.download_url; */
             }).fail(function(response) {
                 const errorMessage = response.responseJSON.message || 'An error occurred';
-               $('#error-message').text(errorMessage).fadeIn().delay(6000).fadeOut();
+                $('#error-message').text(errorMessage).fadeIn().delay(6000).fadeOut();
             });
         });
 
-        $('#reportSubmit').on('click', function(event){
+        $('#reportSubmit').on('click', function(event) {
             event.preventDefault();
 
             if (!$("input[name='code']:checked").val()) {
                 $('#radio-error').show();
                 $('#radio-error').text('Please select a reason before submitting.').fadeIn().delay(5000).fadeOut();
-                return; 
+                return;
             }
             $('#loader').show();
             $('#reportSubmit').prop('disabled', true).val('Submitting...');
@@ -1274,14 +1425,16 @@ if (!empty($arrCatData))
             $.ajax({
                 type: 'POST',
                 data: formData,
-                url: "{{ env('API_BASE_URL') }}/user/report", 
+                url: "{{ env('API_BASE_URL') }}/user/report",
                 processData: false,
                 contentType: false,
                 cache: false,
             }).then(function(response) {
-                const successMessage = response.app ? response.app.msg : 'Thank you! Your report has been submitted.';
+                const successMessage = response.app ? response.app.msg :
+                    'Thank you! Your report has been submitted.';
                 $('#reportForm').fadeOut(function() {
-                    $(this).html('<div id="success-message" class="alert alert-light">' + successMessage + '</div>');
+                    $(this).html('<div id="success-message" class="alert alert-light">' +
+                        successMessage + '</div>');
                 });
 
             }).fail(function(response) {
@@ -1304,6 +1457,97 @@ if (!empty($arrCatData))
             }).always(function() {
                 $('#loader').hide();
                 $('#reportSubmit').prop('disabled', false).val('Submit');
+            });
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+            // Function to initialize Slick slider only when needed
+            function initializeSlider() {
+                const sliderElement = $('.landscape_slider:not(.slick-initialized)');
+                if (sliderElement.length) {
+                    sliderElement.slick({
+                        slidesToShow: 3, // Adjust as needed
+                        slidesToScroll: 1,
+                        infinite: true,
+                        dots: true,
+                        arrows: true,
+                        responsive: [{
+                                breakpoint: 768,
+                                settings: {
+                                    slidesToShow: 2,
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 1,
+                                }
+                            }
+                        ]
+                    });
+                }
+            }
+
+            // Initialize slider for the first tab by default
+            initializeSlider();
+
+            // Handle tab switching
+            const tabs = document.querySelectorAll('.sec-device .tab');
+            const contents = document.querySelectorAll('.tab-content .content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and hide all content
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.add('d-none'));
+
+                    // Add active class to the clicked tab and show the corresponding content
+                    this.classList.add('active');
+                    const activeContent = document.getElementById(this.getAttribute('data-tab'));
+                    if (activeContent) {
+                        activeContent.classList.remove('d-none');
+
+                        // If the active content contains the slider, initialize or update it
+                        if (activeContent.querySelector('.landscape_slider')) {
+                            initializeSlider();
+                            $('.landscape_slider').slick('setPosition');
+                        }
+                    }
+                });
+            });
+
+            // Handle image click for custom gallery
+            $('.custom-image img').click(function() {
+                var src = $(this).attr('src');
+                var img = $('#custom-featured img');
+
+                img.fadeOut('fast', function() {
+                    $(this).attr('src', src).fadeIn('fast');
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var player = videojs('videoPlayer');
+
+            // Handle thumbnail clicks
+            document.querySelectorAll('.custom-image img').forEach(function(thumbnail) {
+                thumbnail.addEventListener('click', function() {
+                    var playbackUrl = this.getAttribute('data-url');
+
+                    // Update the video source
+                    player.src({
+                        src: playbackUrl,
+                        type: 'application/x-mpegURL'
+                    });
+
+                    // Play the video
+                    player.play();
+                });
             });
         });
     </script>

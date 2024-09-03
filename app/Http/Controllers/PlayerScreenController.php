@@ -19,6 +19,7 @@ class PlayerScreenController extends Controller
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/getitemplayerdetail/{$id}?user_data={$xyz}"));
         $data = $response->json();
+       
         if ($data['app']['stream_details'] === []) {
             if ($data['geoerror'] ?? null) {
                 return view("page.movienotexist");
