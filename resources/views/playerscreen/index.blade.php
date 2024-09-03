@@ -675,11 +675,14 @@
                         <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                             <a href="javascript:void(0);"><i class="fa fa-share"></i></a>
                         </div>
-                        <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#reportModalCenter">
-                            @if (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE'])) 
-                                <a href="javascript:void(0);"><i class="fa fa-triangle-exclamation"></i></a> 
-                            @endif
-                        </div>
+                        @if (isset(\App\Services\AppConfig::get()->app->app_info->report) &&
+                                \App\Services\AppConfig::get()->app->app_info->report === 1)
+                            <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#reportModalCenter">
+                                @if (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE'])) 
+                                    <a href="javascript:void(0);"><i class="fa fa-triangle-exclamation"></i></a> 
+                                @endif
+                            </div>
+                        @endif
                         
                     </div>
                 </div>
