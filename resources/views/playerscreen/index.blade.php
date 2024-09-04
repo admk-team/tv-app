@@ -7,10 +7,7 @@
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet">
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
     <style>
-        {{--  .row {
-            margin-top: 2rem !important;
-            overflow-x: hidden !important;
-        }  --}} .video-container {
+        .video-container {
             height: auto;
             display: grid;
             align-content: center;
@@ -35,6 +32,11 @@
             position: absolute;
             top: 0;
             left: 0;
+        }
+        .vjs-default-skin .vjs-big-play-button {
+            top: 50%;
+            left: 50%;
+            margin: -1em auto auto -41px
         }
     </style>
 @endsection
@@ -391,11 +393,7 @@
             user-select: none;
         }
 
-        .vjs-default-skin .vjs-big-play-button {
-            top: 50%;
-            left: 50%;
-            margin: -1em auto auto -2em;
-        }
+       
 
         @if ($redirectUrl)
             .mvp-input-progress,

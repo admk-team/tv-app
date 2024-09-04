@@ -453,12 +453,6 @@
             @if (isset($stream_details['video_rating']) && $stream_details['video_rating'] === 'E')
                 <div class="tab" data-tab="reviews"><span>Reviews</span></div>
             @endif
-            @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($stream_details['images']))
-                <div class="tab" data-tab="images"><span>Images</span></div>
-            @endif
-            @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($stream_details['pdf']))
-                <div class="tab" data-tab="pdf"><span>Pdf</span></div>
-            @endif
         </div>
     </div>
 
@@ -908,56 +902,7 @@
 
             </div>
         @endif
-        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($stream_details['images']))
-            <div id="images" class="content d-none">
-                <div class="container">
-                    <div class="custom-gallery row custom-border p-4">
-
-                        <!-- Featured Image -->
-                        <div class="custom-placeholder col-md-7 mb-4" id="custom-featured">
-                            <img src="{{ $stream_details['images'][0]['video_url_local'] }}" class="img-fluid p-2"
-                                style="width: 100%; height: auto; object-fit: cover;">
-                        </div>
-
-                        <!-- Thumbnail Images -->
-                        <div class="custom-gallery-images col-md-5">
-                            <div class="row">
-                                @foreach ($stream_details['images'] as $image)
-                                    <div class="custom-image col-4 mb-2">
-                                        <img src="{{ $image['video_url_local'] }}" data-id="{{ $loop->index }}"
-                                            class="img-fluid custom-border p-2"
-                                            style="width: 100%; height: 80%; object-fit: cover; cursor: pointer;">
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        @endif
-
-        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($stream_details['pdf']))
-            <div id="pdf" class="content d-none">
-                <div class="row">
-                    @foreach ($stream_details['pdf'] as $pdf)
-                        <div class="col-md-3 mb-4 d-flex justify-content-center">
-                            <a href="{{ $pdf['video_url_local'] }}" target="_blank"
-                                class="d-block text-center custom-link">
-                                @if (Str::endsWith($pdf['video_url_local'], ['.pdf']))
-                                    <i class="fas fa-file-pdf custom-icon pdf-icon"></i>
-                                @elseif (Str::endsWith($pdf['video_url_local'], ['.doc', '.docx']))
-                                    <i class="fas fa-file-word custom-icon word-icon"></i>
-                                @else
-                                    <i class="fas fa-file-alt custom-icon other-icon"></i>
-                                @endif
-                                <p class="mt-2 custom-text">{{ $pdf['name'] }}</p>
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        @endif
+       
     </div>
 @endsection
 
@@ -1025,36 +970,6 @@
 
     <script>
         $(document).ready(function() {
-            // Function to initialize Slick slider only when needed
-            function initializeSlider() {
-                const sliderElement = $('.landscape_slider:not(.slick-initialized)');
-                if (sliderElement.length) {
-                    sliderElement.slick({
-                        slidesToShow: 3, // Adjust as needed
-                        slidesToScroll: 1,
-                        infinite: true,
-                        dots: true,
-                        arrows: true,
-                        responsive: [{
-                                breakpoint: 768,
-                                settings: {
-                                    slidesToShow: 2,
-                                }
-                            },
-                            {
-                                breakpoint: 480,
-                                settings: {
-                                    slidesToShow: 1,
-                                }
-                            }
-                        ]
-                    });
-                }
-            }
-
-            // Initialize slider for the first tab by default
-            initializeSlider();
-
             // Handle tab switching
             const tabs = document.querySelectorAll('.sec-device .tab');
             const contents = document.querySelectorAll('.tab-content .content');
@@ -1077,16 +992,6 @@
                             $('.landscape_slider').slick('setPosition');
                         }
                     }
-                });
-            });
-
-            // Handle image click for custom gallery
-            $('.custom-image img').click(function() {
-                var src = $(this).attr('src');
-                var img = $('#custom-featured img');
-
-                img.fadeOut('fast', function() {
-                    $(this).attr('src', src).fadeIn('fast');
                 });
             });
         });
