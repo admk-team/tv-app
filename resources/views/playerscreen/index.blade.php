@@ -1,10 +1,42 @@
 @extends('layouts.app')
 @section('head')
     {{-- Custom Css --}}
-    <link rel="stylesheet" href="{{ asset('assets/css/details-screen-styling.css') }}">
+
     <!-- Include Video.js Library -->
+    <link rel="stylesheet" href="{{ asset('assets/css/details-screen-styling.css') }}">
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet">
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+    <style>
+        {{--  .row {
+            margin-top: 2rem !important;
+            overflow-x: hidden !important;
+        }  --}} .video-container {
+            height: auto;
+            display: grid;
+            align-content: center;
+        }
+
+        .video-js-responsive-container.vjs-hd {
+            padding-top: 56.25%;
+        }
+
+        .video-js-responsive-container.vjs-sd {
+            padding-top: 75%;
+        }
+
+        .video-js-responsive-container {
+            width: 100%;
+            position: relative;
+        }
+
+        .video-js-responsive-container .video-js {
+            height: 100% !important;
+            width: 100% !important;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
 @endsection
 @section('content')
     <?php
@@ -357,12 +389,6 @@
             opacity: {{ $watermark ? $watermark['opacity'] : 0 }};
             -webkit-user-drag: none;
             user-select: none;
-        }
-
-        .video-js {
-            width: 100%;
-            height: 400px;
-            background-color: var(--bgcolor);
         }
 
         .vjs-default-skin .vjs-big-play-button {
@@ -928,7 +954,7 @@ if (!empty($arrCatData))
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                          </div> -->
+                                                                                                                                                                                                                      </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}</div>
@@ -1003,20 +1029,23 @@ if (!empty($arrCatData))
             <!-- Video Section -->
             <div id="video" class="content d-none">
                 <div class="container">
-                    <div class="custom-gallery row custom-border p-4">
-
-                        <div class="row">
-                            <div class="col-md-8">
+                    <div class="custom-gallery custom-border p-4">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8 mx-auto">
                                 <!-- Video.js Player -->
-                                <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto"
-                                    width="100%" height="auto" data-setup='{}'>
-                                    <source src="{{ $arrSlctItemData['videos'][0]['playback_url'] }}"
-                                        type="application/x-mpegURL">
-                                </video>
+                                <div class="video-container">
+                                    <div class="video-js-responsive-container vjs-hd">
+                                        <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto"
+                                            data-setup='{}'>
+                                            <source src="{{ $arrSlctItemData['videos'][0]['playback_url'] }}"
+                                                type="application/x-mpegURL">
+                                        </video>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Thumbnail Images -->
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-2">
                                 <div class="custom-gallery-images">
                                     <div class="row">
                                         @foreach ($arrSlctItemData['videos'] as $video)
@@ -1518,35 +1547,36 @@ if (!empty($arrCatData))
                     }
                 });
             });
+        });
 
-            // Handle image click for custom gallery
-            $('.custom-image img').click(function() {
+        // Video Gallery Script
+        $(document).ready(function() {
+            var videoPlayer = videojs('videoPlayer');
+
+            // Handle thumbnail clicks for video gallery
+            $('#video .custom-image img').on('click', function() {
+                var playbackUrl = $(this).data('url');
+
+                // Update the video source
+                videoPlayer.src({
+                    src: playbackUrl,
+                    type: 'application/x-mpegURL'
+                });
+
+                // Play the video
+                videoPlayer.play();
+            });
+        });
+
+        // Image Gallery Script
+        $(document).ready(function() {
+            // Handle image click for image gallery
+            $('#images .custom-image img').on('click', function() {
                 var src = $(this).attr('src');
-                var img = $('#custom-featured img');
+                var img = $('#images #custom-featured img');
 
                 img.fadeOut('fast', function() {
                     $(this).attr('src', src).fadeIn('fast');
-                });
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var player = videojs('videoPlayer');
-
-            // Handle thumbnail clicks
-            document.querySelectorAll('.custom-image img').forEach(function(thumbnail) {
-                thumbnail.addEventListener('click', function() {
-                    var playbackUrl = this.getAttribute('data-url');
-
-                    // Update the video source
-                    player.src({
-                        src: playbackUrl,
-                        type: 'application/x-mpegURL'
-                    });
-
-                    // Play the video
-                    player.play();
                 });
             });
         });
