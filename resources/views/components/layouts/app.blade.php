@@ -9,7 +9,6 @@
         <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
         <meta property="og:image" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_image ?? '' }}" />
         <meta property="og:description" content="{!! strip_tags(\App\Services\AppConfig::get()->app->app_info->seo_description ?? '') !!}" />
-
     @endif
     <title>
         {{ $appInfo->app_name ?? '' }}@stack('title')
@@ -57,11 +56,11 @@
     {{-- Custom Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     @if (isset($appInfo->faq_section) && $appInfo->faq_section == 1)
-    <link rel="stylesheet" href="{{ asset('assets/css/faq_style.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/faq_style.css') }}">
     @endif
     @yield('head')
 
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
 
@@ -135,119 +134,226 @@
         let leaderboardSliderAutoplay =
             '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_leaderboard_ad_autoplay }}';
 
-        $('.potrait_slider').slick({
-            slidesToShow: 7,
-            loop: true,
-            autoplay: {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay }},
-            infinite: true,
-            autoplaySpeed: 3000,
-            slidesToScroll: 1,
-            responsive: [{
-                    breakpoint: 960,
-                    settings: {
-                        arrows: false,
-                        slidesToShow: 6,
-                        slidesToScroll: 1
-                    }
-                },
-                {
-                    breakpoint: 767,
-                    settings: {
-                        arrows: false,
-                        slidesToShow: 5,
-                        slidesToScroll: 1
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        arrows: false,
-                        slidesToShow: 4,
-                        slidesToScroll: 1
-                    }
-                },
-                {
-                    breakpoint: 330,
-                    settings: {
-                        arrows: false,
-                        slidesToShow: 3,
-                        slidesToScroll: 1
-                    }
-                }
-            ]
+
+
+        // $('.slider-container').each(function() {
+        //     var $this = $(this);
+        //     var itemsPerRow = $this.data('items-per-row') || 1; // Default to 1 if not set
+        //     var sliderClass = $this.attr('class').split(' ').find(cls => cls.endsWith('_slider'));
+
+        //     // Initialize slick slider
+        //     $this.slick({
+        //         dots: true,
+        //         infinite: true,
+        //         loop: true,
+        //         autoplay: true,
+        //         autoplaySpeed: 3000,
+        //         slidesToShow: itemsPerRow,
+        //         slidesToScroll: 1,
+        //         responsive: [{
+        //                 breakpoint: 1740,
+        //                 settings: {
+        //                     slidesToShow: Math.max(itemsPerRow - 1, 1),
+        //                     slidesToScroll: 1,
+        //                     dots: true,
+        //                     arrows: true
+        //                 }
+        //             },
+        //             {
+        //                 breakpoint: 1200,
+        //                 settings: {
+        //                     slidesToShow: Math.max(itemsPerRow - 2, 1),
+        //                     slidesToScroll: 1,
+        //                     dots: true,
+        //                     arrows: false
+        //                 }
+        //             },
+        //             {
+        //                 breakpoint: 600,
+        //                 settings: {
+        //                     slidesToShow: Math.max(itemsPerRow - 3, 1),
+        //                     slidesToScroll: 1,
+        //                     arrows: false
+        //                 }
+        //             },
+        //             {
+        //                 breakpoint: 480,
+        //                 settings: {
+        //                     slidesToShow: Math.max(itemsPerRow - 4, 1),
+        //                     slidesToScroll: 1,
+        //                     dots: false,
+        //                     arrows: false
+        //                 }
+        //             }
+        //         ]
+        //     });
+        // });
+
+        $(document).ready(function() {
+            $('.slider-container .slick-slider').each(function() {
+                var $this = $(this);
+                var itemsPerRow = $this.data('items-per-row') || 1; 
+                var autoplay = $this.data('autoplay'); 
+
+                $this.slick({
+                    dots: true,
+                    infinite: true,
+                    loop: true,
+                    autoplay: false,
+                    autoplaySpeed: 3000,
+                    slidesToShow: itemsPerRow,
+                    slidesToScroll: 1,
+                    responsive: [{
+                            breakpoint: 1740,
+                            settings: {
+                                slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                slidesToScroll: 1,
+                                dots: true,
+                                arrows: true
+                            }
+                        },
+                        {
+                            breakpoint: 1200,
+                            settings: {
+                                slidesToShow: Math.max(itemsPerRow - 2, 1),
+                                slidesToScroll: 1,
+                                dots: true,
+                                arrows: false
+                            }
+                        },
+                        {
+                            breakpoint: 600,
+                            settings: {
+                                slidesToShow: Math.max(itemsPerRow - 3, 1),
+                                slidesToScroll: 1,
+                                arrows: false
+                            }
+                        },
+                        {
+                            breakpoint: 480,
+                            settings: {
+                                slidesToShow: Math.max(itemsPerRow - 4, 1),
+                                slidesToScroll: 1,
+                                dots: false,
+                                arrows: false
+                            }
+                        }
+                    ]
+                });
+            });
         });
 
 
-        /** script for landscape_slider */
-
-        $('.landscape_slider').slick({
-            dots: false,
-            infinite: true,
-            loop: true,
-            autoplay: {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay }},
-            autoplaySpeed: 3000,
-            slidesToShow: 5,
-            slidesToScroll: 1,
-            responsive: [{
-                    breakpoint: 1740,
-                    settings: {
-                        slidesToShow: 4,
-                        slidesToScroll: 1,
-                        dots: true,
-                        arrows: true
-                    }
-                },
-                {
-                    breakpoint: 1200,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 1,
-                        dots: true,
-                        arrows: false
-                    }
-                },
-                {
-                    breakpoint: 600,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 1,
-                        arrows: false
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 1,
-                        dots: false,
-                        arrows: false,
-                    }
-                }
-            ]
-        });
-
-        /** script for billboard Ads */
-
-        $('.billboard_ads').slick({
-            dots: true,
-            infinite: true,
-            loop: true,
-            autoplay: {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_billboard_ads_autoplay }},
-            autoplaySpeed: 3000,
-            slidesToShow: 1
-        });
 
 
-        /** script for leaderboard Ads */
+        // $('.potrait_slider').slick({
+        //     slidesToShow: 2,
+        //     loop: true,
+        //     autoplay: {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay }},
+        //     infinite: true,
+        //     autoplaySpeed: 3000,
+        //     slidesToScroll: 1,
+        //     responsive: [{
+        //             breakpoint: 960,
+        //             settings: {
+        //                 arrows: false,
+        //                 slidesToShow: 6,
+        //                 slidesToScroll: 1
+        //             }
+        //         },
+        //         {
+        //             breakpoint: 767,
+        //             settings: {
+        //                 arrows: false,
+        //                 slidesToShow: 5,
+        //                 slidesToScroll: 1
+        //             }
+        //         },
+        //         {
+        //             breakpoint: 480,
+        //             settings: {
+        //                 arrows: false,
+        //                 slidesToShow: 4,
+        //                 slidesToScroll: 1
+        //             }
+        //         },
+        //         {
+        //             breakpoint: 330,
+        //             settings: {
+        //                 arrows: false,
+        //                 slidesToShow: 3,
+        //                 slidesToScroll: 1
+        //             }
+        //         }
+        //     ]
+        // });
 
-        $('.leaderboard_ads').slick({
-            dots: true,
-            infinite: true,
-            loop: true,
-            autoplay: {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_leaderboard_ad_autoplay }},
-            autoplaySpeed: 3000,
-            slidesToShow: 1
-        });
+        // /** script for landscape_slider */
+        // $('.landscape_slider').slick({
+        //     dots: false,
+        //     infinite: true,
+        //     loop: true,
+        //     autoplay: {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay }},
+        //     autoplaySpeed: 3000,
+        //     slidesToShow: 5,
+        //     slidesToScroll: 1,
+        //     responsive: [{
+        //             breakpoint: 1740,
+        //             settings: {
+        //                 slidesToShow: 4,
+        //                 slidesToScroll: 1,
+        //                 dots: true,
+        //                 arrows: true
+        //             }
+        //         },
+        //         {
+        //             breakpoint: 1200,
+        //             settings: {
+        //                 slidesToShow: 3,
+        //                 slidesToScroll: 1,
+        //                 dots: true,
+        //                 arrows: false
+        //             }
+        //         },
+        //         {
+        //             breakpoint: 600,
+        //             settings: {
+        //                 slidesToShow: 2,
+        //                 slidesToScroll: 1,
+        //                 arrows: false
+        //             }
+        //         },
+        //         {
+        //             breakpoint: 480,
+        //             settings: {
+        //                 slidesToShow: 2,
+        //                 slidesToScroll: 1,
+        //                 dots: false,
+        //                 arrows: false,
+        //             }
+        //         }
+        //     ]
+        // });
+
+        // /** script for billboard Ads */
+        // $('.billboard_ads').slick({
+        //     dots: true,
+        //     infinite: true,
+        //     loop: true,
+        //     autoplay: {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_billboard_ads_autoplay }},
+        //     autoplaySpeed: 3000,
+        //     slidesToShow: 1
+        // });
+
+        // /** script for leaderboard Ads */
+        // $('.leaderboard_ads').slick({
+        //     dots: true,
+        //     infinite: true,
+        //     loop: true,
+        //     autoplay: {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_leaderboard_ad_autoplay }},
+        //     autoplaySpeed: 3000,
+        //     slidesToShow: 1
+        // });
 
         $(document).ready(function() {
             $(".clss").click(function() {

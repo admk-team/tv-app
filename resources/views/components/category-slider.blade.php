@@ -1,6 +1,7 @@
 <section class="sliders">
     <div class="slider-container">
         @foreach ($data->app->categories ?? [] as $category)
+        {{-- @dd(\App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay, \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay) --}}
             @if (!empty($category->streams))
                 @php
                     $cartMainCls = 'landscape_slider';
@@ -8,32 +9,42 @@
                     $cardThumbCls = 'card card-img-container';
                     $cardThumbCls2 = 'thumbnail-container';
                     $streamPosterKey = 'stream_poster';
-
+                    $items = $category->items_per_row ? $category->items_per_row : '5';
+                    $autoplay = true;
+            
                     switch ($category->card_type) {
                         case 'LA':
                             $cartMainCls = 'landscape_slider';
                             $cartMainSubCls = 'ripple';
                             $cardThumbCls = '';
-                            $cardThumbCls2 = 'thumbnail_img';
+                            $cardThumbCls2 = "thumbnail_img LA_{$items}";
                             $streamPosterKey = 'stream_poster';
+                            $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay;
                             break;
+
                         case 'PO':
                             $cartMainCls = 'potrait_slider';
-                            $cartMainSubCls = 'ripple vertical';
+                            $cartMainSubCls = "ripple vertical PO_{$items}";
                             $streamPosterKey = 'stream_portrait';
+                            $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay;
                             break;
+
                         case 'ST': // ST: Standard (4x3),
                             $cartMainCls = 'landscape_slider';
                             $cartMainSubCls = 'ripple';
                             $cardThumbCls = '';
-                            $cardThumbCls2 = 'thumbnail_img thumbnailfourbyfour';
+                            $cardThumbCls2 = "thumbnail_img thumbnailfourbyfour ST_{$items}";
                             $streamPosterKey = 'stream_sdm';
+                            $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay;
                             break;
+
                         case 'QU': //QU: Square (1x1)
                             $cartMainCls = 'potrait_slider';
                             $cartMainSubCls = 'vertical onebyone';
                             $streamPosterKey = 'stream_square';
+                            $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay;
                             break;
+
                         case 'BA': //Billboard Ads (1606x470)  803 : 235,
                             $cartMainCls = 'billboard_ads';
                             $cartMainSubCls = 'ripple';
@@ -45,7 +56,7 @@
                             $cartMainCls = 'leaderboard_ads';
                             $cartMainSubCls = 'ripple';
                             $cardThumbCls = '';
-                            $cardThumbCls2 = 'thumbnail_img leaderboard_img m-auto';
+                            $cardThumbCls2 = 'thumbnail_img leaderboard_img m-auto ';
                             $streamPosterKey = 'stream_poster';
                             break;
                     }
@@ -60,7 +71,7 @@
                                     All</a></div>
                         @endif
                     </div>
-                    <div class="{{ $cartMainCls }} slider slick-slider">
+                    <div class="{{ $cartMainCls }} slider slick-slider" data-items-per-row="{{$items}}" data-autoplay="{{$autoplay}}">
                         @foreach ($category->streams as $stream)
                             @php
                                 $url = route('detailscreen', $stream->stream_guid);
