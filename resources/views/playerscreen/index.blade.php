@@ -1008,9 +1008,6 @@ if (!empty($arrCatData))
                     <div class="slider-container">
                         <div class="listing_box">
                             <div class="slider_title_box">
-                                <div class="list_heading">
-                                    <h1>Videos</h1>
-                                </div>
                             </div>
 
                             <!-- Slick Slider for Thumbnails -->
