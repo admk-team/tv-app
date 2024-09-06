@@ -33,6 +33,7 @@
             top: 0;
             left: 0;
         }
+
         .vjs-default-skin .vjs-big-play-button {
             top: 50%;
             left: 50%;
@@ -393,7 +394,7 @@
             user-select: none;
         }
 
-       
+
 
         @if ($redirectUrl)
             .mvp-input-progress,
@@ -611,138 +612,7 @@
             </div>
         </div>
 
-        <div class="product_bindfullbox">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-10">
-                        <div class="product_detailbox">
-                            <ul class="starpoint" style="display: none;">
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                            </ul>
-                            <h1 class="content-heading">{{ $arrSlctItemData['stream_title'] }}</h1>
-                            <div class="content-timing">
-                                @if ($arrSlctItemData['released_year'])
-                                    <a href="{{ route('year', $arrSlctItemData['released_year']) }}"
-                                        class="text-decoration-none">
-                                        <span class="year">{{ $arrSlctItemData['released_year'] }}</span>
-                                    </a>
-                                    <span class="dot-sep"></span>
-                                @endif
-                                @if ($arrSlctItemData['stream_duration'] && $arrSlctItemData['stream_duration'] !== '0')
-                                    <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
-                                    <span class="dot-sep"></span>
-                                @endif
-                                {{-- <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span> --}}
-                                <span class="movie_type">
-                                    @foreach ($arrSlctItemData['genre'] ?? [] as $item)
-                                        <a href="{{ route('category', $item['code']) }}?type=genre"
-                                            class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
-                                    @endforeach
-                                </span>
-                                <?php
-                        if ($streamType == 'S')
-                        {
-                            ?>
-                                <span
-                                    class="movie_type">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL' ? $arrSlctItemData['stream_episode_title'] : '' }}</span>
-                                <span class="movie_type">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
-                                <?php
-                        }
-?>
-                                <?php
-              if ($arrSlctItemData['content_qlt'] != '')
-              {
-?>
-                                <span class="content_screen">
-                                    @php
-                                        $content_qlt_arr = explode(',', $arrSlctItemData['content_qlt']);
-                                        $content_qlt_codes_arr = explode(',', $arrSlctItemData['content_qlt_codes']);
-                                    @endphp
-                                    @foreach ($content_qlt_arr as $i => $item)
-                                        <a
-                                            href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>
-                                        @if (!$loop->last)
-                                            ,
-                                        @endif
-                                    @endforeach
-                                </span>
-                                <?php
-              }
-?>
-                                <?php
-                  if ($arrSlctItemData['content_rating'] != '')
-                  {
-                    ?>
-                                <span class="content_screen">
-                                    @php
-                                        $content_rating_arr = explode(',', $arrSlctItemData['content_rating']);
-                                        $content_rating_codes_arr = explode(
-                                            ',',
-                                            $arrSlctItemData['content_rating_codes'],
-                                        );
-                                    @endphp
-                                    @foreach ($content_rating_arr as $i => $item)
-                                        <a
-                                            href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>
-                                        @if (!$loop->last)
-                                            ,
-                                        @endif
-                                    @endforeach
-                                </span>
-                                <?php
-                  }
-                  ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2 sharesinbos">
-                        <?php
-            if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
-            {
-              $signStr = "+";
-              $cls = 'fa fa-plus';
-              if ($arrSlctItemData['stream_is_stream_added_in_wish_list'] == 'Y')
-              {
-                $cls = 'fa fa-minus';
-                $signStr = "-";
-              }
-             ?>
-                        <div class="share_circle addWtchBtn">
-                            <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav"
-                                    class="{{ $cls }}"></i></a>
-                            <input type="hidden" id="myWishListSign" value='{{ $signStr }}' />
-                            <input type="hidden" id="strQueryParm" value='{{ $strQueryParm }}' />
-                            <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}' />
-                            @csrf
-                        </div>
-                        <?php
-            }
-           ?>
-                        <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                            <a href="javascript:void(0);"><i class="fa fa-share"></i></a>
-                        </div>
-                        @if (isset(\App\Services\AppConfig::get()->app->app_info->report) &&
-                                \App\Services\AppConfig::get()->app->app_info->report === 1)
-                            <div class="share_circle addWtchBtn" data-bs-toggle="modal"
-                                data-bs-target="#reportModalCenter">
-                                @if (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE']))
-                                    <a href="javascript:void(0);"><i class="fa fa-triangle-exclamation"></i></a>
-                                @endif
-                            </div>
-                        @endif
 
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="slider_title_box slidessbwh" style="padding: 0px 45px;">
-                        <div class="about_fulltxt">{{ $arrSlctItemData['stream_description'] }}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <?php } ?>
 
@@ -860,21 +730,22 @@
             </div>
         </div>
     </div>
-    <div class="sec-device content-wrapper px-2 px-md-3">
+    <div class="sec-device content-wrapper px-2 px-md-3 mt-3">
         <div class="tab-btns d-flex gap-3 gap-sm-3 gap-md-4 gap-lg-5">
+            <div class="tab active" data-tab="overview"><span>Overview</span></div>
             <?php
             $arrCatData = $ARR_FEED_DATA['arrCategoriesData'];
             if (!empty($arrCatData)) {
                 $catTitle = $arrCatData['title'];
             }
             ?>
-            <div class="tab active" data-tab="like"><span>{{ $catTitle }}</span></div>
+            <div class="tab " data-tab="like"><span>{{ $catTitle }}</span></div>
             <!--End of season section-->
             @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['images']))
                 <div class="tab" data-tab="images"><span>Images</span></div>
             @endif
             @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['pdfs']))
-                <div class="tab" data-tab="pdf"><span>Pdf</span></div>
+                <div class="tab" data-tab="pdf"><span>PDF</span></div>
             @endif
             @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['videos']))
                 <div class="tab" data-tab="video"><span>Videos</span></div>
@@ -882,7 +753,145 @@
         </div>
     </div>
     <div class="tab-content">
-        <div id="like" class="content">
+        <div id="overview" class="content">
+            <div class="product_bindfullbox">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="product_detailbox">
+                                <ul class="starpoint" style="display: none;">
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                </ul>
+                                <h1 class="content-heading">{{ $arrSlctItemData['stream_title'] }}</h1>
+                                <div class="content-timing">
+                                    @if ($arrSlctItemData['released_year'])
+                                        <a href="{{ route('year', $arrSlctItemData['released_year']) }}"
+                                            class="text-decoration-none">
+                                            <span class="year">{{ $arrSlctItemData['released_year'] }}</span>
+                                        </a>
+                                        <span class="dot-sep"></span>
+                                    @endif
+                                    @if ($arrSlctItemData['stream_duration'] && $arrSlctItemData['stream_duration'] !== '0')
+                                        <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
+                                        <span class="dot-sep"></span>
+                                    @endif
+                                    {{-- <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span> --}}
+                                    <span class="movie_type">
+                                        @foreach ($arrSlctItemData['genre'] ?? [] as $item)
+                                            <a href="{{ route('category', $item['code']) }}?type=genre"
+                                                class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
+                                        @endforeach
+                                    </span>
+                                    <?php
+                            if ($streamType == 'S')
+                            {
+                                ?>
+                                    <span
+                                        class="movie_type">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL' ? $arrSlctItemData['stream_episode_title'] : '' }}</span>
+                                    <span class="movie_type">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
+                                    <?php
+                            }
+    ?>
+                                    <?php
+                  if ($arrSlctItemData['content_qlt'] != '')
+                  {
+    ?>
+                                    <span class="content_screen">
+                                        @php
+                                            $content_qlt_arr = explode(',', $arrSlctItemData['content_qlt']);
+                                            $content_qlt_codes_arr = explode(
+                                                ',',
+                                                $arrSlctItemData['content_qlt_codes'],
+                                            );
+                                        @endphp
+                                        @foreach ($content_qlt_arr as $i => $item)
+                                            <a
+                                                href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>
+                                            @if (!$loop->last)
+                                                ,
+                                            @endif
+                                        @endforeach
+                                    </span>
+                                    <?php
+                  }
+    ?>
+                                    <?php
+                      if ($arrSlctItemData['content_rating'] != '')
+                      {
+                        ?>
+                                    <span class="content_screen">
+                                        @php
+                                            $content_rating_arr = explode(',', $arrSlctItemData['content_rating']);
+                                            $content_rating_codes_arr = explode(
+                                                ',',
+                                                $arrSlctItemData['content_rating_codes'],
+                                            );
+                                        @endphp
+                                        @foreach ($content_rating_arr as $i => $item)
+                                            <a
+                                                href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>
+                                            @if (!$loop->last)
+                                                ,
+                                            @endif
+                                        @endforeach
+                                    </span>
+                                    <?php
+                      }
+                      ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 sharesinbos">
+                            <?php
+                if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+                {
+                  $signStr = "+";
+                  $cls = 'fa fa-plus';
+                  if ($arrSlctItemData['stream_is_stream_added_in_wish_list'] == 'Y')
+                  {
+                    $cls = 'fa fa-minus';
+                    $signStr = "-";
+                  }
+                 ?>
+                            <div class="share_circle addWtchBtn">
+                                <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav"
+                                        class="{{ $cls }}"></i></a>
+                                <input type="hidden" id="myWishListSign" value='{{ $signStr }}' />
+                                <input type="hidden" id="strQueryParm" value='{{ $strQueryParm }}' />
+                                <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}' />
+                                @csrf
+                            </div>
+                            <?php
+                }
+               ?>
+                            <div class="share_circle addWtchBtn" data-bs-toggle="modal"
+                                data-bs-target="#exampleModalCenter">
+                                <a href="javascript:void(0);"><i class="fa fa-share"></i></a>
+                            </div>
+                            @if (isset(\App\Services\AppConfig::get()->app->app_info->report) &&
+                                    \App\Services\AppConfig::get()->app->app_info->report === 1)
+                                <div class="share_circle addWtchBtn" data-bs-toggle="modal"
+                                    data-bs-target="#reportModalCenter">
+                                    @if (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE']))
+                                        <a href="javascript:void(0);"><i class="fa fa-triangle-exclamation"></i></a>
+                                    @endif
+                                </div>
+                            @endif
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="slider_title_box slidessbwh" style="padding: 0px 45px;">
+                            <div class="about_fulltxt">{{ $arrSlctItemData['stream_description'] }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="like" class="content d-none">
             <?php
 $arrCatData = $ARR_FEED_DATA['arrCategoriesData'];
 $nextVideoPath = '';
@@ -952,7 +961,7 @@ if (!empty($arrCatData))
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                      </div> -->
+                                                                                                                                                                                                                                          </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}</div>
@@ -977,7 +986,7 @@ if (!empty($arrCatData))
         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['images']))
             <div id="images" class="content d-none">
                 <div class="container">
-                    <div class="custom-gallery row custom-border p-4">
+                    <div class="custom-gallery row custom-border p-4 rounded">
 
                         <!-- Featured Image -->
                         <div class="custom-placeholder col-md-7 mb-4" id="custom-featured">
@@ -986,12 +995,12 @@ if (!empty($arrCatData))
                         </div>
 
                         <!-- Thumbnail Images -->
-                        <div class="custom-gallery-images col-md-5">
+                        <div class="custom-gallery-images col-md-5 ">
                             <div class="row">
                                 @foreach ($arrSlctItemData['images'] as $image)
                                     <div class="custom-image col-4 mb-2">
                                         <img src="{{ $image['video_url_local'] }}" data-id="{{ $loop->index }}"
-                                            class="img-fluid custom-border p-2"
+                                            class="img-fluid custom-border rounded p-2"
                                             style="width: 100%; height: 80%; object-fit: cover; cursor: pointer;">
                                     </div>
                                 @endforeach
@@ -1026,40 +1035,38 @@ if (!empty($arrCatData))
         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['videos']))
             <!-- Video Section -->
             <div id="video" class="content d-none">
-                <div class="container">
-                    <div class="custom-gallery custom-border p-4">
-                        <div class="row justify-content-center">
-                            <div class="col-md-8 mx-auto">
-                                <!-- Video.js Player -->
-                                <div class="video-container">
-                                    <div class="video-js-responsive-container vjs-hd">
-                                        <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto"
-                                            data-setup='{}'>
-                                            <source src="{{ $arrSlctItemData['videos'][0]['playback_url'] }}"
-                                                type="application/x-mpegURL">
-                                        </video>
-                                    </div>
+                <section class="sliders">
+                    <div class="slider-container">
+                        <div class="listing_box">
+                            <div class="slider_title_box">
+                                <div class="list_heading">
+                                    <h1>Videos</h1>
                                 </div>
                             </div>
 
-                            <!-- Thumbnail Images -->
-                            <div class="col-md-4 mt-2">
-                                <div class="custom-gallery-images">
-                                    <div class="row">
-                                        @foreach ($arrSlctItemData['videos'] as $video)
-                                            <div class="custom-image col-4 mb-2">
-                                                <img src="{{ $video['thumbnail_url'] }}" data-id="{{ $loop->index }}"
-                                                    data-url="{{ $video['playback_url'] }}"
-                                                    class="img-fluid custom-border p-2"
-                                                    style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+                            <!-- Slick Slider for Thumbnails -->
+                            <div class="landscape_slider slider slick-slider">
+                                @foreach ($arrSlctItemData['videos'] as $video)
+                                    <div>
+                                        <div class="thumbnail_img" style="cursor: pointer;"
+                                            data-url="{{ $video['playback_url'] }}"
+                                            data-thumbnail="{{ $video['thumbnail_url'] }}"
+                                            data-title="{{ $video['name'] }}"
+                                            data-description="{{ $video['description'] }}">
+                                            <img src="{{ $video['thumbnail_url'] }}" alt="{{ $video['name'] }}">
+                                            <div class="detail_box_hide">
+                                                <div class="deta_box">
+                                                    <div class="content_title">{{ $video['name'] }}</div>
+                                                    <div class="content_description">{{ $video['description'] }}</div>
+                                                </div>
                                             </div>
-                                        @endforeach
+                                        </div>
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
             </div>
         @endif
     </div>
@@ -1081,6 +1088,35 @@ if (!empty($arrCatData))
             </div>
         </div>
     </div>
+
+    <!-- Modal for Video Player -->
+    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="videoModalLabel"></h5>
+                    <button type="button" class="btn-close" id="modalCloseButton" data-dismiss="modal"
+                        aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="video-container">
+                        <div class="video-js-responsive-container vjs-hd">
+                            <video id="modalVideoPlayer" class="video-js vjs-default-skin" controls data-setup='{}'>
+                                <source src="" type="application/x-mpegURL">
+                            </video>
+                        </div>
+                        <h3 id="modalTitle" class="content-text mt-2"></h3>
+                        <p class="content-text mt-2" id="modalDescription"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 @endsection
 
 @push('scripts')
@@ -1169,7 +1205,7 @@ if (!empty($arrCatData))
 
             };
 
-            player = new mvp(document.getElementById('wrapper'), settings);
+            window.player = new mvp(document.getElementById('wrapper'), settings);
             setTimeout(unmutedVoice, 2000);
             let playerstillwatch = "<?php echo $stillwatching; ?>";
             let playerstillwatchduration = "<?php echo $playerstillwatchduration; ?>";
@@ -1545,30 +1581,52 @@ if (!empty($arrCatData))
                     }
                 });
             });
-        });
 
-        // Video Gallery Script
-        $(document).ready(function() {
-            var videoPlayer = videojs('videoPlayer');
+            // Modal video player (Video.js) instance with controls enabled
+            var modalVideoPlayer = videojs('modalVideoPlayer', {
+                controls: true, // Ensure controls are enabled
+                autoplay: false, // Disable autoplay
+                preload: 'auto', // Preload video metadata
+            });
 
-            // Handle thumbnail clicks for video gallery
-            $('#video .custom-image img').on('click', function() {
-                var playbackUrl = $(this).data('url');
+            // Handle thumbnail click to open the modal and set video data without autoplaying
+            $('.thumbnail_img').on('click', function() {
+                var playbackUrl = $(this).data('url'); // Get playback URL from clicked thumbnail
+                var thumbnail = $(this).data('thumbnail'); // Get thumbnail URL
+                var title = $(this).data('title'); // Get video title
+                var description = $(this).data('description'); // Get video description
+                player.pauseMedia();
+                // Update modal content: title, description, and video source
+                $('#modalTitle').text(title);
+                $('#modalDescription').text(description);
+                modalVideoPlayer.poster(thumbnail); // Set the thumbnail as poster
 
-                // Update the video source
-                videoPlayer.src({
+                // Load the selected video into Video.js player without autoplay
+                modalVideoPlayer.src({
                     src: playbackUrl,
-                    type: 'application/x-mpegURL'
+                    type: 'application/x-mpegURL' // Set appropriate type for HLS streams
                 });
 
-                // Play the video
-                videoPlayer.play();
-            });
-        });
+                // Show the modal without starting playback automatically
+                $('#videoModal').modal('show');
 
-        // Image Gallery Script
-        $(document).ready(function() {
-            // Handle image click for image gallery
+                // Resize player to ensure controls render properly after modal is shown
+                modalVideoPlayer.trigger('resize');
+            });
+
+            // Pause and reset video when the modal is closed
+            $('#videoModal').on('hidden.bs.modal', function() {
+                modalVideoPlayer.pause(); // Pause the video
+                modalVideoPlayer.currentTime(0); // Reset video to the beginning
+            });
+
+            // Close button to stop the video and close the modal
+            $('#modalCloseButton').on('click', function() {
+                modalVideoPlayer.pause(); // Pause the video
+                $('#videoModal').modal('hide'); // Hide the modal
+            });
+
+            // Image Gallery Script (no changes)
             $('#images .custom-image img').on('click', function() {
                 var src = $(this).attr('src');
                 var img = $('#images #custom-featured img');
@@ -1579,4 +1637,13 @@ if (!empty($arrCatData))
             });
         });
     </script>
+
+
+
+
+
+
+
+
+
 @endpush
