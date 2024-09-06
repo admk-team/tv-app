@@ -94,6 +94,9 @@ Route::middleware('auth.user')->group(function () {
     Route::get('/view/profile/{id}', [ProfileController::class, 'view_profile'])->name('profile.view_profile');
     //watch history
     Route::get('watch/history', [ProfileController::class, 'history'])->name('watch.history');
+    //
+    Route::post('extra/video', [PlayerScreenController::class, 'extraVideo'])->name('extra-video');
+
 });
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');

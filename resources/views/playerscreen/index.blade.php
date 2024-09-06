@@ -6,40 +6,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/details-screen-styling.css') }}">
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet">
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-    <style>
-        .video-container {
-            height: auto;
-            display: grid;
-            align-content: center;
-        }
-
-        .video-js-responsive-container.vjs-hd {
-            padding-top: 56.25%;
-        }
-
-        .video-js-responsive-container.vjs-sd {
-            padding-top: 75%;
-        }
-
-        .video-js-responsive-container {
-            width: 100%;
-            position: relative;
-        }
-
-        .video-js-responsive-container .video-js {
-            height: 100% !important;
-            width: 100% !important;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        .vjs-default-skin .vjs-big-play-button {
-            top: 50%;
-            left: 50%;
-            margin: -1em auto auto -41px
-        }
-    </style>
 @endsection
 @section('content')
     <?php
@@ -961,7 +927,7 @@ if (!empty($arrCatData))
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                          </div> -->
+                                                                                                                                                                                                                                              </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}</div>
@@ -984,32 +950,35 @@ if (!empty($arrCatData))
         </div>
 
         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['images']))
-            <div id="images" class="content d-none">
-                <div class="container">
-                    <div class="custom-gallery row custom-border p-4 rounded">
-
-                        <!-- Featured Image -->
-                        <div class="custom-placeholder col-md-7 mb-4" id="custom-featured">
-                            <img src="{{ $arrSlctItemData['images'][0]['video_url_local'] }}" class="img-fluid p-2"
-                                style="width: 100%; height: auto; object-fit: cover;">
-                        </div>
-
-                        <!-- Thumbnail Images -->
-                        <div class="custom-gallery-images col-md-5 ">
-                            <div class="row">
-                                @foreach ($arrSlctItemData['images'] as $image)
-                                    <div class="custom-image col-4 mb-2">
-                                        <img src="{{ $image['video_url_local'] }}" data-id="{{ $loop->index }}"
-                                            class="img-fluid custom-border rounded p-2"
-                                            style="width: 100%; height: 80%; object-fit: cover; cursor: pointer;">
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-
+        <div id="images" class="content d-none">
+            <div class="container">
+                <div class="custom-gallery row custom-border p-4 rounded">
+        
+                    <!-- Featured Image -->
+                    <div class="custom-placeholder col-md-7 mb-4" id="custom-featured">
+                        <img src="{{ $arrSlctItemData['images'][0]['video_url_local'] }}" class="img-fluid p-2"
+                            style="width: 100%; height: auto; object-fit: cover;">
                     </div>
+        
+                    <!-- Thumbnail Images -->
+                    <div class="custom-gallery-images col-md-5 ">
+                        <div class="row">
+                            @foreach ($arrSlctItemData['images'] as $image)
+                                <div class="custom-image col-4 mb-2">
+                                    <img src="{{ $image['video_url_local'] }}" data-id="{{ $loop->index }}"
+                                        class="img-fluid custom-border rounded p-2"
+                                        style="width: 100%; height: 80%; object-fit: cover; cursor: pointer;">
+                                    <div class="image-name rounded">
+                                        {{ $image['name'] }}
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+        
                 </div>
             </div>
+        </div>
         @endif
         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['pdfs']))
             <div id="pdf" class="content d-none">
@@ -1088,35 +1057,6 @@ if (!empty($arrCatData))
             </div>
         </div>
     </div>
-
-    <!-- Modal for Video Player -->
-    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="videoModalLabel"></h5>
-                    <button type="button" class="btn-close" id="modalCloseButton" data-dismiss="modal"
-                        aria-label="Close">
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="video-container">
-                        <div class="video-js-responsive-container vjs-hd">
-                            <video id="modalVideoPlayer" class="video-js vjs-default-skin" controls data-setup='{}'>
-                                <source src="" type="application/x-mpegURL">
-                            </video>
-                        </div>
-                        <h3 id="modalTitle" class="content-text mt-2"></h3>
-                        <p class="content-text mt-2" id="modalDescription"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
 @endsection
 
 @push('scripts')
@@ -1532,7 +1472,7 @@ if (!empty($arrCatData))
                 const sliderElement = $('.landscape_slider:not(.slick-initialized)');
                 if (sliderElement.length) {
                     sliderElement.slick({
-                        slidesToShow: 3, // Adjust as needed
+                        slidesToShow: 3,
                         slidesToScroll: 1,
                         infinite: true,
                         dots: true,
@@ -1553,26 +1493,26 @@ if (!empty($arrCatData))
                     });
                 }
             }
-
+    
             // Initialize slider for the first tab by default
             initializeSlider();
-
+    
             // Handle tab switching
             const tabs = document.querySelectorAll('.sec-device .tab');
             const contents = document.querySelectorAll('.tab-content .content');
-
+    
             tabs.forEach(tab => {
                 tab.addEventListener('click', function() {
                     // Remove active class from all tabs and hide all content
                     tabs.forEach(t => t.classList.remove('active'));
                     contents.forEach(c => c.classList.add('d-none'));
-
+    
                     // Add active class to the clicked tab and show the corresponding content
                     this.classList.add('active');
                     const activeContent = document.getElementById(this.getAttribute('data-tab'));
                     if (activeContent) {
                         activeContent.classList.remove('d-none');
-
+    
                         // If the active content contains the slider, initialize or update it
                         if (activeContent.querySelector('.landscape_slider')) {
                             initializeSlider();
@@ -1581,62 +1521,71 @@ if (!empty($arrCatData))
                     }
                 });
             });
-
-            // Modal video player (Video.js) instance with controls enabled
-            var modalVideoPlayer = videojs('modalVideoPlayer', {
-                controls: true, // Ensure controls are enabled
-                autoplay: false, // Disable autoplay
-                preload: 'auto', // Preload video metadata
-            });
-
-            // Handle thumbnail click to open the modal and set video data without autoplaying
+    
+            // Handle thumbnail click to open the new page
             $('.thumbnail_img').on('click', function() {
                 var playbackUrl = $(this).data('url'); // Get playback URL from clicked thumbnail
                 var thumbnail = $(this).data('thumbnail'); // Get thumbnail URL
                 var title = $(this).data('title'); // Get video title
                 var description = $(this).data('description'); // Get video description
-                player.pauseMedia();
-                // Update modal content: title, description, and video source
-                $('#modalTitle').text(title);
-                $('#modalDescription').text(description);
-                modalVideoPlayer.poster(thumbnail); // Set the thumbnail as poster
-
-                // Load the selected video into Video.js player without autoplay
-                modalVideoPlayer.src({
-                    src: playbackUrl,
-                    type: 'application/x-mpegURL' // Set appropriate type for HLS streams
+    
+                // Create a hidden form to pass data in the request
+                var form = $('<form>', {
+                    action: "{{ route('extra-video') }}",
+                    method: 'POST',
+                    target: '_blank' // Open in a new tab
                 });
-
-                // Show the modal without starting playback automatically
-                $('#videoModal').modal('show');
-
-                // Resize player to ensure controls render properly after modal is shown
-                modalVideoPlayer.trigger('resize');
+    
+                // Add CSRF token for security
+                form.append($('<input>', {
+                    type: 'hidden',
+                    name: '_token',
+                    value: '{{ csrf_token() }}'
+                }));
+    
+                // Add form fields to pass the video data
+                form.append($('<input>', {
+                    type: 'hidden',
+                    name: 'playback_url',
+                    value: playbackUrl
+                }));
+    
+                form.append($('<input>', {
+                    type: 'hidden',
+                    name: 'thumbnail',
+                    value: thumbnail
+                }));
+    
+                form.append($('<input>', {
+                    type: 'hidden',
+                    name: 'title',
+                    value: title
+                }));
+    
+                form.append($('<input>', {
+                    type: 'hidden',
+                    name: 'description',
+                    value: description
+                }));
+    
+                // Append form to body and submit
+                form.appendTo('body').submit();
             });
-
-            // Pause and reset video when the modal is closed
-            $('#videoModal').on('hidden.bs.modal', function() {
-                modalVideoPlayer.pause(); // Pause the video
-                modalVideoPlayer.currentTime(0); // Reset video to the beginning
-            });
-
-            // Close button to stop the video and close the modal
-            $('#modalCloseButton').on('click', function() {
-                modalVideoPlayer.pause(); // Pause the video
-                $('#videoModal').modal('hide'); // Hide the modal
-            });
-
+    
             // Image Gallery Script (no changes)
             $('#images .custom-image img').on('click', function() {
                 var src = $(this).attr('src');
                 var img = $('#images #custom-featured img');
-
+    
                 img.fadeOut('fast', function() {
                     $(this).attr('src', src).fadeIn('fast');
                 });
             });
         });
     </script>
+    
+
+
 
 
 

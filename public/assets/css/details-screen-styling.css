@@ -70,9 +70,41 @@
     margin-top: 0px !important;
 }
 .content-text {
-    color: var(--bgcolor) !important;
+    color: var(--themePrimaryTxtColor) !important;
 }
 
+.custom-image {
+    position: relative;
+}
+
+.custom-image img {
+    transition: opacity 0.3s ease;
+}
+
+.custom-image:hover img {
+    opacity: 0.3; /* Optional: makes the image semi-transparent on hover */
+}
+
+.custom-image .image-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--themeActiveColor); /* Dark background for better readability */
+    color: var(--themePrimaryTxtColor); /* White text color */
+    padding: 5px;
+    text-align: center;
+    font-size: 0.8rem; /* Smaller font size */
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide text overflow */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.custom-image:hover .image-name {
+    opacity: 1;
+}
 @media (min-width: 1400px) {
     .sec-device .tab-btns {
         margin-bottom: 6rem;
