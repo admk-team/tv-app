@@ -25,41 +25,39 @@
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
 
- 
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-    
-    
+
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
-    
+
     $stream_code = $stream_details['stream_guid'];
-    
+
     $postData = [
         'stream_code' => $stream_code,
     ];
-    
+
     // $ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
-    
+
     // curl_setopt($ch, CURLOPT_POST, 1);
     // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    
+
     // $response = curl_exec($ch);
-    
+
     // if (curl_errno($ch)) {
     //     die('Curl error: ' . curl_error($ch));
     // }
-    
+
     // curl_close($ch);
-    
+
     // $resultArray = json_decode($response, true);
-    
+
     // $userDidComment = false;
     // foreach ($resultArray as $review) {
     //     if (session('USER_DETAILS') && $review['user']['userCode'] === session('USER_DETAILS')['USER_CODE']) {
     //         $userDidComment = true;
     //     }
     // }
-    
+
     ?>
     <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
     <!-- <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> -->
@@ -373,6 +371,13 @@
                         <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                             <a href="javascript:void(0)"><i class="fa fa-share"></i></a>
                         </div>
+                        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+                            @if (!empty($stream_details['is_gift']) && $stream_details['is_gift'] == 1)
+                                <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#giftModal">
+                                    <a href="javascript:void(0);"><i class="fa-solid fa-gift"></i></a>
+                                </div>
+                            @endif
+                        @endif
                     </div>
                 </div>
             </div>
@@ -434,13 +439,40 @@
     </div>
     <!--End of banner section-->
 
+    {{-- Gift Modal  --}}
+    <div class="modal fade" id="giftModal" tabindex="-1" role="dialog" aria-labelledby="giftModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Send as a Gift</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('monetization') }}" method="get">
+                        @csrf
+                        <div class="form-group">
+                            <label for="recipient_email" class="btn">Recipient's Email:</label>
+                            <input type="email" class="form-control" id="recipient_email"
+                                name="recipient_email">
+                            @error('recipient_email')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <button type="submit" class="app-primary-btn rounded my-2">Send Gift</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="sec-device content-wrapper px-2 px-md-3">
         <div class="tab-btns d-flex gap-3 gap-sm-3 gap-md-4 gap-lg-5">
             <!-- Start of season section -->
             <?php
             $arrSeasonData = isset($seasons) ? $seasons['streams'] : null;
-            
+
             if (!empty($arrSeasonData)) {
                 // Display the Season tab if data is available
                 echo '<div class="tab active" data-tab="like"><span>Season</span></div>';
@@ -461,7 +493,7 @@
             <!--Start of season section-->
             <?php
             $arrSeasonData = isset($seasons) ? $seasons['streams'] : null;
-    
+
             if (!empty($arrSeasonData)) {
             ?>
             <!-- Season listing -->
@@ -902,7 +934,7 @@
 
             </div>
         @endif
-       
+
     </div>
 @endsection
 

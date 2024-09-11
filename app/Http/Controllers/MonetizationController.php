@@ -12,28 +12,37 @@ class MonetizationController extends Controller
     public function index(Request $request)
     {
         $planData = null;
-        
+        $recipientEmail = $request->query('recipient_email');
         if (strtolower($request->method()) === 'post') {
             session()->forget('coupon_applied'); // Remove old
-            session()->put([
-                'MONETIZATION' => $request->only([
-                    'AMOUNT',
-                    'SUBS_TYPE',
-                    'MONETIZATION_GUID',
-                    'PAYMENT_INFORMATION',
-
-                    'PLAN',
-                    'MONETIZATION_TYPE',
-                    'PLAN_TYPE',
-                    'PLAN_PERIOD',
-                ])
+            // Store the monetization data in the session
+            $monetizationData = $request->only([
+                'AMOUNT',
+                'SUBS_TYPE',
+                'MONETIZATION_GUID',
+                'PAYMENT_INFORMATION',
+                'PLAN',
+                'MONETIZATION_TYPE',
+                'PLAN_TYPE',
+                'PLAN_PERIOD',
             ]);
-            $planData = $request->all();
+
+            // Include recipient email if present
+            if ($recipientEmail) {
+                $monetizationData['RECIPIENT_EMAIL'] = $recipientEmail;
+            }
+            session()->put('MONETIZATION', $monetizationData);
+
+            $planData = $monetizationData;
         }
         else {
             $planData = session('MONETIZATION');
+            // Optionally add recipient email to the planData if needed
+            if ($recipientEmail) {
+                $planData['RECIPIENT_EMAIL'] = $recipientEmail;
+                session()->put('MONETIZATION.RECIPIENT_EMAIL', $recipientEmail);
+            }
         }
-
         return view('monetization.index', compact('planData'));
     }
 
@@ -49,12 +58,12 @@ class MonetizationController extends Controller
             }
             else
             {
-                $transactionId = md5(time()); 
-                $paymentInfo = session('MONETIZATION')['PAYMENT_INFORMATION'];       
+                $transactionId = md5(time());
+                $paymentInfo = session('MONETIZATION')['PAYMENT_INFORMATION'];
             }
 
             $transactionId = md5(time());
-    
+
             $response = Http::timeout(300)->withHeaders(Api::headers([
                 'husercode' => session('USER_DETAILS')['USER_CODE']
             ]))
@@ -68,7 +77,7 @@ class MonetizationController extends Controller
                     'paymentInformation' => $paymentInfo,
                 ]);
             $responseJson = $response->json();
-    
+
             return view('monetization.success', compact('transactionId', 'responseJson'));
         }
     }
@@ -86,7 +95,7 @@ class MonetizationController extends Controller
                 'monetization_guid' => session('MONETIZATION.MONETIZATION_GUID'),
                 'monetization_type' => session('MONETIZATION.MONETIZATION_TYPE'),
             ]);
-        
+
         $responseJSON = $response->json();
 
         if (($responseJSON['status'] ?? 0) === 0) {
