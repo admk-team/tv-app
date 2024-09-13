@@ -372,12 +372,14 @@
                             <a href="javascript:void(0)"><i class="fa fa-share"></i></a>
                         </div>
                         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
-                            @if (!empty($stream_details['is_gift']) && $stream_details['is_gift'] == 1)
+                            @if (!empty($stream_details['is_gift']) && $stream_details['is_gift'] == 1 &&
+                                    ($stream_details['monetization_type'] == 'P' || $stream_details['monetization_type'] == 'S'))
                                 <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#giftModal">
                                     <a href="javascript:void(0);"><i class="fa-solid fa-gift"></i></a>
                                 </div>
                             @endif
                         @endif
+
                     </div>
                 </div>
             </div>
@@ -454,8 +456,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="recipient_email" class="btn">Recipient's Email:</label>
-                            <input type="email" class="form-control" id="recipient_email"
-                                name="recipient_email">
+                            <input type="email" class="form-control" id="recipient_email" name="recipient_email">
                             @error('recipient_email')
                                 <div class="error">{{ $message }}</div>
                             @enderror
