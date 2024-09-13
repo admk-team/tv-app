@@ -455,8 +455,8 @@
                     <form action="{{ route('monetization') }}" method="get">
                         @csrf
                         <div class="form-group">
-                            <label for="recipient_email" class="btn">Recipient's Email:</label>
-                            <input type="email" class="form-control" id="recipient_email" name="recipient_email">
+                            <label for="recipient_email" class="btn text-black">Recipient's Email:</label>
+                            <input type="email" class="form-control text-black" id="recipient_email" name="recipient_email">
                             @error('recipient_email')
                                 <div class="error">{{ $message }}</div>
                             @enderror
