@@ -258,7 +258,12 @@
 
 @section('content')
     @php
-        $ARR_MONE_MSG = array('P' => "Pay Per View / Rental", 'O' => "Life Time Access", 'S' => "Subscription Based",'E' => 'Season Wise Pay');
+        $ARR_MONE_MSG = [
+            'P' => 'Pay Per View / Rental',
+            'O' => 'Life Time Access',
+            'S' => 'Subscription Based',
+            'E' => 'Season Wise Pay',
+        ];
         // $typeStr = \App\Services\AppConfig::get()->app->keys_description->MONETIZATION_TYPES;
         // $types = explode(',', $typeStr);
 
@@ -278,8 +283,9 @@
             <div class="row">
                 <div class="card px-0">
                     <div class="card-header">
-                        @if($planData['SUBS_TYPE'] != 'S')
-                            <img src="{{ $planData['POSTER'] }}" class="img-thumbnail" alt="{{ $planData['PAYMENT_INFORMATION'] }}">
+                        @if ($planData['SUBS_TYPE'] != 'S')
+                            <img src="{{ $planData['POSTER'] }}" class="img-thumbnail"
+                                alt="{{ $planData['PAYMENT_INFORMATION'] }}">
                         @else
                             <img src="{{ asset('assets/images/plan.jpg') }}" class="img-thumbnail" alt="<?php echo $planData['PAYMENT_INFORMATION']; ?>">
                         @endif
@@ -294,11 +300,15 @@
                         <div class="card-text ">
                             <p><b>Plan Type: </b> {{ $ARR_MONE_MSG[$planData['SUBS_TYPE']] }}</p>
                             <p><b>Plan Validity: </b> {{ $planData['PLAN'] }}</p>
+                            @if (isset($planData['RECIPIENT_EMAIL']))
+                                <p><b>Gift Email: </b> {{ $planData['RECIPIENT_EMAIL'] }}</p>
+                            @endif
+
                         </div>
                         <div class="card-plan">
-                            <div class="card-plan-img"><img src="{{ asset('assets/images/icons/buy.png') }}"
-                                    alt="">
+                            <div class="card-plan-img"><img src="{{ asset('assets/images/icons/buy.png') }}" alt="">
                             </div>
+
                             <div class="card-plan-text">
                                 <div class="card-plan-title">Amount</div>
                                 <div class="card-plan-price">
@@ -314,41 +324,58 @@
 
                         {{-- Apply Coupon --}}
                         @if (!session('coupon_applied'))
-                        <div class="mt-4">
-                            <form action="{{ url('/apply-coupon') }}" method="POST">
-                                @csrf
-                                <div class="input-group">
-                                    <input type="text" class="form-control text-black" name="coupon_code" placeholder="Enter Coupon Code" required>
-                                    <button type="submit" class="btn btn-secondary" type="button" id="button-addon2">Apply</button>
-                                </div>
-                            </form>
-                        </div>
+                            <div class="mt-4">
+                                <form action="{{ url('/apply-coupon') }}" method="POST">
+                                    @csrf
+                                    <div class="input-group">
+                                        <input type="text" class="form-control text-black" name="coupon_code"
+                                            placeholder="Enter Coupon Code" required>
+                                        <button type="submit" class="btn btn-secondary" type="button"
+                                            id="button-addon2">Apply</button>
+                                    </div>
+                                </form>
+                            </div>
                         @endif
 
                         @if (session()->has('coupon_applied_success'))
-                        <div class="mt-4 text-success text-center"><strong>{{ session()->get('coupon_applied_success') }}</strong></div>
+                            <div class="mt-4 text-success text-center">
+                                <strong>{{ session()->get('coupon_applied_success') }}</strong>
+                            </div>
                         @endif
 
                         @if (session()->has('coupon_applied_error') || true)
-                        <div class="mt-2 text-danger text-center"><strong>{{ session()->get('coupon_applied_error') }}</strong></div>
+                            <div class="mt-2 text-danger text-center">
+                                <strong>{{ session()->get('coupon_applied_error') }}</strong>
+                            </div>
                         @endif
-                        
+
                         <div class="card-payment-button">
-                            <form action="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->PAYPAL_SANDBOX == "true"? env('PAYPAL_SANDBOX_URL'): env('PAYPAL_URL') }}" method="POST">
+                            <form
+                                action="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->PAYPAL_SANDBOX == 'true' ? env('PAYPAL_SANDBOX_URL') : env('PAYPAL_URL') }}"
+                                method="POST">
                                 <input type="hidden" name="business"
                                     value="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->PAYPAL_ID }}">
                                 <input type="hidden" name="rm" value="2">
                                 <input type="hidden" name="cmd" value="_xclick">
                                 <input type="hidden" name="item_name" value="{{ $planData['PAYMENT_INFORMATION'] }}">
+                                @if (isset($planData['RECIPIENT_EMAIL']))
+                                    <input type="hidden" name="gift_recipient_email"
+                                        value="{{ $planData['RECIPIENT_EMAIL'] }}">
+                                @endif
+
                                 <input type="hidden" name="subs_type" value="{{ $planData['SUBS_TYPE'] }}">
-                                <input type="hidden" name="monetization_type" value="{{ $planData['MONETIZATION_TYPE'] }}">
+                                <input type="hidden" name="monetization_type"
+                                    value="{{ $planData['MONETIZATION_TYPE'] }}">
                                 <input type="hidden" name="item_number" value="{{ $planData['MONETIZATION_GUID'] }}">
                                 <input type="hidden" name="amount" value="{{ $planData['AMOUNT'] }}">
                                 <input type="hidden" name="currency_code"
                                     value="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->payment_currency_code }}">
                                 <input type="hidden" name="return" value="{{ url('/monetization/success') }}">
                                 <input type="hidden" name="cancel_return" value="{{ url('/monetization/cancel') }}">
-                                @if (($planData['PLAN_TYPE'] ?? null) != 'T' && \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_paypal_payment_active == "true" && $planData['AMOUNT'] > 0)
+                                @if (
+                                    ($planData['PLAN_TYPE'] ?? null) != 'T' &&
+                                        \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_paypal_payment_active == 'true' &&
+                                        $planData['AMOUNT'] > 0)
                                     <button type="submit" class="btn paypal_btn"><i class="fa fa-paypal"
                                             aria-hidden="true"></i>
                                         Pay with Paypal</button>
@@ -360,7 +387,8 @@
                                 @else
                                     <button class="stripe-button mt-2" id="payButton">
                                         <div class="spinner hidden" id="spinner"></div>
-                                        <span id="buttonText"><i class="fa fa-cc-stripe" aria-hidden="true"></i> Pay with Credit
+                                        <span id="buttonText"><i class="fa fa-cc-stripe" aria-hidden="true"></i> Pay with
+                                            Credit
                                             Card</span>
                                     </button>
                                 @endif
@@ -383,7 +411,8 @@
         @if (env('STRIPE_TEST') === true)
             const stripe = Stripe('{{ env('STRIPE_PUB_KEY') }}');
         @else
-            const stripe = Stripe('{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_publish_key }}');
+            const stripe = Stripe(
+                '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_publish_key }}');
         @endif
 
         // Select payment button
@@ -394,6 +423,7 @@
             setLoading(true);
 
             createCheckoutSession().then(function(data) {
+                console.log(data);
                 if (data.sessionId) {
                     stripe.redirectToCheckout({
                         sessionId: data.sessionId,
@@ -409,7 +439,8 @@
             @if (env('STRIPE_TEST') === true)
                 let stripeSecret = '{{ env('STRIPE_SECRET_KEY') }}';
             @else
-                let stripeSecret = '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key }}';
+                let stripeSecret =
+                    '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key }}';
             @endif
             return fetch("{{ url('/stripe/checkout') }}", {
                 method: "POST",

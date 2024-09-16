@@ -1380,7 +1380,7 @@ section.sliders {
 .signForm .inner-cred .cred_form {
     max-width: unset !important;
     padding: 0px 45px;
-    background: #131722;
+    background: var(--bgcolor) !Important;
     margin: 20px auto 30px;
 
 }
