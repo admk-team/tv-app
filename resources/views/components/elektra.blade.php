@@ -8,8 +8,8 @@
 
 @section('content')
     <div class="our_storycard">
-        @if (isset($data->app->landingpages))
-            @foreach ($data->app->landingpages as $page)
+        @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+            @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                 @if ($page->page_type === 'Ele' && $page->section_type === 'banner' && $page->status === 1)
                     <div class="content_bgsnew"> <img
                             src="{{ $page->image ?? asset('assets/landing_theme_assets/netflix/images/backs.jpg') }}">
@@ -20,16 +20,17 @@
         @endif
 
         <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 shadow-sm">
-            {{--  <h5 class="my-0 mr-md-auto font-weight-normal text-white">{{ $data->app->app_info->app_name ?? '' }}</h5>
+            {{--  <h5 class="my-0 mr-md-auto font-weight-normal text-white">{{ \App\Services\AppConfig::get()->app->app_info->app_name ?? '' }}</h5>
               --}}
             <a class="my-0 mr-md-auto img-fluid" href="/home"><img alt="logo"
-                    src="{{ $data->app->app_info->website_logo ?? '' }}" width="100px" class="img-fluid" /></a>
+                    src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" width="100px"
+                    class="img-fluid" /></a>
             <a href="/home?browse=true" class="text-decoration-none text-white border-2 rounded-pill px-3">Browse
                 Content</a>
             <nav class="my-2 my-md-0 mr-md-3">
                 <a class="p-2 text-white" href="/login">Login</a>
             </nav>
-           @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+            @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                 <div class="dropdown dropdin">
                     <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>
                         <div class="userimg">{{ session('USER_DETAILS')['USER_NAME'][0] }}</div>
@@ -64,7 +65,7 @@
 
         <div class="position-relative overflow-hidden p-3 p-md-5 text-center">
             <div class="col-md-8 p-lg-8 mx-auto my-8">
-                @foreach ($data->app->landingpages as $page)
+                @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                     @if ($page->page_type === 'Ele' && $page->section_type === 'banner' && $page->status === 1)
                         <h1 class="display-4 unlimmited_headers">
                             {{ $page->title ?? '' }}</h1>
@@ -94,8 +95,8 @@
             <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
         </div>
     </div>
-    @if (isset($data->app->landingpages))
-        @foreach ($data->app->landingpages as $page)
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
             @if ($page->page_type === 'Ele' && $page->section_type === 'tv_section' && $page->status === 1)
                 <!-- First design for odd order -->
                 <div class="container">
@@ -167,9 +168,9 @@
     @endif
 
     <!-- Start FAQ-->
-    @if (isset($data->app->landingpages) &&
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages) &&
             array_reduce(
-                $data->app->landingpages,
+                \App\Services\AppConfig::get()->app->landingpages,
                 fn($carry, $item) => $carry || ($item->section_type === 'faq' && $item->page_type === 'Ele'),
                 false))
         <div class="d-flex justify-content-center">
@@ -177,7 +178,7 @@
                 <h1>Frequently Asked Questions</h1>
             </div>
         </div>
-        @foreach ($data->app->landingpages as $page)
+        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
             @if ($page->page_type === 'Ele' && $page->section_type === 'faq' && $page->status === 1)
                 <div class="accrodingin">
                     <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -206,8 +207,8 @@
         <div class="our_storycard"></div>
     @endif
 
-    @if (isset($data->app->landingpages))
-        @foreach ($data->app->landingpages as $page)
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
             @if ($page->page_type === 'Ele' && $page->section_type === 'membership' && $page->status === 1)
                 <div class="position-relative overflow-hidden p-3 p-md-5 text-center">
                     <div class="col-md-8 p-lg-8 mx-auto my-8">
@@ -340,7 +341,7 @@
     <div class="container-fluid footer_bottom">
         <div class="d-flex justify-content-between  p-2">
             <div class=" text-white-costum fs-14px">
-                © {{ $data->app->app_info->app_name ?? '' }}
+                © {{ \App\Services\AppConfig::get()->app->app_info->app_name ?? '' }}
                 {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
             <div class=" text-end text-white-costum">
                 @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)

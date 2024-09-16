@@ -8,8 +8,8 @@
     <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
     <meta property="og:image" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_image ?? '' }}" />
     <meta property="og:description" content="{!! strip_tags(\App\Services\AppConfig::get()->app->app_info->seo_description ?? '') !!}" />
-    <title>{{ $data->app->app_info->app_name ?? '' }}</title>
-    <link rel="icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
+    <title>{{ \App\Services\AppConfig::get()->app->app_info->app_name ?? '' }}</title>
+    <link rel="icon" href="{{ \App\Services\AppConfig::get()->app->app_info->website_faviocn ?? '' }}">
     <style>
         :root {
             --bgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }};
@@ -30,7 +30,7 @@
         .nav_btnlink {
             cursor: pointer;
         }
-    
+
         .userimg {
             width: 40px;
             height: 40px;
@@ -42,7 +42,7 @@
             text-align: center;
             background: var(--themeActiveColor);
         }
-    
+
         .dropdown_menus {
             position: absolute;
             top: 161%;
@@ -62,7 +62,7 @@
             border: 1px solid rgba(0, 0, 0, .15);
             border-radius: .25rem
         }
-    
+
         .avtartMenu {
             padding-bottom: 0 !important;
             padding-top: 0 !important;
@@ -74,12 +74,12 @@
             background-clip: unset !important;
             box-shadow: 0 1px 5px 0 rgb(0 0 0 / 22%);
         }
-    
+
         ul.profiledropin {
             padding: 0px 0px !important;
             margin: 0px 0px !important;
         }
-    
+
         ul.profiledropin li a {
             font-size: 14px;
             font-family: 'Noto Sans';
@@ -88,12 +88,12 @@
             width: 100%;
             color: black;
         }
-    
+
         ul.profiledropin li a:hover {
             background: var(--themeActiveColor);
             color: var(--themePrimaryTxtColor);
         }
-    
+
         .avtartMenu li a {
             font-size: 14px !important;
             text-transform: capitalize !important;

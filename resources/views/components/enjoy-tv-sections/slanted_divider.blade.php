@@ -7,11 +7,9 @@
     }
 
     .slanted_text_box {
-        background-image: linear-gradient(
-            rgba(4, 9, 30, 0.4),
-            var(--themeActiveColor) 100%,
-            rgb(246, 246, 246) 15%
-          );
+        background-image: linear-gradient(rgba(4, 9, 30, 0.4),
+                var(--themeActiveColor) 100%,
+                rgb(246, 246, 246) 15%);
         clip-path: polygon(0 25%, 100% 0, 100% 100%, 0 100%);
         padding: 4rem 0;
     }
@@ -22,8 +20,8 @@
             <div class="row">
                 <div class="col-md-6 p-0">
                     <div class="slanted_image_box">
-                        <img src="{{ $data->app->app_info->website_homescrn_poster ?? '' }}" alt="Feature Image"
-                            class="cover-image">
+                        <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_homescrn_poster ?? '' }}"
+                            alt="Feature Image" class="cover-image">
                     </div>
                 </div>
                 <div class="col-md-6 d-flex align-items-center slanted_text_box">
@@ -41,7 +39,8 @@
                             <span class="fire_tv"><img src="https://24flix.tv/assets/images/tizenapp.png"
                                     alt="Tizen"></span>
                         </div>
-                        <a href="/download-apps"><button class="detail_btn w-25  mb-3"><i class="fa fa-download"></i> Download
+                        <a href="/download-apps"><button class="detail_btn w-25  mb-3"><i class="fa fa-download"></i>
+                                Download
                                 Apps</button></a>
                     </div>
                 </div>
