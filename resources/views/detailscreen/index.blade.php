@@ -24,40 +24,40 @@
         $mType = "type='application/x-mpegURL'";
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-
+    
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-
+    
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
-
+    
     $stream_code = $stream_details['stream_guid'];
-
+    
     $postData = [
         'stream_code' => $stream_code,
     ];
-
+    
     // $ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
-
+    
     // curl_setopt($ch, CURLOPT_POST, 1);
     // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
+    
     // $response = curl_exec($ch);
-
+    
     // if (curl_errno($ch)) {
     //     die('Curl error: ' . curl_error($ch));
     // }
-
+    
     // curl_close($ch);
-
+    
     // $resultArray = json_decode($response, true);
-
+    
     // $userDidComment = false;
     // foreach ($resultArray as $review) {
     //     if (session('USER_DETAILS') && $review['user']['userCode'] === session('USER_DETAILS')['USER_CODE']) {
     //         $userDidComment = true;
     //     }
     // }
-
+    
     ?>
     <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
     <!-- <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> -->
@@ -372,7 +372,9 @@
                             <a href="javascript:void(0)"><i class="fa fa-share"></i></a>
                         </div>
                         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
-                            @if (!empty($stream_details['is_gift']) && $stream_details['is_gift'] == 1 &&
+                            @if (
+                                !empty($stream_details['is_gift']) &&
+                                    $stream_details['is_gift'] == 1 &&
                                     ($stream_details['monetization_type'] == 'P' || $stream_details['monetization_type'] == 'S'))
                                 <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#giftModal">
                                     <a href="javascript:void(0);"><i class="fa-solid fa-gift"></i></a>
@@ -456,7 +458,8 @@
                         @csrf
                         <div class="form-group">
                             <label for="recipient_email" class="btn text-black">Recipient's Email:</label>
-                            <input type="email" class="form-control text-black" id="recipient_email" name="recipient_email">
+                            <input type="email" class="form-control text-black" id="recipient_email"
+                                name="recipient_email">
                             @error('recipient_email')
                                 <div class="error">{{ $message }}</div>
                             @enderror
@@ -473,7 +476,7 @@
             <!-- Start of season section -->
             <?php
             $arrSeasonData = isset($seasons) ? $seasons['streams'] : null;
-
+            
             if (!empty($arrSeasonData)) {
                 // Display the Season tab if data is available
                 echo '<div class="tab active" data-tab="like"><span>Season</span></div>';
@@ -483,7 +486,10 @@
             }
             ?>
             <!--End of season section-->
-            @if (isset($stream_details['video_rating']) && $stream_details['video_rating'] === 'E')
+            @if (
+                (isset($stream_details['video_rating']) && $stream_details['video_rating'] === 'E') ||
+                    (isset(\App\Services\AppConfig::get()->app->app_info->global_rating_enable) &&
+                        \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1))
                 <div class="tab" data-tab="reviews"><span>Reviews</span></div>
             @endif
         </div>
@@ -581,7 +587,10 @@
                 </section>
             @endif
         </div>
-        @if (isset($stream_details['video_rating']) && $stream_details['video_rating'] === 'E')
+        @if (
+            (isset($stream_details['video_rating']) && $stream_details['video_rating'] === 'E') ||
+                (isset(\App\Services\AppConfig::get()->app->app_info->global_rating_enable) &&
+                    \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1))
             <div id="reviews" class="content d-none"><!--Start of Ratings section-->
                 <div class="item-ratings">
                     <h1 class="section-title">Reviews</h1>
@@ -602,7 +611,14 @@
                     @endphp
                     @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !$userDidComment && !$userDidComment)
                         {{-- Stars  --}}
-                        @if (isset($stream_details['rating_type']) && $stream_details['rating_type'] === 'stars')
+                        @if (
+                            (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
+                                $stream_details['rating_type'] === 'stars' &&
+                                $stream_details['video_rating'] === 'E') ||
+                                (isset(\App\Services\AppConfig::get()->app->app_info->global_rating_enable,
+                                        \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'stars'))
                             <div class="review-rating user-rating">
                                 <div class="star" data-rating="1" onclick="handleStarRating(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
@@ -670,7 +686,14 @@
                                     </svg>
                                 </div>
                             </div>
-                        @elseif (isset($stream_details['rating_type']) && $stream_details['rating_type'] === 'hearts')
+                        @elseif(
+                            (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
+                                $stream_details['rating_type'] === 'hearts' &&
+                                $stream_details['video_rating'] === 'E') ||
+                                (isset(\App\Services\AppConfig::get()->app->app_info->global_rating_enable,
+                                        \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'hearts'))
                             {{-- Hearts  --}}
                             <div class="review-rating user-rating">
                                 <div class="star" data-rating="1" onclick="handleStarRating(this)">
