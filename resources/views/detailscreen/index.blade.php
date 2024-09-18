@@ -615,8 +615,9 @@
                             (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
                                 $stream_details['rating_type'] === 'stars' &&
                                 $stream_details['video_rating'] === 'E') ||
-                                (isset(\App\Services\AppConfig::get()->app->app_info->global_rating_enable,
-                                        \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
+                                (isset(
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
                                     \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
                                     \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'stars'))
                             <div class="review-rating user-rating">
@@ -690,8 +691,9 @@
                             (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
                                 $stream_details['rating_type'] === 'hearts' &&
                                 $stream_details['video_rating'] === 'E') ||
-                                (isset(\App\Services\AppConfig::get()->app->app_info->global_rating_enable,
-                                        \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
+                                (isset(
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
                                     \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
                                     \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'hearts'))
                             {{-- Hearts  --}}
@@ -868,7 +870,15 @@
                             </div>
                             <div class="review-rating member">
 
-                                @if (isset($stream_details['rating_type']) && $stream_details['rating_type'] === 'stars')
+                                @if (
+                                    (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
+                                        $stream_details['rating_type'] === 'stars' &&
+                                        $stream_details['video_rating'] === 'E') ||
+                                        (isset(
+                                            \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
+                                            \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
+                                            \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
+                                            \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'stars'))
                                     @for ($i = 0; $i < $review['rating']; $i++)
                                         <div class="star active">
                                             <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
@@ -885,7 +895,15 @@
                                             </svg>
                                         </div>
                                     @endfor
-                                @elseif (isset($stream_details['rating_type']) && $stream_details['rating_type'] === 'hearts')
+                                @elseif(
+                                    (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
+                                        $stream_details['rating_type'] === 'hearts' &&
+                                        $stream_details['video_rating'] === 'E') ||
+                                        (isset(
+                                            \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
+                                            \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
+                                            \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
+                                            \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'hearts'))
                                     @for ($i = 0; $i < $review['rating']; $i++)
                                         <div class="star active">
                                             <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
