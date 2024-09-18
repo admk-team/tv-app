@@ -18,15 +18,24 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\PasswordUpdateController;
 use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChannelSubscribe;
+use App\Http\Controllers\ChannelSubscribeController;
+use App\Http\Controllers\GumletController;
+use App\Http\Controllers\FollowController;
+use App\Http\Controllers\GiftStreamController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QualityController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ScreenerController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\TvGuidePlayerController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\YearController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,6 +48,25 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+
+Route::get('/cmd/{cmd}', function ($cmd) {
+    Artisan::call("$cmd");
+    echo "<pre>";
+    return Artisan::output();
+});
+
+
+// Temporary landing page route
+Route::view('/new3', 'components.new3');
+Route::view('/lyra', 'components.damian');
+// Route::view('/new3', 'components.new3');
+
+Route::post('/video', [GumletController::class, 'uploadGumlet'])->name('video.convert');
+Route::get('video/download/{streamId}', [GumletController::class, 'download'])->middleware('throttle:3,1')->name('video.download');
+
+Route::get('/check-channel-status', [ChannelSubscribeController::class, 'checkSubscriptionStatus'])->name('check.subscription.status');
 
 // Authentication
 Route::get('signup', [RegisterController::class, 'index'])->name('register');
@@ -56,7 +84,7 @@ Route::post('forgot', [LoginController::class, 'forgotPassword'])->name('forgot'
 Route::middleware('auth.user')->group(function () {
     Route::match(['get', 'post'], 'monetization', [MonetizationController::class, 'index'])->name('monetization');
     Route::post('apply-coupon', [MonetizationController::class, 'applyCoupon'])->name('apply-coupon');
-    Route::get('monetization/success', [MonetizationController::class, 'success'])->name('monetization.success');
+    Route::match(['get', 'post'], 'monetization/success', [MonetizationController::class, 'success'])->name('monetization.success');
     Route::get('monetization/cancel', [MonetizationController::class, 'cancel'])->name('monetization.cancel');
     Route::post('stripe/checkout', [StripeController::class, 'checkout'])->name('stripe.checkout');
     Route::get('stripe/success', [StripeController::class, 'success'])->name('stripe.success');
@@ -67,13 +95,17 @@ Route::middleware('auth.user')->group(function () {
     Route::get('/view/profile/{id}', [ProfileController::class, 'view_profile'])->name('profile.view_profile');
     //watch history
     Route::get('watch/history', [ProfileController::class, 'history'])->name('watch.history');
+    //
+    Route::post('extra/video', [PlayerScreenController::class, 'extraVideo'])->name('extra-video');
+
 });
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');
 Route::get('detailscreen/{id}', [DetailScreenController::class, 'index'])->name('detailscreen');
 Route::get('page/{slug}', [PageController::class, 'index'])->name('page');
 Route::post('contact-us', [PageController::class, 'submit'])->name('contactus.submit');
-Route::get('playerscreen/{id}', [PlayerScreenController::class, 'index'])->name('playerscreen');
+Route::get('playerscreen/{id}', [PlayerScreenController::class, 'index'])->name('playerscreen'); // Main Player Screen
+Route::get('playerscreen/private/{id}', [PlayerScreenController::class, 'private'])->name('playerscreen.private'); // Player Screen for private videos
 Route::post('playerscreen-checkpassword', [PlayerScreenController::class, 'checkPassword'])->name('playerscreen.checkpassword');
 Route::post('playerscreen-checkscreenerpassword', [PlayerScreenController::class, 'checkScreenerPassword'])->name('playerscreen.checkscreenerpassword');
 Route::get('searchscreen', [SearchController::class, 'index'])->name('search');
@@ -88,6 +120,8 @@ Route::get('rating/{code}', [RatingController::class, 'index'])->name('rating');
 
 Route::get('advisory/{id}', [AdvisoryController::class, 'index'])->name('advisory');
 Route::get('language/{id}', [LanguageController::class, 'index'])->name('language');
+Route::get('tag/{id}', [TagController::class, 'index'])->name('tag');
+
 
 Route::get('person/{id?}', [PersonController::class, 'index'])->name('person');
 Route::post('addrating', [DetailScreenController::class, 'addRating'])->name('addrating');
@@ -96,6 +130,14 @@ Route::post('wishlist/toggle', [WishlistController::class, 'toggle'])->name('wis
 // Screener
 Route::get('screener/{code}/{itemIndex?}', [ScreenerController::class, 'player'])->name('screener.player');
 Route::post('screener/authenticate/{code}', [ScreenerController::class, 'authenticate'])->name('screener.authenticate');
+Route::get('/send-gift', [GiftStreamController::class, 'sendGift'])->name('send.gift');
 
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
 Route::get('/epgplayer/{channelGuid}/{slug}', [TvGuidePlayerController::class, 'index'])->name('player.tvguide');
+//Newsletter
+Route::post('newsletter', [NewsLetterController::class, 'newLetter'])->name('newsletter');
+
+Route::get('follow/{code?}', [FollowController::class, 'follow'])->name('toggle.follow');
+Route::post('channel/subscribe', [ChannelSubscribeController::class, 'toggleSubscribe'])->name('toggle.subscribe');
+
+Route::post('video/download', [GumletController::class, 'uploadGumlet'])->name('video.convert');

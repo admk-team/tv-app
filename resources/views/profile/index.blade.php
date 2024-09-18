@@ -5,13 +5,16 @@
         body {
             overflow-x: hidden;
         }
+        .text-c{
+            color:var(--themePrimaryTxtColor);
+        }
     </style>
 @endpush
 
 @section('content')
     <div class="all__profiles">
         <div class="whoIsWatching">
-            <h1 class="text-white text-center">Who's watching?</h1>
+            <h1 class="text-c text-center">Who's watching?</h1>
             <div class="memberDiv">
                 <button class="addIcon">
                     <span>Add Profile</span>
@@ -56,7 +59,7 @@
                                     <select name="content_rating[]" class="form-control app_code_select" id="content_rating"
                                         multiple="multiple"
                                         style="color: #000 !important; background-color: #fff !important; width:465px">
-                                        @foreach ($user_data['all_ratings'] as $rating)
+                                        @foreach (($user_data['all_ratings'] ?? []) as $rating)
                                             @if ($rating['title'])
                                                 <option value="{{ $rating['code'] }}">{{ $rating['title'] }}</option>
                                             @endif
@@ -95,7 +98,7 @@
             // Fetch user profiles from API
             $.ajax({
                 type: "GET",
-                url: '{{ env('API_BASE_URL') }}' + '/userprofiles/' +
+                url: '{{ env('API_BASE_URL') }}' + '/userprofiles?id=' +
                     '{{ session('USER_DETAILS')['USER_ID'] }}',
                 dataType: 'json',
             }).done(function(data) {

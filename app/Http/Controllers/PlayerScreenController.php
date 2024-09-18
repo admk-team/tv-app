@@ -12,8 +12,41 @@ class PlayerScreenController extends Controller
     public function index($id)
     {
         $xyz = base64_encode(request()->ip());
+        if (env('NO_IP_ADDRESS') === true) { // For localhost
+            $xyz = "MTU0LjE5Mi4xMzguMzY=";
+        }
+
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/getitemplayerdetail/{$id}?user_data={$xyz}"));
+        $data = $response->json();
+
+        if ($data['app']['stream_details'] === []) {
+            if ($data['geoerror'] ?? null) {
+                return view("page.movienotexist");
+            }
+            abort(404);
+        }
+        $limitWatchTime = $data['app']['app_info']['limit_watch_time'];
+        $watchTimeDuration = $data['app']['app_info']['watch_time_duration'];
+
+        return view("playerscreen.index", [
+            'arrRes' => $data,
+            'streamGuid' => $id,
+            'limitWatchTime' => $limitWatchTime,
+            'watchTimeDuration' => $watchTimeDuration,
+        ]);
+    }
+
+    public function private($id)
+    {
+        $xyz = base64_encode(request()->ip());
+        if (env('NO_IP_ADDRESS') === true) { // For localhost
+            $xyz = "MTU0LjE5Mi4xMzguMzY=";
+        }
+
+        $response = Http::timeout(300)->withHeaders(Api::headers())
+            ->get(Api::endpoint("/getprivateitemplayerdetail/{$id}?user_data={$xyz}"));
+
         $data = $response->json();
         if ($data['app']['stream_details'] === []) {
             if ($data['geoerror'] ?? null) {
@@ -21,7 +54,16 @@ class PlayerScreenController extends Controller
             }
             abort(404);
         }
-        return view("playerscreen.index", ['arrRes' => $data, 'streamGuid' => $id]);
+
+        $limitWatchTime = $data['app']['app_info']['limit_watch_time'];
+        $watchTimeDuration = $data['app']['app_info']['watch_time_duration'];
+
+        return view("playerscreen.private", [
+            'arrRes' => $data,
+            'streamGuid' => $id,
+            'limitWatchTime' => $limitWatchTime,
+            'watchTimeDuration' => $watchTimeDuration,
+        ]);
     }
 
     public function checkPassword(Request $request)
@@ -60,5 +102,17 @@ class PlayerScreenController extends Controller
         }
         header("Location: " . $request->fullUrl);
         die();
+    }
+
+    public function extraVideo(Request $request)
+    {
+        // Retrieve video data from the request body
+        $playbackUrl = $request->input('playback_url');
+        $thumbnail = $request->input('thumbnail');
+        $title = $request->input('title');
+        $description = $request->input('description');
+    
+        // Pass variables to the view
+        return view('playerscreen.extra_video', compact('playbackUrl', 'thumbnail', 'title', 'description'));
     }
 }

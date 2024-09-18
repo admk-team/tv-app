@@ -1,5 +1,5 @@
  body{
-	background: #000;
+	background: var(--bgcolor);
  }
 
 
@@ -16,13 +16,13 @@
     font-size: 3.125rem;
     margin-bottom: 25px;
     text-transform: capitalize;
-    color: #fff;
+    color: var(--themePrimaryTxtColor);
     font-weight: 600;
 }
 
 .leftinpars p {
     font-size: 22px;
-    color: #eee;
+    color: var(--themePrimaryTxtColor);
     text-transform: capitalize;
 }
 .rightinpars {
@@ -67,14 +67,22 @@
 }
 .our_storycard {
     background: transparent;
-    border-bottom: 8px solid #222;
-    color: #fff;
+    border-bottom: 8px solid var(--themeActiveColor);
+    color: var(--themePrimaryTxtColor);
     margin-bottom: 0;
     padding: 10px 5% 50px;
     position: relative;
 }
 .btn_dangin {
     font-size: 1.625rem;
+    color: var(--themePrimaryTxtColor);
+    background-color: var(--themeActiveColor);
+    border-color: var(--themeActiveColor);
+}
+.btn_signup {
+    color: var(--themePrimaryTxtColor);
+    background-color: var(--themeActiveColor);
+    border-color: var(--themeActiveColor);
 }
 .customins {
     height: auto;
@@ -92,14 +100,14 @@
     top: 0;
 }
 .faq_question {
-    border: 0;
+    border: 0.5px solid var(--themeActiveColor);
     font-weight: 400;
     margin-bottom: 1px;
     padding: 0.8em 2.2em 0.8em 1.2em;
     position: relative;
     width: 100%;
-    background: #303030;
-    color: #fff;
+    background: var(--bgcolor);
+    color: var(--themePrimaryTxtColor);
     text-align: left;
     display: block;
 }
@@ -108,7 +116,7 @@
     width: 75%;
 }
 .faq_question .svg-icon-thin-x {
-    fill: #fff;
+    fill: var(--themePrimaryTxtColor);
     height: 1em;
     position: absolute;
     right: 1em;
@@ -122,7 +130,7 @@
     padding: 1.2em;
     font-size: 1.625rem;
     font-weight: 400;
-    color: #fff;
+    color: var(--themePrimaryTxtColor);
 }
 ul.footerinlinst li, ul.footerinlinst {
     list-style-type: none;
@@ -130,7 +138,7 @@ ul.footerinlinst li, ul.footerinlinst {
     margin: 0px 0px;
 }
 ul.footerinlinst li a {
-    color: #737373;
+    color: var(--themePrimaryTxtColor);
     box-sizing: border-box;
     display: inline-block;
     margin-bottom: 16px;
@@ -139,12 +147,15 @@ ul.footerinlinst li a {
     vertical-align: top;
 }
 .demonsson {
-    color: #737373;
+    color: var(--themePrimaryTxtColor);
     font-size: 1em;
     margin-left:15px;
     margin-bottom: 30px;
 }
-
+.membertttiltes {
+    font-size: 1.2rem;
+    color:  var(--themePrimaryTxtColor);
+}
 @media (max-width: 949px) {
     .leadinsttiltes, .leftinpars h1 {
         font-size: 2.5rem;

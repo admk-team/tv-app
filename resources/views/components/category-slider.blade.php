@@ -55,7 +55,7 @@
                         <div class="list_heading">
                             <h1>{{ $category->cat_title ?? '' }}</h1>
                         </div>
-                        @if (!in_array($category->cat_title, ['New Release', 'Top 10', 'Trending', 'Continue Watching']))
+                        @if (($category->is_show_view_more ?? 'N') === 'Y')
                             <div class="list_change_btn"><a href="{{ route('category', $category->cat_guid) }}">View
                                     All</a></div>
                         @endif
@@ -73,31 +73,87 @@
                             @endphp
                             <div class="item">
                                 <div class="{{ $cartMainSubCls }}">
-                                    @if ($category->cat_title == 'Top 10')
+                                    @if (($category->is_top10 ?? null) === 'Y')
                                         <a href="{{ $url }}">
                                             <div class="d-flex cursor-pointer position-relative">
                                                 <a class="top-10-slider-wrapper" href="{{ $url }}"></a>
                                                 <a class="top-10-slider-number">{{ $loop->iteration }}</a>
                                                 <div class="{{ $cardThumbCls2 }}">
-                                                    <div class="trending_icon_box" {!! $stream->monetization_type == 'F' ? 'style="display: none;"' : '' !!}><img
+                                                    {{-- <div class="trending_icon_box" {!! $stream->monetization_type == 'F' ? 'style="display: none;"' : '' !!}><img
                                                             src="{{ url('/') }}/assets/images/trending_icon.png"
                                                             alt="Trending">
-                                                    </div>
+                                                    </div> --}}
+
+                                                    {{-- Premium Icon And Content Label --}}
+                                                    @if (!in_array($category->card_type, ['BA', 'LB']))
+                                                        <div class="trending_icon_box">
+                                                            @if ($stream->premium_icon ?? null)
+                                                                @php
+                                                                    $premium_icon = json_decode(
+                                                                        $stream->premium_icon,
+                                                                        true,
+                                                                    );
+                                                                @endphp
+                                                                @if ($premium_icon['type'] === 'html')
+                                                                    <div class="svg">
+                                                                        {!! $premium_icon['icon'] !!}
+                                                                    </div>
+                                                                @else
+                                                                    <img src="{{ $premium_icon['icon'] }}"
+                                                                        alt="icon">
+                                                                @endif
+                                                                {{-- @else
+                                                                @if (($stream->monetization_type ?? 'F') !== 'F')
+                                                                    <img
+                                                                    src="{{ url('/') }}/assets/images/trending_icon.png"
+                                                                    alt="Trending">
+                                                                @endif --}}
+                                                            @endif
+                                                        </div>
+                                                        @if ($stream->stream_type == 'A')
+                                                            @if (isset($stream->label_ad) && $stream->label_ad !== null)
+                                                                <div class="content-label"
+                                                                    style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                                    {{ $stream->label_ad }}
+                                                                </div>
+                                                            @endif
+                                                        @else
+                                                            @if (!($stream->premium_icon ?? null))
+                                                                @if (
+                                                                    (($stream->label_free ?? null) && $stream->monetization_type === 'F') ||
+                                                                        (($stream->label_premium ?? null) && $stream->monetization_type !== 'F'))
+                                                                    <div class="content-label"
+                                                                        style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                                        @if ($stream->monetization_type === 'F')
+                                                                            {{ $stream->label_free }}
+                                                                        @else
+                                                                            {{ $stream->label_premium }}
+                                                                        @endif
+                                                                    </div>
+                                                                @endif
+                                                            @endif
+                                                        @endif
+                                                    @endif
+
                                                     <div class="{{ $cardThumbCls }}">
                                                         <img src="{{ $stream->{$streamPosterKey} }}"
                                                             alt="{{ $stream->stream_title }}">
                                                     </div>
                                                     <div class="detail_box_hide">
-                                                        <div class="detailbox_time">
-                                                            {{ $stream->stream_duration_timeformat ?? '' }}
-                                                        </div>
+                                                        @if ($stream->stream_duration_timeformat !== '00:00')
+                                                            <div class="detailbox_time">
+                                                                {{ $stream->stream_duration_timeformat ?? '' }}
+                                                            </div>
+                                                        @endif
                                                         <div class="deta_box">
                                                             <div class="season_title"></div>
                                                             <div class="content_title">{{ $stream->stream_title }}
                                                             </div>
-                                                            <div class="content_description">
-                                                                {{ $stream->stream_description }}
-                                                            </div>
+                                                            @if ($stream->stream_description)
+                                                                <div class="content_description">
+                                                                    {{ $stream->stream_description }}
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -106,27 +162,86 @@
                                     @else
                                         <a href="{{ $url }}">
                                             <div class="{{ $cardThumbCls2 }}">
-                                                <div class="trending_icon_box" {!! $stream->monetization_type == 'F' ? 'style="display: none;"' : '' !!}><img
+                                                {{-- <div class="trending_icon_box" {!! (!$stream->monetization_type || $stream->monetization_type == 'F') ? 'style="display: none;"' : '' !!}><img
                                                         src="{{ url('/') }}/assets/images/trending_icon.png"
                                                         alt="Trending">
-                                                </div>
+                                                </div> --}}
+
+                                                {{-- Premium Icon And Content Label --}}
+                                                @if (!in_array($category->card_type, ['BA', 'LB']))
+                                                    <div class="trending_icon_box">
+                                                        @if ($stream->premium_icon ?? null)
+                                                            @php
+                                                                $premium_icon = json_decode(
+                                                                    $stream->premium_icon,
+                                                                    true,
+                                                                );
+                                                            @endphp
+                                                            @if ($premium_icon['type'] === 'html')
+                                                                <div class="svg">
+                                                                    {!! $premium_icon['icon'] !!}
+                                                                </div>
+                                                            @else
+                                                                <img src="{{ $premium_icon['icon'] }}" alt="icon">
+                                                            @endif
+                                                            {{-- @else
+                                                            @if (($stream->monetization_type ?? 'F') !== 'F')
+                                                                <img
+                                                                src="{{ url('/') }}/assets/images/trending_icon.png"
+                                                                alt="Trending">
+                                                            @endif --}}
+                                                        @endif
+                                                    </div>
+                                                    @if ($stream->stream_type == 'A')
+                                                        @if (isset($stream->label_ad) && $stream->label_ad !== null)
+                                                            <div class="content-label"
+                                                                style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                                {{ $stream->label_ad }}
+                                                            </div>
+                                                        @endif
+                                                    @else
+                                                        @if (!($stream->premium_icon ?? null))
+                                                            @if (
+                                                                (($stream->label_free ?? null) && $stream->monetization_type === 'F') ||
+                                                                    (($stream->label_premium ?? null) && $stream->monetization_type !== 'F'))
+                                                                <div class="content-label"
+                                                                    style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                                    @if ($stream->monetization_type === 'F')
+                                                                        {{ $stream->label_free }}
+                                                                    @else
+                                                                        {{ $stream->label_premium }}
+                                                                    @endif
+                                                                </div>
+                                                            @endif
+                                                        @endif
+                                                    @endif
+                                                @endif
+
+                                                @if (($stream->is_newly_added ?? 'N') === 'Y')
+                                                    <div class="newly-added-label">
+                                                        <span>New Episode</span>
+                                                    </div>
+                                                @endif
                                                 <div class="{{ $cardThumbCls }}">
                                                     <img src="{{ $stream->{$streamPosterKey} }}"
                                                         alt="{{ $stream->stream_title }}">
                                                 </div>
                                                 <div class="detail_box_hide">
-                                                    <div class="detailbox_time">
-                                                        {{ $stream->stream_duration_timeformat ?? '' }}
-                                                    </div>
+                                                    @if ($stream->stream_duration_timeformat !== '00:00')
+                                                        <div class="detailbox_time">
+                                                            {{ $stream->stream_duration_timeformat ?? '' }}
+                                                        </div>
+                                                    @endif
                                                     <div class="deta_box">
                                                         <div class="season_title">
                                                             {{ $stream?->stream_episode_title && $stream?->stream_episode_title !== 'NULL' ? $stream?->stream_episode_title : '' }}
                                                         </div>
                                                         <div class="content_title">{{ $stream->stream_title }}</div>
-                                                        <div class="content_description">
-                                                            {{ $stream->stream_description }}
-                                                        </div>
-
+                                                        @if ($stream->stream_description)
+                                                            <div class="content_description">
+                                                                {{ $stream->stream_description }}
+                                                            </div>
+                                                        @endif
                                                         @if ($stream->stream_watched_dur_in_pct > 1)
                                                             {{-- <div style="background-color:{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->tv_cw_unflled_color }};height:5px; border-radius:2px;margin-top:10px;">
                                                                     <div style="background-color:{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->tv_cw_flled_color }};height:5px;border-radius:2px;width:{{ $arrStreamsData['stream_watched_dur_in_pct']}}%"></div>

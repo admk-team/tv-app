@@ -50,8 +50,8 @@
                                 <div class="input_groupbox">
                                     <label class="contact-label">
                                         <div class="vertLine"></div>
-                                        <input id="email" type="email" class="form-control " placeholder="Email"
-                                            name="email" value="" autocomplete="email" autofocus="">
+                                        <input id="email" type="email" class="form-control" placeholder="Email" name="email" value="{{ old('email') ?? (isset($data) && isset($data['email']) ? $data['email'] : '') }}" autocomplete="email" autofocus>
+
                                         <img src="{{ asset('assets/images/mail.png') }}" class="icn mll">
                                     </label>
                                     @error('email')

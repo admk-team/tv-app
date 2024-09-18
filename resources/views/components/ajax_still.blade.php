@@ -1,21 +1,10 @@
-<!DOCTYPE html>
-<html>
+@extends('components.layouts.landingpage_layout')
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ $data->app->app_info->app_name ?? '' }}</title>
-    <link rel="icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <meta name="robots" content="index,follow">
+@section('head')
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/mean/css/style.css') }}">
-
     <!-- font -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
         integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
@@ -25,22 +14,54 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/landing_theme_assets/mean/css/style.css') }}">
+@endsection
 
-</head>
-
-<body>
+@section('content')
     <!-- Navigation Start  -->
     <nav class="navbar navbar-expand-lg bg-transparent fixed-top border-bottom-0">
         <div class="container-fluid">
             <a class="navbar-brand img-fluid" href="/home"><img alt="logo"
                     src="{{ $data->app->app_info->website_logo ?? '' }}" width="100px" class="img-fluid" /></a>
+            <a href="/home?browse=true" class="text-decoration-none text-white-costum border-2">Browse Content</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon text-white"></span>
+                <span class="navbar-toggler-icon text-white-costum"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto">
-                    <a class="btn btn-primary px-3 mx-2" href="/signin">Sign In</a>
+                   @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                        <div class="dropdown dropdin">
+                            <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>
+                                <div class="userimg">{{ session('USER_DETAILS')['USER_NAME'][0] }}</div>
+                            </div>
+                            <ul class="dropdown_menus profiledropin avtartMenu" style="display: none;">
+                                <li style="display: none;"><a href="update-profile.php"><span
+                                            class="userno">user-26</span></a></li>
+                                <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a>
+                                </li>
+                                <li><a class="text-decoration-none"
+                                        href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
+                                        Profiles</a></li>
+                                {{-- <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
+                        History</a></li> --}}
+                                <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
+                                        Password</a>
+                                </li>
+                                @if (\App\Services\AppConfig::get()->app->app_info->watch_history === 1)
+                                    <li><a class="text-decoration-none" href="{{ route('watch.history') }}">Watch
+                                            History</a>
+                                    </li>
+                                @endif
+                                <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
+                            </ul>
+                        </div>
+                    @else
+                        <a class="text-white-costum btn btn-primary px-4 me-2" href="/login">Sign In </a>
+                        @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
+                            <a class="text-white-costum btn btn-primary px-4" href="/signup">Sign Up</a>
+                        @endif
+                    @endif
                 </div>
             </div>
         </div>
@@ -58,231 +79,208 @@
                         </video>
                         <div class="carousel-caption d-none d-md-block">
                             <h5>First slide label</h5>
-                            <p>
+                            <p class="text-white-costum">
                                 Nulla vitae elit libero, a pharetra augue mollis interdum.
                             </p>
-                            <a class="btn btn-primary px-3 mx-2" href="#">Sign Up</a>
+                            <a class="btn btn-primary px-4 me-2" href="/login">Sign In </a>
+                            @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
+                                <a class="text-white-costum btn btn-primary px-4" href="/signup">Sign Up</a>
+                            @endif
                         </div>
                     </div>
                 </div>
                 <!-- <div class="carousel-item">
-                    <div class="bg-crimsonblack">
-                        <video poster="poster.jpg" autoplay playsinline muted loop>
-                            <source src="videos/homepage-video2.mp4" type="video/mp4">
-                        </video>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Second slide label</h5>
-                            <p>
-                                Nulla vitae elit libero, a pharetra augue mollis interdum.
-                            </p>
+                        <div class="bg-crimsonblack">
+                            <video poster="poster.jpg" autoplay playsinline muted loop>
+                                <source src="videos/homepage-video2.mp4" type="video/mp4">
+                            </video>
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Second slide label</h5>
+                                <p class="text-white-costum">
+                                    Nulla vitae elit libero, a pharetra augue mollis interdum.
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </div> -->
+                    </div> -->
             </div>
             <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button> -->
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button> -->
         </div>
     </section>
-    <section>
-        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
-            @if ($page->page_type === 'AJS' && $page->section_type === 'banner' && $page->status === 1)
-                <img src="{{ $page->image ?? asset('assets/landing_theme_assets/mean/images/slider.png') }}"
-                    class="img-fluid" style="width: 100%; height: 500px;">
-            @endif
-        @endforeach
+    <section style="position: relative;">
+        @if (isset($data->app->landingpages))
+            @foreach ($data->app->landingpages as $page)
+                @if ($page->page_type === 'AJS' && $page->section_type === 'banner')
+                    <div style="position: relative;">
+                        <img src="{{ $page->image ?? '' }}" class="img-fluid" style="width: 100%; height: 500px;">
+                        @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
+                            <a class="btn btn-primary px-3 mx-2" href="/signup"
+                                style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">Sign
+                                Up</a>
+                        @endif
+                    </div>
+                @endif
+            @endforeach
     </section>
+
     <!-- Main Slider Section End -->
-    @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
-        @if ($page->page_type === 'AJS' && $page->section_type === 'section' && $page->status === 1 && $page->order === 1)
+    @foreach ($data->app->landingpages as $page)
+        @if ($page->page_type === 'AJS' && $page->section_type === 'tv_section')
             <section class="bg-black our-story-card">
                 <div class="container py-3">
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <h3 class="fw-bold text-white">{{ $page->title ?? 'Enjoy on your TV.' }}</h3>
-                            <h4 class="text-white">
-                                {{ $page->description ?? 'Watch on smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray players and more.' }}
-                            </h4>
+                            <h2 class="fw-bold text-white-costum">{{ $page->title ?? '' }}</h2>
+                            <h5 class="text-white-costum">
+                                {{ $page->description ?? '' }}
+                            </h5>
                         </div>
                         <div class="col-md-6">
                             <div class="position-relative">
-                                <img src="  {{ asset('assets/landing_theme_assets/mean/images/tv.png') }}"
-                                    class="img-fluid">
-                                <img src=" {{ $page->image }}" class="img-fluid tv-image">
+                                {{--  <img src="  {{ asset('assets/landing_theme_assets/mean/images/tv.png') }}"
+                                class="img-fluid">  --}}
+                                <img src=" {{ $page->image }}" class="img-fluid">
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
         @endif
-        @if ($page->page_type === 'AJS' && $page->section_type === 'section' && $page->status === 1 && $page->order === 2)
-        <section class="bg-black our-story-card">
-            <div class="container py-5">
-                <div class="row align-items-center">
-                    <div class="col-md-6 text-center">
-                        <div class="position-relative">
-                            <img src=" {{ $page->image }}" class="img-fluid">
+        @if ($page->page_type === 'AJS' && $page->section_type === 'tablet_section')
+            <section class="bg-black our-story-card">
+                <div class="container py-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 text-center">
+                            <div class="position-relative">
+                                <img src=" {{ $page->image }}" class="img-fluid">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h2 class="fw-bold text-white-costum">{{ $page->title ?? '' }}</h2>
+                            <h5 class="text-white-costum">
+                                {{ $page->description ?? '' }}
+                            </h5>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <h3 class="fw-bold text-white">{{ $page->title ?? 'Continue Watching & Favorites' }}</h3>
-                        <h4 class="text-white">
-                            {{ $page->description ??
-                                '    Continue watching exactly where you stopped and save your favorite fitness classes to watch later.' }}
-                        </h4>
-                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
         @endif
-        @if ($page->page_type === 'AJS' && $page->section_type === 'section' && $page->status === 1 && $page->order === 3)
-        <section class="bg-black our-story-card">
-            <div class="container py-5">
-                <div class="row align-items-center">
-                    <div class="col-md-6">
-                        <h3 class="fw-bold text-white">{{ $page->title ?? 'Enjoy On Your TV And Mobile' }}Enjoy On Your TV And Mobile</h3>
-                        <h4 class="text-white">
-                            {{ $page->description ??
-                                '   Access to thousands of fitness classes and videos right on your phone, table, TV or PC' }}
-                           
-                        </h4>
-    
-                        <ul class="list-unstyled d-flex flex-wrap fs-5 text-secondary mt-3">
-                            <li>Watch Now: </li>
-    
-                            <li><img src="  {{ asset('assets/landing_theme_assets/mean/images/roku_icon.png') }}"
-                                    width="50"> </li>
-                            <li><img src="   {{ asset('assets/landing_theme_assets/mean/images/firetv_icon.png') }}"
-                                    width="50"></li>
-                            <li><img src="  {{ asset('assets/landing_theme_assets/mean/images/appletv.png') }}"
-                                    width="50"></li>
-                            <li><img src=" {{ asset('assets/landing_theme_assets/mean/images/tizenapp.png') }}"
-                                    width="50"></li>
-                        </ul>
-                        <button class="btn btn-primary">Download Now</button>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="position-relative">
-                            <img src="{{ $page->image }}"
-                                class="img-fluid">
+        @endforeach
+        @foreach ($data->app->landingpages as $page)
+        @if ($page->page_type === 'AJS' && $page->section_type === 'desktop_section')
+            <section class="bg-black our-story-card">
+                <div class="container py-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h2 class="fw-bold text-white-costum">{{ $page->title ?? '' }}</h2>
+                            <h5 class="text-white-costum">
+                                {{ $page->description ?? '' }}
+                            </h5>
+                            @endif
+                            @endforeach
+                            @foreach ($data->app->landingpages as $page)
+                            @if ($page->page_type === 'AJS' && $page->section_type === 'watch_now')
+                                <ul class="list-unstyled d-flex flex-wrap fs-5 text-secondary mt-3">
+                                    <li>{{ $page->title ?? '' }}</li>
+                                    @foreach (explode(',', $page->icon) as $iconUrl)
+                                        <li><img src="{{ $iconUrl }}" width="50"> </li>
+                                    @endforeach
+                                </ul>
+                                <a href="/download-apps"><button class="btn btn-primary">Download Now</button></a>
+                                @endif
+                                @endforeach
+                                @foreach ($data->app->landingpages as $page)
+                            @if ($page->page_type === 'AJS' && $page->section_type === 'tablet_section')
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative">
+                                <img src="{{ $page->image }}" class="img-fluid">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
         @endif
     @endforeach
+    @endif
 
-    <section class="bg-black our-story-card" style="display:none;">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <h1 class="text-center mb-5">Frequently Asked Questions</h1>
-                    <div class="accordion" id="accordionExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button fs-5 fw-bold" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true"
-                                    aria-controls="collapseOne">
-                                    What is hadassah TV?
-                                </button>
-                            </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse show"
-                                aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in felis
-                                    dignissim, imperdiet nulla vitae, condimentum nulla. Ut scelerisque a nisl
-                                    sit amet
-                                    facilisis. Etiam blandit iaculis tellus, vitae condimentum leo congue a.
-                                    Vivamus in
-                                    vehicula massa. Pellentesque libero libero, commodo lacinia volutpat non,
-                                    tincidunt
-                                    at lectus. Maecenas ipsum turpis, viverra vitae lacus eu, fringilla
-                                    ultricies erat.
-                                    Aenean hendrerit maximus sodales.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingTwo">
-                                <button class="accordion-button collapsed fs-5 fw-bold" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
-                                    aria-controls="collapseTwo">
-                                    Where can i watch?
-                                </button>
-                            </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Quisque sapien augue, ornare id leo a, tristique elementum justo. Praesent
-                                    non nulla
-                                    sagittis, sollicitudin justo id, varius erat. Nunc sed pharetra nisl. Cras
-                                    et
-                                    suscipit felis, in lacinia sapien. Integer venenatis sagittis massa, eu
-                                    eleifend
-                                    nibh venenatis in. Pellentesque a aliquet urna. Curabitur tortor metus,
-                                    ultrices sed
-                                    mi at, sagittis imperdiet turpis. Suspendisse nec luctus nunc. Fusce in arcu
-                                    quis
-                                    lacus mollis ultrices.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingThree">
-                                <button class="accordion-button collapsed fs-5 fw-bold" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
-                                    aria-controls="collapseThree">
-                                    How do i cancel?
-                                </button>
-                            </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse"
-                                aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Praesent nec ipsum scelerisque dui condimentum pellentesque eu at lectus.
-                                    Vivamus
-                                    purus purus, bibendum in vestibulum ac, pharetra sit amet sapien. Nunc
-                                    luctus, orci
-                                    vel luctus cursus, nibh nisl ullamcorper ipsum, eu malesuada arcu augue id
-                                    nisi. In
-                                    auctor mi ac ante tincidunt tincidunt.
-                                </div>
-                            </div>
+    <!-- Section: FAQ -->
+    @if (isset($data->app->landingpages) &&
+            array_reduce(
+                $data->app->landingpages,
+                fn($carry, $item) => $carry || ($item->section_type === 'faq' && $item->page_type === 'AJS'),
+                false))
+        <section class="bg-black our-story-card">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <h1 class="text-center mb-5">Frequently Asked Questions</h1>
+                        <div class="accordion" id="accordionExample">
+                            @foreach ($data->app->landingpages as $page)
+                                @if ($page->page_type === 'AJS' && $page->section_type === 'faq' && $page->status === 1)
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button fs-5 fw-bold" type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#collapseOne{{ $loop->index }}" aria-expanded="true"
+                                                aria-controls="collapseOne{{ $loop->index }}">
+                                                {{ $page->title ?? '' }}
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne{{ $loop->index }}" class="accordion-collapse collapse"
+                                            aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                {{ $page->description ?? '' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    </section>
-    <!-- Footer -->
+        </section>
+    @endif
 
-    <!-- Section: Social media -->
-    <section class="bg-black our-story-card py-1">
-        <div class="container">
-            <div class="row justify-content-center p-4">
-                <div class="col-12 col-md-8 col-xl-8 text-center">
-                    <h5 class="text-white mb-3">
-                        Ready to watch? Enter your email to create or restart your membership.
-                    </h5>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control p-3" placeholder="Recipient's username"
-                            aria-label="Recipient's username" aria-describedby="button-addon2">
-                        <button class="btn btn-primary p-3" type="button" id="button-addon2">Get
-                            Started</button>
+    @if (isset($data->app->landingpages))
+        @foreach ($data->app->landingpages as $page)
+            @if ($page->page_type === 'AJS' && $page->section_type === 'membership' && $page->status === 1)
+                <!-- Section: Social media -->
+                <section class="bg-black our-story-card py-1">
+                    <div class="container">
+                        <div class="row justify-content-center p-4">
+                            <div class="col-12 col-md-8 col-xl-8 text-center">
+                                <h5 class="text-white-costum mb-3">
+                                    {{ $page->description ?? '' }}
+                                </h5>
+                                <form id="form">
+                                    <div class="input-group mb-3">
+                                        <input type="email" name="email" id="email" class="form-control p-3"
+                                            placeholder="Email Address" aria-label="Recipient's username"
+                                            aria-describedby="button-addon2">
+                                        <button class="btn btn-primary p-3" type="button" id="submit">Get
+                                            Started</button>
+                                    </div>
+                                    <span class="text-danger email-error"></span> <!-- Error message span -->
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <!-- Right -->
-    </section>
+                </section>
+            @endif
+        @endforeach
+    @endif
+
     <!-- Footer -->
 
     <!-- Section: Links  -->
@@ -293,14 +291,13 @@
                 <!-- Grid column -->
                 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
                     <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4 text-white">
+                    <h6 class="text-uppercase fw-bold mb-4 text-white-costum">
                         Get to Know Us
                     </h6>
                     @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                        @if ($page->displayOn == 'F')
-                            <p>
-                                <a class="text-reset"
-                                    href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
+                        @if ($page->displayOn === 'F' || $page->displayOn === 'B')
+                            <p class="text-white-costum">
+                                <a class="text-reset" href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
                             </p>
                         @endif
                     @endforeach
@@ -311,11 +308,11 @@
                 <!-- Grid column -->
                 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
                     <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4 text-white">
+                    <h6 class="text-uppercase fw-bold mb-4 text-white-costum">
                         Top Categories
                     </h6>
                     @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
-                        <p>
+                        <p class="text-white-costum">
                             <a class="text-reset"
                                 href="{{ route('category', $category->cat_guid) }}">{{ $category->cat_title }}</a>
                         </p>
@@ -325,17 +322,19 @@
                 <!-- Grid column -->
                 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
                     <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4 text-white">
+                    <h6 class="text-uppercase fw-bold mb-4 text-white-costum">
                         Let Us Help You
                     </h6>
-                    <p>
-                        <a href="/signin" class="text-reset">Login</a>
+                    <p class="text-white-costum">
+                        <a href="/login" class="text-reset">Login</a>
                     </p>
-                    <p>
-                        <a href="/signup" class="text-reset">Register</a>
-                    </p>
-                    <p>
-                        <a href="javascript:void(0)" class="text-reset">Download Apps</a>
+                    @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
+                        <p class="text-white-costum">
+                            <a href="/signup" class="text-reset">Register</a>
+                        </p>
+                    @endif
+                    <p class="text-white-costum">
+                        <a href="/download-apps" class="text-reset">Download Apps</a>
                     </p>
                 </div>
                 <!-- Grid column -->
@@ -347,17 +346,21 @@
     <!-- Copyright -->
     <div class="container-fluid footer_bottom">
         <div class="row justify-content-sm-center justify-content-md-between p-2">
-            <div class="col-md-6 text-white fs-14px">
+            <div class="col-md-6 text-white-costum fs-14px">
                 © {{ $data->app->app_info->app_name ?? '' }}
                 {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
-            <div class="col-md-6 text-end text-white">
+            <div class="col-md-6 text-end text-white-costum">
+                @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
+                     <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset"  style="text-decoration:none !important; ">
+                        <img src="{{ $link->icon }} " style="width: 30px;">
+                    </a>
+                @endforeach
+                {{--  <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">
+                <i class="fab fa-youtube"></i>
+            </a>
 
-                <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">
-                    <i class="fab fa-youtube"></i>
-                </a>
-
-                <a href="Facebook.com/24flix" target="_blank" class="me-4 text-reset">
-                    <i class="fab fa-facebook-f"></i>
+            <a href="Facebook.com/24flix" target="_blank" class="me-4 text-reset">
+                <i class="fab fa-facebook-f"></i>  --}}
                 </a>
             </div>
         </div>
@@ -366,12 +369,12 @@
     </footer>
     <!-- Footer -->
 
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+@endsection
+@section('scripts')
+    @include('components.includes.script1')
+    <script>
+        function dropdownHandle(e) {
+            $(`.profiledropin:eq(${$(e).data('index')})`).slideToggle();
+        }
     </script>
-
-</body>
-
-</html>
+@endsection

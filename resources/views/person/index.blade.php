@@ -29,7 +29,7 @@
                 <div class="d-flex row">
                     <div class=" col-12 col-md-4 d-flex col-lg-4">
                         @if ($data['poster'] != '')
-                            <img class="" src="{{ env('BASE_URL') . '/storage/' . $data['poster'] }}" class="actor-img"
+                            <img class="" src="{{ $data['poster'] }}" class="actor-img"
                                 width="400px" height="400px"alt="none">
                         @else
                             <img class="w-100 actor-img" src="{{ asset('assets/images/default.png') }}" alt="none">
@@ -40,9 +40,19 @@
                         <h1 class="text-white">
                             {{ $data['name'] }}
                         </h1>
+                       @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                            @if ($follows)
+                                <div class="d-inline-block mt-3 mb-3">
+                                    <a href="{{ route('toggle.follow', $data['code']) }}" class="auth app-secondary-btn rounded">Unfollow</a>
+                                </div>
+                            @else
+                                <div class="d-inline-block mt-3 mb-3">
+                                    <a href="{{ route('toggle.follow', $data['code']) }}" class="auth app-secondary-btn rounded">Follow</a>
+                                </div>
+                            @endif
+                        @endif
                         @if ($data['description'])
                             <div class="about-actor text-white" style="font-size:large;">
-                                {{--  <h2>Bio</h2>  --}}
                                 {!! $data['description'] !!}
                             </div>
                         @endif

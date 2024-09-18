@@ -16,7 +16,7 @@
             <div class="col-md-12">
                 <div class="detailbox_container">
                     <div class="detailtitle">{{ $current_page->page_title ?? '' }}</div>
-                    {{ $current_page->page_description ?? '' }}
+                    {!! $current_page->page_description ?? '' !!}
                 </div>
             </div>
 

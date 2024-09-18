@@ -6,9 +6,10 @@
     @if (Route::is('detailscreen', 'playerscreen'))
         @yield('meta-tags')
     @else
-        <meta property="og:title" content="{{ @$data->app->app_info->seo_title ?? '' }}" />
-        <meta property="og:image" content="{{ @$data->app->app_info->seo_image ?? '' }}" />
-        <meta property="og:description" content="{!! @$data->app->app_info->seo_description ?? '' !!}" />
+        <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
+        <meta property="og:image" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_image ?? '' }}" />
+        <meta property="og:description" content="{!! strip_tags(\App\Services\AppConfig::get()->app->app_info->seo_description ?? '') !!}" />
+
     @endif
     <title>
         {{ $appInfo->app_name ?? '' }}@stack('title')
@@ -55,6 +56,13 @@
     </style>
     {{-- Custom Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    @if (isset($appInfo->faq_section) && $appInfo->faq_section == 1)
+    <link rel="stylesheet" href="{{ asset('assets/css/faq_style.css') }}">
+    @endif
+    @yield('head')
+
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 
 <body>
@@ -65,7 +73,7 @@
         {{ $slot }}
     </div>
 
-    @include('layouts.partials.footer')
+    @include('components.footers.footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">

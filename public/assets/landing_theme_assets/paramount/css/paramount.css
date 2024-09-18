@@ -391,7 +391,7 @@ input[type=checkbox]:focus {
 }
 
 .header p {
-    margin: .2em 0 0
+    margin: 0.2em 85px 0px;
 }
 
 .info-text {
@@ -699,7 +699,10 @@ header#global-header-container {
     }
 
     .padded-container {
+        justify-content: center;
+        align-items: center;
         margin-top: 72px
+
     }
 
     footer {
@@ -708,10 +711,10 @@ header#global-header-container {
         margin: 0
     }
 
-    .footer-links {
+    /* .footer-links {
         width: 76vw;
         max-width: 832px
-    }
+    } */
 
     .grid2 div:nth-child(3),
     .grid div:nth-child(3),
@@ -747,7 +750,7 @@ header#global-header-container {
     }
 
     .info-text {
-        margin-bottom: 44px
+        margin-bottom: 0px
     }
 }
 
@@ -775,5 +778,10 @@ header#global-header-container {
     .header__wrap {
         padding-left: 95px;
         padding-right: 95px
+    }
+    .signup-login {
+        position: fixed;
+        top: 20px;
+        right: 20px;
     }
 }

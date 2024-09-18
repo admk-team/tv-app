@@ -45,7 +45,7 @@
                     <a href="/searchscreen">
                         <i class="bi bi-search search-icon"></i>
                     </a>
-                    @if (session()->has('USER_DETAILS'))
+                   @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                         <li class="nav-item">
                             <div class="dropdown dropdin">
                                 <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)"
@@ -60,8 +60,9 @@
                                     <li><a class="text-decoration-none"
                                             href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
                                             Profiles</a></li>
-                                    {{-- <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
-                                History</a></li> --}}
+                                    <li><a class="text-decoration-none"
+                                            href="{{ route('transaction-history') }}">Transaction
+                                            History</a></li>
                                     <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
                                             Password</a>
                                     </li>
@@ -76,13 +77,15 @@
                         </li>
                     @else
                         <a class="auth app-primary-btn rounded" href="/login">Login</a>
-                        <a class="auth app-secondary-btn rounded" href="/signup">Signup</a>
+                        @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
+                            <a class="auth app-secondary-btn rounded" href="/signup">Signup</a>
+                        @endif
                     @endif
                 </div>
             @endif
             @if (\App\Services\AppConfig::get()->app->app_info->web_menu === 'Left')
                 <div class="btns">
-                    @if (session()->has('USER_DETAILS'))
+                   @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                         <li class="nav-item">
                             <div class="dropdown dropdin">
                                 <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)"
@@ -98,8 +101,9 @@
                                     <li><a class="text-decoration-none"
                                             href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
                                             Profiles</a></li>
-                                    {{-- <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
-                                History</a></li> --}}
+                                    <li><a class="text-decoration-none"
+                                            href="{{ route('transaction-history') }}">Transaction
+                                            History</a></li>
                                     <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
                                             Password</a>
                                     </li>
@@ -168,7 +172,7 @@
             <a href="/searchscreen">
                 <i class="bi bi-search search-icon"></i>
             </a>
-            @if (session()->has('USER_DETAILS'))
+           @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                 <li class="nav-item">
                     <div class="dropdown dropdin">
                         <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=1>
@@ -198,7 +202,7 @@
     @if (\App\Services\AppConfig::get()->app->app_info->web_menu === 'Left')
         <div class="btns">
 
-            @if (session()->has('USER_DETAILS'))
+           @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                 <li class="nav-item">
                     <div class="dropdown dropdin">
                         <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=1>

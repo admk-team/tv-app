@@ -29,4 +29,10 @@
             </div>
         </div>
     </section>
+
+    <script>
+        var timer = setTimeout(function() {
+            window.location='{{ session('REDIRECT_TO_SCREEN') }}'
+        }, 3000);
+    </script>
 @endsection

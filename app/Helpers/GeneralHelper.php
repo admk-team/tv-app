@@ -2,6 +2,10 @@
 
 namespace App\Helpers;
 
+use App\Services\Api;
+use App\Services\AppConfig;
+use Illuminate\Support\Facades\Http;
+
 class GeneralHelper
 {
     public static function replaceDataInList($string, $list)
@@ -668,5 +672,71 @@ class GeneralHelper
         list($fname, $lname) = explode(" ", $name);
         $shortName = substr($fname, 0, 1) . substr($lname, 0, 1);
         return $shortName;
+    }
+
+    public static function isSubscribed()
+    {
+        $response = Http::withHeaders(Api::headers())
+            ->get(Api::endpoint('/check-subscription'));
+        
+        if (!$response->successful()) {
+            return false;
+        }
+
+        $responseJson = $response->json();
+
+        if (isset($responseJson['is_subscribed']) && $responseJson['is_subscribed'] === true) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function subscriptionIsRequired()
+    {
+        if ((AppConfig::get()->app->app_info->subscription_on_signup ?? 'no') === 'yes' && !self::isSubscribed()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function generateGradient($color) {
+        static $results = [];
+
+        if (isset($results[$color])) {
+            return $results[$color];
+        }
+
+        // Helper function to adjust brightness of a color
+        $adjustBrightness = function ($hex, $steps) {
+            // Normalize the steps
+            $steps = max(-255, min(255, $steps));
+    
+            // Parse the color into its RGB components
+            $r = hexdec(substr($hex, 1, 2));
+            $g = hexdec(substr($hex, 3, 2));
+            $b = hexdec(substr($hex, 5, 2));
+    
+            // Adjust brightness
+            $r = max(0, min(255, $r + $steps));
+            $g = max(0, min(255, $g + $steps));
+            $b = max(0, min(255, $b + $steps));
+    
+            // Convert back to hex
+            return sprintf("#%02x%02x%02x", $r, $g, $b);
+        };
+    
+        // Generate two additional colors by adjusting brightness
+        $color1 = $adjustBrightness($color, -50); // Darker
+        $color2 = $adjustBrightness($color, 50);  // Lighter
+    
+        // Create the CSS gradient string
+        $gradient = "background-image: linear-gradient(90deg, $color1, $color, $color2);";
+
+        // Cache result for future calls
+        $results[$color] = $gradient;
+
+        return $gradient;
     }
 }

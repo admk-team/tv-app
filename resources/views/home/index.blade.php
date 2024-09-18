@@ -6,35 +6,65 @@
     @break
 
     @case('HO')
-        @if ($data->app->app_info->landing_theme == 'AJS')
-            @include('components.ajax_still')
-        @elseif ($data->app->app_info->landing_theme == 'HYP')
-            @include('components.hypatia')
-        @elseif ($data->app->app_info->landing_theme == 'AJV')
-            @include('components.ajax_video')
-        @elseif ($data->app->app_info->landing_theme == 'Ele')
-            @include('components.elektra')
-        @elseif ($data->app->app_info->landing_theme == 'Eli')
-            @include('components.elias')
-        @elseif ($data->app->app_info->landing_theme == 'NRE')
+       @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
             <x-layouts.app :appInfo="$data->app->app_info">
                 @include('components.page-banner')
                 @include('components.category-slider')
-                @include('components.download-box')
+                @include('components.enjoy-tv-box')
+                @include('components.faq_section')
             </x-layouts.app>
         @else
-            <x-layouts.app :appInfo="$data->app->app_info">
-                @include('components.page-banner')
-                @include('components.category-slider')
-                @include('components.download-box')
-            </x-layouts.app>
+            @if (request()->browse)
+                <x-layouts.app :appInfo="$data->app->app_info">
+                    @include('components.page-banner')
+                    @include('components.category-slider')
+                    @include('components.enjoy-tv-box')
+                    @include('components.faq_section')
+                </x-layouts.app>
+            @else
+                @if ($data->app->app_info->landing_theme == 'AJS')
+                    @include('components.ajax_still')
+                @elseif ($data->app->app_info->landing_theme == 'HYP')
+                    @include('components.hypatia')
+                @elseif ($data->app->app_info->landing_theme == 'AJV')
+                    @include('components.ajax_video')
+                @elseif ($data->app->app_info->landing_theme == 'Ele')
+                    @include('components.elektra')
+                @elseif ($data->app->app_info->landing_theme == 'Eli')
+                    @include('components.elias')
+                @elseif ($data->app->app_info->landing_theme == 'Theo')
+                    @include('components.theo')
+                @elseif ($data->app->app_info->landing_theme == 'Iris')
+                    @include('components.iris')
+                @elseif ($data->app->app_info->landing_theme == 'Apollo')
+                    @include('components.apollo')
+                @elseif ($data->app->app_info->landing_theme == 'lyra')
+                    @include('components.lyra')
+                @elseif ($data->app->app_info->landing_theme == 'damian')
+                    @include('components.damian')
+                @elseif ($data->app->app_info->landing_theme == 'NRE')
+                    <x-layouts.app :appInfo="$data->app->app_info">
+                        @include('components.page-banner')
+                        @include('components.category-slider')
+                        @include('components.enjoy-tv-box')
+                        @include('components.faq_section')
+                    </x-layouts.app>
+                @else
+                    <x-layouts.app :appInfo="$data->app->app_info">
+                        @include('components.page-banner')
+                        @include('components.category-slider')
+                        @include('components.enjoy-tv-box')
+                        @include('components.faq_section')
+                    </x-layouts.app>
+                @endif
+            @endif
         @endif
     @break
 
     @case('TG')
-            <x-layouts.app :appInfo="$data->app->app_info">
-                @include('components.tv-guide-section')
-            </x-layouts.app>
+        <x-layouts.app :appInfo="$data->app->app_info">
+            @include('components.tv-guide-section')
+        </x-layouts.app>
     @break
 
     @default

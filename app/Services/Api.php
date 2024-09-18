@@ -12,7 +12,8 @@ class Api
     public static function headers($headers = [])
     {
         $defaultHeaders = [
-            'happcode' => env('APP_CODE')
+            'happcode' => env('APP_CODE'),
+            'hplatform' => 'web'
         ];
 
         if (session('USER_DETAILS.USER_CODE'))

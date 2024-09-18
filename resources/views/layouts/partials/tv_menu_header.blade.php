@@ -1,6 +1,6 @@
-<section class="header">
+<section class="header fixed-menu">
     <div class="container-fluid">
-        <nav class="navbar navbar-expand-md fixed-top">
+        <nav class="navbar navbar-expand-md fixed-top fixed-header-height">
             <a class="navbar-brand" href="/"><img alt="logo"
                     src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}"></a>
             <button class="navbar-toggler" type="button" onclick="openNav()">
@@ -14,15 +14,16 @@
                     @php
                         $count = 0;
                     @endphp
-                    <li class="nav-item">
-                        @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
-                            @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
-                                @if ($count >= 8)
-                                @break
-                            @endif
-                            @php
-                                $count++;
-                            @endphp
+
+                    @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
+                        @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
+                            @if ($count >= 10)
+                            @break
+                        @endif
+                        @php
+                            $count++;
+                        @endphp
+                        <li class="nav-item">
                             <a class="nav-link" href="/{{ $menu->menu_slug }}">
                                 <div id="movies" class="clsiconmenu"
                                     style="background: url('{{ $menu->tv_menu_icon_active ?? '' }}');">
@@ -30,18 +31,20 @@
                                 </div>
                                 {{ $menu->menu_title }}
                             </a>
-                        @endif
-                    @endforeach
-
-                    @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                        @if ($count >= 10)
-                        @break
+                        </li>
                     @endif
-                    @php
-                        $count++;
-                    @endphp
-                    @if ($page->displayOn === 'H' || $page->displayOn === 'B')
-                        @if ($page->pageType === 'E')
+                @endforeach
+
+                @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
+                    @if ($count >= 10)
+                    @break
+                @endif
+                @php
+                    $count++;
+                @endphp
+                @if ($page->displayOn === 'H' || $page->displayOn === 'B')
+                    @if ($page->pageType === 'E')
+                        <li class="nav-item">
                             <a class="nav-link" href="{!! $page->externalLink !!}">
                                 <div id="movies" class="clsiconmenu"
                                     style="background: url('{{ $page->page_banner_poster ?? '' }}');">
@@ -49,7 +52,9 @@
                                 </div>
                                 {{ $page->page_title }}
                             </a>
-                        @else
+                        </li>
+                    @else
+                        <li class="nav-item">
                             <a class="nav-link" href="/page/{{ $page->page_slug }}">
                                 <div id="movies" class="clsiconmenu"
                                     style="background: url('{{ $page->page_banner_poster ?? '' }}');">
@@ -57,10 +62,11 @@
                                 </div>
                                 {{ $page->page_title }}
                             </a>
-                        @endif
+                        </li>
                     @endif
-                @endforeach
-            </li>
+                @endif
+            @endforeach
+
             {{--  <div class="btns">
                     <a href="/searchscreen">
                         <i class="bi bi-search search-icon"></i>
@@ -73,7 +79,19 @@
                     </button>
                 </a>
             </li>
-            @if (session()->has('USER_DETAILS'))
+            @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                <li class="nav-item">
+                    <div class="mt-2">
+                    <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+                        @csrf
+                        <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
+                            <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
+                            <span id="subscribe-text"></span>
+                        </button>
+                        <div id="response-message">{{ session('status') }}</div>
+                    </form>
+                    </div>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
                         aria-expanded="false">
@@ -85,6 +103,9 @@
                             <li><a class="dropdown-item"
                                     href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
                                     Profiles</a></li>
+                            <li><a class="dropdown-item"
+                                    href="{{ route('transaction-history') }}">Transaction
+                                    History</a></li>
                             <li><a class="dropdown-item" href="{{ route('password.edit') }}">Change
                                     Password</a></li>
                             @if (\App\Services\AppConfig::get()->app->app_info->watch_history === 1)

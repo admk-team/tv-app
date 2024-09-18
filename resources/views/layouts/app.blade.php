@@ -6,9 +6,10 @@
     @if (Route::is('detailscreen'))
         @yield('meta-tags')
     @else
-        <meta property="og:title" content="{{ @$data->app->app_info->seo_title ?? '' }}" />
-        <meta property="og:image" content="{{ @$data->app->app_info->seo_image ?? '' }}" />
-        <meta property="og:description" content="{!! @$data->app->app_info->seo_description ?? '' !!}" />
+        <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
+        <meta property="og:image" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_image ?? '' }}" />
+        <meta property="og:description" content="{!! strip_tags(\App\Services\AppConfig::get()->app->app_info->seo_description ?? '') !!}" />
+
     @endif
     <title>
         {{ \App\Services\AppConfig::get()->app->app_info->app_name ?? '' }}
@@ -19,6 +20,9 @@
     <link rel="shortcut icon" href="{{ \App\Services\AppConfig::get()->app->app_info->website_faviocn ?? '' }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style-old.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/userprofile.css') }}">
+    @if (isset($data->app->app_info->faq_section) && $data->app->app_info->faq_section == 1)
+    <link rel="stylesheet" href="{{ asset('assets/css/faq_style.css') }}">
+    @endif
     <style>
         :root {
             --bgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }};
@@ -57,11 +61,12 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
     <meta name="csrf_token" content="{{ csrf_token() }}" />
+    @yield('head')
 </head>
 
 <body>
 
-    @include('layouts.partials.header_old')
+    @include('layouts.partials.header')
 
 
 
@@ -69,7 +74,7 @@
         @yield('content')
     </div>
 
-    @include('layouts.partials.footer')
+    @include('components.footers.footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">

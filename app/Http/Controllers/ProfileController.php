@@ -12,9 +12,7 @@ class ProfileController extends Controller
     {
         $response = Http::withHeaders(Api::headers())
             ->asForm()
-            ->get(Api::endpoint('/userprofiles/' . session('USER_DETAILS.USER_ID')), [
-                'type' => 'advisory',
-            ]);
+            ->get(Api::endpoint('/userprofiles?id=' . session('USER_DETAILS.USER_ID')));
         $user_data = $response->json();
 
         return view('profile.index', compact('user_data'));
@@ -22,8 +20,9 @@ class ProfileController extends Controller
 
     public function view_profile($id)
     {
-        session()->push('USER_DETAILS.USER_PROFILE', $id);
-
+        // Replace the current profile ID with the new one
+        session()->put('USER_DETAILS.USER_PROFILE', $id);
+    
         return redirect()->route('home');
     }
 
@@ -40,9 +39,7 @@ class ProfileController extends Controller
     {
         $response = Http::withHeaders(Api::headers())
             ->asForm()
-            ->get(Api::endpoint('/userprofiles/' . session('USER_DETAILS.USER_ID')), [
-                'type' => 'advisory',
-            ]);
+            ->get(Api::endpoint('/userprofiles?id=' . session('USER_DETAILS.USER_ID')));
         $user_data = $response->json();
 
         return view('profile.manage', compact('user_data'));

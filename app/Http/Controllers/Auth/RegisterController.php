@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\GeneralHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Services\Api;
+use App\Services\AppConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class RegisterController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('auth.register');
+        $data = $request->input();
+        unset($data['_token']);
+        return view('auth.register', compact('data'));
     }
 
     public function register(RegisterRequest $request)
@@ -34,9 +38,9 @@ class RegisterController extends Controller
             ]);
         $responseJson = $response->json();
         
-        if (array_key_exists('errors', $responseJson) && is_array($responseJson['errors'])) {
-            return back()->with('error', reset($responseJson['errors'])[0]);
-        }   
+        if ($responseJson['app']['status'] === 0) {
+            return back()->with('error', $responseJson['app']['msg']);
+        }    
 
         session([
             'USER_DETAILS' => [
@@ -55,6 +59,10 @@ class RegisterController extends Controller
             $redirectUrl = session('REDIRECT_TO_SCREEN');
             session()->forget('REDIRECT_TO_SCREEN');
             return redirect($redirectUrl);
+        }
+
+        if (GeneralHelper::subscriptionIsRequired()) {
+            return redirect(route('subscription'));
         }
 
         return redirect(route('profile.index'));
