@@ -375,7 +375,7 @@
                             @if (
                                 !empty($stream_details['is_gift']) &&
                                     $stream_details['is_gift'] == 1 &&
-                                    ($stream_details['monetization_type'] == 'P' || $stream_details['monetization_type'] == 'S'))
+                                    ($stream_details['monetization_type'] == 'P' || $stream_details['monetization_type'] == 'S' || $stream_details['monetization_type'] == 'O'))
                                 <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#giftModal">
                                     <a href="javascript:void(0);"><i class="fa-solid fa-gift"></i></a>
                                 </div>
@@ -454,10 +454,33 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('monetization') }}" method="get">
+                    @php
+                        $suffix = '';
+                        if ((int) $stream_details['planFaq'] > 1) {
+                            $suffix = 's';
+                        }
+                        $sArr['MONETIZATION_GUID'] = $stream_details['stream_guid'];
+                        $sArr['MONETIZATION_TYPE'] = $stream_details['monetization_type'];
+                        $sArr['SUBS_TYPE'] = $stream_details['monetization_type'];
+                        $sArr['PAYMENT_INFORMATION'] = $stream_details['stream_title'];
+                        $sArr['STREAM_DESC'] = $stream_details['stream_description'];
+                        $sArr['PLAN'] = $stream_details['planFaq'] . ' ' . $stream_details['plan_period'] . $suffix;
+                        $sArr['AMOUNT'] = $stream_details['amount'];
+                        $sArr['POSTER'] = $stream_details['stream_poster'];
+                        session(['MONETIZATION' => $sArr]);
+                        session()->save();
+                        if ($stream_details['monetization_type'] == 'S') {
+                            $actionRoute = route('subscription');
+                          
+                        } else {
+                            $actionRoute = route('monetization'); 
+                        }
+                    @endphp
+                    <form action="{{ $actionRoute }}" method="get">
                         @csrf
                         <div class="form-group">
                             <label for="recipient_email" class="btn text-black">Recipients Email:</label>
+
                             <input type="email" class="form-control text-black" id="recipient_email"
                                 name="recipient_email">
                             @error('recipient_email')
@@ -892,80 +915,80 @@
                                     </svg>
                                 </div>
                             </div>
-                            @elseif (isset(
+                        @elseif (isset(
                                 \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
                                 \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
                                 \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
                                 \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'hearts')
-                        {{-- Hearts  --}}
-                        <div class="review-rating user-rating">
-                            <div class="star" data-rating="1" onclick="handleStarRating(this)">
-                                <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                    version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <title>heart</title>
-                                        <path
-                                            d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                        </path>
-                                    </g>
-                                </svg>
+                            {{-- Hearts  --}}
+                            <div class="review-rating user-rating">
+                                <div class="star" data-rating="1" onclick="handleStarRating(this)">
+                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <title>heart</title>
+                                            <path
+                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
+                                            </path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <div class="star" data-rating="2" onclick="handleStarRating(this)">
+                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <title>heart</title>
+                                            <path
+                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
+                                            </path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <div class="star" data-rating="3" onclick="handleStarRating(this)">
+                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <title>heart</title>
+                                            <path
+                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
+                                            </path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <div class="star" data-rating="4" onclick="handleStarRating(this)">
+                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <title>heart</title>
+                                            <path
+                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
+                                            </path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <div class="star" data-rating="5" onclick="handleStarRating(this)">
+                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <title>heart</title>
+                                            <path
+                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
+                                            </path>
+                                        </g>
+                                    </svg>
+                                </div>
                             </div>
-                            <div class="star" data-rating="2" onclick="handleStarRating(this)">
-                                <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                    version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <title>heart</title>
-                                        <path
-                                            d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                        </path>
-                                    </g>
-                                </svg>
-                            </div>
-                            <div class="star" data-rating="3" onclick="handleStarRating(this)">
-                                <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                    version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <title>heart</title>
-                                        <path
-                                            d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                        </path>
-                                    </g>
-                                </svg>
-                            </div>
-                            <div class="star" data-rating="4" onclick="handleStarRating(this)">
-                                <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                    version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <title>heart</title>
-                                        <path
-                                            d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                        </path>
-                                    </g>
-                                </svg>
-                            </div>
-                            <div class="star" data-rating="5" onclick="handleStarRating(this)">
-                                <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                    version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <title>heart</title>
-                                        <path
-                                            d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                        </path>
-                                    </g>
-                                </svg>
-                            </div>
-                        </div>
-                        {{-- @php
+                            {{-- @php
                     $isHearted = 0;
                 @endphp
                 <div class="review-rating user-rating" role="button">
@@ -1116,8 +1139,9 @@
                                     <div class="user-rating" style="margin-top: 25px; display: flex; gap: 12px;">
                                         @if ($review['rating'] >= 3)
                                             <div class="like active" style="rotate: 180deg">
-                                                <svg fill="{{\App\Services\AppConfig::get()->app->website_colors->themeActiveColor}}" height="27px" width="27px" version="1.1"
-                                                    id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                <svg fill="{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}"
+                                                    height="27px" width="27px" version="1.1" id="Capa_1"
+                                                    xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
                                                     viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
                                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -1135,8 +1159,9 @@
                                             </div>
                                         @else
                                             <div class="dislike">
-                                                <svg fill="{{\App\Services\AppConfig::get()->app->website_colors->themeActiveColor}}" height="27px" width="27px" version="1.1"
-                                                    id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                <svg fill="{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}"
+                                                    height="27px" width="27px" version="1.1" id="Capa_1"
+                                                    xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
                                                     viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
                                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -1201,8 +1226,9 @@
                                     <div class="user-rating" style="margin-top: 25px; display: flex; gap: 12px;">
                                         @if ($review['rating'] >= 3)
                                             <div class="like active" style="rotate: 180deg">
-                                                <svg fill="{{\App\Services\AppConfig::get()->app->website_colors->themeActiveColor}}" height="27px" width="27px" version="1.1"
-                                                    id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                <svg fill="{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}"
+                                                    height="27px" width="27px" version="1.1" id="Capa_1"
+                                                    xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
                                                     viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
                                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -1220,8 +1246,9 @@
                                             </div>
                                         @else
                                             <div class="dislike">
-                                                <svg fill="{{\App\Services\AppConfig::get()->app->website_colors->themeActiveColor}}" height="27px" width="27px" version="1.1"
-                                                    id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                <svg fill="{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}"
+                                                    height="27px" width="27px" version="1.1" id="Capa_1"
+                                                    xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
                                                     viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
                                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
