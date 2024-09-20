@@ -178,18 +178,17 @@
                                                                 );
                                                             @endphp
                                                             @if ($premium_icon['type'] === 'html')
-                                                                <div class="svg">
-                                                                    {!! $premium_icon['icon'] !!}
-                                                                </div>
+                                                                @if ($stream->stream_type !== 'A')
+                                                                    <div class="svg">
+                                                                        {!! $premium_icon['icon'] !!}
+                                                                    </div>
+                                                                @endif
                                                             @else
-                                                                <img src="{{ $premium_icon['icon'] }}" alt="icon">
+                                                                @if ($stream->stream_type !== 'A')
+                                                                    <img src="{{ $premium_icon['icon'] }}"
+                                                                        alt="icon">
+                                                                @endif
                                                             @endif
-                                                            {{-- @else
-                                                            @if (($stream->monetization_type ?? 'F') !== 'F')
-                                                                <img
-                                                                src="{{ url('/') }}/assets/images/trending_icon.png"
-                                                                alt="Trending">
-                                                            @endif --}}
                                                         @endif
                                                     </div>
                                                     @if ($stream->stream_type == 'A')
