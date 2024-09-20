@@ -13,7 +13,7 @@
     $IS_SIGNIN_BYPASS = 'N';
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
-    
+
     session('GLOBAL_PASS', 0);
     request()->server('REQUEST_METHOD');
     $protocol = request()->server('HTTPS') === 'on' ? 'https' : 'http';
@@ -39,7 +39,7 @@
         session('IS_SIGNIN_BYPASS', url('/playerscreen/' . $streamGuid));
         \App\Helpers\GeneralHelper::headerRedirect(url('/signin'));
     }
-    
+
     //monetioztion
     $redirectUrl = null;
     if ($limitWatchTime === 'yes' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -47,7 +47,7 @@
         session()->save();
         $redirectUrl = route('login');
     }
-    
+
     $sharingURL = route('playerscreen', $streamGuid);
     $isBuyed = $arrSlctItemData['is_buyed'];
     $monetizationType = $arrSlctItemData['monetization_type'];
@@ -81,7 +81,7 @@
             \Illuminate\Support\Facades\Redirect::to(route('monetization'))->send();
         }
     }
-    
+
     // Check if subscription is required for all content and is not subscribed
     if (\App\Helpers\GeneralHelper::subscriptionIsRequired() && $isBuyed == 'N') {
         if ($limitWatchTime === 'no' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -94,14 +94,14 @@
             \Illuminate\Support\Facades\Redirect::to(route('subscription'))->send();
         }
     }
-    
+
     $mType = 'video';
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
     }
     $apiPath = App\Services\Api::endpoint('/mngstrmdur');
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN');
-    
+
     // here get the video duration
     $seekFunStr = '';
     $arrFormData4VideoState = [];
@@ -117,7 +117,7 @@
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
         $seekFunStr = "this.currentTime($streamDurationInSec);";
     }
-    
+
     // Here Set Ad URL in Session
     $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
     if (!session('ADS_INFO')) {
@@ -129,7 +129,7 @@
             ],
         ]);
     }
-    
+
     $useragent = request()->server('HTTP_USER_AGENT');
     $isMobileBrowser = 0;
     if (
@@ -147,13 +147,13 @@
     $userAgent = urlencode(request()->server('HTTP_USER_AGENT'));
     $userIP = \App\Helpers\GeneralHelper::getRealIpAddr();
     $channelName = urlencode(\App\Services\AppConfig::get()->app->app_info->app_name);
-    
+
     $isLocalHost = false;
     $host = parse_url(url()->current())['host'];
     if (in_array($host, ['localhost', '127.0.0.1'])) {
         $isLocalHost = true;
     }
-    
+
     //&app_bundle=669112
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
@@ -163,28 +163,28 @@
         $adMacros = $adUrl . "?width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     }
     $dataVast = "data-vast='$adMacros'";
-    
+
     if ($isMobileBrowser == 1 || $adUrl == '') {
         $dataVast = '';
     }
-    
+
     $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
-    
+
     if (!$arrSlctItemData['has_global_ads']) {
         $dataVast = '';
     }
-    
+
     if (!$arrSlctItemData['has_individual_ads']) {
         $dataVast2 = '';
     }
-    
+
     if (!$arrSlctItemData['has_ads']) {
         $dataVast = '';
         $dataVast2 = '';
     }
-    
+
     $watermark = $arrSlctItemData['watermark'] ?? null;
-    
+
     ?>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
@@ -507,7 +507,8 @@
                             <div class="mvp-global-playlist-data"></div>
                             <div class="playlist-video">
 
-                                <div class="mvp-playlist-item" data-type="{{ $mType }}"
+                                <div class="mvp-playlist-item"
+                                data-type="{{ Str::endsWith($streamUrl, '.mp3') ? 'audio' : $mType }}"
                                     data-path="{{ $streamUrl }}"
                                     data-poster="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
@@ -953,13 +954,13 @@ if (!empty($arrCatData))
         <div id="images" class="content d-none">
             <div class="container">
                 <div class="custom-gallery row custom-border p-4 rounded">
-        
+
                     <!-- Featured Image -->
                     <div class="custom-placeholder col-md-7 mb-4" id="custom-featured">
                         <img src="{{ $arrSlctItemData['images'][0]['video_url_local'] }}" class="img-fluid p-2"
                             style="width: 100%; height: auto; object-fit: cover;">
                     </div>
-        
+
                     <!-- Thumbnail Images -->
                     <div class="custom-gallery-images col-md-5 ">
                         <div class="row">
@@ -975,7 +976,7 @@ if (!empty($arrCatData))
                             @endforeach
                         </div>
                     </div>
-        
+
                 </div>
             </div>
         </div>
@@ -1490,26 +1491,26 @@ if (!empty($arrCatData))
                     });
                 }
             }
-    
+
             // Initialize slider for the first tab by default
             initializeSlider();
-    
+
             // Handle tab switching
             const tabs = document.querySelectorAll('.sec-device .tab');
             const contents = document.querySelectorAll('.tab-content .content');
-    
+
             tabs.forEach(tab => {
                 tab.addEventListener('click', function() {
                     // Remove active class from all tabs and hide all content
                     tabs.forEach(t => t.classList.remove('active'));
                     contents.forEach(c => c.classList.add('d-none'));
-    
+
                     // Add active class to the clicked tab and show the corresponding content
                     this.classList.add('active');
                     const activeContent = document.getElementById(this.getAttribute('data-tab'));
                     if (activeContent) {
                         activeContent.classList.remove('d-none');
-    
+
                         // If the active content contains the slider, initialize or update it
                         if (activeContent.querySelector('.landscape_slider')) {
                             initializeSlider();
@@ -1518,69 +1519,69 @@ if (!empty($arrCatData))
                     }
                 });
             });
-    
+
             // Handle thumbnail click to open the new page
             $('.thumbnail_img').on('click', function() {
                 var playbackUrl = $(this).data('url'); // Get playback URL from clicked thumbnail
                 var thumbnail = $(this).data('thumbnail'); // Get thumbnail URL
                 var title = $(this).data('title'); // Get video title
                 var description = $(this).data('description'); // Get video description
-    
+
                 // Create a hidden form to pass data in the request
                 var form = $('<form>', {
                     action: "{{ route('extra-video') }}",
                     method: 'POST',
                     target: '_blank' // Open in a new tab
                 });
-    
+
                 // Add CSRF token for security
                 form.append($('<input>', {
                     type: 'hidden',
                     name: '_token',
                     value: '{{ csrf_token() }}'
                 }));
-    
+
                 // Add form fields to pass the video data
                 form.append($('<input>', {
                     type: 'hidden',
                     name: 'playback_url',
                     value: playbackUrl
                 }));
-    
+
                 form.append($('<input>', {
                     type: 'hidden',
                     name: 'thumbnail',
                     value: thumbnail
                 }));
-    
+
                 form.append($('<input>', {
                     type: 'hidden',
                     name: 'title',
                     value: title
                 }));
-    
+
                 form.append($('<input>', {
                     type: 'hidden',
                     name: 'description',
                     value: description
                 }));
-    
+
                 // Append form to body and submit
                 form.appendTo('body').submit();
             });
-    
+
             // Image Gallery Script (no changes)
             $('#images .custom-image img').on('click', function() {
                 var src = $(this).attr('src');
                 var img = $('#images #custom-featured img');
-    
+
                 img.fadeOut('fast', function() {
                     $(this).attr('src', src).fadeIn('fast');
                 });
             });
         });
     </script>
-    
+
 
 
 
