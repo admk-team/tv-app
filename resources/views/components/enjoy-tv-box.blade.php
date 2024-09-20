@@ -1,5 +1,6 @@
-@if (isset($data->app->app_info->enjoy_tv_section) && $data->app->app_info->enjoy_tv_section_status == 1)
-    @switch($data->app->app_info->enjoy_tv_section)
+@if (isset(\App\Services\AppConfig::get()->app->app_info->enjoy_tv_section) &&
+        \App\Services\AppConfig::get()->app->app_info->enjoy_tv_section_status == 1)
+    @switch(\App\Services\AppConfig::get()->app->app_info->enjoy_tv_section)
         @case('default')
             @include('components.enjoy-tv-sections.default')
         @break

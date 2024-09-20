@@ -22,7 +22,8 @@
     <nav class="navbar navbar-expand-lg bg-transparent fixed-top border-bottom-0">
         <div class="container-fluid">
             <a class="navbar-brand img-fluid" href="/home"><img alt="logo"
-                    src="{{ $data->app->app_info->website_logo ?? '' }}" width="100px" class="img-fluid" /></a>
+                    src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" width="100px"
+                    class="img-fluid" /></a>
             <a href="/home?browse=true" class="text-decoration-none text-white-costum border-2">Browse Content</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +31,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto">
-                   @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                    @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                         <div class="dropdown dropdin">
                             <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>
                                 <div class="userimg">{{ session('USER_DETAILS')['USER_NAME'][0] }}</div>
@@ -90,34 +91,34 @@
                     </div>
                 </div>
                 <!-- <div class="carousel-item">
-                        <div class="bg-crimsonblack">
-                            <video poster="poster.jpg" autoplay playsinline muted loop>
-                                <source src="videos/homepage-video2.mp4" type="video/mp4">
-                            </video>
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>Second slide label</h5>
-                                <p class="text-white-costum">
-                                    Nulla vitae elit libero, a pharetra augue mollis interdum.
-                                </p>
-                            </div>
-                        </div>
-                    </div> -->
+                                <div class="bg-crimsonblack">
+                                    <video poster="poster.jpg" autoplay playsinline muted loop>
+                                        <source src="videos/homepage-video2.mp4" type="video/mp4">
+                                    </video>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>Second slide label</h5>
+                                        <p class="text-white-costum">
+                                            Nulla vitae elit libero, a pharetra augue mollis interdum.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div> -->
             </div>
             <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button> -->
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button> -->
         </div>
     </section>
     <section style="position: relative;">
-        @if (isset($data->app->landingpages))
-            @foreach ($data->app->landingpages as $page)
+        @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+            @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                 @if ($page->page_type === 'AJS' && $page->section_type === 'banner')
                     <div style="position: relative;">
                         <img src="{{ $page->image ?? '' }}" class="img-fluid" style="width: 100%; height: 500px;">
@@ -132,7 +133,7 @@
     </section>
 
     <!-- Main Slider Section End -->
-    @foreach ($data->app->landingpages as $page)
+    @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
         @if ($page->page_type === 'AJS' && $page->section_type === 'tv_section')
             <section class="bg-black our-story-card">
                 <div class="container py-3">
@@ -173,8 +174,8 @@
                 </div>
             </section>
         @endif
-        @endforeach
-        @foreach ($data->app->landingpages as $page)
+    @endforeach
+    @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
         @if ($page->page_type === 'AJS' && $page->section_type === 'desktop_section')
             <section class="bg-black our-story-card">
                 <div class="container py-5">
@@ -184,38 +185,38 @@
                             <h5 class="text-white-costum">
                                 {{ $page->description ?? '' }}
                             </h5>
-                            @endif
-                            @endforeach
-                            @foreach ($data->app->landingpages as $page)
-                            @if ($page->page_type === 'AJS' && $page->section_type === 'watch_now')
-                                <ul class="list-unstyled d-flex flex-wrap fs-5 text-secondary mt-3">
-                                    <li>{{ $page->title ?? '' }}</li>
-                                    @foreach (explode(',', $page->icon) as $iconUrl)
-                                        <li><img src="{{ $iconUrl }}" width="50"> </li>
-                                    @endforeach
-                                </ul>
-                                <a href="/download-apps"><button class="btn btn-primary">Download Now</button></a>
-                                @endif
-                                @endforeach
-                                @foreach ($data->app->landingpages as $page)
-                            @if ($page->page_type === 'AJS' && $page->section_type === 'tablet_section')
-                        </div>
-                        <div class="col-md-6">
-                            <div class="position-relative">
-                                <img src="{{ $page->image }}" class="img-fluid">
-                            </div>
-                        </div>
-                    </div>
+        @endif
+    @endforeach
+    @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
+        @if ($page->page_type === 'AJS' && $page->section_type === 'watch_now')
+            <ul class="list-unstyled d-flex flex-wrap fs-5 text-secondary mt-3">
+                <li>{{ $page->title ?? '' }}</li>
+                @foreach (explode(',', $page->icon) as $iconUrl)
+                    <li><img src="{{ $iconUrl }}" width="50"> </li>
+                @endforeach
+            </ul>
+            <a href="/download-apps"><button class="btn btn-primary">Download Now</button></a>
+        @endif
+    @endforeach
+    @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
+        @if ($page->page_type === 'AJS' && $page->section_type === 'tablet_section')
+            </div>
+            <div class="col-md-6">
+                <div class="position-relative">
+                    <img src="{{ $page->image }}" class="img-fluid">
                 </div>
+            </div>
+            </div>
+            </div>
             </section>
         @endif
     @endforeach
     @endif
 
     <!-- Section: FAQ -->
-    @if (isset($data->app->landingpages) &&
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages) &&
             array_reduce(
-                $data->app->landingpages,
+                \App\Services\AppConfig::get()->app->landingpages,
                 fn($carry, $item) => $carry || ($item->section_type === 'faq' && $item->page_type === 'AJS'),
                 false))
         <section class="bg-black our-story-card">
@@ -224,7 +225,7 @@
                     <div class="col-md-8">
                         <h1 class="text-center mb-5">Frequently Asked Questions</h1>
                         <div class="accordion" id="accordionExample">
-                            @foreach ($data->app->landingpages as $page)
+                            @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                                 @if ($page->page_type === 'AJS' && $page->section_type === 'faq' && $page->status === 1)
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="headingOne">
@@ -252,8 +253,8 @@
         </section>
     @endif
 
-    @if (isset($data->app->landingpages))
-        @foreach ($data->app->landingpages as $page)
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
             @if ($page->page_type === 'AJS' && $page->section_type === 'membership' && $page->status === 1)
                 <!-- Section: Social media -->
                 <section class="bg-black our-story-card py-1">
@@ -347,11 +348,11 @@
     <div class="container-fluid footer_bottom">
         <div class="row justify-content-sm-center justify-content-md-between p-2">
             <div class="col-md-6 text-white-costum fs-14px">
-                © {{ $data->app->app_info->app_name ?? '' }}
+                © {{ \App\Services\AppConfig::get()->app->app_info->app_name ?? '' }}
                 {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
             <div class="col-md-6 text-end text-white-costum">
                 @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
-                    <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset">
+                     <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset"  style="text-decoration:none !important; ">
                         <img src="{{ $link->icon }} " style="width: 30px;">
                     </a>
                 @endforeach

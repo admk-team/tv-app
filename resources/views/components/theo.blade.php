@@ -11,8 +11,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href=" {{ asset('assets/landing_theme_assets/theo/css/style.css') }}">
 
-    @if (isset($data->app->landingpages))
-        @foreach ($data->app->landingpages as $page)
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
             @if ($page->page_type === 'Theo' && $page->section_type === 'banner' && $page->status === 1)
                 @if ($page->image)
                     <style>
@@ -48,7 +48,8 @@
                 <ul class="list-unstyled d-flex align-items-center justify-content-between pt-4">
                     <li>
                         <a href="/home" class="text-decoration-none mr-3">
-                            <img src="{{ $data->app->app_info->website_logo ?? '' }}" alt="Logo" width="100px">
+                            <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}"
+                                alt="Logo" width="100px">
                         </a>
                         <a href="/home?browse=true" class="browse text-decoration-none text-white border-2">Browse
                             Content</a>
@@ -62,8 +63,8 @@
             </nav>
 
             <div class="row d-flex align-items-center justify-content-center m-auto text-white">
-                @if (isset($data->app->landingpages))
-                    @foreach ($data->app->landingpages as $page)
+                @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+                    @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                         @if ($page->page_type === 'Theo' && $page->section_type === 'banner' && $page->status === 1)
                             <div class="col-md-6">
                                 <div
@@ -180,8 +181,8 @@
 @endif
 </div>
 </section>
-@if (isset($data->app->landingpages))
-@foreach ($data->app->landingpages as $page)
+@if (isset(\App\Services\AppConfig::get()->app->landingpages))
+@foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
 @if ($page->page_type === 'Theo' && $page->section_type === 'anywhere')
     <section class="devices">
         <div class="row d-flex align-items-center justify-content-center m-auto foooter-text">
@@ -329,7 +330,7 @@
     </section>
 @endif
 @endforeach
-@foreach ($data->app->landingpages as $page)
+@foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
 @if ($page->page_type === 'Theo' && $page->section_type === 'membership' && $page->status === 1)
     <!-- Section: Social media -->
     <section class="membership__section py-5">
@@ -364,7 +365,8 @@
 <div class="row mt-5">
 <div class="col-md-3 mb-3">
     <a href="/home">
-        <img class="img-fluid mb-4" src="{{ $data->app->app_info->website_logo ?? '' }}" alt=""
+        <img class="img-fluid mb-4"
+            src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt=""
             srcset="" width="150px">
     </a>
     <p class="p-0 m-0 foooter-text">

@@ -19,6 +19,7 @@ class PlayerScreenController extends Controller
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/getitemplayerdetail/{$id}?user_data={$xyz}"));
         $data = $response->json();
+
         if ($data['app']['stream_details'] === []) {
             if ($data['geoerror'] ?? null) {
                 return view("page.movienotexist");
@@ -101,5 +102,17 @@ class PlayerScreenController extends Controller
         }
         header("Location: " . $request->fullUrl);
         die();
+    }
+
+    public function extraVideo(Request $request)
+    {
+        // Retrieve video data from the request body
+        $playbackUrl = $request->input('playback_url');
+        $thumbnail = $request->input('thumbnail');
+        $title = $request->input('title');
+        $description = $request->input('description');
+    
+        // Pass variables to the view
+        return view('playerscreen.extra_video', compact('playbackUrl', 'thumbnail', 'title', 'description'));
     }
 }

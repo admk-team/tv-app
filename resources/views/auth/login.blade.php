@@ -51,13 +51,13 @@
                                     <div class="social_space">
                                         <a class="btn_facebook text-decoration-none rounded" id="quickstart-sign-in"
                                             href="https://www.facebook.com/v2.5/dialog/oauth?client_id=927370914972377&amp;state=311e2d3d38cf44f2b7e8021e417dd935&amp;response_type=code&amp;sdk=php-sdk-5.7.0&amp;redirect_uri=https%3A%2F%2Fstage.24flix.tv%2Fcallback-fb.php&amp;scope=email"><i
-                                                class="fa fa-facebook"></i> Login with Facebook</a>
+                                                class="fa-brands fa-facebook"></i> Login with Facebook</a>
                                     </div>
 
 
                                     <div class="social_space">
                                         <a class="btn_twitter text-decoration-none rounded"
-                                            href="https://stage.24flix.tv/callback-lin.php"><i class="fa fa-linkedin"></i>
+                                            href="https://stage.24flix.tv/callback-lin.php"><i class="fa-brands fa-linkedin"></i>
                                             Login
                                             with LinkedIn</a>
                                     </div>
@@ -66,7 +66,7 @@
                                     <div class="social_space">
                                         <a class="btn_google text-decoration-none rounded"
                                             href="https://accounts.google.com/o/oauth2/auth?response_type=code&amp;redirect_uri=https%3A%2F%2Fstage.24flix.tv%2Fcallback-google.php&amp;client_id=175923497855-e7bju0ipjeli0bofo62cqkj9ld83qqnp.apps.googleusercontent.com&amp;scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&amp;access_type=offline&amp;approval_prompt=force"><i
-                                                class="fa fa-google"></i> Login with Google</a>
+                                                class="fa-brands fa-google"></i> Login with Google</a>
                                     </div>
 
 

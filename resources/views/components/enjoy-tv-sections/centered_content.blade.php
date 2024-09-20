@@ -43,7 +43,7 @@
     <section class="show_box">
         <div class="container-fluid add_box">
             @php
-                $imageURL = $data->app->app_info->website_homescrn_poster ?? '';
+                $imageURL = \App\Services\AppConfig::get()->app->app_info->website_homescrn_poster ?? '';
             @endphp
             <div class="background_section" style="background-image: url('{{ $imageURL }}')">
                 <div class="overlay centered_content">

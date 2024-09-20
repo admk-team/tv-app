@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\AppCofig;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
@@ -11,10 +13,14 @@ class AppConfig
 
     public static function get()
     {
-        self::fetchData();
 
-        if (!self::$data) {
-            self::$data = json_decode(session('api_data'));
+        $appconfig = AppCofig::where('app_code', env('APP_CODE'))->first();
+
+
+        if (!$appconfig) {
+            self::fetchData();
+        } else {
+            self::$data = json_decode($appconfig->api_data);
         }
 
         return self::$data;
@@ -22,7 +28,9 @@ class AppConfig
 
     public static function fetchData()
     {
-        if (!Session::get('api_data')) {
+        $appconfig = AppCofig::where('app_code', env('APP_CODE'))->first();
+        Log::info("outSide");
+        if (!$appconfig) {
             $finalresultDevice = null;
             // Get the user agent string
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
@@ -66,8 +74,13 @@ class AppConfig
             $response = Http::timeout(300)->withHeaders(Api::headers())
                 ->get(Api::endpoint("/masterfeed?user_data={$xyz}&user_device={$finalresultDevice}"));
 
-
-            Session::put('api_data', $response->body());
+            $appconfig = AppCofig::where('app_code', env('APP_CODE'))->first();
+            if ($appconfig) {
+                $appconfig->update(['api_data' => $response->body()]);
+            } else {
+                AppCofig::create(['app_code' => env('APP_CODE'), 'api_data' => $response->body()]);
+            }
+            Log::info("inSide");
         }
     }
 

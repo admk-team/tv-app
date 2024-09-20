@@ -1,5 +1,12 @@
 @extends('layouts.app')
+@section('head')
+    {{-- Custom Css --}}
 
+    <!-- Include Video.js Library -->
+    <link rel="stylesheet" href="{{ asset('assets/css/details-screen-styling.css') }}">
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet">
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+@endsection
 @section('content')
     <?php
     // Config
@@ -40,7 +47,7 @@
         session()->save();
         $redirectUrl = route('login');
     }
-    
+
     $sharingURL = route('playerscreen', $streamGuid);
     $isBuyed = $arrSlctItemData['is_buyed'];
     $monetizationType = $arrSlctItemData['monetization_type'];
@@ -221,14 +228,16 @@
             animation: rotation 1s linear infinite;
         }
 
-            @keyframes rotation {
+        @keyframes rotation {
             0% {
-               transform: rotate(0deg);
+                transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
-        } 
+        }
+
         .videocentalize {
             position: relative;
         }
@@ -351,6 +360,8 @@
             user-select: none;
         }
 
+
+
         @if ($redirectUrl)
             .mvp-input-progress,
             .mvp-skip-backward-toggle,
@@ -472,14 +483,18 @@
                             </div>
                         @endif
                         <div id="wrapper">
-                            <div class="trail-redirect-message">You will be redirected to login in <span class="time">45 second</span></div>
+                            <div class="trail-redirect-message">You will be redirected to login in <span class="time">45
+                                    second</span></div>
 
                             @if ($arrSlctItemData['overlay_ad'] ?? null)
                                 <div class="overlay-ad d-none">
-                                    <button class="btn-close-ad" onclick="hideOverlayAd()"><i class="bi bi-x-lg"></i></button>
+                                    <button class="btn-close-ad" onclick="hideOverlayAd()"><i
+                                            class="bi bi-x-lg"></i></button>
                                     @if ($arrSlctItemData['overlay_ad']['target_url'])
-                                        <a href="{{ $arrSlctItemData['overlay_ad']['target_url'] }}" target="_blank" onclick="overlayAdClick()">
-                                            <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}" alt="overlay ad" />
+                                        <a href="{{ $arrSlctItemData['overlay_ad']['target_url'] }}" target="_blank"
+                                            onclick="overlayAdClick()">
+                                            <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}"
+                                                alt="overlay ad" />
                                         </a>
                                     @else
                                         <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}" alt="overlay ad" />
@@ -492,7 +507,8 @@
                             <div class="mvp-global-playlist-data"></div>
                             <div class="playlist-video">
 
-                                <div class="mvp-playlist-item" data-type="{{ $mType }}"
+                                <div class="mvp-playlist-item"
+                                data-type="{{ Str::endsWith($streamUrl, '.mp3') ? 'audio' : $mType }}"
                                     data-path="{{ $streamUrl }}"
                                     data-poster="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
@@ -538,13 +554,14 @@
                                 <div class="float-end">
                                     <form action="{{ route('video.convert') }}" method="POST">
                                         @csrf
-                                         @if (session('message'))
-                                        <span id="success-message" class="text-success"> {{ session('message') }}</span>
-                                    @endif
+                                        @if (session('message'))
+                                            <span id="success-message" class="text-success">
+                                                {{ session('message') }}</span>
+                                        @endif
                                         <span id="error-message" class="text-danger"></span>
                                         <input type="hidden" name="stream_url"
                                             value="{{ $arrStreamsData['stream_url'] }}">
-                                             <input type="hidden" name="stream_description"
+                                        <input type="hidden" name="stream_description"
                                             value="{{ $arrStreamsData['stream_description'] }}">
                                         <input type="hidden" name="stream_title"
                                             value="{{ $arrSlctItemData['stream_title'] }}">
@@ -562,185 +579,49 @@
             </div>
         </div>
 
-        <div class="product_bindfullbox">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-10">
-                        <div class="product_detailbox">
-                            <ul class="starpoint" style="display: none;">
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                            </ul>
-                            <h1 class="content-heading">{{ $arrSlctItemData['stream_title'] }}</h1>
-                            <div class="content-timing">
-                                @if ($arrSlctItemData['released_year'])
-                                    <a href="{{ route('year', $arrSlctItemData['released_year']) }}"
-                                        class="text-decoration-none">
-                                        <span class="year">{{ $arrSlctItemData['released_year'] }}</span>
-                                    </a>
-                                    <span class="dot-sep"></span>
-                                @endif
-                                @if ($arrSlctItemData['stream_duration'] && $arrSlctItemData['stream_duration'] !== '0')
-                                    <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
-                                    <span class="dot-sep"></span>
-                                @endif
-                                {{-- <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span> --}}
-                                <span class="movie_type">
-                                    @foreach ($arrSlctItemData['genre'] ?? [] as $item)
-                                        <a href="{{ route('category', $item['code']) }}?type=genre"
-                                            class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
-                                    @endforeach
-                                </span>
-                                <?php
-                        if ($streamType == 'S')
-                        {
-                            ?>
-                                <span
-                                    class="movie_type">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL' ? $arrSlctItemData['stream_episode_title'] : '' }}</span>
-                                <span class="movie_type">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
-                                <?php
-                        }
-?>
-                                <?php
-              if ($arrSlctItemData['content_qlt'] != '')
-              {
-?>
-                                <span class="content_screen">
-                                    @php
-                                        $content_qlt_arr = explode(',', $arrSlctItemData['content_qlt']);
-                                        $content_qlt_codes_arr = explode(',', $arrSlctItemData['content_qlt_codes']);
-                                    @endphp
-                                    @foreach ($content_qlt_arr as $i => $item)
-                                        <a
-                                            href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>
-                                        @if (!$loop->last)
-                                            ,
-                                        @endif
-                                    @endforeach
-                                </span>
-                                <?php
-              }
-?>
-                                <?php
-                  if ($arrSlctItemData['content_rating'] != '')
-                  {
-                    ?>
-                                <span class="content_screen">
-                                    @php
-                                        $content_rating_arr = explode(',', $arrSlctItemData['content_rating']);
-                                        $content_rating_codes_arr = explode(
-                                            ',',
-                                            $arrSlctItemData['content_rating_codes'],
-                                        );
-                                    @endphp
-                                    @foreach ($content_rating_arr as $i => $item)
-                                        <a
-                                            href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>
-                                        @if (!$loop->last)
-                                            ,
-                                        @endif
-                                    @endforeach
-                                </span>
-                                <?php
-                  }
-                  ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2 sharesinbos">
-                        <?php
-            if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
-            {
-              $signStr = "+";
-              $cls = 'fa fa-plus';
-              if ($arrSlctItemData['stream_is_stream_added_in_wish_list'] == 'Y')
-              {
-                $cls = 'fa fa-minus';
-                $signStr = "-";
-              }
-             ?>
-                        <div class="share_circle addWtchBtn">
-                            <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav"
-                                    class="{{ $cls }}"></i></a>
-                            <input type="hidden" id="myWishListSign" value='{{ $signStr }}' />
-                            <input type="hidden" id="strQueryParm" value='{{ $strQueryParm }}' />
-                            <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}' />
-                            @csrf
-                        </div>
-                        <?php
-            }
-           ?>
-                        <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                            <a href="javascript:void(0);"><i class="fa fa-share"></i></a>
-                        </div>
-                        @if (isset(\App\Services\AppConfig::get()->app->app_info->report) &&
-                                \App\Services\AppConfig::get()->app->app_info->report === 1)
-                            <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#reportModalCenter">
-                                @if (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE'])) 
-                                    <a href="javascript:void(0);"><i class="fa fa-triangle-exclamation"></i></a> 
-                                @endif
-                            </div>
-                        @endif
-                        
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="slider_title_box slidessbwh" style="padding: 0px 45px;">
-                        <div class="about_fulltxt">{{ $arrSlctItemData['stream_description'] }}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
     <?php } ?>
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered sharing-madal" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Share</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body ">
-                    <ul class="share_list">
+                <div class="modal-body">
+                    <ul class="share_list d-flex justify-content-between">
                         <li>
-                            <a data-toggle="tooltip" data-placement="top" title="facebook"
-                                href="https://www.facebook.com/sharer/sharer.php?u={{ $sharingURL }}" target="_blank">
-                                <i class="fa fa-facebook"></i>
+                            <a data-toggle="tooltip" data-placement="top" title="facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ $sharingURL }}" target="_blank">
+                                <i class="fa-brands fa-facebook"></i>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tooltip" data-placement="top" title="whatsapp"
-                                href="https://wa.me/?text={{ $sharingURL }}" target="_blank">
-                                <i class="fa fa-whatsapp"></i>
+                            <a data-toggle="tooltip" data-placement="top" title="whatsapp" href="https://wa.me/?text={{ $sharingURL }}" target="_blank">
+                                <i class="fa-brands fa-whatsapp"></i>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tooltip" data-placement="top" title="twitter"
-                                href="https://twitter.com/intent/tweet?text={{ $sharingURL }}" target="_blank">
-                                <i class="fa fa-twitter"></i>
+                            <a data-toggle="tooltip" data-placement="top" title="twitter" href="https://twitter.com/intent/tweet?text={{ $sharingURL }}" target="_blank">
+                                <i class="fa-brands fa-twitter"></i>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tooltip" data-placement="top" title="telegram"
-                                href="https://t.me/share/url?url={{ $sharingURL }}&text={{ $arrSlctItemData['stream_title'] }}"
-                                target="_blank">
-                                <i class="fa fa-telegram"></i>
+                            <a data-toggle="tooltip" data-placement="top" title="telegram" href="https://t.me/share/url?url={{ $sharingURL }}&text={{ $arrSlctItemData['stream_title'] }}" target="_blank">
+                                <i class="fa-brands fa-telegram"></i>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tooltip" data-placement="top" title="linkdin"
-                                href="https://www.linkedin.com/shareArticle?mini=true&url={{ $sharingURL }}"
-                                target="_blank">
-                                <i class="fa fa-linkedin"></i>
+                            <a data-toggle="tooltip" data-placement="top" title="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url={{ $sharingURL }}" target="_blank">
+                                <i class="fa-brands fa-linkedin"></i>
                             </a>
                         </li>
                     </ul>
-                    <form class="form-inline">
+    
+                    <form class="form-inline d-flex mt-3">
                         <input type="text" class="share_formbox" id="sharingURL" value="{{ $sharingURL }}"
                             readonly>
                         <input type="button" class="submit_btn share_btnbox" value="Copy">
@@ -749,6 +630,7 @@
             </div>
         </div>
     </div>
+    
 
     <!-- Report Modal -->
     <div class="modal fade" id="reportModalCenter" tabindex="-1" role="dialog"
@@ -759,71 +641,242 @@
                     <h5 class="modal-title " id="reportModalLabel">Want to report this content?</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            
-                <div class="modal-body ">                  
+
+                <div class="modal-body ">
                     <form class="p-3 d-flex flex-column justify-content-center w-100 mb-4" id="reportForm">
                         @csrf
-                            <label class="px-3 alert alert-warning mb-3" id="radio-error" style="display: none;"></label>
-                            <label class="report-label alert alert-light p-2">
-                                <input type="radio" name="code" value="1" class="mx-2 report-radio small" required> 
-                                Inappropriate Content
-                            </label>
-                            <label class="report-label alert alert-light p-2">
-                                <input type="radio" name="code" value="2" class="mx-2 report-radio small" required> 
-                                Misinformation
-                            </label>
-                            <label class="report-label alert alert-light p-2">
-                                <input type="radio" name="code" value="3" class="mx-2 report-radio small" required> 
-                                Copyright Violation
-                            </label>
-                            <label class="report-label alert alert-light p-2">
-                                <input type="radio" name="code" value="4" class="mx-2 report-radio small" required> 
-                                Privacy Violation
-                            </label>
-                            <label class="report-label alert alert-light p-2">
-                                <input type="radio" name="code" value="5" class="mx-2 report-radio small" required> 
-                                Harmful or Dangerous Acts
-                            </label>
-                            <label class="report-label alert alert-light p-2">
-                                <input type="radio" name="code" value="6" class="mx-2 report-radio small" required> 
-                                Hateful or Discriminatory Content
-                            </label>
-                            <label class="report-label alert alert-light p-2">
-                                <input type="radio" name="code" value="7" class="mx-2 report-radio small" required> 
-                                Spam or Scams
-                            </label>
-                       <input type="hidden" name="user_code" value="{{ session('USER_DETAILS')['USER_CODE'] ?? ''}}">
-                       <input type="hidden" name="stream_code" value="{{ $streamGuid }}">
-                       <input type="hidden" name="app_code" value="{{ env('APP_CODE') }}">
-                        <button type="submit" id="reportSubmit" class="share_btnbox d-flex align-items-center justify-content-center">Submit <span class="loader mx-2" style="display: none;" id="loader"></span></button>
+                        <label class="px-3 alert alert-warning mb-3" id="radio-error" style="display: none;"></label>
+                        <label class="report-label alert alert-light p-2">
+                            <input type="radio" name="code" value="1" class="mx-2 report-radio small"
+                                required>
+                            Inappropriate Content
+                        </label>
+                        <label class="report-label alert alert-light p-2">
+                            <input type="radio" name="code" value="2" class="mx-2 report-radio small"
+                                required>
+                            Misinformation
+                        </label>
+                        <label class="report-label alert alert-light p-2">
+                            <input type="radio" name="code" value="3" class="mx-2 report-radio small"
+                                required>
+                            Copyright Violation
+                        </label>
+                        <label class="report-label alert alert-light p-2">
+                            <input type="radio" name="code" value="4" class="mx-2 report-radio small"
+                                required>
+                            Privacy Violation
+                        </label>
+                        <label class="report-label alert alert-light p-2">
+                            <input type="radio" name="code" value="5" class="mx-2 report-radio small"
+                                required>
+                            Harmful or Dangerous Acts
+                        </label>
+                        <label class="report-label alert alert-light p-2">
+                            <input type="radio" name="code" value="6" class="mx-2 report-radio small"
+                                required>
+                            Hateful or Discriminatory Content
+                        </label>
+                        <label class="report-label alert alert-light p-2">
+                            <input type="radio" name="code" value="7" class="mx-2 report-radio small"
+                                required>
+                            Spam or Scams
+                        </label>
+                        <input type="hidden" name="user_code" value="{{ session('USER_DETAILS')['USER_CODE'] ?? '' }}">
+                        <input type="hidden" name="stream_code" value="{{ $streamGuid }}">
+                        <input type="hidden" name="app_code" value="{{ env('APP_CODE') }}">
+                        <button type="submit" id="reportSubmit"
+                            class="share_btnbox d-flex align-items-center justify-content-center">Submit <span
+                                class="loader mx-2" style="display: none;" id="loader"></span></button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <?php
+    <div class="sec-device content-wrapper px-2 px-md-3 mt-3">
+        <div class="tab-btns d-flex gap-3 gap-sm-3 gap-md-4 gap-lg-5">
+            <div class="tab active" data-tab="overview"><span>Overview</span></div>
+            <?php
+            $arrCatData = $ARR_FEED_DATA['arrCategoriesData'];
+            if (!empty($arrCatData)) {
+                $catTitle = $arrCatData['title'];
+            }
+            ?>
+            <div class="tab " data-tab="like"><span>{{ $catTitle }}</span></div>
+            <!--End of season section-->
+            @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['images']))
+                <div class="tab" data-tab="images"><span>Images</span></div>
+            @endif
+            @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['pdfs']))
+                <div class="tab" data-tab="pdf"><span>PDF</span></div>
+            @endif
+            @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['videos']))
+                <div class="tab" data-tab="video"><span>Videos</span></div>
+            @endif
+        </div>
+    </div>
+    <div class="tab-content">
+        <div id="overview" class="content">
+            <div class="product_bindfullbox">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="product_detailbox">
+                                <ul class="starpoint" style="display: none;">
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                </ul>
+                                <h1 class="content-heading">{{ $arrSlctItemData['stream_title'] }}</h1>
+                                <div class="content-timing">
+                                    @if ($arrSlctItemData['released_year'])
+                                        <a href="{{ route('year', $arrSlctItemData['released_year']) }}"
+                                            class="text-decoration-none">
+                                            <span class="year">{{ $arrSlctItemData['released_year'] }}</span>
+                                        </a>
+                                        <span class="dot-sep"></span>
+                                    @endif
+                                    @if ($arrSlctItemData['stream_duration'] && $arrSlctItemData['stream_duration'] !== '0')
+                                        <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
+                                        <span class="dot-sep"></span>
+                                    @endif
+                                    {{-- <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span> --}}
+                                    <span class="movie_type">
+                                        @foreach ($arrSlctItemData['genre'] ?? [] as $item)
+                                            <a href="{{ route('category', $item['code']) }}?type=genre"
+                                                class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
+                                        @endforeach
+                                    </span>
+                                    <?php
+                            if ($streamType == 'S')
+                            {
+                                ?>
+                                    <span
+                                        class="movie_type">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL' ? $arrSlctItemData['stream_episode_title'] : '' }}</span>
+                                    <span class="movie_type">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
+                                    <?php
+                            }
+    ?>
+                                    <?php
+                  if ($arrSlctItemData['content_qlt'] != '')
+                  {
+    ?>
+                                    <span class="content_screen">
+                                        @php
+                                            $content_qlt_arr = explode(',', $arrSlctItemData['content_qlt']);
+                                            $content_qlt_codes_arr = explode(
+                                                ',',
+                                                $arrSlctItemData['content_qlt_codes'],
+                                            );
+                                        @endphp
+                                        @foreach ($content_qlt_arr as $i => $item)
+                                            <a
+                                                href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>
+                                            @if (!$loop->last)
+                                                ,
+                                            @endif
+                                        @endforeach
+                                    </span>
+                                    <?php
+                  }
+    ?>
+                                    <?php
+                      if ($arrSlctItemData['content_rating'] != '')
+                      {
+                        ?>
+                                    <span class="content_screen">
+                                        @php
+                                            $content_rating_arr = explode(',', $arrSlctItemData['content_rating']);
+                                            $content_rating_codes_arr = explode(
+                                                ',',
+                                                $arrSlctItemData['content_rating_codes'],
+                                            );
+                                        @endphp
+                                        @foreach ($content_rating_arr as $i => $item)
+                                            <a
+                                                href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>
+                                            @if (!$loop->last)
+                                                ,
+                                            @endif
+                                        @endforeach
+                                    </span>
+                                    <?php
+                      }
+                      ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 sharesinbos">
+                            <?php
+                if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+                {
+                  $signStr = "+";
+                  $cls = 'fa fa-plus';
+                  if ($arrSlctItemData['stream_is_stream_added_in_wish_list'] == 'Y')
+                  {
+                    $cls = 'fa fa-minus';
+                    $signStr = "-";
+                  }
+                 ?>
+                            <div class="share_circle addWtchBtn">
+                                <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav"
+                                        class="{{ $cls }}"></i></a>
+                                <input type="hidden" id="myWishListSign" value='{{ $signStr }}' />
+                                <input type="hidden" id="strQueryParm" value='{{ $strQueryParm }}' />
+                                <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}' />
+                                @csrf
+                            </div>
+                            <?php
+                }
+               ?>
+                            <div class="share_circle addWtchBtn" data-bs-toggle="modal"
+                                data-bs-target="#exampleModalCenter">
+                                <a href="javascript:void(0);"><i class="fa fa-share"></i></a>
+                            </div>
+                            @if (isset(\App\Services\AppConfig::get()->app->app_info->report) &&
+                                    \App\Services\AppConfig::get()->app->app_info->report === 1)
+                                <div class="share_circle addWtchBtn" data-bs-toggle="modal"
+                                    data-bs-target="#reportModalCenter">
+                                    @if (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE']))
+                                        <a href="javascript:void(0);"><i class="fa fa-triangle-exclamation"></i></a>
+                                    @endif
+                                </div>
+                            @endif
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="slider_title_box slidessbwh" style="padding: 0px 45px;">
+                            <div class="about_fulltxt">{{ $arrSlctItemData['stream_description'] }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="like" class="content d-none">
+            <?php
 $arrCatData = $ARR_FEED_DATA['arrCategoriesData'];
 $nextVideoPath = '';
 if (!empty($arrCatData))
 {
 ?>
 
-    <!--Start of thumbnail slider section-->
-    <section class="sliders">
-        <div class="slider-container">
-            <!-- Start shows -->
-            <?php
-            $strKey = 'title';
-            $catTitle = $arrCatData[$strKey];
-            ?>
-            <div class="listing_box">
-                <div class="slider_title_box">
-                    <div class="list_heading">
-                        <h1>{{ $catTitle }}</h1>
-                    </div>
-                </div>
-                <div class="landscape_slider slider slick-slider">
+            <!--Start of thumbnail slider section-->
+            <section class="sliders">
+                <div class="slider-container">
+                    <!-- Start shows -->
                     <?php
+                    $strKey = 'title';
+                    $catTitle = $arrCatData[$strKey];
+                    ?>
+                    <div class="listing_box">
+                        <div class="slider_title_box">
+                            <div class="list_heading">
+                                <h1>{{ $catTitle }}</h1>
+                            </div>
+                        </div>
+                        <div class="landscape_slider slider slick-slider">
+                            <?php
                 foreach ($arrCatData['streams'] as $arrStreamsData)
                 {
                     if ($arrStreamsData['stream_guid'] === $arrSlctItemData['stream_guid'])
@@ -849,42 +902,136 @@ if (!empty($arrCatData))
                     }
 
                     ?>
-                    <div>
-                        <a href="{{ url('/playerscreen/' . $arrStreamsData['stream_guid']) }}">
-                            <div class="thumbnail_img">
-                                <div class="trending_icon_box" {!! $strBrige !!}><img
-                                        src="{{ asset('/assets/images/trending_icon.png') }}"
-                                        alt="{{ $arrStreamsData['stream_title'] }}"></div>
-                                @if (($arrStreamsData['is_newly_added'] ?? 'N') === 'Y')
-                                    <div class="newly-added-label">
-                                        <span>New Episode</span>
-                                    </div>
-                                @endif
-                                <img src="{{ $arrStreamsData['stream_poster'] }}"
-                                    alt="{{ $arrStreamsData['stream_title'] }}">
-                                <div class="detail_box_hide">
-                                    <div class="detailbox_time">{{ $arrStreamsData['stream_duration_timeformat'] }}</div>
-                                    <div class="deta_box">
-                                        <div class="season_title">
-                                            {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
+                            <div>
+                                <a href="{{ url('/playerscreen/' . $arrStreamsData['stream_guid']) }}">
+                                    <div class="thumbnail_img">
+                                        <div class="trending_icon_box" {!! $strBrige !!}><img
+                                                src="{{ asset('/assets/images/trending_icon.png') }}"
+                                                alt="{{ $arrStreamsData['stream_title'] }}"></div>
+                                        @if (($arrStreamsData['is_newly_added'] ?? 'N') === 'Y')
+                                            <div class="newly-added-label">
+                                                <span>New Episode</span>
+                                            </div>
+                                        @endif
+                                        <img src="{{ $arrStreamsData['stream_poster'] }}"
+                                            alt="{{ $arrStreamsData['stream_title'] }}">
+                                        <div class="detail_box_hide">
+                                            <div class="detailbox_time">
+                                                {{ $arrStreamsData['stream_duration_timeformat'] }}</div>
+                                            <div class="deta_box">
+                                                <div class="season_title">
+                                                    {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
+                                                </div>
+                                                <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
+                                                                                                                                                                                                                                              </div> -->
+                                                <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
+                                                <div class="content_description">
+                                                    {{ $arrStreamsData['stream_description'] }}</div>
+                                            </div>
                                         </div>
-                                        <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                      </div> -->
-                                        <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
-                                        <div class="content_description">{{ $arrStreamsData['stream_description'] }}</div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
-                        </a>
-                    </div>
-                    <?php
+                            <?php
                 }
                 ?>
+                        </div>
+                    </div>
+                    <!-- End Shows -->
+                </div>
+            </section>
+            <?php
+}
+?>
+        </div>
+
+        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['images']))
+        <div id="images" class="content d-none">
+            <div class="container">
+                <div class="custom-gallery row custom-border p-4 rounded">
+
+                    <!-- Featured Image -->
+                    <div class="custom-placeholder col-md-7 mb-4" id="custom-featured">
+                        <img src="{{ $arrSlctItemData['images'][0]['video_url_local'] }}" class="img-fluid p-2"
+                            style="width: 100%; height: auto; object-fit: cover;">
+                    </div>
+
+                    <!-- Thumbnail Images -->
+                    <div class="custom-gallery-images col-md-5 ">
+                        <div class="row">
+                            @foreach ($arrSlctItemData['images'] as $image)
+                                <div class="custom-image col-4 mb-2">
+                                    <img src="{{ $image['video_url_local'] }}" data-id="{{ $loop->index }}"
+                                        class="img-fluid custom-border rounded p-2"
+                                        style="width: 100%; height: 80%; object-fit: cover; cursor: pointer;">
+                                    <div class="image-name rounded">
+                                        {{ $image['name'] }}
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            <!-- End Shows -->
         </div>
-    </section>
+        @endif
+        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['pdfs']))
+            <div id="pdf" class="content d-none">
+                <div class="row">
+                    @foreach ($arrSlctItemData['pdfs'] as $pdf)
+                        <div class="col-md-3 mb-4 d-flex justify-content-center">
+                            <a href="{{ $pdf['video_url_local'] }}" target="_blank"
+                                class="d-block text-center custom-link">
+                                @if (Str::endsWith($pdf['video_url_local'], ['.pdf']))
+                                    <i class="fas fa-file-pdf custom-icon pdf-icon"></i>
+                                @elseif (Str::endsWith($pdf['video_url_local'], ['.doc', '.docx']))
+                                    <i class="fas fa-file-word custom-icon word-icon"></i>
+                                @else
+                                    <i class="fas fa-file-alt custom-icon other-icon"></i>
+                                @endif
+                                <p class="mt-2 custom-text">{{ $pdf['name'] }}</p>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['videos']))
+            <!-- Video Section -->
+            <div id="video" class="content d-none">
+                <section class="sliders">
+                    <div class="slider-container">
+                        <div class="listing_box">
+                            <div class="slider_title_box">
+                            </div>
+
+                            <!-- Slick Slider for Thumbnails -->
+                            <div class="landscape_slider slider slick-slider">
+                                @foreach ($arrSlctItemData['videos'] as $video)
+                                    <div>
+                                        <div class="thumbnail_img" style="cursor: pointer;"
+                                            data-url="{{ $video['playback_url'] }}"
+                                            data-thumbnail="{{ $video['thumbnail_url'] }}"
+                                            data-title="{{ $video['name'] }}"
+                                            data-description="{{ $video['description'] }}">
+                                            <img src="{{ $video['thumbnail_url'] }}" alt="{{ $video['name'] }}">
+                                            <div class="detail_box_hide">
+                                                <div class="deta_box">
+                                                    <div class="content_title">{{ $video['name'] }}</div>
+                                                    <div class="content_description">{{ $video['description'] }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        @endif
+    </div>
     {{--  status modal  --}}
     <div id="statusModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -903,12 +1050,10 @@ if (!empty($arrCatData))
             </div>
         </div>
     </div>
-    <?php
-}
-?>
 @endsection
 
 @push('scripts')
+
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             var isshowlist = true
@@ -993,7 +1138,7 @@ if (!empty($arrCatData))
 
             };
 
-            player = new mvp(document.getElementById('wrapper'), settings);
+            window.player = new mvp(document.getElementById('wrapper'), settings);
             setTimeout(unmutedVoice, 2000);
             let playerstillwatch = "<?php echo $stillwatching; ?>";
             let playerstillwatchduration = "<?php echo $playerstillwatchduration; ?>";
@@ -1148,9 +1293,11 @@ if (!empty($arrCatData))
         function showOverlayAd() {
             $('.overlay-ad').removeClass('d-none');
         }
+
         function hideOverlayAd() {
             $('.overlay-ad').addClass('d-none');
         }
+
         function overlayAdClick() {
             player.pauseMedia();
         }
@@ -1244,7 +1391,7 @@ if (!empty($arrCatData))
             $.ajax({
                 type: 'POST',
                 data: formData,
-               url: "{{ route('video.convert') }}",
+                url: "{{ route('video.convert') }}",
                 processData: false,
                 contentType: false,
                 cache: false,
@@ -1253,17 +1400,17 @@ if (!empty($arrCatData))
                 /* window.location.href = response.download_url; */
             }).fail(function(response) {
                 const errorMessage = response.responseJSON.message || 'An error occurred';
-               $('#error-message').text(errorMessage).fadeIn().delay(6000).fadeOut();
+                $('#error-message').text(errorMessage).fadeIn().delay(6000).fadeOut();
             });
         });
 
-        $('#reportSubmit').on('click', function(event){
+        $('#reportSubmit').on('click', function(event) {
             event.preventDefault();
 
             if (!$("input[name='code']:checked").val()) {
                 $('#radio-error').show();
                 $('#radio-error').text('Please select a reason before submitting.').fadeIn().delay(5000).fadeOut();
-                return; 
+                return;
             }
             $('#loader').show();
             $('#reportSubmit').prop('disabled', true).val('Submitting...');
@@ -1274,14 +1421,16 @@ if (!empty($arrCatData))
             $.ajax({
                 type: 'POST',
                 data: formData,
-                url: "{{ env('API_BASE_URL') }}/user/report", 
+                url: "{{ env('API_BASE_URL') }}/user/report",
                 processData: false,
                 contentType: false,
                 cache: false,
             }).then(function(response) {
-                const successMessage = response.app ? response.app.msg : 'Thank you! Your report has been submitted.';
+                const successMessage = response.app ? response.app.msg :
+                    'Thank you! Your report has been submitted.';
                 $('#reportForm').fadeOut(function() {
-                    $(this).html('<div id="success-message" class="alert alert-light">' + successMessage + '</div>');
+                    $(this).html('<div id="success-message" class="alert alert-light">' +
+                        successMessage + '</div>');
                 });
 
             }).fail(function(response) {
@@ -1307,4 +1456,136 @@ if (!empty($arrCatData))
             });
         });
     </script>
+
+
+    <script>
+        $(document).ready(function() {
+            // Function to initialize Slick slider only when needed
+            function initializeSlider() {
+                const sliderElement = $('.landscape_slider:not(.slick-initialized)');
+                if (sliderElement.length) {
+                    sliderElement.slick({
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        infinite: true,
+                        dots: true,
+                        arrows: true,
+                        responsive: [{
+                                breakpoint: 768,
+                                settings: {
+                                    slidesToShow: 2,
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 1,
+                                }
+                            }
+                        ]
+                    });
+                }
+            }
+
+            // Initialize slider for the first tab by default
+            initializeSlider();
+
+            // Handle tab switching
+            const tabs = document.querySelectorAll('.sec-device .tab');
+            const contents = document.querySelectorAll('.tab-content .content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and hide all content
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.add('d-none'));
+
+                    // Add active class to the clicked tab and show the corresponding content
+                    this.classList.add('active');
+                    const activeContent = document.getElementById(this.getAttribute('data-tab'));
+                    if (activeContent) {
+                        activeContent.classList.remove('d-none');
+
+                        // If the active content contains the slider, initialize or update it
+                        if (activeContent.querySelector('.landscape_slider')) {
+                            initializeSlider();
+                            $('.landscape_slider').slick('setPosition');
+                        }
+                    }
+                });
+            });
+
+            // Handle thumbnail click to open the new page
+            $('.thumbnail_img').on('click', function() {
+                var playbackUrl = $(this).data('url'); // Get playback URL from clicked thumbnail
+                var thumbnail = $(this).data('thumbnail'); // Get thumbnail URL
+                var title = $(this).data('title'); // Get video title
+                var description = $(this).data('description'); // Get video description
+
+                // Create a hidden form to pass data in the request
+                var form = $('<form>', {
+                    action: "{{ route('extra-video') }}",
+                    method: 'POST',
+                    target: '_blank' // Open in a new tab
+                });
+
+                // Add CSRF token for security
+                form.append($('<input>', {
+                    type: 'hidden',
+                    name: '_token',
+                    value: '{{ csrf_token() }}'
+                }));
+
+                // Add form fields to pass the video data
+                form.append($('<input>', {
+                    type: 'hidden',
+                    name: 'playback_url',
+                    value: playbackUrl
+                }));
+
+                form.append($('<input>', {
+                    type: 'hidden',
+                    name: 'thumbnail',
+                    value: thumbnail
+                }));
+
+                form.append($('<input>', {
+                    type: 'hidden',
+                    name: 'title',
+                    value: title
+                }));
+
+                form.append($('<input>', {
+                    type: 'hidden',
+                    name: 'description',
+                    value: description
+                }));
+
+                // Append form to body and submit
+                form.appendTo('body').submit();
+            });
+
+            // Image Gallery Script (no changes)
+            $('#images .custom-image img').on('click', function() {
+                var src = $(this).attr('src');
+                var img = $('#images #custom-featured img');
+
+                img.fadeOut('fast', function() {
+                    $(this).attr('src', src).fadeIn('fast');
+                });
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
 @endpush

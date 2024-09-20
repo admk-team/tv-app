@@ -22,6 +22,7 @@ use App\Http\Controllers\ChannelSubscribe;
 use App\Http\Controllers\ChannelSubscribeController;
 use App\Http\Controllers\GumletController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\GiftStreamController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\PersonController;
@@ -94,6 +95,9 @@ Route::middleware('auth.user')->group(function () {
     Route::get('/view/profile/{id}', [ProfileController::class, 'view_profile'])->name('profile.view_profile');
     //watch history
     Route::get('watch/history', [ProfileController::class, 'history'])->name('watch.history');
+    //
+    Route::post('extra/video', [PlayerScreenController::class, 'extraVideo'])->name('extra-video');
+
 });
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');
@@ -126,6 +130,7 @@ Route::post('wishlist/toggle', [WishlistController::class, 'toggle'])->name('wis
 // Screener
 Route::get('screener/{code}/{itemIndex?}', [ScreenerController::class, 'player'])->name('screener.player');
 Route::post('screener/authenticate/{code}', [ScreenerController::class, 'authenticate'])->name('screener.authenticate');
+Route::get('/send-gift', [GiftStreamController::class, 'sendGift'])->name('send.gift');
 
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
 Route::get('/epgplayer/{channelGuid}/{slug}', [TvGuidePlayerController::class, 'index'])->name('player.tvguide');
