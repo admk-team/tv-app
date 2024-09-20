@@ -375,7 +375,9 @@
                             @if (
                                 !empty($stream_details['is_gift']) &&
                                     $stream_details['is_gift'] == 1 &&
-                                    ($stream_details['monetization_type'] == 'P' || $stream_details['monetization_type'] == 'S' || $stream_details['monetization_type'] == 'O'))
+                                    ($stream_details['monetization_type'] == 'P' ||
+                                        $stream_details['monetization_type'] == 'S' ||
+                                        $stream_details['monetization_type'] == 'O'))
                                 <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#giftModal">
                                     <a href="javascript:void(0);"><i class="fa-solid fa-gift"></i></a>
                                 </div>
@@ -397,8 +399,8 @@
                     <h5 class="modal-title" id="exampleModalLabel">Share</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body ">
-                    <ul class="share_list">
+                <div class="modal-body">
+                    <ul class="share_list d-flex justify-content-between">
                         <li>
                             <a data-toggle="tooltip" data-placement="top" title="facebook"
                                 href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $sharingURL; ?>" target="_blank">
@@ -425,14 +427,15 @@
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tooltip" data-placement="top" title="linkdin"
+                            <a data-toggle="tooltip" data-placement="top" title="linkedin"
                                 href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $sharingURL; ?>"
                                 target="_blank">
                                 <i class="fa-brands fa-linkedin"></i>
                             </a>
                         </li>
                     </ul>
-                    <form class="form-inline">
+
+                    <form class="form-inline d-flex mt-3">
                         <input type="text" class="share_formbox" id="sharingURL" value="<?php echo $sharingURL; ?>"
                             readonly>
                         <input type="button" class="submit_btn share_btnbox" value="Copy">
@@ -441,6 +444,7 @@
             </div>
         </div>
     </div>
+
     <!--End of banner section-->
 
     {{-- Gift Modal  --}}
@@ -471,9 +475,8 @@
                         session()->save();
                         if ($stream_details['monetization_type'] == 'S') {
                             $actionRoute = route('subscription');
-                          
                         } else {
-                            $actionRoute = route('monetization'); 
+                            $actionRoute = route('monetization');
                         }
                     @endphp
                     <form action="{{ $actionRoute }}" method="get">

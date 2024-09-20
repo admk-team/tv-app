@@ -586,48 +586,42 @@
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered sharing-madal" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Share</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body ">
-                    <ul class="share_list">
+                <div class="modal-body">
+                    <ul class="share_list d-flex justify-content-between">
                         <li>
-                            <a data-toggle="tooltip" data-placement="top" title="facebook"
-                                href="https://www.facebook.com/sharer/sharer.php?u={{ $sharingURL }}" target="_blank">
+                            <a data-toggle="tooltip" data-placement="top" title="facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ $sharingURL }}" target="_blank">
                                 <i class="fa-brands fa-facebook"></i>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tooltip" data-placement="top" title="whatsapp"
-                                href="https://wa.me/?text={{ $sharingURL }}" target="_blank">
+                            <a data-toggle="tooltip" data-placement="top" title="whatsapp" href="https://wa.me/?text={{ $sharingURL }}" target="_blank">
                                 <i class="fa-brands fa-whatsapp"></i>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tooltip" data-placement="top" title="twitter"
-                                href="https://twitter.com/intent/tweet?text={{ $sharingURL }}" target="_blank">
+                            <a data-toggle="tooltip" data-placement="top" title="twitter" href="https://twitter.com/intent/tweet?text={{ $sharingURL }}" target="_blank">
                                 <i class="fa-brands fa-twitter"></i>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tooltip" data-placement="top" title="telegram"
-                                href="https://t.me/share/url?url={{ $sharingURL }}&text={{ $arrSlctItemData['stream_title'] }}"
-                                target="_blank">
+                            <a data-toggle="tooltip" data-placement="top" title="telegram" href="https://t.me/share/url?url={{ $sharingURL }}&text={{ $arrSlctItemData['stream_title'] }}" target="_blank">
                                 <i class="fa-brands fa-telegram"></i>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tooltip" data-placement="top" title="linkdin"
-                                href="https://www.linkedin.com/shareArticle?mini=true&url={{ $sharingURL }}"
-                                target="_blank">
+                            <a data-toggle="tooltip" data-placement="top" title="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url={{ $sharingURL }}" target="_blank">
                                 <i class="fa-brands fa-linkedin"></i>
                             </a>
                         </li>
                     </ul>
-                    <form class="form-inline">
+    
+                    <form class="form-inline d-flex mt-3">
                         <input type="text" class="share_formbox" id="sharingURL" value="{{ $sharingURL }}"
                             readonly>
                         <input type="button" class="submit_btn share_btnbox" value="Copy">
@@ -636,6 +630,7 @@
             </div>
         </div>
     </div>
+    
 
     <!-- Report Modal -->
     <div class="modal fade" id="reportModalCenter" tabindex="-1" role="dialog"
