@@ -11,7 +11,7 @@
                     $streamPosterKey = 'stream_poster';
                     $items = $category->items_per_row ? $category->items_per_row : '5';
                     $autoplay = true;
-            
+
                     switch ($category->card_type) {
                         case 'LA':
                             $cartMainCls = 'landscape_slider';
@@ -40,21 +40,21 @@
 
                         case 'QU': //QU: Square (1x1)
                             $cartMainCls = 'potrait_slider';
-                            $cartMainSubCls = 'vertical onebyone';
+                            $cartMainSubCls = "vertical onebyone QU_{$items}";
                             $streamPosterKey = 'stream_square';
                             $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay;
                             break;
 
                         case 'BA': //Billboard Ads (1606x470)  803 : 235,
                             $cartMainCls = 'billboard_ads';
-                            $cartMainSubCls = 'ripple';
+                            $cartMainSubCls = "ripple BA_{$items}";
                             $cardThumbCls = '';
                             $cardThumbCls2 = 'thumbnail_img billboard_img';
                             $streamPosterKey = 'stream_poster';
                             break;
                         case 'LB': // Leaderboard Ads (1350x50) 27:1,
                             $cartMainCls = 'leaderboard_ads';
-                            $cartMainSubCls = 'ripple';
+                            $cartMainSubCls = "ripple LB_{$items}";
                             $cardThumbCls = '';
                             $cardThumbCls2 = 'thumbnail_img leaderboard_img m-auto ';
                             $streamPosterKey = 'stream_poster';
@@ -90,12 +90,6 @@
                                                 <a class="top-10-slider-wrapper" href="{{ $url }}"></a>
                                                 <a class="top-10-slider-number">{{ $loop->iteration }}</a>
                                                 <div class="{{ $cardThumbCls2 }}">
-                                                    {{-- <div class="trending_icon_box" {!! $stream->monetization_type == 'F' ? 'style="display: none;"' : '' !!}><img
-                                                            src="{{ url('/') }}/assets/images/trending_icon.png"
-                                                            alt="Trending">
-                                                    </div> --}}
-
-                                                    {{-- Premium Icon And Content Label --}}
                                                     @if (!in_array($category->card_type, ['BA', 'LB']))
                                                         <div class="trending_icon_box">
                                                             @if ($stream->premium_icon ?? null)
@@ -113,12 +107,6 @@
                                                                     <img src="{{ $premium_icon['icon'] }}"
                                                                         alt="icon">
                                                                 @endif
-                                                                {{-- @else
-                                                                @if (($stream->monetization_type ?? 'F') !== 'F')
-                                                                    <img
-                                                                    src="{{ url('/') }}/assets/images/trending_icon.png"
-                                                                    alt="Trending">
-                                                                @endif --}}
                                                             @endif
                                                         </div>
                                                         @if ($stream->stream_type == 'A')
@@ -173,11 +161,6 @@
                                     @else
                                         <a href="{{ $url }}">
                                             <div class="{{ $cardThumbCls2 }}">
-                                                {{-- <div class="trending_icon_box" {!! (!$stream->monetization_type || $stream->monetization_type == 'F') ? 'style="display: none;"' : '' !!}><img
-                                                        src="{{ url('/') }}/assets/images/trending_icon.png"
-                                                        alt="Trending">
-                                                </div> --}}
-
                                                 {{-- Premium Icon And Content Label --}}
                                                 @if (!in_array($category->card_type, ['BA', 'LB']))
                                                     <div class="trending_icon_box">

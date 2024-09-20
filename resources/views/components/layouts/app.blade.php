@@ -192,8 +192,8 @@
         $(document).ready(function() {
             $('.slider-container .slick-slider').each(function() {
                 var $this = $(this);
-                var itemsPerRow = $this.data('items-per-row') || 1; 
-                var autoplay = $this.data('autoplay'); 
+                var itemsPerRow = $this.data('items-per-row') || 1;
+                var autoplay = $this.data('autoplay');
 
                 $this.slick({
                     dots: true,
@@ -207,7 +207,7 @@
                             breakpoint: 1740,
                             settings: {
                                 slidesToShow: Math.max(itemsPerRow - 1, 1),
-                                slidesToScroll: 1,
+                                slidesToScroll: 2,
                                 dots: true,
                                 arrows: true
                             }
@@ -224,16 +224,16 @@
                         {
                             breakpoint: 600,
                             settings: {
-                                slidesToShow: Math.max(itemsPerRow - 3, 1),
-                                slidesToScroll: 1,
+                                slidesToShow: 2,
+                                slidesToScroll: 2,
                                 arrows: false
                             }
                         },
                         {
                             breakpoint: 480,
                             settings: {
-                                slidesToShow: Math.max(itemsPerRow - 4, 1),
-                                slidesToScroll: 1,
+                                slidesToShow:2,
+                                slidesToScroll: 2,
                                 dots: false,
                                 arrows: false
                             }
