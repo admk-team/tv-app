@@ -339,7 +339,7 @@
                         </dl>
                     </dl>
 
-                    <div class="button_groupbox d-flex align-items-center mt-4">
+                    <div class="button_groupbox d-flex align-items-center">
                         <div class="btn_box movieDetailPlay">
                             <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
                                 class="app-primary-btn rounded">
@@ -402,33 +402,33 @@
                         <li>
                             <a data-toggle="tooltip" data-placement="top" title="facebook"
                                 href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $sharingURL; ?>" target="_blank">
-                                <i class="fa fa-facebook"></i>
+                                <i class="fa-brands fa-facebook"></i>
                             </a>
                         </li>
                         <li>
                             <a data-toggle="tooltip" data-placement="top" title="whatsapp"
                                 href="https://wa.me/?text=<?php echo $sharingURL; ?>" target="_blank">
-                                <i class="fa fa-whatsapp"></i>
+                                <i class="fa-brands fa-whatsapp"></i>
                             </a>
                         </li>
                         <li>
                             <a data-toggle="tooltip" data-placement="top" title="twitter"
                                 href="https://twitter.com/intent/tweet?text=<?php echo $sharingURL; ?>" target="_blank">
-                                <i class="fa fa-twitter"></i>
+                                <i class="fa-brands fa-twitter"></i>
                             </a>
                         </li>
                         <li>
                             <a data-toggle="tooltip" data-placement="top" title="telegram"
                                 href="https://t.me/share/url?url=<?php echo $sharingURL; ?>&text=<?php echo $stream_details['stream_title']; ?>"
                                 target="_blank">
-                                <i class="fa fa-telegram"></i>
+                                <i class="fa-brands fa-telegram"></i>
                             </a>
                         </li>
                         <li>
                             <a data-toggle="tooltip" data-placement="top" title="linkdin"
                                 href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $sharingURL; ?>"
                                 target="_blank">
-                                <i class="fa fa-linkedin"></i>
+                                <i class="fa-brands fa-linkedin"></i>
                             </a>
                         </li>
                     </ul>

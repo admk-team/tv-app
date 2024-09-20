@@ -173,8 +173,8 @@
     .addIcon span {
         width: inherit;
         position: absolute;
-        top: 96%;
-        left: 7%;
+        top: 108%;
+        left: 20%;
         text-transform: capitalize;
         color: rgb(153, 153, 153);
         font-size: 1rem;

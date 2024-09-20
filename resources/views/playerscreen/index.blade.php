@@ -596,33 +596,33 @@
                         <li>
                             <a data-toggle="tooltip" data-placement="top" title="facebook"
                                 href="https://www.facebook.com/sharer/sharer.php?u={{ $sharingURL }}" target="_blank">
-                                <i class="fa fa-facebook"></i>
+                                <i class="fa-brands fa-facebook"></i>
                             </a>
                         </li>
                         <li>
                             <a data-toggle="tooltip" data-placement="top" title="whatsapp"
                                 href="https://wa.me/?text={{ $sharingURL }}" target="_blank">
-                                <i class="fa fa-whatsapp"></i>
+                                <i class="fa-brands fa-whatsapp"></i>
                             </a>
                         </li>
                         <li>
                             <a data-toggle="tooltip" data-placement="top" title="twitter"
                                 href="https://twitter.com/intent/tweet?text={{ $sharingURL }}" target="_blank">
-                                <i class="fa fa-twitter"></i>
+                                <i class="fa-brands fa-twitter"></i>
                             </a>
                         </li>
                         <li>
                             <a data-toggle="tooltip" data-placement="top" title="telegram"
                                 href="https://t.me/share/url?url={{ $sharingURL }}&text={{ $arrSlctItemData['stream_title'] }}"
                                 target="_blank">
-                                <i class="fa fa-telegram"></i>
+                                <i class="fa-brands fa-telegram"></i>
                             </a>
                         </li>
                         <li>
                             <a data-toggle="tooltip" data-placement="top" title="linkdin"
                                 href="https://www.linkedin.com/shareArticle?mini=true&url={{ $sharingURL }}"
                                 target="_blank">
-                                <i class="fa fa-linkedin"></i>
+                                <i class="fa-brands fa-linkedin"></i>
                             </a>
                         </li>
                     </ul>
@@ -723,7 +723,7 @@
             <div class="product_bindfullbox">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-10">
+                        <div class="col-md-9">
                             <div class="product_detailbox">
                                 <ul class="starpoint" style="display: none;">
                                     <li><i class="fa fa-star"></i></li>
@@ -810,7 +810,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 sharesinbos">
+                        <div class="col-md-3 sharesinbos">
                             <?php
                 if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
                 {

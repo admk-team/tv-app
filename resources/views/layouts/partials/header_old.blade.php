@@ -194,8 +194,8 @@
                     </div>
                 </li>
             @else
-                <a class="auth app-primary-btn" href="/login">Login</a>
-                <a class="auth app-secondary-btn" href="{{ route('register') }}">Signup</a>
+                <a class="auth app-primary-btn rounded" href="/login">Login</a>
+                <a class="auth app-secondary-btn rounded" href="{{ route('register') }}">Signup</a>
             @endif
         </div>
     @endif

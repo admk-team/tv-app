@@ -22,10 +22,10 @@
                                 <input type="hidden" name="">
                                 <div class="social_space" style="display:none;">
                                     <a class="btn_facebook" id="quickstart-sign-in" href=""><i
-                                            class="fa fa-facebook"></i> Login with Facebook</a>
+                                            class="fa-brands fa-facebook"></i> Login with Facebook</a>
                                 </div>
                                 <div class="social_space" style="display:none;">
-                                    <a class="btn_twitter" href=""><i class="fa fa-twitter"></i> Login with
+                                    <a class="btn_twitter" href=""><i class="fa-brands fa-twitter"></i> Login with
                                         Twitter</a>
                                 </div>
                                 <div class="social_space">

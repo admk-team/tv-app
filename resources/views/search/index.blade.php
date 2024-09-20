@@ -98,8 +98,8 @@
             <div class="listing_box allVideosBox">
                 <div class="col-md-12">
                     <form action="{{ route('search') }}">
-                        <div class="searchbox">
-                            <input type="text" class="search_bar" name="searchKeyword" id="searchKeyword" value="{{ request()->searchKeyword }}"
+                        <div class="searchbox rounded">
+                            <input type="text" class="search_bar rounded" name="searchKeyword" id="searchKeyword" value="{{ request()->searchKeyword }}"
                                 placeholder="Search" required="">
                             <span class="search_icon"><button type="submit"
                                     style="text-decoration:none;border: none;background-color: #ffffff;"><img
