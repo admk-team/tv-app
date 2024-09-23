@@ -1,7 +1,7 @@
 <section class="sliders">
     <div class="slider-container">
         @foreach ($data->app->categories ?? [] as $category)
-        {{-- @dd(\App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay, \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay) --}}
+            {{-- @dd(\App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay, \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay) --}}
             @if (!empty($category->streams))
                 @php
                     $cartMainCls = 'landscape_slider';
@@ -19,14 +19,16 @@
                             $cardThumbCls = '';
                             $cardThumbCls2 = "thumbnail_img LA_{$items}";
                             $streamPosterKey = 'stream_poster';
-                            $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay;
+                            $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding
+                                ->is_landscape_slider_autoplay;
                             break;
 
                         case 'PO':
                             $cartMainCls = 'potrait_slider';
                             $cartMainSubCls = "ripple vertical PO_{$items}";
                             $streamPosterKey = 'stream_portrait';
-                            $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay;
+                            $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding
+                                ->is_potrait_slider_autoplay;
                             break;
 
                         case 'ST': // ST: Standard (4x3),
@@ -35,14 +37,16 @@
                             $cardThumbCls = '';
                             $cardThumbCls2 = "thumbnail_img thumbnailfourbyfour ST_{$items}";
                             $streamPosterKey = 'stream_sdm';
-                            $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay;
+                            $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding
+                                ->is_landscape_slider_autoplay;
                             break;
 
                         case 'QU': //QU: Square (1x1)
                             $cartMainCls = 'potrait_slider';
                             $cartMainSubCls = "vertical onebyone QU_{$items}";
                             $streamPosterKey = 'stream_square';
-                            $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay;
+                            $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding
+                                ->is_potrait_slider_autoplay;
                             break;
 
                         case 'BA': //Billboard Ads (1606x470)  803 : 235,
@@ -71,14 +75,23 @@
                                     All</a></div>
                         @endif
                     </div>
-                    <div class="{{ $cartMainCls }} slider slick-slider" data-items-per-row="{{$items}}" data-autoplay="{{$autoplay}}">
+                    <div class="{{ $cartMainCls }} slider slick-slider" data-items-per-row="{{ $items }}"
+                        data-autoplay="{{ $autoplay }}">
                         @foreach ($category->streams as $stream)
                             @php
-                                $url = route('detailscreen', $stream->stream_guid);
+                                if (
+                                    isset(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) &&
+                                    \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen == 1
+                                ) {
+                                    $screen = 'playerscreen';
+                                } else {
+                                    $screen = 'detailscreen';
+                                }
+                                $url = route($screen, $stream->stream_guid);
                                 if ($stream->stream_type === 'A') {
                                     $url = $stream->stream_promo_url;
                                     if ($stream->is_external_ad === 'N') {
-                                        $url = route('detailscreen', $stream->stream_promo_url);
+                                        $url = route($screen, $stream->stream_promo_url);
                                     }
                                 }
                             @endphp

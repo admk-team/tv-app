@@ -62,35 +62,53 @@
             var currentIndex = 0;
             var batchSize = 20;
 
+            // Determine the screen based on bypass_detailscreen condition using Blade
+            @if (isset(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) &&
+                    \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen == 1)
+                var screenRoute = "/playerscreen";
+            @else
+                var screenRoute = "/detailscreen";
+            @endif
+
+            // Function to load more data in batches
             function loadMoreData() {
                 var streams = data.slice(currentIndex, currentIndex + batchSize);
 
                 streams.forEach(function(stream) {
-                    $('#data-container').append($(`
-                         <div class="resposnive_Box">
-                                <a href="/detailscreen/${stream.stream_guid}">
-                                    <div class="thumbnail_img">
-                                        <div class="trending_icon_box" style="display: none;"><img
-                                                src="{{ asset('assets/images/trending_icon.png') }}" alt="Trending">
+                    var url = `${screenRoute}/${stream.stream_guid}`;
+
+                    if (stream.stream_type === 'A') {
+                        url = stream.stream_promo_url;
+                        if (stream.is_external_ad === 'N') {
+                            url = `${screenRoute}/${stream.stream_promo_url}`;
+                        }
+                    }
+
+                    $('#data-container').append(`
+                    <div class="resposnive_Box">
+                        <a href="${url}">
+                            <div class="thumbnail_img">
+                                <div class="trending_icon_box" style="display: none;">
+                                    <img src="{{ asset('assets/images/trending_icon.png') }}" alt="Trending">
+                                </div>
+                                <img src="${stream.stream_poster}" alt="${stream.stream_title}">
+                                <div class="detail_box_hide">
+                                    <div class="detailbox_time">${stream.stream_duration_timeformat}</div>
+                                    <div class="deta_box">
+                                        <div class="season_title">
+                                            ${stream.stream_episode_title && stream.stream_episode_title !== 'NULL' ?
+                                            stream.stream_episode_title : ''}
                                         </div>
-                                        <img src="${stream.stream_poster}" alt="${stream.stream_title}">
-                                        <div class="detail_box_hide">
-                                            <div class="detailbox_time">${stream.stream_duration_timeformat}</div>
-                                            <div class="deta_box">
-                                                <div class="season_title">
-                                                ${stream.stream_episode_title &&
-                                                stream.stream_episode_title !== 'NULL' ?
-                                                stream.stream_episode_title : ''}
-                                                </div>
-                                                <div class="content_title">${stream.stream_title}</div>
-                                                <div class="content_description">${stream.stream_description}</div>
-                                            </div>
-                                        </div>
+                                        <div class="content_title">${stream.stream_title}</div>
+                                        <div class="content_description">${stream.stream_description}</div>
                                     </div>
-                                </a>
+                                </div>
                             </div>
-                        `));
+                        </a>
+                    </div>
+                `);
                 });
+
                 currentIndex += batchSize;
 
                 // Hide load-more button when streams length completed
@@ -98,21 +116,22 @@
                     $('#load-more-btn').hide();
                 }
 
-                // Show message if no video avaiable
+                // Show message if no video available
                 if (streams.length == 0) {
                     $('#load-more-btn').hide();
-                    $('#data-container').append($(`
-                     <div>
-                         <h1 class="text-center text-white">No videos found
-                         </h1>
-                     </div>
-                `));
+                    $('#data-container').append(`
+                    <div>
+                        <h1 class="text-center text-white">No videos found</h1>
+                    </div>
+                `);
                 }
             }
 
+            // Load more data when the button is clicked
             $('#load-more-btn').on('click', function() {
                 loadMoreData();
             });
+
             // Initial load
             loadMoreData();
         });

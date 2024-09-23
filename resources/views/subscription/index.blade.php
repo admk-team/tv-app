@@ -13,10 +13,21 @@
                         @php
                             $suffix = '';
                             $planStr = '';
+                            $periodStr = ''; // Variable to store the period string
 
+                            // Determine the suffix for pluralization
                             if ($plan->plan_faq > 1) {
                                 $suffix = 's';
                             }
+                            // Determine the period string (Month/Year) based on the plan period
+                            if ($plan->plan_period == 'month') {
+                                $periodStr = ($plan->plan_faq == 1) ? 'Every Month' : 'every ' . $plan->plan_faq . ' months';
+                            } elseif ($plan->plan_period == 'year') {
+                                $periodStr = ($plan->plan_faq == 1) ? 'Every Year' : 'every ' . $plan->plan_faq . ' years';
+                            } else {
+                                $periodStr = 'every ' . $plan->plan_faq . ' ' . $plan->plan_period . $suffix;
+                            }                                                   
+                            // Determine the button label based on the plan type
                             if ($plan->plan_type == 'T') {
                                 $planStr = session()->has('USER_DETAILS') ? 'Subscribe Free' : 'Login';
                             } elseif ($plan->plan_type == 'D') {
@@ -31,8 +42,8 @@
                                 <div class="pricingTable-header">
                                     <h3 class="heading">{{ $plan->plan_name }}</h3>
                                     <span class="price-value">
-                                        <span class="currency">$</span> {{ $plan->plan_amount }} <span class="month">for
-                                            {{ $plan->plan_faq . ' ' . $plan->plan_period . $suffix }}</span>
+                                        <span class="currency">$</span> {{ $plan->plan_amount }} <span
+                                            class="month">{{ $periodStr }}</span>
                                     </span>
                                 </div>
                                 <div class="pricing-content">

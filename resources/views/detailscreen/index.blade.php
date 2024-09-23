@@ -341,11 +341,23 @@
 
                     <div class="button_groupbox d-flex align-items-center">
                         <div class="btn_box movieDetailPlay">
-                            <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
-                                class="app-primary-btn rounded">
-                                <i class="fa fa-play"></i>
-                                Play Now
-                            </a>
+                            @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] &&
+                                ($stream_details['monetization_type'] == 'P' ||
+                                    $stream_details['monetization_type'] == 'S' ||
+                                    $stream_details['monetization_type'] == 'O'))
+                                    <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                                    class="app-primary-btn rounded">
+                                    <i class="fa fa-dollar"></i>
+                                    Buy Now
+                                </a>
+                            @else
+                                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                                    class="app-primary-btn rounded">
+                                    <i class="fa fa-play"></i>
+                                    Play Now
+                                </a>
+                            @endif
+
                         </div>
 
                         <?php
@@ -572,9 +584,20 @@
                                         if ($arrStreamsData['monetization_type'] == 'F') {
                                             $strBrige = "style='display: none;'";
                                         }
+
+                                        if (
+                                            isset(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) &&
+                                            \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen == 1
+                                        ) {
+                                            $screen = 'playerscreen';
+                                        } else {
+                                            $screen = 'detailscreen';
+                                        }
+
                                     @endphp
                                     <div>
-                                        <a href="{{ url('/') }}/detailscreen/{{ $arrStreamsData['stream_guid'] }}">
+                                        <a
+                                            href="{{ url('/') }}/{{ $screen }}/{{ $arrStreamsData['stream_guid'] }}">
                                             <div class="thumbnail_img">
                                                 <div class="trending_icon_box" {!! $strBrige !!}><img
                                                         src="{{ url('/') }}/assets/images/trending_icon.png"
