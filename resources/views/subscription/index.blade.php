@@ -57,7 +57,7 @@
                                         <input type="hidden" name="MONETIZATION_TYPE" value="S">
                                         <input type="hidden" name="STREAM_DESC" value="{{ $plan->plan_desc }}">
                                         <input type="hidden" name="PLAN"
-                                            value="{{ $plan->plan_faq . ' ' . $plan->plan_period . $suffix }}">
+                                            value="{{ $periodStr }}">
                                         <input type="hidden" name="MONETIZATION_GUID" value="{{ $plan->sub_plan_guid }}">
                                         <input type="hidden" name="AMOUNT" value="{{ $plan->plan_amount }}">
                                         @if (request()->has('recipient_email'))
