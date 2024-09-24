@@ -210,10 +210,10 @@
     }
 }
 @media(max-width: 900px) {
-    .vertical {
+    /* .vertical {
         width: calc(calc(100vw - 20px) / 5) !Important;
-    }
+    } */
 }
-.vertical {
+/* .vertical {
     width: calc(calc(100vw - -63px) / 8.5) !Important;
-}
+} */

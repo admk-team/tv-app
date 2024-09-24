@@ -6500,9 +6500,9 @@ textarea.form-control:focus {
     margin-right: 10px;
 }
 
-.vertical {
+/* .vertical {
     width: calc(calc(100vw - -63px) / 8.5) !Important;
-}
+} */
 
 article .thumbnail-container {
     position: relative;
@@ -6823,9 +6823,9 @@ article .thumbnail-container {
 }
 
 @media(max-width: 900px) {
-    .vertical {
+    /* .vertical {
         width: calc(calc(100vw - 20px) / 5) !Important;
-    }
+    } */
 
     .onebyone {
         width: calc(calc(100vw - 20px) / 5);
