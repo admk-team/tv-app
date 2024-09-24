@@ -153,8 +153,10 @@
                         @forelse ($searchResult['streams'] as $stream)
                             <div class="resposnive_Box">
                                 @php
-                                    if (isset(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) &&
-                                        \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen == 1
+                                    if (
+                                        (isset(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) &&
+                                            \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen == 1) ||
+                                        $stream['bypass_detailscreen'] == 1
                                     ) {
                                         $screen = 'playerscreen';
                                     } else {

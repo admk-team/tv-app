@@ -31,7 +31,21 @@
                         <div class="card mb-4 mt-4 card-custom p-2">
                             <div class="row g-2">
                                 <div class="col-md-4">
-                                    <a href="{{ route('detailscreen', $stream['stream_guid']) }}">
+                                    @php
+                                        if (
+                                            (isset(
+                                                \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen,
+                                            ) &&
+                                                \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen ==
+                                                    1) ||
+                                            $stream['bypass_detailscreen'] == 1
+                                        ) {
+                                            $screen = 'playerscreen';
+                                        } else {
+                                            $screen = 'detailscreen';
+                                        }
+                                    @endphp
+                                    <a href="{{ url('/') }}/{{ $screen }}/{{ $stream['stream_guid'] }}">
                                         <img src="{{ $stream['stream_poster'] }}" alt="{{ $stream['stream_title'] }}"
                                             class="img-fluid" style="position: relative;">
                                         @if ($stream['stream_watched_dur_in_pct'] > 1)
@@ -49,7 +63,7 @@
                                     <div class="card-body p-0">
                                         <h5 class="card-title">{{ $stream['stream_title'] }}</h5>
                                         <div class="content-timing">
-                                            @if ($stream['released_year'] && $stream['released_year'] !== "NULL")
+                                            @if ($stream['released_year'] && $stream['released_year'] !== 'NULL')
                                                 <a href="{{ route('year', $stream['released_year']) }}"
                                                     class="text-decoration-none">
                                                     <span class="year">{{ $stream['released_year'] }}</span>

@@ -341,11 +341,12 @@
 
                     <div class="button_groupbox d-flex align-items-center">
                         <div class="btn_box movieDetailPlay">
-                            @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] &&
-                                ($stream_details['monetization_type'] == 'P' ||
-                                    $stream_details['monetization_type'] == 'S' ||
-                                    $stream_details['monetization_type'] == 'O'))
-                                    <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                            @if (session('USER_DETAILS') &&
+                                    session('USER_DETAILS')['USER_CODE'] &&
+                                    ($stream_details['monetization_type'] == 'P' ||
+                                        $stream_details['monetization_type'] == 'S' ||
+                                        $stream_details['monetization_type'] == 'O'))
+                                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
                                     class="app-primary-btn rounded">
                                     <i class="fa fa-dollar"></i>
                                     Buy Now
@@ -575,6 +576,7 @@
                             </div>
                             <div class="landscape_slider slider slick-slider">
                                 @foreach ($latest_items['streams'] as $arrStreamsData)
+                                
                                     @php
                                         if ($arrStreamsData['stream_guid'] === $stream_details['stream_guid']) {
                                             continue;
@@ -586,14 +588,15 @@
                                         }
 
                                         if (
-                                            isset(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) &&
-                                            \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen == 1
-                                        ) {
+                                    (isset(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) &&
+                                    \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen == 1) ||
+                                    ( $arrStreamsData['bypass_detailscreen'] == 1)
+                                   
+                                )  {
                                             $screen = 'playerscreen';
                                         } else {
                                             $screen = 'detailscreen';
                                         }
-
                                     @endphp
                                     <div>
                                         <a

@@ -83,8 +83,9 @@
                         @foreach ($category->streams as $stream)
                             @php
                                 if (
-                                    isset(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) &&
-                                    \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen == 1
+                                    (isset(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) &&
+                                    \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen == 1) ||
+                                    ( $stream->bypass_detailscreen == 1)
                                 ) {
                                     $screen = 'playerscreen';
                                 } else {

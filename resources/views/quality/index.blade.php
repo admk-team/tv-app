@@ -61,24 +61,28 @@
         $(document).ready(function() {
             var data = {!! json_encode($quality) !!};
             console.log(data);
-
+            var bypassDetailscreen = {!! json_encode(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) !!};
             var currentIndex = 0;
             var batchSize = 20;
 
             // Determine the screen based on bypass_detailscreen condition using Blade
-            @if (isset(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) &&
-                    \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen == 1)
-                var screenRoute = "/playerscreen";
-            @else
-                var screenRoute = "/detailscreen";
-            @endif
+          
 
             // Function to load more data in batches
             function loadMoreData() {
                 var streams = data.streams.slice(currentIndex, currentIndex + batchSize);
 
                 streams.forEach(function(stream) {
-                    var url = `${screenRoute}/${stream.stream_guid}`;
+                    var screenRoute;
+
+                    if (bypassDetailscreen == 1 || stream.bypass_detailscreen == 1) {
+                        screenRoute = "{{ route('playerscreen', ':id') }}";
+                    } else {
+                        screenRoute = "{{ route('detailscreen', ':id') }}";
+                    }
+
+                    // Generate URL by replacing the placeholder with the stream's GUID
+                    var url = screenRoute.replace(':id', stream.stream_guid);
 
                     if (stream.stream_type === 'A') {
                         url = stream.stream_promo_url;
