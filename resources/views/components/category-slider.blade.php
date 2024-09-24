@@ -1,3 +1,6 @@
+@push('style')
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/cards-item.css') }}" />
+@endpush
 <section class="sliders">
     <div class="slider-container">
         @foreach ($data->app->categories ?? [] as $category)
@@ -9,7 +12,7 @@
                     $cardThumbCls = 'card card-img-container';
                     $cardThumbCls2 = 'thumbnail-container';
                     $streamPosterKey = 'stream_poster';
-                    $items = $category->items_per_row ? $category->items_per_row : '5';
+                    $items = $category?->items_per_row ? $category->items_per_row : '5';
                     $autoplay = true;
 
                     switch ($category->card_type) {
