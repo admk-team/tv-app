@@ -13,12 +13,13 @@
     <title>
         {{ $appInfo->app_name ?? '' }}@stack('title')
     </title>
-    @stack('style')
+
     {{-- Old Css --}}
     <link rel="shortcut icon" href="{{ $appInfo->website_faviocn ?? '' }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style-old.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/userprofile.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/tv-guide.css') }}">
+     @stack('style')
     <style>
         :root {
             --bgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }};

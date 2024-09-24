@@ -1,0 +1,219 @@
+/*==================================== slider thumbnail img styling on card type ============================= */
+/* ------  Landscape(LA)  --------- */
+.LA_2 {
+    width: calc(calc(100vw / 6) - 10px) !important;
+    height: 180px !important;
+    border-radius: 5px !important;
+}
+.LA_3 {
+    width: calc(calc(100vw / 6) - 10px) !important;
+    height: 180px !important;
+    border-radius: 5px !important;
+}
+.LA_4 {
+    width: calc(calc(100vw / 5.7) - 10px) !important;
+    height: 200px !important;
+    border-radius: 5px !important;
+}
+.LA_5 {
+    width: calc(calc(100vw / 5.6) - 10px) !important;
+    height: 190px !important;
+    border-radius: 5px !important;
+}
+.LA_6 {
+    width: calc(calc(100vw / 6.6) - 10px) !important;
+    height: 170px !important;
+    border-radius: 5px !important;
+}
+.LA_7 {
+    width: calc(calc(100vw / 7.4) - 10px) !important;
+    height: 160px !important;
+    border-radius: 5px !important;
+}
+.LA_8 {
+    width: calc(calc(100vw / 7.9) - 10px) !important;
+    height: 150px !important;
+    border-radius: 5px !important;
+}
+/* ------  Standard(ST)  --------- */
+
+.ST_2 {
+    width: calc(calc(100vw / 5.3) - 10px) !important;
+    height: 200px !important;
+    border-radius: 5px !important;
+}
+.ST_3 {
+    width: calc(calc(100vw / 5.3) - 10px) !important;
+    height: 200px !important;
+    border-radius: 5px !important;
+}
+.ST_4 {
+    width: calc(calc(100vw / 4.6) - 10px) !important;
+    height: 170px !important;
+    border-radius: 5px !important;
+}
+.ST_5 {
+    width: calc(calc(100vw / 5.6) - 10px) !important;
+    height: 170px !important;
+    border-radius: 5px !important;
+}
+.ST_6 {
+    width: calc(calc(100vw / 6.6) - 10px) !important;
+    height: 150px !important;
+    border-radius: 5px !important;
+}
+
+/* ------  Potrait(PO)  --------- */
+.PO_3 {
+    width: calc(calc(100vw - 163px) / 6.9) !important;
+    border-radius: 5px !important;
+}
+.PO_4 {
+    width: calc(calc(100vw - 183px) / 6.2) !important;
+    border-radius: 5px !important;
+}
+.PO_5 {
+    width: calc(calc(100vw - -63px) / 6.9) !important;
+    border-radius: 5px !important;
+}
+.PO_6 {
+    width: calc(calc(100vw - -63px) / 7.9) !important;
+    border-radius: 5px !important;
+}
+.PO_7 {
+    width: calc(calc(100vw - -63px) / 8.2) !important;
+    border-radius: 5px !important;
+}
+.PO_8 {
+    width: calc(calc(100vw - -63px) / 9.4) !important;
+    border-radius: 5px !important;
+}
+.PO_9 {
+    width: calc(calc(100vw - -63px) / 10.5) !important;
+    border-radius: 5px !important;
+}
+.PO_10 {
+    width: calc(calc(100vw - -63px) / 11.4) !important;
+    border-radius: 5px !important;
+}
+
+/* ------  Square(QU)  --------- */
+.QU_2 {
+    width: calc(calc(100vw / 5.3) - 10px) !important;
+    height: 250px !important;
+    border-radius: 5px !important;
+}
+.QU_3 {
+    width: calc(calc(100vw / 5.3) - 10px) !important;
+    height: 250px !important;
+    border-radius: 5px !important;
+}
+.QU_4 {
+    width: calc(calc(100vw / 5.9) - 10px) !important;
+    height: 250px !important;
+    border-radius: 5px !important;
+}
+.QU_5 {
+    width: calc(calc(100vw / 6.5) - 10px) !important;
+    height: 250px !important;
+    border-radius: 5px !important;
+}
+.QU_6 {
+    width: calc(calc(100vw / 7.3) - 10px) !important;
+    height: 250px !important;
+    border-radius: 5px !important;
+}
+.QU_6 {
+    width: calc(calc(100vw / 8.3) - 10px) !important;
+    height: 250px !important;
+    border-radius: 5px !important;
+}
+
+.BA_5 {
+    width: 100vw !important;
+    border-radius: 5px !important;
+}
+
+/*==================================== end slider thumbnail img styling on card type ============================= */
+
+@media (max-width: 1024px) {
+    .LA_6 {
+        width: calc(calc(100vw / 3.6) - 10px) !important;
+    }
+
+    .PO_10 {
+        width: calc(calc(100vw - -33px) / 8.9) !important;
+    }
+    .PO_9 {
+        width: calc(calc(100vw - -33px) / 7.5) !important;
+    }
+    .PO_8 {
+        width: calc(calc(100vw - -28px) / 6.4) !important;
+    }
+    .PO_6 {
+        width: calc(calc(100vw - -23px) / 5.6) !important;
+    }
+    .PO_5 {
+        width: calc(calc(100vw - -33px) / 5.9) !important;
+    }
+    .PO_4 {
+        width: calc(calc(100vw - 23px) / 5.5) !important;
+    }
+}
+@media (max-width: 768px) {
+    .BA_5 {
+        width: 85vw !important;
+    }
+    .PO_10 {
+        width: calc(calc(100vw - -23px) / 6.3) !important;
+    }
+    .PO_9 {
+        width: calc(calc(100vw - -23px) / 5.8) !important;
+    }
+    .PO_8 {
+        width: calc(calc(100vw - -26px) / 5.6) !important;
+    }
+    .PO_7 {
+        width: calc(calc(100vw - -29px) / 5.4) !important;
+    }
+    .PO_6 {
+        width: calc(calc(100vw - -23px) / 3.6) !important;
+    }
+    .PO_5 {
+        width: calc(calc(100vw - -33px) / 3.9) !important;
+    }
+    .PO_4 {
+        width: calc(calc(100vw - 23px) / 3.5) !important;
+    }
+}
+@media (max-width: 576px) {
+    .BA_5 {
+        width: 262px !important;
+    }
+    .PO_10 {
+        width: calc(calc(100vw - -43px) / 2.9) !important;
+    }
+    .PO_9 {
+        width: calc(calc(100vw - -23px) / 3.2) !important;
+    }
+    .PO_8 {
+        width: calc(calc(100vw - -26px) / 3.3) !important;
+    }
+    .PO_7 {
+        width: calc(calc(100vw - -23px) / 3.5) !important;
+    }
+    .PO_6 {
+        width: calc(calc(100vw - -31px) / 3.2) !important;
+    }
+    .PO_4 {
+        width: calc(calc(100vw - 28px) / 3.5) !important;
+    }
+}
+@media(max-width: 900px) {
+    .vertical {
+        width: calc(calc(100vw - 20px) / 5) !Important;
+    }
+}
+.vertical {
+    width: calc(calc(100vw - -63px) / 8.5) !Important;
+}
