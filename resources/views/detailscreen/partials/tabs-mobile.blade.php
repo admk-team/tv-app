@@ -91,7 +91,7 @@ if (session('USER_DETAILS.USER_CODE')) {
             <div class="px-4">
                 <h1 class="content-heading" title="{{ $stream_details['stream_title'] }}">
                     {{ $stream_details['stream_title'] }}</h1>
-                <div class="content-timing">
+                <div class="content-timing mb-2">
                     @if ($stream_details['released_year'])
                         <a href="{{ route('year', $stream_details['released_year']) }}" class="text-decoration-none">
                             <span class="year">{{ $stream_details['released_year'] }}</span>
