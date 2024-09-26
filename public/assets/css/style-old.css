@@ -211,11 +211,11 @@ input.search_barsnew {
     transform: rotate(355deg);
 }
 
-.banner {
+/* .banner {
     margin-top: 116px;
     padding: 0px 0px;
     padding-bottom: 30px;
-}
+} */
 
 .owl-carousel .owl-stage-outer {
     position: relative;
@@ -3546,7 +3546,7 @@ ul.ott_iconlist li:hover {
     max-width: 600px;
     width: 100%;
     /* margin: 42px 0; */
-    padding: 0px 50px;
+    padding: 0px 40px;
 }
 
 .item-ratings .section-title {
@@ -4434,7 +4434,7 @@ textarea.form-control:focus {
     }
 
     .content-heading {
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
 
     .content-timing {
@@ -4485,9 +4485,9 @@ textarea.form-control:focus {
     }
 
     .share_circle a {
-        width: 40px;
-        height: 40px;
-        padding: 2px 10px;
+        width: 35px;
+        height: 35px;
+        padding: 2px 5px;
     }
 
     .share_circle {
@@ -4563,7 +4563,7 @@ textarea.form-control:focus {
 
 @media(max-width: 991px) {
     .content-timing {
-        margin-bottom: 8px;
+        margin-bottom: 6px;
     }
 
     .slide {
@@ -4711,6 +4711,19 @@ textarea.form-control:focus {
     font-size: 15px;
     font-weight: 500;
 }
+.mobile-primary-btn {
+    text-decoration: none;
+    background-color: var(--themeActiveColor);
+    color: var(--navbarMenucolor);
+    font-weight: 500;
+    border: solid 2px transparent;
+    padding: 5px 9px;
+    font-size: 12px;
+    transition: all 0.3s;
+}
+.movieDetailPlaymobile{
+    margin-right: 10px;
+}
 
 @media(max-width:999px) {
     .detailBanner .poster_image_box {
@@ -4778,13 +4791,13 @@ textarea.form-control:focus {
         padding-right: 58px;
     }
 
-    .banner {
+    /* .banner {
         margin-top: 85px;
-    }
+    } */
 
-    .detailBanner {
+    /* .detailBanner {
         margin-top: -4px;
-    }
+    } */
     .person-link {
         display: inline-block !important;
         margin-bottom: 0px !important;
@@ -5111,6 +5124,12 @@ textarea.form-control:focus {
     .mobile-tabs {
         display: block;
     }
+    .sec-device {
+        max-height: 55px;
+    }
+    .button_groupbox {
+        margin-top: 0rem !important;
+    }
 }
 
 
@@ -5223,10 +5242,10 @@ textarea.form-control:focus {
 
     }
 
-    .banner {
+    /* .banner {
 
         padding-top: 0px;
-    }
+    } */
 
     section.show_box {
         padding-top: 0;
@@ -5369,9 +5388,9 @@ textarea.form-control:focus {
         font-size: 20px;
     }
 
-    .detailBanner .movie_detail_inner_box {
+    /* .detailBanner .movie_detail_inner_box {
         top: 30px !important;
-    }
+    } */
 
     .about-movie {
         height: 100%;
@@ -5379,7 +5398,7 @@ textarea.form-control:focus {
     }
 
     .content-timing {
-        margin-bottom: 8px;
+        margin-bottom: 5px;
     }
 
     .detls .movie_detail_inner_box {
@@ -5473,9 +5492,9 @@ textarea.form-control:focus {
     } */
 
     .share_circle a {
-        padding: 3px 0px;
-        width: 40px;
-        height: 40px;
+        padding: 0px 0px;
+        width: 35px;
+        height: 35px;
     }
 
     .thumbnail_img {
@@ -5501,9 +5520,9 @@ textarea.form-control:focus {
         width: 73px;
     }
 
-    .banner {
+    /* .banner {
         margin-top: 68px;
-    }
+    } */
 
     .thumbnail_img:hover {
 
@@ -5530,7 +5549,7 @@ textarea.form-control:focus {
 
     .content-heading {
         font-size: 18px;
-        margin-bottom: 10px;
+        margin-bottom: 0px;
     }
 
     .content-timing span {
@@ -5538,7 +5557,7 @@ textarea.form-control:focus {
     }
 
     .content-timing {
-        margin-bottom: 10px;
+        margin-bottom: 0px;
     }
 
     .about-movie {
@@ -5566,7 +5585,7 @@ textarea.form-control:focus {
     }
 
     .content-timing {
-        margin-top: 10px;
+        margin-top: 2px;
     }
 
     .slide {
@@ -5582,10 +5601,10 @@ textarea.form-control:focus {
         padding: 5px 5px;
     }
 
-    .banner {
+    /* .banner {
         padding: 20px 0px;
         margin-top: 48px;
-    }
+    } */
 
     .favicn a {
 
@@ -5674,7 +5693,7 @@ textarea.form-control:focus {
 
     .content-timing {
         margin-bottom: 0px;
-        margin-top: 5px;
+        margin-top: 0px;
     }
 
     .movie_detail_inner_box {
@@ -6455,9 +6474,9 @@ textarea.form-control:focus {
         margin-bottom: 5px;
     }
 
-    .banner {
+    /* .banner {
         margin-top: 36px;
-    }
+    } */
 
     .slide {
         min-height: 180px !important;
@@ -7632,9 +7651,9 @@ ul.dropsmenubox li a.dropdown-item:hover {
         min-height: 127px !important;
     }
 
-    .detailBanner .movie_detail_inner_box {
+    /* .detailBanner .movie_detail_inner_box {
         top: 15px !important;
-    }
+    } */
 
     .about-movie {
         -webkit-line-clamp: 1 !important;

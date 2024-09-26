@@ -593,7 +593,7 @@
                     @endif
 
                     <div
-                        class="member-reviews mt-2 {{ !session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'] || $userDidComment ? 'mt-4' : '' }}">
+                        class="member-reviews {{ !session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'] || $userDidComment ? 'mt-4' : '' }}">
                         <?php
                 foreach ($stream_details['ratings'] as $review) {
                     $name = $review['user']['name'];
@@ -656,7 +656,7 @@
                                         $stream_details['rating_type'] === 'thumbs' &&
                                         $stream_details['video_rating'] === 'E')
                                     {{-- Thumbs  --}}
-                                    <div class="user-rating" style="margin-top: 25px; display: flex; gap: 12px;">
+                                    <div class="user-rating" style="margin-top: 10px; display: flex; gap: 12px;">
                                         @if ($review['rating'] >= 3)
                                             <div class="like active" style="rotate: 180deg">
                                                 <svg fill="{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}"
@@ -743,7 +743,7 @@
                                     @endfor
                                 @else
                                     {{-- Thumbs  --}}
-                                    <div class="user-rating" style="margin-top: 25px; display: flex; gap: 12px;">
+                                    <div class="user-rating" style="margin-top: 10px; display: flex; gap: 12px;">
                                         @if ($review['rating'] >= 3)
                                             <div class="like active" style="rotate: 180deg">
                                                 <svg fill="{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}"

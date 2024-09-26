@@ -1,5 +1,67 @@
+<div class="button_groupbox d-flex align-items-center mb-2 px-3 mt-2">
+    <div class="movieDetailPlaymobile">
+        @if (session('USER_DETAILS') &&
+                session('USER_DETAILS')['USER_CODE'] &&
+                ($stream_details['monetization_type'] == 'P' ||
+                    $stream_details['monetization_type'] == 'S' ||
+                    $stream_details['monetization_type'] == 'O'))
+            <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="mobile-primary-btn rounded">
+                <i class="fa fa-dollar"></i>
+                Buy Now
+            </a>
+        @else
+            <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="mobile-primary-btn rounded">
+                <i class="fa fa-play"></i>
+                Play Now
+            </a>
+        @endif
+    </div>
+    @if ($streamUrl !== '')
+    <div class="movieDetailPlaymobile">
+        <a id="trailer-id" class="mobile-primary-btn rounded">
+            <i class="fa fa-play"></i> Trailer
+        </a>
+    </div>
+    @endif
+    <?php
+if (session('USER_DETAILS.USER_CODE')) {
+    $signStr = "+";
+    $cls = 'fa fa-plus';
+    if ($stream_details['stream_is_stream_added_in_wish_list'] == 'Y') {
+        $cls = 'fa fa-minus';
+        $signStr = "-";
+    }
+?>
+    <div class="share_circle addWtchBtn">
+        <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav"
+                class="<?php echo $cls; ?>"></i></a>
+        <input type="hidden" id="myWishListSign" value='<?php echo $signStr; ?>' />
+        <input type="hidden" id="strQueryParm" value='<?php echo $strQueryParm; ?>' />
+        <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}' />
+        @csrf
+    </div>
+    <?php
+}
+?>
+    <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+        <a href="javascript:void(0)"><i class="fa fa-share"></i></a>
+    </div>
+    @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+        @if (
+            !empty($stream_details['is_gift']) &&
+                $stream_details['is_gift'] == 1 &&
+                ($stream_details['monetization_type'] == 'P' ||
+                    $stream_details['monetization_type'] == 'S' ||
+                    $stream_details['monetization_type'] == 'O'))
+            <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#giftModal">
+                <a href="javascript:void(0);"><i class="fa-solid fa-gift"></i></a>
+            </div>
+        @endif
+    @endif
+
+</div>
 <div class="my-tabs">
-    <div class="sec-device content-wrapper px-2 px-md-3">
+    <div class="sec-device content-wrapper px-3 px-md-3">
         <div class="tab-btns d-flex gap-3 gap-sm-3 gap-md-4 gap-lg-5">
             <div class="tab mobile-data active" data-tab="overview"><span>Overview</span></div>
             <!-- Start of season section -->
@@ -61,7 +123,8 @@
                                 $content_qlt_codes_arr = explode(',', $stream_details['content_qlt_codes']);
                             @endphp
                             @foreach ($content_qlt_arr as $i => $item)
-                                <a href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>
+                                <a
+                                    href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>
                                 @if (!$loop->last)
                                     ,
                                 @endif
@@ -75,7 +138,8 @@
                                 $content_rating_codes_arr = explode(',', $stream_details['content_rating_codes']);
                             @endphp
                             @foreach ($content_rating_arr as $i => $item)
-                                <a href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>
+                                <a
+                                    href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>
                                 @if (!$loop->last)
                                     ,
                                 @endif
@@ -83,9 +147,9 @@
                         </span>
                     @endif
                 </div>
-        
-                <div class="about-movie aboutmovie_gaps">{{ $stream_details['stream_description'] }}</div>
-                <dl class="movies_listview">
+
+                <div class="about-movie aboutmovie_gaps mt-1">{{ $stream_details['stream_description'] }}</div>
+                <dl class="movies_listview mb-3">
                     <dl>
                         @if (isset($stream_details['cast']) || isset($stream_details['director']) || isset($stream_details['writer']))
                             @if ($stream_details['cast'])
@@ -123,7 +187,7 @@
                                                     $persons = explode(',', $persons);
                                                 }
                                             @endphp
-        
+
                                             @foreach ($persons as $i => $person)
                                                 @if (is_array($person))
                                                     <a class="person-link"
@@ -158,7 +222,7 @@
                                 </dd>
                             </div>
                         @endif
-        
+
                         @if (!empty($stream_details['languages']))
                             <div class="content-person">
                                 <dt>Language: </dt>
@@ -178,7 +242,8 @@
                                 <dt>Tags: </dt>
                                 <dd>
                                     @foreach ($stream_details['tags'] as $i => $val)
-                                        <a class="person-link" href="{{ route('tag', $val['code']) }}">{{ $val['title'] }}</a>
+                                        <a class="person-link"
+                                            href="{{ route('tag', $val['code']) }}">{{ $val['title'] }}</a>
                                         @if (count($stream_details['tags']) - 1 !== $i)
                                             <span class="test-comma">, </span>
                                         @endif
@@ -188,68 +253,8 @@
                         @endif
                     </dl>
                 </dl>
-        
-                <div class="button_groupbox d-flex align-items-center mb-4 mt-3">
-                    <div class="btn_box movieDetailPlay">
-                        @if (session('USER_DETAILS') &&
-                                session('USER_DETAILS')['USER_CODE'] &&
-                                ($stream_details['monetization_type'] == 'P' ||
-                                    $stream_details['monetization_type'] == 'S' ||
-                                    $stream_details['monetization_type'] == 'O'))
-                            <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
-                                class="app-primary-btn rounded">
-                                <i class="fa fa-dollar"></i>
-                                Buy Now
-                            </a>
-                        @else
-                            <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
-                                class="app-primary-btn rounded">
-                                <i class="fa fa-play"></i>
-                                Play Now
-                            </a>
-                        @endif
-        
-                    </div>
-        
-                    <?php
-                if (session('USER_DETAILS.USER_CODE')) {
-                    $signStr = "+";
-                    $cls = 'fa fa-plus';
-                    if ($stream_details['stream_is_stream_added_in_wish_list'] == 'Y') {
-                        $cls = 'fa fa-minus';
-                        $signStr = "-";
-                    }
-                ?>
-                    <div class="share_circle addWtchBtn">
-                        <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav"
-                                class="<?php echo $cls; ?>"></i></a>
-                        <input type="hidden" id="myWishListSign" value='<?php echo $signStr; ?>' />
-                        <input type="hidden" id="strQueryParm" value='<?php echo $strQueryParm; ?>' />
-                        <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}' />
-                        @csrf
-                    </div>
-                    <?php
-                }
-                ?>
-                    <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                        <a href="javascript:void(0)"><i class="fa fa-share"></i></a>
-                    </div>
-                    @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
-                        @if (
-                            !empty($stream_details['is_gift']) &&
-                                $stream_details['is_gift'] == 1 &&
-                                ($stream_details['monetization_type'] == 'P' ||
-                                    $stream_details['monetization_type'] == 'S' ||
-                                    $stream_details['monetization_type'] == 'O'))
-                            <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#giftModal">
-                                <a href="javascript:void(0);"><i class="fa-solid fa-gift"></i></a>
-                            </div>
-                        @endif
-                    @endif
-        
-                </div>
             </div>
-            </div>
+        </div>
         <div data-tab-content="like" class="content d-none">
             <!--Start of season section-->
             <?php
@@ -285,9 +290,7 @@
                         <!-- Start shows -->
                         <div class="listing_box">
                             <div class="slider_title_box">
-                                <div class="list_heading">
-                                    <h1>{{ $latest_items['title'] }}</h1>
-                                </div>
+                                <h1 class="content-heading">{{ $latest_items['title'] }}</h1>
                             </div>
                             <div class="landscape_slider slider slick-slider">
                                 @foreach ($latest_items['streams'] as $arrStreamsData)
@@ -337,7 +340,8 @@
                                                         <div class="season_title">
                                                             {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                         </div>
-                                                        <div class="content_title">{{ $arrStreamsData['stream_title'] }}
+                                                        <div class="content_title">
+                                                            {{ $arrStreamsData['stream_title'] }}
                                                         </div>
                                                         <div class="content_description">
                                                             {{ $arrStreamsData['stream_description'] }}
@@ -361,7 +365,7 @@
                     \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1))
             <div data-tab-content="reviews" class="content d-none"><!--Start of Ratings section-->
                 <div class="item-ratings">
-                    <h1 class="section-title">Reviews</h1>
+                    <h1 class="content-heading">Reviews</h1>
                     @php
                         if (sizeof($stream_details['ratings'] ?? []) < 1) {
                             echo '<p class="text-white" style="margin-bottom: -8px !important;">No reviews found.</p>';
@@ -387,7 +391,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>star</title>
                                             <path
@@ -400,7 +405,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>star</title>
                                             <path
@@ -413,7 +419,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>star</title>
                                             <path
@@ -426,7 +433,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>star</title>
                                             <path
@@ -439,7 +447,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>star</title>
                                             <path
@@ -458,7 +467,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>heart</title>
                                             <path
@@ -471,7 +481,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>heart</title>
                                             <path
@@ -484,7 +495,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>heart</title>
                                             <path
@@ -497,7 +509,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>heart</title>
                                             <path
@@ -510,7 +523,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>heart</title>
                                             <path
@@ -547,14 +561,16 @@
                             <div class="user-rating" style=" margin-top: 25px; display: flex; gap: 12px;">
                                 <div class="like" style="rotate: 180deg" role="button"
                                     onclick="handleRating(this, 'like')">
-                                    <input class="form-check-input" type="radio" name="like_status" id="like_status"
-                                        value="5" style="display: none">
+                                    <input class="form-check-input" type="radio" name="like_status"
+                                        id="like_status" value="5" style="display: none">
                                     <label class="form-check-label" for="like_status" role="button">
-                                        <svg fill="#6e6e6e" height="27px" width="27px" version="1.1" id="Capa_1"
-                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                            viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
+                                        <svg fill="#6e6e6e" height="27px" width="27px" version="1.1"
+                                            id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 208.666 208.666"
+                                            xml:space="preserve" stroke="#6e6e6e">
                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round">
                                             </g>
                                             <g id="SVGRepo_iconCarrier">
                                                 <g>
@@ -570,11 +586,13 @@
                                     <input class="form-check-input" type="radio" name="like_status"
                                         id="dislike_status" value="1" style="display: none">
                                     <label class="form-check-label" for="dislike_status" role="button">
-                                        <svg fill="#6e6e6e" height="27px" width="27px" version="1.1" id="Capa_1"
-                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                            viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
+                                        <svg fill="#6e6e6e" height="27px" width="27px" version="1.1"
+                                            id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 208.666 208.666"
+                                            xml:space="preserve" stroke="#6e6e6e">
                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round">
                                             </g>
                                             <g id="SVGRepo_iconCarrier">
                                                 <g>
@@ -598,7 +616,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>star</title>
                                             <path
@@ -611,7 +630,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>star</title>
                                             <path
@@ -624,7 +644,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>star</title>
                                             <path
@@ -637,7 +658,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>star</title>
                                             <path
@@ -650,7 +672,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>star</title>
                                             <path
@@ -671,7 +694,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>heart</title>
                                             <path
@@ -684,7 +708,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>heart</title>
                                             <path
@@ -697,7 +722,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>heart</title>
                                             <path
@@ -710,7 +736,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>heart</title>
                                             <path
@@ -723,7 +750,8 @@
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>heart</title>
                                             <path
@@ -758,14 +786,16 @@
                             <div class="user-rating" style=" margin-top: 25px; display: flex; gap: 12px;">
                                 <div class="like" style="rotate: 180deg" role="button"
                                     onclick="handleRating(this, 'like')">
-                                    <input class="form-check-input" type="radio" name="like_status" id="like_status"
-                                        value="5" style="display: none">
+                                    <input class="form-check-input" type="radio" name="like_status"
+                                        id="like_status" value="5" style="display: none">
                                     <label class="form-check-label" for="like_status" role="button">
-                                        <svg fill="#6e6e6e" height="27px" width="27px" version="1.1" id="Capa_1"
-                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                            viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
+                                        <svg fill="#6e6e6e" height="27px" width="27px" version="1.1"
+                                            id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 208.666 208.666"
+                                            xml:space="preserve" stroke="#6e6e6e">
                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round">
                                             </g>
                                             <g id="SVGRepo_iconCarrier">
                                                 <g>
@@ -781,11 +811,13 @@
                                     <input class="form-check-input" type="radio" name="like_status"
                                         id="dislike_status" value="1" style="display: none">
                                     <label class="form-check-label" for="dislike_status" role="button">
-                                        <svg fill="#6e6e6e" height="27px" width="27px" version="1.1" id="Capa_1"
-                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                            viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
+                                        <svg fill="#6e6e6e" height="27px" width="27px" version="1.1"
+                                            id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 208.666 208.666"
+                                            xml:space="preserve" stroke="#6e6e6e">
                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round">
                                             </g>
                                             <g id="SVGRepo_iconCarrier">
                                                 <g>
@@ -818,7 +850,7 @@
                     @endif
 
                     <div
-                        class="member-reviews mt-2 {{ !session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'] || $userDidComment ? 'mt-4' : '' }}">
+                        class="member-reviews {{ !session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'] || $userDidComment ? 'mt-4' : '' }}">
                         <?php
                 foreach ($stream_details['ratings'] as $review) {
                     $name = $review['user']['name'];
@@ -881,14 +913,15 @@
                                         $stream_details['rating_type'] === 'thumbs' &&
                                         $stream_details['video_rating'] === 'E')
                                     {{-- Thumbs  --}}
-                                    <div class="user-rating" style="margin-top: 25px; display: flex; gap: 12px;">
+                                    <div class="user-rating" style="margin-top: 8px; display: flex; gap: 12px;">
                                         @if ($review['rating'] >= 3)
                                             <div class="like active" style="rotate: 180deg">
                                                 <svg fill="{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}"
                                                     height="27px" width="27px" version="1.1" id="Capa_1"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                    viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
+                                                    viewBox="0 0 208.666 208.666" xml:space="preserve"
+                                                    stroke="#6e6e6e">
                                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
                                                         stroke-linejoin="round">
@@ -908,7 +941,8 @@
                                                     height="27px" width="27px" version="1.1" id="Capa_1"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                    viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
+                                                    viewBox="0 0 208.666 208.666" xml:space="preserve"
+                                                    stroke="#6e6e6e">
                                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
                                                         stroke-linejoin="round">
@@ -968,14 +1002,15 @@
                                     @endfor
                                 @else
                                     {{-- Thumbs  --}}
-                                    <div class="user-rating" style="margin-top: 25px; display: flex; gap: 12px;">
+                                    <div class="user-rating" style="margin-top: 8px; display: flex; gap: 12px;">
                                         @if ($review['rating'] >= 3)
                                             <div class="like active" style="rotate: 180deg">
                                                 <svg fill="{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}"
                                                     height="27px" width="27px" version="1.1" id="Capa_1"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                    viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
+                                                    viewBox="0 0 208.666 208.666" xml:space="preserve"
+                                                    stroke="#6e6e6e">
                                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
                                                         stroke-linejoin="round">
@@ -995,7 +1030,8 @@
                                                     height="27px" width="27px" version="1.1" id="Capa_1"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                    viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
+                                                    viewBox="0 0 208.666 208.666" xml:space="preserve"
+                                                    stroke="#6e6e6e">
                                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
                                                         stroke-linejoin="round">

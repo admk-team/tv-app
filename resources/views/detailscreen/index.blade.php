@@ -99,7 +99,7 @@
     </style>
 
     <!--Start of banner section-->
-    <section class="banner detailBanner">
+    <section class="banner detailBanner mt-2">
         <div class="slide">
             <div class="poster_image_box">
                 <div class="prs_webseri_video_sec_icon_wrapper " style="display:none;">
@@ -138,27 +138,57 @@
                     player.play();
                 </script> --}}
 
-                        <video id="plyerId" class="video-js vjs-fluid vjs-16-9 vjs-default-skin js-big-play-centered"
-                            poster="{{ $stream_details['stream_poster'] }}" autoplay loop
-                            data-viblast-key="N8FjNTQ3NDdhZqZhNGI5NWU5ZTI=">
-                            <source src="{{ $streamUrl }}" {!! $mType !!}>
-                        </video>
-                        <script>
-                            //var player = videojs('plyerId', {fluid: true});
-                            var overrideNative = false;
-
-                            var player = videojs('plyerId', {
-                                html5: {
-                                    hls: {
-                                        overrideNative: overrideNative
-                                    },
-                                    nativeVideoTracks: !overrideNative,
-                                    nativeAudioTracks: !overrideNative,
-                                    nativeTextTracks: !overrideNative
-                                }
+                <!-- Video Player -->
+                <video id="plyerId" class="video-js vjs-fluid vjs-16-9 vjs-default-skin js-big-play-centered"
+                    poster="{{ $stream_details['stream_poster'] }}" autoplay muted loop
+                    data-viblast-key="N8FjNTQ3NDdhZqZhNGI5NWU5ZTI=">
+                    <source src="{{ $streamUrl }}" {!! $mType !!}>
+                </video>
+                <script>
+                    // Initialize Video.js player
+                    var overrideNative = false;
+                    var player = videojs('plyerId', {
+                        html5: {
+                            hls: {
+                                overrideNative: overrideNative
+                            },
+                            nativeVideoTracks: !overrideNative,
+                            nativeAudioTracks: !overrideNative,
+                            nativeTextTracks: !overrideNative
+                        }
+                    });
+                
+                    // Function to attempt autoplay
+                    function attemptAutoplay() {
+                        player.play().then(function() {
+                        }).catch(function(error) {
+                            console.log('Autoplay blocked or failed. Error:', error);
+                        });
+                    }
+                
+                    // Ensure the player is fully ready before attempting to play
+                    player.ready(function() {
+                        attemptAutoplay(); // Try autoplay
+                    });
+                
+                    // Add event listener to the trailer button to manually restart/replay the video
+                    window.addEventListener('load', () => {
+                        document.getElementById('trailer-id').addEventListener('click', function() {
+                            
+                            player.currentTime(0);
+                            player.play().then(function() {
+                                
+                            }).catch(function(error) {
+                                console.log('Error playing video manually:', error);
                             });
-                            player.play();
-                        </script>
+                        });
+                    })
+                
+                    // Prevent player from reloading while video is already playing
+                    player.on('loadstart', function() {
+                    });
+                </script>
+                
                     @endif
                 </div>
             </div>
@@ -573,8 +603,8 @@
 
     <script>
         $(document).ready(function() {
-             // Function to initialize Slick slider only when needed
-             function initializeSlider() {
+            // Function to initialize Slick slider only when needed
+            function initializeSlider() {
                 const sliderElement = $('.landscape_slider:not(.slick-initialized)');
                 if (sliderElement.length) {
                     sliderElement.slick({
