@@ -832,7 +832,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 sharesinbos">
+                        <div class="col-md-3 sharesinbos mb-2">
                             <?php
                 if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
                 {
