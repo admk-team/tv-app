@@ -6232,10 +6232,10 @@ textarea.form-control:focus {
     .thumbnail_img {
         height: 150px !important;
     }
-
+/*
     .slick-slider {
         margin-bottom: 30px;
-    }
+    } */
 }
 
 @media(max-width: 550px) {
@@ -7366,7 +7366,7 @@ ul.dropsmenubox li a.dropdown-item:hover {
 }
 
 .billboard_ads {
-    max-width: calc(100vw - 96px);
+    /* max-width: calc(100vw - 96px); */
     overflow: hidden;
     display: flex;
     justify-content: center;
