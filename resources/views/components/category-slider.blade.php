@@ -38,7 +38,8 @@
                             $cartMainCls = 'landscape_slider';
                             $cartMainSubCls = 'ripple';
                             $cardThumbCls = '';
-                            $cardThumbCls2 = "thumbnail_img thumbnailfourbyfour ST_{$items}";
+                            // $cardThumbCls2 = "thumbnail_img thumbnailfourbyfour ST_{$items}";
+                            $cardThumbCls2 = "thumbnail_img ST_{$items}";
                             $streamPosterKey = 'stream_sdm';
                             $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding
                                 ->is_landscape_slider_autoplay;
@@ -51,11 +52,11 @@
                             $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding
                                 ->is_potrait_slider_autoplay;
                             break;
-
                         case 'BA': //Billboard Ads (1606x470)  803 : 235,
                             $cartMainCls = 'billboard_ads';
                             $cartMainSubCls = "ripple BA_{$items}";
-                            $cardThumbCls = '';
+                            // $cartMainSubCls = "ripple";
+                           $cardThumbCls = '';
                             $cardThumbCls2 = 'thumbnail_img billboard_img';
                             $streamPosterKey = 'stream_poster';
                             break;
@@ -231,7 +232,7 @@
                                                         <span>New Episode</span>
                                                     </div>
                                                 @endif
-                                                <div class="{{ $cardThumbCls }}">
+                                                <div class="{{ $cardThumbCls }} ">
                                                     <img src="{{ $stream->{$streamPosterKey} }}"
                                                         alt="{{ $stream->stream_title }}">
                                                 </div>

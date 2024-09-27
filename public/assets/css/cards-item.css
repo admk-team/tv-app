@@ -1,66 +1,78 @@
+/* .ripple {
+    display: inline-flex;
+    justify-content: center;
+} */
+/* .banner_main {
+    width: 90%;
+} */
+ /* .billboard_ads  img
+ {
+    width: 100%;
+    height: auto;
+ } */
 /*==================================== slider thumbnail img styling on card type ============================= */
 /* ------  Landscape(LA)  --------- */
 .LA_2 {
     width: calc(calc(100vw / 6) - 10px) !important;
-    height: 180px !important;
     border-radius: 5px !important;
+    height: auto;
 }
 .LA_3 {
     width: calc(calc(100vw / 6) - 10px) !important;
-    height: 180px !important;
     border-radius: 5px !important;
+    height: auto;
 }
 .LA_4 {
     width: calc(calc(100vw / 5.7) - 10px) !important;
-    height: 200px !important;
     border-radius: 5px !important;
+    height: auto;
 }
 .LA_5 {
     width: calc(calc(100vw / 5.6) - 10px) !important;
-    height: 190px !important;
     border-radius: 5px !important;
+    height: auto;
 }
 .LA_6 {
     width: calc(calc(100vw / 6.6) - 10px) !important;
-    height: 170px !important;
     border-radius: 5px !important;
+    height: auto;
 }
 .LA_7 {
     width: calc(calc(100vw / 7.4) - 10px) !important;
-    height: 160px !important;
     border-radius: 5px !important;
+    height: auto;
 }
 .LA_8 {
     width: calc(calc(100vw / 7.9) - 10px) !important;
-    height: 150px !important;
     border-radius: 5px !important;
+    height: auto;
 }
 /* ------  Standard(ST)  --------- */
 
 .ST_2 {
     width: calc(calc(100vw / 5.3) - 10px) !important;
-    height: 200px !important;
     border-radius: 5px !important;
+    height: auto;
 }
 .ST_3 {
     width: calc(calc(100vw / 5.3) - 10px) !important;
-    height: 200px !important;
     border-radius: 5px !important;
+    height: auto;
 }
 .ST_4 {
     width: calc(calc(100vw / 4.6) - 10px) !important;
-    height: 170px !important;
     border-radius: 5px !important;
+    height: auto;
 }
 .ST_5 {
     width: calc(calc(100vw / 5.6) - 10px) !important;
-    height: 170px !important;
     border-radius: 5px !important;
+    height: auto;
 }
 .ST_6 {
     width: calc(calc(100vw / 6.6) - 10px) !important;
-    height: 150px !important;
     border-radius: 5px !important;
+    height: auto;
 }
 
 /* ------  Potrait(PO)  --------- */
@@ -100,35 +112,30 @@
 /* ------  Square(QU)  --------- */
 .QU_2 {
     width: calc(calc(100vw / 5.3) - 10px) !important;
-    height: 250px !important;
     border-radius: 5px !important;
 }
 .QU_3 {
     width: calc(calc(100vw / 5.3) - 10px) !important;
-    height: 250px !important;
     border-radius: 5px !important;
 }
 .QU_4 {
     width: calc(calc(100vw / 5.9) - 10px) !important;
-    height: 250px !important;
     border-radius: 5px !important;
 }
 .QU_5 {
     width: calc(calc(100vw / 6.5) - 10px) !important;
-    height: 250px !important;
     border-radius: 5px !important;
 }
 .QU_6 {
     width: calc(calc(100vw / 7.3) - 10px) !important;
-    height: 250px !important;
     border-radius: 5px !important;
 }
-.QU_6 {
+.QU_7 {
     width: calc(calc(100vw / 8.3) - 10px) !important;
     height: 250px !important;
     border-radius: 5px !important;
 }
-
+/* ------  Banner(BA)  --------- */
 .BA_5 {
     width: 100vw !important;
     border-radius: 5px !important;
@@ -137,8 +144,59 @@
 /*==================================== end slider thumbnail img styling on card type ============================= */
 
 @media (max-width: 1024px) {
+    /* .BA_5 {
+        width: 85vw !important;
+        border-radius: 5px !important;
+    } */
+    .ST_2 {
+        width: calc(calc(100vw / 3.9) - -10px) !important;
+    }
+    .ST_3 {
+        width: calc(calc(100vw / 3.9) - -10px) !important;
+    }
+    .ST_4 {
+        width: calc(calc(100vw / 3.9) - -10px) !important;
+    }
+    .ST_5 {
+        width: calc(calc(100vw / 4.2) - -10px) !important;
+    }
+    .ST_6 {
+        width: calc(calc(100vw / 4.6) - -15px) !important;
+    }
+    .QU_3 {
+        width: calc(calc(100vw / 3.3) - 10px) !important;
+        height: 220px !important;
+    }
+    .QU_4 {
+        width: calc(calc(100vw / 3.2) - 10px) !important;
+        height: 220px !important;
+    }
+    .QU_5 {
+        width: calc(calc(100vw / 3.5) - 10px) !important;
+        height: 200px !important;
+    }
+    .QU_6 {
+        width: calc(calc(100vw / 4.3) - 10px) !important;
+        height: 190px !important;
+    }
+    .QU_7 {
+        width: calc(calc(100vw / 5.3) - 10px) !important;
+        height: 200px !important;
+    }
+    .LA_2 {
+        width: calc(calc(100vw / 2.7) - 10px) !important;
+    }
     .LA_6 {
-        width: calc(calc(100vw / 3.6) - 10px) !important;
+        width: calc(calc(100vw / 4.3) - 10px) !important;
+    }
+    .LA_3 {
+        width: calc(calc(100vw / 2.6) - 10px) !important;
+    }
+    .LA_4 {
+        width: calc(calc(100vw / 2.9) - 10px) !important;
+    }
+    .LA_5 {
+        width: calc(calc(100vw / 2.7) - 56px) !important;
     }
 
     .PO_10 {
@@ -161,6 +219,49 @@
     }
 }
 @media (max-width: 768px) {
+    .ST_2 {
+        width: calc(calc(100vw / 2.9) - -10px) !important;
+    }
+    .ST_3 {
+        width: calc(calc(100vw / 3) - -10px) !important;
+    }
+    .ST_5 {
+        width: calc(calc(100vw / 3.2) - -12px) !important;
+    }
+    .ST_6 {
+        width: calc(calc(100vw / 3.6) - -15px) !important;
+    }
+    .QU_3 {
+        width: calc(calc(100vw / 3) - 10px) !important;
+    }
+    .QU_4 {
+        width: calc(calc(100vw / 2.9) - 10px) !important;
+    }
+    .QU_5 {
+        width: calc(calc(100vw / 2.9) - 10px) !important;
+    }
+    .QU_6 {
+        width: calc(calc(100vw / 3.3) - 10px) !important;
+    }
+    .QU_7 {
+        width: calc(calc(100vw / 3.8) - 10px) !important;
+    }
+    .LA_2 {
+        width: calc(calc(100vw / 2.1) - 10px) !important;
+    }
+    .LA_3 {
+        width: calc(calc(100vw / 2.1) - 10px) !important;
+    }
+    .LA_4 {
+        width: calc(calc(100vw / 2.1) - 10px) !important;
+    }
+    .LA_5 {
+        width: calc(calc(100vw / 2.1) - 56px) !important;
+    }
+    .LA_6 {
+        width: calc(calc(100vw / 3.1) - 10px) !important;
+    }
+
     .BA_5 {
         width: 85vw !important;
     }
@@ -187,9 +288,41 @@
     }
 }
 @media (max-width: 576px) {
-    .BA_5 {
-        width: 262px !important;
+    /* .BA_5 {
+        width: 70vw !important;
+    } */
+
+    .ST_2 {
+        width: calc(calc(100vw / 2) - -10px) !important;
     }
+    .ST_3 {
+        width: calc(calc(100vw / 2) - -10px) !important;
+    }
+    .ST_4 {
+        width: calc(calc(100vw / 2) - -10px) !important;
+    }
+    .ST_5 {
+        width: calc(calc(100vw / 2.2) - -12px) !important;
+    }
+    .ST_6 {
+        width: calc(calc(100vw / 1.9) - -15px) !important;
+    }
+    .QU_3 {
+        width: calc(calc(100vw / 2.2) - 10px) !important;
+    }
+    .QU_4 {
+        width: calc(calc(100vw / 1.9) - 10px) !important;
+    }
+    .QU_5 {
+        width: calc(calc(100vw / 1.8) - 10px) !important;
+    }
+    .QU_6 {
+        width: calc(calc(100vw / 1.7) - 10px) !important;
+    }
+    .QU_7 {
+        width: calc(calc(100vw / 1.8) - 10px) !important;
+    }
+
     .PO_10 {
         width: calc(calc(100vw - -43px) / 2.9) !important;
     }
@@ -209,7 +342,130 @@
         width: calc(calc(100vw - 28px) / 3.5) !important;
     }
 }
-@media(max-width: 900px) {
+@media (max-width: 425px) {
+    .ST_2 {
+        width: calc(calc(100vw / 1.8) - -10px) !important;
+    }
+    .ST_3 {
+        width: calc(calc(100vw / 1.8) - -10px) !important;
+    }
+    .ST_4 {
+        width: calc(calc(100vw / 1.8) - -12px) !important;
+    }
+    .ST_5 {
+        width: calc(calc(100vw / 2.2) - -12px) !important;
+    }
+    .ST_6 {
+        width: calc(calc(100vw / 1.9) - -15px) !important;
+    }
+    .LA_2 {
+        width: calc(calc(100vw / 1.5) - 10px) !important;
+    }
+    .LA_3 {
+        width: calc(calc(100vw / 1.3) - 10px) !important;
+    }
+    .LA_4 {
+        width: calc(calc(100vw / 1.4) - 10px) !important;
+    }
+    .LA_5 {
+        width: calc(calc(100vw / 1.3) - 56px) !important;
+    }
+    .LA_6 {
+        width: calc(calc(100vw / 1.6) - 10px) !important;
+    }
+
+    .PO_10 {
+        width: calc(calc(100vw - -23px) / 2.4) !important;
+    }
+    .PO_9 {
+        width: calc(calc(100vw - -23px) / 2.4) !important;
+    }
+    .PO_8 {
+        width: calc(calc(100vw - -26px) / 2.4) !important;
+    }
+    .PO_7 {
+        width: calc(calc(100vw - -29px) / 2.4) !important;
+    }
+    .PO_6 {
+        width: calc(calc(100vw - -23px) / 2.6) !important;
+    }
+    .PO_5 {
+        width: calc(calc(100vw - -33px) / 2.6) !important;
+    }
+    .PO_4 {
+        width: calc(calc(100vw - 23px) / 2.6) !important;
+    }
+}
+@media (max-width: 320px) {
+
+    .ST_2 {
+        width: calc(calc(100vw / 1.8) - -10px) !important;
+    }
+    .ST_3 {
+        width: calc(calc(100vw / 1.3) - -10px) !important;
+    }
+    .ST_5 {
+        width: calc(calc(100vw / 1.2) - -12px) !important;
+    }
+    .ST_6 {
+        width: calc(calc(100vw / 1.3) - -15px) !important;
+    }
+    .QU_3 {
+        width: calc(calc(100vw / 1.5) - 10px) !important;
+    }
+    .QU_4 {
+        width: calc(calc(100vw / 1.5) - 10px) !important;
+    }
+    .QU_5 {
+        width: calc(calc(100vw / 1.5) - 10px) !important;
+    }
+    .QU_6 {
+        width: calc(calc(100vw / 1.3) - 10px) !important;
+    }
+    .QU_7 {
+        width: calc(calc(100vw / 1.8) - 10px) !important;
+    }
+    .LA_2 {
+        width: calc(calc(100vw / 1.1) - 10px) !important;
+    }
+    .LA_3 {
+        width: calc(calc(100vw / 1.1) - 10px) !important;
+    }
+    .LA_4 {
+        width: calc(calc(100vw / 1.1) - 10px) !important;
+    }
+    .LA_5 {
+        width: calc(calc(100vw / 1.1) - 26px) !important;
+    }
+    .LA_6 {
+        width: calc(calc(100vw / 1.1) - 10px) !important;
+    }
+
+    .PO_10 {
+        width: calc(calc(100vw - -23px) / 2.4) !important;
+    }
+    .PO_9 {
+        width: calc(calc(100vw - -23px) / 2.4) !important;
+    }
+    .PO_8 {
+        width: calc(calc(100vw - -26px) / 2.4) !important;
+    }
+    .PO_7 {
+        width: calc(calc(100vw - -29px) / 2.4) !important;
+    }
+    .PO_6 {
+        width: calc(calc(100vw - -13px) / 1.6) !important;
+    }
+    .PO_5 {
+        width: calc(calc(100vw - -13px) / 1.6) !important;
+    }
+    .PO_4 {
+        width: calc(calc(100vw - 3px) / 1.6) !important;
+
+    }
+}
+
+@media (max-width: 900px) {
     /* .vertical {
         width: calc(calc(100vw - 20px) / 5) !Important;
     } */
