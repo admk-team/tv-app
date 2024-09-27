@@ -96,6 +96,26 @@
         .movie_detail_inner_box {
             top: 30px !important;
         }
+
+        @media (max-width: 600px) {
+            .slick-slide {
+                width: 170px !important;
+            }
+
+            .thumbnail_img {
+                height: 100px !important;
+            }
+
+            .thumbnail_img:first-child {
+                margin-left: 1px !important;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .thumbnail_img {
+                height: 95px !important;
+            }
+        }
     </style>
 
     <!--Start of banner section-->
@@ -138,57 +158,54 @@
                     player.play();
                 </script> --}}
 
-                <!-- Video Player -->
-                <video id="plyerId" class="video-js vjs-fluid vjs-16-9 vjs-default-skin js-big-play-centered"
-                    poster="{{ $stream_details['stream_poster'] }}" autoplay muted loop
-                    data-viblast-key="N8FjNTQ3NDdhZqZhNGI5NWU5ZTI=">
-                    <source src="{{ $streamUrl }}" {!! $mType !!}>
-                </video>
-                <script>
-                    // Initialize Video.js player
-                    var overrideNative = false;
-                    var player = videojs('plyerId', {
-                        html5: {
-                            hls: {
-                                overrideNative: overrideNative
-                            },
-                            nativeVideoTracks: !overrideNative,
-                            nativeAudioTracks: !overrideNative,
-                            nativeTextTracks: !overrideNative
-                        }
-                    });
-                
-                    // Function to attempt autoplay
-                    function attemptAutoplay() {
-                        player.play().then(function() {
-                        }).catch(function(error) {
-                            console.log('Autoplay blocked or failed. Error:', error);
-                        });
-                    }
-                
-                    // Ensure the player is fully ready before attempting to play
-                    player.ready(function() {
-                        attemptAutoplay(); // Try autoplay
-                    });
-                
-                    // Add event listener to the trailer button to manually restart/replay the video
-                    window.addEventListener('load', () => {
-                        document.getElementById('trailer-id').addEventListener('click', function() {
-                            
-                            player.currentTime(0);
-                            player.play().then(function() {
-                                
-                            }).catch(function(error) {
-                                console.log('Error playing video manually:', error);
+                        <!-- Video Player -->
+                        <video id="plyerId" class="video-js vjs-fluid vjs-16-9 vjs-default-skin js-big-play-centered"
+                            poster="{{ $stream_details['stream_poster'] }}" autoplay muted loop
+                            data-viblast-key="N8FjNTQ3NDdhZqZhNGI5NWU5ZTI=">
+                            <source src="{{ $streamUrl }}" {!! $mType !!}>
+                        </video>
+                        <script>
+                            // Initialize Video.js player
+                            var overrideNative = false;
+                            var player = videojs('plyerId', {
+                                html5: {
+                                    hls: {
+                                        overrideNative: overrideNative
+                                    },
+                                    nativeVideoTracks: !overrideNative,
+                                    nativeAudioTracks: !overrideNative,
+                                    nativeTextTracks: !overrideNative
+                                }
                             });
-                        });
-                    })
-                
-                    // Prevent player from reloading while video is already playing
-                    player.on('loadstart', function() {
-                    });
-                </script>
-                
+
+                            // Function to attempt autoplay
+                            function attemptAutoplay() {
+                                player.play().then(function() {}).catch(function(error) {
+                                    console.log('Autoplay blocked or failed. Error:', error);
+                                });
+                            }
+
+                            // Ensure the player is fully ready before attempting to play
+                            player.ready(function() {
+                                attemptAutoplay(); // Try autoplay
+                            });
+
+                            // Add event listener to the trailer button to manually restart/replay the video
+                            window.addEventListener('load', () => {
+                                document.getElementById('trailer-id').addEventListener('click', function() {
+
+                                    player.currentTime(0);
+                                    player.play().then(function() {
+
+                                    }).catch(function(error) {
+                                        console.log('Error playing video manually:', error);
+                                    });
+                                });
+                            })
+
+                            // Prevent player from reloading while video is already playing
+                            player.on('loadstart', function() {});
+                        </script>
                     @endif
                 </div>
             </div>
@@ -361,11 +378,13 @@
 
                     <div class="button_groupbox d-flex align-items-center mb-4">
                         <div class="btn_box movieDetailPlay">
+                            @dd($stream_details['is_buyed'])
                             @if (session('USER_DETAILS') &&
                                     session('USER_DETAILS')['USER_CODE'] &&
                                     ($stream_details['monetization_type'] == 'P' ||
                                         $stream_details['monetization_type'] == 'S' ||
-                                        $stream_details['monetization_type'] == 'O'))
+                                        $stream_details['monetization_type'] == 'O') &&
+                                    $stream_details['is_buyed'] == 'N')
                                 <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
                                     class="app-primary-btn rounded">
                                     <i class="fa fa-dollar"></i>
@@ -616,13 +635,13 @@
                         responsive: [{
                                 breakpoint: 768,
                                 settings: {
-                                    slidesToShow: 2,
+                                    slidesToShow: 3,
                                 }
                             },
                             {
                                 breakpoint: 480,
                                 settings: {
-                                    slidesToShow: 1,
+                                    slidesToShow: 3,
                                 }
                             }
                         ]

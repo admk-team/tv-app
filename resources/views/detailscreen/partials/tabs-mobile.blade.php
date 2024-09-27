@@ -1,10 +1,10 @@
 <div class="button_groupbox d-flex align-items-center mb-2 px-3 mt-2">
     <div class="movieDetailPlaymobile">
         @if (session('USER_DETAILS') &&
-                session('USER_DETAILS')['USER_CODE'] &&
+                session('USER_DETAILS')['USER_CODE'] && $stream_details['is_buyed'] == 'N' && 
                 ($stream_details['monetization_type'] == 'P' ||
                     $stream_details['monetization_type'] == 'S' ||
-                    $stream_details['monetization_type'] == 'O'))
+                    $stream_details['monetization_type'] == 'O') )
             <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="mobile-primary-btn rounded">
                 <i class="fa fa-dollar"></i>
                 Buy Now
