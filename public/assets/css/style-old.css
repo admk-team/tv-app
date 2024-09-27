@@ -4957,8 +4957,7 @@ textarea.form-control:focus {
 
 
     .footer_section {
-
-        /*padding: 33px 0px;*/
+        padding: 5px 33px !important;
         padding-bottom: 10px;
     }
 
