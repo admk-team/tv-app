@@ -378,7 +378,6 @@
 
                     <div class="button_groupbox d-flex align-items-center mb-4">
                         <div class="btn_box movieDetailPlay">
-                            @dd($stream_details['is_buyed'])
                             @if (session('USER_DETAILS') &&
                                     session('USER_DETAILS')['USER_CODE'] &&
                                     ($stream_details['monetization_type'] == 'P' ||
