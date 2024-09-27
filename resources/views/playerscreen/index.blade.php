@@ -247,6 +247,11 @@
             z-index: 1;
             user-select: none;
         }
+        .live-video {
+            position: absolute;
+            z-index: 500;
+            user-select: none;
+        }
 
         .watermark.center {
             right: 0;
@@ -273,6 +278,11 @@
         }
 
         .watermark.top-right {
+            top: 1em;
+            width: fit-content;
+            right: 1em;
+        }
+        .live-video.top-right {
             top: 1em;
             width: fit-content;
             right: 1em;
@@ -349,6 +359,12 @@
         .watermark.text {
             color: rgba(255, 255, 255, {{ $watermark ? $watermark['opacity'] : '0.4' }});
             font-size: {{ $watermark ? $watermark['size'] . 'px' : '3rem' }};
+            font-weight: 900;
+        }
+
+        .live-video.text {
+            color: rgba(255, 255, 255, 1);
+            font-size: 3rem;
             font-weight: 900;
         }
 
@@ -482,6 +498,12 @@
                                 @endif
                             </div>
                         @endif
+                        @if(strpos($streamUrl, "https://stream.live.gumlet.io") !== false)
+                            <div class="live-video top-right text"
+                                style="display: block;">
+                                <img src="{{ asset('assets/images/live-video.png') }}" alt="watermark">
+                            </div>
+                        @endif
                         <div id="wrapper">
                             <div class="trail-redirect-message">You will be redirected to login in <span class="time">45
                                     second</span></div>
@@ -494,6 +516,7 @@
                                         <a href="{{ $arrSlctItemData['overlay_ad']['target_url'] }}" target="_blank"
                                             onclick="overlayAdClick()">
                                             <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}"
+                                            height="20"
                                                 alt="overlay ad" />
                                         </a>
                                     @else
@@ -508,6 +531,9 @@
                             <div class="playlist-video">
 
                                 <div class="mvp-playlist-item"
+                                @php
+                                    $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType;
+                                @endphp
                                 data-type="{{ Str::endsWith($streamUrl, '.mp3') ? 'audio' : $mType }}"
                                     data-path="{{ $streamUrl }}"
                                     data-poster="{{ $arrSlctItemData['stream_poster'] }}"
@@ -620,7 +646,7 @@
                             </a>
                         </li>
                     </ul>
-    
+
                     <form class="form-inline d-flex mt-3">
                         <input type="text" class="share_formbox" id="sharingURL" value="{{ $sharingURL }}"
                             readonly>
@@ -630,7 +656,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <!-- Report Modal -->
     <div class="modal fade" id="reportModalCenter" tabindex="-1" role="dialog"
@@ -806,7 +832,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 sharesinbos">
+                        <div class="col-md-3 sharesinbos mb-2">
                             <?php
                 if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
                 {

@@ -70,7 +70,11 @@ Route::get('/check-channel-status', [ChannelSubscribeController::class, 'checkSu
 
 // Authentication
 Route::get('signup', [RegisterController::class, 'index'])->name('register');
-Route::post('signup', [RegisterController::class, 'register'])->name('register');
+Route::middleware('throttle:2,1')->group(
+    function () {
+        Route::post('signup', [RegisterController::class, 'register'])->name('register');
+    }
+);
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::get('logout', [LogoutController::class, 'index'])->name('logout');
@@ -97,7 +101,6 @@ Route::middleware('auth.user')->group(function () {
     Route::get('watch/history', [ProfileController::class, 'history'])->name('watch.history');
     //
     Route::post('extra/video', [PlayerScreenController::class, 'extraVideo'])->name('extra-video');
-
 });
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');

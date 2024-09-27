@@ -5,6 +5,7 @@
     }
 
     .header__logo {
+        max-width: 15%;
         width: 100px;
     }
 
@@ -249,7 +250,7 @@
         width: 100%;
         z-index: 1000;
         /* Adjust z-index as needed */
-        
+
     }
 
     .fixed-menu2 {
@@ -282,7 +283,8 @@
         padding-top: 280px;
         /* Adjust the value as needed */
     }
-    .fixed-header-height{
+
+    .fixed-header-height {
         height: 100px;
     }
 </style>
@@ -403,7 +405,7 @@
                     $('#subscribe-text').text('Subscribe'); // Default to Subscribe on error
                     console.error('AJAX error:', error); // Debugging AJAX error
                     console.error('Response text:', xhr
-                    .responseText); // Log the response text for debugging
+                        .responseText); // Log the response text for debugging
                 }
             });
         });
