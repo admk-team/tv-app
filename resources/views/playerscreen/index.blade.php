@@ -13,7 +13,7 @@
     $IS_SIGNIN_BYPASS = 'N';
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
-
+    
     session('GLOBAL_PASS', 0);
     request()->server('REQUEST_METHOD');
     $protocol = request()->server('HTTPS') === 'on' ? 'https' : 'http';
@@ -39,7 +39,7 @@
         session('IS_SIGNIN_BYPASS', url('/playerscreen/' . $streamGuid));
         \App\Helpers\GeneralHelper::headerRedirect(url('/signin'));
     }
-
+    
     //monetioztion
     $redirectUrl = null;
     if ($limitWatchTime === 'yes' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -47,7 +47,7 @@
         session()->save();
         $redirectUrl = route('login');
     }
-
+    
     $sharingURL = route('playerscreen', $streamGuid);
     $isBuyed = $arrSlctItemData['is_buyed'];
     $monetizationType = $arrSlctItemData['monetization_type'];
@@ -81,7 +81,7 @@
             \Illuminate\Support\Facades\Redirect::to(route('monetization'))->send();
         }
     }
-
+    
     // Check if subscription is required for all content and is not subscribed
     if (\App\Helpers\GeneralHelper::subscriptionIsRequired() && $isBuyed == 'N') {
         if ($limitWatchTime === 'no' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -94,14 +94,14 @@
             \Illuminate\Support\Facades\Redirect::to(route('subscription'))->send();
         }
     }
-
+    
     $mType = 'video';
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
     }
     $apiPath = App\Services\Api::endpoint('/mngstrmdur');
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN');
-
+    
     // here get the video duration
     $seekFunStr = '';
     $arrFormData4VideoState = [];
@@ -117,7 +117,7 @@
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
         $seekFunStr = "this.currentTime($streamDurationInSec);";
     }
-
+    
     // Here Set Ad URL in Session
     $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
     if (!session('ADS_INFO')) {
@@ -129,7 +129,7 @@
             ],
         ]);
     }
-
+    
     $useragent = request()->server('HTTP_USER_AGENT');
     $isMobileBrowser = 0;
     if (
@@ -147,13 +147,13 @@
     $userAgent = urlencode(request()->server('HTTP_USER_AGENT'));
     $userIP = \App\Helpers\GeneralHelper::getRealIpAddr();
     $channelName = urlencode(\App\Services\AppConfig::get()->app->app_info->app_name);
-
+    
     $isLocalHost = false;
     $host = parse_url(url()->current())['host'];
     if (in_array($host, ['localhost', '127.0.0.1'])) {
         $isLocalHost = true;
     }
-
+    
     //&app_bundle=669112
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
@@ -163,28 +163,28 @@
         $adMacros = $adUrl . "?width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     }
     $dataVast = "data-vast='$adMacros'";
-
+    
     if ($isMobileBrowser == 1 || $adUrl == '') {
         $dataVast = '';
     }
-
+    
     $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
-
+    
     if (!$arrSlctItemData['has_global_ads']) {
         $dataVast = '';
     }
-
+    
     if (!$arrSlctItemData['has_individual_ads']) {
         $dataVast2 = '';
     }
-
+    
     if (!$arrSlctItemData['has_ads']) {
         $dataVast = '';
         $dataVast2 = '';
     }
-
+    
     $watermark = $arrSlctItemData['watermark'] ?? null;
-
+    
     ?>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
@@ -247,6 +247,7 @@
             z-index: 1;
             user-select: none;
         }
+
         .live-video {
             position: absolute;
             z-index: 500;
@@ -282,6 +283,7 @@
             width: fit-content;
             right: 1em;
         }
+
         .live-video.top-right {
             top: 1em;
             width: fit-content;
@@ -498,9 +500,8 @@
                                 @endif
                             </div>
                         @endif
-                        @if(strpos($streamUrl, "https://stream.live.gumlet.io") !== false)
-                            <div class="live-video top-right text"
-                                style="display: block;">
+                        @if (strpos($streamUrl, 'https://stream.live.gumlet.io') !== false)
+                            <div class="live-video top-right text" style="display: block;">
                                 <img src="{{ asset('assets/images/live-video.png') }}" alt="watermark">
                             </div>
                         @endif
@@ -515,8 +516,7 @@
                                     @if ($arrSlctItemData['overlay_ad']['target_url'])
                                         <a href="{{ $arrSlctItemData['overlay_ad']['target_url'] }}" target="_blank"
                                             onclick="overlayAdClick()">
-                                            <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}"
-                                            height="20"
+                                            <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}" height="20"
                                                 alt="overlay ad" />
                                         </a>
                                     @else
@@ -531,10 +531,9 @@
                             <div class="playlist-video">
 
                                 <div class="mvp-playlist-item"
-                                @php
-                                    $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType;
-                                @endphp
-                                data-type="{{ Str::endsWith($streamUrl, '.mp3') ? 'audio' : $mType }}"
+                                    @php
+$mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @endphp
+                                    data-type="{{ Str::endsWith($streamUrl, '.mp3') ? 'audio' : $mType }}"
                                     data-path="{{ $streamUrl }}"
                                     data-poster="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
@@ -621,27 +620,34 @@
                 <div class="modal-body">
                     <ul class="share_list d-flex justify-content-between">
                         <li>
-                            <a data-toggle="tooltip" data-placement="top" title="facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ $sharingURL }}" target="_blank">
+                            <a data-toggle="tooltip" data-placement="top" title="facebook"
+                                href="https://www.facebook.com/sharer/sharer.php?u={{ $sharingURL }}" target="_blank">
                                 <i class="fa-brands fa-facebook"></i>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tooltip" data-placement="top" title="whatsapp" href="https://wa.me/?text={{ $sharingURL }}" target="_blank">
+                            <a data-toggle="tooltip" data-placement="top" title="whatsapp"
+                                href="https://wa.me/?text={{ $sharingURL }}" target="_blank">
                                 <i class="fa-brands fa-whatsapp"></i>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tooltip" data-placement="top" title="twitter" href="https://twitter.com/intent/tweet?text={{ $sharingURL }}" target="_blank">
+                            <a data-toggle="tooltip" data-placement="top" title="twitter"
+                                href="https://twitter.com/intent/tweet?text={{ $sharingURL }}" target="_blank">
                                 <i class="fa-brands fa-twitter"></i>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tooltip" data-placement="top" title="telegram" href="https://t.me/share/url?url={{ $sharingURL }}&text={{ $arrSlctItemData['stream_title'] }}" target="_blank">
+                            <a data-toggle="tooltip" data-placement="top" title="telegram"
+                                href="https://t.me/share/url?url={{ $sharingURL }}&text={{ $arrSlctItemData['stream_title'] }}"
+                                target="_blank">
                                 <i class="fa-brands fa-telegram"></i>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tooltip" data-placement="top" title="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url={{ $sharingURL }}" target="_blank">
+                            <a data-toggle="tooltip" data-placement="top" title="linkedin"
+                                href="https://www.linkedin.com/shareArticle?mini=true&url={{ $sharingURL }}"
+                                target="_blank">
                                 <i class="fa-brands fa-linkedin"></i>
                             </a>
                         </li>
@@ -949,7 +955,7 @@ if (!empty($arrCatData))
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                              </div> -->
+                                                                                                                                                                                                                                                  </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}</div>
@@ -972,35 +978,35 @@ if (!empty($arrCatData))
         </div>
 
         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['images']))
-        <div id="images" class="content d-none">
-            <div class="container">
-                <div class="custom-gallery row custom-border p-4 rounded">
+            <div id="images" class="content d-none">
+                <div class="container">
+                    <div class="custom-gallery row custom-border p-4 rounded">
 
-                    <!-- Featured Image -->
-                    <div class="custom-placeholder col-md-7 mb-4" id="custom-featured">
-                        <img src="{{ $arrSlctItemData['images'][0]['video_url_local'] }}" class="img-fluid p-2"
-                            style="width: 100%; height: auto; object-fit: cover;">
-                    </div>
-
-                    <!-- Thumbnail Images -->
-                    <div class="custom-gallery-images col-md-5 ">
-                        <div class="row">
-                            @foreach ($arrSlctItemData['images'] as $image)
-                                <div class="custom-image col-4 mb-2">
-                                    <img src="{{ $image['video_url_local'] }}" data-id="{{ $loop->index }}"
-                                        class="img-fluid custom-border rounded p-2"
-                                        style="width: 100%; height: 80%; object-fit: cover; cursor: pointer;">
-                                    <div class="image-name rounded">
-                                        {{ $image['name'] }}
-                                    </div>
-                                </div>
-                            @endforeach
+                        <!-- Featured Image -->
+                        <div class="custom-placeholder col-md-7 mb-4" id="custom-featured">
+                            <img src="{{ $arrSlctItemData['images'][0]['video_url_local'] }}" class="img-fluid p-2"
+                                style="width: 100%; height: auto; object-fit: cover;">
                         </div>
-                    </div>
 
+                        <!-- Thumbnail Images -->
+                        <div class="custom-gallery-images col-md-5 ">
+                            <div class="row">
+                                @foreach ($arrSlctItemData['images'] as $image)
+                                    <div class="custom-image col-4 mb-2">
+                                        <img src="{{ $image['video_url_local'] }}" data-id="{{ $loop->index }}"
+                                            class="img-fluid custom-border rounded p-2"
+                                            style="width: 100%; height: 80%; object-fit: cover; cursor: pointer;">
+                                        <div class="image-name rounded">
+                                            {{ $image['name'] }}
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </div>
         @endif
         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['pdfs']))
             <div id="pdf" class="content d-none">
@@ -1036,7 +1042,7 @@ if (!empty($arrCatData))
                             <div class="landscape_slider slider slick-slider">
                                 @foreach ($arrSlctItemData['videos'] as $video)
                                     <div>
-                                        <div class="thumbnail_img" style="cursor: pointer;"
+                                        <div class="thumbnail_img" id="thumbnail_img_video" style="cursor: pointer;"
                                             data-url="{{ $video['playback_url'] }}"
                                             data-thumbnail="{{ $video['thumbnail_url'] }}"
                                             data-title="{{ $video['name'] }}"
@@ -1542,7 +1548,7 @@ if (!empty($arrCatData))
             });
 
             // Handle thumbnail click to open the new page
-            $('.thumbnail_img').on('click', function() {
+            $('#thumbnail_img_video').on('click', function() {
                 var playbackUrl = $(this).data('url'); // Get playback URL from clicked thumbnail
                 var thumbnail = $(this).data('thumbnail'); // Get thumbnail URL
                 var title = $(this).data('title'); // Get video title
