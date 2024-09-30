@@ -207,7 +207,7 @@
                     responsive: [{
                             breakpoint: 1740,
                             settings: {
-                                slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                slidesToShow: Math.max(itemsPerRow, 1),
                                 slidesToScroll: 2,
                                 dots: true,
                                 arrows: true
@@ -216,7 +216,7 @@
                         {
                             breakpoint: 1200,
                             settings: {
-                                slidesToShow: Math.max(itemsPerRow - 2, 1),
+                                slidesToShow: Math.max(itemsPerRow - 1, 1),
                                 slidesToScroll: 1,
                                 dots: true,
                                 arrows: false
@@ -226,7 +226,7 @@
                             breakpoint: 600,
                             settings: {
                                 slidesToShow: 2,
-                                slidesToScroll: 2,
+                                slidesToScroll: 1,
                                 arrows: false
                             }
                         },
@@ -234,7 +234,7 @@
                             breakpoint: 480,
                             settings: {
                                 slidesToShow:2,
-                                slidesToScroll: 2,
+                                slidesToScroll: 1,
                                 dots: false,
                                 arrows: false
                             }

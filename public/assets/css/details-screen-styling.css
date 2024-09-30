@@ -119,8 +119,22 @@
         font-size: 18px;
     }
 }
+/* @media (max-width: 600px) {
+    .slick-slide{
+        width: 170px;
+    }
+    .thumbnail_img{
+        height: 100px !important;
+    }
+    .thumbnail_img:first-child {
+        margin-left: 1px !important;
+    }
+}
 @media (max-width: 400px) {
     .sec-device .tab-btns > div {
         font-size: 13px !important;
     }
-}
+    .thumbnail_img{
+        height: 95px !important;
+    }
+} */

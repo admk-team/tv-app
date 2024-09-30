@@ -2321,7 +2321,7 @@ section.sliders {
     margin-bottom: 0px !important;
 }
 
-.landscape_slider .slick-next:before {
+/* .landscape_slider .slick-next:before {
     top: -15px;
     right: 0;
     width: 30px;
@@ -2347,6 +2347,9 @@ section.sliders {
     left: -25px;
     width: 80px;
     height: 222px;
+} */
+.slick-prev, .slick-next {
+    top: calc(50% - 30px) !important;
 }
 
 .potrait_slider .slick-next:before {
