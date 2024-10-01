@@ -7864,6 +7864,11 @@ ul.dropsmenubox li a.dropdown-item:hover {
     width: max-content;
     margin: auto;
     box-shadow: 0px 0px 8px -1px rgba(0, 0, 0, .4);
+    z-index: 5;
+}
+
+.overlay-ad .overlay-height-img{
+    height: 20%;
 }
 
 .overlay-ad .btn-close-ad {
