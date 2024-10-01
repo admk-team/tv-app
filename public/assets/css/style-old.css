@@ -2349,7 +2349,7 @@ section.sliders {
     height: 222px;
 } */
 .slick-prev, .slick-next {
-    top: calc(50% - 30px) !important;
+    top: calc(50% - 10px) !important;
 }
 
 .potrait_slider .slick-next:before {
