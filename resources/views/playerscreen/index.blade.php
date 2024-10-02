@@ -368,6 +368,8 @@
             color: rgba(255, 255, 255, 1);
             font-size: 3rem;
             font-weight: 900;
+            z-index: 3;
+            right: 15px;
         }
 
         .watermark img {
@@ -502,7 +504,7 @@
                         @endif
                         @if (strpos($streamUrl, 'https://stream.live.gumlet.io') !== false)
                             <div class="live-video top-right text" style="display: block;">
-                                <img src="{{ asset('assets/images/live-video.png') }}" alt="watermark">
+                                <img src="{{ asset('assets/images/live-video.png') }}" height="30" alt="watermark">
                             </div>
                         @endif
                         <div id="wrapper">
