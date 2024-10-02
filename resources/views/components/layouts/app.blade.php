@@ -193,29 +193,52 @@
         $(document).ready(function() {
             $('.slider-container .slick-slider').each(function() {
                 var $this = $(this);
-                var itemsPerRow = $this.data('items-per-row') || 1;
+                var itemsPerRow = $this.data('items-per-row') || 1; // Get the number of items per row
                 var autoplay = $this.data('autoplay');
-
+        
                 $this.slick({
                     dots: true,
                     infinite: true,
                     loop: true,
-                    autoplay: false,
+                    autoplay: autoplay || false, // Use the autoplay data attribute or default to false
                     autoplaySpeed: 3000,
                     slidesToShow: itemsPerRow,
                     slidesToScroll: 1,
-                    responsive: [{
+                    responsive: [
+                        {
                             breakpoint: 1740,
-                            settings: {
-                                slidesToShow: Math.max(itemsPerRow, 1),
-                                slidesToScroll: 2,
+                            settings: (itemsPerRow == 2) ? {
+                                slidesToShow: 2,
+                                slidesToScroll: 1,
+                                arrows: false
+                            } : {
+                                slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                slidesToScroll: 1,
                                 dots: true,
-                                arrows: true
+                                arrows: false
                             }
                         },
                         {
                             breakpoint: 1200,
-                            settings: {
+                            settings: (itemsPerRow == 2) ? {
+                                slidesToShow: 2,
+                                slidesToScroll: 1,
+                                arrows: false
+                            } : {
+                                slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                slidesToScroll: 1,
+                                dots: true,
+                                arrows: false
+                            }
+                        },
+                        {
+                            // Condition: If itemsPerRow is 2, always keep it at 2
+                            breakpoint: 770,
+                            settings: (itemsPerRow == 2) ? {
+                                slidesToShow: 2,
+                                slidesToScroll: 1,
+                                arrows: false
+                            } : {
                                 slidesToShow: Math.max(itemsPerRow - 1, 1),
                                 slidesToScroll: 1,
                                 dots: true,
@@ -233,7 +256,7 @@
                         {
                             breakpoint: 480,
                             settings: {
-                                slidesToShow:2,
+                                slidesToShow: 2,
                                 slidesToScroll: 1,
                                 dots: false,
                                 arrows: false
@@ -243,6 +266,7 @@
                 });
             });
         });
+        
 
 
 

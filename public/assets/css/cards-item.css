@@ -299,6 +299,9 @@
     }
 }
 @media (max-width: 1024px) {
+    .LA_2 {
+        height: 18rem !important;
+    }
     .LA_3 {
         height: 18rem !important;
     }
@@ -314,6 +317,9 @@
     .thumbnail_img {
         height: auto !important;
     }
+    .LA_2 {
+        height: 18rem !important;
+    }
     .LA_3 {
         height: 18rem !important;
     }
@@ -327,6 +333,9 @@
 @media (max-width: 425px) {
     .thumbnail_img {
         height: auto !important;
+    }
+    .LA_2 {
+        height: 10rem !important;
     }
     .LA_3 {
         height: 12rem !important;
