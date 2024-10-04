@@ -163,3 +163,26 @@ body {
   left: 0;
   width: 100%;
 }
+@media (max-width: 768px) {
+  .thumbnail__image {
+    height: 500px !important;
+  }
+}
+@media (max-width: 550px) {
+  .thumbnail__image {
+    height: 300px !important;
+  }
+  .travel-info h1 {
+    color: var(--slidercardTitlecolor);
+    font-size: 15px;
+    margin-bottom: 17px;
+    max-width: 431px;
+}
+.travel-info .timestamp {
+ 
+  margin-bottom: 12px;
+}
+.travel-info .btns a {
+  padding: 4px 20px;
+}
+}

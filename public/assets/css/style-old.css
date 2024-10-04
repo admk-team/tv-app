@@ -5865,8 +5865,7 @@ textarea.form-control:focus {
     .thumbnail_img {
         max-width: 330px;
         /*margin: 0px auto !important;*/
-
-        margin-bottom: 30px !important;
+        margin-bottom: 5px !important;
     }
 
     .thumbnailfourbyfour,

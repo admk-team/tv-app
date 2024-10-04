@@ -45,7 +45,7 @@
                     <div class="cred_form">
                         <div class="row">
 
-                            <div class="col-md-6 ind1">
+                            {{--  <div class="col-md-6 ind1">
                                 <div class="inner-div dv1">
 
                                     <div class="social_space">
@@ -71,9 +71,9 @@
 
 
                                 </div>
-                            </div>
+                            </div>  --}}
 
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="inner-div dv2">
                                     <div class="input_groupbox">
 

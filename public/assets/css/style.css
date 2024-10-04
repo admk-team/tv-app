@@ -565,6 +565,7 @@ p {
     opacity: 1;
 }
 
+
 @media (max-width: 1120px) {
     .content {
         padding-top: 96px;
@@ -688,6 +689,7 @@ p {
     }
 
     .cover-slider-item .info {
+        height: 250px !important;
         width: 100%;
         background: linear-gradient(46deg, var(--slidercardBgColor), 71%, transparent);
     }
@@ -755,4 +757,12 @@ p {
     /* .movie-detail-box {
         margin-top:-5px;
     } */
+}
+@media (max-width: 768px) {
+    .desktop-data {
+        display: none !important;
+    }
+    .owl-wrapper {
+        margin-bottom: 15px !important;
+    }
 }

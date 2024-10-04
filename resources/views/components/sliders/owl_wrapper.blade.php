@@ -46,7 +46,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <p class="description">
+                            <p class="description desktop-data">
                                 {{ $stream->stream_description ?? '' }}
                             </p>
                             <div class="btns">
