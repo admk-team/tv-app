@@ -67,7 +67,6 @@ class LoginController extends Controller
         }
 
         $xyz = base64_encode(request()->ip());
-
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->asForm()
             ->post(Api::endpoint("/mngappusrs?user_data={$xyz}&user_device={$finalresultDevice}&user_code={$request->user_code}&admin_code={$request->admin_code}"), [
@@ -77,7 +76,6 @@ class LoginController extends Controller
                 'isBypassEmailVerificationStep' => 'Y'
             ]);
         $responseJson = $response->json();
-
         if ($responseJson['app']['status'] === 0) {
             return back()->with('error', $responseJson['app']['msg']);
         }
@@ -106,14 +104,21 @@ class LoginController extends Controller
         if (GeneralHelper::subscriptionIsRequired()) {
             return redirect(route('subscription'));
         }
-
-        $responseprofile = Http::withHeaders(Api::headers())
-            ->asForm()
-            ->get(Api::endpoint("/userprofiles?id={$responseJson['app']['data']['user_id']}&user_data={$xyz}&user_device={$finalresultDevice}"));
-
-        $user_data = $responseprofile->json();
-        return view('profile.index', compact('user_data'));
-
+        if ($profile == 1) {
+            // Make an API call if the profile condition is true
+            $responseprofile = Http::withHeaders(Api::headers())
+                ->asForm()
+                ->get(Api::endpoint("/userprofiles?id={$responseJson['app']['data']['user_id']}&user_data={$xyz}&user_device={$finalresultDevice}"));
+        
+            // Decode the response JSON data
+            $user_data = $responseprofile->json();
+        
+            // Return the 'profile.index' view with the fetched user data
+            return view('profile.index', compact('user_data'));
+        } else {
+            // If $profile is not 1, redirect to the home page ('/')
+            return redirect('/');
+        }
     }
 
     public function verify()

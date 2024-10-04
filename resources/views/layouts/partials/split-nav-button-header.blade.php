@@ -9,15 +9,15 @@
             <a href="/searchscreen" class="search-box header-text">
                 <i class="bi bi-search search-icon"></i>
             </a>
-           @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
-           <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
-            @csrf
-            <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
-                <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
-                <span id="subscribe-text"></span>
-            </button>
-            <div id="response-message">{{ session('status') }}</div>
-        </form>
+            @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+                    @csrf
+                    <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
+                        <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
+                        <span id="subscribe-text"></span>
+                    </button>
+                    <div id="response-message">{{ session('status') }}</div>
+                </form>
                 <li class="nav-item">
                     <div class="dropdown dropdin">
                         <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>
@@ -26,11 +26,13 @@
                         <ul class="dropdown_menus profiledropin avtartMenu" style="display: none;">
                             <li style="display: none;"><a href="update-profile.php"><span
                                         class="userno">user-26</span></a></li>
-                            <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a>
-                            </li>
-                            <li><a class="text-decoration-none"
-                                    href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
-                                    Profiles</a></li>
+                            @if (\App\Services\AppConfig::get()->app->app_info->profile_manage == 1)
+                                <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a>
+                                </li>
+                                <li><a class="text-decoration-none"
+                                        href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
+                                        Profiles</a></li>
+                            @endif
                             <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
                                     History</a></li>
                             <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
@@ -117,15 +119,15 @@
                 <a href="/searchscreen">
                     <i class="bi bi-search search-icon"></i>
                 </a>
-               @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
-               <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
-                @csrf
-                <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
-                    <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
-                    <span id="subscribe-text"></span>
-                </button>
-                <div id="response-message">{{ session('status') }}</div>
-            </form>
+                @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                    <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+                        @csrf
+                        <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
+                            <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
+                            <span id="subscribe-text"></span>
+                        </button>
+                        <div id="response-message">{{ session('status') }}</div>
+                    </form>
                     <li class="nav-item">
                         <div class="dropdown dropdin">
                             <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=1>
@@ -156,18 +158,19 @@
         @if (\App\Services\AppConfig::get()->app->app_info->web_menu === 'Left')
             <div class="btns">
 
-               @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
-               <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
-                @csrf
-                <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
-                    <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
-                    <span id="subscribe-text"></span>
-                </button>
-                <div id="response-message">{{ session('status') }}</div>
-            </form>
+                @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                    <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+                        @csrf
+                        <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
+                            <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
+                            <span id="subscribe-text"></span>
+                        </button>
+                        <div id="response-message">{{ session('status') }}</div>
+                    </form>
                     <li class="nav-item">
                         <div class="dropdown dropdin">
-                            <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=1>
+                            <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)"
+                                data-index=1>
                                 <div class="userimg">u</div>
                             </div>
                             <ul class="dropdown_menus profiledropin avtartMenu gap-0"

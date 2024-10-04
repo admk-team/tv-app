@@ -57,11 +57,14 @@
                                 <ul class="dropdown_menus profiledropin avtartMenu" style="display: none;">
                                     <li style="display: none;"><a href="update-profile.php"><span
                                                 class="userno">user-26</span></a></li>
-                                    <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a>
-                                    </li>
-                                    <li><a class="text-decoration-none"
-                                            href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
-                                            Profiles</a></li>
+                                    @if (\App\Services\AppConfig::get()->app->app_info->profile_manage == 1)
+                                        <li><a class="text-decoration-none"
+                                                href="{{ route('profile.index') }}">Profiles</a>
+                                        </li>
+                                        <li><a class="text-decoration-none"
+                                                href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
+                                                Profiles</a></li>
+                                    @endif
                                     <li><a class="text-decoration-none"
                                             href="{{ route('transaction-history') }}">Transaction
                                             History</a></li>
@@ -193,9 +196,14 @@
                                     style="display: none; left: 50% !important; position: absolute; transform: translateX(-50%);">
                                     <li style="display: none;"><a href="update-profile.php"><span
                                                 class="userno">user-26</span></a></li>
-                                    <li><a class="text-decoration-none"
-                                            href="{{ route('profile.index') }}">Profiles</a>
-                                    </li>
+                                    @if (\App\Services\AppConfig::get()->app->app_info->profile_manage == 1)
+                                        <li><a class="text-decoration-none"
+                                                href="{{ route('profile.index') }}">Profiles</a>
+                                        </li>
+                                        <li><a class="text-decoration-none"
+                                                href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
+                                                Profiles</a></li>
+                                    @endif
                                     <li><a class="text-decoration-none"
                                             href="{{ route('transaction-history') }}">Transaction
                                             History</a></li>
@@ -226,9 +234,14 @@
                                     style="display: none; left: 50% !important; position: absolute; transform: translateX(-50%);">
                                     <li style="display: none;"><a href="update-profile.php"><span
                                                 class="userno">user-26</span></a></li>
-                                    <li><a class="text-decoration-none"
-                                            href="{{ route('profile.index') }}">Profiles</a>
-                                    </li>
+                                    @if (\App\Services\AppConfig::get()->app->app_info->profile_manage == 1)
+                                        <li><a class="text-decoration-none"
+                                                href="{{ route('profile.index') }}">Profiles</a>
+                                        </li>
+                                        <li><a class="text-decoration-none"
+                                                href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
+                                                Profiles</a></li>
+                                    @endif
                                     <li><a class="text-decoration-none"
                                             href="{{ route('transaction-history') }}">Transaction
                                             History</a></li>

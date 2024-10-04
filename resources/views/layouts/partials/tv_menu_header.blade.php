@@ -82,14 +82,15 @@
             @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                 <li class="nav-item">
                     <div class="mt-2">
-                    <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
-                        @csrf
-                        <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
-                            <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
-                            <span id="subscribe-text"></span>
-                        </button>
-                        <div id="response-message">{{ session('status') }}</div>
-                    </form>
+                        <form id="subscribe-form-toggle" method="POST"
+                            action="{{ route('toggle.subscribe') }}">
+                            @csrf
+                            <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
+                                <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
+                                <span id="subscribe-text"></span>
+                            </button>
+                            <div id="response-message">{{ session('status') }}</div>
+                        </form>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -99,12 +100,15 @@
                     </a>
                     <div class="dropdown-menu drpdown_borde">
                         <ul class="dropsmenubox">
-                            <li><a class="dropdown-item" href="{{ route('profile.index') }}">Profiles</a></li>
-                            <li><a class="dropdown-item"
-                                    href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
-                                    Profiles</a></li>
-                            <li><a class="dropdown-item"
-                                    href="{{ route('transaction-history') }}">Transaction
+                            @if (\App\Services\AppConfig::get()->app->app_info->profile_manage == 1)
+                                <li><a class="text-decoration-none"
+                                        href="{{ route('profile.index') }}">Profiles</a>
+                                </li>
+                                <li><a class="text-decoration-none"
+                                        href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
+                                        Profiles</a></li>
+                            @endif
+                            <li><a class="dropdown-item" href="{{ route('transaction-history') }}">Transaction
                                     History</a></li>
                             <li><a class="dropdown-item" href="{{ route('password.edit') }}">Change
                                     Password</a></li>
