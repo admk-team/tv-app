@@ -251,7 +251,7 @@
 
         .watermark {
             position: absolute;
-            z-index: 1;
+            z-index: 100;
             user-select: none;
         }
 
