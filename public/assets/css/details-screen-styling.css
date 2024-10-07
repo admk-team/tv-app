@@ -106,11 +106,11 @@
 .custom-image:hover .image-name {
     opacity: 1;
 }
-@media (min-width: 1400px) {
+/* @media (min-width: 1400px) {
     .sec-device .tab-btns {
         margin-bottom: 6rem;
     }
-}
+} */
 @media (min-width: 768px) {
     .sec-device .tab-btns {
         margin-bottom: 3rem;

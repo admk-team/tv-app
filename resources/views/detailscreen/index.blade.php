@@ -225,18 +225,23 @@
                                 <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream_details['stream_duration']) }}</span>
                                 <span class="dot-sep"></span>
                             @endif
-                            {{-- <span class="movie_type">{{ $stream_details['cat_title'] }}</span> --}}
-                            <span class="movie_type">
-                                @foreach ($stream_details['genre'] ?? [] as $item)
-                                    <a href="{{ route('category', $item['code']) }}?type=genre"
-                                        class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
-                                @endforeach
-                            </span>
+                            @if ($stream_details['genre'])
+                                <span class="movie_type">
+                                    @foreach ($stream_details['genre'] ?? [] as $item)
+                                        <a href="{{ route('category', $item['code']) }}?type=genre"
+                                            class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
+                                    @endforeach
+                                </span>
+                            @endif
                         @endif
                         @if ($streamType == 'S')
-                            <span
-                                class="movie_type">{{ $stream_details['stream_episode_title'] && $stream_details['stream_episode_title'] !== 'NULL' ? $stream_details['stream_episode_title'] : '' }}</span>
-                            <span class="movie_type">{{ $stream_details['show_name'] }}</span>
+                            @if ($stream_details['stream_episode_title'])
+                                <span
+                                    class="movie_type">{{ $stream_details['stream_episode_title'] && $stream_details['stream_episode_title'] !== 'NULL' ? $stream_details['stream_episode_title'] : '' }}</span>
+                            @endif
+                            @if ($stream_details['show_name'])
+                                <span class="movie_type">{{ $stream_details['show_name'] }}</span>
+                            @endif
                         @endif
                         @if ($stream_details['content_qlt'] != '')
                             <span class="content_screen">
