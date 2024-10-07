@@ -162,13 +162,20 @@
     } else {
         $adMacros = $adUrl . "?width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     }
+    $adMacros .= "&duration={$arrSlctItemData['stream_duration_second']}";
     $dataVast = "data-vast='$adMacros'";
 
     if ($isMobileBrowser == 1 || $adUrl == '') {
         $dataVast = '';
     }
 
-    $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
+    $stream_ad_url = $arrSlctItemData['stream_ad_url'];
+    if (parse_url($stream_ad_url, PHP_URL_QUERY)) {
+        $stream_ad_url = $stream_ad_url . "&duration={$arrSlctItemData['stream_duration_second']}";
+    } else {
+        $stream_ad_url = $stream_ad_url . "?duration={$arrSlctItemData['stream_duration_second']}";
+    }
+    $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $stream_ad_url . '"' : null;
 
     if (!$arrSlctItemData['has_global_ads']) {
         $dataVast = '';
