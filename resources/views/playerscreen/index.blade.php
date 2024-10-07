@@ -513,7 +513,7 @@
 
                             @if ($arrSlctItemData['overlay_ad'] ?? null)
                                 <div class="overlay-ad d-none">
-                                    <button class="btn-close-ad" onclick="hideOverlayAd()"><i
+                                    <button class="btn-close-ad" onclick="closeOverlayAd()"><i
                                             class="bi bi-x-lg"></i></button>
                                     @if ($arrSlctItemData['overlay_ad']['target_url'])
                                         <a href="{{ $arrSlctItemData['overlay_ad']['target_url'] }}" target="_blank"
@@ -1295,6 +1295,10 @@ if (!empty($arrCatData))
 
             });
 
+            player.addEventListener("adPlay", function(data){
+                hideOverlayAd();
+            })
+
         });
 
         document.body.addEventListener("click", function(evt) {
@@ -1325,11 +1329,18 @@ if (!empty($arrCatData))
         }
 
         function showOverlayAd() {
-            $('.overlay-ad').removeClass('d-none');
+            if (! $('.overlay-ad').hasClass('closed')) {
+                $('.overlay-ad').removeClass('d-none');
+            }
         }
 
         function hideOverlayAd() {
             $('.overlay-ad').addClass('d-none');
+        }
+
+        function closeOverlayAd() {
+            $('.overlay-ad').addClass('d-none');
+            $('.overlay-ad').addClass('closed');
         }
 
         function overlayAdClick() {
