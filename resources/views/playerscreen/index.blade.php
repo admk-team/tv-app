@@ -1261,6 +1261,11 @@ if (!empty($arrCatData))
                     sendAjaxRes4VideoDuration('getStrmDur', data.media.mediaId, '');
                 }
 
+                let liveVideo = document.querySelector('.live-video');
+                if (liveVideo) {
+                    liveVideo.style.display = "block";
+                }
+
                 let watermark = document.querySelector('.watermark');
                 if (watermark) {
                     watermark.style.display = "block";
@@ -1303,6 +1308,17 @@ if (!empty($arrCatData))
             });
 
             player.addEventListener("adPlay", function(data){
+                let liveVideo = document.querySelector('.live-video');
+                if (liveVideo) {
+                    liveVideo.style.display = "none";
+                }
+
+                // Hide watermark when ad is playing
+                let watermark = document.querySelector('.watermark');
+                if (watermark) {
+                    watermark.style.display = "none";
+                }
+
                 hideOverlayAd();
             })
 
