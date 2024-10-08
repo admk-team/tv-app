@@ -525,8 +525,8 @@
                                     @if ($arrSlctItemData['overlay_ad']['target_url'])
                                         <a href="{{ $arrSlctItemData['overlay_ad']['target_url'] }}" target="_blank"
                                             onclick="overlayAdClick()">
-                                            <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}" class="overlay-height-img"
-                                                alt="overlay ad" />
+                                            <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}"
+                                                class="overlay-height-img" alt="overlay ad" />
                                         </a>
                                     @else
                                         <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}" alt="overlay ad" />
@@ -542,7 +542,7 @@
                                 <div class="mvp-playlist-item"
                                     @php
 $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @endphp
-                                    data-type="{{ Str::endsWith($streamUrl, '.mp3') ? 'audio' : $mType }}"
+                                    data-type="{{ Str::endsWith($streamUrl, ['.mp3', '.wav']) ? 'audio' : $mType }}"
                                     data-path="{{ $streamUrl }}"
                                     data-poster="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
@@ -964,7 +964,7 @@ if (!empty($arrCatData))
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                                  </div> -->
+                                                                                                                                                                                                                                                      </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}</div>
@@ -1307,7 +1307,7 @@ if (!empty($arrCatData))
 
             });
 
-            player.addEventListener("adPlay", function(data){
+            player.addEventListener("adPlay", function(data) {
                 let liveVideo = document.querySelector('.live-video');
                 if (liveVideo) {
                     liveVideo.style.display = "none";
@@ -1352,7 +1352,7 @@ if (!empty($arrCatData))
         }
 
         function showOverlayAd() {
-            if (! $('.overlay-ad').hasClass('closed')) {
+            if (!$('.overlay-ad').hasClass('closed')) {
                 $('.overlay-ad').removeClass('d-none');
             }
         }
