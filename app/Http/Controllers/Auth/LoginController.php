@@ -73,9 +73,11 @@ class LoginController extends Controller
                 'requestAction' => 'validateUserAccount',
                 'email' => $request->email,
                 'password' => $request->password,
-                'isBypassEmailVerificationStep' => 'Y'
+                'isBypassEmailVerificationStep' => 'Y',
+                'visited_url' => session('visited_url') ?? null
             ]);
         $responseJson = $response->json();
+        
         if ($responseJson['app']['status'] === 0) {
             return back()->with('error', $responseJson['app']['msg']);
         }

@@ -12,9 +12,30 @@ use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
-    public function index($slug = 'home')
+    public function index(Request $request ,$slug = 'home')
     {
         Log::info(Carbon::now()->toString());
+        // Construct the full URL from the request
+        $currentUrl = $request->fullUrl();
+        $link = $request->query('link');
+        // Check if the session already has the 'visited_url' set
+        if ($link) {
+            if (!session()->has('visited_url')) {
+                // If not, store the full URL in the session
+                session(['visited_url' => $currentUrl]);
+                Log::info('URL set in session: ' . $currentUrl);
+                if(session('visited_url')){
+                    $response = Http::timeout(300)->withHeaders(Api::headers())
+                    ->asForm()
+                    ->post(Api::endpoint("/partner-link-count"), [
+                        'visited_url' => session('visited_url'),
+                    ]);
+                $responseJson = $response->json();
+                }
+            } else {
+                Log::info('URL already set in session: ' . session('visited_url'));
+            }
+        }
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/{$slug}"));
         Log::info(Carbon::now()->toString());
