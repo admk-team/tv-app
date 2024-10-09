@@ -369,10 +369,14 @@
                                     <dt>Tags: </dt>
                                     <dd>
                                         @foreach ($stream_details['tags'] as $i => $val)
-                                            <a class="person-link"
-                                                href="{{ route('tag', $val['code']) }}">{{ $val['title'] }}</a>
-                                            @if (count($stream_details['tags']) - 1 !== $i)
-                                                <span class="test-comma">, </span>
+                                            @if ($i < 15)
+                                                <!-- Only show the first 15 tags -->
+                                                <a class="person-link"
+                                                    href="{{ route('tag', $val['code']) }}">{{ $val['title'] }}</a>
+                                                @if ($i < 14)
+                                                    <!-- Add comma only until the 14th tag -->
+                                                    <span class="test-comma">, </span>
+                                                @endif
                                             @endif
                                         @endforeach
                                     </dd>
