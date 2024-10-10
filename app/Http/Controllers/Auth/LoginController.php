@@ -74,7 +74,7 @@ class LoginController extends Controller
                 'email' => $request->email,
                 'password' => $request->password,
                 'isBypassEmailVerificationStep' => 'Y',
-                'visited_url' => session('visited_url') ?? null
+                'partner_url' => session('partner_url') ?? null
             ]);
         $responseJson = $response->json();
         
