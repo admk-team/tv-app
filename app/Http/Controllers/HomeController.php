@@ -20,20 +20,20 @@ class HomeController extends Controller
         $link = $request->query('link');
         // Check if the session already has the 'visited_url' set
         if ($link) {
-            if (!session()->has('visited_url')) {
+            if (!session()->has('partner_url')) {
                 // If not, store the full URL in the session
-                session(['visited_url' => $currentUrl]);
+                session(['partner_url' => $currentUrl]);
                 Log::info('URL set in session: ' . $currentUrl);
-                if(session('visited_url')){
+                if(session('partner_url')){
                     $response = Http::timeout(300)->withHeaders(Api::headers())
                     ->asForm()
                     ->post(Api::endpoint("/partner-link-count"), [
-                        'visited_url' => session('visited_url'),
+                        'partner_url' => session('partner_url'),
                     ]);
                 $responseJson = $response->json();
                 }
             } else {
-                Log::info('URL already set in session: ' . session('visited_url'));
+                Log::info('URL already set in session: ' . session('partner_url'));
             }
         }
         $response = Http::timeout(300)->withHeaders(Api::headers())
