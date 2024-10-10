@@ -317,17 +317,13 @@
 
                                                 @foreach ($persons as $i => $person)
                                                     @if (is_array($person))
-                                                        <a class="person-link"
-                                                            href="{{ route('person', $person['id']) }}">{{ $person['title'] }}</a>
-                                                        @if (!$loop->last)
-                                                            <span class="test-comma">, </span>
-                                                        @endif
+                                                        <a class="person-link" href="{{ route('person', $person['id']) }}">
+                                                            {{ $person['title'] }}{{ !$loop->last ? ', ' : '' }}
+                                                        </a>
                                                     @else
-                                                        <a class="person-link"
-                                                            href="{{ route('person', $person) }}">{{ $person }}</a>
-                                                        @if (!$loop->last)
-                                                            <span class="test-comma">, </span>
-                                                        @endif
+                                                        <a class="person-link" href="{{ route('person', $person) }}">
+                                                            {{ $person }}{{ !$loop->last ? ', ' : '' }}
+                                                        </a>
                                                     @endif
                                                 @endforeach
                                             </dd>
@@ -340,11 +336,9 @@
                                     <dt>Advisory: </dt>
                                     <dd>
                                         @foreach ($stream_details['advisories'] as $i => $val)
-                                            <a class="person-link"
-                                                href="{{ route('advisory', $val['code']) }}">{{ $val['title'] }}</a>
-                                            @if (count($stream_details['advisories']) - 1 !== $i)
-                                                <span class="test-comma">, </span>
-                                            @endif
+                                            <a class="person-link" href="{{ route('advisory', $val['code']) }}">
+                                                {{ $val['title'] }}{{ $i < count($stream_details['advisories']) - 1 ? ',' : '' }}
+                                            </a>
                                         @endforeach
                                     </dd>
                                 </div>
@@ -355,11 +349,9 @@
                                     <dt>Language: </dt>
                                     <dd>
                                         @foreach ($stream_details['languages'] as $i => $val)
-                                            <a class="person-link"
-                                                href="{{ route('language', $val['code']) }}">{{ $val['title'] }}</a>
-                                            @if (count($stream_details['languages']) - 1 !== $i)
-                                                <span class="test-comma">, </span>
-                                            @endif
+                                            <a class="person-link" href="{{ route('language', $val['code']) }}">
+                                                {{ $val['title'] }}{{ $i < count($stream_details['languages']) - 1 ? ',' : '' }}
+                                            </a>
                                         @endforeach
                                     </dd>
                                 </div>
@@ -369,16 +361,13 @@
                                     <dt>Tags: </dt>
                                     <dd>
                                         @foreach ($stream_details['tags'] as $i => $val)
-                                            @if ($i < 15)
-                                                <!-- Only show the first 15 tags -->
-                                                <a class="person-link"
-                                                    href="{{ route('tag', $val['code']) }}">{{ $val['title'] }}</a>
-                                                @if ($i < 14)
-                                                    <!-- Add comma only until the 14th tag -->
-                                                    <span class="test-comma">, </span>
-                                                @endif
-                                            @endif
-                                        @endforeach
+                                        @if ($i < 15)
+                                            <!-- Only show the first 15 tags -->
+                                            <a class="person-link" href="{{ route('tag', $val['code']) }}">
+                                                {{ $val['title'] }}{{ $i < 14 ? ',' : '' }}
+                                            </a>
+                                        @endif
+                                    @endforeach
                                     </dd>
                                 </div>
                             @endif
