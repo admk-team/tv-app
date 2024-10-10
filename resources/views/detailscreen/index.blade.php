@@ -90,7 +90,7 @@
         }
 
         .test-comma {
-            color: gray;
+            color: var(--themePrimaryTxtColor);
         }
 
         .movie_detail_inner_box {
