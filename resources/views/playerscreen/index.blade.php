@@ -986,7 +986,7 @@ if (!empty($arrCatData))
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                                                      </div> -->
+                                                                                                                                                                                                                                                                                          </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}</div>
@@ -1305,47 +1305,61 @@ if (!empty($arrCatData))
                     document.querySelector('.mvp-rewind-toggle').disabled = true;
                 @endif
 
-                @if (!empty($arrSlctItemData['buynow']))
-                    @foreach ($arrSlctItemData['buynow'] as $index => $buynow)
-                        let timeOffset_{{ $index }} = {{ $buynow['time_offset'] * 60 }};
-                        let isBuyNowShown_{{ $index }} = false;
+              @if (!empty($arrSlctItemData['buynow']))
+    @foreach ($arrSlctItemData['buynow'] as $index => $buynow)
+        let timeOffset_{{ $index }} = {{ $buynow['time_offset'] * 60 }};
+        let isBuyNowShown_{{ $index }} = false;
 
-                        function showBuyNowMessage_{{ $index }}() {
-                            let currentTime = Math.floor(data.instance.getCurrentTime());
-                            if (currentTime >= timeOffset_{{ $index }} && ! isBuyNowShown_{{ $index }}) {
-                                isBuyNowShown_{{ $index }} = true;
+        function showBuyNowMessage_{{ $index }}() {
+            let currentTime = Math.floor(data.instance.getCurrentTime());
+            // Check if the current time is past the time offset
+            if (currentTime >= timeOffset_{{ $index }}) {
+                // Only show the message if it hasn't been shown yet for this time offset
+                if (!isBuyNowShown_{{ $index }}) {
+                    isBuyNowShown_{{ $index }} = true; // Set flag to true to prevent showing again
 
-                                // Show the BuyNow message
-                                const buyNowMessageBox = document.querySelector('.buynow-redirect-message');
-                                let buyNowDisplayCountDown = 10;
-                                buyNowMessageBox.innerHTML = `{{ $buynow['name'] }}<span class="time"></span>`;
-                                buyNowMessageBox.classList.add('show-player-popup');
+                    // Show the BuyNow message
+                    const buyNowMessageBox = document.querySelector('.buynow-redirect-message');
+                    buyNowMessageBox.innerHTML = `{{ $buynow['name'] }}<span class="time"></span>`;
+                    buyNowMessageBox.classList.add('show-player-popup');
+                    buyNowMessageBox.style.display = 'block'; // Show the message box
 
-                                let hideMessageTimeout = setTimeout(() => {
-                                    buyNowMessageBox.classList.remove('show-player-popup');
-                                }, 10000);
+                    // Set a timeout to hide the message
+                    let hideMessageTimeout = setTimeout(() => {
+                        buyNowMessageBox.classList.remove('show-player-popup');
+                        buyNowMessageBox.style.display = 'none'; // Hide the message box
+                    }, 10000);
 
-                                // Countdown for the message
-                                let buyNowInterval = setInterval(() => {
-                                    buyNowDisplayCountDown--;
-                                }, 1000);
+                    // Attach click event to the message box
+                    let sourceType = "{{ $buynow['source_type'] }}";
+                    let internalUrl = "{{ url('/getitemplayerdetail/' . $buynow['stream_url']) }}";
+                    let externalUrl = "{{ $buynow['external_link'] }}";
 
-                                buyNowMessageBox.addEventListener('click', () => {
-                                    window.open(
-                                        "{{ url("/getitemplayerdetail/{$buynow['stream_url']}") }}",
-                                        '_blank');
-                                    buyNowMessageBox.classList.remove(
-                                        'show-player-popup');
-                                    clearTimeout(hideMessageTimeout);
-                                    clearInterval(buyNowInterval);
-                                });
-                            }
+                    buyNowMessageBox.onclick = () => {
+                        if (sourceType === "external") {
+                            window.open(externalUrl, '_blank');
+                        } else if (sourceType === "internal") {
+                            window.open(internalUrl, '_blank');
+                        } else {
+                            console.log("invalid source type");
                         }
 
-                        let timeCheckInterval_{{ $index }} = setInterval(
-                            showBuyNowMessage_{{ $index }}, 100);
-                    @endforeach
-                @endif
+                        buyNowMessageBox.classList.remove('show-player-popup');
+                        buyNowMessageBox.style.display = 'none'; // Hide the message box
+                        clearTimeout(hideMessageTimeout);
+                    };
+                }
+            } else {
+                // Reset the shown flag when the current time is before the offset time
+                isBuyNowShown_{{ $index }} = false;
+            }
+        }
+
+        // Check for the buy now message every 100 ms
+        let timeCheckInterval_{{ $index }} = setInterval(showBuyNowMessage_{{ $index }}, 100);
+    @endforeach
+@endif
+
             });
 
 
