@@ -28,7 +28,8 @@
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
     
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
-    
+    $is_embed = \App\Services\AppConfig::get()->app->is_embed;
+
     $stream_code = $stream_details['stream_guid'];
     
     $postData = [
@@ -361,13 +362,13 @@
                                     <dt>Tags: </dt>
                                     <dd>
                                         @foreach ($stream_details['tags'] as $i => $val)
-                                        @if ($i < 15)
-                                            <!-- Only show the first 15 tags -->
-                                            <a class="person-link" href="{{ route('tag', $val['code']) }}">
-                                                {{ $val['title'] }}{{ $i < 14 ? ',' : '' }}
-                                            </a>
-                                        @endif
-                                    @endforeach
+                                            @if ($i < 15)
+                                                <!-- Only show the first 15 tags -->
+                                                <a class="person-link" href="{{ route('tag', $val['code']) }}">
+                                                    {{ $val['title'] }}{{ $i < 14 ? ',' : '' }}
+                                                </a>
+                                            @endif
+                                        @endforeach
                                     </dd>
                                 </div>
                             @endif
@@ -458,6 +459,13 @@
                 </div>
                 <div class="modal-body">
                     <ul class="share_list d-flex justify-content-between">
+                        @if ($stream_details['is_embed'] || $is_embed->value == '1')
+                            <li data-bs-toggle="modal" data-bs-target="#exampleModalCenter2">
+                                <a data-toggle="tooltip" data-placement="top" title="embed" href="javascript:void(0)">
+                                    <i class="fa-solid fa-code fa-xs"></i>
+                                </a>
+                            </li>
+                        @endif
                         <li>
                             <a data-toggle="tooltip" data-placement="top" title="facebook"
                                 href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $sharingURL; ?>" target="_blank">
@@ -502,6 +510,88 @@
         </div>
     </div>
 
+
+    <!-- stream embed Modal -->
+    <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenter2Title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Embed stream "{{ $stream_details['stream_title'] }}"
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="border pt-4 p-3 rounded-2 position-relative">
+                        <!-- Copy Button -->
+                        <button onclick="copyText(this)" id="copy-btn" class="btn btn-sm btn-outline-secondary rounded-3" type="button"
+                            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Copy to Clipboard"
+                            style="position: absolute; top: 10px; right: 10px; padding: 5px 10px;">
+                            Copy
+                        </button>
+
+                        <!-- Code block to display and copy -->
+                        <code id="copy-code"></code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var videoSrc = '{{ $streamUrl }}'; 
+        var copyCodeElement = document.getElementById("copy-code");
+
+        function getMediaType(url) {
+            const cleanUrl = url.split('?')[0];
+            const extension = cleanUrl.split('.').pop().toLowerCase();
+            return extension;
+        }
+
+        const mediaType = getMediaType(videoSrc);
+
+        let embedCode = ""; 
+
+        if (mediaType === 'm3u8') {
+            embedCode = `&lt;script src="https://cdn.jsdelivr.net/npm/hls.js@1"&gt;&lt;/script&gt;
+                        &lt;video id="video" controls width="720" height="420"&gt;&lt;/video&gt;
+                        &lt;script&gt;
+                        var video = document.getElementById('video');
+                        if (Hls.isSupported()) {
+                            var hls = new Hls();
+                            hls.loadSource('${videoSrc}');
+                            hls.attachMedia(video);
+                        }
+                        &lt;/script&gt;`;
+            } else if (mediaType === 'mp3') {
+                embedCode = `&lt;audio controls&gt;
+                            &lt;source src="${videoSrc}" type="audio/mpeg"&gt;
+                            Your browser does not support the audio element.
+                            &lt;/audio&gt;`;
+            } else if (mediaType === 'mp4') {
+                embedCode = `&lt;video id="video" controls width="720" height="420"&gt;
+                            &lt;source src="${videoSrc}" type="video/mp4"&gt;
+                            Your browser does not support the video element.
+                            &lt;/video&gt;`;
+            } else {
+                embedCode = "Unsupported media format.";
+            }
+
+            copyCodeElement.innerHTML = embedCode.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+            document.getElementById("copy-btn").onclick = function() {
+                navigator.clipboard.writeText(copyCodeElement.textContent);
+                this.textContent = "Copied!";
+                this.classList.remove("btn-outline-secondary");
+                this.classList.add("btn-success");
+
+                setTimeout(() => {
+                    this.textContent = "Copy";
+                    this.classList.remove("btn-success");
+                    this.classList.add("btn-outline-secondary");
+                }, 2000);
+            };
+    </script>
     <!--End of banner section-->
 
     {{-- Gift Modal  --}}
