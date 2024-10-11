@@ -261,6 +261,12 @@
             user-select: none;
         }
 
+        .live-video {
+            position: absolute;
+            z-index: 500;
+            user-select: none;
+        }
+
         .watermark.center {
             right: 0;
             width: fit-content;
@@ -385,6 +391,35 @@
             opacity: {{ $watermark ? $watermark['opacity'] : 0 }};
             -webkit-user-drag: none;
             user-select: none;
+        }
+
+        /* Styles for BuyNow redirect message */
+        .buynow-redirect-message {
+            background-color: #353b49;
+            color: var(--themePrimaryTxtColor);
+            max-width: 1000.89px;
+            width: fit-content;
+            padding: .8rem 1.2rem;
+            font-weight: 600;
+            border-radius: 2px;
+            position: absolute;
+            z-index: 1000;
+            bottom: 68px;
+            height: fit-content;
+            left: 18px;
+            user-select: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s ease-in-out;
+            transform: translateX(-400px);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .show-player-popup {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(0);
+            cursor: pointer;
         }
 
 
@@ -517,7 +552,9 @@
                         <div id="wrapper">
                             <div class="trail-redirect-message">You will be redirected to login in <span class="time">45
                                     second</span></div>
-
+                            <div class="buynow-redirect-message">
+                                name here <span class="time">10 second</span>
+                            </div>
                             @if ($arrSlctItemData['overlay_ad'] ?? null)
                                 <div class="overlay-ad d-none">
                                     <button class="btn-close-ad" onclick="closeOverlayAd()"><i
@@ -1274,6 +1311,11 @@ if (!empty($arrCatData))
                 showOverlayAd();
             });
 
+            @if (!empty($arrSlctItemData['buynow']))
+                @php
+                    $buynows = $arrSlctItemData['buynow'];
+                @endphp
+            @endif
             player.addEventListener("mediaPlay", function(data) {
                 @if ($redirectUrl)
                     trial.start();
@@ -1282,7 +1324,64 @@ if (!empty($arrCatData))
                     document.querySelector('.mvp-skip-forward-toggle').disabled = true;
                     document.querySelector('.mvp-rewind-toggle').disabled = true;
                 @endif
+
+              @if (!empty($arrSlctItemData['buynow']))
+    @foreach ($arrSlctItemData['buynow'] as $index => $buynow)
+        let timeOffset_{{ $index }} = {{ $buynow['time_offset'] * 60 }};
+        let isBuyNowShown_{{ $index }} = false;
+
+        function showBuyNowMessage_{{ $index }}() {
+            let currentTime = Math.floor(data.instance.getCurrentTime());
+            // Check if the current time is past the time offset
+            if (currentTime >= timeOffset_{{ $index }}) {
+                // Only show the message if it hasn't been shown yet for this time offset
+                if (!isBuyNowShown_{{ $index }}) {
+                    isBuyNowShown_{{ $index }} = true; // Set flag to true to prevent showing again
+
+                    // Show the BuyNow message
+                    const buyNowMessageBox = document.querySelector('.buynow-redirect-message');
+                    buyNowMessageBox.innerHTML = `{{ $buynow['name'] }}<span class="time"></span>`;
+                    buyNowMessageBox.classList.add('show-player-popup');
+                    buyNowMessageBox.style.display = 'block'; // Show the message box
+
+                    // Set a timeout to hide the message
+                    let hideMessageTimeout = setTimeout(() => {
+                        buyNowMessageBox.classList.remove('show-player-popup');
+                        buyNowMessageBox.style.display = 'none'; // Hide the message box
+                    }, 10000);
+
+                    // Attach click event to the message box
+                    let sourceType = "{{ $buynow['source_type'] }}";
+                    let internalUrl = "{{ url('/getitemplayerdetail/' . $buynow['stream_url']) }}";
+                    let externalUrl = "{{ $buynow['external_link'] }}";
+
+                    buyNowMessageBox.onclick = () => {
+                        if (sourceType === "external") {
+                            window.open(externalUrl, '_blank');
+                        } else if (sourceType === "internal") {
+                            window.open(internalUrl, '_blank');
+                        } else {
+                            console.log("invalid source type");
+                        }
+
+                        buyNowMessageBox.classList.remove('show-player-popup');
+                        buyNowMessageBox.style.display = 'none'; // Hide the message box
+                        clearTimeout(hideMessageTimeout);
+                    };
+                }
+            } else {
+                // Reset the shown flag when the current time is before the offset time
+                isBuyNowShown_{{ $index }} = false;
+            }
+        }
+
+        // Check for the buy now message every 100 ms
+        let timeCheckInterval_{{ $index }} = setInterval(showBuyNowMessage_{{ $index }}, 100);
+    @endforeach
+@endif
+
             });
+
 
             player.addEventListener("mediaPause", function(data) {
                 //alert(data.instance.getCurrentTime());
