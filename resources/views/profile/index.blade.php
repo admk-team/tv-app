@@ -5,8 +5,9 @@
         body {
             overflow-x: hidden;
         }
-        .text-c{
-            color:var(--themePrimaryTxtColor);
+
+        .text-c {
+            color: var(--themePrimaryTxtColor);
         }
     </style>
 @endpush
@@ -37,9 +38,9 @@
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <div class="form-group row">
-                        <div class="col-lg-12">
+                        <div class="col-12">
                             <div class="row mb-3">
-                                <div class="col-lg-12">
+                                <div class="col-12">
                                     <label for="userNameModal" class="form-label"
                                         style="color: #000 !important; background-color: #fff !important;">Your
                                         Name:</label>
@@ -49,17 +50,14 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <!-- New dropdown for content ratings -->
-                                    <div class="row">
-                                        <label for="content_rating" class="form-label"
-                                            style="color: #000 !important; background-color: #fff !important;">Content
-                                            Rating:</label>
-                                    </div>
+                                <div class="col-12">
+                                    <label for="content_rating" class="form-label"
+                                        style="color: #000 !important; background-color: #fff !important;">Content
+                                        Rating:</label>
                                     <select name="content_rating[]" class="form-control app_code_select" id="content_rating"
                                         multiple="multiple"
-                                        style="color: #000 !important; background-color: #fff !important; width:465px">
-                                        @foreach (($user_data['all_ratings'] ?? []) as $rating)
+                                        style="color: #000 !important; background-color: #fff !important; width: 100%;">
+                                        @foreach ($user_data['all_ratings'] ?? [] as $rating)
                                             @if ($rating['title'])
                                                 <option value="{{ $rating['code'] }}">{{ $rating['title'] }}</option>
                                             @endif
@@ -70,11 +68,10 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                            aria-label="Close">Close</button> --}}
                         <button type="button" class="app-primary-btn rounded" id="addIconModalBtn">Add</button>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

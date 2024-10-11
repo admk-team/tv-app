@@ -162,13 +162,20 @@
     } else {
         $adMacros = $adUrl . "?width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     }
+    $adMacros .= "&duration={$arrSlctItemData['stream_duration_second']}";
     $dataVast = "data-vast='$adMacros'";
 
     if ($isMobileBrowser == 1 || $adUrl == '') {
         $dataVast = '';
     }
 
-    $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
+    $stream_ad_url = $arrSlctItemData['stream_ad_url'];
+    if (parse_url($stream_ad_url, PHP_URL_QUERY)) {
+        $stream_ad_url = $stream_ad_url . "&duration={$arrSlctItemData['stream_duration_second']}";
+    } else {
+        $stream_ad_url = $stream_ad_url . "?duration={$arrSlctItemData['stream_duration_second']}";
+    }
+    $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $stream_ad_url . '"' : null;
 
     if (!$arrSlctItemData['has_global_ads']) {
         $dataVast = '';
@@ -244,7 +251,13 @@
 
         .watermark {
             position: absolute;
-            z-index: 1;
+            z-index: 100;
+            user-select: none;
+        }
+
+        .live-video {
+            position: absolute;
+            z-index: 500;
             user-select: none;
         }
 
@@ -368,6 +381,8 @@
             color: rgba(255, 255, 255, 1);
             font-size: 3rem;
             font-weight: 900;
+            z-index: 3;
+            right: 15px;
         }
 
         .watermark img {
@@ -531,7 +546,7 @@
                         @endif
                         @if (strpos($streamUrl, 'https://stream.live.gumlet.io') !== false)
                             <div class="live-video top-right text" style="display: block;">
-                                <img src="{{ asset('assets/images/live-video.png') }}" alt="watermark">
+                                <img src="{{ asset('assets/images/live-video.png') }}" height="30" alt="watermark">
                             </div>
                         @endif
                         <div id="wrapper">
@@ -542,13 +557,13 @@
                             </div>
                             @if ($arrSlctItemData['overlay_ad'] ?? null)
                                 <div class="overlay-ad d-none">
-                                    <button class="btn-close-ad" onclick="hideOverlayAd()"><i
+                                    <button class="btn-close-ad" onclick="closeOverlayAd()"><i
                                             class="bi bi-x-lg"></i></button>
                                     @if ($arrSlctItemData['overlay_ad']['target_url'])
                                         <a href="{{ $arrSlctItemData['overlay_ad']['target_url'] }}" target="_blank"
                                             onclick="overlayAdClick()">
-                                            <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}" height="20"
-                                                alt="overlay ad" />
+                                            <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}"
+                                                class="overlay-height-img" alt="overlay ad" />
                                         </a>
                                     @else
                                         <img src="{{ $arrSlctItemData['overlay_ad']['image_url'] }}" alt="overlay ad" />
@@ -564,7 +579,7 @@
                                 <div class="mvp-playlist-item"
                                     @php
 $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @endphp
-                                    data-type="{{ Str::endsWith($streamUrl, '.mp3') ? 'audio' : $mType }}"
+                                    data-type="{{ Str::endsWith($streamUrl, ['.mp3', '.wav']) ? 'audio' : $mType }}"
                                     data-path="{{ $streamUrl }}"
                                     data-poster="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
@@ -986,7 +1001,7 @@ if (!empty($arrCatData))
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                                                                          </div> -->
+                                                                                                                                                                                                                                                      </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}</div>
@@ -1073,7 +1088,7 @@ if (!empty($arrCatData))
                             <div class="landscape_slider slider slick-slider">
                                 @foreach ($arrSlctItemData['videos'] as $video)
                                     <div>
-                                        <div class="thumbnail_img" style="cursor: pointer;"
+                                        <div class="thumbnail_img" id="thumbnail_img_video" style="cursor: pointer;"
                                             data-url="{{ $video['playback_url'] }}"
                                             data-thumbnail="{{ $video['thumbnail_url'] }}"
                                             data-title="{{ $video['name'] }}"
@@ -1283,6 +1298,11 @@ if (!empty($arrCatData))
                     sendAjaxRes4VideoDuration('getStrmDur', data.media.mediaId, '');
                 }
 
+                let liveVideo = document.querySelector('.live-video');
+                if (liveVideo) {
+                    liveVideo.style.display = "block";
+                }
+
                 let watermark = document.querySelector('.watermark');
                 if (watermark) {
                     watermark.style.display = "block";
@@ -1386,6 +1406,21 @@ if (!empty($arrCatData))
 
             });
 
+            player.addEventListener("adPlay", function(data) {
+                let liveVideo = document.querySelector('.live-video');
+                if (liveVideo) {
+                    liveVideo.style.display = "none";
+                }
+
+                // Hide watermark when ad is playing
+                let watermark = document.querySelector('.watermark');
+                if (watermark) {
+                    watermark.style.display = "none";
+                }
+
+                hideOverlayAd();
+            })
+
         });
 
         document.body.addEventListener("click", function(evt) {
@@ -1416,11 +1451,18 @@ if (!empty($arrCatData))
         }
 
         function showOverlayAd() {
-            $('.overlay-ad').removeClass('d-none');
+            if (!$('.overlay-ad').hasClass('closed')) {
+                $('.overlay-ad').removeClass('d-none');
+            }
         }
 
         function hideOverlayAd() {
             $('.overlay-ad').addClass('d-none');
+        }
+
+        function closeOverlayAd() {
+            $('.overlay-ad').addClass('d-none');
+            $('.overlay-ad').addClass('closed');
         }
 
         function overlayAdClick() {
@@ -1641,7 +1683,7 @@ if (!empty($arrCatData))
             });
 
             // Handle thumbnail click to open the new page
-            $('.thumbnail_img').on('click', function() {
+            $('#thumbnail_img_video').on('click', function() {
                 var playbackUrl = $(this).data('url'); // Get playback URL from clicked thumbnail
                 var thumbnail = $(this).data('thumbnail'); // Get thumbnail URL
                 var title = $(this).data('title'); // Get video title

@@ -13,10 +13,21 @@
                         @php
                             $suffix = '';
                             $planStr = '';
+                            $periodStr = ''; // Variable to store the period string
 
+                            // Determine the suffix for pluralization
                             if ($plan->plan_faq > 1) {
                                 $suffix = 's';
                             }
+                            // Determine the period string (Month/Year) based on the plan period
+                            if ($plan->plan_period == 'month') {
+                                $periodStr = ($plan->plan_faq == 1) ? 'Every Month' : 'every ' . $plan->plan_faq . ' months';
+                            } elseif ($plan->plan_period == 'year') {
+                                $periodStr = ($plan->plan_faq == 1) ? 'Every Year' : 'every ' . $plan->plan_faq . ' years';
+                            } else {
+                                $periodStr = 'every ' . $plan->plan_faq . ' ' . $plan->plan_period . $suffix;
+                            }                                                   
+                            // Determine the button label based on the plan type
                             if ($plan->plan_type == 'T') {
                                 $planStr = session()->has('USER_DETAILS') ? 'Subscribe Free' : 'Login';
                             } elseif ($plan->plan_type == 'D') {
@@ -31,8 +42,8 @@
                                 <div class="pricingTable-header">
                                     <h3 class="heading">{{ $plan->plan_name }}</h3>
                                     <span class="price-value">
-                                        <span class="currency">$</span> {{ $plan->plan_amount }} <span class="month">for
-                                            {{ $plan->plan_faq . ' ' . $plan->plan_period . $suffix }}</span>
+                                        <span class="currency">$</span> {{ $plan->plan_amount }} <span
+                                            class="month">{{ $periodStr }}</span>
                                     </span>
                                 </div>
                                 <div class="pricing-content">
@@ -45,9 +56,14 @@
                                         <input type="hidden" name="PAYMENT_INFORMATION" value="{{ $plan->plan_name }}">
                                         <input type="hidden" name="MONETIZATION_TYPE" value="S">
                                         <input type="hidden" name="STREAM_DESC" value="{{ $plan->plan_desc }}">
-                                        <input type="hidden" name="PLAN" value="{{ $plan->plan_faq . ' ' . $plan->plan_period.$suffix }}">
+                                        <input type="hidden" name="PLAN"
+                                            value="{{ $periodStr }}">
                                         <input type="hidden" name="MONETIZATION_GUID" value="{{ $plan->sub_plan_guid }}">
                                         <input type="hidden" name="AMOUNT" value="{{ $plan->plan_amount }}">
+                                        @if (request()->has('recipient_email'))
+                                            <input type="hidden" name="RECIPIENT_EMAIL"
+                                                value="{{ request('recipient_email') }}">
+                                        @endif
                                         <button type="submit"
                                             class="btn btn-primary read text-black text-white">{{ $planStr }}</button>
                                     </form>

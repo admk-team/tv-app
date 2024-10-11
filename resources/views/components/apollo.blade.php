@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $data->app->app_info->app_name ?? '' }}</title>
+    <title>{{ \App\Services\AppConfig::get()->app->app_info->app_name ?? '' }}</title>
     <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
     <meta property="og:image" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_image ?? '' }}" />
     <meta property="og:description" content="{!! strip_tags(\App\Services\AppConfig::get()->app->app_info->seo_description ?? '') !!}" />
@@ -41,8 +41,8 @@
             padding: 1rem;
         }
     </style>
-    @if (isset($data->app->landingpages))
-        @foreach ($data->app->landingpages as $page)
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
             @if ($page->page_type === 'Apollo' && $page->section_type === 'banner' && $page->status === 1)
                 @if ($page->image)
                     <style>
@@ -63,7 +63,7 @@
         <!-- START: Top Header -->
         <header class="content-wrapper d-flex justify-content-between align-items-center px-2 px-md-3 py-2 mb-3">
             <a href="/home">
-                <img src="{{ $data->app->app_info->website_logo ?? '' }}" class="logo" />
+                <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" class="logo" />
             </a>
             <nav class="d-flex gap-2 gap-md-3 align-items-center">
                 <a href="/home?browse=true" class="browse-btn">Browse Content</a>
@@ -74,8 +74,8 @@
             </nav>
         </header>
         <!-- END: Top Header -->
-        @if (isset($data->app->landingpages))
-            @foreach ($data->app->landingpages as $page)
+        @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+            @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                 @if ($page->page_type === 'Apollo' && $page->section_type === 'banner' && $page->status === 1)
                     <!-- START: Hero Section -->
                     <section
@@ -128,8 +128,8 @@
     @endif
 @endforeach
 @endif
-@if (isset($data->app->landingpages))
-@foreach ($data->app->landingpages as $page)
+@if (isset(\App\Services\AppConfig::get()->app->landingpages))
+@foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
     @if ($page->page_type === 'Apollo' && $page->section_type === 'banner' && $page->status === 1)
         <div class="text-content px-sm-4 px-md-5 d-flex flex-column justify-content-end">
             <div class="wrapper">
@@ -173,7 +173,7 @@
 </section>
 </div>
 <!-- END: Hero Section -->
-@foreach ($data->app->landingpages as $page)
+@foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
 @if ($page->page_type === 'Apollo' && $page->section_type === 'anywhere')
 <!-- START: Video Section -->
 <div class="sec-video mb-5  px-sm-4 px-md-5">
@@ -202,7 +202,7 @@
 <!-- END: Video Section -->
 @endif
 @endforeach
-@foreach ($data->app->landingpages as $page)
+@foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
 @if ($page->page_type === 'Apollo' && $page->section_type === 'tv_section')
 <!-- START: Device Section -->
 <div class="sec-device content-wrapper px-2 px-md-3">
@@ -233,7 +233,7 @@
                     <p>{{ $page->description ?? '' }}</p>
 @endif
 @endforeach
-@foreach ($data->app->landingpages as $page)
+@foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
 @if ($page->page_type === 'Apollo' && $page->section_type === 'watch_now')
 <div class="platforms d-flex align-items-center gap-3 gap-md-4 flex-column flex-md-row">
     <div class="text"> {{ $page->title ?? '' }}</div>
@@ -246,7 +246,7 @@
 <a href="/download-apps" class="btn-primary-new device-download-btn">Download Now</a>
 @endif
 @endforeach
-@foreach ($data->app->landingpages as $page)
+@foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
 @if ($page->page_type === 'Apollo' && $page->section_type === 'tv_section')
 </div>
 <div class="col-md-4 mb-3 mb-md-0">
@@ -313,7 +313,7 @@
 </div>
 </div>
 <!-- END: Device Section -->
-@foreach ($data->app->landingpages as $page)
+@foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
 @if ($page->page_type === 'Apollo' && $page->section_type === 'membership' && $page->status === 1)
 <!-- START: CTA Section -->
 <div class="sec-cta content-wrapper px-5 px-md-3 py-5 py-md-3 px-sm-1 px-md-1">
@@ -354,7 +354,8 @@
 <div class="row mt-5">
 <div class="col-md-3 mb-3">
     <a href="/home">
-        <img class="img-fluid mb-4" src="{{ $data->app->app_info->website_logo ?? '' }}" alt=""
+        <img class="img-fluid mb-4"
+            src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt=""
             srcset="" width="150px">
     </a>
     <p class="p-0 m-0  foooter-text">
@@ -391,7 +392,8 @@
     <ul class="d-flex align-items-start flex-column list-unstyled ">
         <li><a href="/login" class="text-decoration-none  foooter-text lh-lg">Login</a></li>
         <li><a href="/signup" class="text-decoration-none  foooter-text lh-lg">Register</a></li>
-        <li><a href="/download-apps" class="text-decoration-none  foooter-text lh-lg">Download Apps</a></li>
+        <li><a href="/download-apps" class="text-decoration-none  foooter-text lh-lg">Download Apps</a>
+        </li>
     </ul>
 </div>
 

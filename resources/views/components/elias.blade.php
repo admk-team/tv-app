@@ -17,21 +17,21 @@
             margin: 0;
         }
     </style>
-    @if (isset($data->app->landingpages))
-    @foreach ($data->app->landingpages as $page)
-        @if ($page->page_type === 'Eli' && $page->section_type === 'banner' && $page->status === 1)
-            @if ($page->image)
-            <style>
-                @media(min-width: 768px) {
-                    .a8jOE .m4M3j  {
-                        background-image: url('{{ asset($page->image) }}');
-                    }
-                }
-            </style>
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
+            @if ($page->page_type === 'Eli' && $page->section_type === 'banner' && $page->status === 1)
+                @if ($page->image)
+                    <style>
+                        @media(min-width: 768px) {
+                            .a8jOE .m4M3j {
+                                background-image: url('{{ asset($page->image) }}');
+                            }
+                        }
+                    </style>
+                @endif
             @endif
-        @endif
-    @endforeach
-@endif
+        @endforeach
+    @endif
 @endsection
 
 @section('content')
@@ -62,8 +62,9 @@
                                 </div>  --}}
                             </div>
                             <a href="">
-                                <img alt="logo" src="{{ $data->app->app_info->website_logo ?? '' }}" width="70px"
-                                    class="img-fluid">
+                                <img alt="logo"
+                                    src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}"
+                                    width="70px" class="img-fluid">
                             </a>
                             <div class="ItzA1">
                                 <div class="S1MTF W5KqS">
@@ -72,7 +73,7 @@
                             </div>
                         </div>
                         <div class="SVozw Z21oI">
-                           @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                            @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                                 <div class="dropdown dropdin">
                                     <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)"
                                         data-index=0>
@@ -132,8 +133,8 @@
                             <div class="MQJzq"></div>
                             <div class="Container Cu6Nx">
                                 <div class="Row kGgaU">
-                                    @if (isset($data->app->landingpages))
-                                        @foreach ($data->app->landingpages as $page)
+                                    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+                                        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                                             @if ($page->page_type === 'Eli' && $page->section_type === 'banner' && $page->status === 1)
                                                 <div class="Col Col--12 Col--md-12 BfEsx">
                                                     <h1 class="H1">
@@ -192,8 +193,8 @@
                     </div>
                     <div class="CSz1m">
                         <div class="Container Cu6Nx">
-                            @if (isset($data->app->landingpages))
-                                @foreach ($data->app->landingpages as $page)
+                            @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+                                @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                                     @if ($page->page_type === 'Eli' && $page->section_type === 'anywhere')
                                         <div class="Row BVyG0">
                                             <div class="Col Col--12 Col--md-8">
@@ -233,8 +234,8 @@
 
                         </div>
                     </div>
-                    @if (isset($data->app->landingpages))
-                        @foreach ($data->app->landingpages as $page)
+                    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+                        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                             @if ($page->page_type === 'Eli' && $page->section_type === 'watch_now')
                                 <div class="ziHOc" style="background-image: url({{ $page->image ?? '' }})">
                                     <div class="Container
@@ -256,9 +257,9 @@
                             @endif
                         @endforeach
                     @endif
-                    @if (isset($data->app->landingpages) &&
+                    @if (isset(\App\Services\AppConfig::get()->app->landingpages) &&
                             array_reduce(
-                                $data->app->landingpages,
+                                \App\Services\AppConfig::get()->app->landingpages,
                                 fn($carry, $item) => $carry || ($item->section_type === 'faq' && $item->page_type === 'Eli'),
                                 false))
                         <div class="CSz1m">
@@ -272,7 +273,7 @@
                                     <div class="Col Col--12 Col--md-6">
                                         <div class="QQCZW">
                                             <ul>
-                                                @foreach ($data->app->landingpages as $page)
+                                                @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                                                     @if ($page->page_type === 'Eli' && $page->section_type === 'faq' && $page->status === 1)
                                                         <li class="AI3Of">
                                                             <div class="ECk_t toggle-accordian"> {{ $page->title ?? '' }}
@@ -298,8 +299,8 @@
                             </div>
                         </div>
                     @endif
-                    @if (isset($data->app->landingpages))
-                        @foreach ($data->app->landingpages as $page)
+                    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+                        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                             @if ($page->page_type === 'Eli' && $page->section_type === 'membership')
                                 <div class="cgg2s">
                                     <div class="Container Cu6Nx">
@@ -339,7 +340,7 @@
                                         </h6>
                                         @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
                                             @if ($page->displayOn === 'F' || $page->displayOn === 'B')
-                                                  <p class="text-white-costum">
+                                                <p class="text-white-costum">
                                                     <a class="text-reset"
                                                         href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
                                                 </p>
@@ -356,7 +357,7 @@
                                             Top Categories
                                         </h6>
                                         @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
-                                              <p class="text-white-costum">
+                                            <p class="text-white-costum">
                                                 <a class="text-reset"
                                                     href="{{ route('category', $category->cat_guid) }}">{{ $category->cat_title }}</a>
                                             </p>
@@ -369,15 +370,15 @@
                                         <h6 class="text-uppercase fw-bold mb-4  text-white-costum">
                                             Let Us Help You
                                         </h6>
-                                          <p class="text-white-costum">
+                                        <p class="text-white-costum">
                                             <a href="/login" class="text-reset">Login</a>
                                         </p>
                                         @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
-                                              <p class="text-white-costum">
+                                            <p class="text-white-costum">
                                                 <a href="/signup" class="text-reset">Register</a>
                                             </p>
                                         @endif
-                                          <p class="text-white-costum">
+                                        <p class="text-white-costum">
                                             <a href="/download-apps" class="text-reset">Download Apps</a>
                                         </p>
                                     </div>
@@ -391,7 +392,7 @@
                         <div class="container-fluid footer_bottom">
                             <div class="d-flex justify-content-between  p-2">
                                 <div class="  text-white-costum fs-14px">
-                                    © {{ $data->app->app_info->app_name ?? '' }}
+                                    © {{ \App\Services\AppConfig::get()->app->app_info->app_name ?? '' }}
                                     {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
                                 <div class=" text-end  text-white-costum">
                                     @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
@@ -402,7 +403,7 @@
                                     {{--  <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">
                                     <i class="fab fa-youtube"></i>
                                 </a>
-                
+
                                 <a href="Facebook.com/24flix" target="_blank" class="me-4 text-reset">
                                     <i class="fab fa-facebook-f"></i>  --}}
                                     </a>

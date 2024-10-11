@@ -25,6 +25,7 @@ class MonetizationController extends Controller
                 'MONETIZATION_TYPE',
                 'PLAN_TYPE',
                 'PLAN_PERIOD',
+                'RECIPIENT_EMAIL',
             ]);
 
             // Include recipient email if present

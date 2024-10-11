@@ -1,13 +1,13 @@
 @switch(\App\Services\AppConfig::getMenuBySlug($slug)?->menu_type)
     @case('GE')
-        <x-layouts.app :appInfo="$data->app->app_info">
+        <x-layouts.app :appInfo="\App\Services\AppConfig::get()->app->app_info">
             @include('components.genres')
         </x-layouts.app>
     @break
 
     @case('HO')
-       @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
-            <x-layouts.app :appInfo="$data->app->app_info">
+        @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+            <x-layouts.app :appInfo="\App\Services\AppConfig::get()->app->app_info">
                 @include('components.page-banner')
                 @include('components.category-slider')
                 @include('components.enjoy-tv-box')
@@ -15,42 +15,42 @@
             </x-layouts.app>
         @else
             @if (request()->browse)
-                <x-layouts.app :appInfo="$data->app->app_info">
+                <x-layouts.app :appInfo="\App\Services\AppConfig::get()->app->app_info">
                     @include('components.page-banner')
                     @include('components.category-slider')
                     @include('components.enjoy-tv-box')
                     @include('components.faq_section')
                 </x-layouts.app>
             @else
-                @if ($data->app->app_info->landing_theme == 'AJS')
+                @if (\App\Services\AppConfig::get()->app->app_info->landing_theme == 'AJS')
                     @include('components.ajax_still')
-                @elseif ($data->app->app_info->landing_theme == 'HYP')
+                @elseif (\App\Services\AppConfig::get()->app->app_info->landing_theme == 'HYP')
                     @include('components.hypatia')
-                @elseif ($data->app->app_info->landing_theme == 'AJV')
+                @elseif (\App\Services\AppConfig::get()->app->app_info->landing_theme == 'AJV')
                     @include('components.ajax_video')
-                @elseif ($data->app->app_info->landing_theme == 'Ele')
+                @elseif (\App\Services\AppConfig::get()->app->app_info->landing_theme == 'Ele')
                     @include('components.elektra')
-                @elseif ($data->app->app_info->landing_theme == 'Eli')
+                @elseif (\App\Services\AppConfig::get()->app->app_info->landing_theme == 'Eli')
                     @include('components.elias')
-                @elseif ($data->app->app_info->landing_theme == 'Theo')
+                @elseif (\App\Services\AppConfig::get()->app->app_info->landing_theme == 'Theo')
                     @include('components.theo')
-                @elseif ($data->app->app_info->landing_theme == 'Iris')
+                @elseif (\App\Services\AppConfig::get()->app->app_info->landing_theme == 'Iris')
                     @include('components.iris')
-                @elseif ($data->app->app_info->landing_theme == 'Apollo')
+                @elseif (\App\Services\AppConfig::get()->app->app_info->landing_theme == 'Apollo')
                     @include('components.apollo')
-                @elseif ($data->app->app_info->landing_theme == 'lyra')
+                @elseif (\App\Services\AppConfig::get()->app->app_info->landing_theme == 'lyra')
                     @include('components.lyra')
-                @elseif ($data->app->app_info->landing_theme == 'damian')
+                @elseif (\App\Services\AppConfig::get()->app->app_info->landing_theme == 'damian')
                     @include('components.damian')
-                @elseif ($data->app->app_info->landing_theme == 'NRE')
-                    <x-layouts.app :appInfo="$data->app->app_info">
+                @elseif (\App\Services\AppConfig::get()->app->app_info->landing_theme == 'NRE')
+                    <x-layouts.app :appInfo="\App\Services\AppConfig::get()->app->app_info">
                         @include('components.page-banner')
                         @include('components.category-slider')
                         @include('components.enjoy-tv-box')
                         @include('components.faq_section')
                     </x-layouts.app>
                 @else
-                    <x-layouts.app :appInfo="$data->app->app_info">
+                    <x-layouts.app :appInfo="\App\Services\AppConfig::get()->app->app_info">
                         @include('components.page-banner')
                         @include('components.category-slider')
                         @include('components.enjoy-tv-box')
@@ -62,13 +62,13 @@
     @break
 
     @case('TG')
-        <x-layouts.app :appInfo="$data->app->app_info">
+        <x-layouts.app :appInfo="\App\Services\AppConfig::get()->app->app_info">
             @include('components.tv-guide-section')
         </x-layouts.app>
     @break
 
     @default
-        <x-layouts.app :appInfo="$data->app->app_info">
+        <x-layouts.app :appInfo="\App\Services\AppConfig::get()->app->app_info">
             @include('components.page-banner')
             @include('components.category-slider')
         </x-layouts.app>

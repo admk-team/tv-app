@@ -34,7 +34,8 @@ class RegisterController extends Controller
                 'email' => $request->email,
                 'password' => $request->password,
                 'confirmPassword' => $request->password_confirmation,
-                'isBypassEmailVerificationStep' => 'Y'
+                'isBypassEmailVerificationStep' => 'Y',
+                'partner_url' => session('partner_url') ?? null
             ]);
         $responseJson = $response->json();
         
@@ -64,7 +65,12 @@ class RegisterController extends Controller
         if (GeneralHelper::subscriptionIsRequired()) {
             return redirect(route('subscription'));
         }
-
-        return redirect(route('profile.index'));
+        $profile = \App\Services\AppConfig::get()->app->app_info->profile_manage;
+        if ($profile == 1) {
+            return redirect(route('profile.index'));
+        } else {
+            // If $profile is not 1, redirect to the home page ('/')
+            return redirect('/');
+        }
     }
 }

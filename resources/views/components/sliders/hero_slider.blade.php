@@ -43,7 +43,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <p class="description">{{ $stream->stream_description ?? '' }}</p>
+                            <p class="description desktop-data">{{ $stream->stream_description ?? '' }}</p>
                             <div class="btns">
                                 <a class="app-primary-btn rounded"
                                     href="{{ route('playerscreen', $stream->stream_guid) }}">

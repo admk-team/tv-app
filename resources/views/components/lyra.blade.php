@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <!-- Link jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    @if (isset($data->app->landingpages))
-        @foreach ($data->app->landingpages as $page)
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
             @if ($page->page_type === 'lyra' && $page->section_type === 'banner' && $page->status === 1)
                 @if ($page->image)
                     <style>
@@ -32,7 +32,8 @@
         <!-- START: Top Header -->
         <header class="content-wrapper d-flex justify-content-between align-items-center px-2 px-md-3 py-2 mb-3">
             <a href="/home">
-                <img src="{{ $data->app->app_info->website_logo ?? '' }}" class="logo" width="100px" />
+                <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" class="logo"
+                    width="100px" />
             </a>
             <nav class="d-flex gap-2 gap-md-3 align-items-center">
                 <a href="/home?browse=true" class="browse-btn">Browse Content</a>
@@ -56,8 +57,8 @@
 
             </nav>
         </header>
-        @if (isset($data->app->landingpages))
-            @foreach ($data->app->landingpages as $page)
+        @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+            @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                 @if ($page->page_type === 'lyra' && $page->section_type === 'banner' && $page->status === 1)
                     <div class="position-relative overflow-hidden p-3 p-md-5 text-center">
                         <img src="{{ asset('assets/landing_theme_assets/lyra/images/circle.png') }}" class="circle_image" />
@@ -91,8 +92,8 @@
                 @endif
             @endforeach
         @endif
-        @if (isset($data->app->landingpages))
-            @foreach ($data->app->landingpages as $page)
+        @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+            @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                 @if ($page->page_type === 'lyra' && $page->section_type === 'membership' && $page->status === 1)
                     <div class="row d-flex align-items-center justify-content-center m-auto foooter-text py-3">
                         <div class="col-md-6">
@@ -129,8 +130,8 @@
                 @endif
             @endforeach
         @endif
-        @if (isset($data->app->landingpages))
-            @foreach ($data->app->landingpages as $page)
+        @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+            @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                 @if ($page->page_type === 'lyra' && $page->section_type === 'download')
                     @if (!empty($page->appstore_link) || !empty($page->playstore_link))
                         <div class="apps__links mt-5">
@@ -159,8 +160,8 @@
     </div>
     <!-- END: Hero Section -->
     <!-- START: App stores Section -->
-    @if (isset($data->app->landingpages))
-        @foreach ($data->app->landingpages as $page)
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
             @if ($page->page_type === 'lyra' && $page->section_type === 'anywhere')
                 <div class="sec-video d-flex flex-column justify-content-center align-items-center text-center mb-5 mt-5">
                     <div class="col-8 mx-auto">
@@ -190,8 +191,8 @@
     @endif
     <!-- End: App stores Section -->
     <!-- START: Section Devices Section -->
-    @if (isset($data->app->landingpages))
-        @foreach ($data->app->landingpages as $page)
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
             @if ($page->page_type === 'lyra' && $page->section_type === 'tv_section')
                 <div
                     class="sec-device tab-content active-device d-flex flex-column justify-content-center align-items-center text-center d-none mt-5">
@@ -257,8 +258,8 @@
             @endif
         @endforeach
     @endif
-    @if (isset($data->app->landingpages))
-        @foreach ($data->app->landingpages as $page)
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
             @if ($page->page_type === 'lyra' && $page->section_type === 'tv_section')
                 <div class="tab-btns d-flex justify-content-center align-items-center text-center gap-5">
                     <div class="active" data-target="tv-details"><span>TV</span></div>
@@ -268,8 +269,8 @@
             @endif
         @endforeach
     @endif
-    @if (isset($data->app->landingpages))
-        @foreach ($data->app->landingpages as $page)
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
             @if ($page->page_type === 'lyra' && $page->section_type === 'tv_section')
                 <div class="container mt-3 active-device d-none tab-image"
                     style="background-color: rgba(255, 255, 255, 0.048)">
@@ -302,8 +303,8 @@
     @endif
     <!-- END: Section Devices Section -->
     <!-- START: watch now Section -->
-    @if (isset($data->app->landingpages))
-        @foreach ($data->app->landingpages as $page)
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
             @if ($page->page_type === 'lyra' && $page->section_type === 'watch_now')
                 <section class="tv__links">
                     <div class="tv__icons m-auto w-25 ">
@@ -331,9 +332,9 @@
     <!-- END: watch now Section -->
     <!-- START: FAQ Section -->
     <!-- Start FAQ-->
-    @if (isset($data->app->landingpages) &&
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages) &&
             array_reduce(
-                $data->app->landingpages,
+                \App\Services\AppConfig::get()->app->landingpages,
                 fn($carry, $item) => $carry || ($item->section_type === 'faq' && $item->page_type === 'lyra'),
                 false))
         <div class="d-flex align-items-center text-center justify-content-center mb-3">
@@ -342,7 +343,7 @@
             </div>
         </div>
         <div class="row justify-content-center mb-5 mt-3" style="max-width: 100%;">
-            @foreach ($data->app->landingpages as $page)
+            @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                 @if ($page->page_type === 'lyra' && $page->section_type === 'faq' && $page->status === 1)
                     <div class="col-sm-12 col-md-8 col-lg-8 text-center">
                         <div class="accrodingin">
@@ -379,7 +380,8 @@
         <div class="row mt-5">
             <div class="col-md-3 mb-3">
                 <a href="/home">
-                    <img class="img-fluid mb-4" src="{{ $data->app->app_info->website_logo ?? '' }}" alt=""
+                    <img class="img-fluid mb-4"
+                        src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt=""
                         srcset="" width="150px">
                 </a>
                 <p class="p-0 m-0 foooter-text">

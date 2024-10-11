@@ -13,6 +13,7 @@
         height: 100%;
         object-fit: none;
     }
+
     .text-white-custom {
         color: var(--themePrimaryTxtColor)
     }
@@ -37,7 +38,8 @@
                                     class="detail_btn w-25"><i class="fa fa-download"></i>Download Apps</button></a>
                         </div>
                         <div class="image_content" style="height: 50vh; overflow: hidden;">
-                            <img src="{{ $data->app->app_info->website_homescrn_poster ?? '' }}" alt="Feature Image" class="cover-image">
+                            <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_homescrn_poster ?? '' }}"
+                                alt="Feature Image" class="cover-image">
                         </div>
                     </div>
                 </div>

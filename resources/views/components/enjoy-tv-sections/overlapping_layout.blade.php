@@ -8,8 +8,8 @@
           top: 0;
           left: 0;
           background-image: linear-gradient(rgba(255, 255, 255, 0.4),
-          var(--bgcolor) 100%,
-          rgb(246, 246, 246) 15%);
+                  var(--bgcolor) 100%,
+                  rgb(246, 246, 246) 15%);
           color: #fff;
           padding: 20px;
           z-index: 10;
@@ -20,30 +20,32 @@
           justify-content: center;
           flex-direction: column;
       }
-.image_area {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-}
 
-.image_area img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%; /* Ensures full width */
-    height: auto; /* Maintains aspect ratio */
-    transform: translate(-50%, -50%); /* Centers the image */
-}
-.text-white-custom {
-    color: var(--themePrimaryTxtColor)
-}
+      .image_area {
+          width: 100%;
+          height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden;
+          position: relative;
+      }
 
+      .image_area img {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 100%;
+          /* Ensures full width */
+          height: auto;
+          /* Maintains aspect ratio */
+          transform: translate(-50%, -50%);
+          /* Centers the image */
+      }
 
-
+      .text-white-custom {
+          color: var(--themePrimaryTxtColor)
+      }
   </style>
 
   <div class="content">
@@ -69,7 +71,8 @@
                                   Apps</button></a>
                       </div>
                       <div class="image_area">
-                          <img src="{{ $data->app->app_info->website_homescrn_poster ?? '' }}" alt="Feature Image">
+                          <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_homescrn_poster ?? '' }}"
+                              alt="Feature Image">
                       </div>
                   </div>
               </div>

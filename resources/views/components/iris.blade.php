@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $data->app->app_info->app_name ?? '' }}</title>
-    <link rel="icon" href="{{ $data->app->app_info->website_faviocn ?? '' }}">
+    <title>{{ \App\Services\AppConfig::get()->app->app_info->app_name ?? '' }}</title>
+    <link rel="icon" href="{{ \App\Services\AppConfig::get()->app->app_info->website_faviocn ?? '' }}">
     <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
     <meta property="og:image" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_image ?? '' }}" />
     <meta property="og:description" content="{!! strip_tags(\App\Services\AppConfig::get()->app->app_info->seo_description ?? '') !!}" />
@@ -29,8 +29,8 @@
             --cardDesColor: {{ \App\Services\AppConfig::get()->app->website_colors->cardDesColor }};
         }
     </style>
-    @if (isset($data->app->landingpages))
-        @foreach ($data->app->landingpages as $page)
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
             @if ($page->page_type === 'Iris' && $page->section_type === 'banner' && $page->status === 1)
                 @if ($page->image)
                     <style>
@@ -53,7 +53,8 @@
             <ul class="d-flex align-items-center justify-content-between navbar__items px-2">
                 <li class="logo__item list-unstyled d-flex gap-2 gap-md-3 align-items-center" role="button">
                     <a href="/home">
-                        <img src="{{ $data->app->app_info->website_logo ?? '' }}" alt="Logo">
+                        <img src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}"
+                            alt="Logo">
                     </a>
                     <a href="/home?browse=true" class="browse text-decoration-none text-white border-2">Browse
                         Content</a>
@@ -71,8 +72,8 @@
         <section class="content-wrapper text-white">
             <!-- Home Section  -->
             <div class="home__section">
-                @if (isset($data->app->landingpages))
-                    @foreach ($data->app->landingpages as $page)
+                @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+                    @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                         @if ($page->page_type === 'Iris' && $page->section_type === 'banner' && $page->status === 1)
                             <h5 class="poppins-semibold mb-2">{{ $page->title ?? '' }}</h5>
                             <h1 class="poppins-bold mb-2">
@@ -187,8 +188,8 @@
 <section class="content-wrapper  foooter-text">
 <!-- Devices Section  -->
 <div class="devices__section">
-@if (isset($data->app->landingpages))
-    @foreach ($data->app->landingpages as $page)
+@if (isset(\App\Services\AppConfig::get()->app->landingpages))
+    @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
         @if ($page->page_type === 'Iris' && $page->section_type === 'anywhere')
             <h1 class="poppins-bold">
                 @if (isset($page->title))
@@ -298,8 +299,8 @@
     @endforeach
 @endif
 </div>
-@if (isset($data->app->landingpages))
-@foreach ($data->app->landingpages as $page)
+@if (isset(\App\Services\AppConfig::get()->app->landingpages))
+@foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
     @if ($page->page_type === 'Iris' && $page->section_type === 'watch_now')
         <!-- Watch Now Section  -->
         <div class="d-flex align-items-center justify-content-around channels my-4 flex-column flex-md-row">
@@ -326,7 +327,8 @@
 <div class="row mt-5">
 <div class="col-md-3 mb-3">
     <a href="/home">
-        <img class="img-fluid mb-4" src="{{ $data->app->app_info->website_logo ?? '' }}" alt=""
+        <img class="img-fluid mb-4"
+            src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt=""
             srcset="" width="150px">
     </a>
     <p class="p-0 m-0  foooter-text">
@@ -339,7 +341,7 @@
     </a>
 </div>
 <div class="col-md-3 ">
-    <h5  class="mb-4 foooter-text"><span>GET</span> TO KNOW US</h5>
+    <h5 class="mb-4 foooter-text"><span>GET</span> TO KNOW US</h5>
     <ul class="d-flex align-items-start flex-column list-unstyled">
         @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
             @if ($page->displayOn === 'F' || $page->displayOn === 'B')
@@ -350,7 +352,7 @@
     </ul>
 </div>
 <div class="col-md-3">
-    <h5  class="mb-4 foooter-text"><span>TOP</span> CATEGORIES</h5>
+    <h5 class="mb-4 foooter-text"><span>TOP</span> CATEGORIES</h5>
     <ul class="d-flex align-items-start flex-column list-unstyled ">
         @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
             <li><a href="{{ route('category', $category->cat_guid) }}"
@@ -359,11 +361,12 @@
     </ul>
 </div>
 <div class="col-md-3">
-    <h5  class="mb-4 foooter-text"><span>LET US</span> HELP YOU</h5>
+    <h5 class="mb-4 foooter-text"><span>LET US</span> HELP YOU</h5>
     <ul class="d-flex align-items-start flex-column list-unstyled ">
         <li><a href="/login" class="text-decoration-none  foooter-text lh-lg">Login</a></li>
         <li><a href="/signup" class="text-decoration-none  foooter-text lh-lg">Register</a></li>
-        <li><a href="/download-apps" class="text-decoration-none  foooter-text lh-lg">Download Apps</a></li>
+        <li><a href="/download-apps" class="text-decoration-none  foooter-text lh-lg">Download Apps</a>
+        </li>
     </ul>
 </div>
 
@@ -381,7 +384,7 @@
 </footer>
 
 <script>
-    // Menu Items 
+    // Menu Items
     let menuItems = document.querySelectorAll('.menu a');
     let Icons = document.querySelectorAll('.icons div');
     let tvImages = document.querySelectorAll('.tv_images');
@@ -399,7 +402,7 @@
 
 
 
-    // Devices toggle 
+    // Devices toggle
     Icons.forEach((icon, index) => {
         icon.addEventListener('click', () => {
             Icons.forEach(item => {

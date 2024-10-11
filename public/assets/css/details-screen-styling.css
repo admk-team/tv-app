@@ -12,7 +12,7 @@
 
 .sec-device .tab-btns {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .sec-device .tab-btns > div {
@@ -106,11 +106,11 @@
 .custom-image:hover .image-name {
     opacity: 1;
 }
-@media (min-width: 1400px) {
+/* @media (min-width: 1400px) {
     .sec-device .tab-btns {
         margin-bottom: 6rem;
     }
-}
+} */
 @media (min-width: 768px) {
     .sec-device .tab-btns {
         margin-bottom: 3rem;
@@ -119,3 +119,22 @@
         font-size: 18px;
     }
 }
+/* @media (max-width: 600px) {
+    .slick-slide{
+        width: 170px;
+    }
+    .thumbnail_img{
+        height: 100px !important;
+    }
+    .thumbnail_img:first-child {
+        margin-left: 1px !important;
+    }
+}
+@media (max-width: 400px) {
+    .sec-device .tab-btns > div {
+        font-size: 13px !important;
+    }
+    .thumbnail_img{
+        height: 95px !important;
+    }
+} */

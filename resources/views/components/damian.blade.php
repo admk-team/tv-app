@@ -16,7 +16,7 @@
         <nav class="py-3 navbar navbar-expand-lg navbar-dark bg-transparent">
             <div class="container">
                 <a class="navbar-brand logo__item list-unstyled" href="/home"><img
-                        src="{{ $data->app->app_info->website_logo ?? '' }}" alt="Logo"></a>
+                        src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}" alt="Logo"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -45,8 +45,8 @@
                 </div>
             </div>
         </nav>
-        @if (isset($data->app->landingpages))
-            @foreach ($data->app->landingpages as $page)
+        @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+            @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                 @if ($page->page_type === 'damian' && $page->section_type === 'banner' && $page->status === 1)
                     <!-- Hero Text  -->
                     <div class="container">
@@ -95,8 +95,8 @@
     <!-- Stream  -->
     <div class="stream">
         <div class="container">
-            @if (isset($data->app->landingpages))
-                @foreach ($data->app->landingpages as $page)
+            @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+                @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                     @if ($page->page_type === 'damian' && $page->section_type === 'download')
                         @if (!empty($page->appstore_link) || !empty($page->playstore_link))
                             <div class="download__now ">
@@ -209,14 +209,14 @@
                 </div>
                 <div class="col-md-9">
                     <div class="stream__images">
-                        @if (isset($data->app->landingpages))
-                            @foreach ($data->app->landingpages as $page)
+                        @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+                            @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                                 @if ($page->page_type === 'damian' && $page->section_type === 'tv_section')
                                     <div class="tv_images">
                                         <img src="{{ $page->image ?? '' }}" alt="">
                                     </div>
                                 @endif
-                                @if ($page->page_type === 'damian' && $page->section_type === 'tablet_section' )
+                                @if ($page->page_type === 'damian' && $page->section_type === 'tablet_section')
                                     <div class="tv_images d-none">
                                         <img src="{{ $page->image ?? '' }}" alt="">
                                     </div>
@@ -234,9 +234,9 @@
         </div>
     </div>
     <!-- FAQs  -->
-    @if (isset($data->app->landingpages) &&
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages) &&
             array_reduce(
-                $data->app->landingpages,
+                \App\Services\AppConfig::get()->app->landingpages,
                 fn($carry, $item) => $carry || ($item->section_type === 'faq' && $item->page_type === 'damian'),
                 false))
         <section class="faqs">
@@ -244,7 +244,7 @@
             {{--  <p class="text-center m-auto w-75 my-2">You can find 24 Flix on all of the major App Stores including</p>  --}}
 
             <div class="faqs__accordion container p-0">
-                @foreach ($data->app->landingpages as $page)
+                @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                     @if ($page->page_type === 'damian' && $page->section_type === 'faq' && $page->status === 1)
                         <button class="accordion">
                             <p>{{ $page->title ?? '' }}</p> <span class="plus-icon">&#43;</span>
@@ -258,8 +258,8 @@
         </section>
     @endif
     <!-- memebership  -->
-    @if (isset($data->app->landingpages))
-        @foreach ($data->app->landingpages as $page)
+    @if (isset(\App\Services\AppConfig::get()->app->landingpages))
+        @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
             @if ($page->page_type === 'damian' && $page->section_type === 'membership' && $page->status === 1)
                 <section class="membership">
                     <div class="container">
@@ -303,8 +303,9 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="text-center">
-                        <a href="/home"><img src="{{ $data->app->app_info->website_logo ?? '' }}" width="140px"
-                                alt="Logo"></a>
+                        <a href="/home"><img
+                                src="{{ \App\Services\AppConfig::get()->app->app_info->website_logo ?? '' }}"
+                                width="140px" alt="Logo"></a>
                     </div>
                     <p class="foooter-text p-0 mt-3 mb-0 text-center">
                         {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_txt ?? '' }}</p>
@@ -340,7 +341,8 @@
                     <ul class="d-flex align-items-start flex-column list-unstyled">
                         <li><a href="/login" class="text-decoration-none foooter-text lh-lg">Login</a></li>
                         <li><a href="/signup" class="text-decoration-none foooter-text lh-lg">Register</a></li>
-                        <li><a href="/download-apps" class="text-decoration-none foooter-text lh-lg">Download Apps</a></li>
+                        <li><a href="/download-apps" class="text-decoration-none foooter-text lh-lg">Download Apps</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -384,7 +386,7 @@
         });
 
 
-        // Accordion 
+        // Accordion
         var acc = document.getElementsByClassName("accordion");
         var i;
         for (i = 0; i < acc.length; i++) {

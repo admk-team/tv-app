@@ -1,6 +1,9 @@
 <?php
 
+use App\Services\Api;
+use App\Models\AppCofig;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,4 +19,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+Route::get('refreshBackData', function () {
+    $response = Http::timeout(300)->withHeaders(Api::headers())
+        ->get(Api::endpoint("/masterfeed"));
+    $appconfig = AppCofig::where('app_code', env('APP_CODE'))->first();
+    if ($appconfig) {
+        $appconfig->update(['api_data' => $response->body()]);
+    } else {
+        AppCofig::create(['app_code' => env('APP_CODE'), 'api_data' => $response->body()]);
+    }
 });

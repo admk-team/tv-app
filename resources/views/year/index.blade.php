@@ -54,67 +54,86 @@
     </section>
 @endsection
 @push('scripts')
-    <script>
-        $(document).ready(function() {
-            var data = {!! json_encode($streams) !!};
-            console.log(data);
+<script>
+    $(document).ready(function() {
+        var data = {!! json_encode($streams) !!};  // Convert streams data to JSON
+        var bypassDetailscreen = {!! json_encode(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) !!};  // Get bypass detailscreen setting
 
-            var currentIndex = 0;
-            var batchSize = 20;
+        var currentIndex = 0;
+        var batchSize = 20;
 
-            function loadMoreData() {
-                var streams = data.slice(currentIndex, currentIndex + batchSize);
+        // Function to load more data in batches
+        function loadMoreData() {
+            var streams = data.slice(currentIndex, currentIndex + batchSize);
 
-                streams.forEach(function(stream) {
-                    $('#data-container').append($(`
-                         <div class="resposnive_Box">
-                                <a href="/detailscreen/${stream.stream_guid}">
-                                    <div class="thumbnail_img">
-                                        <div class="trending_icon_box" style="display: none;"><img
-                                                src="{{ asset('assets/images/trending_icon.png') }}" alt="Trending">
+            streams.forEach(function(stream) {
+                // Determine the screen based on bypass_detailscreen condition
+                var screenRoute = bypassDetailscreen == 1 || stream.bypass_detailscreen == 1 
+                    ? "{{ route('playerscreen', ':id') }}" 
+                    : "{{ route('detailscreen', ':id') }}";
+
+                // Replace placeholder ':id' with the actual stream_guid
+                var url = screenRoute.replace(':id', stream.stream_guid);
+
+                // If stream_type is 'A', handle promo URL logic
+                if (stream.stream_type === 'A') {
+                    url = stream.stream_promo_url;
+                    if (stream.is_external_ad === 'N') {
+                        url = `${screenRoute}/${stream.stream_promo_url}`;
+                    }
+                }
+
+                // Append stream information to the container
+                $('#data-container').append(`
+                    <div class="resposnive_Box">
+                        <a href="${url}">
+                            <div class="thumbnail_img">
+                                <div class="trending_icon_box" style="display: none;">
+                                    <img src="{{ asset('assets/images/trending_icon.png') }}" alt="Trending">
+                                </div>
+                                <img src="${stream.stream_poster}" alt="${stream.stream_title}">
+                                <div class="detail_box_hide">
+                                    <div class="detailbox_time">${stream.stream_duration_timeformat}</div>
+                                    <div class="deta_box">
+                                        <div class="season_title">
+                                            ${stream.stream_episode_title && stream.stream_episode_title !== 'NULL' ? stream.stream_episode_title : ''}
                                         </div>
-                                        <img src="${stream.stream_poster}" alt="${stream.stream_title}">
-                                        <div class="detail_box_hide">
-                                            <div class="detailbox_time">${stream.stream_duration_timeformat}</div>
-                                            <div class="deta_box">
-                                                <div class="season_title">
-                                                ${stream.stream_episode_title &&
-                                                stream.stream_episode_title !== 'NULL' ?
-                                                stream.stream_episode_title : ''}
-                                                </div>
-                                                <div class="content_title">${stream.stream_title}</div>
-                                                <div class="content_description">${stream.stream_description}</div>
-                                            </div>
-                                        </div>
+                                        <div class="content_title">${stream.stream_title}</div>
+                                        <div class="content_description">${stream.stream_description}</div>
                                     </div>
-                                </a>
+                                </div>
                             </div>
-                        `));
-                });
-                currentIndex += batchSize;
+                        </a>
+                    </div>
+                `);
+            });
 
-                // Hide load-more button when streams length completed
-                if (currentIndex >= data.length) {
-                    $('#load-more-btn').hide();
-                }
+            currentIndex += batchSize;
 
-                // Show message if no video avaiable
-                if (streams.length == 0) {
-                    $('#load-more-btn').hide();
-                    $('#data-container').append($(`
-                     <div>
-                         <h1 class="text-center text-white">No videos found
-                         </h1>
-                     </div>
-                `));
-                }
+            // Hide the load-more button when all streams are loaded
+            if (currentIndex >= data.length) {
+                $('#load-more-btn').hide();
             }
 
-            $('#load-more-btn').on('click', function() {
-                loadMoreData();
-            });
-            // Initial load
+            // Show message if no videos are available
+            if (streams.length === 0) {
+                $('#load-more-btn').hide();
+                $('#data-container').append(`
+                    <div>
+                        <h1 class="text-center text-white">No videos found</h1>
+                    </div>
+                `);
+            }
+        }
+
+        // Load more data when the button is clicked
+        $('#load-more-btn').on('click', function() {
             loadMoreData();
         });
-    </script>
+
+        // Initial data load
+        loadMoreData();
+    });
+</script>
+
 @endpush
