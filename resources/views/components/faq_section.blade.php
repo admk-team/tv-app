@@ -2,19 +2,14 @@
         \App\Services\AppConfig::get()->app->app_info->faq_section == 1)
     <!-- START: FAQ Section -->
     <!-- Start FAQ-->
-    @if (isset(\App\Services\AppConfig::get()->app->landingpages) &&
-            array_reduce(
-                \App\Services\AppConfig::get()->app->landingpages,
-                fn($carry, $item) => $carry || ($item->section_type === 'faq' && $item->page_type === 'default'),
-                false))
+    @if (isset(\App\Services\AppConfig::get()->app->faqs) && !empty(\App\Services\AppConfig::get()->app->faqs))
         <div class="d-flex align-items-center text-center justify-content-center mb-3">
             <div class="leftinpars sec-device">
                 <h1>Frequently Asked <span>Questions</span></h1>
             </div>
         </div>
         <div class="row justify-content-center mb-5 mt-3" style="max-width: 100%;">
-            @foreach (\App\Services\AppConfig::get()->app->landingpages as $index => $page)
-                @if ($page->page_type === 'default' && $page->section_type === 'faq' && $page->status === 1)
+            @foreach (\App\Services\AppConfig::get()->app->faqs as $index => $page)
                     <div class="col-sm-12 col-md-8 col-lg-8 text-center">
                         <div class="accrodingin">
                             <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -42,7 +37,6 @@
                             </div>
                         </div>
                     </div>
-                @endif
             @endforeach
         </div>
     @endif
