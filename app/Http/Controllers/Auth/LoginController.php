@@ -67,15 +67,18 @@ class LoginController extends Controller
         }
 
         $xyz = base64_encode(request()->ip());
+        $partnerlink = session('partner_url');
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->asForm()
             ->post(Api::endpoint("/mngappusrs?user_data={$xyz}&user_device={$finalresultDevice}&user_code={$request->user_code}&admin_code={$request->admin_code}"), [
                 'requestAction' => 'validateUserAccount',
                 'email' => $request->email,
                 'password' => $request->password,
-                'isBypassEmailVerificationStep' => 'Y'
+                'isBypassEmailVerificationStep' => 'Y',
+                'partner_url' => $partnerlink ?? null
             ]);
         $responseJson = $response->json();
+        
         if ($responseJson['app']['status'] === 0) {
             return back()->with('error', $responseJson['app']['msg']);
         }
