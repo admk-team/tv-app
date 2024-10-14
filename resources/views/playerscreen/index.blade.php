@@ -100,8 +100,9 @@
         $mType = 'hls';
     }
     $apiPath = App\Services\Api::endpoint('/mngstrmdur');
-    $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN');
+    $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN') . '&userProfileId='. session('USER_DETAILS.USER_PROFILE');
 
+    // dd(session('USER_DETAILS.USER_PROFILE'));
     // here get the video duration
     $seekFunStr = '';
     $arrFormData4VideoState = [];
