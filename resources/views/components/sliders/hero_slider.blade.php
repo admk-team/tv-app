@@ -8,7 +8,8 @@
             @foreach ($data->app->featured_items->streams ?? [] as $index => $stream)
                 <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ $index }}"
                     @if ($loop->first) class="active" @endif
-                    aria-current="{{ $loop->first ? 'true' : 'false' }}" aria-label="Slide {{ $index + 1 }}"></button>
+                    aria-current="{{ $loop->first ? 'true' : 'false' }}"
+                    aria-label="Slide {{ $index + 1 }}"></button>
             @endforeach
         @endif
 
@@ -23,9 +24,15 @@
                     <div class="carousel-caption d-block">
 
                         <div class="travel-info">
-                            <h1 class="content-heading" title="{{ $stream->stream_title ?? '' }}">
-                                {{ $stream->stream_title ?? '' }}
-                            </h1>
+                            @if (isset($stream->title_logo) && $stream->title_logo)
+                                <div class="title_logo mb-1">
+                                    <img style="max-width: 100%" src="{{ $stream->title_logo }}"
+                                        alt="{{ $stream->stream_title }}">
+                                </div>
+                            @else
+                                <h1 class="content-heading" title="{{ $stream->stream_title ?? '' }}">
+                                    {{ $stream->stream_title ?? '' }}</h1>
+                            @endif
                             <div class="timestamp">
                                 @if ($stream->released_year)
                                     <span>{{ $stream->released_year ?? '' }}</span>

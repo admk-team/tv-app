@@ -22,7 +22,7 @@
         </div>
     @endif
 @endif
-@if (isset(\App\Services\AppConfig::get()->app->app_info->slider_section) &&
+{{--  @if (isset(\App\Services\AppConfig::get()->app->app_info->slider_section) &&
         \App\Services\AppConfig::get()->app->app_info->slider_section == 'default')
     @include('components.sliders.owl_wrapper')
 @elseif(isset(\App\Services\AppConfig::get()->app->app_info->slider_section) &&
@@ -42,7 +42,8 @@
     @include('components.sliders.hero_slider')
 @else
     @include('components.sliders.owl_wrapper')
-@endif
+@endif  --}}
+@include('components.sliders.animation')
 {{--    --}}
 {{--  @include('components.sliders.hero_slider')  --}}
 {{-- Fade slider --}}

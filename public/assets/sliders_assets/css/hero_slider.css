@@ -108,6 +108,9 @@
     background-color: var(--themePrimaryTxtColor);
 }
 @media only screen and (max-width: 767.8px) {
+    .travel-info{
+        margin-top: 10%;
+    }
     .travel-info h1 {
         font-size: 14px;
         margin-bottom: 4px;

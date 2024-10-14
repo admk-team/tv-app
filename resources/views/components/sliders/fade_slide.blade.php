@@ -9,9 +9,14 @@
             <div class="mySlides w3-animate-fading" style="width:100%;display:none; position: relative;">
                 <img src="{{ $stream->feature_poster ?? '' }}" alt="loading">
                 <div class="travel-info">
-                    <h1 class="content-heading" title="{{ $stream->stream_title ?? '' }}">
-                        {{ $stream->stream_title ?? '' }}
-                    </h1>
+                    @if (isset($stream->title_logo) && $stream->title_logo)
+                        <div class="title_logo mb-1">
+                            <img class="image-fluid" src="{{ $stream->title_logo }}" alt="{{ $stream->stream_title }}">
+                        </div>
+                    @else
+                        <h1 class="content-heading" title="{{ $stream->stream_title ?? '' }}">
+                            {{ $stream->stream_title ?? '' }}</h1>
+                    @endif
                     <div class="timestamp">
                         @if ($stream->released_year)
                             <span>{{ $stream->released_year ?? '' }}</span>

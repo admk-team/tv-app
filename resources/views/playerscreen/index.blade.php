@@ -762,13 +762,14 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     <div class="row">
                         <div class="col-md-9">
                             <div class="product_detailbox">
-                                <ul class="starpoint" style="display: none;">
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                </ul>
+                                @if (isset($arrSlctItemData['title_logo']) && $arrSlctItemData['title_logo'])
+                                <div class="title_logo mb-1">
+                                    <img class="img-fluid" src="{{ $arrSlctItemData['title_logo'] }}" 
+                                         alt="{{ $arrSlctItemData['stream_title'] ?? 'Logo' }}">
+                                </div>
+                                @else
                                 <h1 class="content-heading">{{ $arrSlctItemData['stream_title'] }}</h1>
+                                @endif
                                 <div class="content-timing">
                                     @if ($arrSlctItemData['released_year'])
                                         <a href="{{ route('year', $arrSlctItemData['released_year']) }}"
