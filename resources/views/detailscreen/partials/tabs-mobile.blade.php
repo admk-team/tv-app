@@ -1,10 +1,11 @@
 <div class="button_groupbox d-flex align-items-center mb-2 px-3 mt-2">
     <div class="movieDetailPlaymobile">
         @if (session('USER_DETAILS') &&
-                session('USER_DETAILS')['USER_CODE'] && $stream_details['is_buyed'] == 'N' && 
+                session('USER_DETAILS')['USER_CODE'] &&
+                $stream_details['is_buyed'] == 'N' &&
                 ($stream_details['monetization_type'] == 'P' ||
                     $stream_details['monetization_type'] == 'S' ||
-                    $stream_details['monetization_type'] == 'O') )
+                    $stream_details['monetization_type'] == 'O'))
             <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="mobile-primary-btn rounded">
                 <i class="fa fa-dollar"></i>
                 Buy Now
@@ -17,11 +18,11 @@
         @endif
     </div>
     @if ($streamUrl !== '')
-    <div class="movieDetailPlaymobile">
-        <a id="trailer-id" class="mobile-primary-btn rounded">
-            <i class="fa fa-play"></i> Trailer
-        </a>
-    </div>
+        <div class="movieDetailPlaymobile">
+            <a id="trailer-id" class="mobile-primary-btn rounded">
+                <i class="fa fa-play"></i> Trailer
+            </a>
+        </div>
     @endif
     <?php
 if (session('USER_DETAILS.USER_CODE')) {
@@ -89,8 +90,16 @@ if (session('USER_DETAILS.USER_CODE')) {
     <div class="tab-content">
         <div data-tab-content="overview" class="content">
             <div class="px-4">
-                <h1 class="content-heading" title="{{ $stream_details['stream_title'] }}">
-                    {{ $stream_details['stream_title'] }}</h1>
+                @if (isset($stream_details['title_logo']) && $stream_details['title_logo'])
+                <div class="title_logo mb-1">
+                    <img class="img-fluid" src="{{ $stream_details['title_logo'] }}" 
+                         alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
+                </div>
+            @else
+                <h1 class="content-heading" title="{{ $stream_details['stream_title'] ?? '' }}">
+                    {{ $stream_details['stream_title'] ?? '' }}
+                </h1>
+            @endif
                 <div class="content-timing mb-2">
                     @if ($stream_details['released_year'])
                         <a href="{{ route('year', $stream_details['released_year']) }}" class="text-decoration-none">

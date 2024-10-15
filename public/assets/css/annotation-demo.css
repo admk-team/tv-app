@@ -102,3 +102,20 @@
     border-radius: .25rem;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
+@media (max-width: 550px) {
+    .travel-info {
+        position: absolute;
+        bottom: 0%;
+        left: 0%;
+        width: 82%;
+        padding: 20px;
+        color: var(--themePrimaryTxtColor);
+        z-index: 99;
+    }
+    #content #slider .mainImages {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        margin: auto;
+    }
+  }

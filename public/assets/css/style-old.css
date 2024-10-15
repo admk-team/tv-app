@@ -2348,7 +2348,8 @@ section.sliders {
     width: 80px;
     height: 222px;
 } */
-.slick-prev, .slick-next {
+.slick-prev,
+.slick-next {
     top: calc(50% - 10px) !important;
 }
 
@@ -4061,12 +4062,17 @@ ul.menuleftlist li a.activelist {
 .mobile-data {
     display: none;
 }
+
 .desktop-tabs {
     display: block;
 }
 
 .mobile-tabs {
     display: none;
+}
+
+.title_logo {
+    width: 500px;
 }
 
 @media screen and (max-width:990px) {
@@ -4714,6 +4720,7 @@ textarea.form-control:focus {
     font-size: 15px;
     font-weight: 500;
 }
+
 .mobile-primary-btn {
     text-decoration: none;
     background-color: var(--themeActiveColor);
@@ -4724,7 +4731,8 @@ textarea.form-control:focus {
     font-size: 12px;
     transition: all 0.3s;
 }
-.movieDetailPlaymobile{
+
+.movieDetailPlaymobile {
     margin-right: 10px;
 }
 
@@ -4805,6 +4813,7 @@ textarea.form-control:focus {
         display: inline-block !important;
         margin-bottom: 0px !important;
     }
+
     dl.movies_listview {
         display: none;
     }
@@ -5109,16 +5118,19 @@ textarea.form-control:focus {
         padding-left: 0px;
         padding-right: 0px;
     }
-     .desktop-data {
+
+    .desktop-data {
         display: none;
     }
 
     .mobile-data {
         display: block;
     }
+
     dl.movies_listview {
         display: block;
     }
+
     .desktop-tabs {
         display: none;
     }
@@ -5126,9 +5138,11 @@ textarea.form-control:focus {
     .mobile-tabs {
         display: block;
     }
+
     .sec-device {
         max-height: 55px;
     }
+
     .button_groupbox {
         margin-top: 0rem !important;
     }
@@ -6014,6 +6028,9 @@ textarea.form-control:focus {
 
     }
 
+    .title_logo {
+        width: 350px;
+    }
 }
 
 
@@ -6163,6 +6180,15 @@ textarea.form-control:focus {
         left: 45%;
         top: 100%;
     }
+
+    .title_logo {
+        width: 280px;
+    }
+
+    /* When title_logo exists */
+    .cover-slider-item .info.with-logo {
+        padding-top: 70px !important;
+    }
 }
 
 
@@ -6234,7 +6260,8 @@ textarea.form-control:focus {
     .thumbnail_img {
         height: 150px !important;
     }
-/*
+
+    /*
     .slick-slider {
         margin-bottom: 30px;
     } */
@@ -6327,7 +6354,17 @@ textarea.form-control:focus {
         font-size: 18px;
     }
 }
+@media (max-width: 445px) {
+     /* When title_logo exists */
+     .cover-slider-item .info.with-logo {
+        padding-top: 90px !important;
+    }
 
+    /* When title_logo does not exist and content-heading is shown */
+    .cover-slider-item .info.without-logo {
+        padding-top: 140px !important;
+    }
+}
 @media(max-width: 428px) {
     .thumbnail_img {
         height: 163px !important;
@@ -7866,7 +7903,7 @@ ul.dropsmenubox li a.dropdown-item:hover {
     z-index: 5;
 }
 
-.overlay-ad .overlay-height-img{
+.overlay-ad .overlay-height-img {
     height: 20%;
 }
 

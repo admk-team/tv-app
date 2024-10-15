@@ -8,24 +8,28 @@
     <div id="slider">
         @if ($data->app->featured_items->is_show ?? '' == 'Y')
             @foreach ($data->app->featured_items->streams ?? [] as $index => $stream)
-                <img src="{{ $stream->feature_poster ?? '' }}" alt="" data-url="">
+                <img src="{{ $stream->feature_poster ?? '' }}" alt="{{ $stream->stream_title }}" data-url="{{ route('playerscreen', $stream->stream_guid) }}">
                 <div class="travel-info" @if (!$loop->first) style="display: none;" @endif>
-                    <h1 class="content-heading" title="{{ $stream->stream_title ?? '' }}">
-                        {{ $stream->stream_title ?? '' }}
-                    </h1>
+                    @if (isset($stream->title_logo) && $stream->title_logo)
+                        <div class="title_logo mb-1">
+                            <img class="image-fluid ignore" style="max-width: 100%"  src="{{ $stream->title_logo }}" alt="{{ $stream->stream_title }}">
+                        </div>
+                    @else
+                        <h1 class="content-heading" title="{{ $stream->stream_title ?? '' }}">
+                            {{ $stream->stream_title ?? '' }}
+                        </h1>
+                    @endif
                     <div class="timestamp">
                         @if ($stream->released_year)
                             <span>{{ $stream->released_year ?? '' }}</span>
-                            <span>
-                                <i class="bi bi-dot"></i>
-                            </span>
+                            <span><i class="bi bi-dot"></i></span>
                         @endif
                         <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream->stream_duration) ?? '' }}</span>
                         <div class="badges">
-                            @if (isset($stream->content_qlt) && !empty($stream->content_qlt))
+                            @if (!empty($stream->content_qlt))
                                 <span class="badge">{{ $stream->content_qlt }}</span>
                             @endif
-                            @if (isset($stream->content_rating) && !empty($stream->content_rating))
+                            @if (!empty($stream->content_rating))
                                 <span class="badge">{{ $stream->content_rating }}</span>
                             @endif
                         </div>
@@ -43,6 +47,7 @@
             @endforeach
         @endif
     </div>
+    
 </div>
 
 @push('scripts')
