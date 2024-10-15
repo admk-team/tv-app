@@ -323,14 +323,28 @@ a {
 
   .travel-info {
     position: absolute;
-    bottom: 3%;
-    left: 0%;
-    width: 92%;
-    padding: 20px;
+    bottom: 0%;
+    left: 3%;
+    width: 80%;
+    padding: 0px;
     color: var(--themePrimaryTxtColor);
     z-index: 99;
   }
+
   #content {
     height: 27vh !important;
-}
+  }
+
+  .travel-info .btns a {
+    padding: 3px 8px;
+    margin-bottom: 4px;
+  }
+
+  .travel-info .timestamp {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0px;
+    margin-bottom: 10px;
+  }
 }
