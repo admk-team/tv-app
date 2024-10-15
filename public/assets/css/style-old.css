@@ -4073,7 +4073,7 @@ ul.menuleftlist li a.activelist {
 
 .title_logo {
     max-width: 70%;
-    /* max-height: 180px; */
+    max-height: 40%;
 }
 
 @media screen and (max-width:990px) {
@@ -6031,7 +6031,7 @@ textarea.form-control:focus {
 
     .title_logo {
         max-width: 55%;
-        /* max-height: 180px; */
+        max-height: 30%;
     }
 }
 
