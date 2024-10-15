@@ -4072,7 +4072,8 @@ ul.menuleftlist li a.activelist {
 }
 
 .title_logo {
-    width: 500px;
+    max-width: 70%;
+    /* max-height: 180px; */
 }
 
 @media screen and (max-width:990px) {
@@ -6029,7 +6030,8 @@ textarea.form-control:focus {
     }
 
     .title_logo {
-        width: 350px;
+        max-width: 55%;
+        /* max-height: 180px; */
     }
 }
 
@@ -6181,9 +6183,10 @@ textarea.form-control:focus {
         top: 100%;
     }
 
-    .title_logo {
-        width: 280px;
-    }
+    /* .title_logo {
+        max-width: 280px;
+        max-height: 150px;
+    } */
 
     /* When title_logo exists */
     .cover-slider-item .info.with-logo {
