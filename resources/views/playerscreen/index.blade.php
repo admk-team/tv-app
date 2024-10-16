@@ -13,7 +13,7 @@
     $IS_SIGNIN_BYPASS = 'N';
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
-
+    
     session('GLOBAL_PASS', 0);
     request()->server('REQUEST_METHOD');
     $protocol = request()->server('HTTPS') === 'on' ? 'https' : 'http';
@@ -39,7 +39,7 @@
         session('IS_SIGNIN_BYPASS', url('/playerscreen/' . $streamGuid));
         \App\Helpers\GeneralHelper::headerRedirect(url('/signin'));
     }
-
+    
     //monetioztion
     $redirectUrl = null;
     if ($limitWatchTime === 'yes' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -47,7 +47,7 @@
         session()->save();
         $redirectUrl = route('login');
     }
-
+    
     $sharingURL = route('playerscreen', $streamGuid);
     $isBuyed = $arrSlctItemData['is_buyed'];
     $monetizationType = $arrSlctItemData['monetization_type'];
@@ -81,7 +81,7 @@
             \Illuminate\Support\Facades\Redirect::to(route('monetization'))->send();
         }
     }
-
+    
     // Check if subscription is required for all content and is not subscribed
     if (\App\Helpers\GeneralHelper::subscriptionIsRequired() && $isBuyed == 'N') {
         if ($limitWatchTime === 'no' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -94,14 +94,14 @@
             \Illuminate\Support\Facades\Redirect::to(route('subscription'))->send();
         }
     }
-
+    
     $mType = 'video';
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
     }
     $apiPath = App\Services\Api::endpoint('/mngstrmdur');
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN');
-
+    
     // here get the video duration
     $seekFunStr = '';
     $arrFormData4VideoState = [];
@@ -117,7 +117,7 @@
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
         $seekFunStr = "this.currentTime($streamDurationInSec);";
     }
-
+    
     // Here Set Ad URL in Session
     $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
     if (!session('ADS_INFO')) {
@@ -129,7 +129,7 @@
             ],
         ]);
     }
-
+    
     $useragent = request()->server('HTTP_USER_AGENT');
     $isMobileBrowser = 0;
     if (
@@ -147,13 +147,13 @@
     $userAgent = urlencode(request()->server('HTTP_USER_AGENT'));
     $userIP = \App\Helpers\GeneralHelper::getRealIpAddr();
     $channelName = urlencode(\App\Services\AppConfig::get()->app->app_info->app_name);
-
+    
     $isLocalHost = false;
     $host = parse_url(url()->current())['host'];
     if (in_array($host, ['localhost', '127.0.0.1'])) {
         $isLocalHost = true;
     }
-
+    
     //&app_bundle=669112
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
@@ -162,36 +162,36 @@
     } else {
         $adMacros = $adUrl . "?width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     }
-    $adMacros .= "&duration={$arrSlctItemData['stream_duration_second']}&app_code=".env('APP_CODE')."&user_code=".session('USER_DETAILS.USER_CODE')."&stream_code=" . $streamGuid;
+    $adMacros .= "&duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
     $dataVast = "data-vast='$adMacros'";
-
+    
     if ($isMobileBrowser == 1 || $adUrl == '') {
         $dataVast = '';
     }
-
+    
     $stream_ad_url = $arrSlctItemData['stream_ad_url'];
     if (parse_url($stream_ad_url, PHP_URL_QUERY)) {
-        $stream_ad_url = $stream_ad_url . "&duration={$arrSlctItemData['stream_duration_second']}&app_code=".env('APP_CODE')."&user_code=".session('USER_DETAILS.USER_CODE')."&stream_code=" . $streamGuid;
+        $stream_ad_url = $stream_ad_url . "&duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
     } else {
-        $stream_ad_url = $stream_ad_url . "?duration={$arrSlctItemData['stream_duration_second']}&app_code=".env('APP_CODE')."&user_code=".session('USER_DETAILS.USER_CODE')."&stream_code=" . $streamGuid;
+        $stream_ad_url = $stream_ad_url . "?duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
     }
     $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $stream_ad_url . '"' : null;
-
+    
     if (!$arrSlctItemData['has_global_ads']) {
         $dataVast = '';
     }
-
+    
     if (!$arrSlctItemData['has_individual_ads']) {
         $dataVast2 = '';
     }
-
+    
     if (!$arrSlctItemData['has_ads']) {
         $dataVast = '';
         $dataVast2 = '';
     }
-
+    
     $watermark = $arrSlctItemData['watermark'] ?? null;
-
+    
     ?>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
@@ -252,6 +252,12 @@
         .watermark {
             position: absolute;
             z-index: 100;
+            user-select: none;
+        }
+
+        .live-video {
+            position: absolute;
+            z-index: 500;
             user-select: none;
         }
 
@@ -387,6 +393,35 @@
             user-select: none;
         }
 
+        /* Styles for BuyNow redirect message */
+        .buynow-redirect-message {
+            background-color: #353b49;
+            color: var(--themePrimaryTxtColor);
+            max-width: 1000.89px;
+            width: fit-content;
+            padding: .8rem 1.2rem;
+            font-weight: 600;
+            border-radius: 2px;
+            position: absolute;
+            z-index: 1000;
+            bottom: 68px;
+            height: fit-content;
+            left: 18px;
+            user-select: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s ease-in-out;
+            transform: translateX(-400px);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .show-player-popup {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(0);
+            cursor: pointer;
+        }
+
 
 
         @if ($redirectUrl)
@@ -517,7 +552,9 @@
                         <div id="wrapper">
                             <div class="trail-redirect-message">You will be redirected to login in <span class="time">45
                                     second</span></div>
-
+                            <div class="buynow-redirect-message">
+                                name here <span class="time">10 second</span>
+                            </div>
                             @if ($arrSlctItemData['overlay_ad'] ?? null)
                                 <div class="overlay-ad d-none">
                                     <button class="btn-close-ad" onclick="closeOverlayAd()"><i
@@ -763,12 +800,12 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                         <div class="col-md-9">
                             <div class="product_detailbox">
                                 @if (isset($arrSlctItemData['title_logo']) && $arrSlctItemData['title_logo'])
-                                <div class="title_logo mb-1">
-                                    <img class="img-fluid" src="{{ $arrSlctItemData['title_logo'] }}" 
-                                         alt="{{ $arrSlctItemData['stream_title'] ?? 'Logo' }}">
-                                </div>
+                                    <div class="title_logo mb-1">
+                                        <img class="img-fluid" src="{{ $arrSlctItemData['title_logo'] }}"
+                                            alt="{{ $arrSlctItemData['stream_title'] ?? 'Logo' }}">
+                                    </div>
                                 @else
-                                <h1 class="content-heading">{{ $arrSlctItemData['stream_title'] }}</h1>
+                                    <h1 class="content-heading">{{ $arrSlctItemData['stream_title'] }}</h1>
                                 @endif
                                 <div class="content-timing">
                                     @if ($arrSlctItemData['released_year'])
@@ -965,7 +1002,7 @@ if (!empty($arrCatData))
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                                      </div> -->
+                                                                                                                                                                                                                                                          </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}</div>
@@ -1275,6 +1312,11 @@ if (!empty($arrCatData))
                 showOverlayAd();
             });
 
+            @if (!empty($arrSlctItemData['buynow']))
+                @php
+                    $buynows = $arrSlctItemData['buynow'];
+                @endphp
+            @endif
             player.addEventListener("mediaPlay", function(data) {
                 @if ($redirectUrl)
                     trial.start();
@@ -1283,7 +1325,70 @@ if (!empty($arrCatData))
                     document.querySelector('.mvp-skip-forward-toggle').disabled = true;
                     document.querySelector('.mvp-rewind-toggle').disabled = true;
                 @endif
+
+                @if (!empty($arrSlctItemData['buynow']))
+                    @foreach ($arrSlctItemData['buynow'] as $index => $buynow)
+                        let timeOffset_{{ $index }} = {{ $buynow['time_offset'] * 60 }};
+                        let isBuyNowShown_{{ $index }} = false;
+
+                        function showBuyNowMessage_{{ $index }}() {
+                            let currentTime = Math.floor(data.instance.getCurrentTime());
+                            // Check if the current time is past the time offset
+                            if (currentTime >= timeOffset_{{ $index }}) {
+                                // Only show the message if it hasn't been shown yet for this time offset
+                                if (!isBuyNowShown_{{ $index }}) {
+                                    isBuyNowShown_{{ $index }} =
+                                    true; // Set flag to true to prevent showing again
+
+                                    // Show the BuyNow message
+                                    const buyNowMessageBox = document.querySelector(
+                                        '.buynow-redirect-message');
+                                    buyNowMessageBox.innerHTML =
+                                        `{{ $buynow['name'] }}<span class="time"></span>`;
+                                    buyNowMessageBox.classList.add('show-player-popup');
+                                    buyNowMessageBox.style.display = 'block'; // Show the message box
+
+                                    // Set a timeout to hide the message
+                                    let hideMessageTimeout = setTimeout(() => {
+                                        buyNowMessageBox.classList.remove('show-player-popup');
+                                        buyNowMessageBox.style.display =
+                                        'none'; // Hide the message box
+                                    }, 10000);
+
+                                    // Attach click event to the message box
+                                    let sourceType = "{{ $buynow['source_type'] }}";
+                                    let internalUrl =
+                                        "{{ url('/getitemplayerdetail/' . $buynow['stream_url']) }}";
+                                    let externalUrl = "{{ $buynow['external_link'] }}";
+
+                                    buyNowMessageBox.onclick = () => {
+                                        if (sourceType === "external") {
+                                            window.open(externalUrl, '_blank');
+                                        } else if (sourceType === "internal") {
+                                            window.open(internalUrl, '_blank');
+                                        } else {
+                                            console.log("invalid source type");
+                                        }
+
+                                        buyNowMessageBox.classList.remove('show-player-popup');
+                                        buyNowMessageBox.style.display = 'none'; // Hide the message box
+                                        clearTimeout(hideMessageTimeout);
+                                    };
+                                }
+                            } else {
+                                // Reset the shown flag when the current time is before the offset time
+                                isBuyNowShown_{{ $index }} = false;
+                            }
+                        }
+
+                        // Check for the buy now message every 100 ms
+                        let timeCheckInterval_{{ $index }} = setInterval(
+                            showBuyNowMessage_{{ $index }}, 100);
+                    @endforeach
+                @endif
+
             });
+
 
             player.addEventListener("mediaPause", function(data) {
                 //alert(data.instance.getCurrentTime());
