@@ -111,6 +111,7 @@
     $arrRes4VideoState = \App\Helpers\GeneralHelper::sendCURLRequest(0, VIDEO_DUR_MNG_BASE_URL, $arrFormData4VideoState);
     //print_r($arrRes4VideoState);
     $stillwatching = \App\Services\AppConfig::get()->app->app_info->still_watching;
+    $is_embed = \App\Services\AppConfig::get()->app->is_embed;
     $playerstillwatchduration = \App\Services\AppConfig::get()->app->app_info->still_watching_duration;
     $status = $arrRes4VideoState['app']['status'];
     if ($status == 1) {
@@ -665,6 +666,13 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 </div>
                 <div class="modal-body">
                     <ul class="share_list d-flex justify-content-between">
+                        @if ($arrSlctItemData['is_embed'] || $is_embed->value == '1')
+                            <li data-bs-toggle="modal" data-bs-target="#exampleModalCenter2">
+                                <a data-toggle="tooltip" data-placement="top" title="embed" href="javascript:void(0)">
+                                    <i class="fa-solid fa-code fa-xs"></i>
+                                </a>
+                            </li>
+                        @endif
                         <li>
                             <a data-toggle="tooltip" data-placement="top" title="facebook"
                                 href="https://www.facebook.com/sharer/sharer.php?u={{ $sharingURL }}" target="_blank">
@@ -708,6 +716,94 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             </div>
         </div>
     </div>
+
+
+    <!-- stream embed Modal -->
+    <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenter2Title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Embed stream "{{ $arrSlctItemData['stream_title'] }}"
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="border pt-4 p-3 rounded-2 position-relative">
+                        <!-- Copy Button -->
+                        <button onclick="copyText(this)" id="copy-btn"
+                            class="btn btn-sm btn-outline-secondary rounded-3" type="button" data-bs-toggle="tooltip"
+                            data-bs-placement="bottom" title="Copy to Clipboard"
+                            style="position: absolute; top: 10px; right: 10px; padding: 5px 10px;">
+                            Copy
+                        </button>
+
+                        <code id="copy-code"></code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var videoSrc = '{{ $streamUrl }}'; // Media URL
+        var copyCodeElement = document.getElementById("copy-code");
+
+        function getMediaType(url) {
+            const cleanUrl = url.split('?')[0];
+            const extension = cleanUrl.split('.').pop().toLowerCase();
+            return extension;
+        }
+
+        const mediaType = getMediaType(videoSrc); // Get media type (m3u8, mp3, mp4)
+
+        let embedCode = ""; // This will hold the final embed code
+
+        if (mediaType === 'm3u8') {
+            // Generate code for HLS video (M3U8)
+            embedCode = `&lt;script src="https://cdn.jsdelivr.net/npm/hls.js@1"&gt;&lt;/script&gt;
+                        &lt;video id="video" controls width="720" height="420"&gt;&lt;/video&gt;
+                        &lt;script&gt;
+                        var video = document.getElementById('video');
+                        if (Hls.isSupported()) {
+                            var hls = new Hls();
+                            hls.loadSource('${videoSrc}');
+                            hls.attachMedia(video);
+                        }
+                        &lt;/script&gt;`;
+        } else if (mediaType === 'mp3') {
+            // Generate code for MP3 audio
+            embedCode = `&lt;audio controls&gt;
+                        &lt;source src="${videoSrc}" type="audio/mpeg"&gt;
+                        Your browser does not support the audio element.
+                        &lt;/audio&gt;`;
+        } else if (mediaType === 'mp4') {
+            // Generate code for MP4 video
+            embedCode = `&lt;video id="video" controls width="720" height="420"&gt;
+                        &lt;source src="${videoSrc}" type="video/mp4"&gt;
+                        Your browser does not support the video element.
+                        &lt;/video&gt;`;
+        } else {
+            embedCode = "Unsupported media format.";
+        }
+
+        // Insert the generated code into the code element
+        copyCodeElement.innerHTML = embedCode.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+        // Copy button functionality
+        document.getElementById("copy-btn").onclick = function() {
+            navigator.clipboard.writeText(copyCodeElement.textContent);
+            this.textContent = "Copied!";
+            this.classList.remove("btn-outline-secondary");
+            this.classList.add("btn-success");
+
+            setTimeout(() => {
+                this.textContent = "Copy";
+                this.classList.remove("btn-success");
+                this.classList.add("btn-outline-secondary");
+            }, 2000);
+        };
+    </script>
 
 
     <!-- Report Modal -->
@@ -1002,7 +1098,7 @@ if (!empty($arrCatData))
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                                          </div> -->
+                                                                                                                                                                                                                                                              </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}</div>
@@ -1338,7 +1434,7 @@ if (!empty($arrCatData))
                                 // Only show the message if it hasn't been shown yet for this time offset
                                 if (!isBuyNowShown_{{ $index }}) {
                                     isBuyNowShown_{{ $index }} =
-                                    true; // Set flag to true to prevent showing again
+                                        true; // Set flag to true to prevent showing again
 
                                     // Show the BuyNow message
                                     const buyNowMessageBox = document.querySelector(
@@ -1352,7 +1448,7 @@ if (!empty($arrCatData))
                                     let hideMessageTimeout = setTimeout(() => {
                                         buyNowMessageBox.classList.remove('show-player-popup');
                                         buyNowMessageBox.style.display =
-                                        'none'; // Hide the message box
+                                            'none'; // Hide the message box
                                     }, 10000);
 
                                     // Attach click event to the message box
