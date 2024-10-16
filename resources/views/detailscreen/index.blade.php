@@ -551,7 +551,7 @@
     </div>
 
     <script>
-        var videoSrc = '{{ $streamUrl }}'; 
+        var videoSrc = '{{ $stream_details['stream_url'] }}'; 
         var copyCodeElement = document.getElementById("copy-code");
 
         function getMediaType(url) {
