@@ -162,7 +162,7 @@
     } else {
         $adMacros = $adUrl . "?width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     }
-    $adMacros .= "&duration={$arrSlctItemData['stream_duration_second']}";
+    $adMacros .= "&duration={$arrSlctItemData['stream_duration_second']}&app_code=".env('APP_CODE')."&user_code=".session('USER_DETAILS.USER_CODE')."&stream_code=" . $streamGuid;
     $dataVast = "data-vast='$adMacros'";
 
     if ($isMobileBrowser == 1 || $adUrl == '') {
@@ -171,9 +171,9 @@
 
     $stream_ad_url = $arrSlctItemData['stream_ad_url'];
     if (parse_url($stream_ad_url, PHP_URL_QUERY)) {
-        $stream_ad_url = $stream_ad_url . "&duration={$arrSlctItemData['stream_duration_second']}";
+        $stream_ad_url = $stream_ad_url . "&duration={$arrSlctItemData['stream_duration_second']}&app_code=".env('APP_CODE')."&user_code=".session('USER_DETAILS.USER_CODE')."&stream_code=" . $streamGuid;
     } else {
-        $stream_ad_url = $stream_ad_url . "?duration={$arrSlctItemData['stream_duration_second']}";
+        $stream_ad_url = $stream_ad_url . "?duration={$arrSlctItemData['stream_duration_second']}&app_code=".env('APP_CODE')."&user_code=".session('USER_DETAILS.USER_CODE')."&stream_code=" . $streamGuid;
     }
     $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $stream_ad_url . '"' : null;
 
@@ -799,13 +799,14 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     <div class="row">
                         <div class="col-md-9">
                             <div class="product_detailbox">
-                                <ul class="starpoint" style="display: none;">
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                </ul>
+                                @if (isset($arrSlctItemData['title_logo']) && $arrSlctItemData['title_logo'])
+                                <div class="title_logo mb-1">
+                                    <img class="img-fluid" src="{{ $arrSlctItemData['title_logo'] }}" 
+                                         alt="{{ $arrSlctItemData['stream_title'] ?? 'Logo' }}">
+                                </div>
+                                @else
                                 <h1 class="content-heading">{{ $arrSlctItemData['stream_title'] }}</h1>
+                                @endif
                                 <div class="content-timing">
                                     @if ($arrSlctItemData['released_year'])
                                         <a href="{{ route('year', $arrSlctItemData['released_year']) }}"

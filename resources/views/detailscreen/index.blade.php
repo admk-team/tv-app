@@ -93,7 +93,11 @@
             color: var(--themePrimaryTxtColor);
         }
 
-        .movie_detail_inner_box {
+        .movie_detail_inner_box.with-logo {
+            top: 0px !important;
+        }
+
+        .movie_detail_inner_box.without-logo {
             top: 30px !important;
         }
 
@@ -210,9 +214,17 @@
                 </div>
             </div>
             <div class="movie-detail-box desktop-data">
-                <div class="movie_detail_inner_box">
-                    <h1 class="content-heading" title="{{ $stream_details['stream_title'] }}">
-                        {{ $stream_details['stream_title'] }}</h1>
+                <div class="movie_detail_inner_box {{ isset($stream_details['title_logo']) && $stream_details['title_logo'] ? 'with-logo' : 'without-logo' }}">
+                    @if (isset($stream_details['title_logo']) && $stream_details['title_logo'])
+                    <div class="title_logo mb-1">
+                        <img class="img-fluid" src="{{ $stream_details['title_logo'] }}" 
+                             alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
+                    </div>
+                    @else
+                        <h1 class="content-heading" title="{{ $stream_details['stream_title'] ?? '' }}">
+                            {{ $stream_details['stream_title'] ?? '' }}
+                        </h1>
+                    @endif
                     <div class="content-timing">
                         @if ($stream_details['released_year'])
                             <a href="{{ route('year', $stream_details['released_year']) }}" class="text-decoration-none">
@@ -361,13 +373,13 @@
                                     <dt>Tags: </dt>
                                     <dd>
                                         @foreach ($stream_details['tags'] as $i => $val)
-                                        @if ($i < 15)
-                                            <!-- Only show the first 15 tags -->
-                                            <a class="person-link" href="{{ route('tag', $val['code']) }}">
-                                                {{ $val['title'] }}{{ $i < 14 ? ',' : '' }}
-                                            </a>
-                                        @endif
-                                    @endforeach
+                                            @if ($i < 15)
+                                                <!-- Only show the first 15 tags -->
+                                                <a class="person-link" href="{{ route('tag', $val['code']) }}">
+                                                    {{ $val['title'] }}{{ $i < 14 ? ',' : '' }}
+                                                </a>
+                                            @endif
+                                        @endforeach
                                     </dd>
                                 </div>
                             @endif

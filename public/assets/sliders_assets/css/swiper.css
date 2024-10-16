@@ -36,7 +36,7 @@ body {
   width: 100%;
   height: 100%;
   border-radius: 12px;
-   background: linear-gradient(to right, var(--bgcolor), rgba(0, 0, 0, 0) 70%);
+  background: linear-gradient(to right, var(--bgcolor), rgba(0, 0, 0, 0) 70%);
   pointer-events: none;
 }
 
@@ -71,7 +71,7 @@ body {
   align-items: center;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 17px;
+  margin-bottom: 3px;
 }
 
 .travel-info .timestamp span {
@@ -112,13 +112,13 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
   line-height: 23px;
-  margin-bottom: 35px;
+  margin-bottom: 28px;
 }
 
 .travel-info .btns {
   display: flex;
   gap: 17px;
-  text-wrap:nowrap;
+  text-wrap: nowrap;
 }
 
 .travel-info .btns a {
@@ -146,7 +146,7 @@ body {
 
 .swiper-pagination-bullet-active {
   opacity: var(--swiper-pagination-bullet-opacity, 1);
-  background:  var(--themeActiveColor) !important;
+  background: var(--themeActiveColor) !important;
 }
 
 .swiper-pagination-bullet {
@@ -157,32 +157,73 @@ body {
   background: var(--themePrimaryTxtColor);
   opacity: var(--swiper-pagination-bullet-inactive-opacity, 1);
 }
+
 .swiper-pagination {
   position: absolute;
   top: 100%;
   left: 0;
   width: 100%;
 }
+
 @media (max-width: 768px) {
   .thumbnail__image {
     height: 500px !important;
   }
+
+  .travel-info {
+    position: absolute;
+    top: 66%;
+    left: 3%;
+    width: 50%;
+    z-index: 1;
+  }
 }
+
+@media (max-width: 610px) {
+  .travel-info {
+    position: absolute;
+    top: 60%;
+    left: 3%;
+    width: 50%;
+    z-index: 1;
+  }
+}
+
 @media (max-width: 550px) {
   .thumbnail__image {
     height: 300px !important;
   }
+
   .travel-info h1 {
     color: var(--slidercardTitlecolor);
     font-size: 15px;
     margin-bottom: 17px;
     max-width: 431px;
+  }
+
+  .travel-info .timestamp {
+
+    margin-bottom: 12px;
+  }
+
+  .travel-info .btns a {
+    padding: 4px 20px;
+  }
+
+  .travel-info {
+    position: absolute;
+    top: 40%;
+    left: 3%;
+    width: 100%;
+    z-index: 1;
+  }
 }
-.travel-info .timestamp {
- 
-  margin-bottom: 12px;
-}
-.travel-info .btns a {
-  padding: 4px 20px;
-}
+@media (max-width: 550px) {
+  .travel-info {
+    position: absolute;
+    top: 46%;
+    left: 3%;
+    width: 100%;
+    z-index: 1;
+  }
 }

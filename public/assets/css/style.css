@@ -769,8 +769,4 @@ p {
         padding-top: 128px !important;
     }
 }
-@media (max-width: 445px) {
-    .cover-slider-item .info {
-        padding-top: 140px !important;
-    }
-}
+
