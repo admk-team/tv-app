@@ -52,7 +52,7 @@
 			// Slider global element
 			this.Slider = document.getElementById('slider');
 			// Images total count
-			this.imagesCount = new Slice(this.Slider.querySelectorAll('img')).length;
+			this.imagesCount = new Slice(this.Slider.querySelectorAll('img:not(.ignore)')).length;
 			// Slideshow interval
 			this.sldInterval = 6000;
 			// Control if it's animating
@@ -73,7 +73,7 @@
 
 			var self = this;
 
-			this.originalImgsEl = new Slice(this.Slider.querySelectorAll('img'));
+			this.originalImgsEl = new Slice(this.Slider.querySelectorAll('img:not(.ignore)'));
 			this.images = [];
 
 			/* Creating 'mainImages' element to receive the copy of all images */

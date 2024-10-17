@@ -22,15 +22,18 @@ class ProfileController extends Controller
     {
         // Replace the current profile ID with the new one
         session()->put('USER_DETAILS.USER_PROFILE', $id);
-    
+
         return redirect()->route('home');
     }
 
     public function history()
     {
+        $userProfileId = session('USER_DETAILS.USER_PROFILE') ?? null;
+
         $response = Http::withHeaders(Api::headers())
             ->asForm()
-            ->get(Api::endpoint('/watch/history'), []);
+            ->get(Api::endpoint('/watch/history?userProfileID='. $userProfileId));
+
         $data = $response->json();
         return view('watch_history.index', compact('data'));
     }

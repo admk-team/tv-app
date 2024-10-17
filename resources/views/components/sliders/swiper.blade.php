@@ -12,10 +12,16 @@
                 @foreach ($data->app->featured_items->streams ?? [] as $stream)
                     <div class="swiper-slide">
                         <img class="thumbnail__image" src="{{ $stream->feature_poster ?? '' }}" alt="">
-                        <div class="travel-info">
-                            <h1 class="content-heading" title="{{ $stream->stream_title ?? '' }}">
-                                {{ $stream->stream_title ?? '' }}
-                            </h1>
+                        <div class="travel-info {{ isset($stream->title_logo) && $stream->title_logo ? 'with-logo' : 'without-logo' }}">
+                            @if (isset($stream->title_logo) && $stream->title_logo)
+                                <div class="title_logo mb-1">
+                                    <img class="image-fluid" style="max-width: 100%" src="{{ $stream->title_logo }}"
+                                        alt="{{ $stream->stream_title }}">
+                                </div>
+                            @else
+                                <h1 class="content-heading" title="{{ $stream->stream_title ?? '' }}">
+                                    {{ $stream->stream_title ?? '' }}</h1>
+                            @endif
                             <div class="timestamp">
                                 @if ($stream->released_year)
                                     <span>{{ $stream->released_year ?? '' }}</span>
