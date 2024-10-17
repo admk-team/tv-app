@@ -28,7 +28,7 @@
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
     
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
-    $is_embed = \App\Services\AppConfig::get()->app->is_embed;
+    $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
 
     $stream_code = $stream_details['stream_guid'];
     
@@ -471,7 +471,7 @@
                 </div>
                 <div class="modal-body">
                     <ul class="share_list d-flex justify-content-between">
-                        @if ($stream_details['is_embed'] || $is_embed->value == '1')
+                        @if ($stream_details['is_embed'] || $is_embed?->value == '1')
                             <li data-bs-toggle="modal" data-bs-target="#exampleModalCenter2">
                                 <a data-toggle="tooltip" data-placement="top" title="embed" href="javascript:void(0)">
                                     <i class="fa-solid fa-code fa-xs"></i>
