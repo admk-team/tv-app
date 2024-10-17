@@ -7981,3 +7981,36 @@ ul.dropsmenubox li a.dropdown-item:hover {
 [class^=bi-]::before {
     vertical-align: 0em !important;
 }
+
+.continue-confirmation-popup {
+    display: flex;
+    flex-direction: column;
+    background-color: #353b49;
+    padding: 24px;
+    border-radius: 2px;
+    width: 300px;
+}
+
+.continue-confirmation-popup .btn {
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    transition: none;
+}
+
+.continue-confirmation-popup .btn svg {
+    filter: invert(1);
+}
+
+.continue-confirmation-popup .btn:hover {
+    color: #f0f;
+}
+
+.continue-confirmation-popup .btn:hover svg {
+    filter: invert(43%) sepia(100%) saturate(6743%) hue-rotate(293deg) brightness(110%) contrast(133%);
+}
