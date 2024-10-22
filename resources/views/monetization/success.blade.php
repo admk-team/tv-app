@@ -18,8 +18,10 @@
     </div>
 </section>
 <script>
-        var timer = setTimeout(function() {
-            window.location='{{ session('REDIRECT_TO_SCREEN') }}'
-        }, 3000);
+        @if (session('REDIRECT_TO_SCREEN'))
+            var timer = setTimeout(function() {
+                window.location='{{ session('REDIRECT_TO_SCREEN') }}'
+            }, 3000);
+        @endif
 </script>
 @endsection
