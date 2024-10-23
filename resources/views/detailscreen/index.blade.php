@@ -24,41 +24,41 @@
         $mType = "type='application/x-mpegURL'";
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-    
+
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-    
+
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
 
     $stream_code = $stream_details['stream_guid'];
-    
+
     $postData = [
         'stream_code' => $stream_code,
     ];
-    
+
     // $ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
-    
+
     // curl_setopt($ch, CURLOPT_POST, 1);
     // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    
+
     // $response = curl_exec($ch);
-    
+
     // if (curl_errno($ch)) {
     //     die('Curl error: ' . curl_error($ch));
     // }
-    
+
     // curl_close($ch);
-    
+
     // $resultArray = json_decode($response, true);
-    
+
     // $userDidComment = false;
     // foreach ($resultArray as $review) {
     //     if (session('USER_DETAILS') && $review['user']['userCode'] === session('USER_DETAILS')['USER_CODE']) {
     //         $userDidComment = true;
     //     }
     // }
-    
+
     ?>
     <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
     <!-- <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> -->
@@ -218,7 +218,7 @@
                 <div class="movie_detail_inner_box {{ isset($stream_details['title_logo']) && $stream_details['title_logo'] ? 'with-logo' : 'without-logo' }}">
                     @if (isset($stream_details['title_logo']) && $stream_details['title_logo'])
                     <div class="title_logo mb-1">
-                        <img class="img-fluid" src="{{ $stream_details['title_logo'] }}" 
+                        <img class="img-fluid" src="{{ $stream_details['title_logo'] }}"
                              alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
                     </div>
                     @else
@@ -471,7 +471,7 @@
                 </div>
                 <div class="modal-body">
                     <ul class="share_list d-flex justify-content-between">
-                        @if ($stream_details['is_embed'] || $is_embed)
+                        @if (isset($stream_details['is_embed']) || $is_embed)
                             <li data-bs-toggle="modal" data-bs-target="#exampleModalCenter2">
                                 <a data-toggle="tooltip" data-placement="top" title="embed" href="javascript:void(0)">
                                     <i class="fa-solid fa-code fa-xs"></i>
@@ -551,7 +551,7 @@
     </div>
 
     <script>
-        var videoSrc = '{{ $stream_details['stream_url'] }}'; 
+        var videoSrc = '{{ $stream_details['stream_url'] }}';
         var copyCodeElement = document.getElementById("copy-code");
 
         function getMediaType(url) {
@@ -562,7 +562,7 @@
 
         const mediaType = getMediaType(videoSrc);
 
-        let embedCode = ""; 
+        let embedCode = "";
 
         if (mediaType === 'm3u8') {
             embedCode = `&lt;script src="https://cdn.jsdelivr.net/npm/hls.js@1"&gt;&lt;/script&gt;
