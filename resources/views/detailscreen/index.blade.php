@@ -451,14 +451,14 @@
             </div>
         </div>
     </section>
-
+    <div class="desktop-tabs">
+        @include('detailscreen.partials.tabs-desktop')
+    </div>
     <div class="mobile-tabs">
         @include('detailscreen.partials.tabs-mobile')
     </div>
 
-    <div class="desktop-tabs">
-        @include('detailscreen.partials.tabs-desktop')
-    </div>
+   
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
@@ -658,7 +658,9 @@
 @endsection
 
 @push('scripts')
+//for desktop tabs
     <script>
+        var themeActiveColor = "{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}";
         function handleStarRating(element) {
             let rating = element.dataset.rating;
             let starsWrapper = document.getElementsByClassName("user-rating")[0];
@@ -684,7 +686,7 @@
 
             if (newRating == 1) {
                 element.setAttribute('data-rating', 1);
-                element.querySelector('svg').style.fill = 'red'; // Change to hearted color
+                element.querySelector('svg').style.fill = themeActiveColor; // Change to hearted color
             } else {
                 element.setAttribute('data-rating', 0);
                 element.querySelector('svg').style.fill = '#ffffff'; // Change to unhearted color
@@ -700,11 +702,11 @@
             var isLike = type === 'like';
 
             if (isLike) {
-                likeButton.querySelector('svg').style.fill = '#c54f3f'; // Change to liked color
+                likeButton.querySelector('svg').style.fill = themeActiveColor; // Change to liked color
                 dislikeButton.querySelector('svg').style.fill = '#6e6e6e'; // Reset dislike button color
                 hiddenRating.value = 5; // Set hidden input value to 1 for like
             } else {
-                dislikeButton.querySelector('svg').style.fill = '#c54f3f'; // Change to disliked color
+                dislikeButton.querySelector('svg').style.fill = themeActiveColor; // Change to disliked color
                 likeButton.querySelector('svg').style.fill = '#6e6e6e'; // Reset like button color
                 hiddenRating.value = 1; // Set hidden input value to 0 for dislike
             }
@@ -712,6 +714,66 @@
 
 
         function submitOnce() {
+            document.getElementById('submitButton').disabled = true;
+            return true;
+        }
+    </script>
+    //for mobile tabs
+    <script>
+        var themeActiveColor = "{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}";
+        function handleStarRatingMobile(element) {
+            let rating = element.dataset.rating;
+            let starsWrapper = document.getElementsByClassName("user-rating-mobile")[0];
+            let stars = starsWrapper.getElementsByClassName("star-mobile");
+            let ratingField = document.getElementsByName("rating-mobile")[0];
+
+            for (let i = 0; i < stars.length; i++) {
+                if (stars[i].classList.contains("active"))
+                    stars[i].classList.remove("active")
+            }
+
+            for (let i = 0; i < rating; i++) {
+                if (!stars[i].classList.contains("active"))
+                    stars[i].classList.add("active")
+            }
+
+            ratingField.value = parseInt(rating);
+        }
+
+        function handleHeartRatingMobile(element) {
+            var heart = element.getAttribute('data-rating-mobile');
+            var newRating = heart == 1 ? 0 : 1;
+
+            if (newRating == 1) {
+                element.setAttribute('data-rating-mobile', 1);
+                element.querySelector('svg').style.fill = themeActiveColor; // Change to hearted color
+            } else {
+                element.setAttribute('data-rating', 0);
+                element.querySelector('svg').style.fill = '#ffffff'; // Change to unhearted color
+            }
+            document.getElementById('hiddenRatingMobile').value = newRating;
+
+        }
+
+        function handleRatingMolbile(element, type) {
+            var likeButton = document.querySelector('.like-mobile');
+            var dislikeButton = document.querySelector('.dislike-mobile');
+            var hiddenRatingMobile = document.getElementById('hiddenRatingMobile');
+            var isLike = type === 'like';
+
+            if (isLike) {
+                likeButton.querySelector('svg').style.fill = themeActiveColor; // Change to liked color
+                dislikeButton.querySelector('svg').style.fill = '#6e6e6e'; // Reset dislike button color
+                hiddenRatingMobile.value = 5; // Set hidden input value to 1 for like
+            } else {
+                dislikeButton.querySelector('svg').style.fill = themeActiveColor; // Change to disliked color
+                likeButton.querySelector('svg').style.fill = '#6e6e6e'; // Reset like button color
+                hiddenRatingMobile.value = 1; // Set hidden input value to 0 for dislike
+            }
+        }
+
+
+        function submitOnceMobile() {
             document.getElementById('submitButton').disabled = true;
             return true;
         }
