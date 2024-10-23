@@ -589,6 +589,14 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                     data-description="{{ $arrSlctItemData['stream_description'] }}"
                                     {!! $dataVast2 ? $dataVast2 : $dataVast !!}>
 
+                                    @if (count($arrSlctItemData['subtitles'] ?? []))
+                                        <div class="mvp-subtitles">
+                                            @foreach ($arrSlctItemData['subtitles'] ?? [] as $subtitle)
+                                                <div data-label="{{ $subtitle['name'] }}" data-src="{{ $subtitle['file_url'] }}" @if($loop->first) data-default @endif></div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+
                                     <div class="mvp-annotation-section">
                                         @if ($arrSlctItemData['start_duration'])
                                             <div class="mvp-popup" data-show="{{ $arrSlctItemData['start_duration'] }}">                        
@@ -634,7 +642,17 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                     data-path="{{ $videoUrl }}" {!! $dataVast2 ? $dataVast2 : $dataVast !!}
                                     data-poster="{{ $poster }}" data-thumb="{{ $poster }}"
                                     data-title="{{ $arrStreamsData['stream_title'] }}"
-                                    data-description="{{ $arrStreamsData['stream_description'] }}"></div>
+                                    data-description="{{ $arrStreamsData['stream_description'] }}">
+
+                                    @if (count($arrStreamsData['subtitles'] ?? []))
+                                        <div class="mvp-subtitles">
+                                            @foreach ($arrStreamsData['subtitles'] ?? [] as $subtitle)
+                                                <div data-label="{{ $subtitle['name'] }}" data-src="{{ $subtitle['file_url'] }}" @if($loop->first) data-default @endif></div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                    
+                                </div>
                                 <?php
                             }
                             ?>

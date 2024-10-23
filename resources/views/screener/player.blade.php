@@ -297,13 +297,22 @@
                                     data-title="{{ $arrSlctItemData['stream_title'] }}"
                                     data-description="{{ $arrSlctItemData['stream_description'] }}"
                                     >
-
+                                    @if (count($arrSlctItemData['subtitles'] ?? []))
+                                        <div class="mvp-subtitles">
+                                            @foreach ($arrSlctItemData['subtitles'] ?? [] as $subtitle)
+                                                <div data-label="{{ $subtitle['name'] }}" data-src="{{ $subtitle['file_url'] }}" @if($loop->first) data-default @endif></div>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 </div>
                                 <?php
                     $arrCatData = $ARR_FEED_DATA['arrCategoriesData'];
                     $dataVast3 = null;
                     foreach ($arrCatData['streams'] as $arrStreamsData)
                     {
+                      if ($arrStreamsData['stream_guid'] === $arrSlctItemData['stream_guid']) {
+                        continue;
+                      }
                       $poster = $arrStreamsData['stream_poster'];
                       $videoUrl = $arrStreamsData['stream_url'];
                       $quality = 'video';
@@ -324,7 +333,15 @@
                                     data-path="{{ $videoUrl }}"
                                     data-poster="{{ $poster }}" data-thumb="{{ $poster }}"
                                     data-title="{{ $arrStreamsData['stream_title'] }}"
-                                    data-description="{{ $arrStreamsData['stream_description'] }}"></div>
+                                    data-description="{{ $arrStreamsData['stream_description'] }}">
+                                    @if (count($arrStreamsData['subtitles'] ?? []))
+                                        <div class="mvp-subtitles">
+                                            @foreach ($arrStreamsData['subtitles'] ?? [] as $subtitle)
+                                                <div data-label="{{ $subtitle['name'] }}" data-src="{{ $subtitle['file_url'] }}" @if($loop->first) data-default @endif></div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
                                 <?php
                     }
                    ?>
