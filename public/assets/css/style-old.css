@@ -4195,11 +4195,19 @@ textarea.form-control:focus {
     .thumbnail_img {
         height: 250px;
     }
+    .title_logo {
+        max-width: 50%;
+        max-height: 30%;
+    }
 }
 
 @media (max-width: 1920px) {
     .thumbnail_img {
         height: 189px;
+    }
+    .title_logo {
+        max-width: 70%;
+        max-height: 40%;
     }
 }
 
