@@ -390,7 +390,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                             }
                         }
                     @endphp
-                    @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !$userDidComment && !$userDidComment)
+                    {{--  @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !$userDidComment && !$userDidComment)  --}}
+                    @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null)
                         {{-- Stars  --}}
                         @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
                                 $stream_details['rating_type'] === 'stars' &&
