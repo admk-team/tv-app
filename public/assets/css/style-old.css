@@ -4127,10 +4127,6 @@ ul.menuleftlist li a.activelist {
     display: none;
 }
 
-.title_logo {
-    max-width: 70%;
-    max-height: 40%;
-}
 
 @media screen and (max-width:990px) {
     .pricingTable10 {
