@@ -41,18 +41,28 @@ class DetailScreenController extends Controller
 
     public function addRating(Request $request)
     {
-        $request->validate([
-            'rating' => 'required',
-        ], [
-            'rating.required' => 'Please rate the stream'
-        ]);
+        if(isset($request->rating_mobile)){
+            $request->validate([
+                'rating_mobile' => 'required',
+            ], [
+                'rating.required' => 'Please rate the stream'
+            ]);
+            $rating=$request->rating_mobile;
+        }else{
+            $request->validate([
+                'rating' => 'required',
+            ], [
+                'rating.required' => 'Please rate the stream'
+            ]);
+            $rating=$request->rating;
+        }
         $response = Http::withHeaders(Api::headers())
             ->asForm()
             ->timeout(300)
             ->post(Api::endpoint('/userrating/store'), [
                 'app_code' => env('APP_CODE'),
                 'user_id' => session('USER_DETAILS')['USER_ID'],
-                'rating' => $request->rating ?? 0,
+                'rating' => $rating ?? 0,
                 'comment' => $request->comment ?? '',
                 'stream_code' => $request->type == 'stream' ? $request->stream_code : '',
                 'show_code' => $request->type == 'show' ? $request->stream_code : '',

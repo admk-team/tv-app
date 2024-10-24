@@ -29,7 +29,7 @@
     
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
-
+    
     $stream_code = $stream_details['stream_guid'];
     
     $postData = [
@@ -215,12 +215,13 @@
                 </div>
             </div>
             <div class="movie-detail-box desktop-data">
-                <div class="movie_detail_inner_box {{ isset($stream_details['title_logo']) && $stream_details['title_logo'] ? 'with-logo' : 'without-logo' }}">
+                <div
+                    class="movie_detail_inner_box {{ isset($stream_details['title_logo']) && $stream_details['title_logo'] ? 'with-logo' : 'without-logo' }}">
                     @if (isset($stream_details['title_logo']) && $stream_details['title_logo'])
-                    <div class="title_logo mb-1">
-                        <img class="img-fluid" src="{{ $stream_details['title_logo'] }}" 
-                             alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
-                    </div>
+                        <div class="title_logo mb-1">
+                            <img class="img-fluid" src="{{ $stream_details['title_logo'] }}"
+                                alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
+                        </div>
                     @else
                         <h1 class="content-heading" title="{{ $stream_details['stream_title'] ?? '' }}">
                             {{ $stream_details['stream_title'] ?? '' }}
@@ -458,7 +459,7 @@
         @include('detailscreen.partials.tabs-mobile')
     </div>
 
-   
+
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
@@ -536,8 +537,9 @@
                 <div class="modal-body">
                     <div class="border pt-4 p-3 rounded-2 position-relative">
                         <!-- Copy Button -->
-                        <button onclick="copyText(this)" id="copy-btn" class="btn btn-sm btn-outline-secondary rounded-3" type="button"
-                            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Copy to Clipboard"
+                        <button onclick="copyText(this)" id="copy-btn"
+                            class="btn btn-sm btn-outline-secondary rounded-3" type="button" data-bs-toggle="tooltip"
+                            data-bs-placement="bottom" title="Copy to Clipboard"
                             style="position: absolute; top: 10px; right: 10px; padding: 5px 10px;">
                             Copy
                         </button>
@@ -551,7 +553,7 @@
     </div>
 
     <script>
-        var videoSrc = '{{ $stream_details['stream_url'] }}'; 
+        var videoSrc = '{{ $stream_details['stream_url'] }}';
         var copyCodeElement = document.getElementById("copy-code");
 
         function getMediaType(url) {
@@ -562,7 +564,7 @@
 
         const mediaType = getMediaType(videoSrc);
 
-        let embedCode = ""; 
+        let embedCode = "";
 
         if (mediaType === 'm3u8') {
             embedCode = `&lt;script src="https://cdn.jsdelivr.net/npm/hls.js@1"&gt;&lt;/script&gt;
@@ -575,34 +577,34 @@
                             hls.attachMedia(video);
                         }
                         &lt;/script&gt;`;
-            } else if (mediaType === 'mp3') {
-                embedCode = `&lt;audio controls&gt;
+        } else if (mediaType === 'mp3') {
+            embedCode = `&lt;audio controls&gt;
                             &lt;source src="${videoSrc}" type="audio/mpeg"&gt;
                             Your browser does not support the audio element.
                             &lt;/audio&gt;`;
-            } else if (mediaType === 'mp4') {
-                embedCode = `&lt;video id="video" controls width="720" height="420"&gt;
+        } else if (mediaType === 'mp4') {
+            embedCode = `&lt;video id="video" controls width="720" height="420"&gt;
                             &lt;source src="${videoSrc}" type="video/mp4"&gt;
                             Your browser does not support the video element.
                             &lt;/video&gt;`;
-            } else {
-                embedCode = "Unsupported media format.";
-            }
+        } else {
+            embedCode = "Unsupported media format.";
+        }
 
-            copyCodeElement.innerHTML = embedCode.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        copyCodeElement.innerHTML = embedCode.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-            document.getElementById("copy-btn").onclick = function() {
-                navigator.clipboard.writeText(copyCodeElement.textContent);
-                this.textContent = "Copied!";
-                this.classList.remove("btn-outline-secondary");
-                this.classList.add("btn-success");
+        document.getElementById("copy-btn").onclick = function() {
+            navigator.clipboard.writeText(copyCodeElement.textContent);
+            this.textContent = "Copied!";
+            this.classList.remove("btn-outline-secondary");
+            this.classList.add("btn-success");
 
-                setTimeout(() => {
-                    this.textContent = "Copy";
-                    this.classList.remove("btn-success");
-                    this.classList.add("btn-outline-secondary");
-                }, 2000);
-            };
+            setTimeout(() => {
+                this.textContent = "Copy";
+                this.classList.remove("btn-success");
+                this.classList.add("btn-outline-secondary");
+            }, 2000);
+        };
     </script>
     <!--End of banner section-->
 
@@ -658,9 +660,10 @@
 @endsection
 
 @push('scripts')
-//for desktop tabs
+    //for desktop tabs
     <script>
         var themeActiveColor = "{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}";
+
         function handleStarRating(element) {
             let rating = element.dataset.rating;
             let starsWrapper = document.getElementsByClassName("user-rating")[0];
@@ -721,22 +724,35 @@
     //for mobile tabs
     <script>
         var themeActiveColor = "{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}";
+
         function handleStarRatingMobile(element) {
-            let rating = element.dataset.rating;
+            // Get the rating from the data attribute
+            let rating = element.dataset.ratingMobile;
+
+            // Get the wrapper containing all stars
             let starsWrapper = document.getElementsByClassName("user-rating-mobile")[0];
+
+            // Get all star elements
             let stars = starsWrapper.getElementsByClassName("star-mobile");
-            let ratingField = document.getElementsByName("rating-mobile")[0];
 
+            // Get the hidden input field to store the rating value
+            let ratingField = document.getElementsByName("rating_mobile")[0];
+
+            // Remove the 'active' class from all stars
             for (let i = 0; i < stars.length; i++) {
-                if (stars[i].classList.contains("active"))
-                    stars[i].classList.remove("active")
+                stars[i].classList.remove("active");
+                // Reset the star fill color
+                stars[i].querySelector('svg').style.fill = "#ffffff"; // Reset to original color
             }
 
+            // Add the 'active' class to the stars up to the selected rating
             for (let i = 0; i < rating; i++) {
-                if (!stars[i].classList.contains("active"))
-                    stars[i].classList.add("active")
+                stars[i].classList.add("active");
+                // Change the star fill color to the active theme color
+                stars[i].querySelector('svg').style.fill = themeActiveColor;
             }
 
+            // Set the hidden input field value to the selected rating
             ratingField.value = parseInt(rating);
         }
 
