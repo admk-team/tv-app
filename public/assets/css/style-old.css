@@ -4196,8 +4196,8 @@ textarea.form-control:focus {
         height: 250px;
     }
     .title_logo {
-        max-width: 50%;
-        max-height: 30%;
+        max-width: 40%;
+        max-height: 40%;
     }
 }
 
