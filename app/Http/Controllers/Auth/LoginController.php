@@ -78,7 +78,7 @@ class LoginController extends Controller
                 'partner_url' => $partnerlink ?? null
             ]);
         $responseJson = $response->json();
-        
+
         if ($responseJson['app']['status'] === 0) {
             return back()->with('error', $responseJson['app']['msg']);
         }
@@ -88,6 +88,7 @@ class LoginController extends Controller
                 'USER_ACCOUNT_PASS' => $request->password ?? null,
                 'USER_CODE' => $responseJson['app']['data']['user_code'] ?? null,
                 'USER_NAME' => $responseJson['app']['data']['name'] ?? null,
+                'FULL_USER_NAME' => $responseJson['app']['data']['name'] ?? null,
                 'USER_PICTURE' => $responseJson['app']['data']['picture'] ?? null,
                 'USER_ACCOUNT_STATUS' => $responseJson['app']['data']['account_status'] ?? null,
                 'USER_EMAIL' => $responseJson['app']['data']['email'] ?? null,
@@ -112,10 +113,10 @@ class LoginController extends Controller
             $responseprofile = Http::withHeaders(Api::headers())
                 ->asForm()
                 ->get(Api::endpoint("/userprofiles?id={$responseJson['app']['data']['user_id']}&user_data={$xyz}&user_device={$finalresultDevice}"));
-        
+
             // Decode the response JSON data
             $user_data = $responseprofile->json();
-        
+
             // Return the 'profile.index' view with the fetched user data
             return view('profile.index', compact('user_data'));
         } else {

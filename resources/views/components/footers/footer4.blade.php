@@ -106,7 +106,8 @@
                     <div class="social_profile">
                         <ul>
                             @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
-                                <li><a href="{{ $link->url }}"> <i><img
+                                <li><a href="{{ $link->url }}"
+                                     class="social-share" data-platform="{{ $link->title }}" data-content="Shared content: {{ $link->title }}"> <i><img
                                                 src="{{ $link->icon }}"
                                                 alt="{{ $link->title }}" style="max-width: 100%"></i></a></li>
                             @endforeach
@@ -120,7 +121,7 @@
             <div class="col-lg-12 col-sm-12 col-xs-12">
                 <p class="copyright">
                     {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_txt ?? '' }} : <a
-                        href="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_url ?? '' }}">{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}</a> | 
+                        href="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_url ?? '' }}">{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_power_by_web_name ?? '' }}</a> |
                     {{ \App\Services\AppConfig::get()->app->app_info->app_name }}</span>
                     {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} All Right Reserved</p>
             </div>

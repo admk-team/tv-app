@@ -118,7 +118,7 @@
         <div class="slider-container">
             <div class="listing_box allVideosBox">
                 <div class="col-md-12">
-                    <form action="{{ route('search') }}">
+                    <form id="searchForm" action="{{ route('search') }}">
                         <div class="searchbox rounded">
                             <input type="text" class="search_bar rounded" name="searchKeyword" id="searchKeyword"
                                 value="{{ request()->searchKeyword }}" placeholder="Search" required="">
