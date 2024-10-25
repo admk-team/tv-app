@@ -417,8 +417,6 @@
     <div class="slider_title_box slidessbwh" style="padding: 0 45px; flex: 1;">
         <div class="about_fulltxt">{{ $arrSlctItemData['stream_description'] }}</div>
     </div>
-
-    @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
         @if (!empty($arrSlctItemData['is_download']) && $arrSlctItemData['is_download'] == 1)
                 <form action="{{ route('video.convert') }}" method="POST" class="d-flex flex-column flex-sm-row align-items-center">
                     @csrf
@@ -430,12 +428,11 @@
                     <input type="hidden" name="stream_url" value="{{ $arrStreamsData['stream_url'] }}">
                     <input type="hidden" name="stream_description" value="{{ $arrStreamsData['stream_description'] }}">
                     <input type="hidden" name="stream_title" value="{{ $arrSlctItemData['stream_title'] }}">
-
+                    <input type="hidden" name="email" value="{{ request()->get('email') }}">
                     <button type="submit" class="auth app-secondary-btn rounded mt-2 mt-sm-0">
                         <span class="px-1"><i class="ri-arrow-down-line"></i></span>Download
                     </button>
                 </form>
-        @endif
     @endif
 </div>
 
