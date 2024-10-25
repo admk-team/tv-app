@@ -123,8 +123,7 @@
                             <input type="text" class="search_bar rounded" name="searchKeyword" id="searchKeyword"
                                 value="{{ request()->searchKeyword }}" placeholder="Search" required="">
                             <span class="search_icon"><button type="submit"
-                                    style="text-decoration:none;border: none;background-color: #ffffff;"><img
-                                        src="https://stage.24flix.tv/images/searchs.png"></button>
+                                    style="text-decoration:none;border: none;background-color: #ffffff;margin-top: 4px;"><i class="bi bi-search search-icon mt-2"></i></button>
                             </span>
                         </div>
                     </form>
