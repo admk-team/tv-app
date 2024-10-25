@@ -613,6 +613,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                 </div>
                                             </div>
                                         @endif
+
+                                        @include('playerscreen.includes.call-to-actions', ['callToActions' => $arrSlctItemData['call_to_actions']])
                                     </div>
 
                                 </div>
