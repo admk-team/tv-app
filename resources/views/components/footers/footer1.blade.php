@@ -64,7 +64,8 @@
                             <div class="footer-social-icon mt-3">
                                 <span>Follow us</span>
                                 @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
-                                    <a href="{{ $link->url }}" target="_blank" class="social-icon">
+                                    <a href="{{ $link->url }}" target="_blank"
+                                         class="social-icon social-share" data-platform="{{ $link->title }}" data-content="Shared content: {{ $link->title }}">
                                         <img src="{{ $link->icon }}" alt="{{ $link->title }}">
                                     </a>
                                 @endforeach

@@ -142,7 +142,8 @@
                     <ul class="social_link px-0">
                         @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
                             <li class="hov1">
-                                <a href="{{ $link->url }}" target="_blank">
+                                <a href="{{ $link->url }}" target="_blank"
+                                    class="social-share" data-platform="{{ $link->title }}" data-content="Shared content: {{ $link->title }}">
                                     <img src="{{ $link->icon }}">
                                 </a>
                                 <div class="tooltip fade top in" role="tooltip">
@@ -188,7 +189,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-        
+
             $.ajax({
                 url: "{{ route('check.subscription.status') }}",
                 method: "GET",
@@ -216,6 +217,6 @@
                 }
             });
         });
-        
+
     </script>  --}}
 @endpush

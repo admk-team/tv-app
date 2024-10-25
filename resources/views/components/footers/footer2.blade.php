@@ -55,12 +55,12 @@
             </div>
         </div>
     </div>
-    
-    
+
+
     <div class="container" style="max-width: 90%;">
         <div class="footer-content  gradient-bg pt-5 pb-5">
             <div class="row">
-               
+
                 <div class="col-xl-2 col-lg-3 col-md-6">
                     <div class="footer-widget">
                         <div class="footer-logo">
@@ -160,7 +160,8 @@
                             <h3>Follow Us</h3>
                         </div>
                         @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
-                            <a href="{{ $link->url }}" target="_blank" class="social-icon">
+                            <a href="{{ $link->url }}" target="_blank"
+                           class="social-icon social-share" data-platform="{{ $link->title }}" data-content="Shared content: {{ $link->title }}">
                                 <img src="{{ $link->icon }}"
                                     alt="{{ $link->title }}">
                             </a>

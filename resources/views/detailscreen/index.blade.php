@@ -24,41 +24,41 @@
         $mType = "type='application/x-mpegURL'";
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-
+    
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-
+    
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
-
+    
     $stream_code = $stream_details['stream_guid'];
-
+    
     $postData = [
         'stream_code' => $stream_code,
     ];
-
+    
     // $ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
-
+    
     // curl_setopt($ch, CURLOPT_POST, 1);
     // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
+    
     // $response = curl_exec($ch);
-
+    
     // if (curl_errno($ch)) {
     //     die('Curl error: ' . curl_error($ch));
     // }
-
+    
     // curl_close($ch);
-
+    
     // $resultArray = json_decode($response, true);
-
+    
     // $userDidComment = false;
     // foreach ($resultArray as $review) {
     //     if (session('USER_DETAILS') && $review['user']['userCode'] === session('USER_DETAILS')['USER_CODE']) {
     //         $userDidComment = true;
     //     }
     // }
-
+    
     ?>
     <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
     <!-- <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> -->
@@ -215,12 +215,13 @@
                 </div>
             </div>
             <div class="movie-detail-box desktop-data">
-                <div class="movie_detail_inner_box {{ isset($stream_details['title_logo']) && $stream_details['title_logo'] ? 'with-logo' : 'without-logo' }}">
+                <div
+                    class="movie_detail_inner_box {{ isset($stream_details['title_logo']) && $stream_details['title_logo'] ? 'with-logo' : 'without-logo' }}">
                     @if (isset($stream_details['title_logo']) && $stream_details['title_logo'])
-                    <div class="title_logo mb-1">
-                        <img class="img-fluid" src="{{ $stream_details['title_logo'] }}"
-                             alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
-                    </div>
+                        <div class="title_logo mb-1">
+                            <img class="img-fluid" src="{{ $stream_details['title_logo'] }}"
+                                alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
+                        </div>
                     @else
                         <h1 class="content-heading" title="{{ $stream_details['stream_title'] ?? '' }}">
                             {{ $stream_details['stream_title'] ?? '' }}
@@ -451,14 +452,14 @@
             </div>
         </div>
     </section>
-
+    <div class="desktop-tabs">
+        @include('detailscreen.partials.tabs-desktop')
+    </div>
     <div class="mobile-tabs">
         @include('detailscreen.partials.tabs-mobile')
     </div>
 
-    <div class="desktop-tabs">
-        @include('detailscreen.partials.tabs-desktop')
-    </div>
+
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
@@ -536,8 +537,9 @@
                 <div class="modal-body">
                     <div class="border pt-4 p-3 rounded-2 position-relative">
                         <!-- Copy Button -->
-                        <button onclick="copyText(this)" id="copy-btn" class="btn btn-sm btn-outline-secondary rounded-3" type="button"
-                            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Copy to Clipboard"
+                        <button onclick="copyText(this)" id="copy-btn"
+                            class="btn btn-sm btn-outline-secondary rounded-3" type="button" data-bs-toggle="tooltip"
+                            data-bs-placement="bottom" title="Copy to Clipboard"
                             style="position: absolute; top: 10px; right: 10px; padding: 5px 10px;">
                             Copy
                         </button>
@@ -575,34 +577,34 @@
                             hls.attachMedia(video);
                         }
                         &lt;/script&gt;`;
-            } else if (mediaType === 'mp3') {
-                embedCode = `&lt;audio controls&gt;
+        } else if (mediaType === 'mp3') {
+            embedCode = `&lt;audio controls&gt;
                             &lt;source src="${videoSrc}" type="audio/mpeg"&gt;
                             Your browser does not support the audio element.
                             &lt;/audio&gt;`;
-            } else if (mediaType === 'mp4') {
-                embedCode = `&lt;video id="video" controls width="720" height="420"&gt;
+        } else if (mediaType === 'mp4') {
+            embedCode = `&lt;video id="video" controls width="720" height="420"&gt;
                             &lt;source src="${videoSrc}" type="video/mp4"&gt;
                             Your browser does not support the video element.
                             &lt;/video&gt;`;
-            } else {
-                embedCode = "Unsupported media format.";
-            }
+        } else {
+            embedCode = "Unsupported media format.";
+        }
 
-            copyCodeElement.innerHTML = embedCode.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        copyCodeElement.innerHTML = embedCode.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-            document.getElementById("copy-btn").onclick = function() {
-                navigator.clipboard.writeText(copyCodeElement.textContent);
-                this.textContent = "Copied!";
-                this.classList.remove("btn-outline-secondary");
-                this.classList.add("btn-success");
+        document.getElementById("copy-btn").onclick = function() {
+            navigator.clipboard.writeText(copyCodeElement.textContent);
+            this.textContent = "Copied!";
+            this.classList.remove("btn-outline-secondary");
+            this.classList.add("btn-success");
 
-                setTimeout(() => {
-                    this.textContent = "Copy";
-                    this.classList.remove("btn-success");
-                    this.classList.add("btn-outline-secondary");
-                }, 2000);
-            };
+            setTimeout(() => {
+                this.textContent = "Copy";
+                this.classList.remove("btn-success");
+                this.classList.add("btn-outline-secondary");
+            }, 2000);
+        };
     </script>
     <!--End of banner section-->
 
@@ -658,7 +660,10 @@
 @endsection
 
 @push('scripts')
+    //for desktop tabs
     <script>
+        var themeActiveColor = "{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}";
+
         function handleStarRating(element) {
             let rating = element.dataset.rating;
             let starsWrapper = document.getElementsByClassName("user-rating")[0];
@@ -684,7 +689,7 @@
 
             if (newRating == 1) {
                 element.setAttribute('data-rating', 1);
-                element.querySelector('svg').style.fill = 'red'; // Change to hearted color
+                element.querySelector('svg').style.fill = themeActiveColor; // Change to hearted color
             } else {
                 element.setAttribute('data-rating', 0);
                 element.querySelector('svg').style.fill = '#ffffff'; // Change to unhearted color
@@ -700,11 +705,11 @@
             var isLike = type === 'like';
 
             if (isLike) {
-                likeButton.querySelector('svg').style.fill = '#c54f3f'; // Change to liked color
+                likeButton.querySelector('svg').style.fill = themeActiveColor; // Change to liked color
                 dislikeButton.querySelector('svg').style.fill = '#6e6e6e'; // Reset dislike button color
                 hiddenRating.value = 5; // Set hidden input value to 1 for like
             } else {
-                dislikeButton.querySelector('svg').style.fill = '#c54f3f'; // Change to disliked color
+                dislikeButton.querySelector('svg').style.fill = themeActiveColor; // Change to disliked color
                 likeButton.querySelector('svg').style.fill = '#6e6e6e'; // Reset like button color
                 hiddenRating.value = 1; // Set hidden input value to 0 for dislike
             }
@@ -712,6 +717,79 @@
 
 
         function submitOnce() {
+            document.getElementById('submitButton').disabled = true;
+            return true;
+        }
+    </script>
+    //for mobile tabs
+    <script>
+        var themeActiveColor = "{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}";
+
+        function handleStarRatingMobile(element) {
+            // Get the rating from the data attribute
+            let rating = element.dataset.ratingMobile;
+
+            // Get the wrapper containing all stars
+            let starsWrapper = document.getElementsByClassName("user-rating-mobile")[0];
+
+            // Get all star elements
+            let stars = starsWrapper.getElementsByClassName("star-mobile");
+
+            // Get the hidden input field to store the rating value
+            let ratingField = document.getElementsByName("rating_mobile")[0];
+
+            // Remove the 'active' class from all stars
+            for (let i = 0; i < stars.length; i++) {
+                stars[i].classList.remove("active");
+                // Reset the star fill color
+                stars[i].querySelector('svg').style.fill = "#ffffff"; // Reset to original color
+            }
+
+            // Add the 'active' class to the stars up to the selected rating
+            for (let i = 0; i < rating; i++) {
+                stars[i].classList.add("active");
+                // Change the star fill color to the active theme color
+                stars[i].querySelector('svg').style.fill = themeActiveColor;
+            }
+
+            // Set the hidden input field value to the selected rating
+            ratingField.value = parseInt(rating);
+        }
+
+        function handleHeartRatingMobile(element) {
+            var heart = element.getAttribute('data-rating-mobile');
+            var newRating = heart == 1 ? 0 : 1;
+
+            if (newRating == 1) {
+                element.setAttribute('data-rating-mobile', 1);
+                element.querySelector('svg').style.fill = themeActiveColor; // Change to hearted color
+            } else {
+                element.setAttribute('data-rating', 0);
+                element.querySelector('svg').style.fill = '#ffffff'; // Change to unhearted color
+            }
+            document.getElementById('hiddenRatingMobile').value = newRating;
+
+        }
+
+        function handleRatingMolbile(element, type) {
+            var likeButton = document.querySelector('.like-mobile');
+            var dislikeButton = document.querySelector('.dislike-mobile');
+            var hiddenRatingMobile = document.getElementById('hiddenRatingMobile');
+            var isLike = type === 'like';
+
+            if (isLike) {
+                likeButton.querySelector('svg').style.fill = themeActiveColor; // Change to liked color
+                dislikeButton.querySelector('svg').style.fill = '#6e6e6e'; // Reset dislike button color
+                hiddenRatingMobile.value = 5; // Set hidden input value to 1 for like
+            } else {
+                dislikeButton.querySelector('svg').style.fill = themeActiveColor; // Change to disliked color
+                likeButton.querySelector('svg').style.fill = '#6e6e6e'; // Reset like button color
+                hiddenRatingMobile.value = 1; // Set hidden input value to 0 for dislike
+            }
+        }
+
+
+        function submitOnceMobile() {
             document.getElementById('submitButton').disabled = true;
             return true;
         }

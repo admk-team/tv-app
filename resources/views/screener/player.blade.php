@@ -6,7 +6,7 @@
     $IS_SIGNIN_BYPASS = 'N';
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
-    
+
     session('GLOBAL_PASS', 0);
     request()->server('REQUEST_METHOD');
     $protocol = request()->server('HTTPS') === 'on' ? 'https' : 'http';
@@ -62,14 +62,14 @@
             \App\Helpers\GeneralHelper::headerRedirect(url('/monetioztion'));
         }
     }
-    
+
     $mType = 'video';
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
     }
     $apiPath = url('/web-controller.php');
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN');
-    
+
     // here get the video duration
     $seekFunStr = '';
     $arrFormData4VideoState = [];
@@ -83,7 +83,7 @@
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
         $seekFunStr = "this.currentTime($streamDurationInSec);";
     }
-    
+
     // Here Set Ad URL in Session
     if (!session('ADS_INFO')) {
         session([
@@ -94,7 +94,7 @@
             ],
         ]);
     }
-    
+
     $useragent = request()->server('HTTP_USER_AGENT');
     $isMobileBrowser = 0;
     if (
@@ -108,13 +108,13 @@
     }
     $isMobileBrowser = 0;
     $dataVast = 'data-vast="' . url('/get-ad?' . $adParam) . '"';
-    
+
     if ($isMobileBrowser == 1) {
         $dataVast = '';
     }
-    
+
     $adUrl = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
-    
+
     $watermark = $arrRes['app']['screener']['watermark'];
     ?>
 
@@ -299,17 +299,17 @@
                                     >
 
                                 </div>
-                                <?php                
+                                <?php
                     $arrCatData = $ARR_FEED_DATA['arrCategoriesData'];
                     $dataVast3 = null;
-                    foreach ($arrCatData['streams'] as $arrStreamsData)     
-                    {                      
-                      $poster = $arrStreamsData['stream_poster'];                       
+                    foreach ($arrCatData['streams'] as $arrStreamsData)
+                    {
+                      $poster = $arrStreamsData['stream_poster'];
                       $videoUrl = $arrStreamsData['stream_url'];
                       $quality = 'video';
                       if (strpos($videoUrl, '.m3u8'))
                       {
-                          $quality = "hls";      
+                          $quality = "hls";
                       }
 
                       $adParam = "videoId=".$arrStreamsData['stream_guid'].'&title='.$arrStreamsData['stream_title'];
@@ -321,7 +321,7 @@
                       }
                      ?>
                                 <div class="mvp-playlist-item" data-type="{{ $quality }}"
-                                    data-path="{{ $videoUrl }}" 
+                                    data-path="{{ $videoUrl }}"
                                     data-poster="{{ $poster }}" data-thumb="{{ $poster }}"
                                     data-title="{{ $arrStreamsData['stream_title'] }}"
                                     data-description="{{ $arrStreamsData['stream_description'] }}"></div>
@@ -358,7 +358,7 @@
                                     @endforeach
                                 </span>
                                 <?php
-                        if ($streamType == 'S')  
+                        if ($streamType == 'S')
                         {
                             ?>
                                 <span
@@ -367,16 +367,16 @@
                                 <?php
                         }
 ?>
-                                <?php                
-              if ($arrSlctItemData['content_qlt'] != '')  
+                                <?php
+              if ($arrSlctItemData['content_qlt'] != '')
               {
 ?>
                                 <span class="content_screen">{{ $arrSlctItemData['content_qlt'] }}</span>
                                 <?php
               }
 ?>
-                                <?php                
-                  if ($arrSlctItemData['content_rating'] != '')  
+                                <?php
+                  if ($arrSlctItemData['content_rating'] != '')
                   {
                     ?>
                                 <span class="content_screen">{{ $arrSlctItemData['content_rating'] }}</span>
@@ -389,15 +389,15 @@
                     {{-- <div class="col-md-2 sharesinbos">
               <?php
               if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
-              {   
+              {
                 $signStr = "+";
                 $cls = 'fa fa-plus';
                 if ($arrSlctItemData['stream_is_stream_added_in_wish_list'] == 'Y')
-                { 
+                {
                   $cls = 'fa fa-minus';
                   $signStr = "-";
                 }
-              ?>                         
+              ?>
                 <div class="share_circle addWtchBtn">
                   <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav" class="{{ $cls }}"></i></a>
                   <input type="hidden" id="myWishListSign" value='{{ $signStr }}'/>
@@ -407,17 +407,35 @@
                 </div>
               <?php
               }
-              ?>  
+              ?>
               <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                 <a href="javascript:void(0);"><i class="fa fa-share"></i></a>
               </div>
             </div> --}}
                 </div>
-                <div class="row">
-                    <div class="slider_title_box slidessbwh" style="padding: 0px 45px;">
-                        <div class="about_fulltxt">{{ $arrSlctItemData['stream_description'] }}</div>
-                    </div>
-                </div>
+<div class=" d-flex justify-content-between align-items-center flex-wrap w-75">
+    <div class="slider_title_box slidessbwh" style="padding: 0 45px; flex: 1;">
+        <div class="about_fulltxt">{{ $arrSlctItemData['stream_description'] }}</div>
+    </div>
+        @if (!empty($arrSlctItemData['is_download']) && $arrSlctItemData['is_download'] == 1)
+                <form action="{{ route('video.convert') }}" method="POST" class="d-flex flex-column flex-sm-row align-items-center">
+                    @csrf
+                    @if (session('message'))
+                        <span id="success-message" class="text-success">{{ session('message') }}</span>
+                    @endif
+                    <span id="error-message" class="text-danger"></span>
+
+                    <input type="hidden" name="stream_url" value="{{ $arrStreamsData['stream_url'] }}">
+                    <input type="hidden" name="stream_description" value="{{ $arrStreamsData['stream_description'] }}">
+                    <input type="hidden" name="stream_title" value="{{ $arrSlctItemData['stream_title'] }}">
+                    <input type="hidden" name="email" value="{{ request()->get('email') }}">
+                    <button type="submit" class="auth app-secondary-btn rounded mt-2 mt-sm-0">
+                        <span class="px-1"><i class="ri-arrow-down-line"></i></span>Download
+                    </button>
+                </form>
+    @endif
+</div>
+
             </div>
         </div>
     </div>
@@ -497,17 +515,17 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
                     </div>
                 </div>
                 <div class="landscape_slider slider slick-slider">
-                    <?php 
-                foreach ($arrCatData['streams'] as $index => $arrStreamsData)     
+                    <?php
+                foreach ($arrCatData['streams'] as $index => $arrStreamsData)
                 {
                     if ($arrStreamsData['stream_guid'] === $arrSlctItemData['stream_guid'])
                       continue;
-                      
+
                     $vidPath = route('screener.player', ['code' => $code, 'itemIndex' => $index + 1]);
                     if ($nextVideoPath == "Y")
                     {
                       $nextVideoPath = $vidPath;
-                      
+
                     }
 
                     if ($streamGuid == $arrStreamsData['stream_guid'])
@@ -520,7 +538,7 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
                     if ($arrStreamsData['monetization_type'] == 'F')
                     {
                       $strBrige = "style='display: none;'";
-                    }                    
+                    }
 
                     ?>
                     <div>
@@ -599,7 +617,7 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
                 useSkipBackward: true,
                 useSkipForward: true,
                 showPrevNextVideoThumb: true,
-                rememberPlaybackPosition: 'all', //remember last video position (false, 1, all)    
+                rememberPlaybackPosition: 'all', //remember last video position (false, 1, all)
                 useQuality: true,
                 useImaLoader: false,
                 useTheaterMode: true,
@@ -683,7 +701,7 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
         }
     </script>
     <script>
-        //sendAjaxRes4VideoDuration('saveStrmDur', this.currentTime())        
+        //sendAjaxRes4VideoDuration('saveStrmDur', this.currentTime())
         //sendAjaxRes4VideoDuration('removeStrmDur', '')
 
         function sendAjaxRes4VideoDuration(requestAction, streamDuration) {
