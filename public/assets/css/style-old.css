@@ -6295,6 +6295,10 @@ textarea.form-control:focus {
         margin: 0px 0px;
         padding: 10px 10px 25px;
     }
+    .title_logo {
+        max-width: 40%;
+        max-height: 40%;
+    }
 }
 
 @media(max-width: 600px) {
