@@ -1325,7 +1325,7 @@ if (!empty($arrCatData))
                 useAdSeekbar: true,
                 useAdControls: true,
                 useGlobalPopupCloseBtn: true,
-                showPopupsOnlyOnce: true,
+                /* showPopupsOnlyOnce: true, */
                 playbackRateArr: [{
                         value: 2,
                         menu_title: '2x'
