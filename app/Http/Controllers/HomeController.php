@@ -15,7 +15,6 @@ class HomeController extends Controller
     public function index(Request $request ,$slug = 'home')
     {
         Log::info(Carbon::now()->toString());
-        Log::info('Sibi');
         // Construct the full URL from the request
         $currentUrl = $request->fullUrl();
         $link = $request->query('link');
