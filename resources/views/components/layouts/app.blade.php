@@ -3,6 +3,25 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Tag Manager  -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PJFK2TQJ');</script>
+<!-- End Google Tag Manager -->
+
+
+<!-- Google tag (gtag.js)  by Google Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9CSMRBR33X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9CSMRBR33X');
+</script>
+  <!-- End Google Analytics -->
     @if (Route::is('detailscreen', 'playerscreen'))
         @yield('meta-tags')
     @else
@@ -19,7 +38,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style-old.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/userprofile.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/tv-guide.css') }}">
-     @stack('style')
+    @stack('style')
     <style>
         :root {
             --bgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }};
@@ -74,6 +93,128 @@
     </div>
 
     @include('components.footers.footer')
+
+    {{-- page_view --}}
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        dataLayer.push({
+            'event': 'custom_page_view',
+            'page_path': '{{ request()->path() }}',
+            'page_location': '{{ url()->current() }}',
+            'user': '{{ session('USER_DETAILS')['FULL_USER_NAME'] ?? 'Guest' }}',
+            'referrer': document.referrer,
+        });
+    </script>
+
+    {{-- user_engagement  --}}
+    <script>
+        setTimeout(function() {
+            dataLayer.push({
+                'event': 'custom_user_engagement',
+                'engagement_time': '50_seconds',
+                'page_location': '{{ url()->current() }}',
+            });
+        }, 50000);
+    </script>
+
+    {{-- scroll_depth  --}}
+    <script>
+        document.addEventListener('scroll', function() {
+            var scrollPercentage = Math.round((window.scrollY + window.innerHeight) / document.documentElement
+                .scrollHeight * 100);
+
+            if (scrollPercentage >= 25 && !window.scroll_25) {
+                window.scroll_25 = true;
+                dataLayer.push({
+                    'event': 'custom_scroll',
+                    'scroll_depth': '25%'
+                });
+            }
+            if (scrollPercentage >= 50 && !window.scroll_50) {
+                window.scroll_50 = true;
+                dataLayer.push({
+                    'event': 'custom_scroll',
+                    'scroll_depth': '50%'
+                });
+            }
+            if (scrollPercentage >= 75 && !window.scroll_75) {
+                window.scroll_75 = true;
+                dataLayer.push({
+                    'event': 'custom_scroll',
+                    'scroll_depth': '75%'
+                });
+            }
+            if (scrollPercentage >= 100 && !window.scroll_100) {
+                window.scroll_100 = true;
+                dataLayer.push({
+                    'event': 'custom_scroll',
+                    'scroll_depth': '100%'
+                });
+            }
+        });
+    </script>
+
+    {{-- session_duration --}}
+    <script>
+        var startTime = new Date().getTime();
+        window.addEventListener('beforeunload', function() {
+            var duration = Math.floor((new Date().getTime() - startTime) / 1000);
+            dataLayer.push({
+                'event': 'session_duration',
+                'duration': duration,
+                'user_status': '{{ session('USER_DETAILS') ? 'logged_in' : 'guest' }}'
+            });
+        });
+    </script>
+
+    {{-- social_share --}}
+    <script>
+        document.querySelectorAll('.social-share').forEach(function(shareButton) {
+            shareButton.addEventListener('click', function() {
+                dataLayer.push({
+                    'event': 'social_share',
+                    'share_platform': shareButton.getAttribute('data-platform'),
+                    'content_shared': shareButton.getAttribute('data-content'),
+                    'user_status': '{{ session('USER_DETAILS') ? 'logged_in' : 'guest' }}'
+                });
+            });
+        });
+    </script>
+
+    {{-- Search --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('#searchKeyword');
+            const searchForm = document.querySelector('#searchForm');
+
+            const debounce = (func, delay) => {
+                let timeoutId;
+                return (...args) => {
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                    }
+                    timeoutId = setTimeout(() => {
+                        func.apply(null, args);
+                    }, delay);
+                };
+            };
+
+            const handleInputChange = debounce(function() {
+                var searchQuery = searchInput.value;
+                console.log('Input changed:', searchQuery);
+                if (searchQuery.length > 3) {
+                    dataLayer.push({
+                        'event': 'custom_search_input',
+                        'search_term': searchQuery,
+                        'user': '{{ session('USER_DETAILS')['FULL_USER_NAME'] ?? 'Guest' }}',
+                    });
+                }
+            }, 300); // Adjust the delay as necessary
+
+            searchInput.addEventListener('input', handleInputChange);
+        });
+    </script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
@@ -195,17 +336,17 @@
                 var $this = $(this);
                 var itemsPerRow = $this.data('items-per-row') || 1; // Get the number of items per row
                 var autoplay = $this.data('autoplay');
-        
+
                 $this.slick({
                     dots: true,
                     infinite: true,
                     loop: true,
-                    autoplay: autoplay || false, // Use the autoplay data attribute or default to false
+                    autoplay: autoplay ||
+                        false, // Use the autoplay data attribute or default to false
                     autoplaySpeed: 3000,
                     slidesToShow: itemsPerRow,
                     slidesToScroll: 1,
-                    responsive: [
-                        {
+                    responsive: [{
                             breakpoint: 1740,
                             settings: (itemsPerRow == 2) ? {
                                 slidesToShow: 2,
@@ -266,7 +407,7 @@
                 });
             });
         });
-        
+
 
 
 

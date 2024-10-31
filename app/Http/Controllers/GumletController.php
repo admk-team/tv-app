@@ -19,18 +19,27 @@ class GumletController extends Controller
         $streamUrl = $request->input('stream_url');
         $title = $request->input('stream_title');
         $streamDescription = $request->input('stream_description');
+        $email = $request->input('email');
 
-        $response = Http::timeout(300)->withHeaders(Api::headers())
+        // Make the API request
+        $response = Http::timeout(300)
+            ->withHeaders(Api::headers())
             ->post(Api::endpoint('/video'), [
                 'stream_url' => $streamUrl,
                 'stream_title' => $title,
+            'email' => $email,
             'stream_description' => $streamDescription,
             ]);
+
+        // Handle the response
         $responseData = $response->json();
-        $message = $responseData['message'];
+
+        if (!$response->successful()) {
+            return back()->withErrors(['error' => 'Failed to process video. Please try again.']);
+        }
 
         if ($responseData['status'] == 'pending') {
-            return back()->with('message', $message);
+            return back()->with('message', $responseData['message']);
         } else {
             $videoUrl = $responseData['video_url'];
             $response = Http::head($videoUrl);
@@ -39,6 +48,7 @@ class GumletController extends Controller
             }
             $contentType = $response->header('Content-Type', 'application/octet-stream');
             $contentLength = $response->header('Content-Length');
+
             return response()->stream(function () use ($videoUrl) {
                 $stream = fopen($videoUrl, 'r');
                 while (!feof($stream)) {
@@ -52,7 +62,7 @@ class GumletController extends Controller
                 'Content-Transfer-Encoding' => 'binary',
                 'Content-Length' => $contentLength,
             ]);
-            return back()->with('message', $message);
         }
     }
+
 }

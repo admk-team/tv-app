@@ -4127,10 +4127,6 @@ ul.menuleftlist li a.activelist {
     display: none;
 }
 
-.title_logo {
-    max-width: 70%;
-    max-height: 40%;
-}
 
 @media screen and (max-width:990px) {
     .pricingTable10 {
@@ -4195,11 +4191,19 @@ textarea.form-control:focus {
     .thumbnail_img {
         height: 250px;
     }
+    .title_logo {
+        max-width: 40%;
+        max-height: 40%;
+    }
 }
 
 @media (max-width: 1920px) {
     .thumbnail_img {
         height: 189px;
+    }
+    .title_logo {
+        max-width: 70%;
+        max-height: 40%;
     }
 }
 
@@ -6290,6 +6294,10 @@ textarea.form-control:focus {
     ul.season_listings {
         margin: 0px 0px;
         padding: 10px 10px 25px;
+    }
+    .title_logo {
+        max-width: 40%;
+        max-height: 40%;
     }
 }
 

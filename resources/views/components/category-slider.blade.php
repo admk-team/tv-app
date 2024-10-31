@@ -158,7 +158,7 @@
                                                         <img src="{{ $stream->{$streamPosterKey} }}"
                                                             alt="{{ $stream->stream_title }}">
                                                     </div>
-                                                    @if ($stream->stream_promo_url !== '' && !in_array($category->card_type, ['BA', 'LB']))
+                                                    @if ($stream->stream_promo_url !== '' && !in_array($category->card_type, ['BA', 'LB']) && $stream->stream_type !== 'A')
                                                         <video id="my-video-{{ $stream->stream_guid }}" preload="none"
                                                             class="card-video-js vjs-tech" muted>
                                                             <source src="{{ $stream->stream_promo_url }}"
@@ -241,7 +241,7 @@
                                                     <img src="{{ $stream->{$streamPosterKey} }}"
                                                         alt="{{ $stream->stream_title }}">
                                                 </div>
-                                                @if ($stream->stream_promo_url !== '' && !in_array($category->card_type, ['BA', 'LB']))
+                                                    @if ($stream->stream_promo_url !== '' && !in_array($category->card_type, ['BA', 'LB']) && $stream->stream_type !== 'A')
                                                     <video id="my-video-{{ $stream->stream_guid }}" preload="none"
                                                         class="card-video-js vjs-tech" muted>
                                                         <source src="{{ $stream->stream_promo_url }}"

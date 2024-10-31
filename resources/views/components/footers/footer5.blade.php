@@ -18,8 +18,8 @@
 
                                     @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
                                         <li class="nav-item me-3">
-                                            <a class="nav-link link-primary p-2 bg-light rounded"
-                                                href="{{ $link->url }}">
+                                            <a href="{{ $link->url }}" class="nav-link link-primary p-2 bg-light rounded social-share"
+                                           data-platform="{{ $link->title }}" data-content="Shared content: {{ $link->title }}">
                                                 <img src="{{ $link->icon }}" alt="{{ $link->title }}"
                                                     style="max-width: 22px">
                                             </a>
