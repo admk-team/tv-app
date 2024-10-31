@@ -26,7 +26,7 @@
                                 $periodStr = ($plan->plan_faq == 1) ? 'Every Year' : 'every ' . $plan->plan_faq . ' years';
                             } else {
                                 $periodStr = 'every ' . $plan->plan_faq . ' ' . $plan->plan_period . $suffix;
-                            }                                                   
+                            }
                             // Determine the button label based on the plan type
                             if ($plan->plan_type == 'T') {
                                 $planStr = session()->has('USER_DETAILS') ? 'Subscribe Free' : 'Login';
@@ -54,6 +54,10 @@
                                         <input type="hidden" name="PLAN_TYPE" value="{{ $plan->plan_type }}">
                                         <input type="hidden" name="PLAN_PERIOD" value="{{ $plan->plan_period }}">
                                         <input type="hidden" name="PAYMENT_INFORMATION" value="{{ $plan->plan_name }}">
+                                        <input type="hidden" name="PAYPAL_PLAN_ID" value="{{ $plan->paypal_plan_id }}">
+                                        <input type="hidden" name="PAYPAL_PLAN_NAME" value="{{ $plan->paypal_plan_name }}">
+                                        <input type="hidden" name="PAYPAL_PLAN_PRICE" value="{{ $plan->paypal_plan_price }}">
+                                        <input type="hidden" name="PAYPAL_PLAN_DURATION" value="{{ $plan->paypal_plan_duration }}">
                                         <input type="hidden" name="MONETIZATION_TYPE" value="S">
                                         <input type="hidden" name="STREAM_DESC" value="{{ $plan->plan_desc }}">
                                         <input type="hidden" name="PLAN"

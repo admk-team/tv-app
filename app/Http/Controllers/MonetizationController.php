@@ -22,6 +22,10 @@ class MonetizationController extends Controller
                 'MONETIZATION_GUID',
                 'PAYMENT_INFORMATION',
                 'PLAN',
+                'PAYPAL_PLAN_ID',
+                'PAYPAL_PLAN_NAME',
+                'PAYPAL_PLAN_DURATION',
+                'PAYPAL_PLAN_PRICE',
                 'MONETIZATION_TYPE',
                 'PLAN_TYPE',
                 'PLAN_PERIOD',
@@ -35,8 +39,7 @@ class MonetizationController extends Controller
             session()->put('MONETIZATION', $monetizationData);
 
             $planData = $monetizationData;
-        }
-        else {
+        } else {
             $planData = session('MONETIZATION');
             // Optionally add recipient email to the planData if needed
             if ($recipientEmail) {
@@ -51,14 +54,11 @@ class MonetizationController extends Controller
     {
         if (session()->has('stripe_payment_processed') && session()->get('stripe_payment_processed')) {
             return view('monetization.success_stripe');
-        }
-        else {
-            if($request->txn_id){
+        } else {
+            if ($request->txn_id) {
                 $transactionId = $request->txn_id;
                 $paymentInfo = json_encode($request->all());
-            }
-            else
-            {
+            } else {
                 $transactionId = md5(time());
                 $paymentInfo = session('MONETIZATION')['PAYMENT_INFORMATION'];
             }
@@ -108,8 +108,7 @@ class MonetizationController extends Controller
         $discount = 0;
         if ($responseJSON['data']['discount_type'] === 'percentage') {
             $discount = ($responseJSON['data']['discount'] / 100) * $amount;
-        }
-        else {
+        } else {
             $discount = $responseJSON['data']['discount'];
         }
         $finalAmount = $amount - $discount;
