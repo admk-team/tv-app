@@ -283,7 +283,7 @@
             <div class="row">
                 <div class="card px-0">
                     <div class="card-header">
-                        @if ($planData['SUBS_TYPE'] != 'S')
+                        @if (isset($planData['SUBS_TYPE']) && $planData['SUBS_TYPE'] != 'S')
                             <img src="{{ $planData['POSTER'] }}" class="img-thumbnail"
                                 alt="{{ $planData['PAYMENT_INFORMATION'] }}">
                         @else
@@ -355,7 +355,7 @@
                                 method="POST">
                                 <input type="hidden" name="business"
                                     value="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->PAYPAL_ID }}">
-                                @if($planData['PAYPAL_PLAN_ID'])
+                                @if(isset($planData['PAYPAL_PLAN_ID']) &&  $planData['PAYPAL_PLAN_ID'])
                                       <!-- Specify a Subscribe button. -->
                                     <input type="hidden" name="cmd" value="_xclick-subscriptions" />
                                     <!-- Identify the subscription. -->

@@ -15,10 +15,14 @@ class StripeController extends Controller
     {
         Stripe::setApiKey($request->stripeSecret);
         $stripeAmount = round(session('MONETIZATION')['AMOUNT'] * 100, 2);
-        $stripeProductId = session('MONETIZATION')['stripe_product_id']; // Retrieve product ID
+        if (isset(session('MONETIZATION')['stripe_product_id']) && !empty(session('MONETIZATION')['stripe_product_id'])) {
+            $stripeProductId = session('MONETIZATION')['stripe_product_id'];
+        }
+        
+       // Retrieve product ID
 
         try {
-            if ($stripeProductId) {
+            if (isset($stripeProductId) && !empty($stripeProductId)) {
                 // Fetch the product to get its prices
                 $prices = \Stripe\Price::all(['product' => $stripeProductId]);
 
