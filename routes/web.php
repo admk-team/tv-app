@@ -57,7 +57,7 @@ Route::get('/cmd/{cmd}', function ($cmd) {
     return Artisan::output();
 });
 
-Route::get('/script', function ($cmd) {
+Route::get('/script', function () {
     // Define the path to your script
     $scriptPath = '/home/u763586918/domains/octv.online/public_html/copyscript.sh';
 
