@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the Laravel source directory
-SOURCE_DIR="D:\tv-app"
+SOURCE_DIR="/home/u763586918/domains/octv.online/public_html"
 
 # Array of subdomain directories
 SUBDOMAIN_DIRS=("agape" "cinebites" "classic" "echotv" "fitness" "Incrediscope" "kids" "legind" "licensing" "movee" "rdtv" "sports")
