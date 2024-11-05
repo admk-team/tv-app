@@ -57,6 +57,17 @@ Route::get('/cmd/{cmd}', function ($cmd) {
     return Artisan::output();
 });
 
+Route::get('/script', function ($cmd) {
+    // Define the path to your script
+    $scriptPath = '/home/u763586918/domains/octv.online/public_html/copyscript.sh';
+
+    // Execute the script and capture the output
+    $output = shell_exec("sh $scriptPath 2>&1");
+
+    // Return or log the output
+    return response()->json(['output' => $output]);
+});
+
 
 // Temporary landing page route
 Route::view('/new3', 'components.new3');
