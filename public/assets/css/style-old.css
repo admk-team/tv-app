@@ -4017,13 +4017,21 @@ ul.menuleftlist li a.activelist {
     left: -19px
 }
 
-.pricingTable10 .month {
+/* .pricingTable10 .month {
     font-size: 16px;
     color: var(--themePrimaryTxtColor);
     position: absolute;
     bottom: -10px;
     right: -40px;
     text-transform: uppercase
+} */
+.pricingTable10 .month {
+    font-size: 16px;
+    color: var(--themePrimaryTxtColor);
+    /* position: absolute;
+    bottom: -10px;
+    right: -40px; */
+    text-transform: uppercase;
 }
 
 .pricingTable10 .pricing-content {
