@@ -115,7 +115,8 @@
 
                     <div class="icons">
                         @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
-                            <a href="{{ $link->url }}" target="_blank">
+                            <a href="{{ $link->url }}" target="_blank"
+                           class=" social-share" data-platform="{{ $link->title }}" data-content="Shared content: {{ $link->title }}">
                                 <i class="social-icon">
                                     <img src="{{ $link->icon }}" alt="{{ $link->title }}"></i></a>
                         @endforeach

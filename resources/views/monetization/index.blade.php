@@ -355,19 +355,34 @@
                                 method="POST">
                                 <input type="hidden" name="business"
                                     value="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->PAYPAL_ID }}">
-                                <input type="hidden" name="rm" value="2">
-                                <input type="hidden" name="cmd" value="_xclick">
-                                <input type="hidden" name="item_name" value="{{ $planData['PAYMENT_INFORMATION'] }}">
+                                @if($planData['PAYPAL_PLAN_ID'])
+                                      <!-- Specify a Subscribe button. -->
+                                    <input type="hidden" name="cmd" value="_xclick-subscriptions" />
+                                    <!-- Identify the subscription. -->
+                                    <input type="hidden" name="item_name" value="{{ $planData['PAYPAL_PLAN_NAME'] }}" />
+                                    <input
+                                        type="hidden"
+                                        name="item_number"
+                                        value="{{ $planData['PAYPAL_PLAN_ID'] }}"
+                                    />
+                                    <input type="hidden" name="a3" value="{{ $planData['PAYPAL_PLAN_PRICE'] }}" />
+                                    <input type="hidden" name="p3" value="1" />
+                                    <input type="hidden" name="t3" value="{{ $planData['PAYPAL_PLAN_DURATION'] }}" />
+                                @else
+                                    <input type="hidden" name="rm" value="2">
+                                    <input type="hidden" name="cmd" value="_xclick">
+                                    <input type="hidden" name="item_name" value="{{ $planData['PAYMENT_INFORMATION'] }}">
+                                    <input type="hidden" name="item_number" value="{{ $planData['MONETIZATION_GUID'] }}">
+
+                                    <input type="hidden" name="subs_type" value="{{ $planData['SUBS_TYPE'] }}">
+                                    <input type="hidden" name="monetization_type"
+                                        value="{{ $planData['MONETIZATION_TYPE'] }}">
+                                    <input type="hidden" name="amount" value="{{ $planData['AMOUNT'] }}">
+                                @endif
                                 @if (isset($planData['RECIPIENT_EMAIL']))
                                     <input type="hidden" name="gift_recipient_email"
                                         value="{{ $planData['RECIPIENT_EMAIL'] }}">
                                 @endif
-
-                                <input type="hidden" name="subs_type" value="{{ $planData['SUBS_TYPE'] }}">
-                                <input type="hidden" name="monetization_type"
-                                    value="{{ $planData['MONETIZATION_TYPE'] }}">
-                                <input type="hidden" name="item_number" value="{{ $planData['MONETIZATION_GUID'] }}">
-                                <input type="hidden" name="amount" value="{{ $planData['AMOUNT'] }}">
                                 <input type="hidden" name="currency_code"
                                     value="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->payment_currency_code }}">
                                 <input type="hidden" name="return" value="{{ url('/monetization/success') }}">

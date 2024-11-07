@@ -152,7 +152,9 @@
                             }
                         }
                     @endphp
-                    @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !$userDidComment && !$userDidComment)
+                    {{--  @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !$userDidComment && !$userDidComment)  --}}
+
+                    @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null)
                         {{-- Stars  --}}
                         @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
                                 $stream_details['rating_type'] === 'stars' &&
@@ -596,7 +598,11 @@
                         class="member-reviews {{ !session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'] || $userDidComment ? 'mt-4' : '' }}">
                         <?php
                 foreach ($stream_details['ratings'] as $review) {
-                    $name = $review['user']['name'];
+                    if($review['profile_name']){
+                        $name = $review['profile_name'];
+                    }else{
+                        $name = $review['user']['name'];
+                    }
                     $name_arr = explode(' ', $name);
                     $name_symbol = '';
 
@@ -610,7 +616,11 @@
                         <div class="review">
                             <div class="user">
                                 <div class="profile-name"><?= $name_symbol ?></div>
-                                <h4 class="username mb-0"><?= $review['user']['name'] ?></h4>
+                                @if($review['profile_name'])
+                                <h4 class="username mb-0"><?= $review['profile_name'] ?></h4>
+                                @else
+                                    <h4 class="username mb-0"><?= $review['user']['name'] ?></h4>
+                                @endif
                             </div>
                             <div class="review-rating member">
 
