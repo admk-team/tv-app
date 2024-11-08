@@ -95,12 +95,15 @@
                                 } else {
                                     $screen = 'detailscreen';
                                 }
-                                $url = route($screen, $stream->stream_guid);
                                 if ($stream->stream_type === 'A') {
                                     $url = $stream->stream_promo_url;
                                     if ($stream->is_external_ad === 'N') {
                                         $url = route($screen, $stream->stream_promo_url);
                                     }
+                                } elseif ($stream->stream_type === 'BC') {
+                                    $url = route('content-bundle', $stream->stream_guid);
+                                } else {
+                                    $url = route($screen, $stream->stream_guid);
                                 }
                             @endphp
                             <div class="item video-link">
@@ -241,7 +244,7 @@
                                                     <img src="{{ $stream->{$streamPosterKey} }}"
                                                         alt="{{ $stream->stream_title }}">
                                                 </div>
-                                                    @if ($stream->stream_promo_url !== '' && !in_array($category->card_type, ['BA', 'LB']) && $stream->stream_type !== 'A')
+                                                @if ($stream->stream_promo_url !== '' && !in_array($category->card_type, ['BA', 'LB']) && $stream->stream_type !== 'A')
                                                     <video id="my-video-{{ $stream->stream_guid }}" preload="none"
                                                         class="card-video-js vjs-tech" muted>
                                                         <source src="{{ $stream->stream_promo_url }}"
@@ -299,7 +302,7 @@
                     console.log(`Player ${index} is ready`);
 
                     link.addEventListener('mouseenter', () => {
-                         player.pause();
+                        player.pause();
                         player.muted(false);
                         player.currentTime(0);
                         player.play().then(() => {
