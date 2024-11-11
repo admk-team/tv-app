@@ -3,6 +3,7 @@
 /public/build
 /public/hot
 /public/storage
+/resources/views/gtm_tags*
 /storage/*.key
 /vendor
 .env
