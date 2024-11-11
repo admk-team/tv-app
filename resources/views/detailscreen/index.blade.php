@@ -12,6 +12,10 @@
     <meta property="og:description" content="{{ @$stream_details['stream_description'] }}" />
     {{-- Custom Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/details-screen-styling.css') }}">
+    <!-- Video.js CSS and JS -->
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-youtube@2.6.1/dist/Youtube.min.js"></script>
 @endsection
 
 @section('content')
@@ -20,8 +24,21 @@
     $streamType = $stream_details['stream_type'];
     $streamUrl = $stream_details['stream_promo_url'];
     $mType = '';
-    if (strpos($streamUrl, '.m3u8')) {
-        $mType = "type='application/x-mpegURL'";
+    if($streamUrl){
+        if (strpos($streamUrl, '.m3u8') !== false) {
+            $mType = "type='application/x-mpegURL'";
+        } elseif (strpos($streamUrl, 'youtube.com') !== false) {
+            $mType = "type='video/youtube'";
+        } elseif (strpos($streamUrl, 'youtu.be') !== false) {
+            $isShortYouTube = preg_match('/youtu\.be\/([^?&]+)/', $streamUrl, $shortYouTubeMatches);
+            if ($isShortYouTube) {
+                $urlId = $shortYouTubeMatches[1];
+                $streamUrl = 'https://www.youtube.com/watch?v=' . $urlId;
+                $mType = "type='video/youtube'";
+            }
+        } elseif (strpos($streamUrl, 'vimeo.com') !== false) {
+            $mType = "type='video/vimeo'";
+        }
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
     
@@ -60,10 +77,6 @@
     // }
     
     ?>
-    <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
-    <!-- <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> -->
-    <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
-
     <style>
         .responsive_video {
             display: flex;
@@ -140,52 +153,36 @@
                 </div>
                 <div class="responsive_video">
                     @if ($streamUrl == '')
-                        <img src="{{ $stream_details['stream_poster'] }}" alt="{{-- $stream_details['stream_title'] --}}"
+                        <img src="{{ $stream_details['stream_poster'] }}" alt="{{ $stream_details['stream_title'] }}"
                             onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'">
                     @else
-                        {{-- <video id="plyerId" class="video-js vjs-fluid vjs-16-9 vjs-default-skin js-big-play-centered" poster="https://cms.octv.shop/uploads/media_assets/imgs/1676459098_3fa25f0_bWcd9bSl6gz0dH8f2SSwyJVtf8Y0lVzBPCqDjzns65U.jpeg" autoplay data-viblast-key="N8FjNTQ3NDdhZqZhNGI5NWU5ZTI=">
-                    <source src="https://stream.adilo.com/adilo-encoding/6V2XCgoJu4HogrlQ/yeB66OuJ/hls/master.m3u8" type='application/x-mpegURL'>
-                </video>
-                <script>
-                    //var player = videojs('plyerId', {fluid: true});
-                    var overrideNative = false;
-
-                    var player = videojs('plyerId', {
-                        html5: {
-                            hls: {
-                                overrideNative: overrideNative
-                            },
-                            nativeVideoTracks: !overrideNative,
-                            nativeAudioTracks: !overrideNative,
-                            nativeTextTracks: !overrideNative
-                        }
-                    });
-                    player.play();
-                </script> --}}
-
                         <!-- Video Player -->
                         <video id="plyerId" class="video-js vjs-fluid vjs-16-9 vjs-default-skin js-big-play-centered"
-                            poster="{{ $stream_details['stream_poster'] }}" autoplay muted loop
-                            data-viblast-key="N8FjNTQ3NDdhZqZhNGI5NWU5ZTI=">
+                            poster="{{ $stream_details['stream_poster'] }}" autoplay muted loop>
                             <source src="{{ $streamUrl }}" {!! $mType !!}>
                         </video>
+
+
                         <script>
                             // Initialize Video.js player
-                            var overrideNative = false;
                             var player = videojs('plyerId', {
+                                fluid: true,
+                                techOrder: ['youtube', 'vimeo', 'html5'],
                                 html5: {
                                     hls: {
-                                        overrideNative: overrideNative
+                                        overrideNative: false
                                     },
-                                    nativeVideoTracks: !overrideNative,
-                                    nativeAudioTracks: !overrideNative,
-                                    nativeTextTracks: !overrideNative
+                                    nativeVideoTracks: true,
+                                    nativeAudioTracks: true,
+                                    nativeTextTracks: true
                                 }
                             });
 
                             // Function to attempt autoplay
                             function attemptAutoplay() {
-                                player.play().then(function() {}).catch(function(error) {
+                                player.play().then(function() {
+                                    console.log("Autoplay started successfully.");
+                                }).catch(function(error) {
                                     console.log('Autoplay blocked or failed. Error:', error);
                                 });
                             }
@@ -195,24 +192,30 @@
                                 attemptAutoplay(); // Try autoplay
                             });
 
-                            // Add event listener to the trailer button to manually restart/replay the video
+                            // Add event listener to trailer button to restart/replay the video
                             window.addEventListener('load', () => {
-                                document.getElementById('trailer-id').addEventListener('click', function() {
-
-                                    player.currentTime(0);
-                                    player.play().then(function() {
-
-                                    }).catch(function(error) {
-                                        console.log('Error playing video manually:', error);
+                                var trailerButton = document.getElementById('trailer-id');
+                                if (trailerButton) {
+                                    trailerButton.addEventListener('click', function() {
+                                        player.currentTime(0);
+                                        player.play().then(function() {
+                                            console.log("Video played from start.");
+                                        }).catch(function(error) {
+                                            console.log('Error playing video manually:', error);
+                                        });
                                     });
-                                });
-                            })
+                                }
+                            });
 
                             // Prevent player from reloading while video is already playing
-                            player.on('loadstart', function() {});
+                            player.on('loadstart', function() {
+                                console.log("Player load started.");
+                            });
                         </script>
                     @endif
                 </div>
+
+
             </div>
             <div class="movie-detail-box desktop-data">
                 <div
