@@ -66,6 +66,7 @@
 </head>
 
 <body>
+    @include('gtm_tags.body')
 
     @include('layouts.partials.header')
 
