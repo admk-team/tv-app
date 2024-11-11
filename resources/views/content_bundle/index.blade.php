@@ -74,7 +74,7 @@
             @endphp
             <div class="d-flex justify-content-end align-items-center gap-3 button_groupbox">
                 <a href="{{ url("playerscreen/{$bundleCode}") }}" class="app-primary-btn rounded"><i class="fa fa-play"
-                        style="margin-right: 8px"></i>Play Now
+                        style="margin-right: 8px"></i>Play Bundle
                 </a>
             </div>
         @endif
@@ -83,7 +83,7 @@
         <div class="row g-3 pt-4">
             @foreach ($data['relatedStreams'] as $stream)
                 <div class="col-md-6">
-                    <a href="{{ url("getitemdetail/{$stream['code']}") }}"class="text-decoration-none">
+                    <a href="{{ url("detailscreen/{$stream['code']}") }}"class="text-decoration-none">
                         <div class="card primary_color h-100">
                             <div class="row g-0 px-2">
                                 <div class="col-md-4 d-flex align-items-center justify-content-center p-2">
