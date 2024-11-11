@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="credential_form signForm"> 
+<section class="credential_form signForm">
     <div class="login_page main_pg">
         <div class="inner-cred">
             <h4>Payment Status</h4>
-            <center><p style="color:white">{{ $responseJson['app']['msg'] }}</p></center>
+            {{-- <center><p style="color:white">{{ $responseJson['app']['msg'] }}</p></center> --}}
                 <div class="row">
                     <div class="col-md-12">
                         <div class="inner-div dv22">
