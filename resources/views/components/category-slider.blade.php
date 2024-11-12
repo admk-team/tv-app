@@ -3,6 +3,7 @@
     {{-- <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" /> --}}
     <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet">
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-youtube@2.6.1/dist/Youtube.min.js"></script>
 @endpush
 <section class="sliders">
     <div class="slider-container">
@@ -95,11 +96,32 @@
                                 } else {
                                     $screen = 'detailscreen';
                                 }
-                                $url = route($screen, $stream->stream_guid);
                                 if ($stream->stream_type === 'A') {
                                     $url = $stream->stream_promo_url;
                                     if ($stream->is_external_ad === 'N') {
                                         $url = route($screen, $stream->stream_promo_url);
+                                    }
+                                } elseif ($stream->stream_type === 'BC') {
+                                    $url = route('content-bundle', $stream->stream_guid);
+                                } else {
+                                    $url = route($screen, $stream->stream_guid);
+                                }
+                                $streamUrl = $stream->stream_promo_url;
+                                $mType = '';
+                                if($streamUrl){
+                                    if (strpos($streamUrl, '.m3u8') !== false) {
+                                        $mType = "type='application/x-mpegURL'";
+                                    } elseif (strpos($streamUrl, 'youtube.com') !== false) {
+                                        $mType = "type='video/youtube'";
+                                    } elseif (strpos($streamUrl, 'youtu.be') !== false) {
+                                        $isShortYouTube = preg_match('/youtu\.be\/([^?&]+)/', $streamUrl, $shortYouTubeMatches);
+                                        if ($isShortYouTube) {
+                                            $urlId = $shortYouTubeMatches[1];
+                                            $streamUrl = 'https://www.youtube.com/watch?v=' . $urlId;
+                                            $mType = "type='video/youtube'";
+                                        }
+                                    } elseif (strpos($streamUrl, 'vimeo.com') !== false) {
+                                        $mType = "type='video/vimeo'";
                                     }
                                 }
                             @endphp
@@ -161,8 +183,7 @@
                                                     @if ($stream->stream_promo_url !== '' && !in_array($category->card_type, ['BA', 'LB']) && $stream->stream_type !== 'A')
                                                         <video id="my-video-{{ $stream->stream_guid }}" preload="none"
                                                             class="card-video-js vjs-tech" muted>
-                                                            <source src="{{ $stream->stream_promo_url }}"
-                                                                type="application/x-mpegURL">
+                                                            <source src="{{ $streamUrl }}" {!! $mType !!}>
                                                         </video>
                                                     @else
                                                         <div class="detail_box_hide">
@@ -241,11 +262,10 @@
                                                     <img src="{{ $stream->{$streamPosterKey} }}"
                                                         alt="{{ $stream->stream_title }}">
                                                 </div>
-                                                    @if ($stream->stream_promo_url !== '' && !in_array($category->card_type, ['BA', 'LB']) && $stream->stream_type !== 'A')
+                                                @if ($stream->stream_promo_url !== '' && !in_array($category->card_type, ['BA', 'LB']) && $stream->stream_type !== 'A')
                                                     <video id="my-video-{{ $stream->stream_guid }}" preload="none"
                                                         class="card-video-js vjs-tech" muted>
-                                                        <source src="{{ $stream->stream_promo_url }}"
-                                                            type="application/x-mpegURL">
+                                                        <source src="{{ $streamUrl }}" {!! $mType !!}>
                                                     </video>
                                                 @else
                                                     <div class="detail_box_hide">
@@ -299,7 +319,7 @@
                     console.log(`Player ${index} is ready`);
 
                     link.addEventListener('mouseenter', () => {
-                         player.pause();
+                        player.pause();
                         player.muted(false);
                         player.currentTime(0);
                         player.play().then(() => {

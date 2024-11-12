@@ -5,6 +5,7 @@ use App\Http\Controllers\AdvisoryController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\BundleContentController;
 use App\Http\Controllers\DetailScreenController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
@@ -55,6 +56,17 @@ Route::get('/cmd/{cmd}', function ($cmd) {
     Artisan::call("$cmd");
     echo "<pre>";
     return Artisan::output();
+});
+
+Route::get('/script', function () {
+    // Define the path to your script
+    $scriptPath = '/home/u763586918/domains/octv.online/public_html/copyscript.sh';
+
+    // Execute the script and capture the output
+    $output = shell_exec("sh $scriptPath 2>&1");
+
+    // Return or log the output
+    return response()->json(['output' => $output]);
 });
 
 
@@ -144,3 +156,8 @@ Route::get('follow/{code?}', [FollowController::class, 'follow'])->name('toggle.
 Route::post('channel/subscribe', [ChannelSubscribeController::class, 'toggleSubscribe'])->name('toggle.subscribe');
 
 Route::post('video/download', [GumletController::class, 'uploadGumlet'])->name('video.convert');
+
+Route::get('/content-bundle/{stream_guid}', [BundleContentController::class, 'index'])->name('content-bundle');
+Route::post('/purchase', [BundleContentController::class, 'purchase'])->name('bundle.purchase');
+Route::post('/stripe/purchase', [BundleContentController::class, 'createCheckoutSession'])->name('stripe.purchase');
+Route::get('/bundle/success', [BundleContentController::class, 'success'])->name('bundle.success');
