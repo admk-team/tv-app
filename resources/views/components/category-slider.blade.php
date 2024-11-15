@@ -158,7 +158,11 @@
                                                         <img src="{{ $stream->{$streamPosterKey} }}"
                                                             alt="{{ $stream->stream_title }}">
                                                     </div>
-                                                    @if ($stream->stream_promo_url !== '' && !in_array($category->card_type, ['BA', 'LB']) && $stream->stream_type !== 'A')
+                                                    @if (isset(\App\Services\AppConfig::get()->app->toggle_trailer) &&
+                                                            \App\Services\AppConfig::get()->app->toggle_trailer == 1 &&
+                                                            $stream->stream_promo_url !== '' &&
+                                                            !in_array($category->card_type, ['BA', 'LB']) &&
+                                                            $stream->stream_type !== 'A')
                                                         <video id="my-video-{{ $stream->stream_guid }}" preload="none"
                                                             class="card-video-js vjs-tech" muted>
                                                             <source src="{{ $stream->stream_promo_url }}"
@@ -241,7 +245,11 @@
                                                     <img src="{{ $stream->{$streamPosterKey} }}"
                                                         alt="{{ $stream->stream_title }}">
                                                 </div>
-                                                    @if ($stream->stream_promo_url !== '' && !in_array($category->card_type, ['BA', 'LB']) && $stream->stream_type !== 'A')
+                                                @if (isset(\App\Services\AppConfig::get()->app->toggle_trailer) &&
+                                                        \App\Services\AppConfig::get()->app->toggle_trailer == 1 &&
+                                                        $stream->stream_promo_url !== '' &&
+                                                        !in_array($category->card_type, ['BA', 'LB']) &&
+                                                        $stream->stream_type !== 'A')
                                                     <video id="my-video-{{ $stream->stream_guid }}" preload="none"
                                                         class="card-video-js vjs-tech" muted>
                                                         <source src="{{ $stream->stream_promo_url }}"
@@ -299,7 +307,7 @@
                     console.log(`Player ${index} is ready`);
 
                     link.addEventListener('mouseenter', () => {
-                         player.pause();
+                        player.pause();
                         player.muted(false);
                         player.currentTime(0);
                         player.play().then(() => {
