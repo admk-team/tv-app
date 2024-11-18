@@ -37,9 +37,9 @@ class GumletController extends Controller
         if (!$response->successful()) {
             return back()->withErrors(['error' => 'Failed to process video. Please try again.']);
         }
-
+        $message = $responseData['message'];
         if ($responseData['status'] == 'pending') {
-            return back()->with('message', $responseData['message']);
+            return back()->with('message',  $message);
         } else {
             $videoUrl = $responseData['video_url'];
             $response = Http::head($videoUrl);
@@ -62,6 +62,7 @@ class GumletController extends Controller
                 'Content-Transfer-Encoding' => 'binary',
                 'Content-Length' => $contentLength,
             ]);
+            return back()->with('message', $message);
         }
     }
 
