@@ -254,6 +254,12 @@
             if (!window.player) {
                 window.player = new mvp(document.getElementById('wrapper'), settings);
             }
+
+            // const pauseHandler = function(data) {
+            //     player.playMedia();
+            // };
+            // player.addEventListener("mediaPause", pauseHandler);
+
             let currentState = {};
             const fetchPlayerState = async () => {
                 try {
@@ -326,11 +332,6 @@
                 }
             };
             setInterval(fetchPlayerState, 30000);
-
-            // document.querySelector('video').addEventListener('click', function(event) {
-            //     event.preventDefault();
-            // });
-
 
 
             let eventEnded = false;
