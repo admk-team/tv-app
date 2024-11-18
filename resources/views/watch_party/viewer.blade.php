@@ -1,7 +1,10 @@
 @extends('layouts.app')
 @section('head')
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
-    <script src="{{ asset('assets/js/new.js') }}"></script>
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" /> --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/mvp.css') }}" />
+    {{-- <script src="{{ asset('assets/js/new.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/mvp/new.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <style>
@@ -74,10 +77,14 @@
     </div>
 @endsection
 @push('scripts')
-    <script src="{{ asset('assets/js/share_manager.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/share_manager.js') }}"></script>
     <script src="{{ asset('assets/js/cache.js') }}"></script>
     <script src="{{ asset('assets/js/ima.js') }}"></script>
-    <script src="{{ asset('assets/js/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('assets/js/perfect-scrollbar.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/mvp/share_manager.js') }}"></script>
+    <script src="{{ asset('assets/js/cache.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/ima.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/perfect-scrollbar.min.js') }}"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -247,6 +254,12 @@
             if (!window.player) {
                 window.player = new mvp(document.getElementById('wrapper'), settings);
             }
+
+            // const pauseHandler = function(data) {
+            //     player.playMedia();
+            // };
+            // player.addEventListener("mediaPause", pauseHandler);
+
             let currentState = {};
             const fetchPlayerState = async () => {
                 try {
@@ -319,11 +332,6 @@
                 }
             };
             setInterval(fetchPlayerState, 30000);
-
-            // document.querySelector('video').addEventListener('click', function(event) {
-            //     event.preventDefault();
-            // });
-
 
 
             let eventEnded = false;
