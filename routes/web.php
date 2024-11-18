@@ -151,7 +151,6 @@ Route::get('screener/{code}/{itemIndex?}', [ScreenerController::class, 'player']
 Route::post('screener/authenticate/{code}', [ScreenerController::class, 'authenticate'])->name('screener.authenticate');
 
 
-Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
 Route::get('/epgplayer/{channelGuid}/{slug}', [TvGuidePlayerController::class, 'index'])->name('player.tvguide');
 //Newsletter
 Route::post('newsletter', [NewsLetterController::class, 'newLetter'])->name('newsletter');
@@ -179,3 +178,5 @@ Route::post('/watch-party/check-expire-time', [VideoEventsController::class, 'ch
 Route::get('/watch/ended-watch-party', function () {
     return view('watch_party.ended_party');
 })->name('watch-party.ended');
+
+Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
