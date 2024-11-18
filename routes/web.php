@@ -34,8 +34,11 @@ use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ScreenerController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TvGuidePlayerController;
+use App\Http\Controllers\VideoEventsController;
+use App\Http\Controllers\WatchPartyController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\YearController;
+use App\Models\WatchParty;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -167,3 +170,12 @@ Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
 
 Route::get('check/remind/me', [NotifyComingSoonStreamController::class, 'checkRemindStatus'])->name('check.remind.me');
 Route::post('remind/me', [NotifyComingSoonStreamController::class, 'toggleRemind'])->name('remind.me');
+
+Route::post('/media-events', [VideoEventsController::class, 'store']);
+Route::get('watch-party/code/{watch_party_code}', [WatchPartyController::class, 'joinWatchParty']);
+Route::get('/watch-party/latest-player-state', [VideoEventsController::class, 'getLatestPlayerState']);
+Route::post('/watch-party/check-expire-time', [VideoEventsController::class, 'checkExpireTime']);
+// Route::view('ended-watch-party', 'watch_party.ended_party')->name('watch-party.ended');
+Route::get('/watch/ended-watch-party', function () {
+    return view('watch_party.ended_party');
+})->name('watch-party.ended');
