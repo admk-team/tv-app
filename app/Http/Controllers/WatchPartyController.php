@@ -8,22 +8,17 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class WatchPartyController extends Controller
 {
 
     public function joinWatchParty(Request $request, $watch_party_code)
     {
-        // Validate the request and decrypt the data
         if (!$request->has('data')) {
             return abort(404, 'Missing data');
         }
-
         try {
             $decryptedData = Crypt::decrypt($request->query('data'));
-
-            // Validate decrypted data
             if (
                 !isset($decryptedData['role']) ||
                 !isset($decryptedData['stream_code']) ||
@@ -40,23 +35,18 @@ class WatchPartyController extends Controller
             $endTime = $decryptedData['watch_party']['end_time'];
 
             // Convert to Carbon instances for comparison
-            // $startDateTime = Carbon::createFromFormat('Y-m-d H:i', $startDate . ' ' . $startTime)
-            //     ->setTimezone(config('app.timezone'));
             $startDateTime = Carbon::createFromFormat('Y-m-d H:i', $startDate . ' ' . $startTime)
                 ->setTimezone(config('app.timezone'))
                 ->toIso8601String();  // ISO 8601 format
 
             $endDateTime = Carbon::createFromFormat('Y-m-d H:i', $endDate . ' ' . $endTime)
-                ->setTimezone(config('app.timezone'));  // Make sure endDateTime is in the correct timezone
-
+            ->setTimezone(config('app.timezone'));
             if (now()->greaterThanOrEqualTo($endDateTime)) {
                 return redirect()->route('watch-party.ended');
             }
 
-            $hasStarted = now()->greaterThanOrEqualTo($startDateTime);
-
             $xyz = base64_encode(request()->ip());
-            if (env('NO_IP_ADDRESS') === true) { // For localhost
+            if (env('NO_IP_ADDRESS') === true) {
                 $xyz = "MTU0LjE5Mi4xMzguMzY=";
             }
             $response = Http::timeout(300)->withHeaders(Api::headers())
@@ -69,8 +59,7 @@ class WatchPartyController extends Controller
             if (empty($data['app']['stream_details'])) {
                 return abort(404, 'Stream not found');
             }
-
-            $watchPartyRecord = WatchParty::updateOrCreate(
+            WatchParty::updateOrCreate(
                 ['code' => $decryptedData['watch_party']['code']],
                 [
                     'app_code' => $decryptedData['watch_party']['app_code'] ?? null,
@@ -84,7 +73,6 @@ class WatchPartyController extends Controller
                     'updated_at' => now(),
                 ]
             );
-
             $userRole = $decryptedData['role'];
             if ($userRole === 'host') {
                 return view("watch_party.host", [
