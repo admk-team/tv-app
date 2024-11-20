@@ -247,6 +247,7 @@
             if (!window.player) {
                 window.player = new mvp(document.getElementById('wrapper'), settings);
             }
+            document.querySelector(".videocentralize").style.pointerEvents = "none";
 
             // const pauseHandler = function(data) {
             //     player.playMedia();
