@@ -1,4 +1,4 @@
-    <header class="header fixed-menu overflow-hidden">
+    <header class="header fixed-menu">
         <nav class="inner">
             <div class="header__logo d-block">
                 <a href="/">

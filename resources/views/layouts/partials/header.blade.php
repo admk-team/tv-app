@@ -275,7 +275,7 @@
 
     /* Add padding to content when menus are fixed */
     .fixed-menu~.content {
-        padding-top: 100px;
+        padding-top: 115px;
         /* Adjust the value as needed */
     }
 
