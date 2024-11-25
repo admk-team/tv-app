@@ -41,41 +41,41 @@
         }
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-    
+
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-    
+
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
-    
+
     $stream_code = $stream_details['stream_guid'];
-    
+
     $postData = [
         'stream_code' => $stream_code,
     ];
-    
+
     // $ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
-    
+
     // curl_setopt($ch, CURLOPT_POST, 1);
     // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    
+
     // $response = curl_exec($ch);
-    
+
     // if (curl_errno($ch)) {
     //     die('Curl error: ' . curl_error($ch));
     // }
-    
+
     // curl_close($ch);
-    
+
     // $resultArray = json_decode($response, true);
-    
+
     // $userDidComment = false;
     // foreach ($resultArray as $review) {
     //     if (session('USER_DETAILS') && $review['user']['userCode'] === session('USER_DETAILS')['USER_CODE']) {
     //         $userDidComment = true;
     //     }
     // }
-    
+
     ?>
     <style>
         .mobile-dot-sep:before {
@@ -447,7 +447,6 @@
                             @endif
 
                         </div>
-
                         <?php
                     if (session('USER_DETAILS.USER_CODE')) {
                         $signStr = "+";
@@ -465,6 +464,15 @@
                             <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}' />
                             @csrf
                         </div>
+                        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+                            @if (!empty($stream_details['is_watch_party']) && $stream_details['is_watch_party'] == 1)
+                                <div class="share_circle">
+                                    <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}">
+                                        <i class="fa fa-users"></i>
+                                    </a>
+                                </div>
+                            @endif
+                        @endif
                         <?php
                     }
                     ?>

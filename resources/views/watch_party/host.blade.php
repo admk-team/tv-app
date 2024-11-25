@@ -385,9 +385,9 @@
                     }
 
                     const result = await response.json();
-                    console.log(`${eventType} event tracked successfully:`, result);
+                    // console.log(`${eventType} event tracked successfully:`, result);
                 } catch (error) {
-                    console.error(`Error tracking ${eventType} event:`, error);
+                    // console.error(`Error tracking ${eventType} event:`, error);
                 }
             };
 
@@ -418,7 +418,7 @@
                         localStorage.setItem(localStorageKey, 'true');
                     }
                 } catch (error) {
-                    console.error('Error fetching player state:', error);
+                    // console.error('Error fetching player state:', error);
                 }
             };
 

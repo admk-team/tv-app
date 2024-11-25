@@ -179,4 +179,6 @@ Route::get('/watch/ended-watch-party', function () {
     return view('watch_party.ended_party');
 })->name('watch-party.ended');
 
+Route::get('/create/{streamCode}/watch/party', [WatchPartyController::class, 'create'])->name('create.watch.party');
+Route::post('/store/watch/party', [WatchPartyController::class, 'store'])->name('store.watch.party');
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');

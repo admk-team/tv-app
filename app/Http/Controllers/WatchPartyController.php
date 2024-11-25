@@ -94,4 +94,43 @@ class WatchPartyController extends Controller
             return abort(403, $e->getMessage());
         }
     }
+
+    public function create()
+    {
+        return view('watch_party.create');
+    }
+    public function store(Request $request)
+    {
+        $validated =   $request->validate([
+            'start_date'   => 'required|date',
+            'start_time'   => 'required|date_format:H:i',
+            'end_date'     => 'required|date|after_or_equal:start_date',
+            'end_time'     => 'required|date_format:H:i',
+            'viewer_emails' => 'required|array',
+            'viewer_emails.*' => 'email',
+            'stream_code'  => 'required|array',
+            'stream_code.*' => 'string',
+            'host_email'   => 'required|email',
+        ]);
+        $data = [
+            'start_date'    => $validated['start_date'],
+            'start_time'    => $validated['start_time'],
+            'end_date'      => $validated['end_date'],
+            'end_time'      => $validated['end_time'],
+            'stream_code'   => $validated['stream_code'],
+            'host_email'    => $validated['host_email'],
+            'viewer_emails' => $validated['viewer_emails'],
+        ];
+        $response = Http::timeout(300)
+            ->withHeaders(Api::headers())
+            ->post(Api::endpoint('/watchparty/store'), $data);
+        $responseJson = $response->json();
+        if ($response->successful()) {
+            $successMessage = $responseJson['message'];
+            return back()->with('success', $successMessage);
+        } else {
+            $errorMessage = $responseJson['message'];
+            return back()->with('error', $errorMessage);
+        }
+    }
 }
