@@ -36,12 +36,20 @@ class HomeController extends Controller
                 Log::info('URL already set in session: ' . session('partner_url'));
             }
         }
-        $response = Http::timeout(300)->withHeaders(Api::headers())
+        if ($request->has('channel_code')) {
+            // Retrieve the channel code from the request
+            $channelCode = $request->channel_code;
+            // Append the channel code to the slug
+            $tvguide = "{$slug}?channel_code={$channelCode}";
+            // Debug to check the value of $slug
+            $response = Http::timeout(300)->withHeaders(Api::headers())
+            ->get(Api::endpoint("/{$tvguide}"));
+        }else{
+            $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/{$slug}"));
-           
+        }
         Log::info(Carbon::now()->toString());
         $data = json_decode($response->getBody()->getContents());
-        
         if (isset(\App\Services\AppConfig::get()->app->app_info->timezone)) {
             config(['app.timezone' => \App\Services\AppConfig::get()->app->app_info->timezone]);
         }
@@ -59,7 +67,6 @@ class HomeController extends Controller
         }
         $appName = config('app.name');
         $front_data = compact('data', 'slug', 'appName');
-
         return view('home.index', $front_data);
     }
 }
