@@ -6,8 +6,9 @@ use \Stripe\Stripe;
 use App\Services\Api;
 use Illuminate\Http\Request;
 use App\Helpers\GeneralHelper;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
 
 class StripeController extends Controller
 {
@@ -18,8 +19,8 @@ class StripeController extends Controller
         if (isset(session('MONETIZATION')['stripe_product_id']) && !empty(session('MONETIZATION')['stripe_product_id'])) {
             $stripeProductId = session('MONETIZATION')['stripe_product_id'];
         }
-        
-       // Retrieve product ID
+
+        // Retrieve product ID
 
         try {
             if (isset($stripeProductId) && !empty($stripeProductId)) {
@@ -167,7 +168,7 @@ class StripeController extends Controller
                     // Check whether the payment was successful
                     if ($paymentIntent->status === 'succeeded') {
                         // Transaction details
-                        $transactionID = $paymentIntent->id;
+                        $transactionID = $checkout_session->subscription ? $checkout_session->subscription : $paymentIntent->id;
                         $paidAmount = $paymentIntent->amount / 100; // Convert from cents
                         $paidCurrency = $paymentIntent->currency;
 
@@ -211,6 +212,34 @@ class StripeController extends Controller
         session()->flash("title", $title);
 
         return redirect('/monetization/success');
+    }
+
+    public function cancelsub($subid)
+    {
+        // Set API key
+        if (env('STRIPE_TEST') === 'true') {
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
+        } else {
+            $stripe = new \Stripe\StripeClient(\App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key);
+        }
+        $cancelsub = null;
+        if ($stripe) {
+            $cancelsub = $stripe->subscriptions->cancel($subid, []);
+        }
+
+        $response = Http::timeout(300)->withHeaders(Api::headers([
+            'husercode' => session('USER_DETAILS')['USER_CODE']
+        ]))
+            ->asForm()
+            ->get(Api::endpoint('/updateTransaction/' . $subid));
+
+        $responseJson = $response->json();
+
+        if (isset($responseJson['success'])) {
+            return redirect()->back();
+        } else {
+            return redirect()->back();
+        }
     }
 
 
