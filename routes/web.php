@@ -176,4 +176,8 @@ Route::get('/watch/ended-watch-party', function () {
 
 Route::get('/create/{streamCode}/watch/party', [WatchPartyController::class, 'create'])->name('create.watch.party');
 Route::post('/store/watch/party', [WatchPartyController::class, 'store'])->name('store.watch.party');
+Route::get('get/watch/party', [WatchPartyController::class, 'getAllWatchParties'])->name('get.watch.parties');
+
+Route::get('live-tv-guide/channel/stream/{channelCode}', [TvGuidePlayerController::class, 'getChannelStreams'])->name('channel.streams');
+
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');

@@ -185,16 +185,18 @@
                             <div class="d-xl-block d-flex flex-md-row overflow-auto sidebar-container">
                                 <!-- Cards -->
                                 @foreach ($data->channels as $channel)
-                                    <a href="{{ url($slug . '?channel_code=' . $channel->code) }}" class="text-decoration-none">
-                                        <div 
-                                            class="card-cc h-100 shadow p-2 rounded mb-2 {{ $channel->code == $channel->active_channel_code ? 'active-card' : '' }}" 
+                                    <a href="{{ url($slug . '?channel_code=' . $channel->code) }}"
+                                        class="text-decoration-none">
+                                        <div class="card-cc h-100 shadow p-2 rounded mb-2 {{ $channel->code == $channel->active_channel_code ? 'active-card' : '' }}"
                                             style="{{ $channel->code == $channel->active_channel_code ? 'border: 2px solid var(--themeActiveColor);' : '' }}">
-                                            
+
                                             <img src="{{ $channel->poster }}" class="card-img-top" alt="Poster">
-                                            
+
                                             <div class="card-body d-flex justify-content-between align-items-center mt-1">
-                                                <h6 class="card-title mb-0" style="font-size: 0.9rem;">{{ $channel->name }}</h6>
-                                                <a href="{{ url($slug . '?channel_code=' . $channel->code) }}" class="text-decoration-none">
+                                                <h6 class="card-title mb-0" style="font-size: 0.9rem;">{{ $channel->name }}
+                                                </h6>
+                                                <a href="{{ route('channel.streams', $channel->code) }}"
+                                                    class="text-decoration-none">
                                                     <button class="btn btn-primary btn-sm px-2">Play</button>
                                                 </a>
                                             </div>

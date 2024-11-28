@@ -30,18 +30,7 @@
 @endpush
 @section('content')
     @php
-        $arrRes; //coming from controller
-        $channelGuid; //coming from controller
-        $ARR_FEED_DATA = \App\Helpers\GeneralHelper::parseMainFeedArrData__TVGuide(0, $arrRes);
-        $channels = $ARR_FEED_DATA['arrChannelsData'];
-        $epgArr = [];
-        foreach ($channels as $key => $channel) {
-            if ($channel->id == $channelGuid) {
-                $epgArr = $channel->epg;
-                break;
-            }
-        }
-        // @dd($epgArr);
+
         if (isset($_COOKIE['timezoneStr']) && !empty($_COOKIE['timezoneStr'])) {
             date_default_timezone_set($_COOKIE['timezoneStr']);
         } else {
@@ -88,37 +77,17 @@
                         <div id="mvp-playlist-list">
                             <div class="mvp-global-playlist-data"></div>
                             <div class="playlist-video">
-                                @php
-                                    $cnt = 0;
-                                    $leftTime = 0;
-                                @endphp
-                                @foreach ($epgArr as $epgData)
-                                    = @if ($curUnixTime <= strtotime($epgData->end_date_time_utc))
-                                        @php
-                                            if ($cnt == 0) {
-                                                $leftTime = $curUnixTime - strtotime($epgData->start_date_time_utc);
-                                            }
-
-                                            $poster = $epgData->poster;
-                                            $videoUrl = $epgData->url;
-                                            $quality = 'video';
-                                            if (strpos($videoUrl, '.m3u8')) {
-                                                $quality = 'hls';
-                                            }
-                                            $cnt++;
-
-                                            $dataVast = 'data-vast="' . url('/get-ad') . '"';
-                                            $dataVast = "data-vast='$adMacros'";
-                                            if ($adUrl == '') {
-                                                $dataVast = '';
-                                            }
-                                        @endphp
-                                        <div class="mvp-playlist-item" data-preview-seek="auto"
-                                            data-type="{{ $quality }}" data-path="{{ $videoUrl }}"
-                                            {!! $dataVast !!} data-poster="{{ $poster }}"
-                                            data-thumb="{{ $poster }}" data-title="{{ $epgData->title }}"
-                                            data-description="{{ $epgData->description }}"></div>
-                                    @endif
+                                @foreach ($streams as $stream)
+                                    @php
+                                        $dataVast = 'data-vast="' . url('/get-ad') . '"';
+                                        $dataVast = "data-vast='$adMacros'";
+                                        if ($adUrl == '') {
+                                            $dataVast = '';
+                                        }
+                                    @endphp
+                                    <div class="mvp-playlist-item" data-preview-seek="auto" data-type="m3u8"
+                                        data-path="{{ $stream['url'] }}" {!! $dataVast !!}
+                                        data-title="{{ $stream['title'] }}"></div>
                                 @endforeach
                             </div>
                         </div>
@@ -214,11 +183,11 @@
             player = new mvp(document.getElementById('wrapper'), settings);
 
             setTimeout(unmutedVoice, 2000);
+
             var isFirstTIme = true;
             player.addEventListener('mediaStart', function(data) {
                 if (isFirstTIme == true) {
                     isFirstTIme = false;
-                    player.seek({{ $leftTime }});
                 }
                 data.instance.getCurrentTime();
                 data.instance.getDuration();
