@@ -73,6 +73,7 @@
         .fc .fc-list-event:hover td {
             background-color: var(--themeActiveColor) !important;
         }
+
         .fc .fc-daygrid-more-link {
             color: var(--themePrimaryTxtColor) !important;
         }
@@ -106,111 +107,163 @@
             background-color: darken(var(--themeActiveColor), 10%);
         }
 
+        /* Sidebar scroll for vertical cards on desktop */
+        .sidebar-container {
+            overflow-y: auto !important;
+            scrollbar-width: thin !important;
+            /* Firefox */
+        }
+
+        .sidebar-container::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .sidebar-container::-webkit-scrollbar-thumb {
+            background: var(--themeActiveColor);
+            border-radius: 10px;
+        }
+
         @media only screen and (max-width: 768px) {
-            .card img {
-                display: none;
-            }
+
 
             .card-title {
                 font-size: 16px;
+                margin-right: 5px;
             }
+        }
+
+        /* Horizontal scroll for mobile */
+        @media (max-width: 992px) {
+            .sidebar-container {
+                display: flex;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding: 10px 0;
+            }
+
+            .card-cc {
+                flex: 0 0 48%;
+                margin-right: 10px;
+            }
+        }
+
+        /* General Card Styling */
+        .card {
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            color: var(--themePrimaryTxtColor);
+        }
+
+        .btn-primary {
+            background-color: var(--themeActiveColor);
+            border-color: var(--themeActiveColor);
+        }
+
+        .btn-primary:hover {
+            background-color: darken(var(--themeActiveColor), 10%);
         }
     </style>
 @endsection
 @section('content')
-    <section>
-        <div class="container-fluid mt-3 mb-3">
-            <div class="container">
-                <div class="row">
-                    <!-- Sidebar / Navbar -->
-                    <div class="col-xl-2 mt-5">
-                        <!-- Sidebar for Desktop -->
-                        <div class="d-none d-xl-block"> <!-- Visible only on larger screens -->
-                            <div class="row g-2">
-                                <!-- Card 1 (Active) -->
-                                <div class="col-12">
-                                    <div class="card-cc h-100 active-card shadow p-2 rounded" style="border: 2px solid var(--themeActiveColor);">
-                                        <img src="https://onlinechannel.io/storage/7376d3829575f06617d9db3f7f6836df_1690648679_c05_8_ac.jpg"
-                                            class="card-img-top" alt="Poster">
-                                        <div class="card-body d-flex justify-content-between align-items-center mt-1">
-                                            <h6 class="card-title text-truncate mb-0" style="font-size: 0.9rem;">Morning Show</h6>
-                                            <button class="btn btn-primary btn-sm px-2">Play</button>
-                                        </div>
-                                    </div>
-                                </div>
-                    
-                                <!-- Card 2 -->
-                                <div class="col-12">
-                                    <div class="card-cc h-100 shadow p-2 rounded">
-                                        <img src="https://onlinechannel.io/storage/7376d3829575f06617d9db3f7f6836df_1690648679_c05_8_ac.jpg"
-                                            class="card-img-top" alt="Poster">
-                                        <div class="card-body d-flex justify-content-between align-items-center mt-1">
-                                            <h6 class="card-title text-truncate mb-0" style="font-size: 0.9rem;">Sports Hour</h6>
-                                            <button class="btn btn-primary btn-sm px-2">Play</button>
-                                        </div>
-                                    </div>
-                                </div>
-                    
-                                <!-- Card 3 -->
-                                <div class="col-12">
-                                    <div class="card-cc h-100 shadow p-2 rounded">
-                                        <img src="https://onlinechannel.io/storage/7376d3829575f06617d9db3f7f6836df_1690648679_c05_8_ac.jpg"
-                                            class="card-img-top" alt="Poster">
-                                        <div class="card-body d-flex justify-content-between align-items-center mt-1">
-                                            <h6 class="card-title text-truncate mb-0" style="font-size: 0.9rem;">Evening News</h6>
-                                            <button class="btn btn-primary btn-sm px-2">Play</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        {{--  <!-- Dropdown for Mobile View -->
-                        <div class="d-block d-xl-none"> <!-- Visible only on mobile -->
-                            <div class="dropdown">
-                                <button class="btn btn-light dropdown-toggle w-100 shadow-sm mb-2" type="button" id="dropdownMenuButton"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    Select Show
-                                </button>
-                                <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
-                                    <!-- Dropdown Item 1 -->
-                                    <li class="d-flex justify-content-between align-items-center px-3">
-                                        <span class="text-truncate" style="font-size: 0.9rem;">Morning Show</span>
-                                        <button class="btn btn-primary btn-sm px-2">Play</button>
-                                    </li>
-                                    <hr class="my-1">
-                                    <!-- Dropdown Item 2 -->
-                                    <li class="d-flex justify-content-between align-items-center px-3">
-                                        <span class="text-truncate" style="font-size: 0.9rem;">Sports Hour</span>
-                                        <button class="btn btn-primary btn-sm px-2">Play</button>
-                                    </li>
-                                    <hr class="my-1">
-                                    <!-- Dropdown Item 3 -->
-                                    <li class="d-flex justify-content-between align-items-center px-3">
-                                        <span class="text-truncate" style="font-size: 0.9rem;">Evening News</span>
-                                        <button class="btn btn-primary btn-sm px-2">Play</button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>  --}}
-                    </div>
-                    
-                    
+    @if (isset($data->channels) && $data->channels)
+        <section>
+            <div class="container-fluid mt-3 mb-3">
+                <div class="container">
+                    <div class="row">
+                        <!-- Sidebar / Navbar -->
 
-                    <!-- Calendar Section -->
-                    <div class="col-xl-10">
+                        <div class="col-xl-2 mt-5" style="overflow: auto; max-height:70vh;">
+                            <!-- Sidebar for All Screens -->
+                            <div class="d-xl-block d-flex flex-md-row overflow-auto sidebar-container">
+                                <!-- Cards -->
+                                @foreach ($data->channels as $channel)
+                                    <a href="{{ url($slug . '?channel_code=' . $channel->code) }}" class="text-decoration-none">
+                                        <div 
+                                            class="card-cc h-100 shadow p-2 rounded mb-2 {{ $channel->code == $channel->active_channel_code ? 'active-card' : '' }}" 
+                                            style="{{ $channel->code == $channel->active_channel_code ? 'border: 2px solid var(--themeActiveColor);' : '' }}">
+                                            
+                                            <img src="{{ $channel->poster }}" class="card-img-top" alt="Poster">
+                                            
+                                            <div class="card-body d-flex justify-content-between align-items-center mt-1">
+                                                <h6 class="card-title mb-0" style="font-size: 0.9rem;">{{ $channel->name }}</h6>
+                                                <a href="{{ url($slug . '?channel_code=' . $channel->code) }}" class="text-decoration-none">
+                                                    <button class="btn btn-primary btn-sm px-2">Play</button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </a>
+                                @endforeach
+                                {{--  <div class="card-cc h-100 shadow p-2 rounded mb-2">
+                                    <img src="https://onlinechannel.io/storage/7376d3829575f06617d9db3f7f6836df_1690648679_c05_8_ac.jpg"
+                                        class="card-img-top " alt="Poster">
+                                    <div class="card-body d-flex justify-content-between align-items-center mt-1">
+                                        <h6 class="card-title mb-0" style="font-size: 0.9rem;">Movie Channel 23</h6>
+                                        <button class="btn btn-primary btn-sm px-2">Play</button>
+                                    </div>
+                                </div>
 
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <div id="calendar"></div>
+                                <div class="card-cc h-100 shadow p-2 rounded mb-2">
+                                    <img src="https://onlinechannel.io/storage/7376d3829575f06617d9db3f7f6836df_1690648679_c05_8_ac.jpg"
+                                        class="card-img-top " alt="Poster">
+                                    <div class="card-body d-flex justify-content-between align-items-center mt-1">
+                                        <h6 class="card-title mb-0" style="font-size: 0.9rem;">Evening News</h6>
+                                        <button class="btn btn-primary btn-sm px-2">Play</button>
+                                    </div>
+                                </div>
+                                <div class="card-cc h-100 shadow p-2 rounded mb-2">
+                                    <img src="https://onlinechannel.io/storage/7376d3829575f06617d9db3f7f6836df_1690648679_c05_8_ac.jpg"
+                                        class="card-img-top " alt="Poster">
+                                    <div class="card-body d-flex justify-content-between align-items-center mt-1">
+                                        <h6 class="card-title mb-0" style="font-size: 0.9rem;">Evening News</h6>
+                                        <button class="btn btn-primary btn-sm px-2">Play</button>
+                                    </div>
+                                </div>
+                                <div class="card-cc h-100 shadow p-2 rounded mb-2">
+                                    <img src="https://onlinechannel.io/storage/7376d3829575f06617d9db3f7f6836df_1690648679_c05_8_ac.jpg"
+                                        class="card-img-top " alt="Poster">
+                                    <div class="card-body d-flex justify-content-between align-items-center mt-1">
+                                        <h6 class="card-title mb-0" style="font-size: 0.9rem;">Evening News</h6>
+                                        <button class="btn btn-primary btn-sm px-2">Play</button>
+                                    </div>
+                                </div>  --}}
+
+                                <!-- Add more cards as needed -->
                             </div>
                         </div>
 
+                        <!-- Calendar Section -->
+                        <div class="col-xl-10">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div id="calendar"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+
+        </section>
+    @else
+        <section>
+            <div class="container-fluid mt-3 mb-3">
+                <div class="container">
+                    <div class="row">
+                        <h6 class="card-title  mb-0" style="font-size: 0.9rem;">Channels are not found!</h6>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    @endif
 @endsection
 
 @push('scripts')

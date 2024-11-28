@@ -38,8 +38,10 @@ class HomeController extends Controller
         }
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/{$slug}"));
+           
         Log::info(Carbon::now()->toString());
         $data = json_decode($response->getBody()->getContents());
+        
         if (isset(\App\Services\AppConfig::get()->app->app_info->timezone)) {
             config(['app.timezone' => \App\Services\AppConfig::get()->app->app_info->timezone]);
         }
@@ -47,7 +49,7 @@ class HomeController extends Controller
             $duration = explode(':', $item->stream_duration_timeformat);
             $item->formatted_duration = $duration[0] . ' Hour ' . $duration[1] . ' Minutes';
         }
-
+        
         if (AppConfig::getMenuBySlug($slug)?->menu_type === 'FA') {
             $categories = (array) $data->app->categories;
             foreach ($categories['streams'] as $i => $category) {
