@@ -3713,6 +3713,7 @@ iphone not working
     display: block;
     height:100%;
     margin: 0 auto;
+    background: #000000;
 }
 .mvp-popup{
     display: none;
