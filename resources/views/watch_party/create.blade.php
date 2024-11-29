@@ -40,6 +40,13 @@
                         <!-- Watch Party Details -->
                         <div class="col-lg-12 my-3">
                             <div class="row">
+                                 <div class="col-lg-3 my-2">
+                                    <label for="title" class="form-label ">{{ __('Title') }}</label>
+                                    <input type="text" name="title" class="form-control custom_color" required>
+                                    @error('title')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
                                 <div class="col-lg-3 my-2">
                                     <label for="start_date" class="form-label ">{{ __('Start Date') }}</label>
                                     <input type="date" name="start_date" class="form-control custom_color" required>

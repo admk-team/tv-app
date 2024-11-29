@@ -103,6 +103,7 @@ class WatchPartyController extends Controller
     {
         $validated =   $request->validate([
             'start_date'   => 'required|date',
+            'title'   => 'required|string',
             'start_time'   => 'required|date_format:H:i',
             'end_date'     => 'required|date|after_or_equal:start_date',
             'end_time'     => 'required|date_format:H:i',
@@ -113,6 +114,7 @@ class WatchPartyController extends Controller
             'host_email'   => 'required|email',
         ]);
         $data = [
+            'title'    => $validated['title'],
             'start_date'    => $validated['start_date'],
             'start_time'    => $validated['start_time'],
             'end_date'      => $validated['end_date'],
