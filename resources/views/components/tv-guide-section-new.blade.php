@@ -27,7 +27,7 @@
                                                 <h6 class="card-title mb-0" style="font-size: 0.9rem;">
                                                     {{ $channel->name }}
                                                 </h6>
-                                                <a href="{{ url($slug . '?channel_code=' . $channel->code) }}"
+                                                <a href="{{route('channel.streams',$channel->code) }}"
                                                     class="text-decoration-none">
                                                     <button class="btn btn-primary btn-sm px-2">Play</button>
                                                 </a>

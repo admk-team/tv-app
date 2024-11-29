@@ -32,25 +32,38 @@ class TvGuidePlayerController extends Controller
         $channel = collect($response['channels'])->firstWhere('code', $channelCode);
         $playlists = $channel['playlists'] ?? [];
         if (!$channel || empty($playlists)) {
-            return abort(404, 'No streams exist for this channel.');
+            $error = 'No playlists exist for this channel.';
+            return view('error.error404-2', compact('error'));
         }
-
         $hasStreams = collect($playlists)->contains(function ($playlist) {
             return !empty($playlist['streams']);
         });
         if (!$hasStreams) {
-            return abort(404, 'No streams exist for this channel.');
+            $error = 'No streams exist for this channel.';
+            return view('error.error404-2', compact('error'));
         }
 
         $currentPlaylist = null;
-
         foreach ($playlists as $playlist) {
-            $startTime = Carbon::parse($playlist['start_time']);
-            $endTime = Carbon::parse($playlist['end_time']);
+            if (empty($playlist) || !isset($playlist['start_time'], $playlist['end_time'])) {
+                $error = 'No valid playlist data available for this channel.';
+                return view('error.error404-2', compact('error'));
+            }
+            try {
+                $startTime = Carbon::parse($playlist['start_time']);
+                $endTime = Carbon::parse($playlist['end_time']);
+            } catch (\Exception $e) {
+                $error = 'Invalid time format in playlist.';
+                return view('error.error404-2', compact('error'));
+            }
             if ($currentTime->between($startTime, $endTime)) {
                 $currentPlaylist = $playlist;
                 break;
             }
+        }
+        if (!isset($currentPlaylist)) {
+            $error = 'No active playlist found for this time.';
+            return view('error.error404-2', compact('error'));
         }
         if (isset($currentPlaylist['streams']) && is_array($currentPlaylist['streams'])) {
             $streams = array_map(function ($stream) {
@@ -62,14 +75,14 @@ class TvGuidePlayerController extends Controller
                 ];
             }, $currentPlaylist['streams']);
         }
-        return view('tv-guide.tv-guide-player', compact('streams'));
+        return view('tv-guide.tv-guide-player-new', compact('streams'));
     }
 
     private function fetchChannelPlaylists($channelCode)
     {
         $response = Http::timeout(300)->withHeaders(Api::headers())
-        ->asForm()
-        ->get(Api::endpoint("/live-tv-guide/channel/{$channelCode}"));
+            ->asForm()
+            ->get(Api::endpoint("/live-tv-guide/channel/{$channelCode}"));
         $responseJson = $response->json();
 
         return $responseJson;

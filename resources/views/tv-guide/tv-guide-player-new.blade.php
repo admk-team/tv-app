@@ -25,49 +25,9 @@
                 return navigator.userAgent.match(toMatchItem);
             });
         }
-        //alert(detectMob());
     </script>
 @endpush
 @section('content')
-    @php
-
-        if (isset($_COOKIE['timezoneStr']) && !empty($_COOKIE['timezoneStr'])) {
-            date_default_timezone_set($_COOKIE['timezoneStr']);
-        } else {
-            date_default_timezone_set('America/New_York');
-        }
-        $curUnixTime = date('U');
-        $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
-
-        if (!session('ADS_INFO')) {
-            session([
-                'ADS_INFO' => [
-                    'adUrl' => \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url,
-                    'channelName' => \App\Services\AppConfig::get()->app->app_info->app_name,
-                    'domain_name' => \App\Services\AppConfig::get()->app->colors_assets_for_branding->domain_name,
-                ],
-            ]);
-        }
-
-        $cb = time();
-        $isLocalHost = false;
-        $userIP = \App\Helpers\GeneralHelper::getRealIpAddr();
-        $channelName = urlencode(\App\Services\AppConfig::get()->app->app_info->app_name);
-        $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
-        $userAgent = urlencode(request()->server('HTTP_USER_AGENT'));
-
-        $host = parse_url(url()->current())['host'];
-        if (in_array($host, ['localhost', '127.0.0.1'])) {
-            $isLocalHost = true;
-        }
-
-        $adMacros =
-            $adUrl .
-            "&width=1920&height=1080&cb=$cb" .
-            (!$isLocalHost ? "&uip=$userIP" : '') .
-            "&device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
-    @endphp
-
     <div class="top_gaps">
         <div class="container-fluid containinax">
             <div class="row">
@@ -78,17 +38,8 @@
                             <div class="mvp-global-playlist-data"></div>
                             <div class="playlist-video">
                                 @foreach ($streams as $stream)
-                                @dd($stream)
-                                    @php
-                                        $dataVast = 'data-vast="' . url('/get-ad') . '"';
-                                        $dataVast = "data-vast='$adMacros'";
-                                        if ($adUrl == '') {
-                                            $dataVast = '';
-                                        }
-                                    @endphp
-                                    <div class="mvp-playlist-item" data-preview-seek="auto" data-type="m3u8"
-                                        data-path="{{ $stream['url'] }}" {!! $dataVast !!}
-                                        data-title="{{ $stream['title'] }}"></div>
+                                    <div class="mvp-playlist-item" data-type="hls" data-preview-seek="auto" data-type="m3u8"
+                                        data-path="{{ $stream['url'] }}" data-title="{{ $stream['title'] }}"></div>
                                 @endforeach
                             </div>
                         </div>
@@ -125,7 +76,6 @@
                 randomPlay: false,
                 usePlaylistToggle: false,
                 useEmbed: false,
-                // useEmbed: '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_is_show_share_icon }}',
                 useTime: false,
                 usePip: true,
                 useCc: true,
@@ -185,11 +135,8 @@
 
             setTimeout(unmutedVoice, 2000);
 
-            var isFirstTIme = true;
             player.addEventListener('mediaStart', function(data) {
-                if (isFirstTIme == true) {
-                    isFirstTIme = false;
-                }
+
                 data.instance.getCurrentTime();
                 data.instance.getDuration();
 
