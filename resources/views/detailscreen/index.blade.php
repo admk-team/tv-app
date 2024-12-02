@@ -106,7 +106,6 @@
         .test-comma {
             color: var(--themePrimaryTxtColor);
         }
-
         .movie_detail_inner_box.with-logo {
             top: 0px !important;
         }
@@ -417,33 +416,52 @@
                     if (session('USER_DETAILS.USER_CODE')) {
                         $signStr = "+";
                         $cls = 'fa fa-plus';
+                                $tooltip = "Add to Watchlist";
+
+                            // Check if the stream is already in the wishlist
+                            if ($stream_details['stream_is_stream_added_in_wish_list'] == 'Y') {
+                                // Update values for removing from wishlist
+                                $cls = 'fa fa-minus';
+                                $signStr = "-";
+                                $tooltip = "Remove from Watchlist";
+                            }
+
                         if ($stream_details['stream_is_stream_added_in_wish_list'] == 'Y') {
                             $cls = 'fa fa-minus';
                             $signStr = "-";
                         }
                     ?>
                         <div class="share_circle addWtchBtn">
-                            <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav"
-                                    class="<?php echo $cls; ?>"></i></a>
-                            <input type="hidden" id="myWishListSign" value='<?php echo $signStr; ?>' />
-                            <input type="hidden" id="strQueryParm" value='<?php echo $strQueryParm; ?>' />
-                            <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}' />
-                            @csrf
-                        </div>
+                        <a href="javascript:void(0);" onClick="manageFavItem();">
+                            <i id="btnicon-fav" class="{{ $cls }}" style="color: var(--themeActiveColor)" data-bs-toggle="tooltip" title="{{ $tooltip }}"></i>
+                        </a>
+                        <input type="hidden" id="myWishListSign" value="{{ $signStr }}" />
+                        <input type="hidden" id="strQueryParm" value="{{ $strQueryParm }}" />
+                        <input type="hidden" id="reqUrl" value="{{ route('wishlist.toggle') }}" />
+                        @csrf
+                    </div>
                         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
                             @if (!empty($stream_details['is_watch_party']) && $stream_details['is_watch_party'] == 1)
-                                <div class="share_circle">
-                                    <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}">
-                                        <i class="fa fa-users"></i>
-                                    </a>
-                                </div>
+                        <div class="share_circle">
+                            <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}"
+                                data-bs-toggle="tooltip"
+                                title="Create a Watch Party">
+                                <i class="fa fa-users" style="color: var(--themeActiveColor)"></i>
+                            </a>
+                        </div>
                             @endif
                         @endif
                         <?php
                     }
                     ?>
                         <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                            <a href="javascript:void(0)"><i class="fa fa-share"></i></a>
+                            <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}"
+                                data-bs-toggle="tooltip"
+                                title="Share">
+                                <i class="fa fa-share" style="color: var(--themeActiveColor)"></i>
+                            </a>
+
+                            {{-- <a href="javascript:void(0)"><i class="fa fa-share" style="color: var(--themeActiveColor)"></i></a> --}}
                         </div>
                         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
                             @if (
@@ -453,7 +471,7 @@
                                         $stream_details['monetization_type'] == 'S' ||
                                         $stream_details['monetization_type'] == 'O'))
                                 <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#giftModal">
-                                    <a href="javascript:void(0);"><i class="fa-solid fa-gift"></i></a>
+                                    <a href="javascript:void(0);"><i class="fa-solid fa-gift" style="color: var(--themeActiveColor)"></i></a>
                                 </div>
                             @endif
                         @endif
@@ -672,7 +690,13 @@
 
 @push('scripts')
     //for desktop tabs
+
     <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+
         var themeActiveColor = "{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}";
 
         function handleStarRating(element) {
