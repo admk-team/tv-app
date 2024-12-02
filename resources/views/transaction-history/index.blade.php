@@ -36,7 +36,9 @@
                                 </td>
                                 <td class="text-center">{{ $sub['expiry_date'] }}</td>
                                 <td>
-                                    @if (Str::startsWith($sub['transaction_id'], 'sub_'))
+                                    @if (Str::startsWith($sub['transaction_id'], 'sub_') && $sub['payment_information'] === 'canceled')
+                                        Subscription Canceled
+                                    @elseif (Str::startsWith($sub['transaction_id'], 'sub_'))
                                         <form action="{{ route('cancel.subscription', $sub['transaction_id']) }}">
                                             <button class="app-primary-btn rounded" type="submit">Cancel</button>
                                         </form>
