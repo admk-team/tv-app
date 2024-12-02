@@ -8,6 +8,15 @@
             color: #000 !important;
             background-color: #fff !important;
         }
+
+        .select2-container--open .select2-dropdown--below {
+            display: none !important;
+        }
+
+        /* .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            color: var(--themePrimaryTxtColor) !important;
+            background-color: var(--themeActiveColor) !important;
+        } */
     </style>
 @endsection
 
@@ -40,7 +49,7 @@
                         <!-- Watch Party Details -->
                         <div class="col-lg-12 my-3">
                             <div class="row">
-                                 <div class="col-lg-3 my-2">
+                                <div class="col-lg-3 my-2">
                                     <label for="title" class="form-label ">{{ __('Title') }}</label>
                                     <input type="text" name="title" class="form-control custom_color" required>
                                     @error('title')
