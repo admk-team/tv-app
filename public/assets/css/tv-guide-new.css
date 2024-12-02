@@ -1,0 +1,154 @@
+.fc .fc-col-header-cell-cushion {
+    color: var(--themeActiveColor) !important;
+}
+
+.fc .fc-daygrid-day-number {
+    color: var(--themeActiveColor) !important;
+}
+
+.fc-daygrid-dot-event .fc-event-title {
+    color: var(--themeActiveColor) !important;
+}
+
+.fc-direction-ltr .fc-daygrid-event .fc-event-time {
+    color: var(--themeActiveColor) !important;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+    border: 1px solid var(--themeActiveColor) !important;
+}
+
+.fc .fc-toolbar-title {
+    color: var(--themePrimaryTxtColor) !important;
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th {
+    border: 1px solid var(--themeActiveColor) !important;
+}
+
+.fc .fc-timegrid-axis-cushion {
+    color: var(--themePrimaryTxtColor) !important;
+}
+
+.fc .fc-timegrid-slot-label-cushion {
+    color: var(--themePrimaryTxtColor) !important;
+}
+
+.fc-timegrid-event .fc-event-time {
+    color: var(--themePrimaryTxtColor) !important;
+}
+
+.fc-v-event .fc-event-title {
+    color: var(--themePrimaryTxtColor) !important;
+}
+
+.fc-direction-ltr .fc-list-day-text,
+.fc-direction-rtl .fc-list-day-side-text {
+    color: var(--themePrimaryTxtColor) !important;
+}
+
+.fc-direction-ltr .fc-list-day-side-text,
+.fc-direction-rtl .fc-list-day-text {
+    color: var(--themePrimaryTxtColor) !important;
+}
+
+.fc .fc-list-day-cushion,
+.fc .fc-list-table td {
+    color: var(--themePrimaryTxtColor) !important;
+}
+
+.fc .fc-list-sticky .fc-list-day>* {
+    background: var(--themeActiveColor) !important;
+}
+
+.fc .fc-list-event:hover td {
+    background-color: var(--themeActiveColor) !important;
+}
+
+.fc .fc-daygrid-more-link {
+    color: var(--themePrimaryTxtColor) !important;
+}
+
+.card-title {
+    color: var(--themePrimaryTxtColor);
+}
+
+.btn-primary {
+    background-color: var(--themeActiveColor);
+    border-color: var(--themeActiveColor);
+}
+
+.btn-primary:hover {
+    background-color: darken(var(--themeActiveColor), 10%);
+}
+
+/* Sidebar scroll for vertical cards on desktop */
+.sidebar-container {
+    overflow-y: auto !important;
+    scrollbar-width: thin; /* Firefox */
+}
+
+.sidebar-container::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar-container::-webkit-scrollbar-thumb {
+    background: var(--themeActiveColor);
+    border-radius: 10px;
+}
+
+/* General Card Styling */
+.card-cc {
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card-cc:hover {
+    transform: translateY(5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+    color: var(--themePrimaryTxtColor);
+}
+
+.btn-primary {
+    background-color: var(--themeActiveColor);
+    border-color: var(--themeActiveColor);
+}
+
+.btn-primary:hover {
+    background-color: darken(var(--themeActiveColor), 10%);
+    border-color: var(--themeActiveColor);
+}
+
+.active-card {
+    border: 2px solid var(--themeActiveColor);
+}
+
+@media only screen and (max-width: 768px) {
+    .fc .fc-toolbar {
+        display: block !important;
+    }
+
+    .card-title {
+        font-size: 16px;
+        margin-right: 5px;
+    }
+}
+
+/* Horizontal scroll for mobile */
+@media (max-width: 992px) {
+    .sidebar-container {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 10px 0;
+    }
+
+    .card-cc {
+        flex: 0 0 48%;
+        margin-right: 10px;
+    }
+}

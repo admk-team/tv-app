@@ -62,10 +62,10 @@
     @break
 
     @case('TG')
-    @include('components.tv-guide-section-new')
-        {{--  <x-layouts.app :appInfo="\App\Services\AppConfig::get()->app->app_info">
+    {{--  @include('components.tv-guide-section-new')  --}}
+        <x-layouts.app :appInfo="\App\Services\AppConfig::get()->app->app_info">
             @include('components.tv-guide-section')
-        </x-layouts.app>  --}}
+        </x-layouts.app>
     @break
 
     @default
