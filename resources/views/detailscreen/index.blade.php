@@ -400,22 +400,33 @@
 
                     <div class="button_groupbox d-flex align-items-center mb-4">
                         <div class="btn_box movieDetailPlay">
-                            @if (session('USER_DETAILS') &&
-                                    session('USER_DETAILS')['USER_CODE'] &&
-                                    ($stream_details['monetization_type'] == 'P' ||
-                                        $stream_details['monetization_type'] == 'S' ||
-                                        $stream_details['monetization_type'] == 'O') &&
-                                    $stream_details['is_buyed'] == 'N')
-                                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
-                                    class="app-primary-btn rounded">
-                                    <i class="fa fa-dollar"></i>
-                                    Buy Now
+                            @if ($stream_details['notify_label'] == 'no_label')
+                                @if (session('USER_DETAILS') &&
+                                        session('USER_DETAILS')['USER_CODE'] &&
+                                        ($stream_details['monetization_type'] == 'P' ||
+                                            $stream_details['monetization_type'] == 'S' ||
+                                            $stream_details['monetization_type'] == 'O') &&
+                                        $stream_details['is_buyed'] == 'N')
+                                    <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                                        class="app-primary-btn rounded">
+                                        <i class="fa fa-dollar"></i>
+                                        Buy Now
+                                    </a>
+                                @else
+                                    <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                                        class="app-primary-btn rounded">
+                                        <i class="fa fa-play"></i>
+                                        Play Now
+                                    </a>
+                                @endif
+                                @elseif ($stream_details['notify_label'] == 'upcoming')
+                                <a class="app-primary-btn rounded">
+                                    Upcoming
                                 </a>
-                            @else
-                                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
-                                    class="app-primary-btn rounded">
+                                @else
+                                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="app-primary-btn rounded">
                                     <i class="fa fa-play"></i>
-                                    Play Now
+                                    Available Now
                                 </a>
                             @endif
 
@@ -452,7 +463,8 @@
                                         $stream_details['monetization_type'] == 'S' ||
                                         $stream_details['monetization_type'] == 'O'))
                                 <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#giftModal">
-                                    <a href="javascript:void(0);"><i class="fa-solid fa-gift"></i></a>
+                                    <a href="javascript:void(0);"><i class="fa-solid fa-gift"
+                                            style="color: var(--themeActiveColor)"></i></a>
                                 </div>
                             @endif
                         @endif
@@ -672,6 +684,11 @@
 @push('scripts')
     //for desktop tabs
     <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
         var themeActiveColor = "{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}";
 
         function handleStarRating(element) {
