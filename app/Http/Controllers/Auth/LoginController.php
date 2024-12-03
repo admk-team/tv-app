@@ -66,7 +66,12 @@ class LoginController extends Controller
             $finalresultDevice = $matchedBrowser;
         }
 
-        $xyz = base64_encode(request()->ip());
+        if (env('NO_IP_ADDRESS') === true) { // For localhost
+            $xyz = "MTU0LjE5Mi4xMzguMzY=";
+        } else {
+            $xyz = base64_encode(request()->ip());
+        }
+
         $partnerlink = session('partner_url');
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->asForm()

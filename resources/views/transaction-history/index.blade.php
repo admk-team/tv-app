@@ -20,6 +20,7 @@
                             <th class="text-center">Amount</th>
                             <th class="text-center">Status</th>
                             <th class="text-center">Expired On</th>
+                            <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,11 +35,20 @@
                                     <span class="active">{{ $sub['plan_status'] }}</span>
                                 </td>
                                 <td class="text-center">{{ $sub['expiry_date'] }}</td>
+                                <td>
+                                    @if (Str::startsWith($sub['transaction_id'], 'sub_') && $sub['payment_information'] === 'canceled')
+                                        Subscription Canceled
+                                    @elseif (Str::startsWith($sub['transaction_id'], 'sub_'))
+                                        <form action="{{ route('cancel.subscription', $sub['transaction_id']) }}">
+                                            <button class="app-primary-btn rounded" type="submit">Cancel</button>
+                                        </form>
+                                    @endif
+                                </td>
                             </tr>
                         @empty
-                        <tr>
-                            <td colspan="7">{{ $subsMsg }}</td>
-                        </tr>
+                            <tr>
+                                <td colspan="7">{{ $subsMsg }}</td>
+                            </tr>
                         @endforelse
                     </tbody>
                 </table>
