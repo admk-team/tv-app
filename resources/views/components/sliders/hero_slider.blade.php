@@ -52,10 +52,21 @@
                             </div>
                             <p class="description desktop-data">{{ $stream->stream_description ?? '' }}</p>
                             <div class="btns">
-                                <a class="app-primary-btn rounded"
-                                    href="{{ route('playerscreen', $stream->stream_guid) }}">
-                                    <i class="bi bi-play-fill banner-play-icon"></i> Play
-                                </a>
+                                @if ($stream->notify_label == 'no_label')
+                                    <a class="app-primary-btn rounded"
+                                        href="{{ route('playerscreen', $stream->stream_guid) }}">
+                                        <i class="bi bi-play-fill banner-play-icon"></i> Play
+                                    </a>
+                                @elseif ($stream->notify_label == 'upcoming')
+                                    <a class="app-primary-btn rounded">
+                                        Upcoming
+                                    </a>
+                                @else
+                                    <a class="app-primary-btn rounded"
+                                        href="{{ route('playerscreen', $stream->stream_guid) }}">
+                                        <i class="bi bi-play-fill banner-play-icon"></i> Available Now
+                                    </a>
+                                @endif
                                 <a class="app-secondary-btn rounded"
                                     href="{{ route('detailscreen', $stream->stream_guid) }}">
                                     <i class="bi bi-eye banner-view-icon"></i> Details
