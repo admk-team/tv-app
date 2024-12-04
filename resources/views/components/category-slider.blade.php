@@ -138,7 +138,13 @@
                                                 <a class="top-10-slider-number">{{ $loop->iteration }}</a>
                                                 <div class="{{ $cardThumbCls2 }}">
                                                     @if (!in_array($category->card_type, ['BA', 'LB']))
-                                                        @if ($stream->notify_label == 'no_label')
+                                                        @if (isset($stream->notify_label) &&
+                                                                ($stream->notify_label == 'available now' || $stream->notify_label == 'coming soon'))
+                                                            <div class="content-label"
+                                                                style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                                {{ strtoupper($stream->notify_label) }}
+                                                            </div>
+                                                        @else
                                                             <div class="trending_icon_box">
                                                                 @if ($stream->premium_icon ?? null)
                                                                     @php
@@ -180,11 +186,6 @@
                                                                     @endif
                                                                 @endif
                                                             @endif
-                                                        @else
-                                                            <div class="content-label"
-                                                                style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
-                                                                {{ strtoupper($stream->notify_label) }}
-                                                            </div>
                                                         @endif
                                                     @endif
                                                     <div class="{{ $cardThumbCls }}">
@@ -227,7 +228,13 @@
                                             <div class="{{ $cardThumbCls2 }}">
                                                 {{-- Premium Icon And Content Label --}}
                                                 @if (!in_array($category->card_type, ['BA', 'LB']))
-                                                    @if ($stream->notify_label == 'no_label')
+                                                    @if (isset($stream->notify_label) &&
+                                                            ($stream->notify_label == 'available now' || $stream->notify_label == 'coming soon'))
+                                                        <div class="content-label"
+                                                            style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                            {{ strtoupper($stream->notify_label) }}
+                                                        </div>
+                                                    @else
                                                         <div class="trending_icon_box">
                                                             @if ($stream->premium_icon ?? null)
                                                                 @php
@@ -273,11 +280,6 @@
                                                                 @endif
                                                             @endif
                                                         @endif
-                                                    @else
-                                                        <div class="content-label"
-                                                            style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
-                                                            {{ strtoupper($stream->notify_label) }}
-                                                        </div>
                                                     @endif
                                                 @endif
                                                 <div class="{{ $cardThumbCls }} ">
