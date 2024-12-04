@@ -15,7 +15,6 @@ class HomeController extends Controller
 
     public function index(Request $request ,$slug = 'home')
     {
-        Log::info(Carbon::now()->toString());
         // Construct the full URL from the request
         $currentUrl = $request->fullUrl();
         $link = $request->query('link');
@@ -24,7 +23,7 @@ class HomeController extends Controller
             if (!session()->has('partner_url')) {
                 // If not, store the full URL in the session
                 session(['partner_url' => $currentUrl]);
-                Log::info('URL set in session: ' . $currentUrl);
+
                 if(session('partner_url')){
                     $response = Http::timeout(300)->withHeaders(Api::headers())
                     ->asForm()
@@ -39,7 +38,7 @@ class HomeController extends Controller
         }
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/{$slug}"));
-        Log::info(Carbon::now()->toString());
+
         $data = json_decode($response->getBody()->getContents());
         if (isset(\App\Services\AppConfig::get()->app->app_info->timezone)) {
             config(['app.timezone' => \App\Services\AppConfig::get()->app->app_info->timezone]);
@@ -106,7 +105,7 @@ class HomeController extends Controller
     //         $duration = explode(':', $item->stream_duration_timeformat);
     //         $item->formatted_duration = $duration[0] . ' Hour ' . $duration[1] . ' Minutes';
     //     }
-        
+
     //     if (AppConfig::getMenuBySlug($slug)?->menu_type === 'FA') {
     //         $categories = (array) $data->app->categories;
     //         foreach ($categories['streams'] as $i => $category) {

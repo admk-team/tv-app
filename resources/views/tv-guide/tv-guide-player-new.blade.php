@@ -38,7 +38,7 @@
                             <div class="mvp-global-playlist-data"></div>
                             <div class="playlist-video">
                                 @foreach ($streams as $stream)
-                                    <div class="mvp-playlist-item" data-type="hls" data-preview-seek="auto" data-type="m3u8"
+                                    <div class="mvp-playlist-item" data-type="hls" data-preview-seek="auto" data-type="hls"
                                         data-path="{{ $stream['url'] }}" data-title="{{ $stream['title'] }}"></div>
                                 @endforeach
                             </div>
