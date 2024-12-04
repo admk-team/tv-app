@@ -45,9 +45,9 @@
                                     href="{{ route('playerscreen', $stream->stream_guid) }}">
                                     <i class="bi bi-play-fill banner-play-icon"></i> Play
                                 </a>
-                            @elseif ($stream->notify_label == 'upcoming')
+                            @elseif ($stream->notify_label == 'coming soon')
                                 <a class="app-primary-btn rounded">
-                                    Upcoming
+                                    Coming Soon
                                 </a>
                             @else
                                 <a class="app-primary-btn rounded"

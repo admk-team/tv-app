@@ -392,6 +392,7 @@
                     </dl>
 
                     <div class="button_groupbox d-flex align-items-center mb-4">
+
                         <div class="btn_box movieDetailPlay">
                             @if ($stream_details['notify_label'] == 'no_label')
                                 @if (session('USER_DETAILS') &&
@@ -412,12 +413,20 @@
                                         Play Now
                                     </a>
                                 @endif
-                                @elseif ($stream_details['notify_label'] == 'upcoming')
-                                <a class="app-primary-btn rounded">
-                                    Upcoming
-                                </a>
-                                @else
-                                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="app-primary-btn rounded">
+                            @elseif ($stream_details['notify_label'] == 'coming soon')
+                                <form id="remind-form-desktop" method="POST" action="{{ route('remind.me') }}">
+                                    @csrf
+                                    <input type="hidden" name="stream_code" id="stream-code"
+                                        value="{{ $stream_details['stream_guid'] }}">
+                                    <button class="app-primary-btn rounded" id="remind-button-desktop">
+                                        <i id="desktop-remind-icon" class="fas fa-bell"></i>
+                                        <span id="desktop-remind-text">Remind me</span>
+                                    </button>
+                                    <div id="response-message">{{ session('status') }}</div>
+                                </form>
+                            @else
+                                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                                    class="app-primary-btn rounded">
                                     <i class="fa fa-play"></i>
                                     Available Now
                                 </a>
@@ -899,6 +908,45 @@
                     }
                 });
             });
+        });
+    </script>
+
+
+
+
+    <script>
+        $(document).ready(function() {
+            // Fetch stream codes from the hidden inputs
+            const desktopStreamCode = $('#stream-code').val();
+            const mobileStreamCode = $('#mobile-stream-code').val();
+
+            // Function to toggle bell icon based on subscription status
+            function updateBellIcon(streamCode, iconId, textId) {
+                $.ajax({
+                    url: "{{ route('check.remind.me') }}",
+                    method: "GET",
+                    data: {
+                        stream_code: streamCode
+                    },
+                    success: function(response) {
+                        if (response.reminded) {
+                            $(`#${iconId}`).removeClass('fa-bell').addClass('fa-check-circle');
+                            $(`#${textId}`).text('Reminder set');
+                        } else {
+                            $(`#${iconId}`).removeClass('fa-check-circle').addClass('fa-bell');
+                            $(`#${textId}`).text('Remind me');
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Error checking subscription status:', xhr.responseText);
+                    }
+                });
+            }
+            // Initial icon status check
+            updateBellIcon(desktopStreamCode, 'desktop-remind-icon', 'desktop-remind-text');
+            if (mobileStreamCode) {
+                updateBellIcon(mobileStreamCode, 'mobile-remind-icon', 'mobile-remind-text');
+            }
         });
     </script>
 @endpush
