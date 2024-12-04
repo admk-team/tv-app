@@ -35,7 +35,8 @@
         } else {
             date_default_timezone_set('America/New_York');
         }
-        $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
+
+        // $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
 
         if (!session('ADS_INFO')) {
             session([
@@ -55,13 +56,15 @@
         $userAgent = urlencode(request()->server('HTTP_USER_AGENT'));
 
         $host = parse_url(url()->current())['host'];
-        $isLocalHost = in_array($host, ['localhost', '127.0.0.1']);
+        if (in_array($host, ['localhost', '127.0.0.1'])) {
+            $isLocalHost = true;
+        }
 
-        $adMacros =
-            $adUrl .
-            "&width=1920&height=1080&cb=$cb" .
-            (!$isLocalHost ? "&uip=$userIP" : '') .
-            "&device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+        // $adMacros =
+        //     $adUrl .
+        //     "&width=1920&height=1080&cb=$cb" .
+        //     (!$isLocalHost ? "&uip=$userIP" : '') .
+        //     "&device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     @endphp
 
     <div class="top_gaps">
@@ -103,6 +106,19 @@
                                                 // Find the elapsed time within the repeated stream cycle
                                                 $loopedElapsedTime = $elapsedTimeInPlaylist % $totalStreamDuration;
 
+                                                $adUrl = $playlist['vmap'];
+                                                // $adUrl = "http://127.0.0.1:8000/vast-tags/41/xml";
+                                                $adMacros =
+                                                    $adUrl .
+                                                    "&width=1920&height=1080&cb=$cb" .
+                                                    (!$isLocalHost ? "&uip=$userIP" : '') .
+                                                    "&device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+                                                $dataVast = 'data-vast="' . url('/get-ad') . '"';
+                                                $dataVast = "data-vast='$adMacros'";
+                                                if ($adUrl == '') {
+                                                    $dataVast = '';
+                                                }
+
                                                 // Iterate over the streams to determine the current stream
                                                 $streamStartTime = 0; // Start at the beginning of the stream cycle
                                                 foreach ($playlist['streams'] as $stream) {
@@ -127,14 +143,8 @@
                                 @endphp
 
                                 @if ($currentStream)
-                                    <div>
-                                        <p>Currently Playing: {{ $currentStream['title'] }}</p>
-                                        <p>Playback Offset: {{ gmdate('H:i:s', $leftTime) }}</p>
-                                        <p>Stream Duration: {{ gmdate('H:i:s', $currentStream['duration'] * 60) }}</p>
-                                    </div>
-
                                     <div class="mvp-playlist-item" data-preview-seek="auto" data-type="hls"
-                                        data-path="{{ $currentStream['url'] }}"
+                                        data-path="{{ $currentStream['url'] }}" {!! $dataVast !!}
                                         data-poster="{{ $currentStream['poster'] }}"
                                         data-thumb="{{ $currentStream['poster'] }}"
                                         data-title="{{ $currentStream['title'] }}"
