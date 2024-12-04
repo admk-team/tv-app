@@ -94,7 +94,7 @@ pre {
     display: inline-flex !important;
     padding-left: 0;
     position: relative;
-    border: 1px solid #000 !important;
+    /* border: 1px solid #000 !important; */
     border-left: 0 !important;
     background: #e1f3f4;
 }
@@ -170,13 +170,13 @@ pre {
     overflow: hidden;
 }
 
-.main-container:hover,
+/* .main-container:hover,
 .main-container:hover div {
     border-color: blue !important;
-}
+} */
 
 .main-container .channnel {
-    border: 1px solid #000 !important;
+    /* border: 1px solid #000 !important; */
     border-bottom: none !important;
     border-top: none !important;
     border-left: 0 !important;
@@ -192,7 +192,7 @@ pre {
     width: 5px;
     background-color: red;
     top: 0px;
-    z-index: 999;
+    z-index: 9999;
     height: 100%;
 }
 

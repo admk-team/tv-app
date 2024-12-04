@@ -135,4 +135,15 @@ class WatchPartyController extends Controller
             return back()->with('error', $errorMessage);
         }
     }
+    public function getAllWatchParties()
+    {
+        $response = Http::timeout(300)
+            ->withHeaders(Api::headers())
+            ->get(Api::endpoint('/watchparty/get'));
+        $responseJson = $response->json();
+        dd($responseJson);
+
+        return view('watch_party_history.index', compact('watchParties'));
+    }
+
 }
