@@ -394,7 +394,31 @@
                     <div class="button_groupbox d-flex align-items-center mb-4">
 
                         <div class="btn_box movieDetailPlay">
-                            @if ($stream_details['notify_label'] == 'no_label')
+                            @if (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'available now')
+                                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                                    class="app-primary-btn rounded">
+                                    <i class="fa fa-play"></i>
+                                    Available Now
+                                </a>
+                            @elseif (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'coming soon')
+                                @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                                    <form id="remind-form-desktop" method="POST" action="{{ route('remind.me') }}">
+                                        @csrf
+                                        <input type="hidden" name="stream_code" id="stream-code"
+                                            value="{{ $stream_details['stream_guid'] }}">
+                                        <button class="app-primary-btn rounded" id="remind-button-desktop">
+                                            <i id="desktop-remind-icon" class="fas fa-bell"></i>
+                                            <span id="desktop-remind-text">Remind me</span>
+                                        </button>
+                                        <div id="response-message">{{ session('status') }}</div>
+                                    </form>
+                                @else
+                                    <a class="app-primary-btn rounded">
+                                        <i class="fa fa-play"></i>
+                                        Coming Soon
+                                    </a>
+                                @endif
+                            @else
                                 @if (session('USER_DETAILS') &&
                                         session('USER_DETAILS')['USER_CODE'] &&
                                         ($stream_details['monetization_type'] == 'P' ||
@@ -413,23 +437,6 @@
                                         Play Now
                                     </a>
                                 @endif
-                            @elseif ($stream_details['notify_label'] == 'coming soon')
-                                <form id="remind-form-desktop" method="POST" action="{{ route('remind.me') }}">
-                                    @csrf
-                                    <input type="hidden" name="stream_code" id="stream-code"
-                                        value="{{ $stream_details['stream_guid'] }}">
-                                    <button class="app-primary-btn rounded" id="remind-button-desktop">
-                                        <i id="desktop-remind-icon" class="fas fa-bell"></i>
-                                        <span id="desktop-remind-text">Remind me</span>
-                                    </button>
-                                    <div id="response-message">{{ session('status') }}</div>
-                                </form>
-                            @else
-                                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
-                                    class="app-primary-btn rounded">
-                                    <i class="fa fa-play"></i>
-                                    Available Now
-                                </a>
                             @endif
 
                         </div>

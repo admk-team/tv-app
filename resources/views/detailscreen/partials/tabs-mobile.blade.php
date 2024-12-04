@@ -1,39 +1,47 @@
 <div class="button_groupbox d-flex align-items-center mb-2 px-3 mt-2">
     <div class="movieDetailPlaymobile">
-        @if ($stream_details['notify_label'] == 'no_label')
+        @if (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'no_label')
+            <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="mobile-primary-btn rounded">
+                <i class="fa fa-play"></i>
+                Available Now
+            </a>
+        @elseif (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'coming soon')
+            @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                <!-- Mobile View -->
+                <form id="remind-form-mobile" method="POST" action="{{ route('remind.me') }}">
+                    @csrf
+                    <input type="hidden" name="stream_code" id="mobile-stream-code"
+                        value="{{ $stream_details['stream_guid'] }}">
+                    <button class="mobile-primary-btn rounded" id="remind-button-mobile">
+                        <i id="mobile-remind-icon" class="fas fa-bell"></i>
+                        <span id="mobile-remind-text">Remind me</span>
+                    </button>
+                </form>
+            @else
+                <a class="mobile-primary-btn rounded">
+                    <i class="fa fa-play"></i>
+                    Coming Soon
+                </a>
+            @endif
+        @else
             @if (session('USER_DETAILS') &&
                     session('USER_DETAILS')['USER_CODE'] &&
                     $stream_details['is_buyed'] == 'N' &&
                     ($stream_details['monetization_type'] == 'P' ||
                         $stream_details['monetization_type'] == 'S' ||
                         $stream_details['monetization_type'] == 'O'))
-                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="mobile-primary-btn rounded">
+                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                    class="mobile-primary-btn rounded">
                     <i class="fa fa-dollar"></i>
                     Buy Now
                 </a>
             @else
-                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="mobile-primary-btn rounded">
+                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                    class="mobile-primary-btn rounded">
                     <i class="fa fa-play"></i>
                     Play Now
                 </a>
             @endif
-        @elseif ($stream_details['notify_label'] == 'coming soon')
-            <!-- Mobile View -->
-            <form id="remind-form-mobile" method="POST" action="{{ route('remind.me') }}">
-                @csrf
-                <input type="hidden" name="stream_code" id="mobile-stream-code"
-                    value="{{ $stream_details['stream_guid'] }}">
-                <button class="mobile-primary-btn rounded" id="remind-button-mobile">
-                    <i id="mobile-remind-icon" class="fas fa-bell"></i>
-                    <span id="mobile-remind-text">Remind me</span>
-                </button>
-
-            </form>
-        @else
-            <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="mobile-primary-btn rounded">
-                <i class="fa fa-play"></i>
-                Available Now
-            </a>
         @endif
     </div>
     @if ($streamUrl !== '')
