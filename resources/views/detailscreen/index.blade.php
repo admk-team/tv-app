@@ -401,26 +401,13 @@
                     <div class="button_groupbox d-flex align-items-center mb-4">
 
                         <div class="btn_box movieDetailPlay">
-                            @if ($stream_details['notify_label'] == 'no_label')
-                                @if (session('USER_DETAILS') &&
-                                        session('USER_DETAILS')['USER_CODE'] &&
-                                        ($stream_details['monetization_type'] == 'P' ||
-                                            $stream_details['monetization_type'] == 'S' ||
-                                            $stream_details['monetization_type'] == 'O') &&
-                                        $stream_details['is_buyed'] == 'N')
-                                    <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
-                                        class="app-primary-btn rounded">
-                                        <i class="fa fa-dollar"></i>
-                                        Buy Now
-                                    </a>
-                                @else
-                                    <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
-                                        class="app-primary-btn rounded">
-                                        <i class="fa fa-play"></i>
-                                        Play Now
-                                    </a>
-                                @endif
-                            @elseif ($stream_details['notify_label'] == 'coming soon')
+                            @if (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'available now')
+                                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                                    class="app-primary-btn rounded">
+                                    <i class="fa fa-play"></i>
+                                    Available Now
+                                </a>
+                            @elseif (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'coming soon')
                                 @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                                     <form id="remind-form-desktop" method="POST" action="{{ route('remind.me') }}">
                                         @csrf
@@ -439,11 +426,24 @@
                                     </a>
                                 @endif
                             @else
-                                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
-                                    class="app-primary-btn rounded">
-                                    <i class="fa fa-play"></i>
-                                    Available Now
-                                </a>
+                                @if (session('USER_DETAILS') &&
+                                        session('USER_DETAILS')['USER_CODE'] &&
+                                        ($stream_details['monetization_type'] == 'P' ||
+                                            $stream_details['monetization_type'] == 'S' ||
+                                            $stream_details['monetization_type'] == 'O') &&
+                                        $stream_details['is_buyed'] == 'N')
+                                    <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                                        class="app-primary-btn rounded">
+                                        <i class="fa fa-dollar"></i>
+                                        Buy Now
+                                    </a>
+                                @else
+                                    <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                                        class="app-primary-btn rounded">
+                                        <i class="fa fa-play"></i>
+                                        Play Now
+                                    </a>
+                                @endif
                             @endif
 
                         </div>
