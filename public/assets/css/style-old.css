@@ -4804,6 +4804,7 @@ textarea.form-control:focus {
     padding: 5px 9px;
     font-size: 12px;
     transition: all 0.3s;
+    text-wrap: nowrap;
 }
 
 .movieDetailPlaymobile {
