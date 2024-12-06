@@ -4806,6 +4806,9 @@ textarea.form-control:focus {
     transition: all 0.3s;
     text-wrap: nowrap;
 }
+.theme-active-color{
+    color: var(--themeActiveColor) !important;
+}
 
 .movieDetailPlaymobile {
     margin-right: 10px;
