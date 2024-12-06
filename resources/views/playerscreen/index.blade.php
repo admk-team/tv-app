@@ -1411,10 +1411,6 @@ if (!empty($arrCatData))
                 }, 5000)
             }
 
-
-
-
-
             counter = [];
 
             function pauseVideo() {
@@ -1493,10 +1489,13 @@ if (!empty($arrCatData))
                 }
 
                 showOverlayAd();
+
+                detectPopupEvent();
             });
+            let eventHappening = false;
 
             @if (!empty($arrSlctItemData['buynow']))
-                @php
+                @php$('.mvp-popup-holder .mvp-popup').hasClass('.mvp-popup-visible');
                     $buynows = $arrSlctItemData['buynow'];
                 @endphp
             @endif
@@ -1660,6 +1659,59 @@ if (!empty($arrCatData))
 
         function overlayAdClick() {
             player.pauseMedia();
+        }
+
+        function showWatermark() {
+            let watermark = document.querySelector('.watermark');
+            if (watermark) {
+                watermark.style.display = "block";
+            }
+        }
+
+        function hideWatermark() {
+            let watermark = document.querySelector('.watermark');
+            if (watermark) {
+                watermark.style.display = "none";
+            }
+        }
+        
+        function detectPopupEvent() {
+            let eventHappening = false;
+
+            let startTime = 0;
+
+            setInterval(() => {
+                ++startTime;
+
+                if ($('.mvp-popup-holder .mvp-popup').hasClass('mvp-popup-visible') && $('.mvp-popup-holder .mvp-popup-visible').find('.continue-confirmation-popup').length === 0) {
+                    if (eventHappening === false) {
+                        blockPopup(startTime);
+                        hideOverlayAd();
+                        hideWatermark();
+                        eventHappening = true;
+                    }
+                } else {
+                    if (eventHappening === true) {
+                        showOverlayAd();
+                        showWatermark();
+                        eventHappening = false;
+                    }
+                }
+            }, 1000);
+        }
+
+        function blockPopup(startTime) {
+            if (startTime > 30) {
+                return;
+            }
+
+            let isPopupPaused = $('.mvp-popup-holder .mvp-popup-visible').data('show') === 'pause';
+            player.closePopup();
+            setTimeout(() => {
+                if (! isPopupPaused) {
+                    player.playMedia();
+                }
+            }, 500);
         }
     </script>
     <script>
