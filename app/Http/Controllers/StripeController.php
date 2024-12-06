@@ -236,7 +236,7 @@ class StripeController extends Controller
         $responseJson = $response->json();
 
         if (isset($responseJson['success'])) {
-            return redirect()->back();
+            return view('transaction-history.cancelstripe');
         } else {
             return redirect()->back();
         }

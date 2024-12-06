@@ -26,6 +26,7 @@ use App\Http\Controllers\FollowController;
 use App\Http\Controllers\GiftStreamController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\NewsLetterController;
+use App\Http\Controllers\NotifyComingSoonStreamController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QualityController;
@@ -183,3 +184,6 @@ Route::get('live-tv-guide/channel/stream/{channelCode}', [TvGuidePlayerControlle
 Route::get('tv-guide-group/{tvGuidePlaylist}', [TvGuidePlayerController::class, 'watchTvGuideStreams']);
 
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
+
+Route::get('check/remind/me', [NotifyComingSoonStreamController::class, 'checkRemindStatus'])->name('check.remind.me');
+Route::post('remind/me', [NotifyComingSoonStreamController::class, 'toggleRemind'])->name('remind.me');

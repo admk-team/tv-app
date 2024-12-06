@@ -41,41 +41,41 @@
         }
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-
+    
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-
+    
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
-
+    
     $stream_code = $stream_details['stream_guid'];
-
+    
     $postData = [
         'stream_code' => $stream_code,
     ];
-
+    
     // $ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
-
+    
     // curl_setopt($ch, CURLOPT_POST, 1);
     // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
+    
     // $response = curl_exec($ch);
-
+    
     // if (curl_errno($ch)) {
     //     die('Curl error: ' . curl_error($ch));
     // }
-
+    
     // curl_close($ch);
-
+    
     // $resultArray = json_decode($response, true);
-
+    
     // $userDidComment = false;
     // foreach ($resultArray as $review) {
     //     if (session('USER_DETAILS') && $review['user']['userCode'] === session('USER_DETAILS')['USER_CODE']) {
     //         $userDidComment = true;
     //     }
     // }
-
+    
     ?>
     <style>
         .responsive_video {
@@ -106,6 +106,7 @@
         .test-comma {
             color: var(--themePrimaryTxtColor);
         }
+
         .movie_detail_inner_box.with-logo {
             top: 0px !important;
         }
@@ -391,24 +392,51 @@
                     </dl>
 
                     <div class="button_groupbox d-flex align-items-center mb-4">
+
                         <div class="btn_box movieDetailPlay">
-                            @if (session('USER_DETAILS') &&
-                                    session('USER_DETAILS')['USER_CODE'] &&
-                                    ($stream_details['monetization_type'] == 'P' ||
-                                        $stream_details['monetization_type'] == 'S' ||
-                                        $stream_details['monetization_type'] == 'O') &&
-                                    $stream_details['is_buyed'] == 'N')
-                                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
-                                    class="app-primary-btn rounded">
-                                    <i class="fa fa-dollar"></i>
-                                    Buy Now
-                                </a>
-                            @else
+                            @if (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'available now')
                                 <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
                                     class="app-primary-btn rounded">
                                     <i class="fa fa-play"></i>
-                                    Play Now
+                                    Available Now
                                 </a>
+                            @elseif (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'coming soon')
+                                @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                                    <form id="remind-form-desktop" method="POST" action="{{ route('remind.me') }}">
+                                        @csrf
+                                        <input type="hidden" name="stream_code" id="stream-code"
+                                            value="{{ $stream_details['stream_guid'] }}">
+                                        <button class="app-primary-btn rounded" id="remind-button-desktop">
+                                            <i id="desktop-remind-icon" class="fas fa-bell"></i>
+                                            <span id="desktop-remind-text">Remind me</span>
+                                        </button>
+                                        <div id="response-message">{{ session('status') }}</div>
+                                    </form>
+                                @else
+                                    <a class="app-primary-btn rounded">
+                                        <i class="fa fa-play"></i>
+                                        Coming Soon
+                                    </a>
+                                @endif
+                            @else
+                                @if (session('USER_DETAILS') &&
+                                        session('USER_DETAILS')['USER_CODE'] &&
+                                        ($stream_details['monetization_type'] == 'P' ||
+                                            $stream_details['monetization_type'] == 'S' ||
+                                            $stream_details['monetization_type'] == 'O') &&
+                                        $stream_details['is_buyed'] == 'N')
+                                    <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                                        class="app-primary-btn rounded">
+                                        <i class="fa fa-dollar"></i>
+                                        Buy Now
+                                    </a>
+                                @else
+                                    <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                                        class="app-primary-btn rounded">
+                                        <i class="fa fa-play"></i>
+                                        Play Now
+                                    </a>
+                                @endif
                             @endif
 
                         </div>
@@ -432,23 +460,23 @@
                         }
                     ?>
                         <div class="share_circle addWtchBtn">
-                        <a href="javascript:void(0);" onClick="manageFavItem();">
-                            <i id="btnicon-fav" class="{{ $cls }}" style="color: var(--themeActiveColor)" data-bs-toggle="tooltip" title="{{ $tooltip }}"></i>
-                        </a>
-                        <input type="hidden" id="myWishListSign" value="{{ $signStr }}" />
-                        <input type="hidden" id="strQueryParm" value="{{ $strQueryParm }}" />
-                        <input type="hidden" id="reqUrl" value="{{ route('wishlist.toggle') }}" />
-                        @csrf
-                    </div>
+                            <a href="javascript:void(0);" onClick="manageFavItem();">
+                                <i id="btnicon-fav" class="{{ $cls }} theme-active-color" 
+                                    data-bs-toggle="tooltip" title="{{ $tooltip }}"></i>
+                            </a>
+                            <input type="hidden" id="myWishListSign" value="{{ $signStr }}" />
+                            <input type="hidden" id="strQueryParm" value="{{ $strQueryParm }}" />
+                            <input type="hidden" id="reqUrl" value="{{ route('wishlist.toggle') }}" />
+                            @csrf
+                        </div>
                         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
                             @if (!empty($stream_details['is_watch_party']) && $stream_details['is_watch_party'] == 1)
-                        <div class="share_circle">
-                            <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}"
-                                data-bs-toggle="tooltip"
-                                title="Create a Watch Party">
-                                <i class="fa fa-users" style="color: var(--themeActiveColor)"></i>
-                            </a>
-                        </div>
+                                <div class="share_circle">
+                                    <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}"
+                                        data-bs-toggle="tooltip" title="Create a Watch Party">
+                                        <i class="fa fa-users theme-active-color" ></i>
+                                    </a>
+                                </div>
                             @endif
                         @endif
                         <?php
@@ -456,12 +484,9 @@
                     ?>
                         <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                             <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}"
-                                data-bs-toggle="tooltip"
-                                title="Share">
-                                <i class="fa fa-share" style="color: var(--themeActiveColor)"></i>
+                                data-bs-toggle="tooltip" title="Share">
+                                <i class="fa fa-share theme-active-color" ></i>
                             </a>
-
-                            {{-- <a href="javascript:void(0)"><i class="fa fa-share" style="color: var(--themeActiveColor)"></i></a> --}}
                         </div>
                         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
                             @if (
@@ -471,7 +496,8 @@
                                         $stream_details['monetization_type'] == 'S' ||
                                         $stream_details['monetization_type'] == 'O'))
                                 <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#giftModal">
-                                    <a href="javascript:void(0);"><i class="fa-solid fa-gift" style="color: var(--themeActiveColor)"></i></a>
+                                    <a href="javascript:void(0);"><i class="fa-solid fa-gift theme-active-color"
+                                            ></i></a>
                                 </div>
                             @endif
                         @endif
@@ -693,9 +719,9 @@
 
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-})
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
 
         var themeActiveColor = "{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}";
 
@@ -887,6 +913,45 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                     }
                 });
             });
+        });
+    </script>
+
+
+
+
+    <script>
+        $(document).ready(function() {
+            // Fetch stream codes from the hidden inputs
+            const desktopStreamCode = $('#stream-code').val();
+            const mobileStreamCode = $('#mobile-stream-code').val();
+
+            // Function to toggle bell icon based on subscription status
+            function updateBellIcon(streamCode, iconId, textId) {
+                $.ajax({
+                    url: "{{ route('check.remind.me') }}",
+                    method: "GET",
+                    data: {
+                        stream_code: streamCode
+                    },
+                    success: function(response) {
+                        if (response.reminded) {
+                            $(`#${iconId}`).removeClass('fa-bell').addClass('fa-check-circle');
+                            $(`#${textId}`).text('Reminder set');
+                        } else {
+                            $(`#${iconId}`).removeClass('fa-check-circle').addClass('fa-bell');
+                            $(`#${textId}`).text('Remind me');
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Error checking subscription status:', xhr.responseText);
+                    }
+                });
+            }
+            // Initial icon status check
+            updateBellIcon(desktopStreamCode, 'desktop-remind-icon', 'desktop-remind-text');
+            if (mobileStreamCode) {
+                updateBellIcon(mobileStreamCode, 'mobile-remind-icon', 'mobile-remind-text');
+            }
         });
     </script>
 @endpush

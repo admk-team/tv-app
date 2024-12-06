@@ -85,7 +85,7 @@ body {
 
 .header .btns .search-icon {
     font-size: 23px;
-    color: #fff;
+    color: var(--themePrimaryTxtColor);
     margin-right: 20px;
     cursor: pointer;
     transition: all 0.3s;
@@ -94,6 +94,10 @@ body {
 .header .btns .search-icon:hover {
     color: var(--themeActiveColor);
 }
+.fa-bars{
+    color: var(--themePrimaryTxtColor) !important;
+}
+
 
 /* ------ Report styles start ------ */
 
@@ -114,9 +118,10 @@ body {
     color: var(--navbarMenucolor);
     font-weight: 500;
     border: solid 2px transparent;
-    padding: 6px 23px;
+    padding: 6px 14px;
     font-size: 15px;
     transition: all 0.3s;
+    text-wrap: nowrap;
 }
 
 .app-primary-btn:hover {

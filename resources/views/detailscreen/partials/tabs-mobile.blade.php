@@ -1,20 +1,47 @@
 <div class="button_groupbox d-flex align-items-center mb-2 px-3 mt-2">
     <div class="movieDetailPlaymobile">
-        @if (session('USER_DETAILS') &&
-                session('USER_DETAILS')['USER_CODE'] &&
-                $stream_details['is_buyed'] == 'N' &&
-                ($stream_details['monetization_type'] == 'P' ||
-                    $stream_details['monetization_type'] == 'S' ||
-                    $stream_details['monetization_type'] == 'O'))
-            <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="mobile-primary-btn rounded">
-                <i class="fa fa-dollar"></i>
-                Buy Now
-            </a>
-        @else
+        @if (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'available now')
             <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="mobile-primary-btn rounded">
                 <i class="fa fa-play"></i>
-                Play Now
+                Available Now
             </a>
+        @elseif (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'coming soon')
+            @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                <!-- Mobile View -->
+                <form id="remind-form-mobile" method="POST" action="{{ route('remind.me') }}">
+                    @csrf
+                    <input type="hidden" name="stream_code" id="mobile-stream-code"
+                        value="{{ $stream_details['stream_guid'] }}">
+                    <button class="mobile-primary-btn rounded" id="remind-button-mobile">
+                        <i id="mobile-remind-icon" class="fas fa-bell"></i>
+                        <span id="mobile-remind-text">Remind me</span>
+                    </button>
+                </form>
+            @else
+                <a class="mobile-primary-btn rounded">
+                    <i class="fa fa-play"></i>
+                    Coming Soon
+                </a>
+            @endif
+        @else
+            @if (session('USER_DETAILS') &&
+                    session('USER_DETAILS')['USER_CODE'] &&
+                    $stream_details['is_buyed'] == 'N' &&
+                    ($stream_details['monetization_type'] == 'P' ||
+                        $stream_details['monetization_type'] == 'S' ||
+                        $stream_details['monetization_type'] == 'O'))
+                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                    class="mobile-primary-btn rounded">
+                    <i class="fa fa-dollar"></i>
+                    Buy Now
+                </a>
+            @else
+                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                    class="mobile-primary-btn rounded">
+                    <i class="fa fa-play"></i>
+                    Play Now
+                </a>
+            @endif
         @endif
     </div>
     @if ($streamUrl !== '')
@@ -35,17 +62,27 @@ if (session('USER_DETAILS.USER_CODE')) {
 ?>
     <div class="share_circle addWtchBtn">
         <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav"
-                class="<?php echo $cls; ?>"></i></a>
+                class="<?php echo $cls; ?> theme-active-color"></i></a>
         <input type="hidden" id="myWishListSign" value='<?php echo $signStr; ?>' />
         <input type="hidden" id="strQueryParm" value='<?php echo $strQueryParm; ?>' />
         <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}' />
         @csrf
     </div>
+    @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+        @if (!empty($stream_details['is_watch_party']) && $stream_details['is_watch_party'] == 1)
+            <div class="share_circle">
+                <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}" data-bs-toggle="tooltip"
+                    title="Create a Watch Party">
+                    <i class="fa fa-users theme-active-color"></i>
+                </a>
+            </div>
+        @endif
+    @endif
     <?php
 }
 ?>
     <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-        <a href="javascript:void(0)"><i class="fa fa-share"></i></a>
+        <a href="javascript:void(0)"><i class="fa fa-share theme-active-color"></i></a>
     </div>
     @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
         @if (
@@ -55,7 +92,7 @@ if (session('USER_DETAILS.USER_CODE')) {
                     $stream_details['monetization_type'] == 'S' ||
                     $stream_details['monetization_type'] == 'O'))
             <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#giftModal">
-                <a href="javascript:void(0);"><i class="fa-solid fa-gift"></i></a>
+                <a href="javascript:void(0);"><i class="fa-solid fa-gift theme-active-color"></i></a>
             </div>
         @endif
     @endif
@@ -91,15 +128,15 @@ if (session('USER_DETAILS.USER_CODE')) {
         <div data-tab-content="overview" class="content">
             <div class="px-4">
                 @if (isset($stream_details['title_logo']) && $stream_details['title_logo'])
-                <div class="title_logo mb-1">
-                    <img class="img-fluid" src="{{ $stream_details['title_logo'] }}" 
-                         alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
-                </div>
-            @else
-                <h1 class="content-heading" title="{{ $stream_details['stream_title'] ?? '' }}">
-                    {{ $stream_details['stream_title'] ?? '' }}
-                </h1>
-            @endif
+                    <div class="title_logo mb-1">
+                        <img class="img-fluid" src="{{ $stream_details['title_logo'] }}"
+                            alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
+                    </div>
+                @else
+                    <h1 class="content-heading" title="{{ $stream_details['stream_title'] ?? '' }}">
+                        {{ $stream_details['stream_title'] ?? '' }}
+                    </h1>
+                @endif
                 <div class="content-timing mb-2">
                     @if ($stream_details['released_year'])
                         <a href="{{ route('year', $stream_details['released_year']) }}" class="text-decoration-none">
@@ -397,7 +434,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                 $stream_details['rating_type'] === 'stars' &&
                                 $stream_details['video_rating'] === 'E')
                             <div class="review-rating user-rating-mobile">
-                                <div class="star-mobile" data-rating-mobile="1" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="1"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -411,7 +449,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="star-mobile" data-rating-mobile="2" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="2"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -425,7 +464,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="star-mobile" data-rating-mobile="3" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="3"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -439,7 +479,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="star-mobile" data-rating-mobile="4" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="4"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -453,7 +494,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="star-mobile" data-rating-mobile="5" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="5"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -473,7 +515,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                 $stream_details['video_rating'] === 'E')
                             {{-- Hearts  --}}
                             <div class="review-rating user-rating-mobile">
-                                <div class="star-mobile" data-rating-mobile="1" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="1"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -487,7 +530,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="star-mobile" data-rating-mobile="2" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="2"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -501,7 +545,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="star-mobile" data-rating-mobile="3" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="3"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -515,7 +560,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="star-mobile" data-rating-mobile="4" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="4"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -529,7 +575,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="star-mobile" data-rating-mobile="5" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="5"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -544,7 +591,6 @@ if (session('USER_DETAILS.USER_CODE')) {
                                     </svg>
                                 </div>
                             </div>
-                           
                         @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
                                 $stream_details['rating_type'] === 'thumbs' &&
                                 $stream_details['video_rating'] === 'E')
@@ -573,7 +619,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </svg>
                                     </label>
                                 </div>
-                                <div class="dislike-mobile" role="button" onclick="handleRatingMolbile(this, 'dislike')">
+                                <div class="dislike-mobile" role="button"
+                                    onclick="handleRatingMolbile(this, 'dislike')">
                                     <input class="form-check-input" type="radio" name="like_status"
                                         id="dislike_status" value="1" style="display: none">
                                     <label class="form-check-label" for="dislike_status" role="button">
@@ -603,7 +650,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                 \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
                                 \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'stars')
                             <div class="review-rating user-rating-mobile">
-                                <div class="star-mobile" data-rating-mobile="1" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="1"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -617,7 +665,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="star-mobile" data-rating-mobile="2" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="2"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -631,7 +680,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="star-mobile" data-rating-mobile="3" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="3"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -645,7 +695,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="star-mobile" data-rating-mobile="4" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="4"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -659,7 +710,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="star-mobile" data-rating-mobile="5" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="5"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -681,7 +733,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                 \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'hearts')
                             {{-- Hearts  --}}
                             <div class="review-rating user-rating-mobile">
-                                <div class="star-mobile" data-rating-mobile="1" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="1"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -695,7 +748,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="star-mobile" data-rating-mobile="2" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="2"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -709,7 +763,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="star-mobile" data-rating-mobile="3" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="3"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -723,7 +778,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="star-mobile" data-rating-mobile="4" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="4"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -737,7 +793,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="star-mobile" data-rating-mobile="5" onclick="handleStarRatingMobile(this)">
+                                <div class="star-mobile" data-rating-mobile="5"
+                                    onclick="handleStarRatingMobile(this)">
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -752,7 +809,6 @@ if (session('USER_DETAILS.USER_CODE')) {
                                     </svg>
                                 </div>
                             </div>
-                           
                         @else
                             {{-- Thumbs  --}}
                             <div class="user-rating-mobile" style=" margin-top: 25px; display: flex; gap: 12px;">
@@ -779,7 +835,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         </svg>
                                     </label>
                                 </div>
-                                <div class="dislike-mobile" role="button" onclick="handleRatingMolbile(this, 'dislike')">
+                                <div class="dislike-mobile" role="button"
+                                    onclick="handleRatingMolbile(this, 'dislike')">
                                     <input class="form-check-input" type="radio" name="like_status"
                                         id="dislike_status" value="1" style="display: none">
                                     <label class="form-check-label" for="dislike_status" role="button">
@@ -843,8 +900,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                         <div class="review">
                             <div class="user">
                                 <div class="profile-name"><?= $name_symbol ?></div>
-                                @if(isset($review['profile_name']) && $review['profile_name'])
-                                <h4 class="username mb-0"><?= $review['profile_name'] ?></h4>
+                                @if (isset($review['profile_name']) && $review['profile_name'])
+                                    <h4 class="username mb-0"><?= $review['profile_name'] ?></h4>
                                 @else
                                     <h4 class="username mb-0"><?= $review['user']['name'] ?></h4>
                                 @endif
@@ -893,7 +950,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                         $stream_details['rating_type'] === 'thumbs' &&
                                         $stream_details['video_rating'] === 'E')
                                     {{-- Thumbs  --}}
-                                    <div class="user-rating-mobile" style="margin-top: 8px; display: flex; gap: 12px;">
+                                    <div class="user-rating-mobile"
+                                        style="margin-top: 8px; display: flex; gap: 12px;">
                                         @if ($review['rating'] >= 3)
                                             <div class="like active" style="rotate: 180deg">
                                                 <svg fill="{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}"
@@ -982,7 +1040,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                     @endfor
                                 @else
                                     {{-- Thumbs  --}}
-                                    <div class="user-rating-mobile" style="margin-top: 8px; display: flex; gap: 12px;">
+                                    <div class="user-rating-mobile"
+                                        style="margin-top: 8px; display: flex; gap: 12px;">
                                         @if ($review['rating'] >= 3)
                                             <div class="like active" style="rotate: 180deg">
                                                 <svg fill="{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}"

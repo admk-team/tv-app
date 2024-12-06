@@ -108,13 +108,17 @@
                                 }
                                 $streamUrl = $stream->stream_promo_url;
                                 $mType = '';
-                                if($streamUrl){
+                                if ($streamUrl) {
                                     if (strpos($streamUrl, '.m3u8') !== false) {
                                         $mType = "type='application/x-mpegURL'";
                                     } elseif (strpos($streamUrl, 'youtube.com') !== false) {
                                         $mType = "type='video/youtube'";
                                     } elseif (strpos($streamUrl, 'youtu.be') !== false) {
-                                        $isShortYouTube = preg_match('/youtu\.be\/([^?&]+)/', $streamUrl, $shortYouTubeMatches);
+                                        $isShortYouTube = preg_match(
+                                            '/youtu\.be\/([^?&]+)/',
+                                            $streamUrl,
+                                            $shortYouTubeMatches,
+                                        );
                                         if ($isShortYouTube) {
                                             $urlId = $shortYouTubeMatches[1];
                                             $streamUrl = 'https://www.youtube.com/watch?v=' . $urlId;
@@ -134,44 +138,52 @@
                                                 <a class="top-10-slider-number">{{ $loop->iteration }}</a>
                                                 <div class="{{ $cardThumbCls2 }}">
                                                     @if (!in_array($category->card_type, ['BA', 'LB']))
-                                                        <div class="trending_icon_box">
-                                                            @if ($stream->premium_icon ?? null)
-                                                                @php
-                                                                    $premium_icon = json_decode(
-                                                                        $stream->premium_icon,
-                                                                        true,
-                                                                    );
-                                                                @endphp
-                                                                @if ($premium_icon['type'] === 'html')
-                                                                    <div class="svg">
-                                                                        {!! $premium_icon['icon'] !!}
-                                                                    </div>
-                                                                @else
-                                                                    <img src="{{ $premium_icon['icon'] }}"
-                                                                        alt="icon">
-                                                                @endif
-                                                            @endif
-                                                        </div>
-                                                        @if ($stream->stream_type == 'A')
-                                                            @if (isset($stream->label_ad) && $stream->label_ad !== null)
-                                                                <div class="content-label"
-                                                                    style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
-                                                                    {{ $stream->label_ad }}
-                                                                </div>
-                                                            @endif
+                                                        @if (isset($stream->notify_label) &&
+                                                                ($stream->notify_label == 'available now' || $stream->notify_label == 'coming soon'))
+                                                            <div class="content-label"
+                                                                style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                                {{ strtoupper($stream->notify_label) }}
+                                                            </div>
                                                         @else
-                                                            @if (!($stream->premium_icon ?? null))
-                                                                @if (
-                                                                    (($stream->label_free ?? null) && $stream->monetization_type === 'F') ||
-                                                                        (($stream->label_premium ?? null) && $stream->monetization_type !== 'F'))
+                                                            <div class="trending_icon_box">
+                                                                @if ($stream->premium_icon ?? null)
+                                                                    @php
+                                                                        $premium_icon = json_decode(
+                                                                            $stream->premium_icon,
+                                                                            true,
+                                                                        );
+                                                                    @endphp
+                                                                    @if ($premium_icon['type'] === 'html')
+                                                                        <div class="svg">
+                                                                            {!! $premium_icon['icon'] !!}
+                                                                        </div>
+                                                                    @else
+                                                                        <img src="{{ $premium_icon['icon'] }}"
+                                                                            alt="icon">
+                                                                    @endif
+                                                                @endif
+                                                            </div>
+                                                            @if ($stream->stream_type == 'A')
+                                                                @if (isset($stream->label_ad) && $stream->label_ad !== null)
                                                                     <div class="content-label"
                                                                         style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
-                                                                        @if ($stream->monetization_type === 'F')
-                                                                            {{ $stream->label_free }}
-                                                                        @else
-                                                                            {{ $stream->label_premium }}
-                                                                        @endif
+                                                                        {{ $stream->label_ad }}
                                                                     </div>
+                                                                @endif
+                                                            @else
+                                                                @if (!($stream->premium_icon ?? null))
+                                                                    @if (
+                                                                        (($stream->label_free ?? null) && $stream->monetization_type === 'F') ||
+                                                                            (($stream->label_premium ?? null) && $stream->monetization_type !== 'F'))
+                                                                        <div class="content-label"
+                                                                            style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                                            @if ($stream->monetization_type === 'F')
+                                                                                {{ $stream->label_free }}
+                                                                            @else
+                                                                                {{ $stream->label_premium }}
+                                                                            @endif
+                                                                        </div>
+                                                                    @endif
                                                                 @endif
                                                             @endif
                                                         @endif
@@ -216,48 +228,56 @@
                                             <div class="{{ $cardThumbCls2 }}">
                                                 {{-- Premium Icon And Content Label --}}
                                                 @if (!in_array($category->card_type, ['BA', 'LB']))
-                                                    <div class="trending_icon_box">
-                                                        @if ($stream->premium_icon ?? null)
-                                                            @php
-                                                                $premium_icon = json_decode(
-                                                                    $stream->premium_icon,
-                                                                    true,
-                                                                );
-                                                            @endphp
-                                                            @if ($premium_icon['type'] === 'html')
-                                                                @if ($stream->stream_type !== 'A')
-                                                                    <div class="svg">
-                                                                        {!! $premium_icon['icon'] !!}
-                                                                    </div>
-                                                                @endif
-                                                            @else
-                                                                @if ($stream->stream_type !== 'A')
-                                                                    <img src="{{ $premium_icon['icon'] }}"
-                                                                        alt="icon">
+                                                    @if (isset($stream->notify_label) &&
+                                                            ($stream->notify_label == 'available now' || $stream->notify_label == 'coming soon'))
+                                                        <div class="content-label"
+                                                            style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                            {{ strtoupper($stream->notify_label) }}
+                                                        </div>
+                                                    @else
+                                                        <div class="trending_icon_box">
+                                                            @if ($stream->premium_icon ?? null)
+                                                                @php
+                                                                    $premium_icon = json_decode(
+                                                                        $stream->premium_icon,
+                                                                        true,
+                                                                    );
+                                                                @endphp
+                                                                @if ($premium_icon['type'] === 'html')
+                                                                    @if ($stream->stream_type !== 'A')
+                                                                        <div class="svg">
+                                                                            {!! $premium_icon['icon'] !!}
+                                                                        </div>
+                                                                    @endif
+                                                                @else
+                                                                    @if ($stream->stream_type !== 'A')
+                                                                        <img src="{{ $premium_icon['icon'] }}"
+                                                                            alt="icon">
+                                                                    @endif
                                                                 @endif
                                                             @endif
-                                                        @endif
-                                                    </div>
-                                                    @if ($stream->stream_type == 'A')
-                                                        @if (isset($stream->label_ad) && $stream->label_ad !== null)
-                                                            <div class="content-label"
-                                                                style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
-                                                                {{ $stream->label_ad }}
-                                                            </div>
-                                                        @endif
-                                                    @else
-                                                        @if (!($stream->premium_icon ?? null))
-                                                            @if (
-                                                                (($stream->label_free ?? null) && $stream->monetization_type === 'F') ||
-                                                                    (($stream->label_premium ?? null) && $stream->monetization_type !== 'F'))
+                                                        </div>
+                                                        @if ($stream->stream_type == 'A')
+                                                            @if (isset($stream->label_ad) && $stream->label_ad !== null)
                                                                 <div class="content-label"
                                                                     style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
-                                                                    @if ($stream->monetization_type === 'F')
-                                                                        {{ $stream->label_free }}
-                                                                    @else
-                                                                        {{ $stream->label_premium }}
-                                                                    @endif
+                                                                    {{ $stream->label_ad }}
                                                                 </div>
+                                                            @endif
+                                                        @else
+                                                            @if (!($stream->premium_icon ?? null))
+                                                                @if (
+                                                                    (($stream->label_free ?? null) && $stream->monetization_type === 'F') ||
+                                                                        (($stream->label_premium ?? null) && $stream->monetization_type !== 'F'))
+                                                                    <div class="content-label"
+                                                                        style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                                        @if ($stream->monetization_type === 'F')
+                                                                            {{ $stream->label_free }}
+                                                                        @else
+                                                                            {{ $stream->label_premium }}
+                                                                        @endif
+                                                                    </div>
+                                                                @endif
                                                             @endif
                                                         @endif
                                                     @endif

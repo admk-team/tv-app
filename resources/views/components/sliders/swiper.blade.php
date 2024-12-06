@@ -12,7 +12,8 @@
                 @foreach ($data->app->featured_items->streams ?? [] as $stream)
                     <div class="swiper-slide">
                         <img class="thumbnail__image" src="{{ $stream->feature_poster ?? '' }}" alt="">
-                        <div class="travel-info {{ isset($stream->title_logo) && $stream->title_logo ? 'with-logo' : 'without-logo' }}">
+                        <div
+                            class="travel-info {{ isset($stream->title_logo) && $stream->title_logo ? 'with-logo' : 'without-logo' }}">
                             @if (isset($stream->title_logo) && $stream->title_logo)
                                 <div class="title_logo mb-1">
                                     <img class="image-fluid" style="max-width: 100%" src="{{ $stream->title_logo }}"
@@ -41,10 +42,21 @@
                             </div>
                             <p class="description desktop-data">{{ $stream->stream_description ?? '' }}</p>
                             <div class="btns">
-                                <a class="app-primary-btn rounded"
-                                    href="{{ route('playerscreen', $stream->stream_guid) }}">
-                                    <i class="bi bi-play-fill banner-play-icon"></i> Play
-                                </a>
+                                @if (isset($stream->notify_label) && $stream->notify_label == 'available now')
+                                    <a class="app-primary-btn rounded"
+                                        href="{{ route('playerscreen', $stream->stream_guid) }}">
+                                        <i class="bi bi-play-fill banner-play-icon"></i> Available Now
+                                    </a>
+                                @elseif (isset($stream->notify_label) && $stream->notify_label == 'coming soon')
+                                    <a class="app-primary-btn rounded">
+                                        Coming Soon
+                                    </a>
+                                @else
+                                    <a class="app-primary-btn rounded"
+                                        href="{{ route('playerscreen', $stream->stream_guid) }}">
+                                        <i class="bi bi-play-fill banner-play-icon"></i> Play
+                                    </a>
+                                @endif
                                 <a class="app-secondary-btn rounded"
                                     href="{{ route('detailscreen', $stream->stream_guid) }}">
                                     <i class="bi bi-eye banner-view-icon"></i> Details
@@ -55,7 +67,7 @@
                 @endforeach
             @endif
         </div>
-        </div>
+    </div>
     <div class="swiper-pagination"></div>
 </div>
 @push('scripts')
@@ -64,7 +76,7 @@
         const swiper = new Swiper('.swiper-container', {
             slidesPerView: 2,
             spaceBetween: 10,
-            autoplay:true,
+            autoplay: true,
             loop: true,
             pagination: {
                 el: '.swiper-pagination',

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('content')
     <section class="credential_form signForm">
@@ -39,4 +39,4 @@
             </div>
         </div>
     </section>
-@endsection
+@endsection --}}

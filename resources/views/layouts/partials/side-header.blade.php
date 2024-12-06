@@ -43,7 +43,7 @@
                     <i class="bi bi-search search-icon"></i>
                 </a>
                 <button class="navbar-toggler order-3" type="button">
-                    <i class="fa fa-bars" style="color:white;"></i>
+                    <i class="fa fa-bars"></i>
                 </button>
                 @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                     <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
