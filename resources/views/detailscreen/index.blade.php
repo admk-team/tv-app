@@ -461,7 +461,7 @@
                     ?>
                         <div class="share_circle addWtchBtn">
                             <a href="javascript:void(0);" onClick="manageFavItem();">
-                                <i id="btnicon-fav" class="{{ $cls }}" style="color: var(--themeActiveColor)"
+                                <i id="btnicon-fav" class="{{ $cls }} theme-active-color" 
                                     data-bs-toggle="tooltip" title="{{ $tooltip }}"></i>
                             </a>
                             <input type="hidden" id="myWishListSign" value="{{ $signStr }}" />
@@ -474,7 +474,7 @@
                                 <div class="share_circle">
                                     <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}"
                                         data-bs-toggle="tooltip" title="Create a Watch Party">
-                                        <i class="fa fa-users" style="color: var(--themeActiveColor)"></i>
+                                        <i class="fa fa-users theme-active-color" ></i>
                                     </a>
                                 </div>
                             @endif
@@ -485,10 +485,8 @@
                         <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                             <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}"
                                 data-bs-toggle="tooltip" title="Share">
-                                <i class="fa fa-share" style="color: var(--themeActiveColor)"></i>
+                                <i class="fa fa-share theme-active-color" ></i>
                             </a>
-
-                            {{-- <a href="javascript:void(0)"><i class="fa fa-share" style="color: var(--themeActiveColor)"></i></a> --}}
                         </div>
                         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
                             @if (
@@ -498,8 +496,8 @@
                                         $stream_details['monetization_type'] == 'S' ||
                                         $stream_details['monetization_type'] == 'O'))
                                 <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#giftModal">
-                                    <a href="javascript:void(0);"><i class="fa-solid fa-gift"
-                                            style="color: var(--themeActiveColor)"></i></a>
+                                    <a href="javascript:void(0);"><i class="fa-solid fa-gift theme-active-color"
+                                            ></i></a>
                                 </div>
                             @endif
                         @endif
