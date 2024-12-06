@@ -1,6 +1,6 @@
 <div class="button_groupbox d-flex align-items-center mb-2 px-3 mt-2">
     <div class="movieDetailPlaymobile">
-        @if (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'no_label')
+        @if (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'available now')
             <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="mobile-primary-btn rounded">
                 <i class="fa fa-play"></i>
                 Available Now
