@@ -986,25 +986,25 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                             alt="{{ $arrSlctItemData['stream_title'] ?? 'Logo' }}">
                                     </div>
                                 @else
-                                    <h1 class="content-heading">{{ $arrSlctItemData['stream_title'] }}</h1>
+                                    <h1 class="content-heading themePrimaryTxtColr">{{ $arrSlctItemData['stream_title'] }}</h1>
                                 @endif
-                                <div class="content-timing">
+                                <div class="content-timing themePrimaryTxtColr">
                                     @if ($arrSlctItemData['released_year'])
                                         <a href="{{ route('year', $arrSlctItemData['released_year']) }}"
                                             class="text-decoration-none">
-                                            <span class="year">{{ $arrSlctItemData['released_year'] }}</span>
+                                            <span class="year themePrimaryTxtColr">{{ $arrSlctItemData['released_year'] }}</span>
                                         </a>
-                                        <span class="dot-sep"></span>
+                                        <span class="dot-sep themePrimaryTxtColr"></span>
                                     @endif
                                     @if ($arrSlctItemData['stream_duration'] && $arrSlctItemData['stream_duration'] !== '0')
-                                        <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
-                                        <span class="dot-sep"></span>
+                                        <span class="themePrimaryTxtColr">{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
+                                        <span class="dot-sep themePrimaryTxtColr"></span>
                                     @endif
                                     {{-- <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span> --}}
-                                    <span class="movie_type">
+                                    <span class="movie_type themePrimaryTxtColr">
                                         @foreach ($arrSlctItemData['genre'] ?? [] as $item)
                                             <a href="{{ route('category', $item['code']) }}?type=genre"
-                                                class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
+                                                class="px-0 themePrimaryTxtColr">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
                                         @endforeach
                                     </span>
                                     <?php
@@ -1012,8 +1012,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                             {
                                 ?>
                                     <span
-                                        class="movie_type">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL' ? $arrSlctItemData['stream_episode_title'] : '' }}</span>
-                                    <span class="movie_type">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
+                                        class="movie_type themePrimaryTxtColr">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL' ? $arrSlctItemData['stream_episode_title'] : '' }}</span>
+                                    <span class="movie_type themePrimaryTxtColr">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
                                     <?php
                             }
     ?>
@@ -1021,7 +1021,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                   if ($arrSlctItemData['content_qlt'] != '')
                   {
     ?>
-                                    <span class="content_screen">
+                                    <span class="content_screen themePrimaryTxtColr">
                                         @php
                                             $content_qlt_arr = explode(',', $arrSlctItemData['content_qlt']);
                                             $content_qlt_codes_arr = explode(
@@ -1044,7 +1044,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                       if ($arrSlctItemData['content_rating'] != '')
                       {
                         ?>
-                                    <span class="content_screen">
+                                    <span class="content_screen themePrimaryTxtColr">
                                         @php
                                             $content_rating_arr = explode(',', $arrSlctItemData['content_rating']);
                                             $content_rating_codes_arr = explode(
@@ -1411,10 +1411,6 @@ if (!empty($arrCatData))
                 }, 5000)
             }
 
-
-
-
-
             counter = [];
 
             function pauseVideo() {
@@ -1493,10 +1489,13 @@ if (!empty($arrCatData))
                 }
 
                 showOverlayAd();
+
+                detectPopupEvent();
             });
+            let eventHappening = false;
 
             @if (!empty($arrSlctItemData['buynow']))
-                @php
+                @php$('.mvp-popup-holder .mvp-popup').hasClass('.mvp-popup-visible');
                     $buynows = $arrSlctItemData['buynow'];
                 @endphp
             @endif
@@ -1660,6 +1659,59 @@ if (!empty($arrCatData))
 
         function overlayAdClick() {
             player.pauseMedia();
+        }
+
+        function showWatermark() {
+            let watermark = document.querySelector('.watermark');
+            if (watermark) {
+                watermark.style.display = "block";
+            }
+        }
+
+        function hideWatermark() {
+            let watermark = document.querySelector('.watermark');
+            if (watermark) {
+                watermark.style.display = "none";
+            }
+        }
+        
+        function detectPopupEvent() {
+            let eventHappening = false;
+
+            let startTime = 0;
+
+            setInterval(() => {
+                ++startTime;
+
+                if ($('.mvp-popup-holder .mvp-popup').hasClass('mvp-popup-visible') && $('.mvp-popup-holder .mvp-popup-visible').find('.continue-confirmation-popup').length === 0) {
+                    if (eventHappening === false) {
+                        blockPopup(startTime);
+                        hideOverlayAd();
+                        hideWatermark();
+                        eventHappening = true;
+                    }
+                } else {
+                    if (eventHappening === true) {
+                        showOverlayAd();
+                        showWatermark();
+                        eventHappening = false;
+                    }
+                }
+            }, 1000);
+        }
+
+        function blockPopup(startTime) {
+            if (startTime > 30) {
+                return;
+            }
+
+            let isPopupPaused = $('.mvp-popup-holder .mvp-popup-visible').data('show') === 'pause';
+            player.closePopup();
+            setTimeout(() => {
+                if (! isPopupPaused) {
+                    player.playMedia();
+                }
+            }, 500);
         }
     </script>
     <script>
