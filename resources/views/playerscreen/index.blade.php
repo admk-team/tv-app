@@ -1194,7 +1194,7 @@ if (!empty($arrCatData))
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                                                          </div> -->
+                                                                                                                                                                                                                                                                              </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}</div>
@@ -1327,404 +1327,413 @@ if (!empty($arrCatData))
 
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
-            var isshowlist = true
-            var pListPostion = 'vrb';
-            if (detectMob()) {
-                var pListPostion = 'hb';
-            }
-            var settings = {
-
-                skin: 'sirius', //aviva, polux, sirius
-                playlistPosition: pListPostion, //vrb, vb, hb, no-playlist, outer, wall
-                vimeoPlayerType: "chromeless",
-                youtubePlayerType: "chromeless",
-                sourcePath: "",
-                activeItem: 0, //active video to start with
-                activePlaylist: ".playlist-video",
-                playlistList: "#mvp-playlist-list",
-                instanceName: "player1",
-                hidePlaylistOnMinimize: true,
-                volume: 0.75,
-                useShare: true,
-                autoPlay: true,
-                crossorigin: "link",
-                playlistOpened: false,
-                randomPlay: false,
-                usePlaylistToggle: isshowlist,
-                useEmbed: true,
-                useTime: true,
-                usePip: true, //picture in picture
-                useCc: true, //caption toggle
-                useAirPlay: true,
-                usePlaybackRate: true,
-                useNext: true,
-                usePrevious: true,
-                useRewind: true,
-                useSkipBackward: true,
-                useSkipForward: true,
-                showPrevNextVideoThumb: true,
-                rememberPlaybackPosition: 'all', //remember last video position (false, 1, all)
-                useQuality: true,
-                useImaLoader: true,
-                useTheaterMode: true,
-                focusVideoInTheater: true,
-                focusVideoInTheater: true,
-                hidePlaylistOnTheaterEnter: true,
-                useSubtitle: true,
-                useTranscript: false,
-                useChapterToggle: false,
-                useCasting: true,
-                comingNextHeader: "Coming Next",
-                comingNextCancelBtnText: "CANCEL",
-                mediaEndAction: 'comingnext',
-                comingnextTime: 10,
-                disableVideoSkip: false,
-                useAdSeekbar: true,
-                useAdControls: true,
-                useGlobalPopupCloseBtn: true,
-                /* showPopupsOnlyOnce: true, */
-                playbackRateArr: [{
-                        value: 2,
-                        menu_title: '2x'
-                    },
-                    {
-                        value: 1.5,
-                        menu_title: '1.5x'
-                    },
-                    {
-                        value: 1.25,
-                        menu_title: '1.25x'
-                    },
-                    {
-                        value: 1,
-                        menu_title: '1x (Normal)'
-                    },
-                    {
-                        value: 0.5,
-                        menu_title: '0.5x'
-                    },
-                    {
-                        value: 0.25,
-                        menu_title: '0.25x'
+                    var isshowlist = true
+                    var pListPostion = 'vrb';
+                    if (detectMob()) {
+                        var pListPostion = 'hb';
                     }
-                ],
+                    var settings = {
 
-            };
-
-            window.player = new mvp(document.getElementById('wrapper'), settings);
-            setTimeout(unmutedVoice, 2000);
-            let playerstillwatch = "<?php echo $stillwatching; ?>";
-            let playerstillwatchduration = "<?php echo $playerstillwatchduration; ?>";
-
-            if (playerstillwatch && playerstillwatch == "1") {
-                window.setInterval(function() {
-                    pauseVideo();
-                }, 5000)
-            }
-
-            counter = [];
-
-            function pauseVideo() {
-                if (isPrime(player.getActiveItemId()) && !counter.includes(player.getActiveItemId())) {
-                    counter.push(player.getActiveItemId());
-                    player.pauseMedia();
-                    $('#statusModal').modal('show');
-                }
-            }
-            $('#confirm_status').click(function() {
-                $('#statusModal').modal('hide');
-                player.playMedia();
-            });
-            $('#closemybt').click(function() {
-                $('#statusModal').modal('hide');
-                player.pauseMedia();
-            });
-
-            function isPrime(number) {
-                // Check if the number is less than 2 (0 and 1 are not prime)
-
-                if (number !== 0 && number % parseInt(playerstillwatchduration) === 0) {
-                    playerstillwatchduration + playerstillwatchduration;
-                    return true;
-                } else {
-                    return false;
-                }
-
-                // // Check for divisibility from 2 to the square root of the number
-                // for (let i = 2; i <= Math.sqrt(number); i++) {
-                //     if (number % i === 0) {
-                //         return false; // Not a prime number
-                //     }
-                // }
-
-                // return true; // Prime number
-            }
-
-            @if ($redirectUrl)
-                const trial = getTrial();
-                trial.onRedirect(() => {
-                    player.pauseMedia();
-                    player.destroyMedia();
-                    window.location.href = '{{ $redirectUrl }}';
-                })
-            @endif
-
-            var isFirstTIme = true
-            player.addEventListener('mediaStart', function(data) {
-                //called on media start, returns (instance, instanceName, counter)
-
-                console.log(data.instanceName);
-                console.log(data.counter); //active item
-
-                //get media current time
-                data.instance.getCurrentTime();
-
-                //get media duration
-                data.instance.getDuration();
-                if (isFirstTIme == true) {
-                    isFirstTIme = false;
-                    // player.seek()
-                    player.seek({{ $arrSlctItemData['start_duration'] }});
-                } else {
-                    sendAjaxRes4VideoDuration('getStrmDur', data.media.mediaId, '');
-                }
-
-                let liveVideo = document.querySelector('.live-video');
-                if (liveVideo) {
-                    liveVideo.style.display = "block";
-                }
-
-                let watermark = document.querySelector('.watermark');
-                if (watermark) {
-                    watermark.style.display = "block";
-                }
-
-                showOverlayAd();
-
-                detectPopupEvent();
-            });
-            let eventHappening = false;
-
-            @if (!empty($arrSlctItemData['buynow']))
-                @php$('.mvp-popup-holder .mvp-popup').hasClass('.mvp-popup-visible');
-                                                            $buynows = $arrSlctItemData['buynow'];
-                                                @endphp ?> ? >
-            @endif
-            player.addEventListener("mediaPlay", function(data) {
-                @if ($redirectUrl)
-                    trial.start();
-                    document.querySelector('.mvp-input-progress').disabled = true;
-                    document.querySelector('.mvp-skip-backward-toggle').disabled = true;
-                    document.querySelector('.mvp-skip-forward-toggle').disabled = true;
-                    document.querySelector('.mvp-rewind-toggle').disabled = true;
-                @endif
-
-                @if (!empty($arrSlctItemData['buynow']))
-                    @foreach ($arrSlctItemData['buynow'] as $index => $buynow)
-                        let timeOffset_{{ $index }} = {{ $buynow['time_offset'] * 60 }};
-                        let isBuyNowShown_{{ $index }} = false;
-
-                        function showBuyNowMessage_{{ $index }}() {
-                            let currentTime = Math.floor(data.instance.getCurrentTime());
-
-                            // Check if the current time is past the time offset
-                            if (currentTime >= timeOffset_{{ $index }} && !
-                                isBuyNowShown_{{ $index }}) {
-                                isBuyNowShown_{{ $index }} = true; // Prevent showing again
-
-                                const buyNowMessageBox = document.querySelector('.buynow-redirect-message');
-                                buyNowMessageBox.innerHTML =
-                                    `{{ $buynow['name'] }}<span class="time"></span>`;
-                                buyNowMessageBox.classList.add('show-player-popup');
-                                buyNowMessageBox.style.display = 'block';
-
-                                let hideMessageTimeout = setTimeout(() => {
-                                    buyNowMessageBox.classList.remove('show-player-popup');
-                                    buyNowMessageBox.style.display = 'none';
-                                }, 10000);
-
-                                let sourceType = "{{ $buynow['source_type'] }}";
-                                let internalUrl =
-                                    "{{ url('/getitemplayerdetail/' . $buynow['stream_url']) }}";
-                                let externalUrl = "{{ $buynow['external_link'] }}";
-
-                                buyNowMessageBox.onclick = () => {
-                                    if (sourceType === "external") {
-                                        window.open(externalUrl, '_blank');
-                                    } else if (sourceType === "internal") {
-                                        window.open(internalUrl, '_blank');
-                                    } else {
-                                        console.log("Invalid source type");
-                                    }
-
-                                    buyNowMessageBox.classList.remove('show-player-popup');
-                                    buyNowMessageBox.style.display = 'none';
-                                    clearTimeout(hideMessageTimeout);
-                                };
+                        skin: 'sirius', //aviva, polux, sirius
+                        playlistPosition: pListPostion, //vrb, vb, hb, no-playlist, outer, wall
+                        vimeoPlayerType: "chromeless",
+                        youtubePlayerType: "chromeless",
+                        sourcePath: "",
+                        activeItem: 0, //active video to start with
+                        activePlaylist: ".playlist-video",
+                        playlistList: "#mvp-playlist-list",
+                        instanceName: "player1",
+                        hidePlaylistOnMinimize: true,
+                        volume: 0.75,
+                        useShare: true,
+                        autoPlay: true,
+                        crossorigin: "link",
+                        playlistOpened: false,
+                        randomPlay: false,
+                        usePlaylistToggle: isshowlist,
+                        useEmbed: true,
+                        useTime: true,
+                        usePip: true, //picture in picture
+                        useCc: true, //caption toggle
+                        useAirPlay: true,
+                        usePlaybackRate: true,
+                        useNext: true,
+                        usePrevious: true,
+                        useRewind: true,
+                        useSkipBackward: true,
+                        useSkipForward: true,
+                        showPrevNextVideoThumb: true,
+                        rememberPlaybackPosition: 'all', //remember last video position (false, 1, all)
+                        useQuality: true,
+                        useImaLoader: true,
+                        useTheaterMode: true,
+                        focusVideoInTheater: true,
+                        focusVideoInTheater: true,
+                        hidePlaylistOnTheaterEnter: true,
+                        useSubtitle: true,
+                        useTranscript: false,
+                        useChapterToggle: false,
+                        useCasting: true,
+                        comingNextHeader: "Coming Next",
+                        comingNextCancelBtnText: "CANCEL",
+                        mediaEndAction: 'comingnext',
+                        comingnextTime: 10,
+                        disableVideoSkip: false,
+                        useAdSeekbar: true,
+                        useAdControls: true,
+                        useGlobalPopupCloseBtn: true,
+                        /* showPopupsOnlyOnce: true, */
+                        playbackRateArr: [{
+                                value: 2,
+                                menu_title: '2x'
+                            },
+                            {
+                                value: 1.5,
+                                menu_title: '1.5x'
+                            },
+                            {
+                                value: 1.25,
+                                menu_title: '1.25x'
+                            },
+                            {
+                                value: 1,
+                                menu_title: '1x (Normal)'
+                            },
+                            {
+                                value: 0.5,
+                                menu_title: '0.5x'
+                            },
+                            {
+                                value: 0.25,
+                                menu_title: '0.25x'
                             }
+                        ],
+
+                    };
+
+                    window.player = new mvp(document.getElementById('wrapper'), settings);
+                    setTimeout(unmutedVoice, 2000);
+                    let playerstillwatch = "<?php echo $stillwatching; ?>";
+                    let playerstillwatchduration = "<?php echo $playerstillwatchduration; ?>";
+
+                    if (playerstillwatch && playerstillwatch == "1") {
+                        window.setInterval(function() {
+                            pauseVideo();
+                        }, 5000)
+                    }
+
+                    counter = [];
+
+                    function pauseVideo() {
+                        if (isPrime(player.getActiveItemId()) && !counter.includes(player.getActiveItemId())) {
+                            counter.push(player.getActiveItemId());
+                            player.pauseMedia();
+                            $('#statusModal').modal('show');
+                        }
+                    }
+                    $('#confirm_status').click(function() {
+                        $('#statusModal').modal('hide');
+                        player.playMedia();
+                    });
+                    $('#closemybt').click(function() {
+                        $('#statusModal').modal('hide');
+                        player.pauseMedia();
+                    });
+
+                    function isPrime(number) {
+                        // Check if the number is less than 2 (0 and 1 are not prime)
+
+                        if (number !== 0 && number % parseInt(playerstillwatchduration) === 0) {
+                            playerstillwatchduration + playerstillwatchduration;
+                            return true;
+                        } else {
+                            return false;
                         }
 
-                        // Check for the buy now message every 100 ms
-                        let timeCheckInterval_{{ $index }} = setInterval(
-                            showBuyNowMessage_{{ $index }}, 100);
-                    @endforeach
-                @endif
+                        // // Check for divisibility from 2 to the square root of the number
+                        // for (let i = 2; i <= Math.sqrt(number); i++) {
+                        //     if (number % i === 0) {
+                        //         return false; // Not a prime number
+                        //     }
+                        // }
 
-
-            });
-
-
-            player.addEventListener("mediaPause", function(data) {
-                //alert(data.instance.getCurrentTime());
-                //get media duration
-                //alert(data.instance.getDuration());
-                //alert(data.media.mediaId);
-                sendAjaxRes4VideoDuration('saveStrmDur', data.media.mediaId, data.instance
-                    .getCurrentTime());
-
-                @if ($redirectUrl)
-                    trial.pause();
-                @endif
-            });
-
-            player.addEventListener("mediaEnd", function(data) {
-
-                //alert(data.instance.getCurrentTime());
-                //get media duration
-                //alert(data.instance.getDuration());
-                //alert(data.media.mediaId);
-                sendAjaxRes4VideoDuration('removeStrmDur', data.media.mediaId, '');
-
-            });
-
-            player.addEventListener("adPlay", function(data) {
-                let liveVideo = document.querySelector('.live-video');
-                if (liveVideo) {
-                    liveVideo.style.display = "none";
-                }
-
-                // Hide watermark when ad is playing
-                let watermark = document.querySelector('.watermark');
-                if (watermark) {
-                    watermark.style.display = "none";
-                }
-
-                hideOverlayAd();
-            })
-
-
-            window.resumeMedia = function() {
-                player.closePopup();
-                setTimeout(() => player.playMedia(), 500);
-            }
-
-            window.startOverMedia = function() {
-                player.closePopup();
-                player.seek(0);
-                setTimeout(() => player.playMedia(), 500);
-            }
-
-        });
-
-        document.body.addEventListener("click", function(evt) {
-            //console.dir(this);
-            //note evt.target can be a nested element, not the body element, resulting in misfires
-            //console.log(evt.target);
-            if (player.getMediaPlaying()) {
-                // alert(player);
-                mediaId = player.getCurrentMediaData().mediaId
-                console.log(player.getCurrentMediaData());
-                console.log(player.getCurrentTime());
-                //  alert("body clicked");
-                sendAjaxRes4VideoDuration('saveStrmDur', mediaId, player.getCurrentTime());
-            }
-        });
-
-        function unmutedVoice() {
-            //alert("hi");
-            player.toggleMute();
-            player.playMedia();
-            setInterval(sendAdRequrst, 50000);
-        }
-
-        function sendAdRequrst() {
-            $.get("<?php echo $dataVast3 ?? ''; ?>", function(data, status) {
-                //alert("Data: " + data + "\nStatus: " + status);
-            });
-        }
-
-        function showOverlayAd() {
-            if (!$('.overlay-ad').hasClass('closed')) {
-                $('.overlay-ad').removeClass('d-none');
-            }
-        }
-
-        function hideOverlayAd() {
-            $('.overlay-ad').addClass('d-none');
-        }
-
-        function closeOverlayAd() {
-            $('.overlay-ad').addClass('d-none');
-            $('.overlay-ad').addClass('closed');
-        }
-
-        function overlayAdClick() {
-            player.pauseMedia();
-        }
-
-        function showWatermark() {
-            let watermark = document.querySelector('.watermark');
-            if (watermark) {
-                watermark.style.display = "block";
-            }
-        }
-
-        function hideWatermark() {
-            let watermark = document.querySelector('.watermark');
-            if (watermark) {
-                watermark.style.display = "none";
-            }
-        }
-
-        function detectPopupEvent() {
-            let eventHappening = false;
-
-            let startTime = 0;
-
-            setInterval(() => {
-                ++startTime;
-
-                if ($('.mvp-popup-holder .mvp-popup').hasClass('mvp-popup-visible') && $(
-                        '.mvp-popup-holder .mvp-popup-visible').find('.continue-confirmation-popup').length === 0) {
-                    if (eventHappening === false) {
-                        blockPopup(startTime);
-                        hideOverlayAd();
-                        hideWatermark();
-                        eventHappening = true;
+                        // return true; // Prime number
                     }
-                } else {
-                    if (eventHappening === true) {
+
+                    @if ($redirectUrl)
+                        const trial = getTrial();
+                        trial.onRedirect(() => {
+                            player.pauseMedia();
+                            player.destroyMedia();
+                            window.location.href = '{{ $redirectUrl }}';
+                        })
+                    @endif
+
+                    var isFirstTIme = true
+                    player.addEventListener('mediaStart', function(data) {
+                        //called on media start, returns (instance, instanceName, counter)
+
+                        console.log(data.instanceName);
+                        console.log(data.counter); //active item
+
+                        //get media current time
+                        data.instance.getCurrentTime();
+
+                        //get media duration
+                        data.instance.getDuration();
+                        if (isFirstTIme == true) {
+                            isFirstTIme = false;
+                            // player.seek()
+                            player.seek({{ $arrSlctItemData['start_duration'] }});
+                        } else {
+                            sendAjaxRes4VideoDuration('getStrmDur', data.media.mediaId, '');
+                        }
+
+                        let liveVideo = document.querySelector('.live-video');
+                        if (liveVideo) {
+                            liveVideo.style.display = "block";
+                        }
+
+                        let watermark = document.querySelector('.watermark');
+                        if (watermark) {
+                            watermark.style.display = "block";
+                        }
+
                         showOverlayAd();
-                        showWatermark();
-                        eventHappening = false;
-                    }
-                }
-            }, 1000);
-        }
 
-        function blockPopup(startTime) {
-            if (startTime > 30) {
-                return;
+                        detectPopupEvent();
+                    });
+                    let eventHappening = false;
+
+                    @if (!empty($arrSlctItemData['buynow']))
+                        @php
+                            $buynows = $arrSlctItemData['buynow'];
+                        @endphp
+
+                            <
+                            script >
+                            if ($('.mvp-popup-holder .mvp-popup').hasClass('mvp-popup-visible')) {
+                                // Your JavaScript logic here
+                            }
+    </>
+    @endif
+
+    player.addEventListener("mediaPlay", function(data) {
+    @if ($redirectUrl)
+        trial.start();
+        document.querySelector('.mvp-input-progress').disabled = true;
+        document.querySelector('.mvp-skip-backward-toggle').disabled = true;
+        document.querySelector('.mvp-skip-forward-toggle').disabled = true;
+        document.querySelector('.mvp-rewind-toggle').disabled = true;
+    @endif
+
+    @if (!empty($arrSlctItemData['buynow']))
+        @foreach ($arrSlctItemData['buynow'] as $index => $buynow)
+            let timeOffset_{{ $index }} = {{ $buynow['time_offset'] * 60 }};
+            let isBuyNowShown_{{ $index }} = false;
+
+            function showBuyNowMessage_{{ $index }}() {
+            let currentTime = Math.floor(data.instance.getCurrentTime());
+
+            // Check if the current time is past the time offset
+            if (currentTime >= timeOffset_{{ $index }} && !
+            isBuyNowShown_{{ $index }}) {
+            isBuyNowShown_{{ $index }} = true; // Prevent showing again
+
+            const buyNowMessageBox = document.querySelector('.buynow-redirect-message');
+            buyNowMessageBox.innerHTML =
+            `{{ $buynow['name'] }}<span class="time"></span>`;
+            buyNowMessageBox.classList.add('show-player-popup');
+            buyNowMessageBox.style.display = 'block';
+
+            let hideMessageTimeout = setTimeout(() => {
+            buyNowMessageBox.classList.remove('show-player-popup');
+            buyNowMessageBox.style.display = 'none';
+            }, 10000);
+
+            let sourceType = "{{ $buynow['source_type'] }}";
+            let
+            internalUrl =
+                                    "{{ url('/getitemplayerdetail/' . $buynow['stream_url']) }}";
+            let externalUrl = "{{ $buynow['external_link'] }}";
+
+            buyNowMessageBox.onclick = () => {
+            if (sourceType === "external") {
+            window.open(externalUrl, '_blank');
+            } else if (sourceType === "internal") {
+            window.open(internalUrl, '_blank');
+            } else {
+            console.log("Invalid source type");
             }
 
-            let isPopupPaused = $('.mvp-popup-holder .mvp-popup-visible').data('show') === 'pause';
-            player.closePopup();
-            setTimeout(() => {
-                if (!isPopupPaused) {
-                    player.playMedia();
-                }
-            }, 500);
-        }
+            buyNowMessageBox.classList.remove('show-player-popup');
+            buyNowMessageBox.style.display = 'none';
+            clearTimeout(hideMessageTimeout);
+            };
+            }
+            }
+
+            // Check for the buy now message every 100 ms
+            let timeCheckInterval_{{ $index }} = setInterval(
+            showBuyNowMessage_{{ $index }}, 100);
+        @endforeach
+    @endif
+
+
+    });
+
+
+    player.addEventListener("mediaPause", function(data) {
+    //alert(data.instance.getCurrentTime());
+    //get media duration
+    //alert(data.instance.getDuration());
+    //alert(data.media.mediaId);
+    sendAjaxRes4VideoDuration('saveStrmDur', data.media.mediaId, data.instance
+    .getCurrentTime());
+
+    @if ($redirectUrl)
+        trial.pause();
+    @endif
+    });
+
+    player.addEventListener("mediaEnd", function(data) {
+
+    //alert(data.instance.getCurrentTime());
+    //get media duration
+    //alert(data.instance.getDuration());
+    //alert(data.media.mediaId);
+    sendAjaxRes4VideoDuration('removeStrmDur', data.media.mediaId, '');
+
+    });
+
+    player.addEventListener("adPlay", function(data) {
+    let liveVideo = document.querySelector('.live-video');
+    if (liveVideo) {
+    liveVideo.style.display = "none";
+    }
+
+    // Hide watermark when ad is playing
+    let watermark = document.querySelector('.watermark');
+    if (watermark) {
+    watermark.style.display = "none";
+    }
+
+    hideOverlayAd();
+    })
+
+
+    window.resumeMedia = function() {
+    player.closePopup();
+    setTimeout(() => player.playMedia(), 500);
+    }
+
+    window.startOverMedia = function() {
+    player.closePopup();
+    player.seek(0);
+    setTimeout(() => player.playMedia(), 500);
+    }
+
+    });
+
+    document.body.addEventListener("click", function(evt) {
+    //console.dir(this);
+    //note evt.target can be a nested element, not the body element, resulting in misfires
+    //console.log(evt.target);
+    if (player.getMediaPlaying()) {
+    // alert(player);
+    mediaId = player.getCurrentMediaData().mediaId
+    console.log(player.getCurrentMediaData());
+    console.log(player.getCurrentTime());
+    // alert("body clicked");
+    sendAjaxRes4VideoDuration('saveStrmDur', mediaId, player.getCurrentTime());
+    }
+    });
+
+    function unmutedVoice() {
+    //alert("hi");
+    player.toggleMute();
+    player.playMedia();
+    setInterval(sendAdRequrst, 50000);
+    }
+
+    function sendAdRequrst() {
+    $.get("<?php echo $dataVast3 ?? ''; ?>", function(data, status) {
+    //alert("Data: " + data + "\nStatus: " + status);
+    });
+    }
+
+    function showOverlayAd() {
+    if (!$('.overlay-ad').hasClass('closed')) {
+    $('.overlay-ad').removeClass('d-none');
+    }
+    }
+
+    function hideOverlayAd() {
+    $('.overlay-ad').addClass('d-none');
+    }
+
+    function closeOverlayAd() {
+    $('.overlay-ad').addClass('d-none');
+    $('.overlay-ad').addClass('closed');
+    }
+
+    function overlayAdClick() {
+    player.pauseMedia();
+    }
+
+    function showWatermark() {
+    let watermark = document.querySelector('.watermark');
+    if (watermark) {
+    watermark.style.display = "block";
+    }
+    }
+
+    function hideWatermark() {
+    let watermark = document.querySelector('.watermark');
+    if (watermark) {
+    watermark.style.display = "none";
+    }
+    }
+
+    function detectPopupEvent() {
+    let eventHappening = false;
+
+    let startTime = 0;
+
+    setInterval(() => {
+    ++startTime;
+
+    if ($('.mvp-popup-holder .mvp-popup').hasClass('mvp-popup-visible') && $(
+    '.mvp-popup-holder .mvp-popup-visible').find('.continue-confirmation-popup').length === 0) {
+    if (eventHappening === false) {
+    blockPopup(startTime);
+    hideOverlayAd();
+    hideWatermark();
+    eventHappening = true;
+    }
+    } else {
+    if (eventHappening === true) {
+    showOverlayAd();
+    showWatermark();
+    eventHappening = false;
+    }
+    }
+    }, 1000);
+    }
+
+    function blockPopup(startTime) {
+    if (startTime > 30) {
+    return;
+    }
+
+    let isPopupPaused = $('.mvp-popup-holder .mvp-popup-visible').data('show') === 'pause';
+    player.closePopup();
+    setTimeout(() => {
+    if (!isPopupPaused) {
+    player.playMedia();
+    }
+    }, 500);
+    }
     </script>
     <script>
         // sendAjaxRes4VideoDuration('saveStrmDur', this.currentTime());
