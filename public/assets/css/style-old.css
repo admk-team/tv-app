@@ -210,6 +210,9 @@ input.search_barsnew {
     width: 100%;
     transform: rotate(355deg);
 }
+.themePrimaryTxtColr {
+    color: var(--themePrimaryTxtColor) !important;
+}
 
 /* .banner {
     margin-top: 116px;
@@ -460,7 +463,7 @@ span.movie_type a {
 .dot-sep:before {
     content: '\25CF';
     font-size: 13px;
-    color: var(--themePrimaryTxtColor);
+    color: var(--slidercardCatColor);
     position: relative;
 }
 
@@ -525,7 +528,7 @@ span.movie_type a {
     text-align: left;
     white-space: normal;
     opacity: 18.8;
-    color: var(--themePrimaryTxtColor);
+    color: var(--slidercardCatColor);
     font-size: calc(20px / 1.3);
     line-height: 22px;
     cursor: pointer;
@@ -3476,7 +3479,7 @@ dl.movies_listview {
     font-size: 14px;
     font-weight: 600;
     width: 100px;
-    color: var(--themePrimaryTxtColor);
+    color: var(--slidercardCatColor);
     float: left;
 }
 
@@ -4801,6 +4804,10 @@ textarea.form-control:focus {
     padding: 5px 9px;
     font-size: 12px;
     transition: all 0.3s;
+    text-wrap: nowrap;
+}
+.theme-active-color{
+    color: var(--themeActiveColor) !important;
 }
 
 .movieDetailPlaymobile {
@@ -7044,6 +7051,9 @@ article .thumbnail-container {
         position: relative;
         z-index: 88;
     }
+    ul.share_list li {
+        margin: 3px 3px;
+    }
 }
 
 @media(max-width: 440px) {
@@ -7875,7 +7885,7 @@ ul.dropsmenubox li a.dropdown-item:hover {
 
 .person-link {
     font-family: "Open Sans", sans-serif;
-    color: var(--themePrimaryTxtColor);
+    color: var(--slidercardCatColor);
     text-decoration: none;
     display: inline;
     margin-right: 10px;

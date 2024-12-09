@@ -8,11 +8,13 @@
     <div id="slider">
         @if ($data->app->featured_items->is_show ?? '' == 'Y')
             @foreach ($data->app->featured_items->streams ?? [] as $index => $stream)
-                <img src="{{ $stream->feature_poster ?? '' }}" alt="{{ $stream->stream_title }}" data-url="{{ route('playerscreen', $stream->stream_guid) }}">
+                <img src="{{ $stream->feature_poster ?? '' }}" alt="{{ $stream->stream_title }}"
+                    data-url="{{ route('playerscreen', $stream->stream_guid) }}">
                 <div class="travel-info" @if (!$loop->first) style="display: none;" @endif>
                     @if (isset($stream->title_logo) && $stream->title_logo)
                         <div class="title_logo mb-1">
-                            <img class="image-fluid ignore" style="max-width: 100%"  src="{{ $stream->title_logo }}" alt="{{ $stream->stream_title }}">
+                            <img class="image-fluid ignore" style="max-width: 100%" src="{{ $stream->title_logo }}"
+                                alt="{{ $stream->stream_title }}">
                         </div>
                     @else
                         <h1 class="content-heading" title="{{ $stream->stream_title ?? '' }}">
@@ -36,21 +38,21 @@
                     </div>
                     <p class="description desktop-data">{{ $stream->stream_description ?? '' }}</p>
                     <div class="btns">
-                        @if ($stream->notify_label == 'no_label')
-                        <a class="app-primary-btn rounded"
-                            href="{{ route('playerscreen', $stream->stream_guid) }}">
-                            <i class="bi bi-play-fill banner-play-icon"></i> Play
-                        </a>
-                    @elseif ($stream->notify_label == 'upcoming')
-                        <a class="app-primary-btn rounded">
-                            Upcoming
-                        </a>
-                    @else
-                        <a class="app-primary-btn rounded"
-                            href="{{ route('playerscreen', $stream->stream_guid) }}">
-                            <i class="bi bi-play-fill banner-play-icon"></i> Available Now
-                        </a>
-                    @endif
+                        @if (isset($stream->notify_label) && $stream->notify_label == 'available now')
+                                    <a class="app-primary-btn rounded"
+                                        href="{{ route('playerscreen', $stream->stream_guid) }}">
+                                        <i class="bi bi-play-fill banner-play-icon"></i> Available Now
+                                    </a>
+                                @elseif (isset($stream->notify_label) && $stream->notify_label == 'coming soon')
+                                    <a class="app-primary-btn rounded">
+                                        Coming Soon
+                                    </a>
+                                @else
+                                    <a class="app-primary-btn rounded"
+                                        href="{{ route('playerscreen', $stream->stream_guid) }}">
+                                        <i class="bi bi-play-fill banner-play-icon"></i> Play
+                                    </a>
+                                @endif
                         <a class="app-secondary-btn rounded" href="{{ route('detailscreen', $stream->stream_guid) }}">
                             <i class="bi bi-eye banner-view-icon"></i> Details
                         </a>
@@ -59,7 +61,7 @@
             @endforeach
         @endif
     </div>
-    
+
 </div>
 
 @push('scripts')

@@ -52,19 +52,19 @@
                             </div>
                             <p class="description desktop-data">{{ $stream->stream_description ?? '' }}</p>
                             <div class="btns">
-                                @if ($stream->notify_label == 'no_label')
+                                @if (isset($stream->notify_label) && $stream->notify_label == 'available now')
                                     <a class="app-primary-btn rounded"
                                         href="{{ route('playerscreen', $stream->stream_guid) }}">
-                                        <i class="bi bi-play-fill banner-play-icon"></i> Play
+                                        <i class="bi bi-play-fill banner-play-icon"></i> Available Now
                                     </a>
-                                @elseif ($stream->notify_label == 'upcoming')
+                                @elseif (isset($stream->notify_label) && $stream->notify_label == 'coming soon')
                                     <a class="app-primary-btn rounded">
-                                        Upcoming
+                                        Coming Soon
                                     </a>
                                 @else
                                     <a class="app-primary-btn rounded"
                                         href="{{ route('playerscreen', $stream->stream_guid) }}">
-                                        <i class="bi bi-play-fill banner-play-icon"></i> Available Now
+                                        <i class="bi bi-play-fill banner-play-icon"></i> Play
                                     </a>
                                 @endif
                                 <a class="app-secondary-btn rounded"

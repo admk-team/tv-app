@@ -362,9 +362,9 @@
                 }
             };
 
-            setInterval(checkEndTime, 30000);
+            setInterval(checkEndTime, 5000);
 
-            const interval = setInterval(checkEndTime, 30000);
+            const interval = setInterval(checkEndTime, 5000);
             if (eventEnded) {
                 clearInterval(interval);
             }
