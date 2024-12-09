@@ -986,25 +986,25 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                             alt="{{ $arrSlctItemData['stream_title'] ?? 'Logo' }}">
                                     </div>
                                 @else
-                                    <h1 class="content-heading">{{ $arrSlctItemData['stream_title'] }}</h1>
+                                    <h1 class="content-heading themePrimaryTxtColr">{{ $arrSlctItemData['stream_title'] }}</h1>
                                 @endif
-                                <div class="content-timing">
+                                <div class="content-timing themePrimaryTxtColr">
                                     @if ($arrSlctItemData['released_year'])
                                         <a href="{{ route('year', $arrSlctItemData['released_year']) }}"
                                             class="text-decoration-none">
-                                            <span class="year">{{ $arrSlctItemData['released_year'] }}</span>
+                                            <span class="year themePrimaryTxtColr">{{ $arrSlctItemData['released_year'] }}</span>
                                         </a>
-                                        <span class="dot-sep"></span>
+                                        <span class="dot-sep themePrimaryTxtColr"></span>
                                     @endif
                                     @if ($arrSlctItemData['stream_duration'] && $arrSlctItemData['stream_duration'] !== '0')
-                                        <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
-                                        <span class="dot-sep"></span>
+                                        <span class="themePrimaryTxtColr">{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
+                                        <span class="dot-sep themePrimaryTxtColr"></span>
                                     @endif
                                     {{-- <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span> --}}
-                                    <span class="movie_type">
+                                    <span class="movie_type themePrimaryTxtColr">
                                         @foreach ($arrSlctItemData['genre'] ?? [] as $item)
                                             <a href="{{ route('category', $item['code']) }}?type=genre"
-                                                class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
+                                                class="px-0 themePrimaryTxtColr">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
                                         @endforeach
                                     </span>
                                     <?php
@@ -1012,8 +1012,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                             {
                                 ?>
                                     <span
-                                        class="movie_type">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL' ? $arrSlctItemData['stream_episode_title'] : '' }}</span>
-                                    <span class="movie_type">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
+                                        class="movie_type themePrimaryTxtColr">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL' ? $arrSlctItemData['stream_episode_title'] : '' }}</span>
+                                    <span class="movie_type themePrimaryTxtColr">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
                                     <?php
                             }
     ?>
@@ -1021,7 +1021,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                   if ($arrSlctItemData['content_qlt'] != '')
                   {
     ?>
-                                    <span class="content_screen">
+                                    <span class="content_screen themePrimaryTxtColr">
                                         @php
                                             $content_qlt_arr = explode(',', $arrSlctItemData['content_qlt']);
                                             $content_qlt_codes_arr = explode(
@@ -1044,7 +1044,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                       if ($arrSlctItemData['content_rating'] != '')
                       {
                         ?>
-                                    <span class="content_screen">
+                                    <span class="content_screen themePrimaryTxtColr">
                                         @php
                                             $content_rating_arr = explode(',', $arrSlctItemData['content_rating']);
                                             $content_rating_codes_arr = explode(

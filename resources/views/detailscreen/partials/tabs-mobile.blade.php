@@ -96,37 +96,37 @@ if (session('USER_DETAILS.USER_CODE')) {
                          alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
                 </div>
             @else
-                <h1 class="content-heading" title="{{ $stream_details['stream_title'] ?? '' }}">
+                <h1 class="content-heading themePrimaryTxtColr" title="{{ $stream_details['stream_title'] ?? '' }}">
                     {{ $stream_details['stream_title'] ?? '' }}
                 </h1>
             @endif
                 <div class="content-timing mb-2">
                     @if ($stream_details['released_year'])
                         <a href="{{ route('year', $stream_details['released_year']) }}" class="text-decoration-none">
-                            <span class="year">{{ $stream_details['released_year'] }}</span>
+                            <span class="year themePrimaryTxtColr">{{ $stream_details['released_year'] }}</span>
                         </a>
-                        <span class="dot-sep"></span>
+                        <span class="dot-sep themePrimaryTxtColr"></span>
                     @endif
                     @if ($streamType != 'S')
                         @if ($stream_details['stream_duration'] && $stream_details['stream_duration'] !== '0')
-                            <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream_details['stream_duration']) }}</span>
-                            <span class="dot-sep"></span>
+                            <span class="themePrimaryTxtColr" >{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream_details['stream_duration']) }}</span>
+                            <span class="dot-sep themePrimaryTxtColr"></span>
                         @endif
                         {{-- <span class="movie_type">{{ $stream_details['cat_title'] }}</span> --}}
-                        <span class="movie_type">
+                        <span class="movie_type themePrimaryTxtColr">
                             @foreach ($stream_details['genre'] ?? [] as $item)
                                 <a href="{{ route('category', $item['code']) }}?type=genre"
-                                    class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
+                                    class="px-0 themePrimaryTxtColr">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
                             @endforeach
                         </span>
                     @endif
                     @if ($streamType == 'S')
                         <span
-                            class="movie_type">{{ $stream_details['stream_episode_title'] && $stream_details['stream_episode_title'] !== 'NULL' ? $stream_details['stream_episode_title'] : '' }}</span>
-                        <span class="movie_type">{{ $stream_details['show_name'] }}</span>
+                            class="movie_type themePrimaryTxtColr">{{ $stream_details['stream_episode_title'] && $stream_details['stream_episode_title'] !== 'NULL' ? $stream_details['stream_episode_title'] : '' }}</span>
+                        <span class="movie_type themePrimaryTxtColr">{{ $stream_details['show_name'] }}</span>
                     @endif
                     @if ($stream_details['content_qlt'] != '')
-                        <span class="content_screen">
+                        <span class="content_screen themePrimaryTxtColr">
                             @php
                                 $content_qlt_arr = explode(',', $stream_details['content_qlt']);
                                 $content_qlt_codes_arr = explode(',', $stream_details['content_qlt_codes']);
@@ -141,7 +141,7 @@ if (session('USER_DETAILS.USER_CODE')) {
                         </span>
                     @endif
                     @if ($stream_details['content_rating'] != '')
-                        <span class="content_screen">
+                        <span class="content_screen themePrimaryTxtColr">
                             @php
                                 $content_rating_arr = explode(',', $stream_details['content_rating']);
                                 $content_rating_codes_arr = explode(',', $stream_details['content_rating_codes']);
@@ -157,30 +157,30 @@ if (session('USER_DETAILS.USER_CODE')) {
                     @endif
                 </div>
 
-                <div class="about-movie aboutmovie_gaps mt-1">{{ $stream_details['stream_description'] }}</div>
+                <div class="about-movie aboutmovie_gaps mt-1 themePrimaryTxtColr">{{ $stream_details['stream_description'] }}</div>
                 <dl class="movies_listview mb-3">
                     <dl>
                         @if (isset($stream_details['cast']) || isset($stream_details['director']) || isset($stream_details['writer']))
                             @if ($stream_details['cast'])
-                                <div class="content-person">
-                                    <dt>Cast:</dt>
-                                    <dd>
+                                <div class="content-person themePrimaryTxtColr">
+                                    <dt class="themePrimaryTxtColr">Cast:</dt>
+                                    <dd class="themePrimaryTxtColr">
                                         {{ $stream_details['cast'] }}
                                     </dd>
                                 </div>
                             @endif
                             @if ($stream_details['director'])
                                 <div class="content-person">
-                                    <dt>Director:</dt>
-                                    <dd>
+                                    <dt class="themePrimaryTxtColr">Director:</dt>
+                                    <dd class="themePrimaryTxtColr">
                                         {{ $stream_details['director'] }}
                                     </dd>
                                 </div>
                             @endif
                             @if ($stream_details['writer'])
                                 <div class="content-person">
-                                    <dt>Writer:</dt>
-                                    <dd>
+                                    <dt class="themePrimaryTxtColr">Writer:</dt>
+                                    <dd class="themePrimaryTxtColr">
                                         {{ $stream_details['writer'] }}
                                     </dd>
                                 </div>
@@ -188,9 +188,9 @@ if (session('USER_DETAILS.USER_CODE')) {
                         @else
                             @foreach ($stream_details['starring_data'] as $roleKey => $persons)
                                 @if (!empty($persons))
-                                    <div class="content-person">
-                                        <dt>{{ $roleKey }}:</dt>
-                                        <dd>
+                                    <div class="content-person themePrimaryTxtColr">
+                                        <dt class="themePrimaryTxtColr">{{ $roleKey }}:</dt>
+                                        <dd class="themePrimaryTxtColr">
                                             @php
                                                 if (!is_array($persons)) {
                                                     $persons = explode(',', $persons);
@@ -199,16 +199,16 @@ if (session('USER_DETAILS.USER_CODE')) {
 
                                             @foreach ($persons as $i => $person)
                                                 @if (is_array($person))
-                                                    <a class="person-link"
+                                                    <a class="person-link themePrimaryTxtColr"
                                                         href="{{ route('person', $person['id']) }}">{{ $person['title'] }}</a>
                                                     @if (!$loop->last)
-                                                        <span class="test-comma">, </span>
+                                                        <span class="test-comma themePrimaryTxtColr">, </span>
                                                     @endif
                                                 @else
-                                                    <a class="person-link"
+                                                    <a class="person-link themePrimaryTxtColr"
                                                         href="{{ route('person', $person) }}">{{ $person }}</a>
                                                     @if (!$loop->last)
-                                                        <span class="test-comma">, </span>
+                                                        <span class="test-comma themePrimaryTxtColr">, </span>
                                                     @endif
                                                 @endif
                                             @endforeach
@@ -218,14 +218,14 @@ if (session('USER_DETAILS.USER_CODE')) {
                             @endforeach
                         @endif
                         @if (!empty($stream_details['advisories']))
-                            <div class="content-person">
-                                <dt>Advisory: </dt>
-                                <dd>
+                            <div class="content-person themePrimaryTxtColr">
+                                <dt class="themePrimaryTxtColr">Advisory: </dt>
+                                <dd class="themePrimaryTxtColr">
                                     @foreach ($stream_details['advisories'] as $i => $val)
-                                        <a class="person-link"
+                                        <a class="person-link themePrimaryTxtColr"
                                             href="{{ route('advisory', $val['code']) }}">{{ $val['title'] }}</a>
                                         @if (count($stream_details['advisories']) - 1 !== $i)
-                                            <span class="test-comma">, </span>
+                                            <span class="test-comma themePrimaryTxtColr">, </span>
                                         @endif
                                     @endforeach
                                 </dd>
@@ -234,13 +234,13 @@ if (session('USER_DETAILS.USER_CODE')) {
 
                         @if (!empty($stream_details['languages']))
                             <div class="content-person">
-                                <dt>Language: </dt>
-                                <dd>
+                                <dt class="themePrimaryTxtColr">Language: </dt>
+                                <dd class="themePrimaryTxtColr">
                                     @foreach ($stream_details['languages'] as $i => $val)
-                                        <a class="person-link"
+                                        <a class="person-link themePrimaryTxtColr"
                                             href="{{ route('language', $val['code']) }}">{{ $val['title'] }}</a>
                                         @if (count($stream_details['languages']) - 1 !== $i)
-                                            <span class="test-comma">, </span>
+                                            <span class="test-comma themePrimaryTxtColr">, </span>
                                         @endif
                                     @endforeach
                                 </dd>
@@ -248,13 +248,13 @@ if (session('USER_DETAILS.USER_CODE')) {
                         @endif
                         @if (!empty($stream_details['tags']))
                             <div class="content-person">
-                                <dt>Tags: </dt>
-                                <dd>
+                                <dt class="themePrimaryTxtColr">Tags: </dt>
+                                <dd class="themePrimaryTxtColr">
                                     @foreach ($stream_details['tags'] as $i => $val)
-                                        <a class="person-link"
+                                        <a class="person-link themePrimaryTxtColr"
                                             href="{{ route('tag', $val['code']) }}">{{ $val['title'] }}</a>
                                         @if (count($stream_details['tags']) - 1 !== $i)
-                                            <span class="test-comma">, </span>
+                                            <span class="test-comma themePrimaryTxtColr">, </span>
                                         @endif
                                     @endforeach
                                 </dd>

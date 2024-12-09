@@ -85,7 +85,7 @@ body {
 
 .header .btns .search-icon {
     font-size: 23px;
-    color: #fff;
+    color: var(--navbarMenucolor);
     margin-right: 20px;
     cursor: pointer;
     transition: all 0.3s;
@@ -365,7 +365,7 @@ body {
 
 .cover-slider-item .info .timestamp .badge {
     display: block;
-    border: solid 1px #c9c9c9;
+    border: solid 1px var(--slidercardCatColor);
     padding: 3px 6px;
     border-radius: 4px;
     font-size: 15px;
