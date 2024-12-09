@@ -24,7 +24,7 @@
     $streamType = $stream_details['stream_type'];
     $streamUrl = $stream_details['stream_promo_url'];
     $mType = '';
-    if($streamUrl){
+    if ($streamUrl) {
         if (strpos($streamUrl, '.m3u8') !== false) {
             $mType = "type='application/x-mpegURL'";
         } elseif (strpos($streamUrl, 'youtube.com') !== false) {
@@ -78,6 +78,13 @@
     
     ?>
     <style>
+        .mobile-dot-sep:before {
+            content: '\25CF';
+            font-size: 13px;
+            color: var(--themePrimaryTxtColor);
+            position: relative;
+        }
+
         .responsive_video {
             display: flex;
             justify-content: center;

@@ -3360,7 +3360,7 @@ h5.footer_title {
     font-size: 10px;
     font-weight: 400;
     padding: 2px 8px;
-    border: 1px var(--themePrimaryTxtColor) solid;
+    border: 1px var(--slidercardCatColor) solid;
     display: inline-block;
     border-radius: 4px;
 

@@ -43,7 +43,7 @@
         } elseif ($isSingleVideo) {
             $streamUrl = $videoMatches[1]; // Extract only the video ID
             $mType = 'youtube_single';
-        }elseif ($isVimeo) {
+        } elseif ($isVimeo) {
             $streamUrl = $vimeoMatches[1]; // Extract only the Vimeo ID
             $mType = 'vimeo_single';
         }
@@ -109,7 +109,7 @@
             \Illuminate\Support\Facades\Redirect::to(route('subscription'))->send();
         }
     }
-
+    
     $mType = isset($mType) ? $mType : 'video';
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
@@ -254,6 +254,14 @@
     </script>
 
     <style>
+        .content_screen {
+            border: 1px var(--themePrimaryTxtColor) solid !important;
+        }
+
+        .dot-sep:before {
+            color: var(--themePrimaryTxtColor) !important;
+        }
+
         .loader {
             width: 18px;
             height: 18px;
@@ -610,8 +618,7 @@
                                     @php
 $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @endphp
                                     data-type="{{ Str::endsWith($streamUrl, ['.mp3', '.wav']) ? 'audio' : $mType }}"
-                                    data-path="{{ $streamUrl }}"
-                                    data-noapi
+                                    data-path="{{ $streamUrl }}" data-noapi
                                     data-poster="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-title="{{ $arrSlctItemData['stream_title'] }}"
@@ -986,18 +993,21 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                             alt="{{ $arrSlctItemData['stream_title'] ?? 'Logo' }}">
                                     </div>
                                 @else
-                                    <h1 class="content-heading themePrimaryTxtColr">{{ $arrSlctItemData['stream_title'] }}</h1>
+                                    <h1 class="content-heading themePrimaryTxtColr">{{ $arrSlctItemData['stream_title'] }}
+                                    </h1>
                                 @endif
                                 <div class="content-timing themePrimaryTxtColr">
                                     @if ($arrSlctItemData['released_year'])
                                         <a href="{{ route('year', $arrSlctItemData['released_year']) }}"
                                             class="text-decoration-none">
-                                            <span class="year themePrimaryTxtColr">{{ $arrSlctItemData['released_year'] }}</span>
+                                            <span
+                                                class="year themePrimaryTxtColr">{{ $arrSlctItemData['released_year'] }}</span>
                                         </a>
                                         <span class="dot-sep themePrimaryTxtColr"></span>
                                     @endif
                                     @if ($arrSlctItemData['stream_duration'] && $arrSlctItemData['stream_duration'] !== '0')
-                                        <span class="themePrimaryTxtColr">{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
+                                        <span
+                                            class="themePrimaryTxtColr">{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
                                         <span class="dot-sep themePrimaryTxtColr"></span>
                                     @endif
                                     {{-- <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span> --}}
@@ -1013,7 +1023,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                 ?>
                                     <span
                                         class="movie_type themePrimaryTxtColr">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL' ? $arrSlctItemData['stream_episode_title'] : '' }}</span>
-                                    <span class="movie_type themePrimaryTxtColr">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
+                                    <span
+                                        class="movie_type themePrimaryTxtColr">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
                                     <?php
                             }
     ?>
@@ -1030,7 +1041,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                             );
                                         @endphp
                                         @foreach ($content_qlt_arr as $i => $item)
-                                            <a
+                                            <a class="themePrimaryTxtColr"
                                                 href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>
                                             @if (!$loop->last)
                                                 ,
@@ -1053,7 +1064,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                             );
                                         @endphp
                                         @foreach ($content_rating_arr as $i => $item)
-                                            <a
+                                            <a class="themePrimaryTxtColr"
                                                 href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>
                                             @if (!$loop->last)
                                                 ,
@@ -1183,7 +1194,7 @@ if (!empty($arrCatData))
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                                                  </div> -->
+                                                                                                                                                                                                                                                                          </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}</div>
@@ -1325,8 +1336,8 @@ if (!empty($arrCatData))
 
                 skin: 'sirius', //aviva, polux, sirius
                 playlistPosition: pListPostion, //vrb, vb, hb, no-playlist, outer, wall
-                vimeoPlayerType:"chromeless",
-                youtubePlayerType:"chromeless",
+                vimeoPlayerType: "chromeless",
+                youtubePlayerType: "chromeless",
                 sourcePath: "",
                 activeItem: 0, //active video to start with
                 activePlaylist: ".playlist-video",
@@ -1496,8 +1507,8 @@ if (!empty($arrCatData))
 
             @if (!empty($arrSlctItemData['buynow']))
                 @php$('.mvp-popup-holder .mvp-popup').hasClass('.mvp-popup-visible');
-                    $buynows = $arrSlctItemData['buynow'];
-                @endphp
+                                                            $buynows = $arrSlctItemData['buynow'];
+                                                @endphp ?> ? >
             @endif
             player.addEventListener("mediaPlay", function(data) {
                 @if ($redirectUrl)
@@ -1674,7 +1685,7 @@ if (!empty($arrCatData))
                 watermark.style.display = "none";
             }
         }
-        
+
         function detectPopupEvent() {
             let eventHappening = false;
 
@@ -1683,7 +1694,8 @@ if (!empty($arrCatData))
             setInterval(() => {
                 ++startTime;
 
-                if ($('.mvp-popup-holder .mvp-popup').hasClass('mvp-popup-visible') && $('.mvp-popup-holder .mvp-popup-visible').find('.continue-confirmation-popup').length === 0) {
+                if ($('.mvp-popup-holder .mvp-popup').hasClass('mvp-popup-visible') && $(
+                        '.mvp-popup-holder .mvp-popup-visible').find('.continue-confirmation-popup').length === 0) {
                     if (eventHappening === false) {
                         blockPopup(startTime);
                         hideOverlayAd();
@@ -1708,7 +1720,7 @@ if (!empty($arrCatData))
             let isPopupPaused = $('.mvp-popup-holder .mvp-popup-visible').data('show') === 'pause';
             player.closePopup();
             setTimeout(() => {
-                if (! isPopupPaused) {
+                if (!isPopupPaused) {
                     player.playMedia();
                 }
             }, 500);
