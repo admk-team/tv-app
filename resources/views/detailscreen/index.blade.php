@@ -41,41 +41,41 @@
         }
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-
+    
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-
+    
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
-
+    
     $stream_code = $stream_details['stream_guid'];
-
+    
     $postData = [
         'stream_code' => $stream_code,
     ];
-
+    
     // $ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
-
+    
     // curl_setopt($ch, CURLOPT_POST, 1);
     // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
+    
     // $response = curl_exec($ch);
-
+    
     // if (curl_errno($ch)) {
     //     die('Curl error: ' . curl_error($ch));
     // }
-
+    
     // curl_close($ch);
-
+    
     // $resultArray = json_decode($response, true);
-
+    
     // $userDidComment = false;
     // foreach ($resultArray as $review) {
     //     if (session('USER_DETAILS') && $review['user']['userCode'] === session('USER_DETAILS')['USER_CODE']) {
     //         $userDidComment = true;
     //     }
     // }
-
+    
     ?>
     <style>
         .mobile-dot-sep:before {
@@ -457,18 +457,21 @@
                         }
                     ?>
                         <div class="share_circle addWtchBtn">
-                            <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav"
-                                    class="<?php echo $cls; ?>"></i></a>
-                            <input type="hidden" id="myWishListSign" value='<?php echo $signStr; ?>' />
-                            <input type="hidden" id="strQueryParm" value='<?php echo $strQueryParm; ?>' />
-                            <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}' />
+                            <a href="javascript:void(0);" onClick="manageFavItem();">
+                                <i id="btnicon-fav" class="{{ $cls }} theme-active-color"
+                                    data-bs-toggle="tooltip" title="{{ $tooltip }}"></i>
+                            </a>
+                            <input type="hidden" id="myWishListSign" value="{{ $signStr }}" />
+                            <input type="hidden" id="strQueryParm" value="{{ $strQueryParm }}" />
+                            <input type="hidden" id="reqUrl" value="{{ route('wishlist.toggle') }}" />
                             @csrf
                         </div>
                         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
                             @if (!empty($stream_details['is_watch_party']) && $stream_details['is_watch_party'] == 1)
                                 <div class="share_circle">
-                                    <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}">
-                                        <i class="fa fa-users"></i>
+                                    <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}"
+                                        data-bs-toggle="tooltip" title="Create a Watch Party">
+                                        <i class="fa fa-users theme-active-color"></i>
                                     </a>
                                 </div>
                             @endif
@@ -477,7 +480,10 @@
                     }
                     ?>
                         <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                            <a href="javascript:void(0)"><i class="fa fa-share"></i></a>
+                            <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}"
+                                data-bs-toggle="tooltip" title="Share">
+                                <i class="fa fa-share theme-active-color"></i>
+                            </a>
                         </div>
                         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
                             @if (
@@ -487,8 +493,7 @@
                                         $stream_details['monetization_type'] == 'S' ||
                                         $stream_details['monetization_type'] == 'O'))
                                 <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#giftModal">
-                                    <a href="javascript:void(0);"><i class="fa-solid fa-gift"
-                                            style="color: var(--themeActiveColor)"></i></a>
+                                    <a href="javascript:void(0);"><i class="fa-solid fa-gift theme-active-color"></i></a>
                                 </div>
                             @endif
                         @endif
