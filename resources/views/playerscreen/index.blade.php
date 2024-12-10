@@ -115,6 +115,7 @@
         $mType = 'hls';
     }
     $apiPath = App\Services\Api::endpoint('/mngstrmdur');
+    
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN') . '&userProfileId=' . session('USER_DETAILS.USER_PROFILE');
     
     // dd(session('USER_DETAILS.USER_PROFILE'));
@@ -1757,9 +1758,10 @@ if (!empty($arrCatData))
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhttp.setRequestHeader("happcode", "{{ env('APP_CODE') }}");
                 xhttp.setRequestHeader("husercode", "{{ session('USER_DETAILS.USER_CODE') }}");
+                xhttp.setRequestHeader("hplatform", "web");
                 xhttp.send(strQueryParm);
             }
-        }
+        } 
     </script>
 
     @if ($redirectUrl)
