@@ -181,6 +181,7 @@ Route::post('/store/watch/party', [WatchPartyController::class, 'store'])->name(
 Route::get('get/watch/party', [WatchPartyController::class, 'getAllWatchParties'])->name('get.watch.parties');
 
 Route::get('live-tv-guide/channel/stream/{channelCode}', [TvGuidePlayerController::class, 'getChannelStreams'])->name('channel.streams');
+Route::get('tv-guide-group/{tvGuidePlaylist}', [TvGuidePlayerController::class, 'watchTvGuideStreams']);
 
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
 
