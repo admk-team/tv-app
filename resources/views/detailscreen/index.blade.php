@@ -41,41 +41,41 @@
         }
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-    
+
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-    
+
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
-    
+
     $stream_code = $stream_details['stream_guid'];
-    
+
     $postData = [
         'stream_code' => $stream_code,
     ];
-    
+
     // $ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
-    
+
     // curl_setopt($ch, CURLOPT_POST, 1);
     // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    
+
     // $response = curl_exec($ch);
-    
+
     // if (curl_errno($ch)) {
     //     die('Curl error: ' . curl_error($ch));
     // }
-    
+
     // curl_close($ch);
-    
+
     // $resultArray = json_decode($response, true);
-    
+
     // $userDidComment = false;
     // foreach ($resultArray as $review) {
     //     if (session('USER_DETAILS') && $review['user']['userCode'] === session('USER_DETAILS')['USER_CODE']) {
     //         $userDidComment = true;
     //     }
     // }
-    
+
     ?>
     <style>
         .mobile-dot-sep:before {
@@ -451,6 +451,16 @@
                     if (session('USER_DETAILS.USER_CODE')) {
                         $signStr = "+";
                         $cls = 'fa fa-plus';
+                                $tooltip = "Add to Watchlist";
+
+                            // Check if the stream is already in the wishlist
+                            if ($stream_details['stream_is_stream_added_in_wish_list'] == 'Y') {
+                                // Update values for removing from wishlist
+                                $cls = 'fa fa-minus';
+                                $signStr = "-";
+                                $tooltip = "Remove from Watchlist";
+                            }
+
                         if ($stream_details['stream_is_stream_added_in_wish_list'] == 'Y') {
                             $cls = 'fa fa-minus';
                             $signStr = "-";
