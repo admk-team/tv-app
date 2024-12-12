@@ -13,7 +13,7 @@
     $IS_SIGNIN_BYPASS = 'N';
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
-    
+
     session('GLOBAL_PASS', 0);
     request()->server('REQUEST_METHOD');
     $protocol = request()->server('HTTPS') === 'on' ? 'https' : 'http';
@@ -54,7 +54,7 @@
         session('IS_SIGNIN_BYPASS', url('/playerscreen/' . $streamGuid));
         \App\Helpers\GeneralHelper::headerRedirect(url('/signin'));
     }
-    
+
     //monetioztion
     $redirectUrl = null;
     if ($limitWatchTime === 'yes' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -62,7 +62,7 @@
         session()->save();
         $redirectUrl = route('login');
     }
-    
+
     $sharingURL = route('playerscreen', $streamGuid);
     $isBuyed = $arrSlctItemData['is_buyed'];
     $monetizationType = $arrSlctItemData['monetization_type'];
@@ -96,7 +96,7 @@
             \Illuminate\Support\Facades\Redirect::to(route('monetization'))->send();
         }
     }
-    
+
     // Check if subscription is required for all content and is not subscribed
     if (\App\Helpers\GeneralHelper::subscriptionIsRequired() && $isBuyed == 'N') {
         if ($limitWatchTime === 'no' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -116,7 +116,7 @@
     }
     $apiPath = App\Services\Api::endpoint('/mngstrmdur');
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN') . '&userProfileId=' . session('USER_DETAILS.USER_PROFILE');
-    
+
     // dd(session('USER_DETAILS.USER_PROFILE'));
     // here get the video duration
     $seekFunStr = '';
@@ -134,7 +134,7 @@
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
         $seekFunStr = "this.currentTime($streamDurationInSec);";
     }
-    
+
     // Here Set Ad URL in Session
     $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
     if (!session('ADS_INFO')) {
@@ -146,7 +146,7 @@
             ],
         ]);
     }
-    
+
     $useragent = request()->server('HTTP_USER_AGENT');
     $isMobileBrowser = 0;
     if (
@@ -164,13 +164,13 @@
     $userAgent = urlencode(request()->server('HTTP_USER_AGENT'));
     $userIP = \App\Helpers\GeneralHelper::getRealIpAddr();
     $channelName = urlencode(\App\Services\AppConfig::get()->app->app_info->app_name);
-    
+
     $isLocalHost = false;
     $host = parse_url(url()->current())['host'];
     if (in_array($host, ['localhost', '127.0.0.1'])) {
         $isLocalHost = true;
     }
-    
+
     //&app_bundle=669112
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
@@ -181,11 +181,11 @@
     }
     $adMacros .= "&duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
     $dataVast = "data-vast='$adMacros'";
-    
+
     if ($isMobileBrowser == 1 || $adUrl == '') {
         $dataVast = '';
     }
-    
+
     $stream_ad_url = $arrSlctItemData['stream_ad_url'];
     if (parse_url($stream_ad_url, PHP_URL_QUERY)) {
         $stream_ad_url = $stream_ad_url . "&duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
@@ -193,22 +193,22 @@
         $stream_ad_url = $stream_ad_url . "?duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
     }
     $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $stream_ad_url . '"' : null;
-    
+
     if (!$arrSlctItemData['has_global_ads']) {
         $dataVast = '';
     }
-    
+
     if (!$arrSlctItemData['has_individual_ads']) {
         $dataVast2 = '';
     }
-    
+
     if (!$arrSlctItemData['has_ads']) {
         $dataVast = '';
         $dataVast2 = '';
     }
-    
+
     $watermark = $arrSlctItemData['watermark'] ?? null;
-    
+
     ?>
 
     {{-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" /> --}}
@@ -616,6 +616,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-title="{{ $arrSlctItemData['stream_title'] }}"
                                     data-description="{{ $arrSlctItemData['stream_description'] }}"
+                                    data-chapters="{{ $arrSlctItemData['chapter'] }}"
                                     {!! $dataVast2 ? $dataVast2 : $dataVast !!}>
 
                                     @if (count($arrSlctItemData['subtitles'] ?? []))
@@ -986,25 +987,25 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                             alt="{{ $arrSlctItemData['stream_title'] ?? 'Logo' }}">
                                     </div>
                                 @else
-                                    <h1 class="content-heading">{{ $arrSlctItemData['stream_title'] }}</h1>
+                                    <h1 class="content-heading themePrimaryTxtColr">{{ $arrSlctItemData['stream_title'] }}</h1>
                                 @endif
-                                <div class="content-timing">
+                                <div class="content-timing themePrimaryTxtColr">
                                     @if ($arrSlctItemData['released_year'])
                                         <a href="{{ route('year', $arrSlctItemData['released_year']) }}"
                                             class="text-decoration-none">
-                                            <span class="year">{{ $arrSlctItemData['released_year'] }}</span>
+                                            <span class="year themePrimaryTxtColr">{{ $arrSlctItemData['released_year'] }}</span>
                                         </a>
-                                        <span class="dot-sep"></span>
+                                        <span class="dot-sep themePrimaryTxtColr"></span>
                                     @endif
                                     @if ($arrSlctItemData['stream_duration'] && $arrSlctItemData['stream_duration'] !== '0')
-                                        <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
-                                        <span class="dot-sep"></span>
+                                        <span class="themePrimaryTxtColr">{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
+                                        <span class="dot-sep themePrimaryTxtColr"></span>
                                     @endif
                                     {{-- <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span> --}}
-                                    <span class="movie_type">
+                                    <span class="movie_type themePrimaryTxtColr">
                                         @foreach ($arrSlctItemData['genre'] ?? [] as $item)
                                             <a href="{{ route('category', $item['code']) }}?type=genre"
-                                                class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
+                                                class="px-0 themePrimaryTxtColr">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
                                         @endforeach
                                     </span>
                                     <?php
@@ -1012,8 +1013,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                             {
                                 ?>
                                     <span
-                                        class="movie_type">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL' ? $arrSlctItemData['stream_episode_title'] : '' }}</span>
-                                    <span class="movie_type">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
+                                        class="movie_type themePrimaryTxtColr">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL' ? $arrSlctItemData['stream_episode_title'] : '' }}</span>
+                                    <span class="movie_type themePrimaryTxtColr">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
                                     <?php
                             }
     ?>
@@ -1021,7 +1022,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                   if ($arrSlctItemData['content_qlt'] != '')
                   {
     ?>
-                                    <span class="content_screen">
+                                    <span class="content_screen themePrimaryTxtColr">
                                         @php
                                             $content_qlt_arr = explode(',', $arrSlctItemData['content_qlt']);
                                             $content_qlt_codes_arr = explode(
@@ -1044,7 +1045,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                       if ($arrSlctItemData['content_rating'] != '')
                       {
                         ?>
-                                    <span class="content_screen">
+                                    <span class="content_screen themePrimaryTxtColr">
                                         @php
                                             $content_rating_arr = explode(',', $arrSlctItemData['content_rating']);
                                             $content_rating_codes_arr = explode(
@@ -1360,6 +1361,7 @@ if (!empty($arrCatData))
                 focusVideoInTheater: true,
                 hidePlaylistOnTheaterEnter: true,
                 useSubtitle: true,
+                useChapter: true,
                 useTranscript: false,
                 useChapterToggle: false,
                 useCasting: true,
@@ -1410,10 +1412,6 @@ if (!empty($arrCatData))
                     pauseVideo();
                 }, 5000)
             }
-
-
-
-
 
             counter = [];
 
@@ -1493,10 +1491,13 @@ if (!empty($arrCatData))
                 }
 
                 showOverlayAd();
+
+                detectPopupEvent();
             });
+            let eventHappening = false;
 
             @if (!empty($arrSlctItemData['buynow']))
-                @php
+                @php$('.mvp-popup-holder .mvp-popup').hasClass('.mvp-popup-visible');
                     $buynows = $arrSlctItemData['buynow'];
                 @endphp
             @endif
@@ -1660,6 +1661,59 @@ if (!empty($arrCatData))
 
         function overlayAdClick() {
             player.pauseMedia();
+        }
+
+        function showWatermark() {
+            let watermark = document.querySelector('.watermark');
+            if (watermark) {
+                watermark.style.display = "block";
+            }
+        }
+
+        function hideWatermark() {
+            let watermark = document.querySelector('.watermark');
+            if (watermark) {
+                watermark.style.display = "none";
+            }
+        }
+
+        function detectPopupEvent() {
+            let eventHappening = false;
+
+            let startTime = 0;
+
+            setInterval(() => {
+                ++startTime;
+
+                if ($('.mvp-popup-holder .mvp-popup').hasClass('mvp-popup-visible') && $('.mvp-popup-holder .mvp-popup-visible').find('.continue-confirmation-popup').length === 0) {
+                    if (eventHappening === false) {
+                        blockPopup(startTime);
+                        hideOverlayAd();
+                        hideWatermark();
+                        eventHappening = true;
+                    }
+                } else {
+                    if (eventHappening === true) {
+                        showOverlayAd();
+                        showWatermark();
+                        eventHappening = false;
+                    }
+                }
+            }, 1000);
+        }
+
+        function blockPopup(startTime) {
+            if (startTime > 30) {
+                return;
+            }
+
+            let isPopupPaused = $('.mvp-popup-holder .mvp-popup-visible').data('show') === 'pause';
+            player.closePopup();
+            setTimeout(() => {
+                if (! isPopupPaused) {
+                    player.playMedia();
+                }
+            }, 500);
         }
     </script>
     <script>
