@@ -403,7 +403,7 @@
 
         .watermark.text {
             color: rgba(255, 255, 255, {{ $watermark ? $watermark['opacity'] : '0.4' }});
-            font-size: {{ $watermark ? $watermark['size'] . 'px' : '3rem' }};
+            font-size: clamp(16px, {{ (($watermark['size'] ?? 48) / 1920) * 100 }}vw, {{ $watermark ? $watermark['size'] . 'px' : '48px' }});
             font-weight: 900;
         }
 
@@ -2364,6 +2364,7 @@ if (!empty($arrCatData))
             }
         }
 
+        
         function detectPopupEvent() {
             let eventHappening = false;
 
