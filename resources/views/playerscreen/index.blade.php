@@ -624,7 +624,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-title="{{ $arrSlctItemData['stream_title'] }}"
                                     data-description="{{ $arrSlctItemData['stream_description'] }}"
-                                    data-chapters="{{ $arrSlctItemData['chapter'] }}"
+                                    data-chapters="{{ $arrSlctItemData['chapter'] ?? null }}"
                                     {!! $dataVast2 ? $dataVast2 : $dataVast !!}>
 
                                     @if (count($arrSlctItemData['subtitles'] ?? []))
