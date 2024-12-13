@@ -624,7 +624,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-title="{{ $arrSlctItemData['stream_title'] }}"
                                     data-description="{{ $arrSlctItemData['stream_description'] }}"
-                                    data-chapters="{{ $arrSlctItemData['chapter'] ?? null }}"
+                                    data-chapters="{{ $arrSlctItemData['chapter'] }}"
                                     {!! $dataVast2 ? $dataVast2 : $dataVast !!}>
 
                                     @if (count($arrSlctItemData['subtitles'] ?? []))
@@ -1329,86 +1329,10 @@ if (!empty($arrCatData))
 
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
-            var isshowlist = true
-            var pListPostion = 'vrb';
-            if (detectMob()) {
-                var pListPostion = 'hb';
-            }
-            var settings = {
-
-                skin: 'sirius', //aviva, polux, sirius
-                playlistPosition: pListPostion, //vrb, vb, hb, no-playlist, outer, wall
-                vimeoPlayerType:"chromeless",
-                youtubePlayerType:"chromeless",
-                sourcePath: "",
-                activeItem: 0, //active video to start with
-                activePlaylist: ".playlist-video",
-                playlistList: "#mvp-playlist-list",
-                instanceName: "player1",
-                hidePlaylistOnMinimize: true,
-                volume: 0.75,
-                useShare: true,
-                autoPlay: true,
-                crossorigin: "link",
-                playlistOpened: false,
-                randomPlay: false,
-                usePlaylistToggle: isshowlist,
-                useEmbed: true,
-                useTime: true,
-                usePip: true, //picture in picture
-                useCc: true, //caption toggle
-                useAirPlay: true,
-                usePlaybackRate: true,
-                useNext: true,
-                usePrevious: true,
-                useRewind: true,
-                useSkipBackward: true,
-                useSkipForward: true,
-                showPrevNextVideoThumb: true,
-                rememberPlaybackPosition: 'all', //remember last video position (false, 1, all)
-                useQuality: true,
-                useImaLoader: true,
-                useTheaterMode: true,
-                focusVideoInTheater: true,
-                focusVideoInTheater: true,
-                hidePlaylistOnTheaterEnter: true,
-                useSubtitle: true,
-                useChapter: true,
-                useTranscript: false,
-                useChapterToggle: false,
-                useCasting: true,
-                comingNextHeader: "Coming Next",
-                comingNextCancelBtnText: "CANCEL",
-                mediaEndAction: 'comingnext',
-                comingnextTime: 10,
-                disableVideoSkip: false,
-                useAdSeekbar: true,
-                useAdControls: true,
-                useGlobalPopupCloseBtn: true,
-                /* showPopupsOnlyOnce: true, */
-                playbackRateArr: [{
-                        value: 2,
-                        menu_title: '2x'
-                    },
-                    {
-                        value: 1.5,
-                        menu_title: '1.5x'
-                    },
-                    {
-                        value: 1.25,
-                        menu_title: '1.25x'
-                    },
-                    {
-                        value: 1,
-                        menu_title: '1x (Normal)'
-                    },
-                    {
-                        value: 0.5,
-                        menu_title: '0.5x'
-                    },
-                    {
-                        value: 0.25,
-                        menu_title: '0.25x'
+                    var isshowlist = true
+                    var pListPostion = 'vrb';
+                    if (detectMob()) {
+                        var pListPostion = 'hb';
                     }
                     var settings = {
 
@@ -1535,136 +1459,7 @@ if (!empty($arrCatData))
                         //     }
                         // }
 
-
-            });
-
-
-            player.addEventListener("mediaPause", function(data) {
-                //alert(data.instance.getCurrentTime());
-                //get media duration
-                //alert(data.instance.getDuration());
-                //alert(data.media.mediaId);
-                sendAjaxRes4VideoDuration('saveStrmDur', data.media.mediaId, data.instance
-                    .getCurrentTime());
-
-                @if ($redirectUrl)
-                    trial.pause();
-                @endif
-            });
-
-            player.addEventListener("mediaEnd", function(data) {
-
-                //alert(data.instance.getCurrentTime());
-                //get media duration
-                //alert(data.instance.getDuration());
-                //alert(data.media.mediaId);
-                sendAjaxRes4VideoDuration('removeStrmDur', data.media.mediaId, '');
-
-            });
-
-            player.addEventListener("adPlay", function(data) {
-                let liveVideo = document.querySelector('.live-video');
-                if (liveVideo) {
-                    liveVideo.style.display = "none";
-                }
-
-                // Hide watermark when ad is playing
-                let watermark = document.querySelector('.watermark');
-                if (watermark) {
-                    watermark.style.display = "none";
-                }
-
-                hideOverlayAd();
-            })
-
-
-            window.resumeMedia = function() {
-                player.closePopup();
-                setTimeout(() => player.playMedia(), 500);
-            }
-
-            window.startOverMedia = function() {
-                player.closePopup();
-                player.seek(0);
-                setTimeout(() => player.playMedia(), 500);
-            }
-
-        });
-
-        document.body.addEventListener("click", function(evt) {
-            //console.dir(this);
-            //note evt.target can be a nested element, not the body element, resulting in misfires
-            //console.log(evt.target);
-            if (player.getMediaPlaying()) {
-                // alert(player);
-                mediaId = player.getCurrentMediaData().mediaId
-                console.log(player.getCurrentMediaData());
-                console.log(player.getCurrentTime());
-                //  alert("body clicked");
-                sendAjaxRes4VideoDuration('saveStrmDur', mediaId, player.getCurrentTime());
-            }
-        });
-
-        function unmutedVoice() {
-            //alert("hi");
-            player.toggleMute();
-            player.playMedia();
-            setInterval(sendAdRequrst, 50000);
-        }
-
-        function sendAdRequrst() {
-            $.get("<?php echo $dataVast3 ?? ''; ?>", function(data, status) {
-                //alert("Data: " + data + "\nStatus: " + status);
-            });
-        }
-
-        function showOverlayAd() {
-            if (!$('.overlay-ad').hasClass('closed')) {
-                $('.overlay-ad').removeClass('d-none');
-            }
-        }
-
-        function hideOverlayAd() {
-            $('.overlay-ad').addClass('d-none');
-        }
-
-        function closeOverlayAd() {
-            $('.overlay-ad').addClass('d-none');
-            $('.overlay-ad').addClass('closed');
-        }
-
-        function overlayAdClick() {
-            player.pauseMedia();
-        }
-
-        function showWatermark() {
-            let watermark = document.querySelector('.watermark');
-            if (watermark) {
-                watermark.style.display = "block";
-            }
-        }
-
-        function hideWatermark() {
-            let watermark = document.querySelector('.watermark');
-            if (watermark) {
-                watermark.style.display = "none";
-            }
-        }
-
-        function detectPopupEvent() {
-            let eventHappening = false;
-
-            let startTime = 0;
-
-            setInterval(() => {
-                ++startTime;
-
-                if ($('.mvp-popup-holder .mvp-popup').hasClass('mvp-popup-visible') && $('.mvp-popup-holder .mvp-popup-visible').find('.continue-confirmation-popup').length === 0) {
-                    if (eventHappening === false) {
-                        blockPopup(startTime);
-                        hideOverlayAd();
-                        hideWatermark();
-                        eventHappening = true;
+                        // return true; // Prime number
                     }
 
                     @if ($redirectUrl)
