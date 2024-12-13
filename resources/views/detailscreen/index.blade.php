@@ -721,7 +721,6 @@
 @endsection
 
 @push('scripts')
-    //for desktop tabs
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
@@ -787,7 +786,7 @@
             return true;
         }
     </script>
-    //for mobile tabs
+    
     <script>
         var themeActiveColor = "{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}";
 
