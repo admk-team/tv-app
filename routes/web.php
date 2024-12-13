@@ -187,3 +187,4 @@ Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
 
 Route::get('check/remind/me', [NotifyComingSoonStreamController::class, 'checkRemindStatus'])->name('check.remind.me');
 Route::post('remind/me', [NotifyComingSoonStreamController::class, 'toggleRemind'])->name('remind.me');
+Route::get('{slug?}', [HomeController::class, 'index'])->name('home');

@@ -41,43 +41,50 @@
         }
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-    
+
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-    
+
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
-    
+
     $stream_code = $stream_details['stream_guid'];
-    
+
     $postData = [
         'stream_code' => $stream_code,
     ];
-    
+
     // $ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
-    
+
     // curl_setopt($ch, CURLOPT_POST, 1);
     // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    
+
     // $response = curl_exec($ch);
-    
+
     // if (curl_errno($ch)) {
     //     die('Curl error: ' . curl_error($ch));
     // }
-    
+
     // curl_close($ch);
-    
+
     // $resultArray = json_decode($response, true);
-    
+
     // $userDidComment = false;
     // foreach ($resultArray as $review) {
     //     if (session('USER_DETAILS') && $review['user']['userCode'] === session('USER_DETAILS')['USER_CODE']) {
     //         $userDidComment = true;
     //     }
     // }
-    
+
     ?>
     <style>
+        .mobile-dot-sep:before {
+            content: '\25CF';
+            font-size: 13px;
+            color: var(--themePrimaryTxtColor);
+            position: relative;
+        }
+
         .responsive_video {
             display: flex;
             justify-content: center;
@@ -461,7 +468,7 @@
                     ?>
                         <div class="share_circle addWtchBtn">
                             <a href="javascript:void(0);" onClick="manageFavItem();">
-                                <i id="btnicon-fav" class="{{ $cls }} theme-active-color" 
+                                <i id="btnicon-fav" class="{{ $cls }} theme-active-color"
                                     data-bs-toggle="tooltip" title="{{ $tooltip }}"></i>
                             </a>
                             <input type="hidden" id="myWishListSign" value="{{ $signStr }}" />
@@ -474,7 +481,7 @@
                                 <div class="share_circle">
                                     <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}"
                                         data-bs-toggle="tooltip" title="Create a Watch Party">
-                                        <i class="fa fa-users theme-active-color" ></i>
+                                        <i class="fa fa-users theme-active-color"></i>
                                     </a>
                                 </div>
                             @endif
@@ -485,7 +492,7 @@
                         <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                             <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}"
                                 data-bs-toggle="tooltip" title="Share">
-                                <i class="fa fa-share theme-active-color" ></i>
+                                <i class="fa fa-share theme-active-color"></i>
                             </a>
                         </div>
                         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
@@ -496,8 +503,7 @@
                                         $stream_details['monetization_type'] == 'S' ||
                                         $stream_details['monetization_type'] == 'O'))
                                 <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#giftModal">
-                                    <a href="javascript:void(0);"><i class="fa-solid fa-gift theme-active-color"
-                                            ></i></a>
+                                    <a href="javascript:void(0);"><i class="fa-solid fa-gift theme-active-color"></i></a>
                                 </div>
                             @endif
                         @endif

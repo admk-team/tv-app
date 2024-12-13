@@ -394,11 +394,11 @@ body {
 
 .cover-slider-item .info .btns {
     display: flex;
-    gap: 17px;
+    gap: 15px;
 }
 
 .cover-slider-item .info .btns a {
-    padding: 10px 23px;
+    padding: 9px 23px;
 }
 
 .owl-controll-btn {
@@ -663,7 +663,7 @@ p {
     }
 
     .cover-slider-item .info .btns a {
-        padding: 6px 20px;
+        padding: 8px 20px;
         font-size: 15px;
     }
 
