@@ -76,6 +76,11 @@
                                                 History</a>
                                         </li>
                                     @endif
+                                    @if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
+                                        <li><a class="text-decoration-none" href="{{ route('user.badge') }}">User
+                                                Badge</a>
+                                        </li>
+                                    @endif
                                     <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
                                 </ul>
                             </div>
@@ -123,6 +128,11 @@
                                     @if (\App\Services\AppConfig::get()->app->app_info->watch_history === 1)
                                         <li><a class="text-decoration-none" href="{{ route('watch.history') }}">Watch
                                                 History</a>
+                                        </li>
+                                    @endif
+                                    @if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
+                                        <li><a class="text-decoration-none" href="{{ route('user.badge') }}">User
+                                                Badge</a>
                                         </li>
                                     @endif
                                     <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
