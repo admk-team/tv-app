@@ -98,6 +98,9 @@
 .travel-info .btns a {
     padding: 8px 15px;
 }
+.travel-info .btns button {
+    padding: 8px 15px;
+}
 .carousel-indicators [data-bs-target] {
     flex: 0 1 auto;
     width: 36px;
@@ -147,8 +150,12 @@
     }
 
     .travel-info .btns a {
-        padding: 4px 8px;
-        font-size: 8px;
+        padding: 5px 8px;
+        font-size: 11px;
+    }
+    .travel-info .btns button {
+        padding: 6px 8px;
+        font-size: 10px;
     }
     .carousel-caption {
         position: absolute;

@@ -40,7 +40,7 @@ class WatchPartyController extends Controller
                 ->toIso8601String();  // ISO 8601 format
 
             $endDateTime = Carbon::createFromFormat('Y-m-d H:i', $endDate . ' ' . $endTime)
-            ->setTimezone(config('app.timezone'));
+                ->setTimezone(config('app.timezone'));
             if (now()->greaterThanOrEqualTo($endDateTime)) {
                 return redirect()->route('watch-party.ended');
             }
@@ -135,15 +135,4 @@ class WatchPartyController extends Controller
             return back()->with('error', $errorMessage);
         }
     }
-    // public function getAllWatchParties()
-    // {
-    //     $response = Http::timeout(300)
-    //         ->withHeaders(Api::headers())
-    //         ->get(Api::endpoint('/watchparty/get'));
-    //     $responseJson = $response->json();
-    //     dd($responseJson);
-
-    //     return view('watch_party_history.index', compact('watchParties'));
-    // }
-
 }
