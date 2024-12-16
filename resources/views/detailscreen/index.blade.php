@@ -490,7 +490,7 @@
                     }
                     ?>
                         <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                            <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}"
+                            <a href="javascript:void(0);" role="button"
                                 data-bs-toggle="tooltip" title="Share">
                                 <i class="fa fa-share theme-active-color"></i>
                             </a>
