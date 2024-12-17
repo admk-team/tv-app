@@ -1,3 +1,4 @@
+
 <div class="button_groupbox d-flex align-items-center mb-2 px-3 mt-2">
     <div class="movieDetailPlaymobile">
         @if (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'available now')
@@ -128,26 +129,27 @@ if (session('USER_DETAILS.USER_CODE')) {
         <div data-tab-content="overview" class="content">
             <div class="px-4">
                 @if (isset($stream_details['title_logo']) && $stream_details['title_logo'])
-                <div class="title_logo mb-1">
-                    <img class="img-fluid" src="{{ $stream_details['title_logo'] }}" 
-                         alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
-                </div>
-            @else
-                <h1 class="content-heading themePrimaryTxtColr" title="{{ $stream_details['stream_title'] ?? '' }}">
-                    {{ $stream_details['stream_title'] ?? '' }}
-                </h1>
-            @endif
+                    <div class="title_logo mb-1">
+                        <img class="img-fluid" src="{{ $stream_details['title_logo'] }}"
+                            alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
+                    </div>
+                @else
+                    <h1 class="content-heading themePrimaryTxtColr" title="{{ $stream_details['stream_title'] ?? '' }}">
+                        {{ $stream_details['stream_title'] ?? '' }}
+                    </h1>
+                @endif
                 <div class="content-timing mb-2">
                     @if ($stream_details['released_year'])
                         <a href="{{ route('year', $stream_details['released_year']) }}" class="text-decoration-none">
                             <span class="year themePrimaryTxtColr">{{ $stream_details['released_year'] }}</span>
                         </a>
-                        <span class="dot-sep themePrimaryTxtColr"></span>
+                        <span class="mobile-dot-sep"></span>
                     @endif
                     @if ($streamType != 'S')
                         @if ($stream_details['stream_duration'] && $stream_details['stream_duration'] !== '0')
-                            <span class="themePrimaryTxtColr" >{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream_details['stream_duration']) }}</span>
-                            <span class="dot-sep themePrimaryTxtColr"></span>
+                            <span
+                                class="themePrimaryTxtColr">{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream_details['stream_duration']) }}</span>
+                            <span class="mobile-dot-sep"></span>
                         @endif
                         {{-- <span class="movie_type">{{ $stream_details['cat_title'] }}</span> --}}
                         <span class="movie_type themePrimaryTxtColr">
@@ -163,13 +165,13 @@ if (session('USER_DETAILS.USER_CODE')) {
                         <span class="movie_type themePrimaryTxtColr">{{ $stream_details['show_name'] }}</span>
                     @endif
                     @if ($stream_details['content_qlt'] != '')
-                        <span class="content_screen themePrimaryTxtColr">
+                        <span class="content_screen themePrimaryTxtColr" style=" border: 1px var(--themePrimaryTxtColor) solid !important; ">
                             @php
                                 $content_qlt_arr = explode(',', $stream_details['content_qlt']);
                                 $content_qlt_codes_arr = explode(',', $stream_details['content_qlt_codes']);
                             @endphp
                             @foreach ($content_qlt_arr as $i => $item)
-                                <a
+                                <a style=" color: var(--themePrimaryTxtColor) !important;"
                                     href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>
                                 @if (!$loop->last)
                                     ,
@@ -178,13 +180,13 @@ if (session('USER_DETAILS.USER_CODE')) {
                         </span>
                     @endif
                     @if ($stream_details['content_rating'] != '')
-                        <span class="content_screen themePrimaryTxtColr">
+                        <span class="content_screen themePrimaryTxtColr"  style=" border: 1px var(--themePrimaryTxtColor) solid !important; ">
                             @php
                                 $content_rating_arr = explode(',', $stream_details['content_rating']);
                                 $content_rating_codes_arr = explode(',', $stream_details['content_rating_codes']);
                             @endphp
                             @foreach ($content_rating_arr as $i => $item)
-                                <a
+                                <a style="color: var(--themePrimaryTxtColor) !important;"
                                     href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>
                                 @if (!$loop->last)
                                     ,
@@ -194,7 +196,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                     @endif
                 </div>
 
-                <div class="about-movie aboutmovie_gaps mt-1 themePrimaryTxtColr">{{ $stream_details['stream_description'] }}</div>
+                <div class="about-movie aboutmovie_gaps mt-1 themePrimaryTxtColr">
+                    {{ $stream_details['stream_description'] }}</div>
                 <dl class="movies_listview mb-3">
                     <dl>
                         @if (isset($stream_details['cast']) || isset($stream_details['director']) || isset($stream_details['writer']))

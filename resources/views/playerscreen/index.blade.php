@@ -43,7 +43,7 @@
         } elseif ($isSingleVideo) {
             $streamUrl = $videoMatches[1]; // Extract only the video ID
             $mType = 'youtube_single';
-        }elseif ($isVimeo) {
+        } elseif ($isVimeo) {
             $streamUrl = $vimeoMatches[1]; // Extract only the Vimeo ID
             $mType = 'vimeo_single';
         }
@@ -115,6 +115,7 @@
         $mType = 'hls';
     }
     $apiPath = App\Services\Api::endpoint('/mngstrmdur');
+
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN') . '&userProfileId=' . session('USER_DETAILS.USER_PROFILE');
 
     // dd(session('USER_DETAILS.USER_PROFILE'));
@@ -254,6 +255,14 @@
     </script>
 
     <style>
+        .content_screen {
+            border: 1px var(--themePrimaryTxtColor) solid !important;
+        }
+
+        .dot-sep:before {
+            color: var(--themePrimaryTxtColor) !important;
+        }
+
         .loader {
             width: 18px;
             height: 18px;
@@ -424,7 +433,7 @@
         }
 
         /* Styles for BuyNow redirect message */
-        .buynow-redirect-message {
+        /* .buynow-redirect-message {
             background-color: #353b49;
             color: var(--themePrimaryTxtColor);
             max-width: 1000.89px;
@@ -443,8 +452,46 @@
             transform: translateX(-400px);
             opacity: 0;
             visibility: hidden;
+        } */
+        .buynow-redirect-message {
+            background-color: #353b49;
+            color: var(--themePrimaryTxtColor);
+            max-width: 1000.89px;
+            width: fit-content;
+            padding: 0.8rem 1.2rem;
+            font-weight: 600;
+            border-radius: 2px;
+            position: absolute;
+            z-index: 1000;
+            bottom: 10%;
+            height: fit-content;
+            left: 7%;
+            user-select: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out, visibility 0.5s;
+            transform: translateX(-400px);
+            opacity: 0;
+            visibility: hidden;
         }
 
+        .buy-now-marker {
+            position: absolute;
+            top: 48%;
+            height: 5%;
+            width: 4px;
+            background-color: #d9ff40;
+            transform: translateX(-50%);
+            display: block;
+            /* Ensure it's shown */
+            z-index: 2;
+            transition: left 0.2s ease-in-out;
+        }
+        .buynow-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
         .show-player-popup {
             visibility: visible;
             opacity: 1;
@@ -610,8 +657,7 @@
                                     @php
 $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @endphp
                                     data-type="{{ Str::endsWith($streamUrl, ['.mp3', '.wav']) ? 'audio' : $mType }}"
-                                    data-path="{{ $streamUrl }}"
-                                    data-noapi
+                                    data-path="{{ $streamUrl }}" data-noapi
                                     data-poster="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-title="{{ $arrSlctItemData['stream_title'] }}"
@@ -992,18 +1038,21 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                             alt="{{ $arrSlctItemData['stream_title'] ?? 'Logo' }}">
                                     </div>
                                 @else
-                                    <h1 class="content-heading themePrimaryTxtColr">{{ $arrSlctItemData['stream_title'] }}</h1>
+                                    <h1 class="content-heading themePrimaryTxtColr">{{ $arrSlctItemData['stream_title'] }}
+                                    </h1>
                                 @endif
                                 <div class="content-timing themePrimaryTxtColr">
                                     @if ($arrSlctItemData['released_year'])
                                         <a href="{{ route('year', $arrSlctItemData['released_year']) }}"
                                             class="text-decoration-none">
-                                            <span class="year themePrimaryTxtColr">{{ $arrSlctItemData['released_year'] }}</span>
+                                            <span
+                                                class="year themePrimaryTxtColr">{{ $arrSlctItemData['released_year'] }}</span>
                                         </a>
                                         <span class="dot-sep themePrimaryTxtColr"></span>
                                     @endif
                                     @if ($arrSlctItemData['stream_duration'] && $arrSlctItemData['stream_duration'] !== '0')
-                                        <span class="themePrimaryTxtColr">{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
+                                        <span
+                                            class="themePrimaryTxtColr">{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
                                         <span class="dot-sep themePrimaryTxtColr"></span>
                                     @endif
                                     {{-- <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span> --}}
@@ -1019,7 +1068,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                 ?>
                                     <span
                                         class="movie_type themePrimaryTxtColr">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL' ? $arrSlctItemData['stream_episode_title'] : '' }}</span>
-                                    <span class="movie_type themePrimaryTxtColr">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
+                                    <span
+                                        class="movie_type themePrimaryTxtColr">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
                                     <?php
                             }
     ?>
@@ -1036,7 +1086,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                             );
                                         @endphp
                                         @foreach ($content_qlt_arr as $i => $item)
-                                            <a
+                                            <a class="themePrimaryTxtColr"
                                                 href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>
                                             @if (!$loop->last)
                                                 ,
@@ -1059,7 +1109,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                             );
                                         @endphp
                                         @foreach ($content_rating_arr as $i => $item)
-                                            <a
+                                            <a class="themePrimaryTxtColr"
                                                 href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>
                                             @if (!$loop->last)
                                                 ,
@@ -1189,7 +1239,7 @@ if (!empty($arrCatData))
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                                                  </div> -->
+                                                                                                                                                                                                                                                                              </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}</div>
@@ -2004,405 +2054,412 @@ if (!empty($arrCatData))
 
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
-            var isshowlist = true
-            var pListPostion = 'vrb';
-            if (detectMob()) {
-                var pListPostion = 'hb';
-            }
-            var settings = {
-
-                skin: 'sirius', //aviva, polux, sirius
-                playlistPosition: pListPostion, //vrb, vb, hb, no-playlist, outer, wall
-                vimeoPlayerType:"chromeless",
-                youtubePlayerType:"chromeless",
-                sourcePath: "",
-                activeItem: 0, //active video to start with
-                activePlaylist: ".playlist-video",
-                playlistList: "#mvp-playlist-list",
-                instanceName: "player1",
-                hidePlaylistOnMinimize: true,
-                volume: 0.75,
-                useShare: true,
-                autoPlay: true,
-                crossorigin: "link",
-                playlistOpened: false,
-                randomPlay: false,
-                usePlaylistToggle: isshowlist,
-                useEmbed: true,
-                useTime: true,
-                usePip: true, //picture in picture
-                useCc: true, //caption toggle
-                useAirPlay: true,
-                usePlaybackRate: true,
-                useNext: true,
-                usePrevious: true,
-                useRewind: true,
-                useSkipBackward: true,
-                useSkipForward: true,
-                showPrevNextVideoThumb: true,
-                rememberPlaybackPosition: 'all', //remember last video position (false, 1, all)
-                useQuality: true,
-                useImaLoader: true,
-                useTheaterMode: true,
-                focusVideoInTheater: true,
-                focusVideoInTheater: true,
-                hidePlaylistOnTheaterEnter: true,
-                useSubtitle: true,
-                useChapter: true,
-                useTranscript: false,
-                useChapterToggle: false,
-                useCasting: true,
-                comingNextHeader: "Coming Next",
-                comingNextCancelBtnText: "CANCEL",
-                mediaEndAction: 'comingnext',
-                comingnextTime: 10,
-                disableVideoSkip: false,
-                useAdSeekbar: true,
-                useAdControls: true,
-                useGlobalPopupCloseBtn: true,
-                /* showPopupsOnlyOnce: true, */
-                playbackRateArr: [{
-                        value: 2,
-                        menu_title: '2x'
-                    },
-                    {
-                        value: 1.5,
-                        menu_title: '1.5x'
-                    },
-                    {
-                        value: 1.25,
-                        menu_title: '1.25x'
-                    },
-                    {
-                        value: 1,
-                        menu_title: '1x (Normal)'
-                    },
-                    {
-                        value: 0.5,
-                        menu_title: '0.5x'
-                    },
-                    {
-                        value: 0.25,
-                        menu_title: '0.25x'
+                    var isshowlist = true
+                    var pListPostion = 'vrb';
+                    if (detectMob()) {
+                        var pListPostion = 'hb';
                     }
-                ],
+                    var settings = {
 
-            };
-
-            window.player = new mvp(document.getElementById('wrapper'), settings);
-            setTimeout(unmutedVoice, 2000);
-            let playerstillwatch = "<?php echo $stillwatching; ?>";
-            let playerstillwatchduration = "<?php echo $playerstillwatchduration; ?>";
-
-            if (playerstillwatch && playerstillwatch == "1") {
-                window.setInterval(function() {
-                    pauseVideo();
-                }, 5000)
-            }
-
-            counter = [];
-
-            function pauseVideo() {
-                if (isPrime(player.getActiveItemId()) && !counter.includes(player.getActiveItemId())) {
-                    counter.push(player.getActiveItemId());
-                    player.pauseMedia();
-                    $('#statusModal').modal('show');
-                }
-            }
-            $('#confirm_status').click(function() {
-                $('#statusModal').modal('hide');
-                player.playMedia();
-            });
-            $('#closemybt').click(function() {
-                $('#statusModal').modal('hide');
-                player.pauseMedia();
-            });
-
-            function isPrime(number) {
-                // Check if the number is less than 2 (0 and 1 are not prime)
-
-                if (number !== 0 && number % parseInt(playerstillwatchduration) === 0) {
-                    playerstillwatchduration + playerstillwatchduration;
-                    return true;
-                } else {
-                    return false;
-                }
-
-                // // Check for divisibility from 2 to the square root of the number
-                // for (let i = 2; i <= Math.sqrt(number); i++) {
-                //     if (number % i === 0) {
-                //         return false; // Not a prime number
-                //     }
-                // }
-
-                // return true; // Prime number
-            }
-
-            @if ($redirectUrl)
-                const trial = getTrial();
-                trial.onRedirect(() => {
-                    player.pauseMedia();
-                    player.destroyMedia();
-                    window.location.href = '{{ $redirectUrl }}';
-                })
-            @endif
-
-            var isFirstTIme = true
-            player.addEventListener('mediaStart', function(data) {
-                //called on media start, returns (instance, instanceName, counter)
-
-                console.log(data.instanceName);
-                console.log(data.counter); //active item
-
-                //get media current time
-                data.instance.getCurrentTime();
-
-                //get media duration
-                data.instance.getDuration();
-                if (isFirstTIme == true) {
-                    isFirstTIme = false;
-                    // player.seek()
-                    player.seek({{ $arrSlctItemData['start_duration'] }});
-                } else {
-                    sendAjaxRes4VideoDuration('getStrmDur', data.media.mediaId, '');
-                }
-
-                let liveVideo = document.querySelector('.live-video');
-                if (liveVideo) {
-                    liveVideo.style.display = "block";
-                }
-
-                let watermark = document.querySelector('.watermark');
-                if (watermark) {
-                    watermark.style.display = "block";
-                }
-
-                showOverlayAd();
-
-                detectPopupEvent();
-            });
-            let eventHappening = false;
-
-            @if (!empty($arrSlctItemData['buynow']))
-                @php$('.mvp-popup-holder .mvp-popup').hasClass('.mvp-popup-visible');
-                    $buynows = $arrSlctItemData['buynow'];
-                @endphp
-            @endif
-            player.addEventListener("mediaPlay", function(data) {
-                @if ($redirectUrl)
-                    trial.start();
-                    document.querySelector('.mvp-input-progress').disabled = true;
-                    document.querySelector('.mvp-skip-backward-toggle').disabled = true;
-                    document.querySelector('.mvp-skip-forward-toggle').disabled = true;
-                    document.querySelector('.mvp-rewind-toggle').disabled = true;
-                @endif
-
-                @if (!empty($arrSlctItemData['buynow']))
-                    @foreach ($arrSlctItemData['buynow'] as $index => $buynow)
-                        let timeOffset_{{ $index }} = {{ $buynow['time_offset'] * 60 }};
-                        let isBuyNowShown_{{ $index }} = false;
-
-                        function showBuyNowMessage_{{ $index }}() {
-                            let currentTime = Math.floor(data.instance.getCurrentTime());
-
-                            // Check if the current time is past the time offset
-                            if (currentTime >= timeOffset_{{ $index }} && !
-                                isBuyNowShown_{{ $index }}) {
-                                isBuyNowShown_{{ $index }} = true; // Prevent showing again
-
-                                const buyNowMessageBox = document.querySelector('.buynow-redirect-message');
-                                buyNowMessageBox.innerHTML =
-                                    `{{ $buynow['name'] }}<span class="time"></span>`;
-                                buyNowMessageBox.classList.add('show-player-popup');
-                                buyNowMessageBox.style.display = 'block';
-
-                                let hideMessageTimeout = setTimeout(() => {
-                                    buyNowMessageBox.classList.remove('show-player-popup');
-                                    buyNowMessageBox.style.display = 'none';
-                                }, 10000);
-
-                                let sourceType = "{{ $buynow['source_type'] }}";
-                                let internalUrl =
-                                    "{{ url('/getitemplayerdetail/' . $buynow['stream_url']) }}";
-                                let externalUrl = "{{ $buynow['external_link'] }}";
-
-                                buyNowMessageBox.onclick = () => {
-                                    if (sourceType === "external") {
-                                        window.open(externalUrl, '_blank');
-                                    } else if (sourceType === "internal") {
-                                        window.open(internalUrl, '_blank');
-                                    } else {
-                                        console.log("Invalid source type");
-                                    }
-
-                                    buyNowMessageBox.classList.remove('show-player-popup');
-                                    buyNowMessageBox.style.display = 'none';
-                                    clearTimeout(hideMessageTimeout);
-                                };
+                        skin: 'sirius', //aviva, polux, sirius
+                        playlistPosition: pListPostion, //vrb, vb, hb, no-playlist, outer, wall
+                        vimeoPlayerType: "chromeless",
+                        youtubePlayerType: "chromeless",
+                        sourcePath: "",
+                        activeItem: 0, //active video to start with
+                        activePlaylist: ".playlist-video",
+                        playlistList: "#mvp-playlist-list",
+                        instanceName: "player1",
+                        hidePlaylistOnMinimize: true,
+                        volume: 0.75,
+                        useShare: true,
+                        autoPlay: true,
+                        crossorigin: "link",
+                        playlistOpened: false,
+                        randomPlay: false,
+                        usePlaylistToggle: isshowlist,
+                        useEmbed: true,
+                        useTime: true,
+                        usePip: true, //picture in picture
+                        useCc: true, //caption toggle
+                        useAirPlay: true,
+                        usePlaybackRate: true,
+                        useNext: true,
+                        usePrevious: true,
+                        useRewind: true,
+                        useSkipBackward: true,
+                        useSkipForward: true,
+                        showPrevNextVideoThumb: true,
+                        rememberPlaybackPosition: 'all', //remember last video position (false, 1, all)
+                        useQuality: true,
+                        useImaLoader: true,
+                        useTheaterMode: true,
+                        focusVideoInTheater: true,
+                        focusVideoInTheater: true,
+                        hidePlaylistOnTheaterEnter: true,
+                        useSubtitle: true,
+                        useTranscript: false,
+                        useChapterToggle: false,
+                        useCasting: true,
+                        comingNextHeader: "Coming Next",
+                        comingNextCancelBtnText: "CANCEL",
+                        mediaEndAction: 'comingnext',
+                        comingnextTime: 10,
+                        disableVideoSkip: false,
+                        useAdSeekbar: true,
+                        useAdControls: true,
+                        useGlobalPopupCloseBtn: true,
+                        /* showPopupsOnlyOnce: true, */
+                        playbackRateArr: [{
+                                value: 2,
+                                menu_title: '2x'
+                            },
+                            {
+                                value: 1.5,
+                                menu_title: '1.5x'
+                            },
+                            {
+                                value: 1.25,
+                                menu_title: '1.25x'
+                            },
+                            {
+                                value: 1,
+                                menu_title: '1x (Normal)'
+                            },
+                            {
+                                value: 0.5,
+                                menu_title: '0.5x'
+                            },
+                            {
+                                value: 0.25,
+                                menu_title: '0.25x'
                             }
+                        ],
+
+                    };
+
+                    window.player = new mvp(document.getElementById('wrapper'), settings);
+                    setTimeout(unmutedVoice, 2000);
+                    let playerstillwatch = "<?php echo $stillwatching; ?>";
+                    let playerstillwatchduration = "<?php echo $playerstillwatchduration; ?>";
+
+                    if (playerstillwatch && playerstillwatch == "1") {
+                        window.setInterval(function() {
+                            pauseVideo();
+                        }, 5000)
+                    }
+
+                    counter = [];
+
+                    function pauseVideo() {
+                        if (isPrime(player.getActiveItemId()) && !counter.includes(player.getActiveItemId())) {
+                            counter.push(player.getActiveItemId());
+                            player.pauseMedia();
+                            $('#statusModal').modal('show');
+                        }
+                    }
+                    $('#confirm_status').click(function() {
+                        $('#statusModal').modal('hide');
+                        player.playMedia();
+                    });
+                    $('#closemybt').click(function() {
+                        $('#statusModal').modal('hide');
+                        player.pauseMedia();
+                    });
+
+                    function isPrime(number) {
+                        // Check if the number is less than 2 (0 and 1 are not prime)
+
+                        if (number !== 0 && number % parseInt(playerstillwatchduration) === 0) {
+                            playerstillwatchduration + playerstillwatchduration;
+                            return true;
+                        } else {
+                            return false;
                         }
 
-                        // Check for the buy now message every 100 ms
-                        let timeCheckInterval_{{ $index }} = setInterval(
-                            showBuyNowMessage_{{ $index }}, 100);
-                    @endforeach
-                @endif
+                        // // Check for divisibility from 2 to the square root of the number
+                        // for (let i = 2; i <= Math.sqrt(number); i++) {
+                        //     if (number % i === 0) {
+                        //         return false; // Not a prime number
+                        //     }
+                        // }
 
-
-            });
-
-
-            player.addEventListener("mediaPause", function(data) {
-                //alert(data.instance.getCurrentTime());
-                //get media duration
-                //alert(data.instance.getDuration());
-                //alert(data.media.mediaId);
-                sendAjaxRes4VideoDuration('saveStrmDur', data.media.mediaId, data.instance
-                    .getCurrentTime());
-
-                @if ($redirectUrl)
-                    trial.pause();
-                @endif
-            });
-
-            player.addEventListener("mediaEnd", function(data) {
-
-                //alert(data.instance.getCurrentTime());
-                //get media duration
-                //alert(data.instance.getDuration());
-                //alert(data.media.mediaId);
-                sendAjaxRes4VideoDuration('removeStrmDur', data.media.mediaId, '');
-
-            });
-
-            player.addEventListener("adPlay", function(data) {
-                let liveVideo = document.querySelector('.live-video');
-                if (liveVideo) {
-                    liveVideo.style.display = "none";
-                }
-
-                // Hide watermark when ad is playing
-                let watermark = document.querySelector('.watermark');
-                if (watermark) {
-                    watermark.style.display = "none";
-                }
-
-                hideOverlayAd();
-            })
-
-
-            window.resumeMedia = function() {
-                player.closePopup();
-                setTimeout(() => player.playMedia(), 500);
-            }
-
-            window.startOverMedia = function() {
-                player.closePopup();
-                player.seek(0);
-                setTimeout(() => player.playMedia(), 500);
-            }
-
-        });
-
-        document.body.addEventListener("click", function(evt) {
-            //console.dir(this);
-            //note evt.target can be a nested element, not the body element, resulting in misfires
-            //console.log(evt.target);
-            if (player.getMediaPlaying()) {
-                // alert(player);
-                mediaId = player.getCurrentMediaData().mediaId
-                console.log(player.getCurrentMediaData());
-                console.log(player.getCurrentTime());
-                //  alert("body clicked");
-                sendAjaxRes4VideoDuration('saveStrmDur', mediaId, player.getCurrentTime());
-            }
-        });
-
-        function unmutedVoice() {
-            //alert("hi");
-            player.toggleMute();
-            player.playMedia();
-            setInterval(sendAdRequrst, 50000);
-        }
-
-        function sendAdRequrst() {
-            $.get("<?php echo $dataVast3 ?? ''; ?>", function(data, status) {
-                //alert("Data: " + data + "\nStatus: " + status);
-            });
-        }
-
-        function showOverlayAd() {
-            if (!$('.overlay-ad').hasClass('closed')) {
-                $('.overlay-ad').removeClass('d-none');
-            }
-        }
-
-        function hideOverlayAd() {
-            $('.overlay-ad').addClass('d-none');
-        }
-
-        function closeOverlayAd() {
-            $('.overlay-ad').addClass('d-none');
-            $('.overlay-ad').addClass('closed');
-        }
-
-        function overlayAdClick() {
-            player.pauseMedia();
-        }
-
-        function showWatermark() {
-            let watermark = document.querySelector('.watermark');
-            if (watermark) {
-                watermark.style.display = "block";
-            }
-        }
-
-        function hideWatermark() {
-            let watermark = document.querySelector('.watermark');
-            if (watermark) {
-                watermark.style.display = "none";
-            }
-        }
-
-        
-        function detectPopupEvent() {
-            let eventHappening = false;
-
-            let startTime = 0;
-
-            setInterval(() => {
-                ++startTime;
-
-                if ($('.mvp-popup-holder .mvp-popup').hasClass('mvp-popup-visible') && $('.mvp-popup-holder .mvp-popup-visible').find('.continue-confirmation-popup').length === 0) {
-                    if (eventHappening === false) {
-                        blockPopup(startTime);
-                        hideOverlayAd();
-                        hideWatermark();
-                        eventHappening = true;
+                        // return true; // Prime number
                     }
-                } else {
-                    if (eventHappening === true) {
+
+                    @if ($redirectUrl)
+                        const trial = getTrial();
+                        trial.onRedirect(() => {
+                            player.pauseMedia();
+                            player.destroyMedia();
+                            window.location.href = '{{ $redirectUrl }}';
+                        })
+                    @endif
+
+                    var isFirstTIme = true
+                    player.addEventListener('mediaStart', function(data) {
+                        //called on media start, returns (instance, instanceName, counter)
+
+                        console.log(data.instanceName);
+                        console.log(data.counter); //active item
+
+                        //get media current time
+                        data.instance.getCurrentTime();
+
+                        //get media duration
+                        data.instance.getDuration();
+                        if (isFirstTIme == true) {
+                            isFirstTIme = false;
+                            // player.seek()
+                            player.seek({{ $arrSlctItemData['start_duration'] }});
+                        } else {
+                            sendAjaxRes4VideoDuration('getStrmDur', data.media.mediaId, '');
+                        }
+
+                        let liveVideo = document.querySelector('.live-video');
+                        if (liveVideo) {
+                            liveVideo.style.display = "block";
+                        }
+
+                        let watermark = document.querySelector('.watermark');
+                        if (watermark) {
+                            watermark.style.display = "block";
+                        }
+
                         showOverlayAd();
-                        showWatermark();
-                        eventHappening = false;
-                    }
-                }
-            }, 1000);
-        }
 
-        function blockPopup(startTime) {
-            if (startTime > 30) {
-                return;
-            }
+                        detectPopupEvent();
+                    });
+                    let eventHappening = false;
 
-            let isPopupPaused = $('.mvp-popup-holder .mvp-popup-visible').data('show') === 'pause';
-            player.closePopup();
-            setTimeout(() => {
-                if (! isPopupPaused) {
-                    player.playMedia();
+                    @if (!empty($arrSlctItemData['buynow']))
+                        @php
+                            $buynows = $arrSlctItemData['buynow'];
+                        @endphp
+                    @endif
+            window.displayedBuyNow = [];
+    player.addEventListener("mediaPlay", function(data) {
+    @if ($redirectUrl)
+        trial.start();
+        document.querySelector('.mvp-input-progress').disabled = true;
+        document.querySelector('.mvp-skip-backward-toggle').disabled = true;
+        document.querySelector('.mvp-skip-forward-toggle').disabled = true;
+        document.querySelector('.mvp-rewind-toggle').disabled = true;
+    @endif
+
+
+        @if (!empty($arrSlctItemData['buynow']))
+
+                let buyNowData = @json($arrSlctItemData['buynow']);
+
+                function checkAndShowBuyNowMessage() {
+                    let currentTime = Math.floor(data.instance.getCurrentTime());
+
+                    buyNowData.forEach((buynow, index) => {
+                        let timeOffset = buynow.time_offset * 60; // Convert time offset to seconds
+
+                        // Show the message only if the time is reached and it has not been displayed yet
+                        if (currentTime >= timeOffset && !displayedBuyNow.includes(index)) {
+                            const buyNowMessageBox = document.querySelector('.buynow-redirect-message');
+
+                            // Dynamically set content based on "name" or "img_url"
+                            if (buynow.name) {
+                                buyNowMessageBox.innerHTML = `${buynow.name}<span class="time"></span>`;
+                            } else if (buynow.img_url) {
+                                buyNowMessageBox.innerHTML = `<img src="${buynow.img_url}" alt="Buy Now" class="buynow-image" />`;
+                            }
+
+                            // Show the message
+                            buyNowMessageBox.style.opacity = "1";
+                            buyNowMessageBox.style.visibility = "visible";
+                            buyNowMessageBox.style.transform = "translateX(0)";
+
+                            displayedBuyNow.push(index); // Mark as displayed
+
+                            // Hide after 10 seconds
+                            setTimeout(() => {
+                                hideBuyNowMessage(buyNowMessageBox);
+                            }, 10000);
+
+                            // Handle click event for redirection
+                            buyNowMessageBox.onclick = () => {
+                                if (buynow.source_type === "external" && buynow.external_link) {
+                                    window.open(buynow.external_link, '_blank');
+                                } else if (buynow.source_type === "internal" && buynow.stream_url) {
+                                    let internalUrl = `{{ url('/getitemplayerdetail') }}/${buynow.stream_url}`;
+                                    window.open(internalUrl, '_blank');
+                                }
+                                hideBuyNowMessage(buyNowMessageBox);
+                            };
+                        }
+                    });
                 }
-            }, 500);
-        }
+
+                function hideBuyNowMessage(element) {
+                    element.style.opacity = "0";
+                    element.style.visibility = "hidden";
+                    element.style.transform = "translateX(-400px)";
+                }
+
+                setInterval(checkAndShowBuyNowMessage, 1000);
+        @endif
+
+
+
+    });
+
+
+    player.addEventListener("mediaPause", function(data) {
+    //alert(data.instance.getCurrentTime());
+    //get media duration
+    //alert(data.instance.getDuration());
+    //alert(data.media.mediaId);
+    sendAjaxRes4VideoDuration('saveStrmDur', data.media.mediaId, data.instance
+    .getCurrentTime());
+
+    @if ($redirectUrl)
+        trial.pause();
+    @endif
+    });
+
+    player.addEventListener("mediaEnd", function(data) {
+
+    //alert(data.instance.getCurrentTime());
+    //get media duration
+    //alert(data.instance.getDuration());
+    //alert(data.media.mediaId);
+    sendAjaxRes4VideoDuration('removeStrmDur', data.media.mediaId, '');
+
+    });
+
+    player.addEventListener("adPlay", function(data) {
+    let liveVideo = document.querySelector('.live-video');
+    if (liveVideo) {
+    liveVideo.style.display = "none";
+    }
+
+    // Hide watermark when ad is playing
+    let watermark = document.querySelector('.watermark');
+    if (watermark) {
+    watermark.style.display = "none";
+    }
+
+    hideOverlayAd();
+    })
+
+
+    window.resumeMedia = function() {
+    player.closePopup();
+    setTimeout(() => player.playMedia(), 500);
+    }
+
+    window.startOverMedia = function() {
+    player.closePopup();
+    player.seek(0);
+    setTimeout(() => player.playMedia(), 500);
+    }
+
+    });
+
+    document.body.addEventListener("click", function(evt) {
+    //console.dir(this);
+    //note evt.target can be a nested element, not the body element, resulting in misfires
+    //console.log(evt.target);
+    if (player.getMediaPlaying()) {
+    // alert(player);
+    mediaId = player.getCurrentMediaData().mediaId
+    console.log(player.getCurrentMediaData());
+    console.log(player.getCurrentTime());
+    // alert("body clicked");
+    sendAjaxRes4VideoDuration('saveStrmDur', mediaId, player.getCurrentTime());
+    }
+    });
+
+    function unmutedVoice() {
+    //alert("hi");
+    player.toggleMute();
+    player.playMedia();
+    setInterval(sendAdRequrst, 50000);
+    }
+
+    function sendAdRequrst() {
+    $.get("<?php echo $dataVast3 ?? ''; ?>", function(data, status) {
+    //alert("Data: " + data + "\nStatus: " + status);
+    });
+    }
+
+    function showOverlayAd() {
+    if (!$('.overlay-ad').hasClass('closed')) {
+    $('.overlay-ad').removeClass('d-none');
+    }
+    }
+
+    function hideOverlayAd() {
+    $('.overlay-ad').addClass('d-none');
+    }
+
+    function closeOverlayAd() {
+    $('.overlay-ad').addClass('d-none');
+    $('.overlay-ad').addClass('closed');
+    }
+
+    function overlayAdClick() {
+    player.pauseMedia();
+    }
+
+    function showWatermark() {
+    let watermark = document.querySelector('.watermark');
+    if (watermark) {
+    watermark.style.display = "block";
+    }
+    }
+
+    function hideWatermark() {
+    let watermark = document.querySelector('.watermark');
+    if (watermark) {
+    watermark.style.display = "none";
+    }
+    }
+
+    function detectPopupEvent() {
+    let eventHappening = false;
+
+    let startTime = 0;
+
+    setInterval(() => {
+    ++startTime;
+
+    if ($('.mvp-popup-holder .mvp-popup').hasClass('mvp-popup-visible') && $(
+    '.mvp-popup-holder .mvp-popup-visible').find('.continue-confirmation-popup').length === 0) {
+    if (eventHappening === false) {
+    blockPopup(startTime);
+    hideOverlayAd();
+    hideWatermark();
+    eventHappening = true;
+    }
+    } else {
+    if (eventHappening === true) {
+    showOverlayAd();
+    showWatermark();
+    eventHappening = false;
+    }
+    }
+    }, 1000);
+    }
+
+    function blockPopup(startTime) {
+    if (startTime > 30) {
+    return;
+    }
+
+    let isPopupPaused = $('.mvp-popup-holder .mvp-popup-visible').data('show') === 'pause';
+    player.closePopup();
+    setTimeout(() => {
+    if (!isPopupPaused) {
+    player.playMedia();
+    }
+    }, 500);
+    }
     </script>
     <script>
         // sendAjaxRes4VideoDuration('saveStrmDur', this.currentTime());
@@ -2426,6 +2483,7 @@ if (!empty($arrCatData))
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhttp.setRequestHeader("happcode", "{{ env('APP_CODE') }}");
                 xhttp.setRequestHeader("husercode", "{{ session('USER_DETAILS.USER_CODE') }}");
+                xhttp.setRequestHeader("hplatform", "web");
                 xhttp.send(strQueryParm);
             }
         }
