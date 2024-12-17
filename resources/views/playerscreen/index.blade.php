@@ -433,7 +433,7 @@
         }
 
         /* Styles for BuyNow redirect message */
-        .buynow-redirect-message {
+        /* .buynow-redirect-message {
             background-color: #353b49;
             color: var(--themePrimaryTxtColor);
             max-width: 1000.89px;
@@ -452,8 +452,46 @@
             transform: translateX(-400px);
             opacity: 0;
             visibility: hidden;
+        } */
+        .buynow-redirect-message {
+            background-color: #353b49;
+            color: var(--themePrimaryTxtColor);
+            max-width: 1000.89px;
+            width: fit-content;
+            padding: 0.8rem 1.2rem;
+            font-weight: 600;
+            border-radius: 2px;
+            position: absolute;
+            z-index: 1000;
+            bottom: 10%;
+            height: fit-content;
+            left: 7%;
+            user-select: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out, visibility 0.5s;
+            transform: translateX(-400px);
+            opacity: 0;
+            visibility: hidden;
         }
 
+        .buy-now-marker {
+            position: absolute;
+            top: 48%;
+            height: 5%;
+            width: 4px;
+            background-color: #d9ff40;
+            transform: translateX(-50%);
+            display: block;
+            /* Ensure it's shown */
+            z-index: 2;
+            transition: left 0.2s ease-in-out;
+        }
+        .buynow-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
         .show-player-popup {
             visibility: visible;
             opacity: 1;
@@ -1511,15 +1549,8 @@ if (!empty($arrCatData))
                         @php
                             $buynows = $arrSlctItemData['buynow'];
                         @endphp
-
-                            <
-                            script >
-                            if ($('.mvp-popup-holder .mvp-popup').hasClass('mvp-popup-visible')) {
-                                // Your JavaScript logic here
-                            }
-    </>
-    @endif
-
+                    @endif
+            window.displayedBuyNow = [];
     player.addEventListener("mediaPlay", function(data) {
     @if ($redirectUrl)
         trial.start();
@@ -1529,57 +1560,63 @@ if (!empty($arrCatData))
         document.querySelector('.mvp-rewind-toggle').disabled = true;
     @endif
 
-    @if (!empty($arrSlctItemData['buynow']))
-        @foreach ($arrSlctItemData['buynow'] as $index => $buynow)
-            let timeOffset_{{ $index }} = {{ $buynow['time_offset'] * 60 }};
-            let isBuyNowShown_{{ $index }} = false;
 
-            function showBuyNowMessage_{{ $index }}() {
-            let currentTime = Math.floor(data.instance.getCurrentTime());
+        @if (!empty($arrSlctItemData['buynow']))
 
-            // Check if the current time is past the time offset
-            if (currentTime >= timeOffset_{{ $index }} && !
-            isBuyNowShown_{{ $index }}) {
-            isBuyNowShown_{{ $index }} = true; // Prevent showing again
+                let buyNowData = @json($arrSlctItemData['buynow']);
 
-            const buyNowMessageBox = document.querySelector('.buynow-redirect-message');
-            buyNowMessageBox.innerHTML =
-            `{{ $buynow['name'] }}<span class="time"></span>`;
-            buyNowMessageBox.classList.add('show-player-popup');
-            buyNowMessageBox.style.display = 'block';
+                function checkAndShowBuyNowMessage() {
+                    let currentTime = Math.floor(data.instance.getCurrentTime());
 
-            let hideMessageTimeout = setTimeout(() => {
-            buyNowMessageBox.classList.remove('show-player-popup');
-            buyNowMessageBox.style.display = 'none';
-            }, 10000);
+                    buyNowData.forEach((buynow, index) => {
+                        let timeOffset = buynow.time_offset * 60; // Convert time offset to seconds
 
-            let sourceType = "{{ $buynow['source_type'] }}";
-            let
-            internalUrl =
-                                    "{{ url('/getitemplayerdetail/' . $buynow['stream_url']) }}";
-            let externalUrl = "{{ $buynow['external_link'] }}";
+                        // Show the message only if the time is reached and it has not been displayed yet
+                        if (currentTime >= timeOffset && !displayedBuyNow.includes(index)) {
+                            const buyNowMessageBox = document.querySelector('.buynow-redirect-message');
 
-            buyNowMessageBox.onclick = () => {
-            if (sourceType === "external") {
-            window.open(externalUrl, '_blank');
-            } else if (sourceType === "internal") {
-            window.open(internalUrl, '_blank');
-            } else {
-            console.log("Invalid source type");
-            }
+                            // Dynamically set content based on "name" or "img_url"
+                            if (buynow.name) {
+                                buyNowMessageBox.innerHTML = `${buynow.name}<span class="time"></span>`;
+                            } else if (buynow.img_url) {
+                                buyNowMessageBox.innerHTML = `<img src="${buynow.img_url}" alt="Buy Now" class="buynow-image" />`;
+                            }
 
-            buyNowMessageBox.classList.remove('show-player-popup');
-            buyNowMessageBox.style.display = 'none';
-            clearTimeout(hideMessageTimeout);
-            };
-            }
-            }
+                            // Show the message
+                            buyNowMessageBox.style.opacity = "1";
+                            buyNowMessageBox.style.visibility = "visible";
+                            buyNowMessageBox.style.transform = "translateX(0)";
 
-            // Check for the buy now message every 100 ms
-            let timeCheckInterval_{{ $index }} = setInterval(
-            showBuyNowMessage_{{ $index }}, 100);
-        @endforeach
-    @endif
+                            displayedBuyNow.push(index); // Mark as displayed
+
+                            // Hide after 10 seconds
+                            setTimeout(() => {
+                                hideBuyNowMessage(buyNowMessageBox);
+                            }, 10000);
+
+                            // Handle click event for redirection
+                            buyNowMessageBox.onclick = () => {
+                                if (buynow.source_type === "external" && buynow.external_link) {
+                                    window.open(buynow.external_link, '_blank');
+                                } else if (buynow.source_type === "internal" && buynow.stream_url) {
+                                    let internalUrl = `{{ url('/getitemplayerdetail') }}/${buynow.stream_url}`;
+                                    window.open(internalUrl, '_blank');
+                                }
+                                hideBuyNowMessage(buyNowMessageBox);
+                            };
+                        }
+                    });
+                }
+
+                function hideBuyNowMessage(element) {
+                    element.style.opacity = "0";
+                    element.style.visibility = "hidden";
+                    element.style.transform = "translateX(-400px)";
+                }
+
+                setInterval(checkAndShowBuyNowMessage, 1000);
+        @endif
+
 
 
     });
