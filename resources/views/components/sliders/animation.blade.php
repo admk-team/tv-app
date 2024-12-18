@@ -11,7 +11,7 @@
                 <img src="{{ $stream->feature_poster ?? '' }}" alt="{{ $stream->stream_title }}"
                     data-url="{{ route('playerscreen', $stream->stream_guid) }}">
                 <div class="travel-info" @if (!$loop->first) style="display: none;" @endif>
-                    @if (isset($stream->title_logo) && $stream->title_logo)
+                    @if (isset($stream->title_logo, $stream->show_title_logo) && $stream->title_logo && $stream->show_title_logo == 1)
                         <div class="title_logo mb-1">
                             <img class="image-fluid ignore" style="max-width: 100%" src="{{ $stream->title_logo }}"
                                 alt="{{ $stream->stream_title }}">

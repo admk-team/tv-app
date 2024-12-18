@@ -128,7 +128,9 @@ if (session('USER_DETAILS.USER_CODE')) {
     <div class="tab-content">
         <div data-tab-content="overview" class="content">
             <div class="px-4">
-                @if (isset($stream_details['title_logo']) && $stream_details['title_logo'])
+                @if (isset($stream_details['title_logo'], $stream_details['show_title_logo']) &&
+                $stream_details['title_logo'] &&
+                $stream_details['show_title_logo'] == 1)
                     <div class="title_logo mb-1">
                         <img class="img-fluid" src="{{ $stream_details['title_logo'] }}"
                             alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
