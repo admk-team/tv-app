@@ -454,7 +454,7 @@
             visibility: hidden;
         } */
         .buynow-redirect-message {
-            background-color: #353b49;
+            background-color: var(--themeActiveColor);
             color: var(--themePrimaryTxtColor);
             max-width: 1000.89px;
             width: fit-content;
