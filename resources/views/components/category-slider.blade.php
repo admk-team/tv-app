@@ -101,6 +101,12 @@
                                     if ($stream->is_external_ad === 'N') {
                                         $url = route($screen, $stream->stream_promo_url);
                                     }
+                                    if ($stream->banner_ad_click_tracking_url ?? false) { // wrap url in click tracking url
+                                        if (strpos($stream->banner_ad_click_tracking_url, '?') !== false)
+                                            $url = $stream->banner_ad_click_tracking_url . "&url=" . urlencode($url);
+                                        else
+                                            $url = $stream->banner_ad_click_tracking_url . "?url=" . urlencode($url);
+                                    }
                                 } elseif ($stream->stream_type === 'BC') {
                                     $url = route('content-bundle', $stream->stream_guid);
                                 } else {

@@ -13,7 +13,8 @@ class Api
     {
         $defaultHeaders = [
             'happcode' => env('APP_CODE'),
-            'hplatform' => 'web'
+            'hplatform' => 'web',
+            'huseragent' => $_SERVER['HTTP_USER_AGENT'],
         ];
 
         if (session('USER_DETAILS.USER_CODE'))

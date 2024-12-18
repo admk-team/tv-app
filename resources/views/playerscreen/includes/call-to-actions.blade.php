@@ -17,13 +17,13 @@
                 @case('text')
                     <div class="mvp-popup" data-show="{{ $point }}">
                         <div class="bg-white p-4">
-                            @if ($cta['link_url'] ?? null)
+                            {{-- @if ($cta['link_url'] ?? null)
                             <a href="{{ $cta['link_url'] }}">
-                            @endif
+                            @endif --}}
                                 <h3>{{ $cta['title'] }}</h3>
-                            @if ($cta['link_url'] ?? null)
+                            {{-- @if ($cta['link_url'] ?? null)
                             </a>
-                            @endif
+                            @endif --}}
                             
                             <div>{{ $cta['content'] }}</div>
                         </div>
