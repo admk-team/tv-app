@@ -41,41 +41,41 @@
         }
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-
+    
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-
+    
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
-
+    
     $stream_code = $stream_details['stream_guid'];
-
+    
     $postData = [
         'stream_code' => $stream_code,
     ];
-
+    
     // $ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
-
+    
     // curl_setopt($ch, CURLOPT_POST, 1);
     // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
+    
     // $response = curl_exec($ch);
-
+    
     // if (curl_errno($ch)) {
     //     die('Curl error: ' . curl_error($ch));
     // }
-
+    
     // curl_close($ch);
-
+    
     // $resultArray = json_decode($response, true);
-
+    
     // $userDidComment = false;
     // foreach ($resultArray as $review) {
     //     if (session('USER_DETAILS') && $review['user']['userCode'] === session('USER_DETAILS')['USER_CODE']) {
     //         $userDidComment = true;
     //     }
     // }
-
+    
     ?>
     <style>
         .mobile-dot-sep:before {
@@ -226,8 +226,10 @@
             </div>
             <div class="movie-detail-box desktop-data">
                 <div
-                    class="movie_detail_inner_box {{ isset($stream_details['title_logo']) && $stream_details['title_logo'] ? 'with-logo' : 'without-logo' }}">
-                    @if (isset($stream_details['title_logo']) && $stream_details['title_logo'])
+                    class="movie_detail_inner_box {{ isset($stream->title_logo, $stream->show_title_logo) && $stream->title_logo && $stream->show_title_logo === 1 ? 'with-logo' : 'without-logo' }}">
+                    @if (isset($stream_details['title_logo'], $stream_details['show_title_logo']) &&
+                            $stream_details['title_logo'] &&
+                            $stream_details['show_title_logo'] == 1)
                         <div class="title_logo mb-1">
                             <img class="img-fluid" src="{{ $stream_details['title_logo'] }}"
                                 alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
@@ -490,8 +492,7 @@
                     }
                     ?>
                         <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                            <a href="javascript:void(0);" role="button"
-                                data-bs-toggle="tooltip" title="Share">
+                            <a href="javascript:void(0);" role="button" data-bs-toggle="tooltip" title="Share">
                                 <i class="fa fa-share theme-active-color"></i>
                             </a>
                         </div>
@@ -786,7 +787,7 @@
             return true;
         }
     </script>
-    
+
     <script>
         var themeActiveColor = "{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}";
 
