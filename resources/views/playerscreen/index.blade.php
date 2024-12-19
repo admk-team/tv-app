@@ -1572,14 +1572,16 @@ if (!empty($arrCatData))
 
                     buyNowData.forEach((buynow, index) => {
                         /* let timeOffset = buynow.time_offset * 60; */
-                        const timeParts = buynow.time_offset.split('.');
-                        const hours = parseInt(timeParts[0], 10) || 0;
-                        const minutes = parseInt(timeParts[1], 10) || 0;
-                        const seconds = parseInt(timeParts[2], 10) || 0;
-                        const milliseconds = parseInt(timeParts[3], 10) || 0;
+                            const timeOffsetStr = String(buynow.time_offset);
 
-                        // Convert to total time in seconds
-                        let timeOffset = (hours * 3600) + (minutes * 60) + seconds + (milliseconds / 1000);
+                            const timeParts = timeOffsetStr.split('.');
+                            const hours = parseInt(timeParts[0], 10) || 0;
+                            const minutes = parseInt(timeParts[1], 10) || 0;
+                            const seconds = parseInt(timeParts[2], 10) || 0;
+                            const milliseconds = parseInt(timeParts[3], 10) || 0;
+
+                            // Convert to total time in seconds
+                            let timeOffset = (hours * 3600) + (minutes * 60) + seconds;
 
                         // Show the message only if the time is reached and it has not been displayed yet
                         if (currentTime >= timeOffset && !displayedBuyNow.includes(index)) {
