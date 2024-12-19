@@ -1,0 +1,128 @@
+
+.active {
+    border: 3px solid var(--themeActiveColor);
+}
+.inactive {
+    border: 3px solid var(--themePrimaryTxtColor);
+}
+
+.badge-card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.badge-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.badge-icon {
+    height: 150px;
+    object-fit: cover;
+}
+
+.icon-container {
+    width: 200px; /* Fixed width */
+    height: 200px; /* Fixed height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Prevents the image from overflowing */
+    border-radius: 8px; /* Optional: Adds rounded corners */
+}
+
+.card-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Ensures the image scales proportionally within the container */
+}
+
+.badge-details {
+    padding: 1rem;
+    background-color: var(--themePrimaryTxtColor);
+    min-height: 160px;
+    text-align: center;
+}
+
+.badge-title {
+    color: var(--bgcolor);
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.badge-points {
+    color: var(--themeActiveColor);
+    font-weight: bold;
+}
+
+.point-title {
+    color: var(--bgcolor);
+    font-weight: bold;
+}
+.heading {
+    color: var(--themeActiveColor);
+    font-weight: bold;
+}
+.custom-card {
+    background-color: var(--themePrimaryTxtColor) !important;
+}
+.card-heading {
+    color: var(--themeActiveColor);
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .icon-container {
+        width: 100px; /* Fixed width */
+        height: 100px;
+    }
+    .badge-details {
+        min-height: 200px;
+    }
+
+    .badge-title {
+        font-size: 1rem;
+    }
+
+    .point-title {
+        font-size: 0.9rem;
+    }
+
+    .badge-icon {
+        height: 120px;
+    }
+}
+
+@media (max-width: 576px) {
+    .badge-details {
+        min-height: 180px;
+        padding: 0.75rem;
+    }
+
+    .badge-title {
+        font-size: 0.9rem;
+    }
+
+    .point-title {
+        font-size: 0.8rem;
+    }
+
+    .badge-icon {
+        height: 100px;
+    }
+
+    /* .card-img {
+        max-width: 70%;
+    } */
+    .completed_at {
+        color: var(--themeActiveColor) !important;
+        font-size: 0.3rem;
+        font-weight: bold;
+    }
+}
