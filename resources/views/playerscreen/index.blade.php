@@ -1133,7 +1133,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                  ?>
                             <div class="share_circle addWtchBtn">
                                 <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav"
-                                        class="{{ $cls }}"></i></a>
+                                        class="{{ $cls }} theme-active-color"></i></a>
                                 <input type="hidden" id="myWishListSign" value='{{ $signStr }}' />
                                 <input type="hidden" id="strQueryParm" value='{{ $strQueryParm }}' />
                                 <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}' />
@@ -1144,17 +1144,29 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                ?>
                             <div class="share_circle addWtchBtn" data-bs-toggle="modal"
                                 data-bs-target="#exampleModalCenter">
-                                <a href="javascript:void(0);"><i class="fa fa-share"></i></a>
+                                <a href="javascript:void(0);"><i class="fa fa-share theme-active-color"></i></a>
                             </div>
                             @if (isset(\App\Services\AppConfig::get()->app->app_info->report) &&
                                     \App\Services\AppConfig::get()->app->app_info->report === 1)
                                 <div class="share_circle addWtchBtn" data-bs-toggle="modal"
                                     data-bs-target="#reportModalCenter">
                                     @if (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE']))
-                                        <a href="javascript:void(0);"><i class="fa fa-triangle-exclamation"></i></a>
+                                        <a href="javascript:void(0);"><i class="fa fa-triangle-exclamation theme-active-color"></i></a>
                                     @endif
                                 </div>
                             @endif
+                            @if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
+                            @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+                                @if (isset($arrSlctItemData['gamified_content']) && $arrSlctItemData['gamified_content'] == 1)
+                                    <div class="share_circle addWtchBtn">
+                                        <a href="{{ route('user.badge') }}" data-bs-toggle="tooltip"
+                                            title="Gamified Content">
+                                            <i class="fa-solid fa-award theme-active-color"></i>
+                                        </a>
+                                    </div>
+                                @endif
+                            @endif
+                        @endif
 
                         </div>
                     </div>
