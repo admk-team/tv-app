@@ -4,7 +4,7 @@
 }
 .inactive {
     border: 3px solid var(--themePrimaryTxtColor);
-    opacity: 30%;
+    opacity: 30% !important;
 }
 
 .badge-card {
@@ -77,16 +77,16 @@
     font-weight: bold;
 }
 .completed-badge{
-    background-color: var(--themeActiveColor);
-    color: var(--themePrimaryTxtColor); 
+    background-color: var(--themeActiveColor) !important;
+    color: var(--themePrimaryTxtColor) !important; 
     font-size: 0.8rem;
     padding: 2px 6px;
     border-radius: 4px;
     margin-left: 10px;
 }
 .incomplete-badge{
-    background-color: var(--bgcolor);
-    color: var(--themePrimaryTxtColor);
+    background-color: var(--bgcolor) !important;
+    color: var(--themePrimaryTxtColor) !important;
     font-size: 0.8rem;
     padding: 2px 6px;
     border-radius: 4px; margin-left: 10px;
