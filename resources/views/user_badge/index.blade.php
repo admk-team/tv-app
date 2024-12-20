@@ -14,8 +14,9 @@
                                 <div class="d-flex align-items-center">
                                     <!-- Badge Icon -->
                                     <div class="me-3">
-                                        <span class="avatar avatar-md p-2" style="background-color: var(--bgcolor); border-radius: 50%;">
-                                            <i class="fa-solid fa-dumpster-fire theme-active-color"></i>
+                                        <span class="avatar avatar-md p-2"
+                                            style="background-color: var(--bgcolor); border-radius: 32%;">
+                                            <i class="fa-solid fa-award theme-active-color"></i>
                                         </span>
                                     </div>
                                     <div class="flex-fill">
@@ -36,8 +37,9 @@
                                 <div class="d-flex align-items-center">
                                     <!-- Badge Icon -->
                                     <div class="me-3">
-                                        <span class="avatar avatar-md p-2" style="background-color: var(--bgcolor); border-radius: 50%;">
-                                            <i class="fa-solid fa-dumpster-fire theme-active-color"></i>
+                                        <span class="avatar avatar-md p-2"
+                                            style="background-color: var(--bgcolor); border-radius: 32%;">
+                                            <i class="fa-solid fa-award theme-active-color"></i>
                                         </span>
                                     </div>
                                     <div class="flex-fill">
@@ -53,12 +55,14 @@
                         </div>
                     </div>
                     <div class="col-xxl-3 col-xl-3">
-                        <div class="card custom-card border-0 shadow-sm rounded-lg" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#referralModal">
+                        <div class="card custom-card border-0 shadow-sm rounded-lg" style="cursor: pointer;"
+                            data-bs-toggle="modal" data-bs-target="#referralModal">
                             <div class="card-body p-3">
                                 <div class="d-flex align-items-center">
                                     <!-- Badge Icon -->
                                     <div class="me-3">
-                                        <span class="avatar avatar-md p-2" style="background-color: var(--bgcolor); border-radius: 50%;">
+                                        <span class="avatar avatar-md p-2"
+                                            style="background-color: var(--bgcolor); border-radius: 50%;">
                                             <i class="fa-solid fa-share-from-square theme-active-color"></i>
                                         </span>
                                     </div>
@@ -74,14 +78,16 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Modal -->
-                    <div class="modal fade" id="referralModal" tabindex="-1" aria-labelledby="referralModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="referralModal" tabindex="-1" aria-labelledby="referralModalLabel"
+                        aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="referralModalLabel">Your Referral Link</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body text-center">
                                     <p id="referralLink" class="mb-3 text-truncate">{{ $data['data']['referral_link'] }}</p>
@@ -128,9 +134,17 @@
                                         </div>
                                     </div>
                                     @if (isset($badge['details']['completed_at']) && $badge['details']['completed_at'])
-                                        <span
-                                            style="color: var(--themeActiveColor);font-size: 0.9rem;font-weight: bold;">Completed:
-                                            {{ $badge['details']['completed_at'] ? $badge['details']['completed_at'] : 'N/A' }}</span>
+                                        <span style="color: var(--themeActiveColor);font-size: 0.9rem;font-weight: bold;">
+                                            Completed:
+                                            {{ Carbon\Carbon::parse($badge['details']['completed_at'])->format('d m Y') }}
+                                        </span>
+                                        <span class="completed-badge">
+                                            Completed
+                                        </span>
+                                    @else
+                                        <span class="incomplete-badge">
+                                            Incomplete
+                                        </span>
                                     @endif
                                 </div>
                             </div>
@@ -148,16 +162,16 @@
     </section>
     <!-- JavaScript to Copy Link -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const copyButton = document.getElementById('copyButton');
             const referralLink = document.getElementById('referralLink').innerText;
-    
-            copyButton.addEventListener('click', function () {
+
+            copyButton.addEventListener('click', function() {
                 // Create a temporary input element
                 const tempInput = document.createElement('input');
                 tempInput.value = referralLink;
                 document.body.appendChild(tempInput);
-    
+
                 // Select and copy the text
                 tempInput.select();
                 tempInput.setSelectionRange(0, 99999); // For mobile devices
@@ -166,7 +180,7 @@
                         // Change button text to "Copied!"
                         const originalText = copyButton.innerText;
                         copyButton.innerText = 'Copied!';
-                        
+
                         // Revert button text back after 1 second
                         setTimeout(() => {
                             copyButton.innerText = originalText;
@@ -175,11 +189,10 @@
                     .catch((err) => {
                         alert('Failed to copy: ' + err);
                     });
-    
+
                 // Remove the temporary input element
                 document.body.removeChild(tempInput);
             });
         });
     </script>
 @endsection
-

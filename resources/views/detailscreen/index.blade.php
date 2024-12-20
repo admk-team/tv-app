@@ -480,7 +480,7 @@
                         </div>
                         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
                             @if (!empty($stream_details['is_watch_party']) && $stream_details['is_watch_party'] == 1)
-                                <div class="share_circle">
+                                <div class="share_circle addWtchBtn">
                                     <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}"
                                         data-bs-toggle="tooltip" title="Create a Watch Party">
                                         <i class="fa fa-users theme-active-color"></i>
@@ -508,7 +508,18 @@
                                 </div>
                             @endif
                         @endif
-
+                        @if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
+                            @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+                                @if (isset($stream_details['gamified_content']) && $stream_details['gamified_content'] == 1)
+                                    <div class="share_circle addWtchBtn">
+                                        <a href="{{ route('user.badge') }}" data-bs-toggle="tooltip"
+                                            title="Gamified Content">
+                                            <i class="fa-solid fa-award theme-active-color"></i>
+                                        </a>
+                                    </div>
+                                @endif
+                            @endif
+                        @endif
                     </div>
                 </div>
             </div>

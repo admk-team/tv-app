@@ -1,6 +1,13 @@
 
-<div class="button_groupbox d-flex align-items-center mb-2 px-3 mt-2">
-    <div class="movieDetailPlaymobile">
+<style>
+    .ruby
+    {
+        display: ruby;
+        margin-left: 10px;
+    }
+</style>
+<div class="button_groupbox ruby align-items-center mb-2 mt-2">
+    <div class="movieDetailPlaymobile mb-3">
         @if (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'available now')
             <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="mobile-primary-btn rounded">
                 <i class="fa fa-play"></i>
@@ -46,7 +53,7 @@
         @endif
     </div>
     @if ($streamUrl !== '')
-        <div class="movieDetailPlaymobile">
+        <div class="movieDetailPlaymobile mb-3">
             <a id="trailer-id" class="mobile-primary-btn rounded">
                 <i class="fa fa-play"></i> Trailer
             </a>
@@ -61,7 +68,7 @@ if (session('USER_DETAILS.USER_CODE')) {
         $signStr = "-";
     }
 ?>
-    <div class="share_circle addWtchBtn">
+    <div class="share_circle addWtchBtn mb-3">
         <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav"
                 class="<?php echo $cls; ?> theme-active-color"></i></a>
         <input type="hidden" id="myWishListSign" value='<?php echo $signStr; ?>' />
@@ -71,7 +78,7 @@ if (session('USER_DETAILS.USER_CODE')) {
     </div>
     @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
         @if (!empty($stream_details['is_watch_party']) && $stream_details['is_watch_party'] == 1)
-            <div class="share_circle">
+            <div class="share_circle addWtchBtn mb-3">
                 <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}" data-bs-toggle="tooltip"
                     title="Create a Watch Party">
                     <i class="fa fa-users theme-active-color"></i>
@@ -82,7 +89,7 @@ if (session('USER_DETAILS.USER_CODE')) {
     <?php
 }
 ?>
-    <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+    <div class="share_circle addWtchBtn mb-3" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
         <a href="javascript:void(0)"><i class="fa fa-share theme-active-color"></i></a>
     </div>
     @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
@@ -92,11 +99,34 @@ if (session('USER_DETAILS.USER_CODE')) {
                 ($stream_details['monetization_type'] == 'P' ||
                     $stream_details['monetization_type'] == 'S' ||
                     $stream_details['monetization_type'] == 'O'))
-            <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#giftModal">
+            <div class="share_circle addWtchBtn mb-3" data-bs-toggle="modal" data-bs-target="#giftModal">
                 <a href="javascript:void(0);"><i class="fa-solid fa-gift theme-active-color"></i></a>
             </div>
         @endif
     @endif
+    @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+    @if (
+        !empty($stream_details['is_gift']) &&
+            $stream_details['is_gift'] == 1 &&
+            ($stream_details['monetization_type'] == 'P' ||
+                $stream_details['monetization_type'] == 'S' ||
+                $stream_details['monetization_type'] == 'O'))
+        <div class="share_circle addWtchBtn mb-3" data-bs-toggle="modal" data-bs-target="#giftModal">
+            <a href="javascript:void(0);"><i class="fa-solid fa-gift theme-active-color"></i></a>
+        </div>
+    @endif
+@endif
+@if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
+    @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+        @if (isset($stream_details['gamified_content']) && $stream_details['gamified_content'] == 1)
+            <div class="share_circle addWtchBtn mb-3">
+                <a href="{{ route('user.badge') }}" data-bs-toggle="tooltip" title="Gamified Content">
+                    <i class="fa-solid fa-award theme-active-color"></i>
+                </a>
+            </div>
+        @endif
+    @endif
+@endif
 
 </div>
 <div class="my-tabs">
