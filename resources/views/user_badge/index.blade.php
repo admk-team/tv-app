@@ -136,7 +136,7 @@
                                     @if (isset($badge['details']['completed_at']) && $badge['details']['completed_at'])
                                         <span style="color: var(--themeActiveColor);font-size: 0.9rem;font-weight: bold;">
                                             Completed:
-                                            {{ Carbon\Carbon::parse($badge['details']['completed_at'])->format('d m Y') }}
+                                            {{ Carbon\Carbon::parse($badge['details']['completed_at'])->format('d-m-Y') }}
                                         </span>
                                         <span class="completed-badge">
                                             Completed
