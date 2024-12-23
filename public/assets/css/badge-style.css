@@ -56,11 +56,13 @@
 }
 
 .badge-points {
+    font-size: 14px;
     color: var(--themeActiveColor);
     font-weight: bold;
 }
 
 .point-title {
+    font-size: 14px;
     color: var(--bgcolor);
     font-weight: bold;
 }

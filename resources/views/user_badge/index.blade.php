@@ -111,11 +111,11 @@
                                 <div class="badge-details">
                                     <div class="badge-title">{{ $badge['title'] ?? 'N/A' }}</div>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 p-0">
                                             <p class="point-title">Points: <span
                                                     class="badge-points">{{ $badge['points'] ?? 0 }}</span></p>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 p-0">
                                             <p class="point-title">Achieved: <span
                                                     class="badge-points">{{ $badge['details']['achieved_points'] ?? 0 }}</span>
                                             </p>
@@ -124,11 +124,11 @@
                                             $remaining = $badge['details']['achieved_points'] ?? 0;
                                             $remaining = $badge['milestone'] - $remaining;
                                         @endphp
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 p-0">
                                             <p class="point-title">Remaining: <span
                                                     class="badge-points">{{ $remaining ?? 0 }}</span></p>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 p-0">
                                             <p class="point-title">Milestone: <span
                                                     class="badge-points">{{ $badge['milestone'] ?? 0 }}</span></p>
                                         </div>
