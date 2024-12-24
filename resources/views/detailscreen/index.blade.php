@@ -545,7 +545,7 @@
                 </div>
                 <div class="modal-body">
                     <ul class="share_list d-flex justify-content-between">
-                        @if (isset($stream_details['is_embed']) || $is_embed)
+                        @if (isset($stream_details['is_embed']) && $stream_details['is_embed'] == 1 || $is_embed == 1)
                             <li data-bs-toggle="modal" data-bs-target="#exampleModalCenter2">
                                 <a data-toggle="tooltip" data-placement="top" title="embed" href="javascript:void(0)">
                                     <i class="fa-solid fa-code fa-xs"></i>
