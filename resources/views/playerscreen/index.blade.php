@@ -454,7 +454,7 @@
             visibility: hidden;
         } */
         .buynow-redirect-message {
-            background-color: #353b49;
+            background-color: var(--themeActiveColor);
             color: var(--themePrimaryTxtColor);
             max-width: 1000.89px;
             width: fit-content;
@@ -2270,7 +2270,17 @@ if (!empty($arrCatData))
                     let currentTime = Math.floor(data.instance.getCurrentTime());
 
                     buyNowData.forEach((buynow, index) => {
-                        let timeOffset = buynow.time_offset * 60; // Convert time offset to seconds
+                        /* let timeOffset = buynow.time_offset * 60; */
+                            const timeOffsetStr = String(buynow.time_offset);
+
+                            const timeParts = timeOffsetStr.split('.');
+                            const hours = parseInt(timeParts[0], 10) || 0;
+                            const minutes = parseInt(timeParts[1], 10) || 0;
+                            const seconds = parseInt(timeParts[2], 10) || 0;
+                            const milliseconds = parseInt(timeParts[3], 10) || 0;
+
+                            // Convert to total time in seconds
+                            let timeOffset = (hours * 3600) + (minutes * 60) + seconds;
 
                         // Show the message only if the time is reached and it has not been displayed yet
                         if (currentTime >= timeOffset && !displayedBuyNow.includes(index)) {

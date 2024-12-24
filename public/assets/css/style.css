@@ -85,7 +85,7 @@ body {
 
 .header .btns .search-icon {
     font-size: 23px;
-    color: var(--navbarMenucolor);
+    color: var(--navbarSearchColor);
     margin-right: 20px;
     cursor: pointer;
     transition: all 0.3s;
