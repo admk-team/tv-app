@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use \Stripe\Stripe;
 use App\Services\Api;
+use App\Services\AppConfig;
 use Illuminate\Http\Request;
 use App\Helpers\GeneralHelper;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 
 class StripeController extends Controller
 {
@@ -18,8 +19,24 @@ class StripeController extends Controller
         if (isset(session('MONETIZATION')['stripe_product_id']) && !empty(session('MONETIZATION')['stripe_product_id'])) {
             $stripeProductId = session('MONETIZATION')['stripe_product_id'];
         }
-        
-       // Retrieve product ID
+
+        $sPlans = AppConfig::get()->app->s_plan;
+
+        // Filter the plan
+        $matchingPlan = array_filter($sPlans, function ($plan) use ($stripeProductId) {
+            return isset($plan->stripe_product_id) && $plan->stripe_product_id === $stripeProductId;
+        });
+
+        // Get the first matching plan (if necessary)
+        $plan = reset($matchingPlan); // This retrieves the first element
+
+        if ($plan->stripe_product_trail) {
+            $subscriptionData = [
+                'trial_period_days' => $plan->stripe_product_trail ? $plan->stripe_product_trail : 0
+            ];
+        } else {
+            $subscriptionData = [];
+        }
 
         try {
             if (isset($stripeProductId) && !empty($stripeProductId)) {
@@ -38,6 +55,7 @@ class StripeController extends Controller
                             'quantity' => 1,
                         ]],
                         'mode' => 'subscription',
+                        'subscription_data' => $subscriptionData,
                         'success_url' => url('/stripe/success?session_id={CHECKOUT_SESSION_ID}'),
                         'cancel_url' => url('/monetization/cancel'),
                     ]);
