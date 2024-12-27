@@ -75,7 +75,9 @@
     //         $userDidComment = true;
     //     }
     // }
-    
+    $ratingsCount = isset($stream_details['ratings']) && is_array($stream_details['ratings']) 
+    ? count($stream_details['ratings']) 
+    : 0;
     ?>
     <style>
         .mobile-dot-sep:before {
