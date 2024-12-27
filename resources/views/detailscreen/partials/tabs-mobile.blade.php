@@ -1,7 +1,5 @@
-
 <style>
-    .ruby
-    {
+    .ruby {
         display: ruby;
         margin-left: 10px;
     }
@@ -105,28 +103,28 @@ if (session('USER_DETAILS.USER_CODE')) {
         @endif
     @endif
     @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
-    @if (
-        !empty($stream_details['is_gift']) &&
-            $stream_details['is_gift'] == 1 &&
-            ($stream_details['monetization_type'] == 'P' ||
-                $stream_details['monetization_type'] == 'S' ||
-                $stream_details['monetization_type'] == 'O'))
-        <div class="share_circle addWtchBtn mb-3" data-bs-toggle="modal" data-bs-target="#giftModal">
-            <a href="javascript:void(0);"><i class="fa-solid fa-gift theme-active-color"></i></a>
-        </div>
-    @endif
-@endif
-@if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
-    @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
-        @if (isset($stream_details['gamified_content']) && $stream_details['gamified_content'] == 1)
-            <div class="share_circle addWtchBtn mb-3">
-                <a href="{{ route('user.badge') }}" data-bs-toggle="tooltip" title="Gamified Content">
-                    <i class="fa-solid fa-award theme-active-color"></i>
-                </a>
+        @if (
+            !empty($stream_details['is_gift']) &&
+                $stream_details['is_gift'] == 1 &&
+                ($stream_details['monetization_type'] == 'P' ||
+                    $stream_details['monetization_type'] == 'S' ||
+                    $stream_details['monetization_type'] == 'O'))
+            <div class="share_circle addWtchBtn mb-3" data-bs-toggle="modal" data-bs-target="#giftModal">
+                <a href="javascript:void(0);"><i class="fa-solid fa-gift theme-active-color"></i></a>
             </div>
         @endif
     @endif
-@endif
+    @if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
+        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+            @if (isset($stream_details['gamified_content']) && $stream_details['gamified_content'] == 1)
+                <div class="share_circle addWtchBtn mb-3">
+                    <a href="{{ route('user.badge') }}" data-bs-toggle="tooltip" title="Gamified Content">
+                        <i class="fa-solid fa-award theme-active-color"></i>
+                    </a>
+                </div>
+            @endif
+        @endif
+    @endif
 
 </div>
 <div class="my-tabs">
@@ -159,14 +157,15 @@ if (session('USER_DETAILS.USER_CODE')) {
         <div data-tab-content="overview" class="content">
             <div class="px-4">
                 @if (isset($stream_details['title_logo'], $stream_details['show_title_logo']) &&
-                $stream_details['title_logo'] &&
-                $stream_details['show_title_logo'] == 1)
+                        $stream_details['title_logo'] &&
+                        $stream_details['show_title_logo'] == 1)
                     <div class="title_logo mb-1">
                         <img class="img-fluid" src="{{ $stream_details['title_logo'] }}"
                             alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
                     </div>
                 @else
-                    <h1 class="content-heading themePrimaryTxtColr" title="{{ $stream_details['stream_title'] ?? '' }}">
+                    <h1 class="content-heading themePrimaryTxtColr"
+                        title="{{ $stream_details['stream_title'] ?? '' }}">
                         {{ $stream_details['stream_title'] ?? '' }}
                     </h1>
                 @endif
@@ -197,7 +196,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                         <span class="movie_type themePrimaryTxtColr">{{ $stream_details['show_name'] }}</span>
                     @endif
                     @if ($stream_details['content_qlt'] != '')
-                        <span class="content_screen themePrimaryTxtColr" style=" border: 1px var(--themePrimaryTxtColor) solid !important; ">
+                        <span class="content_screen themePrimaryTxtColr"
+                            style=" border: 1px var(--themePrimaryTxtColor) solid !important; ">
                             @php
                                 $content_qlt_arr = explode(',', $stream_details['content_qlt']);
                                 $content_qlt_codes_arr = explode(',', $stream_details['content_qlt_codes']);
@@ -212,7 +212,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                         </span>
                     @endif
                     @if ($stream_details['content_rating'] != '')
-                        <span class="content_screen themePrimaryTxtColr"  style=" border: 1px var(--themePrimaryTxtColor) solid !important; ">
+                        <span class="content_screen themePrimaryTxtColr"
+                            style=" border: 1px var(--themePrimaryTxtColor) solid !important; ">
                             @php
                                 $content_rating_arr = explode(',', $stream_details['content_rating']);
                                 $content_rating_codes_arr = explode(',', $stream_details['content_rating_codes']);
@@ -446,7 +447,7 @@ if (session('USER_DETAILS.USER_CODE')) {
                     \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1))
             <div data-tab-content="reviews" class="content d-none"><!--Start of Ratings section-->
                 <div class="item-ratings">
-                    <h1 class="content-heading">Reviews</h1>
+                    <h1 class="section-title">Reviews: ({{ $ratingsCount ?? 0 }})</h1>
                     @php
                         if (sizeof($stream_details['ratings'] ?? []) < 1) {
                             echo '<p class="text-white" style="margin-bottom: -8px !important;">No reviews found.</p>';
@@ -469,173 +470,57 @@ if (session('USER_DETAILS.USER_CODE')) {
                                 $stream_details['rating_type'] === 'stars' &&
                                 $stream_details['video_rating'] === 'E')
                             <div class="review-rating user-rating-mobile">
-                                <div class="star-mobile" data-rating-mobile="1"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>star</title>
-                                            <path
-                                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="star-mobile" data-rating-mobile="2"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>star</title>
-                                            <path
-                                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="star-mobile" data-rating-mobile="3"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>star</title>
-                                            <path
-                                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="star-mobile" data-rating-mobile="4"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>star</title>
-                                            <path
-                                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="star-mobile" data-rating-mobile="5"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>star</title>
-                                            <path
-                                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <div class="star-mobile" data-rating-mobile="{{ $i }}"
+                                        onclick="handleStarRatingMobile(this)">
+                                        <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
+                                            version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title>star</title>
+                                                <path
+                                                    d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                                                </path>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                @endfor
                             </div>
                         @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
                                 $stream_details['rating_type'] === 'hearts' &&
                                 $stream_details['video_rating'] === 'E')
                             {{-- Hearts  --}}
                             <div class="review-rating user-rating-mobile">
-                                <div class="star-mobile" data-rating-mobile="1"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>heart</title>
-                                            <path
-                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="star-mobile" data-rating-mobile="2"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>heart</title>
-                                            <path
-                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="star-mobile" data-rating-mobile="3"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>heart</title>
-                                            <path
-                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="star-mobile" data-rating-mobile="4"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>heart</title>
-                                            <path
-                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="star-mobile" data-rating-mobile="5"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>heart</title>
-                                            <path
-                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <div class="star-mobile" data-rating-mobile="{{ $i }}"
+                                        onclick="handleStarRatingMobile(this)">
+                                        <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
+                                            version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title>heart</title>
+                                                <path
+                                                    d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
+                                                </path>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                @endfor
                             </div>
                         @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
                                 $stream_details['rating_type'] === 'thumbs' &&
                                 $stream_details['video_rating'] === 'E')
                             {{-- Thumbs  --}}
-                            <div class="user-rating-mobile" style=" margin-top: 25px; display: flex; gap: 12px;">
-                                <div class="like-mobile" style="rotate: 180deg" role="button"
-                                    onclick="handleRatingMolbile(this, 'like')">
-                                    <input class="form-check-input" type="radio" name="like_status"
-                                        id="like_status" value="5" style="display: none">
-                                    <label class="form-check-label" for="like_status" role="button">
+                            <div class="review-rating user-rating-mobile">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <div class="star-mobile" data-rating-mobile="{{ $i }}" style="rotate: 180deg"
+                                        onclick="handleStarRatingMobile(this)">
                                         <svg fill="#6e6e6e" height="27px" width="27px" version="1.1"
                                             id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                             xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 208.666 208.666"
@@ -652,114 +537,34 @@ if (session('USER_DETAILS.USER_CODE')) {
                                                 </g>
                                             </g>
                                         </svg>
-                                    </label>
-                                </div>
-                                <div class="dislike-mobile" role="button"
-                                    onclick="handleRatingMolbile(this, 'dislike')">
-                                    <input class="form-check-input" type="radio" name="like_status"
-                                        id="dislike_status" value="1" style="display: none">
-                                    <label class="form-check-label" for="dislike_status" role="button">
-                                        <svg fill="#6e6e6e" height="27px" width="27px" version="1.1"
-                                            id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 208.666 208.666"
-                                            xml:space="preserve" stroke="#6e6e6e">
-                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                            </g>
-                                            <g id="SVGRepo_iconCarrier">
-                                                <g>
-                                                    <path
-                                                        d="M54.715,24.957c-0.544,0.357-1.162,0.598-1.806,0.696l-28.871,4.403c-2.228,0.341-3.956,2.257-3.956,4.511v79.825 c0,1.204,33.353,20.624,43.171,30.142c12.427,12.053,21.31,34.681,33.983,54.373c4.405,6.845,10.201,9.759,15.584,9.759 c10.103,0,18.831-10.273,14.493-24.104c-4.018-12.804-8.195-24.237-13.934-34.529c-4.672-8.376,1.399-18.7,10.989-18.7h48.991 c18.852,0,18.321-26.312,8.552-34.01c-1.676-1.32-2.182-3.682-1.175-5.563c3.519-6.572,2.86-20.571-6.054-25.363 c-2.15-1.156-3.165-3.74-2.108-5.941c3.784-7.878,3.233-24.126-8.71-27.307c-2.242-0.598-3.699-2.703-3.405-5.006 c0.909-7.13-0.509-20.86-22.856-26.447C133.112,0.573,128.281,0,123.136,0C104.047,0.001,80.683,7.903,54.715,24.957z">
-                                                    </path>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                    </label>
-
-                                </div>
+                                    </div>
+                                @endfor
                             </div>
+                          
                         @elseif (isset(
                                 \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
                                 \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
                                 \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
                                 \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'stars')
                             <div class="review-rating user-rating-mobile">
-                                <div class="star-mobile" data-rating-mobile="1"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>star</title>
-                                            <path
-                                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="star-mobile" data-rating-mobile="2"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>star</title>
-                                            <path
-                                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="star-mobile" data-rating-mobile="3"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>star</title>
-                                            <path
-                                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="star-mobile" data-rating-mobile="4"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>star</title>
-                                            <path
-                                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="star-mobile" data-rating-mobile="5"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>star</title>
-                                            <path
-                                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <div class="star-mobile" data-rating-mobile="{{ $i }}"
+                                        onclick="handleStarRatingMobile(this)">
+                                        <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
+                                            version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title>star</title>
+                                                <path
+                                                    d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                                                </path>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                @endfor
                             </div>
                         @elseif (isset(
                                 \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
@@ -768,90 +573,31 @@ if (session('USER_DETAILS.USER_CODE')) {
                                 \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'hearts')
                             {{-- Hearts  --}}
                             <div class="review-rating user-rating-mobile">
-                                <div class="star-mobile" data-rating-mobile="1"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>heart</title>
-                                            <path
-                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="star-mobile" data-rating-mobile="2"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>heart</title>
-                                            <path
-                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="star-mobile" data-rating-mobile="3"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>heart</title>
-                                            <path
-                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="star-mobile" data-rating-mobile="4"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>heart</title>
-                                            <path
-                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="star-mobile" data-rating-mobile="5"
-                                    onclick="handleStarRatingMobile(this)">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>heart</title>
-                                            <path
-                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <div class="star-mobile" data-rating-mobile="{{ $i }}"
+                                        onclick="handleStarRatingMobile(this)">
+                                        <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
+                                            version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title>heart</title>
+                                                <path
+                                                    d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
+                                                </path>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                @endfor
                             </div>
                         @else
                             {{-- Thumbs  --}}
-                            <div class="user-rating-mobile" style=" margin-top: 25px; display: flex; gap: 12px;">
-                                <div class="like-mobile" style="rotate: 180deg" role="button"
-                                    onclick="handleRatingMolbile(this, 'like')">
-                                    <input class="form-check-input" type="radio" name="like_status"
-                                        id="like_status" value="5" style="display: none">
-                                    <label class="form-check-label" for="like_status" role="button">
+                            <div class="review-rating user-rating-mobile">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <div class="star-mobile" data-rating-mobile="{{ $i }}" style="rotate: 180deg"
+                                        onclick="handleStarRatingMobile(this)">
                                         <svg fill="#6e6e6e" height="27px" width="27px" version="1.1"
                                             id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                             xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 208.666 208.666"
@@ -868,32 +614,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                                 </g>
                                             </g>
                                         </svg>
-                                    </label>
-                                </div>
-                                <div class="dislike-mobile" role="button"
-                                    onclick="handleRatingMolbile(this, 'dislike')">
-                                    <input class="form-check-input" type="radio" name="like_status"
-                                        id="dislike_status" value="1" style="display: none">
-                                    <label class="form-check-label" for="dislike_status" role="button">
-                                        <svg fill="#6e6e6e" height="27px" width="27px" version="1.1"
-                                            id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 208.666 208.666"
-                                            xml:space="preserve" stroke="#6e6e6e">
-                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                            </g>
-                                            <g id="SVGRepo_iconCarrier">
-                                                <g>
-                                                    <path
-                                                        d="M54.715,24.957c-0.544,0.357-1.162,0.598-1.806,0.696l-28.871,4.403c-2.228,0.341-3.956,2.257-3.956,4.511v79.825 c0,1.204,33.353,20.624,43.171,30.142c12.427,12.053,21.31,34.681,33.983,54.373c4.405,6.845,10.201,9.759,15.584,9.759 c10.103,0,18.831-10.273,14.493-24.104c-4.018-12.804-8.195-24.237-13.934-34.529c-4.672-8.376,1.399-18.7,10.989-18.7h48.991 c18.852,0,18.321-26.312,8.552-34.01c-1.676-1.32-2.182-3.682-1.175-5.563c3.519-6.572,2.86-20.571-6.054-25.363 c-2.15-1.156-3.165-3.74-2.108-5.941c3.784-7.878,3.233-24.126-8.71-27.307c-2.242-0.598-3.699-2.703-3.405-5.006 c0.909-7.13-0.509-20.86-22.856-26.447C133.112,0.573,128.281,0,123.136,0C104.047,0.001,80.683,7.903,54.715,24.957z">
-                                                    </path>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                    </label>
-
-                                </div>
+                                    </div>
+                                @endfor
                             </div>
                         @endif
 
@@ -988,10 +710,10 @@ if (session('USER_DETAILS.USER_CODE')) {
                                     <div class="user-rating-mobile"
                                         style="margin-top: 8px; display: flex; gap: 12px;">
                                         @if ($review['rating'] >= 3)
-                                            <div class="like active" style="rotate: 180deg">
-                                                <svg fill="{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}"
-                                                    height="27px" width="27px" version="1.1" id="Capa_1"
-                                                    xmlns="http://www.w3.org/2000/svg"
+                                        @for ($i = 0; $i < $review['rating']; $i++)
+                                            <div class="star active" style="rotate: 180deg">
+                                                <svg fill="#6e6e6e" height="27px" width="27px" version="1.1"
+                                                    id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
                                                     viewBox="0 0 208.666 208.666" xml:space="preserve"
                                                     stroke="#6e6e6e">
@@ -1008,11 +730,12 @@ if (session('USER_DETAILS.USER_CODE')) {
                                                     </g>
                                                 </svg>
                                             </div>
-                                        @else
-                                            <div class="dislike-mobile">
-                                                <svg fill="{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}"
-                                                    height="27px" width="27px" version="1.1" id="Capa_1"
-                                                    xmlns="http://www.w3.org/2000/svg"
+                                        @endfor
+                                    @else
+                                        @for ($i = 0; $i < $review['rating']; $i++)
+                                            <div class="star active">
+                                                <svg fill="#6e6e6e" height="27px" width="27px" version="1.1"
+                                                    id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
                                                     viewBox="0 0 208.666 208.666" xml:space="preserve"
                                                     stroke="#6e6e6e">
@@ -1029,7 +752,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                                     </g>
                                                 </svg>
                                             </div>
-                                        @endif
+                                        @endfor
+                                    @endif
                                     </div>
                                 @elseif (isset(
                                         \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
@@ -1078,47 +802,49 @@ if (session('USER_DETAILS.USER_CODE')) {
                                     <div class="user-rating-mobile"
                                         style="margin-top: 8px; display: flex; gap: 12px;">
                                         @if ($review['rating'] >= 3)
-                                            <div class="like active" style="rotate: 180deg">
-                                                <svg fill="{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}"
-                                                    height="27px" width="27px" version="1.1" id="Capa_1"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                    viewBox="0 0 208.666 208.666" xml:space="preserve"
-                                                    stroke="#6e6e6e">
-                                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                    </g>
-                                                    <g id="SVGRepo_iconCarrier">
-                                                        <g>
-                                                            <path
-                                                                d="M54.715,24.957c-0.544,0.357-1.162,0.598-1.806,0.696l-28.871,4.403c-2.228,0.341-3.956,2.257-3.956,4.511v79.825 c0,1.204,33.353,20.624,43.171,30.142c12.427,12.053,21.31,34.681,33.983,54.373c4.405,6.845,10.201,9.759,15.584,9.759 c10.103,0,18.831-10.273,14.493-24.104c-4.018-12.804-8.195-24.237-13.934-34.529c-4.672-8.376,1.399-18.7,10.989-18.7h48.991 c18.852,0,18.321-26.312,8.552-34.01c-1.676-1.32-2.182-3.682-1.175-5.563c3.519-6.572,2.86-20.571-6.054-25.363 c-2.15-1.156-3.165-3.74-2.108-5.941c3.784-7.878,3.233-24.126-8.71-27.307c-2.242-0.598-3.699-2.703-3.405-5.006 c0.909-7.13-0.509-20.86-22.856-26.447C133.112,0.573,128.281,0,123.136,0C104.047,0.001,80.683,7.903,54.715,24.957z">
-                                                            </path>
+                                            @for ($i = 0; $i < $review['rating']; $i++)
+                                                <div class="star active" style="rotate: 180deg">
+                                                    <svg fill="#6e6e6e" height="27px" width="27px" version="1.1"
+                                                        id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                        viewBox="0 0 208.666 208.666" xml:space="preserve"
+                                                        stroke="#6e6e6e">
+                                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                            stroke-linejoin="round">
                                                         </g>
-                                                    </g>
-                                                </svg>
-                                            </div>
+                                                        <g id="SVGRepo_iconCarrier">
+                                                            <g>
+                                                                <path
+                                                                    d="M54.715,24.957c-0.544,0.357-1.162,0.598-1.806,0.696l-28.871,4.403c-2.228,0.341-3.956,2.257-3.956,4.511v79.825 c0,1.204,33.353,20.624,43.171,30.142c12.427,12.053,21.31,34.681,33.983,54.373c4.405,6.845,10.201,9.759,15.584,9.759 c10.103,0,18.831-10.273,14.493-24.104c-4.018-12.804-8.195-24.237-13.934-34.529c-4.672-8.376,1.399-18.7,10.989-18.7h48.991 c18.852,0,18.321-26.312,8.552-34.01c-1.676-1.32-2.182-3.682-1.175-5.563c3.519-6.572,2.86-20.571-6.054-25.363 c-2.15-1.156-3.165-3.74-2.108-5.941c3.784-7.878,3.233-24.126-8.71-27.307c-2.242-0.598-3.699-2.703-3.405-5.006 c0.909-7.13-0.509-20.86-22.856-26.447C133.112,0.573,128.281,0,123.136,0C104.047,0.001,80.683,7.903,54.715,24.957z">
+                                                                </path>
+                                                            </g>
+                                                        </g>
+                                                    </svg>
+                                                </div>
+                                            @endfor
                                         @else
-                                            <div class="dislike-mobile">
-                                                <svg fill="{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}"
-                                                    height="27px" width="27px" version="1.1" id="Capa_1"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                    viewBox="0 0 208.666 208.666" xml:space="preserve"
-                                                    stroke="#6e6e6e">
-                                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                    </g>
-                                                    <g id="SVGRepo_iconCarrier">
-                                                        <g>
-                                                            <path
-                                                                d="M54.715,24.957c-0.544,0.357-1.162,0.598-1.806,0.696l-28.871,4.403c-2.228,0.341-3.956,2.257-3.956,4.511v79.825 c0,1.204,33.353,20.624,43.171,30.142c12.427,12.053,21.31,34.681,33.983,54.373c4.405,6.845,10.201,9.759,15.584,9.759 c10.103,0,18.831-10.273,14.493-24.104c-4.018-12.804-8.195-24.237-13.934-34.529c-4.672-8.376,1.399-18.7,10.989-18.7h48.991 c18.852,0,18.321-26.312,8.552-34.01c-1.676-1.32-2.182-3.682-1.175-5.563c3.519-6.572,2.86-20.571-6.054-25.363 c-2.15-1.156-3.165-3.74-2.108-5.941c3.784-7.878,3.233-24.126-8.71-27.307c-2.242-0.598-3.699-2.703-3.405-5.006 c0.909-7.13-0.509-20.86-22.856-26.447C133.112,0.573,128.281,0,123.136,0C104.047,0.001,80.683,7.903,54.715,24.957z">
-                                                            </path>
+                                            @for ($i = 0; $i < $review['rating']; $i++)
+                                                <div class="star active">
+                                                    <svg fill="#6e6e6e" height="27px" width="27px" version="1.1"
+                                                        id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                        viewBox="0 0 208.666 208.666" xml:space="preserve"
+                                                        stroke="#6e6e6e">
+                                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                            stroke-linejoin="round">
                                                         </g>
-                                                    </g>
-                                                </svg>
-                                            </div>
+                                                        <g id="SVGRepo_iconCarrier">
+                                                            <g>
+                                                                <path
+                                                                    d="M54.715,24.957c-0.544,0.357-1.162,0.598-1.806,0.696l-28.871,4.403c-2.228,0.341-3.956,2.257-3.956,4.511v79.825 c0,1.204,33.353,20.624,43.171,30.142c12.427,12.053,21.31,34.681,33.983,54.373c4.405,6.845,10.201,9.759,15.584,9.759 c10.103,0,18.831-10.273,14.493-24.104c-4.018-12.804-8.195-24.237-13.934-34.529c-4.672-8.376,1.399-18.7,10.989-18.7h48.991 c18.852,0,18.321-26.312,8.552-34.01c-1.676-1.32-2.182-3.682-1.175-5.563c3.519-6.572,2.86-20.571-6.054-25.363 c-2.15-1.156-3.165-3.74-2.108-5.941c3.784-7.878,3.233-24.126-8.71-27.307c-2.242-0.598-3.699-2.703-3.405-5.006 c0.909-7.13-0.509-20.86-22.856-26.447C133.112,0.573,128.281,0,123.136,0C104.047,0.001,80.683,7.903,54.715,24.957z">
+                                                                </path>
+                                                            </g>
+                                                        </g>
+                                                    </svg>
+                                                </div>
+                                            @endfor
                                         @endif
                                     </div>
                                 @endif
