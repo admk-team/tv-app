@@ -91,9 +91,9 @@
             height: 100%;
         }
 
-        .responsive_video>div {
+        {{--  .responsive_video>div {
             height: 126%;
-        }
+        }  --}}
 
         .movies_listview dt {
             width: 70px;
@@ -1143,8 +1143,6 @@
                 var trailerButton = document.getElementById('trailer-id');
                 if (trailerButton) {
                     trailerButton.addEventListener('click', function() {
-                        console.log("Player load started.");
-                        console.log(player);
                         player.seek(0); // Reset video to start
                         player.playMedia();
                     });

@@ -146,8 +146,6 @@
 
             // Log all events for debugging
             var allEvents = calendar.getEvents();
-            console.log(allEvents);
-
         });
     </script>
 @endpush

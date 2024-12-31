@@ -183,7 +183,6 @@
 
             const handleInputChange = debounce(function() {
                 var searchQuery = searchInput.value;
-                console.log('Input changed:', searchQuery);
                 if (searchQuery.length > 3) {
                     dataLayer.push({
                         'event': 'custom_search_input',

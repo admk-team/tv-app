@@ -438,7 +438,6 @@
             setLoading(true);
 
             createCheckoutSession().then(function(data) {
-                console.log(data);
                 if (data.sessionId) {
                     stripe.redirectToCheckout({
                         sessionId: data.sessionId,
@@ -468,7 +467,6 @@
                     stripeSecret
                 }),
             }).then(function(result) {
-                console.log(result);
                 return result.json();
             });
         };
