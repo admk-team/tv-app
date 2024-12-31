@@ -63,30 +63,6 @@
     $postData = [
         'stream_code' => $stream_code,
     ];
-
-    // $ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
-
-    // curl_setopt($ch, CURLOPT_POST, 1);
-    // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
-    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    // $response = curl_exec($ch);
-
-    // if (curl_errno($ch)) {
-    //     die('Curl error: ' . curl_error($ch));
-    // }
-
-    // curl_close($ch);
-
-    // $resultArray = json_decode($response, true);
-
-    // $userDidComment = false;
-    // foreach ($resultArray as $review) {
-    //     if (session('USER_DETAILS') && $review['user']['userCode'] === session('USER_DETAILS')['USER_CODE']) {
-    //         $userDidComment = true;
-    //     }
-    // }
-
     $ratingsCount = isset($stream_details['ratings']) && is_array($stream_details['ratings']) ? count($stream_details['ratings']) : 0;
 
     $totalRating = 0;
