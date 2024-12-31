@@ -67,6 +67,9 @@
                                             value="{{ isset($plan->paypal_plan_price) ? $plan->paypal_plan_price : '' }}">
                                         <input type="hidden" name="PAYPAL_PLAN_DURATION"
                                             value="{{ isset($plan->paypal_plan_duration) ? $plan->paypal_plan_duration : '' }}">
+                                        <input type="hidden" name="PAYPAL_PLAN_TRAIL"
+                                            value="{{ isset($plan->paypal_plan_trail) ? $plan->paypal_plan_trail : '' }}">
+
 
                                         <input type="hidden" name="MONETIZATION_TYPE" value="S">
                                         <input type="hidden" name="STREAM_DESC" value="{{ $plan->plan_desc }}">
