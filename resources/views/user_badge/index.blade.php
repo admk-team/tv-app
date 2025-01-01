@@ -48,7 +48,7 @@
                                                 {{ $data['data']['current_month_points'] }}
                                             </h5>
                                         </div>
-                                        <p class="mb-0 fs-10 card-heading">Current Month Points</p>
+                                        <p class="mb-0 fs-10 card-heading"><?= date('F'); ?> Points</p>
                                     </div>
                                 </div>
                             </div>
