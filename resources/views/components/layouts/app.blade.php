@@ -359,11 +359,11 @@
                             breakpoint: 770,
                             settings: (itemsPerRow == 2) ? {
                                 slidesToShow: 2,
-                                slidesToScroll: 1,
+                                slidesToScroll: 2,
                                 arrows: false
                             } : {
                                 slidesToShow: Math.max(itemsPerRow - 1, 1),
-                                slidesToScroll: 1,
+                                slidesToScroll: 2,
                                 dots: true,
                                 arrows: false
                             }
@@ -372,7 +372,7 @@
                             breakpoint: 600,
                             settings: {
                                 slidesToShow: 3,
-                                slidesToScroll: 1,
+                                slidesToScroll: 2,
                                 arrows: false
                             }
                         },
@@ -380,7 +380,7 @@
                             breakpoint: 480,
                             settings: {
                                 slidesToShow: 3,
-                                slidesToScroll: 1,
+                                slidesToScroll: 2,
                                 dots: false,
                                 arrows: false
                             }

@@ -196,7 +196,7 @@
                     settings: {
                         arrows: false,
                         slidesToShow: 5,
-                        slidesToScroll: 1
+                        slidesToScroll: 4
                     }
                 },
                 {
@@ -204,7 +204,7 @@
                     settings: {
                         arrows: false,
                         slidesToShow: 4,
-                        slidesToScroll: 1
+                        slidesToScroll: 3
                     }
                 },
                 {
@@ -212,7 +212,7 @@
                     settings: {
                         arrows: false,
                         slidesToShow: 3,
-                        slidesToScroll: 1
+                        slidesToScroll: 2
                     }
                 }
             ]
@@ -251,7 +251,7 @@
                     breakpoint: 600,
                     settings: {
                         slidesToShow: 2,
-                        slidesToScroll: 1,
+                        slidesToScroll: 2,
                         arrows: false
                     }
                 },
@@ -259,7 +259,7 @@
                     breakpoint: 480,
                     settings: {
                         slidesToShow: 2,
-                        slidesToScroll: 1,
+                        slidesToScroll: 2,
                         dots: false,
                         arrows: false,
                     }
