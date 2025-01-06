@@ -41,45 +41,45 @@
         }
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-    
+
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-    
+
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
-    
+
     $stream_code = $stream_details['stream_guid'];
-    
+
     $postData = [
         'stream_code' => $stream_code,
     ];
-    
+
     // $ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
-    
+
     // curl_setopt($ch, CURLOPT_POST, 1);
     // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    
+
     // $response = curl_exec($ch);
-    
+
     // if (curl_errno($ch)) {
     //     die('Curl error: ' . curl_error($ch));
     // }
-    
+
     // curl_close($ch);
-    
+
     // $resultArray = json_decode($response, true);
-    
+
     // $userDidComment = false;
     // foreach ($resultArray as $review) {
     //     if (session('USER_DETAILS') && $review['user']['userCode'] === session('USER_DETAILS')['USER_CODE']) {
     //         $userDidComment = true;
     //     }
     // }
-    
+
     $ratingsCount = isset($stream_details['ratings']) && is_array($stream_details['ratings']) ? count($stream_details['ratings']) : 0;
-    
+
     $totalRating = 0;
-    
+
     if ($ratingsCount !== 0) {
         foreach ($stream_details['ratings'] as $review) {
             $totalRating += $review['rating'];
@@ -199,9 +199,9 @@
                             // Function to attempt autoplay
                             function attemptAutoplay() {
                                 player.play().then(function() {
-                                    console.log("Autoplay started successfully.");
+                                    // console.log("Autoplay started successfully.");
                                 }).catch(function(error) {
-                                    console.log('Autoplay blocked or failed. Error:', error);
+                                    // console.log('Autoplay blocked or failed. Error:', error);
                                 });
                             }
 
@@ -217,9 +217,9 @@
                                     trailerButton.addEventListener('click', function() {
                                         player.currentTime(0);
                                         player.play().then(function() {
-                                            console.log("Video played from start.");
+                                            // console.log("Video played from start.");
                                         }).catch(function(error) {
-                                            console.log('Error playing video manually:', error);
+                                            // console.log('Error playing video manually:', error);
                                         });
                                     });
                                 }
@@ -227,7 +227,7 @@
 
                             // Prevent player from reloading while video is already playing
                             player.on('loadstart', function() {
-                                console.log("Player load started.");
+                                // console.log("Player load started.");
                             });
                         </script>
                     @endif
@@ -1101,7 +1101,7 @@
                         }
                     },
                     error: function(xhr) {
-                        console.error('Error checking subscription status:', xhr.responseText);
+                        // console.error('Error checking subscription status:', xhr.responseText);
                     }
                 });
             }

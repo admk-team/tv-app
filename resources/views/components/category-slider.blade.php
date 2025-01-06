@@ -336,7 +336,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const videoLinks = document.querySelectorAll('.video-link');
-            console.log('Found video links:', videoLinks.length);
+            // console.log('Found video links:', videoLinks.length);
 
             videoLinks.forEach((link, index) => {
                 const video = link.querySelector('.card-video-js');
@@ -350,16 +350,16 @@
                     preload: 'auto',
                 });
                 player.ready(() => {
-                    console.log(`Player ${index} is ready`);
+                    // console.log(`Player ${index} is ready`);
 
                     link.addEventListener('mouseenter', () => {
                         player.pause();
                         player.muted(false);
                         player.currentTime(0);
                         player.play().then(() => {
-                            console.log(`Playing video ${index}`);
+                            // console.log(`Playing video ${index}`);
                         }).catch((error) => {
-                            console.error(`Error playing video ${index}:`, error);
+                            // console.error(`Error playing video ${index}:`, error);
                         });
                     });
 
