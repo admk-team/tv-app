@@ -241,10 +241,13 @@
                     @if (isset($stream_details['title_logo'], $stream_details['show_title_logo']) &&
                             $stream_details['title_logo'] &&
                             $stream_details['show_title_logo'] == 1)
-                        <div class="title_logo mb-1">
+                        {{--  <div class="title_logo mb-1">
                             <img class="img-fluid" src="{{ $stream_details['title_logo'] }}"
                                 alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
-                        </div>
+                        </div>  --}}
+                        <div class="__logo">
+                              <img class="logo_img" src="{{ $stream_details['title_logo'] }}" alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
+                          </div>
                     @else
                         <h1 class="content-heading" title="{{ $stream_details['stream_title'] ?? '' }}">
                             {{ $stream_details['stream_title'] ?? '' }}

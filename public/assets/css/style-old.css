@@ -4193,7 +4193,13 @@ textarea.form-control:focus {
     border-bottom: 1px solid #fff;
     box-shadow: 0 0 0 0rem rgba(0, 123, 255, .25);
 }
-
+.__logo {
+    max-width: 80%;
+    width: 290px;
+  }
+  .logo_img {
+    width: 100% !important;
+  }
 
 /* ======================================================End detail page popup=================================== */
 
@@ -4244,6 +4250,10 @@ textarea.form-control:focus {
         position: absolute;
         z-index: 2;
         width: 55px;
+    }
+    .__logo {
+        max-width: 80%;
+        width: 170px;
     }
 }
 
@@ -4300,6 +4310,7 @@ textarea.form-control:focus {
     ul.ott_iconlist li img {
         max-width: 80px;
     }
+    
 }
 
 @media (max-width: 1200px) {
@@ -7890,7 +7901,7 @@ ul.dropsmenubox li a.dropdown-item:hover {
     display: inline;
     margin-right: 10px;
     margin-bottom: 10px;
-    white-space: nowrap;
+    /* white-space: nowrap; */
     margin-right: 0px;
     margin-left: 0px;
 
