@@ -1,9 +1,9 @@
 @push('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/cards-item.css') }}" />
     {{-- <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" /> --}}
-    {{-- <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet">
+    <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet">
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/videojs-youtube@2.6.1/dist/Youtube.min.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/videojs-youtube@2.6.1/dist/Youtube.min.js"></script>
 @endpush
 <section class="sliders">
     <div class="slider-container">
