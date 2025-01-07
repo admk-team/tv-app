@@ -328,15 +328,18 @@
                     autoplaySpeed: 3000,
                     slidesToShow: itemsPerRow,
                     slidesToScroll: 1,
+                    swipeToSlide: true,
                     responsive: [{
                             breakpoint: 1740,
                             settings: (itemsPerRow == 2) ? {
                                 slidesToShow: 2,
                                 slidesToScroll: 1,
+                                swipeToSlide: true,
                                 arrows: true
                             } : {
                                 slidesToShow: Math.max(itemsPerRow - 1, 1),
                                 slidesToScroll: 1,
+                                swipeToSlide: true,
                                 dots: true,
                                 arrows: true
                             }
@@ -346,10 +349,12 @@
                             settings: (itemsPerRow == 2) ? {
                                 slidesToShow: 2,
                                 slidesToScroll: 1,
+                                swipeToSlide: true,
                                 arrows: false
                             } : {
                                 slidesToShow: Math.max(itemsPerRow - 1, 1),
                                 slidesToScroll: 1,
+                                swipeToSlide: true,
                                 dots: true,
                                 arrows: false
                             }
@@ -359,11 +364,13 @@
                             breakpoint: 770,
                             settings: (itemsPerRow == 2) ? {
                                 slidesToShow: 2,
-                                slidesToScroll: 2,
+                                slidesToScroll: 1,
+                                swipeToSlide: true,
                                 arrows: false
                             } : {
                                 slidesToShow: Math.max(itemsPerRow - 1, 1),
-                                slidesToScroll: 2,
+                                slidesToScroll: 1,
+                                swipeToSlide: true,
                                 dots: true,
                                 arrows: false
                             }
@@ -372,7 +379,8 @@
                             breakpoint: 600,
                             settings: {
                                 slidesToShow: 3,
-                                slidesToScroll: 2,
+                                slidesToScroll: 1,
+                                swipeToSlide: true,
                                 arrows: false
                             }
                         },
@@ -380,7 +388,8 @@
                             breakpoint: 480,
                             settings: {
                                 slidesToShow: 3,
-                                slidesToScroll: 2,
+                                slidesToScroll: 1,
+                                swipeToSlide: true,
                                 dots: false,
                                 arrows: false
                             }
