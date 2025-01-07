@@ -81,39 +81,59 @@
 
     @include('components.footers.footer')
 
-    {{-- Search --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.querySelector('#searchKeyword');
-            const searchForm = document.querySelector('#searchForm');
+{{-- Search --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Select elements
+        const searchInput = document.querySelector('#searchKeyword');
+        const searchForm = document.querySelector('#searchForm');
 
-            const debounce = (func, delay) => {
-                let timeoutId;
-                return (...args) => {
-                    if (timeoutId) {
-                        clearTimeout(timeoutId);
-                    }
-                    timeoutId = setTimeout(() => {
-                        func.apply(null, args);
-                    }, delay);
-                };
-            };
+        // Ensure the elements exist
+        if (!searchInput) {
+            // console.warn('Search input element (#searchKeyword) not found.');
+            return; // Exit if the search input is missing
+        }
 
-            const handleInputChange = debounce(function() {
-                var searchQuery = searchInput.value;
-                console.log('Input changed:', searchQuery);
-                if (searchQuery.length > 3) {
-                    dataLayer.push({
-                        'event': 'custom_search_input',
-                        'search_term': searchQuery,
-                        'user': '{{ session('USER_DETAILS')['FULL_USER_NAME'] ?? 'Guest' }}',
-                    });
+        if (!searchForm) {
+            // console.warn('Search form element (#searchForm) not found.');
+            // Optional: Handle cases where the search form is missing
+        }
+
+        // Debounce function
+        const debounce = (func, delay) => {
+            let timeoutId;
+            return (...args) => {
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
                 }
-            }, 300); // Adjust the delay as necessary
+                timeoutId = setTimeout(() => {
+                    func.apply(null, args);
+                }, delay);
+            };
+        };
 
-            searchInput.addEventListener('input', handleInputChange);
-        });
-    </script>
+        // Handle input change with debounce
+        const handleInputChange = debounce(function () {
+            const searchQuery = searchInput.value;
+            if (searchQuery.length > 3) {
+                console.log('Input changed:', searchQuery);
+                if (typeof dataLayer !== 'undefined') {
+                    dataLayer.push({
+                        event: 'custom_search_input',
+                        search_term: searchQuery,
+                        user: '{{ session('USER_DETAILS')['FULL_USER_NAME'] ?? 'Guest' }}',
+                    });
+                } else {
+                    // console.warn('dataLayer is not defined.');
+                }
+            }
+        }, 300); // Adjust the delay as necessary
+
+        // Add event listener
+        searchInput.addEventListener('input', handleInputChange);
+    });
+</script>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
