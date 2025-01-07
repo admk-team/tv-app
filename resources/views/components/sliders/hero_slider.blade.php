@@ -24,7 +24,7 @@
                     <div class="carousel-caption d-block">
 
                         <div class="travel-info">
-                            @if (isset($stream->title_logo) && $stream->title_logo)
+                            @if (isset($stream->title_logo, $stream->show_title_logo) && $stream->title_logo && $stream->show_title_logo == 1)
                                 <div class="title_logo mb-1">
                                     <img style="max-width: 100%" src="{{ $stream->title_logo }}"
                                         alt="{{ $stream->stream_title }}">

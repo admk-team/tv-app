@@ -257,16 +257,12 @@
                 if (isFirstTIme == true) {
                     isFirstTIme = false;
                     player.seek({{ $leftTime }});
-                    console.log('Seeking to time:', leftTime);
-
                 }
                 data.instance.getCurrentTime();
                 data.instance.getDuration();
 
             });
             player.addEventListener("mediaEnd", function(data) {
-                console.log("Current stream ended. Switching to next stream...");
-
                 // Automatically move to the next stream in the playlist
                 player.nextMedia({
                     autoPlay: true

@@ -194,7 +194,6 @@
                 url: "{{ route('check.subscription.status') }}",
                 method: "GET",
                 success: function(response) {
-                    console.log('Response:', response);
                     if (response.success) {
                         if (response.subscribed) {
                             $('#subscribe-icon').removeClass('fa-bell').addClass('fa-bell-slash');

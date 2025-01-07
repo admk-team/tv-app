@@ -27,8 +27,8 @@
                 <div>
                     <div class="cover-slider-item">
                         <div
-                            class="info {{ isset($stream->title_logo) && $stream->title_logo ? 'with-logo' : 'without-logo' }}">
-                            @if (isset($stream->title_logo) && $stream->title_logo)
+                            class="info {{ isset($stream->title_logo, $stream->show_title_logo) && $stream->title_logo && $stream->show_title_logo === 1 ? 'with-logo' : 'without-logo' }}">
+                            @if (isset($stream->title_logo, $stream->show_title_logo) && $stream->title_logo && $stream->show_title_logo == 1)
                                 <div class="title_logo mb-1">
                                     <img class="image-fluid" src="{{ $stream->title_logo }}"
                                         alt="{{ $stream->stream_title }}">
@@ -161,7 +161,6 @@
                         stream_code: streamCode
                     },
                     success: function(response) {
-                        console.log(response.reminded);
                         if (response.reminded) {
                             $(`#${iconId}`).removeClass('fa-bell').addClass('fa-check-circle');
                             $(`#${textId}`).text('Reminder set');

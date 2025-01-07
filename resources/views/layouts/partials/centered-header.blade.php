@@ -71,6 +71,10 @@
                                             History</a>
                                     </li>
                                 @endif
+                                @if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
+                                    <li><a class="text-decoration-none" href="{{ route('user.badge') }}">User Badge</a>
+                                    </li>
+                                @endif
                                 <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
                             </ul>
                         </div>

@@ -344,7 +344,7 @@
                 return;
             }
             const videoLinks = document.querySelectorAll('.video-link');
-            console.log('Found video links:', videoLinks.length);
+
 
             videoLinks.forEach((link, index) => {
                 const video = link.querySelector('.card-video-js');
@@ -365,15 +365,12 @@
                 });
 
                 player.ready(() => {
-                    console.log(`Player ${index} (${video.id}) is ready`);
 
                     link.addEventListener('mouseenter', () => {
                         player.pause();
                         player.muted(false);
                         player.currentTime(0);
-                        player.play().then(() => {
-                            console.log(`Playing video ${index}`);
-                        }).catch((error) => {
+                        player.play().then(() => {}).catch((error) => {
                             console.error(`Error playing video ${index}:`, error);
                         });
                     });

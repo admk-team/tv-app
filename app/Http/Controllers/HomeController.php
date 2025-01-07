@@ -32,9 +32,14 @@ class HomeController extends Controller
                     ]);
                 $responseJson = $response->json();
                 }
-            } else {
-                Log::info('URL already set in session: ' . session('partner_url'));
             }
+        }
+        $referral_link = $request->query('referral_link');
+        if($referral_link){
+            if (!session()->has('referral_link')) 
+                {
+                    session(['referral_link' => $currentUrl]); 
+                }
         }
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/{$slug}"));
