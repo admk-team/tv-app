@@ -103,7 +103,7 @@
     <script src="{{ asset('assets/js/custom.js') }}"></script>
 
     {{-- Search --}}
-<script>
+{{-- <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Select elements
         const searchInput = document.querySelector('#searchKeyword');
@@ -153,7 +153,7 @@
         // Add event listener
         searchInput.addEventListener('input', handleInputChange);
     });
-</script>
+</script> --}}
     {{-- Custom JS --}}
     <script type="text/javascript" src="{{ asset('assets/slick/slick.min.js') }}"></script>
     <script>
