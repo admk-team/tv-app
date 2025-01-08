@@ -18,8 +18,8 @@
                                         <small class="fw-bold text-success"></small>
                                         <ul class="list-unstyled mt-3 mb-4">
                                             Payment saved successfully. </ul>
-                                        <a href="{{ url('/') }}" class="w-100 btn btn-md btn-outline-primary"> Goto
-                                            Home</a>
+                                        <a href="{{ url('/') }}" class="w-100 btn btn-md btn-outline-primary"> Go to
+                                            Homepage</a>
                                     </div>
                                 </div>
                             </div>
@@ -33,7 +33,7 @@
     <script>
         @if (session('REDIRECT_TO_SCREEN'))
             var timer = setTimeout(function() {
-                window.location='{{ session('REDIRECT_TO_SCREEN') }}'
+                window.location = '{{ session('REDIRECT_TO_SCREEN') }}'
             }, 3000);
         @endif
     </script>

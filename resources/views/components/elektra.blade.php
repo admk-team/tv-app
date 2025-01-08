@@ -53,6 +53,10 @@
                                     History</a>
                             </li>
                         @endif
+                        @if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
+                            <li><a class="text-decoration-none" href="{{ route('user.badge') }}">User Badge</a>
+                            </li>
+                        @endif
                         <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
                     </ul>
                 </div>
@@ -345,7 +349,8 @@
                 {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
             <div class=" text-end text-white-costum">
                 @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
-                     <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset"  style="text-decoration:none !important; ">
+                    <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset"
+                        style="text-decoration:none !important; ">
                         <img src="{{ $link->icon }} " style="width: 30px;">
                     </a>
                 @endforeach

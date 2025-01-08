@@ -35,7 +35,8 @@ class RegisterController extends Controller
                 'password' => $request->password,
                 'confirmPassword' => $request->password_confirmation,
                 'isBypassEmailVerificationStep' => 'Y',
-                'partner_url' => session('partner_url') ?? null
+                'partner_url' => session('partner_url') ?? null,
+                'referral_link' => session('referral_link') ?? null
             ]);
         $responseJson = $response->json();
         

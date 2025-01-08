@@ -95,8 +95,6 @@
             var hasReloaded = localStorage.getItem(localStorageKey) === 'true';
             var isEventStarted = false;
 
-            console.log('startDateTime:', startDateTime);
-            console.log('Start Date Object:', startDate);
 
             function formatDateTime(date) {
                 const options = {
@@ -275,12 +273,12 @@
                     const contentType = response.headers.get('content-type');
                     if (contentType && contentType.includes('application/json')) {
                         const data = await response.json();
-                        console.log(data.event_type);
+                        
 
                         if (data) {
                             switch (data.event_type) {
                                 // case 'mediaStart':
-                                // console.log(player);
+                        
                                 // player.playMedia();
                                 // break;
 

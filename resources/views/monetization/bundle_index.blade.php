@@ -358,7 +358,6 @@
                 setLoading(true);
 
                 createCheckoutSession().then(function(data) {
-                    console.log(data); // Debugging response from the backend
                     if (data.sessionId) {
                         stripe.redirectToCheckout({
                             sessionId: data.sessionId,
@@ -391,7 +390,6 @@
                         monetizationId: '{{ session('MONETIZATION.code') }}',
                     }),
                 }).then(function(result) {
-                    console.log('Backend response:', result); // Debugging the fetch response
                     return result.json();
                 });
             };

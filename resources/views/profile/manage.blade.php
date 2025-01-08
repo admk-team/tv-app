@@ -62,7 +62,6 @@
 
         $('.submit').on('click', function(event) {
             event.preventDefault();
-            console.log(this.id);
             let content_rating = $('#' + this.id + '_content_rating').val();
             var action_url = '';
             // var formdata = new FormData(this);
@@ -95,7 +94,6 @@
                     $('#form_result').html(html);
                 },
                 error: function(data) {
-                    console.log('data', data)
                     if (data.responseJSON.message) {
                         html = '<div class="alert alert-danger">';
                         html += '<span>' + data.responseJSON.message + '</span>'

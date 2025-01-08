@@ -13,10 +13,10 @@ class MonetizationController extends Controller
     {
         $planData = null;
         $recipientEmail = $request->query('recipient_email');
-        
+
         if (strtolower($request->method()) === 'post') {
             session()->forget('coupon_applied'); // Remove old
-            
+
             // Store the monetization data in the session
             $monetizationData = $request->only([
                 'AMOUNT',
@@ -28,6 +28,7 @@ class MonetizationController extends Controller
                 'PAYPAL_PLAN_NAME',
                 'PAYPAL_PLAN_DURATION',
                 'PAYPAL_PLAN_PRICE',
+                'PAYPAL_PLAN_TRAIL',
                 'MONETIZATION_TYPE',
                 'PLAN_TYPE',
                 'PLAN_PERIOD',
@@ -38,17 +39,17 @@ class MonetizationController extends Controller
                 'stripe_product_price',
                 'stripe_product_interval',
             ]);
-    
+
             // Include recipient email if present
             if ($recipientEmail) {
                 $monetizationData['RECIPIENT_EMAIL'] = $recipientEmail;
             }
-    
+
             session()->put('MONETIZATION', $monetizationData);
             $planData = $monetizationData;
         } else {
             $planData = session('MONETIZATION');
-            
+
             // Optionally add recipient email to the planData if needed
             if ($recipientEmail) {
                 $planData['RECIPIENT_EMAIL'] = $recipientEmail;

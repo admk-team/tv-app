@@ -355,21 +355,34 @@
                                 method="POST">
                                 <input type="hidden" name="business"
                                     value="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->PAYPAL_ID }}">
-                                @if(isset($planData['PAYPAL_PLAN_ID']) &&  $planData['PAYPAL_PLAN_ID'])
-                                      <!-- Specify a Subscribe button. -->
+                                @if (isset($planData['PAYPAL_PLAN_ID']) && $planData['PAYPAL_PLAN_ID'])
+                                    <!-- Specify a Subscribe button. -->
                                     <input type="hidden" name="cmd" value="_xclick-subscriptions" />
-                                    <!-- Identify the subscription. -->
+
+                                    <!-- Identify the subscription -->
                                     <input type="hidden" name="item_name" value="{{ $planData['PAYPAL_PLAN_NAME'] }}" />
-                                    <input
-                                        type="hidden"
-                                        name="item_number"
-                                        value="{{ $planData['PAYPAL_PLAN_ID'] }}"
-                                    />
+                                    <input type="hidden" name="item_number" value="{{ $planData['PAYPAL_PLAN_ID'] }}" />
+
+                                    @if (isset($planData['PAYPAL_PLAN_TRAIL']) &&
+                                            $planData['PAYPAL_PLAN_TRAIL'] &&
+                                            $planData['PAYPAL_PLAN_TRAIL'] !== '' &&
+                                            $planData['PAYPAL_PLAN_TRAIL'] > 0)
+                                        <!-- Trial period parameters -->
+                                        <input type="hidden" name="a1" value="0" /> <!-- Trial amount (free) -->
+                                        <input type="hidden" name="p1"
+                                            value="{{ $planData['PAYPAL_PLAN_TRAIL'] }}" />
+                                        <input type="hidden" name="t1" value="D" />
+                                        <!-- Trial period duration (7 days) -->
+                                    @endif
+
+                                    <!-- Regular subscription parameters -->
                                     <input type="hidden" name="a3" value="{{ $planData['PAYPAL_PLAN_PRICE'] }}" />
+                                    <!-- Regular payment amount -->
                                     <input type="hidden" name="p3" value="1" />
+                                    <!-- Number of billing cycles (1 for monthly) -->
                                     <input type="hidden" name="t3" value="{{ $planData['PAYPAL_PLAN_DURATION'] }}" />
+                                    <!-- Recurring period (monthly) -->
                                 @else
-                                    <input type="hidden" name="rm" value="2">
                                     <input type="hidden" name="cmd" value="_xclick">
                                     <input type="hidden" name="item_name" value="{{ $planData['PAYMENT_INFORMATION'] }}">
                                     <input type="hidden" name="item_number" value="{{ $planData['MONETIZATION_GUID'] }}">
@@ -383,6 +396,7 @@
                                     <input type="hidden" name="gift_recipient_email"
                                         value="{{ $planData['RECIPIENT_EMAIL'] }}">
                                 @endif
+                                <input type="hidden" name="rm" value="2">
                                 <input type="hidden" name="currency_code"
                                     value="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->payment_currency_code }}">
                                 <input type="hidden" name="return" value="{{ url('/monetization/success') }}">
@@ -438,7 +452,6 @@
             setLoading(true);
 
             createCheckoutSession().then(function(data) {
-                console.log(data);
                 if (data.sessionId) {
                     stripe.redirectToCheckout({
                         sessionId: data.sessionId,
@@ -468,7 +481,6 @@
                     stripeSecret
                 }),
             }).then(function(result) {
-                console.log(result);
                 return result.json();
             });
         };

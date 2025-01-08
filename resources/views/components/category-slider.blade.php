@@ -101,11 +101,13 @@
                                     if ($stream->is_external_ad === 'N') {
                                         $url = route($screen, $stream->stream_promo_url);
                                     }
-                                    if ($stream->banner_ad_click_tracking_url ?? false) { // wrap url in click tracking url
-                                        if (strpos($stream->banner_ad_click_tracking_url, '?') !== false)
-                                            $url = $stream->banner_ad_click_tracking_url . "&url=" . urlencode($url);
-                                        else
-                                            $url = $stream->banner_ad_click_tracking_url . "?url=" . urlencode($url);
+                                    if ($stream->banner_ad_click_tracking_url ?? false) {
+                                        // wrap url in click tracking url
+                                        if (strpos($stream->banner_ad_click_tracking_url, '?') !== false) {
+                                            $url = $stream->banner_ad_click_tracking_url . '&url=' . urlencode($url);
+                                        } else {
+                                            $url = $stream->banner_ad_click_tracking_url . '?url=' . urlencode($url);
+                                        }
                                     }
                                 } elseif ($stream->stream_type === 'BC') {
                                     $url = route('content-bundle', $stream->stream_guid);
@@ -335,8 +337,14 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Check if the user is on a mobile device
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                console.log('Mobile device detected. Skipping video initialization.');
+                return;
+            }
             const videoLinks = document.querySelectorAll('.video-link');
-            console.log('Found video links:', videoLinks.length);
+
 
             videoLinks.forEach((link, index) => {
                 const video = link.querySelector('.card-video-js');
@@ -345,20 +353,24 @@
                     return;
                 }
 
+                // Check if the video is already initialized
+                if (videojs.getPlayer(video.id)) {
+                    console.log(`Player ${index} (${video.id}) is already initialized.`);
+                    return;
+                }
+
                 const player = videojs(video.id, {
                     muted: false,
                     preload: 'auto',
                 });
+
                 player.ready(() => {
-                    console.log(`Player ${index} is ready`);
 
                     link.addEventListener('mouseenter', () => {
                         player.pause();
                         player.muted(false);
                         player.currentTime(0);
-                        player.play().then(() => {
-                            console.log(`Playing video ${index}`);
-                        }).catch((error) => {
+                        player.play().then(() => {}).catch((error) => {
                             console.error(`Error playing video ${index}:`, error);
                         });
                     });

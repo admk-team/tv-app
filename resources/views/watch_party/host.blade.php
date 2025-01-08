@@ -102,9 +102,6 @@
             var hasReloaded = localStorage.getItem(localStorageKey) === 'true';
             var isEventStarted = false;
 
-            console.log('startDateTime:', startDateTime);
-            console.log('Start Date Object:', startDate);
-
             function formatDateTime(date) {
                 const options = {
                     year: 'numeric',
@@ -190,7 +187,6 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
-            console.log(event);
 
             function detectMob() {
                 const toMatch = [
@@ -393,7 +389,7 @@
                     }
 
                     const result = await response.json();
-                    // console.log(`${eventType} event tracked successfully:`, result);
+                    
                 } catch (error) {
                     // console.error(`Error tracking ${eventType} event:`, error);
                 }

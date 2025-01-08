@@ -60,7 +60,6 @@
     <script>
         $(document).ready(function() {
             var data = {!! json_encode($quality) !!};
-            console.log(data);
             var bypassDetailscreen = {!! json_encode(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) !!};
             var currentIndex = 0;
             var batchSize = 20;

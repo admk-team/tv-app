@@ -13,8 +13,8 @@
                     <div class="swiper-slide">
                         <img class="thumbnail__image" src="{{ $stream->feature_poster ?? '' }}" alt="">
                         <div
-                            class="travel-info {{ isset($stream->title_logo) && $stream->title_logo ? 'with-logo' : 'without-logo' }}">
-                            @if (isset($stream->title_logo) && $stream->title_logo)
+                            class="travel-info {{ isset($stream->title_logo, $stream->show_title_logo) && $stream->title_logo && $stream->show_title_logo === 1 ? 'with-logo' : 'without-logo' }}">
+                            @if (isset($stream->title_logo, $stream->show_title_logo) && $stream->title_logo && $stream->show_title_logo == 1)
                                 <div class="title_logo mb-1">
                                     <img class="image-fluid" style="max-width: 100%" src="{{ $stream->title_logo }}"
                                         alt="{{ $stream->stream_title }}">

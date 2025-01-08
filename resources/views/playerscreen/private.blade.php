@@ -962,9 +962,6 @@ if (!empty($arrCatData))
             player.addEventListener('mediaStart', function(data) {
                 //called on media start, returns (instance, instanceName, counter)
 
-                console.log(data.instanceName);
-                console.log(data.counter); //active item
-
                 //get media current time
                 data.instance.getCurrentTime();
 
@@ -1022,13 +1019,11 @@ if (!empty($arrCatData))
         document.body.addEventListener("click", function (evt) {
             //console.dir(this);
             //note evt.target can be a nested element, not the body element, resulting in misfires
-            //console.log(evt.target);
+    
             if (player.getMediaPlaying())
             {
             // alert(player);
                 mediaId = player.getCurrentMediaData().mediaId
-                console.log(player.getCurrentMediaData());
-                console.log(player.getCurrentTime());
             //  alert("body clicked");
                 sendAjaxRes4VideoDuration('saveStrmDur', mediaId, player.getCurrentTime());
             }
@@ -1062,7 +1057,7 @@ if (!empty($arrCatData))
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
-                        console.log(this.responseText);
+                        
                     }
                 };
                 xhttp.open("POST", "<?php echo $apiPath; ?>", true);

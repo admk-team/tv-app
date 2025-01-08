@@ -183,7 +183,6 @@
 
             const handleInputChange = debounce(function() {
                 var searchQuery = searchInput.value;
-                console.log('Input changed:', searchQuery);
                 if (searchQuery.length > 3) {
                     dataLayer.push({
                         'event': 'custom_search_input',
@@ -333,12 +332,12 @@
                             settings: (itemsPerRow == 2) ? {
                                 slidesToShow: 2,
                                 slidesToScroll: 1,
-                                arrows: false
+                                arrows: true
                             } : {
                                 slidesToShow: Math.max(itemsPerRow - 1, 1),
                                 slidesToScroll: 1,
                                 dots: true,
-                                arrows: false
+                                arrows: true
                             }
                         },
                         {

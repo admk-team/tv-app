@@ -37,7 +37,6 @@
 	/*---------------*/
 
 	function TSlider () {
-		console.log('fine!');
 		this._init();
 	}
 
@@ -277,7 +276,6 @@
 			var currBgSlide = this.bgSld[this.current];
 			var currBgSldImage = currBgSlide.querySelector('.bi__imgCont-img');
 
-			console.log('Começa contagem do slide ' + this.current + '.');
 
 			animateCurrNavItem(currNavItem);
 			classie.addClass(currSlide, 'active-slide');
@@ -293,7 +291,6 @@
 				TweenMax.to(el.querySelector('.li__info-mask'), self.sldInterval/1000, {
 					width: '100%', ease: Linear.easeNone,
 					onComplete: function () {
-						console.log('Agora, aciona as transições.');
 						slidesTransitions();
 					}
 				});
@@ -322,7 +319,6 @@
 				var tm = new TimelineMax({ 
 					onComplete: function () {
 						
-						console.log('Transição de slides terminado.');
 						TweenMax.killTweensOf(currSlide, currBgSlide);
 
 						// Moving up the last image
@@ -338,7 +334,6 @@
 						
 						if((nextIndex+1) >= self.imagesCount) { self.bgSld[0].style.zIndex = 1; }
 						else { self.bgSld[nextIndex+1].style.zIndex = 1; }
-						//console.log(self.bgSld[nextIndex+1], ' : ', nextIndex+1);
 
 						// Reinitialize the slider
 						self.current = nextIndex;

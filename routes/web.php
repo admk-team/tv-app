@@ -34,6 +34,7 @@ use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ScreenerController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TvGuidePlayerController;
+use App\Http\Controllers\UserBadgeController;
 use App\Http\Controllers\VideoEventsController;
 use App\Http\Controllers\WatchPartyController;
 use App\Http\Controllers\WishlistController;
@@ -117,6 +118,8 @@ Route::middleware('auth.user')->group(function () {
     Route::get('watch/history', [ProfileController::class, 'history'])->name('watch.history');
     //
     Route::post('extra/video', [PlayerScreenController::class, 'extraVideo'])->name('extra-video');
+    //watch history
+    Route::get('user/badge', [UserBadgeController::class, 'index'])->name('user.badge');
 });
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');
