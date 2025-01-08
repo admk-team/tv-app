@@ -18,7 +18,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10">
                 <div class="listing_box">
-                    @if (isset($data['app']['streams']) && is_array($data['app']['streams']))
+                    @if (isset($data['app']['streams']) && is_array($data['app']['streams']) && count($data['app']['streams']) > 0)
                         <div class="slider_title_box" style="margin-top: 50px;">
                             <div class="list_heading text-center">
                                 <h1>Watch History</h1>
@@ -77,9 +77,9 @@
                                                 @endif
                                                 {{-- <span class="movie_type">{{ $stream['cat_title'] }}</span> --}}
                                                 <span class="movie_type">
-                                                    @foreach ($stream['genre'] ?? [] as $item)
-                                                        <a href="{{ route('category', $item['code']) }}?type=genre"
-                                                            class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
+                                                    @foreach ($stream['genres'] ?? [] as $genre)
+                                                        <a href="{{ route('category', $genre['code']) }}?type=genre"
+                                                            class="px-0">{{ $genre['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
                                                     @endforeach
                                                 </span>
                                             @endif
@@ -87,40 +87,24 @@
                                                 <span
                                                     class="movie_type">{{ $stream['stream_episode_title'] && $stream['stream_episode_title'] !== 'NULL' ? $stream['stream_episode_title'] : '' }}</span>
                                             @endif
-                                            @if ($stream['content_qlt'] != '')
+                                            @if (!empty($stream['content_qlt']))
                                                 <span class="content_screen">
                                                     @php
-                                                        $content_qlt_arr = explode(',', $stream['content_qlt']);
-                                                        $content_qlt_codes_arr = explode(
-                                                            ',',
-                                                            $stream['content_qlt_codes'],
-                                                        );
+                                                        $ratingTitle = $stream['content_qlt']['title'];
+                                                        $ratingCode = $stream['content_qlt']['code'];
                                                     @endphp
-                                                    @foreach ($content_qlt_arr as $i => $item)
-                                                        <a
-                                                            href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>
-                                                        @if (!$loop->last)
-                                                            ,
-                                                        @endif
-                                                    @endforeach
+                                                    <a
+                                                        href="{{ route('quality', trim($ratingCode)) }}">{{ $ratingTitle }}</a>
                                                 </span>
                                             @endif
-                                            @if ($stream['content_rating'] != '')
+                                            @if (!empty($stream['content_rating']))
                                                 <span class="content_screen">
                                                     @php
-                                                        $content_rating_arr = explode(',', $stream['content_rating']);
-                                                        $content_rating_codes_arr = explode(
-                                                            ',',
-                                                            $stream['content_rating_codes'],
-                                                        );
+                                                        $ratingTitle = $stream['content_rating']['title'];
+                                                        $ratingCode = $stream['content_rating']['code'];
                                                     @endphp
-                                                    @foreach ($content_rating_arr as $i => $item)
-                                                        <a
-                                                            href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>
-                                                        @if (!$loop->last)
-                                                            ,
-                                                        @endif
-                                                    @endforeach
+                                                    <a
+                                                        href="{{ route('rating', trim($ratingCode)) }}">{{ $ratingTitle }}</a>
                                                 </span>
                                             @endif
                                         </div>
