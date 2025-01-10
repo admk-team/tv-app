@@ -1,5 +1,11 @@
 @foreach($callToActions ?? [] as $cta)
     @foreach($cta['trigger_points'] ?? [] as $point)
+            @php
+                if (strtolower($point) !== 'pause') {
+                    $point = 60 * $point;
+                }   
+            @endphp
+            
             @switch($cta['type'])
                 @case('image')
                     <div class="mvp-popup" data-show="{{ $point }}">
@@ -17,13 +23,13 @@
                 @case('text')
                     <div class="mvp-popup" data-show="{{ $point }}">
                         <div class="bg-white p-4">
-                            @if ($cta['link_url'] ?? null)
+                            {{-- @if ($cta['link_url'] ?? null)
                             <a href="{{ $cta['link_url'] }}">
-                            @endif
+                            @endif --}}
                                 <h3>{{ $cta['title'] }}</h3>
-                            @if ($cta['link_url'] ?? null)
+                            {{-- @if ($cta['link_url'] ?? null)
                             </a>
-                            @endif
+                            @endif --}}
                             
                             <div>{{ $cta['content'] }}</div>
                         </div>

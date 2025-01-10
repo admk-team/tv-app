@@ -19,7 +19,6 @@ class PlayerScreenController extends Controller
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/getitemplayerdetail/{$id}?user_data={$xyz}"));
         $data = $response->json();
-
         if ($data['app']['stream_details'] === []) {
             if ($data['geoerror'] ?? null) {
                 return view("page.movienotexist");
@@ -29,11 +28,23 @@ class PlayerScreenController extends Controller
         $limitWatchTime = $data['app']['app_info']['limit_watch_time'];
         $watchTimeDuration = $data['app']['app_info']['watch_time_duration'];
 
+        $streamGuId = $data['app']['stream_details']['stream_guid'];
+        $responseRatings = Http::withHeaders(Api::headers())
+            ->get(Api::endpoint('/userrating/get/' . $streamGuId . '/stream'));
+        $data['app']['stream_details']['ratings'] = $responseRatings->json()['data'];
+
+        $streamRatingStatus = $data['app']['stream_details']['video_rating'] ?? null;
+        $streamRatingType = $data['app']['stream_details']['rating_type'] ?? null;
+        $streamRating= $data['app']['stream_details']['ratings'] ?? [];
+
         return view("playerscreen.index", [
             'arrRes' => $data,
             'streamGuid' => $id,
             'limitWatchTime' => $limitWatchTime,
             'watchTimeDuration' => $watchTimeDuration,
+            'streamratingstatus' =>  $streamRatingStatus,
+            'streamratingtype' =>  $streamRatingType,
+            'streamrating' => $streamRating,
         ]);
     }
 
@@ -57,6 +68,7 @@ class PlayerScreenController extends Controller
 
         $limitWatchTime = $data['app']['app_info']['limit_watch_time'];
         $watchTimeDuration = $data['app']['app_info']['watch_time_duration'];
+
 
         return view("playerscreen.private", [
             'arrRes' => $data,
@@ -111,7 +123,7 @@ class PlayerScreenController extends Controller
         $thumbnail = $request->input('thumbnail');
         $title = $request->input('title');
         $description = $request->input('description');
-    
+
         // Pass variables to the view
         return view('playerscreen.extra_video', compact('playbackUrl', 'thumbnail', 'title', 'description'));
     }

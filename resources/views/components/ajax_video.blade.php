@@ -55,6 +55,10 @@
                                             History</a>
                                     </li>
                                 @endif
+                                @if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
+                                    <li><a class="text-decoration-none" href="{{ route('user.badge') }}">User Badge</a>
+                                    </li>
+                                @endif
                                 <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
                             </ul>
                         </div>
@@ -100,15 +104,15 @@
                             </div>
                         </div>
                         <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button> -->
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button> -->
                     </div>
                 @endif
             @endforeach
@@ -331,7 +335,8 @@
                 {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
             <div class="col-md-6 text-end text-white">
                 @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
-                    <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset"  style="text-decoration:none !important; ">
+                    <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset"
+                        style="text-decoration:none !important; ">
                         <img src="{{ $link->icon }} " style="width: 30px; text-decoration: ">
                     </a>
                 @endforeach

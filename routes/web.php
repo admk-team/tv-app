@@ -26,6 +26,7 @@ use App\Http\Controllers\FollowController;
 use App\Http\Controllers\GiftStreamController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\NewsLetterController;
+use App\Http\Controllers\NotifyComingSoonStreamController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QualityController;
@@ -33,8 +34,12 @@ use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ScreenerController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TvGuidePlayerController;
+use App\Http\Controllers\UserBadgeController;
+use App\Http\Controllers\VideoEventsController;
+use App\Http\Controllers\WatchPartyController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\YearController;
+use App\Models\WatchParty;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -102,6 +107,7 @@ Route::middleware('auth.user')->group(function () {
     Route::post('apply-coupon', [MonetizationController::class, 'applyCoupon'])->name('apply-coupon');
     Route::match(['get', 'post'], 'monetization/success', [MonetizationController::class, 'success'])->name('monetization.success');
     Route::get('monetization/cancel', [MonetizationController::class, 'cancel'])->name('monetization.cancel');
+    Route::get('tipjar', [MonetizationController::class, 'tipjar'])->name('tipjar.view');
     Route::post('stripe/checkout', [StripeController::class, 'checkout'])->name('stripe.checkout');
     Route::get('stripe/success', [StripeController::class, 'success'])->name('stripe.success');
     Route::get('password/edit', [PasswordUpdateController::class, 'index'])->name('password.edit');
@@ -113,6 +119,8 @@ Route::middleware('auth.user')->group(function () {
     Route::get('watch/history', [ProfileController::class, 'history'])->name('watch.history');
     //
     Route::post('extra/video', [PlayerScreenController::class, 'extraVideo'])->name('extra-video');
+    //watch history
+    Route::get('user/badge', [UserBadgeController::class, 'index'])->name('user.badge');
 });
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');
@@ -148,7 +156,6 @@ Route::get('screener/{code}/{itemIndex?}', [ScreenerController::class, 'player']
 Route::post('screener/authenticate/{code}', [ScreenerController::class, 'authenticate'])->name('screener.authenticate');
 
 
-Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
 Route::get('/epgplayer/{channelGuid}/{slug}', [TvGuidePlayerController::class, 'index'])->name('player.tvguide');
 //Newsletter
 Route::post('newsletter', [NewsLetterController::class, 'newLetter'])->name('newsletter');
@@ -162,3 +169,21 @@ Route::get('/content-bundle/{stream_guid}', [BundleContentController::class, 'in
 Route::post('/purchase', [BundleContentController::class, 'purchase'])->name('bundle.purchase');
 Route::post('/stripe/purchase', [BundleContentController::class, 'createCheckoutSession'])->name('stripe.purchase');
 Route::get('/bundle/success', [BundleContentController::class, 'success'])->name('bundle.success');
+
+Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
+
+Route::get('check/remind/me', [NotifyComingSoonStreamController::class, 'checkRemindStatus'])->name('check.remind.me');
+Route::post('remind/me', [NotifyComingSoonStreamController::class, 'toggleRemind'])->name('remind.me');
+
+Route::post('/media-events', [VideoEventsController::class, 'store']);
+Route::get('watch-party/code/{watch_party_code}', [WatchPartyController::class, 'joinWatchParty']);
+Route::get('/watch-party/latest-player-state', [VideoEventsController::class, 'getLatestPlayerState']);
+Route::post('/watch-party/check-expire-time', [VideoEventsController::class, 'checkExpireTime']);
+// Route::view('ended-watch-party', 'watch_party.ended_party')->name('watch-party.ended');
+Route::get('/watch/ended-watch-party', function () {
+    return view('watch_party.ended_party');
+})->name('watch-party.ended');
+
+Route::get('/create/{streamCode}/watch/party', [WatchPartyController::class, 'create'])->name('create.watch.party');
+Route::post('/store/watch/party', [WatchPartyController::class, 'store'])->name('store.watch.party');
+Route::get('{slug?}', [HomeController::class, 'index'])->name('home');

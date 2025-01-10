@@ -123,7 +123,8 @@
                             <input type="text" class="search_bar rounded" name="searchKeyword" id="searchKeyword"
                                 value="{{ request()->searchKeyword }}" placeholder="Search" required="">
                             <span class="search_icon"><button type="submit"
-                                    style="text-decoration:none;border: none;background-color: #ffffff;margin-top: 4px;"><i class="bi bi-search search-icon mt-2"></i></button>
+                                    style="text-decoration:none;border: none;background-color: #ffffff;margin-top: 4px;"><i
+                                        class="bi bi-search search-icon mt-2"></i></button>
                             </span>
                         </div>
                     </form>
@@ -149,43 +150,52 @@
                         </div>
                     </div>
                     <div class="innerAlVidBox">
-                        @forelse ($searchResult['streams'] as $stream)
-                            <div class="resposnive_Box">
-                                @php
-                                    if (
-                                        (isset(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) &&
-                                            \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen == 1) ||
-                                        $stream['bypass_detailscreen'] == 1
-                                    ) {
-                                        $screen = 'playerscreen';
-                                    } else {
-                                        $screen = 'detailscreen';
-                                    }
-                                @endphp
-                                <a href="{{ url('/') }}/{{ $screen }}/{{ $stream['stream_guid'] }}">
-                                    <div class="thumbnail_img">
-                                        <div class="trending_icon_box" style="display: none;"><img
-                                                src="https://stage.24flix.tv/images/trending_icon.png"
-                                                alt="A Case of Identity">
-                                        </div>
-                                        <img src="{{ $stream['stream_poster'] ?? '' }}" alt="A Case of Identity">
-                                        <div class="detail_box_hide">
-                                            <div class="detailbox_time">{{ $stream['stream_duration_timeformat'] }}</div>
-                                            <div class="deta_box">
-                                                <div class="season_title">
-                                                    {{ $stream['stream_episode_title'] && $stream['stream_episode_title'] !== 'NULL' ? $stream['stream_episode_title'] : '' }}
+                        @if (isset($searchResult['streams']))
+                            @forelse ($searchResult['streams'] as $stream)
+                                <div class="resposnive_Box">
+                                    @php
+                                        if (
+                                            (isset(
+                                                \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen,
+                                            ) &&
+                                                \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen ==
+                                                    1) ||
+                                            $stream['bypass_detailscreen'] == 1
+                                        ) {
+                                            $screen = 'playerscreen';
+                                        } else {
+                                            $screen = 'detailscreen';
+                                        }
+                                    @endphp
+                                    <a href="{{ url('/') }}/{{ $screen }}/{{ $stream['stream_guid'] }}">
+                                        <div class="thumbnail_img">
+                                            <div class="trending_icon_box" style="display: none;"><img
+                                                    src="https://stage.24flix.tv/images/trending_icon.png"
+                                                    alt="A Case of Identity">
+                                            </div>
+                                            <img src="{{ $stream['stream_poster'] ?? '' }}" alt="A Case of Identity">
+                                            <div class="detail_box_hide">
+                                                <div class="detailbox_time">{{ $stream['stream_duration_timeformat'] }}
                                                 </div>
-                                                <div class="content_title">{{ $stream['stream_title'] }}</div>
-                                                <div class="content_description">{{ $stream['stream_description'] ?? '' }}
+                                                <div class="deta_box">
+                                                    <div class="season_title">
+                                                        {{ $stream['stream_episode_title'] && $stream['stream_episode_title'] !== 'NULL' ? $stream['stream_episode_title'] : '' }}
+                                                    </div>
+                                                    <div class="content_title">{{ $stream['stream_title'] }}</div>
+                                                    <div class="content_description">
+                                                        {{ $stream['stream_description'] ?? '' }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
-                        @empty
-                            <h3 class="empty-search-result">No results found!</h3>
-                        @endforelse
+                                    </a>
+                                </div>
+                            @empty
+                                <h3 class="empty-search-result">No results found!</h3>
+                            @endforelse
+                        @else
+                            <h3 class="empty-search-result">Kindly search to get results</h3>
+                        @endif
                     </div>
                 </div>
             </div>

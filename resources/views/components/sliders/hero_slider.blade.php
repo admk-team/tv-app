@@ -24,7 +24,7 @@
                     <div class="carousel-caption d-block">
 
                         <div class="travel-info">
-                            @if (isset($stream->title_logo) && $stream->title_logo)
+                            @if (isset($stream->title_logo, $stream->show_title_logo) && $stream->title_logo && $stream->show_title_logo == 1)
                                 <div class="title_logo mb-1">
                                     <img style="max-width: 100%" src="{{ $stream->title_logo }}"
                                         alt="{{ $stream->stream_title }}">
@@ -52,10 +52,35 @@
                             </div>
                             <p class="description desktop-data">{{ $stream->stream_description ?? '' }}</p>
                             <div class="btns">
-                                <a class="app-primary-btn rounded"
-                                    href="{{ route('playerscreen', $stream->stream_guid) }}">
-                                    <i class="bi bi-play-fill banner-play-icon"></i> Play
-                                </a>
+                                @if (isset($stream->notify_label) && $stream->notify_label == 'coming soon')
+                                    @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                                        <form id="remind-form-desktop" method="POST"
+                                            action="{{ route('remind.me') }}">
+                                            @csrf
+                                            <input type="hidden" name="stream_code" id="stream-code"
+                                                value="{{ $stream->stream_guid }}">
+                                            @if (isset($stream->reminder_set) && $stream->reminder_set == true)
+                                                <button class="app-primary-btn rounded">
+                                                    <i class="fas fa-check-circle"></i> Reminder set
+                                                </button>
+                                            @else
+                                                <button class="app-primary-btn rounded">
+                                                    <i class="fas fa-bell"></i> Remind me
+                                                </button>
+                                            @endif
+                                        </form>
+                                    @else
+                                        <a class="app-primary-btn rounded">
+                                            <i class="fa fa-play"></i>
+                                            Coming Soon
+                                        </a>
+                                    @endif
+                                @else
+                                    <a class="app-primary-btn rounded"
+                                        href="{{ route('playerscreen', $stream->stream_guid) }}">
+                                        <i class="bi bi-play-fill banner-play-icon"></i> Play
+                                    </a>
+                                @endif
                                 <a class="app-secondary-btn rounded"
                                     href="{{ route('detailscreen', $stream->stream_guid) }}">
                                     <i class="bi bi-eye banner-view-icon"></i> Details

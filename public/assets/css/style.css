@@ -85,7 +85,7 @@ body {
 
 .header .btns .search-icon {
     font-size: 23px;
-    color: #fff;
+    color: var(--navbarSearchColor);
     margin-right: 20px;
     cursor: pointer;
     transition: all 0.3s;
@@ -114,9 +114,10 @@ body {
     color: var(--navbarMenucolor);
     font-weight: 500;
     border: solid 2px transparent;
-    padding: 6px 23px;
+    padding: 6px 14px;
     font-size: 15px;
     transition: all 0.3s;
+    text-wrap: nowrap;
 }
 
 .app-primary-btn:hover {
@@ -365,7 +366,7 @@ body {
 
 .cover-slider-item .info .timestamp .badge {
     display: block;
-    border: solid 1px #c9c9c9;
+    border: solid 1px var(--slidercardCatColor);
     padding: 3px 6px;
     border-radius: 4px;
     font-size: 15px;
@@ -389,11 +390,11 @@ body {
 
 .cover-slider-item .info .btns {
     display: flex;
-    gap: 17px;
+    gap: 15px;
 }
 
 .cover-slider-item .info .btns a {
-    padding: 10px 23px;
+    padding: 9px 23px;
 }
 
 .owl-controll-btn {
@@ -658,7 +659,7 @@ p {
     }
 
     .cover-slider-item .info .btns a {
-        padding: 6px 20px;
+        padding: 8px 20px;
         font-size: 15px;
     }
 
