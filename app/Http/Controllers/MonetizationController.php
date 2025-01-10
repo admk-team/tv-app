@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppCofig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Services\Api;
@@ -57,6 +58,19 @@ class MonetizationController extends Controller
             }
         }
         return view('monetization.index', compact('planData'));
+    }
+
+    public function tipjar(Request $request)
+    {
+        $planData = [
+            'PAYMENT_INFORMATION' => 'Tip The Creator',
+            'MONETIZATION_GUID',
+            'MONETIZATION_TYPE',
+            'POSTER' => 'https://onlinechannel.s3.us-central-1.wasabisys.com/wasabi/images/stream/poster/TheMatrix20241212233042.png',
+            // Include the Stripe fields,
+        ];
+
+        return view('monetization.tipjar', compact('planData'));
     }
 
     public function success(Request $request)
