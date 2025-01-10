@@ -1115,6 +1115,7 @@
                 createAdMarkers: false,
                 autoPlay: true, // Ensure autoplay
                 loopingOn: true, // Enable looping
+                mediaEndAction:'loop',
                 crossorigin: "link",
                 playlistOpened: false,
                 randomPlay: false,
@@ -1138,7 +1139,6 @@
                 useChapterToggle: false,
                 useCasting: false,
                 useAdSeekbar: false,
-                mediaEndAction: 'rewind',
                 disableSeekbar: false,
             };
 
