@@ -214,6 +214,59 @@
     <script src="{{ asset('assets/js/year_select.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
 
+
+    {{-- Search --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Select elements
+            const searchInput = document.querySelector('#searchKeyword');
+            const searchForm = document.querySelector('#searchForm');
+
+            // Ensure the elements exist
+            if (!searchInput) {
+                // console.warn('Search input element (#searchKeyword) not found.');
+                return; // Exit if the search input is missing
+            }
+
+            if (!searchForm) {
+                // console.warn('Search form element (#searchForm) not found.');
+                // Optional: Handle cases where the search form is missing
+            }
+
+            // Debounce function
+            const debounce = (func, delay) => {
+                let timeoutId;
+                return (...args) => {
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                    }
+                    timeoutId = setTimeout(() => {
+                        func.apply(null, args);
+                    }, delay);
+                };
+            };
+
+            // Handle input change with debounce
+            const handleInputChange = debounce(function() {
+                const searchQuery = searchInput.value;
+                if (searchQuery.length > 3) {
+                    console.log('Input changed:', searchQuery);
+                    if (typeof dataLayer !== 'undefined') {
+                        dataLayer.push({
+                            event: 'custom_search_input',
+                            search_term: searchQuery,
+                            user: '{{ session('USER_DETAILS')['FULL_USER_NAME'] ?? 'Guest' }}',
+                        });
+                    } else {
+                        // console.warn('dataLayer is not defined.');
+                    }
+                }
+            }, 300); // Adjust the delay as necessary
+
+            // Add event listener
+            searchInput.addEventListener('input', handleInputChange);
+        });
+    </script>
     {{-- Custom JS --}}
     <script type="text/javascript" src="{{ asset('assets/slick/slick.min.js') }}"></script>
     <script>
@@ -327,15 +380,18 @@
                     autoplaySpeed: 3000,
                     slidesToShow: itemsPerRow,
                     slidesToScroll: 1,
+                    swipeToSlide: true,
                     responsive: [{
                             breakpoint: 1740,
                             settings: (itemsPerRow == 2) ? {
                                 slidesToShow: 2,
                                 slidesToScroll: 1,
+                                swipeToSlide: true,
                                 arrows: true
                             } : {
                                 slidesToShow: Math.max(itemsPerRow - 1, 1),
                                 slidesToScroll: 1,
+                                swipeToSlide: true,
                                 dots: true,
                                 arrows: true
                             }
@@ -345,10 +401,12 @@
                             settings: (itemsPerRow == 2) ? {
                                 slidesToShow: 2,
                                 slidesToScroll: 1,
+                                swipeToSlide: true,
                                 arrows: false
                             } : {
                                 slidesToShow: Math.max(itemsPerRow - 1, 1),
                                 slidesToScroll: 1,
+                                swipeToSlide: true,
                                 dots: true,
                                 arrows: false
                             }
@@ -359,10 +417,12 @@
                             settings: (itemsPerRow == 2) ? {
                                 slidesToShow: 2,
                                 slidesToScroll: 1,
+                                swipeToSlide: true,
                                 arrows: false
                             } : {
                                 slidesToShow: Math.max(itemsPerRow - 1, 1),
                                 slidesToScroll: 1,
+                                swipeToSlide: true,
                                 dots: true,
                                 arrows: false
                             }
@@ -372,6 +432,7 @@
                             settings: {
                                 slidesToShow: 3,
                                 slidesToScroll: 1,
+                                swipeToSlide: true,
                                 arrows: false
                             }
                         },
@@ -380,6 +441,7 @@
                             settings: {
                                 slidesToShow: 3,
                                 slidesToScroll: 1,
+                                swipeToSlide: true,
                                 dots: false,
                                 arrows: false
                             }

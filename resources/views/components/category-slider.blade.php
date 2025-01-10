@@ -202,9 +202,9 @@
                                                     </div>
                                                     @if (isset(\App\Services\AppConfig::get()->app->toggle_trailer) &&
                                                             \App\Services\AppConfig::get()->app->toggle_trailer == 1 &&
-                                                            $stream->stream_promo_url !== '' &&
+                                                           !empty($stream->stream_promo_url) &&
                                                             !in_array($category->card_type, ['BA', 'LB']) &&
-                                                            $stream->stream_type !== 'A')
+                                                            $stream->stream_type !== 'A' &&  !empty($streamUrl))
                                                         <video id="my-video-{{ $stream->stream_guid }}" preload="none"
                                                             class="card-video-js vjs-tech" muted>
                                                             <source src="{{ $streamUrl }}" {!! $mType !!}>
@@ -296,9 +296,9 @@
                                                 </div>
                                                 @if (isset(\App\Services\AppConfig::get()->app->toggle_trailer) &&
                                                         \App\Services\AppConfig::get()->app->toggle_trailer == 1 &&
-                                                        $stream->stream_promo_url !== '' &&
-                                                        !in_array($category->card_type, ['BA', 'LB']) &&
-                                                        $stream->stream_type !== 'A')
+                                                           !empty($stream->stream_promo_url) &&
+                                                            !in_array($category->card_type, ['BA', 'LB']) &&
+                                                            $stream->stream_type !== 'A' &&  !empty($streamUrl))
                                                     <video id="my-video-{{ $stream->stream_guid }}" preload="none"
                                                         class="card-video-js vjs-tech" muted>
                                                         <source src="{{ $streamUrl }}" {!! $mType !!}>
@@ -340,7 +340,6 @@
             // Check if the user is on a mobile device
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if (isMobile) {
-                console.log('Mobile device detected. Skipping video initialization.');
                 return;
             }
             const videoLinks = document.querySelectorAll('.video-link');
@@ -355,7 +354,7 @@
 
                 // Check if the video is already initialized
                 if (videojs.getPlayer(video.id)) {
-                    console.log(`Player ${index} (${video.id}) is already initialized.`);
+                    // console.log(`Player ${index} (${video.id}) is already initialized.`);
                     return;
                 }
 
@@ -371,7 +370,7 @@
                         player.muted(false);
                         player.currentTime(0);
                         player.play().then(() => {}).catch((error) => {
-                            console.error(`Error playing video ${index}:`, error);
+                            // console.error(`Error playing video ${index}:`, error);
                         });
                     });
 
