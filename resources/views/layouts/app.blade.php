@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
-     @include('gtm_tags.head')
+    @include('gtm_tags.head')
     @if (Route::is('detailscreen'))
         @yield('meta-tags')
     @else
@@ -81,39 +81,8 @@
 
     @include('components.footers.footer')
 
-    {{-- Search --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.querySelector('#searchKeyword');
-            const searchForm = document.querySelector('#searchForm');
 
-            const debounce = (func, delay) => {
-                let timeoutId;
-                return (...args) => {
-                    if (timeoutId) {
-                        clearTimeout(timeoutId);
-                    }
-                    timeoutId = setTimeout(() => {
-                        func.apply(null, args);
-                    }, delay);
-                };
-            };
 
-            const handleInputChange = debounce(function() {
-                var searchQuery = searchInput.value;
-                console.log('Input changed:', searchQuery);
-                if (searchQuery.length > 3) {
-                    dataLayer.push({
-                        'event': 'custom_search_input',
-                        'search_term': searchQuery,
-                        'user': '{{ session('USER_DETAILS')['FULL_USER_NAME'] ?? 'Guest' }}',
-                    });
-                }
-            }, 300); // Adjust the delay as necessary
-
-            searchInput.addEventListener('input', handleInputChange);
-        });
-    </script>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -133,6 +102,58 @@
     <script src="{{ asset('assets/js/year_select.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
 
+    {{-- Search --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Select elements
+            const searchInput = document.querySelector('#searchKeyword');
+            const searchForm = document.querySelector('#searchForm');
+
+            // Ensure the elements exist
+            if (!searchInput) {
+                // console.warn('Search input element (#searchKeyword) not found.');
+                return; // Exit if the search input is missing
+            }
+
+            if (!searchForm) {
+                // console.warn('Search form element (#searchForm) not found.');
+                // Optional: Handle cases where the search form is missing
+            }
+
+            // Debounce function
+            const debounce = (func, delay) => {
+                let timeoutId;
+                return (...args) => {
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                    }
+                    timeoutId = setTimeout(() => {
+                        func.apply(null, args);
+                    }, delay);
+                };
+            };
+
+            // Handle input change with debounce
+            const handleInputChange = debounce(function() {
+                const searchQuery = searchInput.value;
+                if (searchQuery.length > 3) {
+                    console.log('Input changed:', searchQuery);
+                    if (typeof dataLayer !== 'undefined') {
+                        dataLayer.push({
+                            event: 'custom_search_input',
+                            search_term: searchQuery,
+                            user: '{{ session('USER_DETAILS')['FULL_USER_NAME'] ?? 'Guest' }}',
+                        });
+                    } else {
+                        // console.warn('dataLayer is not defined.');
+                    }
+                }
+            }, 300); // Adjust the delay as necessary
+
+            // Add event listener
+            searchInput.addEventListener('input', handleInputChange);
+        });
+    </script>
     {{-- Custom JS --}}
     <script type="text/javascript" src="{{ asset('assets/slick/slick.min.js') }}"></script>
     <script>

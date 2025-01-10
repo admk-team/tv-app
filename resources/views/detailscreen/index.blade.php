@@ -12,10 +12,18 @@
     <meta property="og:description" content="{{ @$stream_details['stream_description'] }}" />
     {{-- Custom Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/details-screen-styling.css') }}">
-    <!-- Video.js CSS and JS -->
-    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/videojs-youtube@2.6.1/dist/Youtube.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/mvp.css') }}" />
+    <script src="{{ asset('assets/js/mvp/new.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/vast.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/share_manager.js') }}"></script>
+    <script src="{{ asset('assets/js/cache.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/ima.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/playlist_navigation.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/youtubeLoader.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/vimeoLoader.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 @endsection
 
 @section('content')
@@ -25,20 +33,23 @@
     $streamUrl = $stream_details['stream_promo_url'];
     $mType = '';
     if ($streamUrl) {
-        if (strpos($streamUrl, '.m3u8') !== false) {
-            $mType = "type='application/x-mpegURL'";
-        } elseif (strpos($streamUrl, 'youtube.com') !== false) {
-            $mType = "type='video/youtube'";
-        } elseif (strpos($streamUrl, 'youtu.be') !== false) {
-            $isShortYouTube = preg_match('/youtu\.be\/([^?&]+)/', $streamUrl, $shortYouTubeMatches);
-            if ($isShortYouTube) {
-                $urlId = $shortYouTubeMatches[1];
-                $streamUrl = 'https://www.youtube.com/watch?v=' . $urlId;
-                $mType = "type='video/youtube'";
-            }
-        } elseif (strpos($streamUrl, 'vimeo.com') !== false) {
-            $mType = "type='video/vimeo'";
+        $isShortYouTube = preg_match('/youtu\.be\/([^?&]+)/', $streamUrl, $shortYouTubeMatches);
+        $isSingleVideo = preg_match('/[?&]v=([^&]+)/', $streamUrl, $videoMatches);
+        $isVimeo = preg_match('/vimeo\.com\/(\d+)/', $streamUrl, $vimeoMatches);
+        if ($isShortYouTube) {
+            $streamUrl = $shortYouTubeMatches[1]; // Extract only the video ID
+            $mType = 'youtube_single';
+        } elseif ($isSingleVideo) {
+            $streamUrl = $videoMatches[1]; // Extract only the video ID
+            $mType = 'youtube_single';
+        } elseif ($isVimeo) {
+            $streamUrl = $vimeoMatches[1]; // Extract only the Vimeo ID
+            $mType = 'vimeo_single';
         }
+    }
+    $mType = isset($mType) ? $mType : 'video';
+    if (strpos($streamUrl, '.m3u8')) {
+        $mType = 'hls';
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
 
@@ -52,30 +63,6 @@
     $postData = [
         'stream_code' => $stream_code,
     ];
-
-    // $ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
-
-    // curl_setopt($ch, CURLOPT_POST, 1);
-    // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
-    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    // $response = curl_exec($ch);
-
-    // if (curl_errno($ch)) {
-    //     die('Curl error: ' . curl_error($ch));
-    // }
-
-    // curl_close($ch);
-
-    // $resultArray = json_decode($response, true);
-
-    // $userDidComment = false;
-    // foreach ($resultArray as $review) {
-    //     if (session('USER_DETAILS') && $review['user']['userCode'] === session('USER_DETAILS')['USER_CODE']) {
-    //         $userDidComment = true;
-    //     }
-    // }
-
     $ratingsCount = isset($stream_details['ratings']) && is_array($stream_details['ratings']) ? count($stream_details['ratings']) : 0;
 
     $totalRating = 0;
@@ -132,7 +119,6 @@
         .movie_detail_inner_box.without-logo {
             top: 30px !important;
         }
-
         @media (max-width: 600px) {
             .slick-slide {
                 width: 170px !important;
@@ -151,6 +137,29 @@
             .thumbnail_img {
                 height: 95px !important;
             }
+        }
+
+        .videocentalize {
+            position: relative;
+        }
+
+        .videocentalize {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+            margin: 0px auto;
+        }
+
+        .mvp-player-controls-main {
+            display: none !important;
+        }
+
+        .mvp-big-play {
+            display: none !important;
+        }
+
+        .mvp-solo-seekbar-visible {
+            display: none !important;
         }
     </style>
 
@@ -175,61 +184,19 @@
                             onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'">
                     @else
                         <!-- Video Player -->
-                        <video id="plyerId" class="video-js vjs-fluid vjs-16-9 vjs-default-skin js-big-play-centered"
-                            poster="{{ $stream_details['stream_poster'] }}" autoplay muted loop>
-                            <source src="{{ $streamUrl }}" {!! $mType !!}>
-                        </video>
-
-
-                        <script>
-                            // Initialize Video.js player
-                            var player = videojs('plyerId', {
-                                fluid: true,
-                                techOrder: ['youtube', 'vimeo', 'html5'],
-                                html5: {
-                                    hls: {
-                                        overrideNative: false
-                                    },
-                                    nativeVideoTracks: true,
-                                    nativeAudioTracks: true,
-                                    nativeTextTracks: true
-                                }
-                            });
-
-                            // Function to attempt autoplay
-                            function attemptAutoplay() {
-                                player.play().then(function() {
-                                    // console.log("Autoplay started successfully.");
-                                }).catch(function(error) {
-                                    // console.log('Autoplay blocked or failed. Error:', error);
-                                });
-                            }
-
-                            // Ensure the player is fully ready before attempting to play
-                            player.ready(function() {
-                                attemptAutoplay(); // Try autoplay
-                            });
-
-                            // Add event listener to trailer button to restart/replay the video
-                            window.addEventListener('load', () => {
-                                var trailerButton = document.getElementById('trailer-id');
-                                if (trailerButton) {
-                                    trailerButton.addEventListener('click', function() {
-                                        player.currentTime(0);
-                                        player.play().then(function() {
-                                            // console.log("Video played from start.");
-                                        }).catch(function(error) {
-                                            // console.log('Error playing video manually:', error);
-                                        });
-                                    });
-                                }
-                            });
-
-                            // Prevent player from reloading while video is already playing
-                            player.on('loadstart', function() {
-                                // console.log("Player load started.");
-                            });
-                        </script>
+                        <div class="container-costum">
+                            <div id="wrapper">
+                            </div>
+                            <!-- LIST OF PLAYLISTS -->
+                            <div id="mvp-playlist-list">
+                                <div class="mvp-global-playlist-data"></div>
+                                <div class="playlist-video">
+                                    <div class="mvp-playlist-item" data-type="{{ $mType }}"
+                                        data-path="{{ $streamUrl }}" data-noapi data-title="" data-description="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endif
                 </div>
 
@@ -1113,6 +1080,86 @@
             if (mobileStreamCode) {
                 updateBellIcon(mobileStreamCode, 'mobile-remind-icon', 'mobile-remind-text');
             }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            function detectMob() {
+                const toMatch = [
+                    /Android/i,
+                    /webOS/i,
+                    /iPhone/i,
+                    /iPad/i,
+                    /iPod/i,
+                    /BlackBerry/i,
+                    /Windows Phone/i
+                ];
+                return toMatch.some((toMatchItem) => navigator.userAgent.match(toMatchItem));
+            }
+
+            var pListPostion = detectMob() ? 'hb' : 'vrb';
+
+            var settings = {
+                skin: 'sirius', // Choose an appropriate skin
+                playlistPosition: pListPostion,
+                sourcePath: "",
+                useMobileChapterMenu: true,
+                vimeoPlayerType: "chromeless",
+                youtubePlayerType: "chromeless",
+                activeItem: 0,
+                activePlaylist: ".playlist-video",
+                playlistList: "#mvp-playlist-list",
+                instanceName: "player1",
+                hidePlaylistOnMinimize: true,
+                volume: 0.75,
+                createAdMarkers: false,
+                autoPlay: true, // Ensure autoplay
+                loopingOn: true, // Enable looping
+                mediaEndAction:'loop',
+                crossorigin: "link",
+                playlistOpened: false,
+                randomPlay: false,
+                useEmbed: false,
+                useTime: false,
+                usePip: false,
+                useCc: false,
+                useAirPlay: false,
+                usePlaybackRate: false,
+                useNext: false,
+                usePrevious: false,
+                useRewind: false,
+                useSkipBackward: false,
+                useSkipForward: false,
+                showPrevNextVideoThumb: false,
+                rememberPlaybackPosition: false,
+                useQuality: false,
+                useTheaterMode: false,
+                useSubtitle: false,
+                useTranscript: false,
+                useChapterToggle: false,
+                useCasting: false,
+                useAdSeekbar: false,
+                disableSeekbar: false,
+            };
+
+            // Initialize player
+            if (!window.player) {
+                window.player = new mvp(document.getElementById('wrapper'), settings);
+            }
+
+            // Trailer button logic
+            window.addEventListener('load', () => {
+                var trailerButton = document.getElementById('trailer-id');
+                if (trailerButton) {
+                    trailerButton.addEventListener('click', function() {
+                        console.log("Player load started.");
+                        console.log(player);
+                        player.seek(0); // Reset video to start
+                        player.playMedia();
+                    });
+                }
+            });
+
         });
     </script>
 @endpush
