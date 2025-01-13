@@ -195,6 +195,9 @@ if (session('USER_DETAILS.USER_CODE')) {
                             class="movie_type themePrimaryTxtColr">{{ $stream_details['stream_episode_title'] && $stream_details['stream_episode_title'] !== 'NULL' ? $stream_details['stream_episode_title'] : '' }}</span>
                         <span class="movie_type themePrimaryTxtColr">{{ $stream_details['show_name'] }}</span>
                     @endif
+
+                    
+                    @if($ratingsCount > 0)
                     @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
                             $stream_details['rating_type'] === 'stars' &&
                             $stream_details['video_rating'] === 'E')
@@ -318,6 +321,7 @@ if (session('USER_DETAILS.USER_CODE')) {
                             </div>
                             {{ $ratingsCount ?? 0 }}
                         </span>
+                    @endif
                     @endif
                     @if ($stream_details['content_qlt'] != '')
                         <span class="content_screen themePrimaryTxtColr"
@@ -573,6 +577,7 @@ if (session('USER_DETAILS.USER_CODE')) {
                 <div class="item-ratings">
                     <h1 class="section-title" style="display: flex; align-items: center; gap: 10px;">
                         Reviews:
+                        @if($ratingsCount > 0)
                         @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
                                 $stream_details['rating_type'] === 'stars' &&
                                 $stream_details['video_rating'] === 'E')
@@ -681,6 +686,7 @@ if (session('USER_DETAILS.USER_CODE')) {
                         @endif
 
                         {{ $ratingsCount ?? 0 }}
+                        @endif
                     </h1>
                     @php
                         if (sizeof($stream_details['ratings'] ?? []) < 1) {

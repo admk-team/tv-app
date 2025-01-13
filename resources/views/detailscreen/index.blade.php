@@ -12,10 +12,18 @@
     <meta property="og:description" content="{{ @$stream_details['stream_description'] }}" />
     {{-- Custom Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/details-screen-styling.css') }}">
-    <!-- Video.js CSS and JS -->
-    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/videojs-youtube@2.6.1/dist/Youtube.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/mvp.css') }}" />
+    <script src="{{ asset('assets/js/mvp/new.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/vast.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/share_manager.js') }}"></script>
+    <script src="{{ asset('assets/js/cache.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/ima.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/playlist_navigation.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/youtubeLoader.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/vimeoLoader.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 @endsection
 
 @section('content')
@@ -25,61 +33,40 @@
     $streamUrl = $stream_details['stream_promo_url'];
     $mType = '';
     if ($streamUrl) {
-        if (strpos($streamUrl, '.m3u8') !== false) {
-            $mType = "type='application/x-mpegURL'";
-        } elseif (strpos($streamUrl, 'youtube.com') !== false) {
-            $mType = "type='video/youtube'";
-        } elseif (strpos($streamUrl, 'youtu.be') !== false) {
-            $isShortYouTube = preg_match('/youtu\.be\/([^?&]+)/', $streamUrl, $shortYouTubeMatches);
-            if ($isShortYouTube) {
-                $urlId = $shortYouTubeMatches[1];
-                $streamUrl = 'https://www.youtube.com/watch?v=' . $urlId;
-                $mType = "type='video/youtube'";
-            }
-        } elseif (strpos($streamUrl, 'vimeo.com') !== false) {
-            $mType = "type='video/vimeo'";
+        $isShortYouTube = preg_match('/youtu\.be\/([^?&]+)/', $streamUrl, $shortYouTubeMatches);
+        $isSingleVideo = preg_match('/[?&]v=([^&]+)/', $streamUrl, $videoMatches);
+        $isVimeo = preg_match('/vimeo\.com\/(\d+)/', $streamUrl, $vimeoMatches);
+        if ($isShortYouTube) {
+            $streamUrl = $shortYouTubeMatches[1]; // Extract only the video ID
+            $mType = 'youtube_single';
+        } elseif ($isSingleVideo) {
+            $streamUrl = $videoMatches[1]; // Extract only the video ID
+            $mType = 'youtube_single';
+        } elseif ($isVimeo) {
+            $streamUrl = $vimeoMatches[1]; // Extract only the Vimeo ID
+            $mType = 'vimeo_single';
         }
     }
+    $mType = isset($mType) ? $mType : 'video';
+    if (strpos($streamUrl, '.m3u8')) {
+        $mType = 'hls';
+    }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-    
+
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-    
+
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
-    
+
     $stream_code = $stream_details['stream_guid'];
-    
+
     $postData = [
         'stream_code' => $stream_code,
     ];
-    
-    // $ch = curl_init('https://octv.shop/stage/apis/feeds/v1/get_reviews.php');
-    
-    // curl_setopt($ch, CURLOPT_POST, 1);
-    // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
-    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    
-    // $response = curl_exec($ch);
-    
-    // if (curl_errno($ch)) {
-    //     die('Curl error: ' . curl_error($ch));
-    // }
-    
-    // curl_close($ch);
-    
-    // $resultArray = json_decode($response, true);
-    
-    // $userDidComment = false;
-    // foreach ($resultArray as $review) {
-    //     if (session('USER_DETAILS') && $review['user']['userCode'] === session('USER_DETAILS')['USER_CODE']) {
-    //         $userDidComment = true;
-    //     }
-    // }
-    
     $ratingsCount = isset($stream_details['ratings']) && is_array($stream_details['ratings']) ? count($stream_details['ratings']) : 0;
-    
+
     $totalRating = 0;
-    
+
     if ($ratingsCount !== 0) {
         foreach ($stream_details['ratings'] as $review) {
             $totalRating += $review['rating'];
@@ -132,7 +119,6 @@
         .movie_detail_inner_box.without-logo {
             top: 30px !important;
         }
-
         @media (max-width: 600px) {
             .slick-slide {
                 width: 170px !important;
@@ -151,6 +137,29 @@
             .thumbnail_img {
                 height: 95px !important;
             }
+        }
+
+        .videocentalize {
+            position: relative;
+        }
+
+        .videocentalize {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+            margin: 0px auto;
+        }
+
+        .mvp-player-controls-main {
+            display: none !important;
+        }
+
+        .mvp-big-play {
+            display: none !important;
+        }
+
+        .mvp-solo-seekbar-visible {
+            display: none !important;
         }
     </style>
 
@@ -175,61 +184,19 @@
                             onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'">
                     @else
                         <!-- Video Player -->
-                        <video id="plyerId" class="video-js vjs-fluid vjs-16-9 vjs-default-skin js-big-play-centered"
-                            poster="{{ $stream_details['stream_poster'] }}" autoplay muted loop>
-                            <source src="{{ $streamUrl }}" {!! $mType !!}>
-                        </video>
-
-
-                        <script>
-                            // Initialize Video.js player
-                            var player = videojs('plyerId', {
-                                fluid: true,
-                                techOrder: ['youtube', 'vimeo', 'html5'],
-                                html5: {
-                                    hls: {
-                                        overrideNative: false
-                                    },
-                                    nativeVideoTracks: true,
-                                    nativeAudioTracks: true,
-                                    nativeTextTracks: true
-                                }
-                            });
-
-                            // Function to attempt autoplay
-                            function attemptAutoplay() {
-                                player.play().then(function() {
-                                    console.log("Autoplay started successfully.");
-                                }).catch(function(error) {
-                                    console.log('Autoplay blocked or failed. Error:', error);
-                                });
-                            }
-
-                            // Ensure the player is fully ready before attempting to play
-                            player.ready(function() {
-                                attemptAutoplay(); // Try autoplay
-                            });
-
-                            // Add event listener to trailer button to restart/replay the video
-                            window.addEventListener('load', () => {
-                                var trailerButton = document.getElementById('trailer-id');
-                                if (trailerButton) {
-                                    trailerButton.addEventListener('click', function() {
-                                        player.currentTime(0);
-                                        player.play().then(function() {
-                                            console.log("Video played from start.");
-                                        }).catch(function(error) {
-                                            console.log('Error playing video manually:', error);
-                                        });
-                                    });
-                                }
-                            });
-
-                            // Prevent player from reloading while video is already playing
-                            player.on('loadstart', function() {
-                                console.log("Player load started.");
-                            });
-                        </script>
+                        <div class="container-costum">
+                            <div id="wrapper">
+                            </div>
+                            <!-- LIST OF PLAYLISTS -->
+                            <div id="mvp-playlist-list">
+                                <div class="mvp-global-playlist-data"></div>
+                                <div class="playlist-video">
+                                    <div class="mvp-playlist-item" data-type="{{ $mType }}"
+                                        data-path="{{ $streamUrl }}" data-noapi data-title="" data-description="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endif
                 </div>
 
@@ -241,10 +208,13 @@
                     @if (isset($stream_details['title_logo'], $stream_details['show_title_logo']) &&
                             $stream_details['title_logo'] &&
                             $stream_details['show_title_logo'] == 1)
-                        <div class="title_logo mb-1">
+                        {{--  <div class="title_logo mb-1">
                             <img class="img-fluid" src="{{ $stream_details['title_logo'] }}"
                                 alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
-                        </div>
+                        </div>  --}}
+                        <div class="__logo">
+                              <img class="logo_img" src="{{ $stream_details['title_logo'] }}" alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
+                          </div>
                     @else
                         <h1 class="content-heading" title="{{ $stream_details['stream_title'] ?? '' }}">
                             {{ $stream_details['stream_title'] ?? '' }}
@@ -310,130 +280,136 @@
                                 @endforeach
                             </span>
                         @endif
-                        @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                            $stream_details['rating_type'] === 'stars' &&
-                            $stream_details['video_rating'] === 'E')
-                        <span class="content_screen themePrimaryTxtColr">
-                            <div class="star active" style="display: inline-flex;">
-                                <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32"
-                                    version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <title>star</title>
-                                        <path
-                                            d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                                        </path>
-                                    </g>
-                                </svg>
-                            </div>
-                            {{ $ratingsCount ?? 0 }}
-                        </span>
-                    @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                            $stream_details['rating_type'] === 'hearts' &&
-                            $stream_details['video_rating'] === 'E')
-                        <span class="content_screen themePrimaryTxtColr">
-                            <div class="star active" style="display: inline-flex;">
-                                <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32"
-                                    version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <title>heart</title>
-                                        <path
-                                            d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                        </path>
-                                    </g>
-                                </svg>
-                            </div>
-                            {{ $ratingsCount ?? 0 }}
-                        </span>
-                    @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                            $stream_details['rating_type'] === 'thumbs' &&
-                            $stream_details['video_rating'] === 'E')
-                        <span class="content_screen themePrimaryTxtColr">
-                            <div class="star active" style="display: inline-flex; rotate: 180deg">
-                                <svg fill="#6e6e6e" width="15px" height="15px" version="1.1" id="Capa_1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                    </g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <g>
-                                            <path
-                                                d="M54.715,24.957c-0.544,0.357-1.162,0.598-1.806,0.696l-28.871,4.403c-2.228,0.341-3.956,2.257-3.956,4.511v79.825 c0,1.204,33.353,20.624,43.171,30.142c12.427,12.053,21.31,34.681,33.983,54.373c4.405,6.845,10.201,9.759,15.584,9.759 c10.103,0,18.831-10.273,14.493-24.104c-4.018-12.804-8.195-24.237-13.934-34.529c-4.672-8.376,1.399-18.7,10.989-18.7h48.991 c18.852,0,18.321-26.312,8.552-34.01c-1.676-1.32-2.182-3.682-1.175-5.563c3.519-6.572,2.86-20.571-6.054-25.363 c-2.15-1.156-3.165-3.74-2.108-5.941c3.784-7.878,3.233-24.126-8.71-27.307c-2.242-0.598-3.699-2.703-3.405-5.006 c0.909-7.13-0.509-20.86-22.856-26.447C133.112,0.573,128.281,0,123.136,0C104.047,0.001,80.683,7.903,54.715,24.957z">
-                                            </path>
-                                        </g>
-                                    </g>
-                                </svg>
-                            </div>
-                            {{ $ratingsCount ?? 0 }}
-                        </span>
-                    @elseif (isset(
-                            \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
-                            \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
-                            \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
-                            \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'stars')
-                        <span class="content_screen themePrimaryTxtColr">
-                            <div class="star active" style="display: inline-flex;">
-                                <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32"
-                                    version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <title>star</title>
-                                        <path
-                                            d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                                        </path>
-                                    </g>
-                                </svg>
-                            </div>
-                            {{ $ratingsCount ?? 0 }}
-                        </span>
-                    @elseif (isset(
-                            \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
-                            \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
-                            \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
-                            \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'hearts')
-                        <span class="content_screen themePrimaryTxtColr">
-                            <div class="star active" style="display: inline-flex;">
-                                <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32"
-                                    version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <title>heart</title>
-                                        <path
-                                            d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                        </path>
-                                    </g>
-                                </svg>
-                            </div>
-                            {{ $ratingsCount ?? 0 }}
-                        </span>
-                    @else
-                        {{-- Thumbs  --}}
-                        <span class="content_screen themePrimaryTxtColr">
-                            <div class="star active" style="display: inline-flex; rotate: 180deg">
-                                <svg fill="#6e6e6e" width="15px" height="15px" version="1.1" id="Capa_1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                    </g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <g>
-                                            <path
-                                                d="M54.715,24.957c-0.544,0.357-1.162,0.598-1.806,0.696l-28.871,4.403c-2.228,0.341-3.956,2.257-3.956,4.511v79.825 c0,1.204,33.353,20.624,43.171,30.142c12.427,12.053,21.31,34.681,33.983,54.373c4.405,6.845,10.201,9.759,15.584,9.759 c10.103,0,18.831-10.273,14.493-24.104c-4.018-12.804-8.195-24.237-13.934-34.529c-4.672-8.376,1.399-18.7,10.989-18.7h48.991 c18.852,0,18.321-26.312,8.552-34.01c-1.676-1.32-2.182-3.682-1.175-5.563c3.519-6.572,2.86-20.571-6.054-25.363 c-2.15-1.156-3.165-3.74-2.108-5.941c3.784-7.878,3.233-24.126-8.71-27.307c-2.242-0.598-3.699-2.703-3.405-5.006 c0.909-7.13-0.509-20.86-22.856-26.447C133.112,0.573,128.281,0,123.136,0C104.047,0.001,80.683,7.903,54.715,24.957z">
-                                            </path>
-                                        </g>
-                                    </g>
-                                </svg>
-                            </div>
-                            {{ $ratingsCount ?? 0 }}
-                        </span>
-                    @endif
+                        @if ($ratingsCount > 0)
+                            @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
+                                    $stream_details['rating_type'] === 'stars' &&
+                                    $stream_details['video_rating'] === 'E')
+                                <span class="content_screen themePrimaryTxtColr">
+                                    <div class="star active" style="display: inline-flex;">
+                                        <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32" version="1.1"
+                                            xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title>star</title>
+                                                <path
+                                                    d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                                                </path>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    {{ $ratingsCount ?? 0 }}
+                                </span>
+                            @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
+                                    $stream_details['rating_type'] === 'hearts' &&
+                                    $stream_details['video_rating'] === 'E')
+                                <span class="content_screen themePrimaryTxtColr">
+                                    <div class="star active" style="display: inline-flex;">
+                                        <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32" version="1.1"
+                                            xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title>heart</title>
+                                                <path
+                                                    d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
+                                                </path>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    {{ $ratingsCount ?? 0 }}
+                                </span>
+                            @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
+                                    $stream_details['rating_type'] === 'thumbs' &&
+                                    $stream_details['video_rating'] === 'E')
+                                <span class="content_screen themePrimaryTxtColr">
+                                    <div class="star active" style="display: inline-flex; rotate: 180deg">
+                                        <svg fill="#6e6e6e" width="15px" height="15px" version="1.1" id="Capa_1"
+                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <g>
+                                                    <path
+                                                        d="M54.715,24.957c-0.544,0.357-1.162,0.598-1.806,0.696l-28.871,4.403c-2.228,0.341-3.956,2.257-3.956,4.511v79.825 c0,1.204,33.353,20.624,43.171,30.142c12.427,12.053,21.31,34.681,33.983,54.373c4.405,6.845,10.201,9.759,15.584,9.759 c10.103,0,18.831-10.273,14.493-24.104c-4.018-12.804-8.195-24.237-13.934-34.529c-4.672-8.376,1.399-18.7,10.989-18.7h48.991 c18.852,0,18.321-26.312,8.552-34.01c-1.676-1.32-2.182-3.682-1.175-5.563c3.519-6.572,2.86-20.571-6.054-25.363 c-2.15-1.156-3.165-3.74-2.108-5.941c3.784-7.878,3.233-24.126-8.71-27.307c-2.242-0.598-3.699-2.703-3.405-5.006 c0.909-7.13-0.509-20.86-22.856-26.447C133.112,0.573,128.281,0,123.136,0C104.047,0.001,80.683,7.903,54.715,24.957z">
+                                                    </path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    {{ $ratingsCount ?? 0 }}
+                                </span>
+                            @elseif (isset(
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'stars')
+                                <span class="content_screen themePrimaryTxtColr">
+                                    <div class="star active" style="display: inline-flex;">
+                                        <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32"
+                                            version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title>star</title>
+                                                <path
+                                                    d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                                                </path>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    {{ $ratingsCount ?? 0 }}
+                                </span>
+                            @elseif (isset(
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'hearts')
+                                <span class="content_screen themePrimaryTxtColr">
+                                    <div class="star active" style="display: inline-flex;">
+                                        <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32"
+                                            version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title>heart</title>
+                                                <path
+                                                    d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
+                                                </path>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    {{ $ratingsCount ?? 0 }}
+                                </span>
+                            @else
+                                {{-- Thumbs  --}}
+                                <span class="content_screen themePrimaryTxtColr">
+                                    <div class="star active" style="display: inline-flex; rotate: 180deg">
+                                        <svg fill="#6e6e6e" width="15px" height="15px" version="1.1" id="Capa_1"
+                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <g>
+                                                    <path
+                                                        d="M54.715,24.957c-0.544,0.357-1.162,0.598-1.806,0.696l-28.871,4.403c-2.228,0.341-3.956,2.257-3.956,4.511v79.825 c0,1.204,33.353,20.624,43.171,30.142c12.427,12.053,21.31,34.681,33.983,54.373c4.405,6.845,10.201,9.759,15.584,9.759 c10.103,0,18.831-10.273,14.493-24.104c-4.018-12.804-8.195-24.237-13.934-34.529c-4.672-8.376,1.399-18.7,10.989-18.7h48.991 c18.852,0,18.321-26.312,8.552-34.01c-1.676-1.32-2.182-3.682-1.175-5.563c3.519-6.572,2.86-20.571-6.054-25.363 c-2.15-1.156-3.165-3.74-2.108-5.941c3.784-7.878,3.233-24.126-8.71-27.307c-2.242-0.598-3.699-2.703-3.405-5.006 c0.909-7.13-0.509-20.86-22.856-26.447C133.112,0.573,128.281,0,123.136,0C104.047,0.001,80.683,7.903,54.715,24.957z">
+                                                    </path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    {{ $ratingsCount ?? 0 }}
+                                </span>
+                            @endif
+                        @endif
                     </div>
 
                     <div class="about-movie aboutmovie_gaps">{{ $stream_details['stream_description'] }}</div>
@@ -681,7 +657,7 @@
                 </div>
                 <div class="modal-body">
                     <ul class="share_list d-flex justify-content-between">
-                        @if (isset($stream_details['is_embed']) || $is_embed)
+                        @if ((isset($stream_details['is_embed']) && $stream_details['is_embed'] == 1) || $is_embed == 1)
                             <li data-bs-toggle="modal" data-bs-target="#exampleModalCenter2">
                                 <a data-toggle="tooltip" data-placement="top" title="embed" href="javascript:void(0)">
                                     <i class="fa-solid fa-code fa-xs"></i>
@@ -1095,7 +1071,7 @@
                         }
                     },
                     error: function(xhr) {
-                        console.error('Error checking subscription status:', xhr.responseText);
+                        // console.error('Error checking subscription status:', xhr.responseText);
                     }
                 });
             }
@@ -1104,6 +1080,86 @@
             if (mobileStreamCode) {
                 updateBellIcon(mobileStreamCode, 'mobile-remind-icon', 'mobile-remind-text');
             }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            function detectMob() {
+                const toMatch = [
+                    /Android/i,
+                    /webOS/i,
+                    /iPhone/i,
+                    /iPad/i,
+                    /iPod/i,
+                    /BlackBerry/i,
+                    /Windows Phone/i
+                ];
+                return toMatch.some((toMatchItem) => navigator.userAgent.match(toMatchItem));
+            }
+
+            var pListPostion = detectMob() ? 'hb' : 'vrb';
+
+            var settings = {
+                skin: 'sirius', // Choose an appropriate skin
+                playlistPosition: pListPostion,
+                sourcePath: "",
+                useMobileChapterMenu: true,
+                vimeoPlayerType: "chromeless",
+                youtubePlayerType: "chromeless",
+                activeItem: 0,
+                activePlaylist: ".playlist-video",
+                playlistList: "#mvp-playlist-list",
+                instanceName: "player1",
+                hidePlaylistOnMinimize: true,
+                volume: 0.75,
+                createAdMarkers: false,
+                autoPlay: true, // Ensure autoplay
+                loopingOn: true, // Enable looping
+                mediaEndAction:'loop',
+                crossorigin: "link",
+                playlistOpened: false,
+                randomPlay: false,
+                useEmbed: false,
+                useTime: false,
+                usePip: false,
+                useCc: false,
+                useAirPlay: false,
+                usePlaybackRate: false,
+                useNext: false,
+                usePrevious: false,
+                useRewind: false,
+                useSkipBackward: false,
+                useSkipForward: false,
+                showPrevNextVideoThumb: false,
+                rememberPlaybackPosition: false,
+                useQuality: false,
+                useTheaterMode: false,
+                useSubtitle: false,
+                useTranscript: false,
+                useChapterToggle: false,
+                useCasting: false,
+                useAdSeekbar: false,
+                disableSeekbar: false,
+            };
+
+            // Initialize player
+            if (!window.player) {
+                window.player = new mvp(document.getElementById('wrapper'), settings);
+            }
+
+            // Trailer button logic
+            window.addEventListener('load', () => {
+                var trailerButton = document.getElementById('trailer-id');
+                if (trailerButton) {
+                    trailerButton.addEventListener('click', function() {
+                        console.log("Player load started.");
+                        console.log(player);
+                        player.seek(0); // Reset video to start
+                        player.playMedia();
+                    });
+                }
+            });
+
         });
     </script>
 @endpush

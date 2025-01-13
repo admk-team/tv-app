@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppCofig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Services\Api;
@@ -13,10 +14,10 @@ class MonetizationController extends Controller
     {
         $planData = null;
         $recipientEmail = $request->query('recipient_email');
-        
+
         if (strtolower($request->method()) === 'post') {
             session()->forget('coupon_applied'); // Remove old
-            
+
             // Store the monetization data in the session
             $monetizationData = $request->only([
                 'AMOUNT',
@@ -28,6 +29,7 @@ class MonetizationController extends Controller
                 'PAYPAL_PLAN_NAME',
                 'PAYPAL_PLAN_DURATION',
                 'PAYPAL_PLAN_PRICE',
+                'PAYPAL_PLAN_TRAIL',
                 'MONETIZATION_TYPE',
                 'PLAN_TYPE',
                 'PLAN_PERIOD',
@@ -38,17 +40,17 @@ class MonetizationController extends Controller
                 'stripe_product_price',
                 'stripe_product_interval',
             ]);
-    
+
             // Include recipient email if present
             if ($recipientEmail) {
                 $monetizationData['RECIPIENT_EMAIL'] = $recipientEmail;
             }
-    
+
             session()->put('MONETIZATION', $monetizationData);
             $planData = $monetizationData;
         } else {
             $planData = session('MONETIZATION');
-            
+
             // Optionally add recipient email to the planData if needed
             if ($recipientEmail) {
                 $planData['RECIPIENT_EMAIL'] = $recipientEmail;
@@ -56,6 +58,19 @@ class MonetizationController extends Controller
             }
         }
         return view('monetization.index', compact('planData'));
+    }
+
+    public function tipjar(Request $request)
+    {
+        $planData = [
+            'PAYMENT_INFORMATION' => 'Tip The Creator',
+            'MONETIZATION_GUID',
+            'MONETIZATION_TYPE',
+            'POSTER' => 'https://onlinechannel.s3.us-central-1.wasabisys.com/wasabi/images/stream/poster/TheMatrix20241212233042.png',
+            // Include the Stripe fields,
+        ];
+
+        return view('monetization.tipjar', compact('planData'));
     }
 
     public function success(Request $request)

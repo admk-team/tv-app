@@ -283,7 +283,7 @@
             <div class="row">
                 <div class="card px-0">
                     <div class="card-header">
-                        @if (isset($planData['SUBS_TYPE']) && $planData['SUBS_TYPE'] != 'S')
+                        @if ($planData['POSTER'])
                             <img src="{{ $planData['POSTER'] }}" class="img-thumbnail"
                                 alt="{{ $planData['PAYMENT_INFORMATION'] }}">
                         @else
@@ -297,14 +297,6 @@
                             <pre id="token_response"></pre>
                         </div>
                         <div class="card-title">{{ $planData['PAYMENT_INFORMATION'] }}</div>
-                        <div class="card-text ">
-                            <p><b>Plan Type: </b> {{ $ARR_MONE_MSG[$planData['SUBS_TYPE']] }}</p>
-                            <p><b>Plan Validity: </b> {{ $planData['PLAN'] }}</p>
-                            @if (isset($planData['RECIPIENT_EMAIL']))
-                                <p><b>Gift Email: </b> {{ $planData['RECIPIENT_EMAIL'] }}</p>
-                            @endif
-
-                        </div>
                         <div class="card-plan">
                             <div class="card-plan-img"><img src="{{ asset('assets/images/icons/buy.png') }}" alt="">
                             </div>
@@ -312,115 +304,22 @@
                             <div class="card-plan-text">
                                 <div class="card-plan-title">Amount</div>
                                 <div class="card-plan-price">
-                                    @if (($planData['PLAN_TYPE'] ?? false) == 'T')
-                                        Free
-                                    @else
-                                        ${{ $planData['AMOUNT'] }}
-                                    @endif
+
                                 </div>
                             </div>
                             <div class="card-plan-link"><a href="{{ session('REDIRECT_TO_SCREEN') }}">Change</a></div>
                         </div>
 
-                        {{-- Apply Coupon --}}
-                        @if (!session('coupon_applied'))
-                            <div class="mt-4">
-                                <form action="{{ url('/apply-coupon') }}" method="POST">
-                                    @csrf
-                                    <div class="input-group">
-                                        <input type="text" class="form-control text-black" name="coupon_code"
-                                            placeholder="Enter Coupon Code" required>
-                                        <button type="submit" class="btn btn-secondary" type="button"
-                                            id="button-addon2">Apply</button>
-                                    </div>
-                                </form>
-                            </div>
-                        @endif
-
-                        @if (session()->has('coupon_applied_success'))
-                            <div class="mt-4 text-success text-center">
-                                <strong>{{ session()->get('coupon_applied_success') }}</strong>
-                            </div>
-                        @endif
-
-                        @if (session()->has('coupon_applied_error') || true)
-                            <div class="mt-2 text-danger text-center">
-                                <strong>{{ session()->get('coupon_applied_error') }}</strong>
-                            </div>
-                        @endif
-
                         <div class="card-payment-button">
                             <form
                                 action="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->PAYPAL_SANDBOX == 'true' ? env('PAYPAL_SANDBOX_URL') : env('PAYPAL_URL') }}"
                                 method="POST">
-                                <input type="hidden" name="business"
-                                    value="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->PAYPAL_ID }}">
-                                @if (isset($planData['PAYPAL_PLAN_ID']) && $planData['PAYPAL_PLAN_ID'])
-                                    <!-- Specify a Subscribe button. -->
-                                    <input type="hidden" name="cmd" value="_xclick-subscriptions" />
-
-                                    <!-- Identify the subscription -->
-                                    <input type="hidden" name="item_name" value="{{ $planData['PAYPAL_PLAN_NAME'] }}" />
-                                    <input type="hidden" name="item_number" value="{{ $planData['PAYPAL_PLAN_ID'] }}" />
-
-                                    @if (isset($planData['PAYPAL_PLAN_TRAIL']) &&
-                                            $planData['PAYPAL_PLAN_TRAIL'] &&
-                                            $planData['PAYPAL_PLAN_TRAIL'] !== '' &&
-                                            $planData['PAYPAL_PLAN_TRAIL'] > 0)
-                                        <!-- Trial period parameters -->
-                                        <input type="hidden" name="a1" value="0" /> <!-- Trial amount (free) -->
-                                        <input type="hidden" name="p1"
-                                            value="{{ $planData['PAYPAL_PLAN_TRAIL'] }}" />
-                                        <input type="hidden" name="t1" value="D" />
-                                        <!-- Trial period duration (7 days) -->
-                                    @endif
-
-                                    <!-- Regular subscription parameters -->
-                                    <input type="hidden" name="a3" value="{{ $planData['PAYPAL_PLAN_PRICE'] }}" />
-                                    <!-- Regular payment amount -->
-                                    <input type="hidden" name="p3" value="1" />
-                                    <!-- Number of billing cycles (1 for monthly) -->
-                                    <input type="hidden" name="t3" value="{{ $planData['PAYPAL_PLAN_DURATION'] }}" />
-                                    <!-- Recurring period (monthly) -->
-                                @else
-                                    <input type="hidden" name="cmd" value="_xclick">
-                                    <input type="hidden" name="item_name" value="{{ $planData['PAYMENT_INFORMATION'] }}">
-                                    <input type="hidden" name="item_number" value="{{ $planData['MONETIZATION_GUID'] }}">
-
-                                    <input type="hidden" name="subs_type" value="{{ $planData['SUBS_TYPE'] }}">
-                                    <input type="hidden" name="monetization_type"
-                                        value="{{ $planData['MONETIZATION_TYPE'] }}">
-                                    <input type="hidden" name="amount" value="{{ $planData['AMOUNT'] }}">
-                                @endif
-                                @if (isset($planData['RECIPIENT_EMAIL']))
-                                    <input type="hidden" name="gift_recipient_email"
-                                        value="{{ $planData['RECIPIENT_EMAIL'] }}">
-                                @endif
-                                <input type="hidden" name="rm" value="2">
-                                <input type="hidden" name="currency_code"
-                                    value="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->payment_currency_code }}">
-                                <input type="hidden" name="return" value="{{ url('/monetization/success') }}">
-                                <input type="hidden" name="cancel_return" value="{{ url('/monetization/cancel') }}">
-                                @if (
-                                    ($planData['PLAN_TYPE'] ?? null) != 'T' &&
-                                        \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_paypal_payment_active == 'true' &&
-                                        $planData['AMOUNT'] > 0)
-                                    <button type="submit" class="btn paypal_btn"><i class="fa fa-paypal"
-                                            aria-hidden="true"></i>
-                                        Pay with Paypal</button>
-                                @endif
-                                @if (($planData['PLAN_TYPE'] ?? false) == 'T' || $planData['AMOUNT'] <= 0)
-                                    <a href="{{ route('free-subscription') }}"
-                                        class="mt-2 w-100 btn btn-lg btn-primary">Get
-                                        Free Access</a>
-                                @else
-                                    <button class="stripe-button mt-2" id="payButton">
+                                <button class="stripe-button mt-2" id="payButton">
                                         <div class="spinner hidden" id="spinner"></div>
                                         <span id="buttonText"><i class="fa fa-cc-stripe" aria-hidden="true"></i> Pay with
                                             Credit
                                             Card</span>
                                     </button>
-                                @endif
                             </form>
                         </div>
                         <div class="card-cancel-button">

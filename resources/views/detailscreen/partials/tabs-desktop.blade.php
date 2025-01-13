@@ -139,6 +139,7 @@
                 <div class="item-ratings">
                     <h1 class="section-title" style="display: flex; align-items: center; gap: 10px;">
                         Reviews:
+                        @if($ratingsCount > 0)
                         @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
                                 $stream_details['rating_type'] === 'stars' &&
                                 $stream_details['video_rating'] === 'E')
@@ -247,6 +248,7 @@
                         @endif
 
                         {{ $ratingsCount ?? 0 }}
+                        @endif
                     </h1>
                     @php
                         if (sizeof($stream_details['ratings'] ?? []) < 1) {
