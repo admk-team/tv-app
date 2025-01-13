@@ -62,12 +62,15 @@ class MonetizationController extends Controller
 
     public function tipjar(Request $request)
     {
+        session()->put(
+            'MONETIZATION.PAYMENT_INFORMATION',
+            'Tip The Creator',
+        );
+        session()->put('MONETIZATION.MONETIZATION_GUID', $request->streamcode);
         $planData = [
             'PAYMENT_INFORMATION' => 'Tip The Creator',
-            'MONETIZATION_GUID',
-            'MONETIZATION_TYPE',
-            'POSTER' => 'https://onlinechannel.s3.us-central-1.wasabisys.com/wasabi/images/stream/poster/TheMatrix20241212233042.png',
-            // Include the Stripe fields,
+            'MONETIZATION_GUID' => $request->streamcode,
+            'POSTER' => $request->streamposter,
         ];
 
         return view('monetization.tipjar', compact('planData'));

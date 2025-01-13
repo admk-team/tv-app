@@ -632,6 +632,22 @@
                                 @endif
                             @endif
                         @endif
+
+                        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+                            @if (isset($stream_details['tip_jar']) && $stream_details['tip_jar'] == 1)
+                                <div class="share_circle addWtchBtn">
+                                    <form action="{{ route('tipjar.view') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" value="{{ $stream_details['stream_guid'] }}" name="streamcode" />
+                                        <input type="hidden" value="{{ $stream_details['stream_poster'] }}" name="streamposter" />
+                                        <button type="submit" data-bs-toggle="tooltip"
+                                        title="Gamified Content">
+                                            <i class="fa fa-users theme-active-color"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+                        @endif
                     </div>
                 </div>
             </div>

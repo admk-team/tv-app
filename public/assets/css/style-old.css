@@ -2092,6 +2092,23 @@ section.sliders {
     color: var(--themeSecondaryTxtColor);
 }
 
+.share_circle button {
+    padding: 6px 0px;
+    border: 2px var(--themePrimaryTxtColor) solid;
+    width: 48px;
+    height: 48px;
+    color: var(--themePrimaryTxtColor);
+    font-size: 20px;
+    text-align: center;
+    display: inline-block;
+    border-radius: 50% 50%;
+}
+
+.share_circle button:hover {
+    background: var(--themePrimaryTxtColor);
+    color: var(--themeSecondaryTxtColor);
+}
+
 .modal-header {
     border-bottom: 1px var(--themePrimaryTxtColor) solid !Important;
     text-align: center;
@@ -4311,7 +4328,7 @@ textarea.form-control:focus {
     ul.ott_iconlist li img {
         max-width: 80px;
     }
-    
+
 }
 
 @media (max-width: 1200px) {
