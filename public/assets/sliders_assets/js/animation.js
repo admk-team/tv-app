@@ -37,7 +37,6 @@
 	/*---------------*/
 
 	function TSlider () {
-		console.log('fine!');
 		this._init();
 	}
 
@@ -90,7 +89,7 @@
 			var _navigationEl = document.createElement('div');
 			classie.addClass(_navigationEl, 'navigation');
 			this.Slider.appendChild(_navigationEl);
-			
+
 			/* Final main elements */
 			this.mainImages = this.Slider.querySelector('.mainImages');
 			this.backgroundImages = this.Slider.querySelector('.backgroundImages');
@@ -136,26 +135,26 @@
 			var _miImgEl = document.createElement('div');
 			var _biContImgEl = document.createElement('div');
 			var _biImgEl = document.createElement('div');
-		
+
 			classie.addClass(_miImgEl, 'mi__img');
 			classie.addClass(_biContImgEl, 'bi__imgCont');
 			classie.addClass(_biImgEl, 'bi__imgCont-img');
 			classie.addClass(_biImgEl, 'bi-' + obj.index);
-		
+
 			_miImgEl.style.background = 'url(' + obj.src + ') no-repeat center center';
 			_miImgEl.style.backgroundSize = 'cover';
 			_miImgEl.style.zIndex = (this.imagesCount - (obj.index + 1));
-		
+
 			_biImgEl.style.background = 'url(' + obj.src + ') no-repeat center center';
 			_biImgEl.style.backgroundSize = 'cover';
 			_biImgEl.style.filter = 'blur(10px)';
 			_biImgEl.style.width = '100%';
 			_biImgEl.style.height = '100%';
-		
+
 			_biContImgEl.appendChild(_biImgEl);
 			this.mainImages.appendChild(_miImgEl);
 			this.backgroundImages.appendChild(_biContImgEl);
-		
+
 			this.backgroundImages.style.display = "none";
 		},
 
@@ -164,10 +163,10 @@
 			var ul = this.navigation.querySelector('ul');
 			var _li = document.createElement('li');
 			var a, liInfo, mask;
-			
+
 			// Putting zero before number
 			var number = pad((obj.index+1), 2);
-			
+
 			// For each item...
 			classie.addClass(_li, 'navItem-' + obj.index);
 			_li.innerHTML = '<a href=""></a><div class="li__info"></div><div class="li__info-mask"><div class="mask__infoContainer"></div></div><div class="li__hoverLine"><div class="l"></div></div>';
@@ -180,9 +179,9 @@
 
 			// Setting links href attr
 			a.setAttribute('href', obj.url);
-			
+
 			// Inner texts
-			var info = '<h5>'+number+'</h5><h4>'+obj.alt+'</h4>'; 
+			var info = '<h5>'+number+'</h5><h4>'+obj.alt+'</h4>';
 			liInfo.innerHTML = info;
 			mask.innerHTML = info;
 
@@ -212,11 +211,11 @@
 					// Other images will have the default position
 					TweenMax.set(el, { scale: self.minScale, y: -window.innerHeight });
 				}
-			});	
+			});
 
 			// Blur images (background)
 			this.bgSld.forEach(function (el, i) {
-				
+
 				classie.addClass(el, 'bg-' + i);
 				TweenMax.set(el.querySelector('.bi__imgCont-img'), { scale: 1.35, y: 80 });
 				el.style.zIndex = 0;
@@ -243,7 +242,7 @@
 		_enterAnimation: function () {
 
 			var self = this;
-			var t = new TimelineMax({ 
+			var t = new TimelineMax({
 				paused: true,
 				onComplete: function () {
 					self._startSlider();
@@ -260,7 +259,7 @@
 
 		/* --------------- */
 		/*
-		
+
 			Lógica:
 			1) Primeiro slide aparece.
 			2) Apareceu? Começou contagem.
@@ -277,15 +276,13 @@
 			var currBgSlide = this.bgSld[this.current];
 			var currBgSldImage = currBgSlide.querySelector('.bi__imgCont-img');
 
-			console.log('Começa contagem do slide ' + this.current + '.');
-
 			animateCurrNavItem(currNavItem);
 			classie.addClass(currSlide, 'active-slide');
 
 			/*++++*/
 
 			function animateCurrNavItem (el) {
-				
+
 				classie.addClass(el, 'active');
 				el.querySelector('.li__info').style.opacity = 0.3;
 				el.querySelector('.li__info-mask').style.opacity = 1;
@@ -293,7 +290,6 @@
 				TweenMax.to(el.querySelector('.li__info-mask'), self.sldInterval/1000, {
 					width: '100%', ease: Linear.easeNone,
 					onComplete: function () {
-						console.log('Agora, aciona as transições.');
 						slidesTransitions();
 					}
 				});
@@ -303,7 +299,7 @@
 			function slidesTransitions () {
 
 				var nextIndex = self.current < self.imagesCount - 1 ? ++self.current : 0;
-				
+
 				classie.removeClass(currSlide, 'active-slide');
 				classie.removeClass(currNavItem, 'active');
 
@@ -319,10 +315,8 @@
 				});
 
 				// Move images
-				var tm = new TimelineMax({ 
+				var tm = new TimelineMax({
 					onComplete: function () {
-						
-						console.log('Transição de slides terminado.');
 						TweenMax.killTweensOf(currSlide, currBgSlide);
 
 						// Moving up the last image
@@ -335,7 +329,7 @@
 
 						// New z-index value for next background images
 						self.bgSld[nextIndex].style.zIndex = 2;
-						
+
 						if((nextIndex+1) >= self.imagesCount) { self.bgSld[0].style.zIndex = 1; }
 						else { self.bgSld[nextIndex+1].style.zIndex = 1; }
 						//console.log(self.bgSld[nextIndex+1], ' : ', nextIndex+1);
