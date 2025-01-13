@@ -641,8 +641,8 @@
                                         <input type="hidden" value="{{ $stream_details['stream_guid'] }}" name="streamcode" />
                                         <input type="hidden" value="{{ $stream_details['stream_poster'] }}" name="streamposter" />
                                         <button type="submit" data-bs-toggle="tooltip"
-                                        title="Gamified Content">
-                                            <i class="fa fa-users theme-active-color"></i>
+                                        title="Tip Jar">
+                                            <i class="fa-solid fa-hand-holding-dollar"></i>
                                         </button>
                                     </form>
                                 </div>
