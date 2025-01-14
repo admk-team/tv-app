@@ -101,11 +101,13 @@
                                     if ($stream->is_external_ad === 'N') {
                                         $url = route($screen, $stream->stream_promo_url);
                                     }
-                                    if ($stream->banner_ad_click_tracking_url ?? false) { // wrap url in click tracking url
-                                        if (strpos($stream->banner_ad_click_tracking_url, '?') !== false)
-                                            $url = $stream->banner_ad_click_tracking_url . "&url=" . urlencode($url);
-                                        else
-                                            $url = $stream->banner_ad_click_tracking_url . "?url=" . urlencode($url);
+                                    if ($stream->banner_ad_click_tracking_url ?? false) {
+                                        // wrap url in click tracking url
+                                        if (strpos($stream->banner_ad_click_tracking_url, '?') !== false) {
+                                            $url = $stream->banner_ad_click_tracking_url . '&url=' . urlencode($url);
+                                        } else {
+                                            $url = $stream->banner_ad_click_tracking_url . '?url=' . urlencode($url);
+                                        }
                                     }
                                 } elseif ($stream->stream_type === 'BC') {
                                     $url = route('content-bundle', $stream->stream_guid);
@@ -200,9 +202,10 @@
                                                     </div>
                                                     @if (isset(\App\Services\AppConfig::get()->app->toggle_trailer) &&
                                                             \App\Services\AppConfig::get()->app->toggle_trailer == 1 &&
-                                                           !empty($stream->stream_promo_url) &&
+                                                            !empty($stream->stream_promo_url) &&
                                                             !in_array($category->card_type, ['BA', 'LB']) &&
-                                                            $stream->stream_type !== 'A' &&  !empty($streamUrl))
+                                                            $stream->stream_type !== 'A' &&
+                                                            !empty($streamUrl))
                                                         <video id="my-video-{{ $stream->stream_guid }}" preload="none"
                                                             class="card-video-js vjs-tech" muted>
                                                             <source src="{{ $streamUrl }}" {!! $mType !!}>
@@ -221,6 +224,16 @@
                                                                 @if ($stream->stream_description)
                                                                     <div class="content_description">
                                                                         {{ $stream->stream_description }}
+                                                                    </div>
+                                                                @endif
+                                                                @if ($stream->stream_watched_dur_in_pct > 1)
+                                                                    <div class="progress"
+                                                                        style="background-color:#555455;height:5px; border-radius:2px;">
+                                                                        <div class="progress-bar bg-primary"
+                                                                            role="progressbar"
+                                                                            style="background-color:#07659E;height:5px;border-radius:2px;width: {{ $stream->stream_watched_dur_in_pct }}%"
+                                                                            aria-valuenow="{{ $stream->stream_watched_dur_in_pct }}"
+                                                                            aria-valuemin="0" aria-valuemax="100"></div>
                                                                     </div>
                                                                 @endif
                                                             </div>
@@ -294,9 +307,10 @@
                                                 </div>
                                                 @if (isset(\App\Services\AppConfig::get()->app->toggle_trailer) &&
                                                         \App\Services\AppConfig::get()->app->toggle_trailer == 1 &&
-                                                           !empty($stream->stream_promo_url) &&
-                                                            !in_array($category->card_type, ['BA', 'LB']) &&
-                                                            $stream->stream_type !== 'A' &&  !empty($streamUrl))
+                                                        !empty($stream->stream_promo_url) &&
+                                                        !in_array($category->card_type, ['BA', 'LB']) &&
+                                                        $stream->stream_type !== 'A' &&
+                                                        !empty($streamUrl))
                                                     <video id="my-video-{{ $stream->stream_guid }}" preload="none"
                                                         class="card-video-js vjs-tech" muted>
                                                         <source src="{{ $streamUrl }}" {!! $mType !!}>
@@ -315,6 +329,17 @@
                                                             @if ($stream->stream_description)
                                                                 <div class="content_description">
                                                                     {{ $stream->stream_description }}
+                                                                </div>
+                                                            @endif
+
+                                                            @if ($stream->stream_watched_dur_in_pct > 1)
+                                                                <div class="progress"
+                                                                    style="background-color:#555455;height:5px; border-radius:2px;">
+                                                                    <div class="progress-bar bg-primary"
+                                                                        role="progressbar"
+                                                                        style="background-color:#07659E;height:5px;border-radius:2px;width: {{ $stream->stream_watched_dur_in_pct }}%"
+                                                                        aria-valuenow="{{ $stream->stream_watched_dur_in_pct }}"
+                                                                        aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             @endif
                                                         </div>

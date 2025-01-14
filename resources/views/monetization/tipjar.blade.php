@@ -253,6 +253,14 @@
                 transform: rotate(360deg);
             }
         }
+
+        .buttons-group{
+            display: flex;
+        }
+
+        .preset-value-btn{
+            margin: 5px;
+        }
     </style>
 @endpush
 
@@ -297,29 +305,35 @@
                             <pre id="token_response"></pre>
                         </div>
                         <div class="card-title">{{ $planData['PAYMENT_INFORMATION'] }}</div>
-                        <div class="card-plan">
-                            <div class="card-plan-img"><img src="{{ asset('assets/images/icons/buy.png') }}" alt="">
-                            </div>
-
-                            <div class="card-plan-text">
-                                <div class="card-plan-title">Amount</div>
-                                <div class="card-plan-price">
-
-                                </div>
-                            </div>
-                            <div class="card-plan-link"><a href="{{ session('REDIRECT_TO_SCREEN') }}">Change</a></div>
-                        </div>
-
                         <div class="card-payment-button">
                             <form
                                 action="{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->PAYPAL_SANDBOX == 'true' ? env('PAYPAL_SANDBOX_URL') : env('PAYPAL_URL') }}"
                                 method="POST">
+                                 <!-- Preset value buttons -->
+                                <div class="buttons-group">
+                                    <button type="button" class="preset-value-btn" data-value="10">$10</button>
+                                    <button type="button" class="preset-value-btn" data-value="20">$20</button>
+                                </div>
+                                <div class="buttons-group">
+                                    <button type="button" class="preset-value-btn" data-value="50">$50</button>
+                                    <button type="button" class="preset-value-btn" data-value="100">$100</button>
+                                </div>
+                                <div class="buttons-group">
+                                    <button type="button" class="preset-value-btn" data-value="500">$500</button>
+                                </div>
+
+
+                                <input type="number" id="customAmount" class="form-control text-black mt-4 mb-4" name="customAmount" min="1" placeholder="Enter custom amount">
+
+
+                                <!-- Hidden input to hold the selected amount -->
+                                <input type="hidden" name="amount" id="amountInput" min="1" value="1"> <!-- Default value -->
                                 <button class="stripe-button mt-2" id="payButton">
-                                        <div class="spinner hidden" id="spinner"></div>
-                                        <span id="buttonText"><i class="fa fa-cc-stripe" aria-hidden="true"></i> Pay with
-                                            Credit
-                                            Card</span>
-                                    </button>
+                                    <div class="spinner hidden" id="spinner"></div>
+                                    <span id="buttonText"><i class="fa-brands fa-cc-stripe" aria-hidden="true"></i> Pay with
+                                        Credit
+                                        Card</span>
+                                </button>
                             </form>
                         </div>
                         <div class="card-cancel-button">
@@ -370,6 +384,7 @@
                 let stripeSecret =
                     '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key }}';
             @endif
+            const amountInput = document.getElementById("amountInput");
             return fetch("{{ url('/stripe/checkout') }}", {
                 method: "POST",
                 headers: {
@@ -377,6 +392,7 @@
                 },
                 body: JSON.stringify({
                     _token: '{{ csrf_token() }}',
+                    amount: amountInput.value,
                     createCheckoutSession: 1,
                     stripeSecret
                 }),
@@ -423,4 +439,32 @@
             }, 5000);
         }
     </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const presetButtons = document.querySelectorAll(".preset-value-btn");
+        const amountInput = document.getElementById("amountInput");
+        const customAmountInput = document.getElementById("customAmount");
+
+        // Handle preset value buttons
+        presetButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                const value = button.getAttribute("data-value");
+                    amountInput.value = value; // Update hidden input
+                    customAmountInput.value = ""; // Clear custom amount input
+            });
+        });
+
+        // Handle custom amount input
+        customAmountInput.addEventListener("input", () => {
+            const value = customAmountInput.value;
+            if(value <= 0)
+            {
+                amountInput.value = 1;
+            }else{
+                amountInput.value = value; // Update hidden input
+            }
+        });
+    });
+</script>
 @endpush

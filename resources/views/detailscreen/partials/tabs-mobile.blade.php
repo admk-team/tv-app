@@ -125,7 +125,21 @@ if (session('USER_DETAILS.USER_CODE')) {
             @endif
         @endif
     @endif
-
+    @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+    @if (isset($stream_details['tip_jar']) && $stream_details['tip_jar'] == 1)
+        <div class="share_circle addWtchBtn">
+            <form id="tipjarForm" action="{{ route('tipjar.view') }}" method="POST">
+                @csrf
+                <input type="hidden" value="{{ $stream_details['stream_guid'] }}" name="streamcode" />
+                <input type="hidden" value="{{ $stream_details['stream_poster'] }}" name="streamposter" />
+            </form>
+            <a href="javascript:void(0);" data-bs-toggle="tooltip" title="Tip Jar"
+               onclick="document.getElementById('tipjarForm').submit();">
+                <i class="fa-solid fa-hand-holding-dollar theme-active-color"></i>
+            </a>
+        </div>
+    @endif
+@endif
 </div>
 <div class="my-tabs">
     <div class="sec-device content-wrapper px-3 px-md-3">

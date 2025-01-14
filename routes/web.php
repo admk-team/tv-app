@@ -107,7 +107,7 @@ Route::middleware('auth.user')->group(function () {
     Route::post('apply-coupon', [MonetizationController::class, 'applyCoupon'])->name('apply-coupon');
     Route::match(['get', 'post'], 'monetization/success', [MonetizationController::class, 'success'])->name('monetization.success');
     Route::get('monetization/cancel', [MonetizationController::class, 'cancel'])->name('monetization.cancel');
-    Route::get('tipjar', [MonetizationController::class, 'tipjar'])->name('tipjar.view');
+    Route::post('tipjar', [MonetizationController::class, 'tipjar'])->name('tipjar.view');
     Route::post('stripe/checkout', [StripeController::class, 'checkout'])->name('stripe.checkout');
     Route::get('stripe/success', [StripeController::class, 'success'])->name('stripe.success');
     Route::get('password/edit', [PasswordUpdateController::class, 'index'])->name('password.edit');

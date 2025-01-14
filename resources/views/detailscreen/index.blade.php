@@ -52,21 +52,21 @@
         $mType = 'hls';
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-
+    
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-
+    
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
-
+    
     $stream_code = $stream_details['stream_guid'];
-
+    
     $postData = [
         'stream_code' => $stream_code,
     ];
     $ratingsCount = isset($stream_details['ratings']) && is_array($stream_details['ratings']) ? count($stream_details['ratings']) : 0;
-
+    
     $totalRating = 0;
-
+    
     if ($ratingsCount !== 0) {
         foreach ($stream_details['ratings'] as $review) {
             $totalRating += $review['rating'];
@@ -119,6 +119,7 @@
         .movie_detail_inner_box.without-logo {
             top: 30px !important;
         }
+
         @media (max-width: 600px) {
             .slick-slide {
                 width: 170px !important;
@@ -213,8 +214,9 @@
                                 alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
                         </div>  --}}
                         <div class="__logo">
-                              <img class="logo_img" src="{{ $stream_details['title_logo'] }}" alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
-                          </div>
+                            <img class="logo_img" src="{{ $stream_details['title_logo'] }}"
+                                alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
+                        </div>
                     @else
                         <h1 class="content-heading" title="{{ $stream_details['stream_title'] ?? '' }}">
                             {{ $stream_details['stream_title'] ?? '' }}
@@ -306,8 +308,8 @@
                                     $stream_details['video_rating'] === 'E')
                                 <span class="content_screen themePrimaryTxtColr">
                                     <div class="star active" style="display: inline-flex;">
-                                        <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32" version="1.1"
-                                            xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                        <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32"
+                                            version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
                                             </g>
@@ -632,6 +634,23 @@
                                 @endif
                             @endif
                         @endif
+
+                        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+                        @if (isset($stream_details['tip_jar']) && $stream_details['tip_jar'] == 1)
+                            <div class="share_circle addWtchBtn">
+                                <form id="tipjarForm" action="{{ route('tipjar.view') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" value="{{ $stream_details['stream_guid'] }}" name="streamcode" />
+                                    <input type="hidden" value="{{ $stream_details['stream_poster'] }}" name="streamposter" />
+                                </form>
+                                <a href="javascript:void(0);" data-bs-toggle="tooltip" title="Tip Jar"
+                                   onclick="document.getElementById('tipjarForm').submit();">
+                                    <i class="fa-solid fa-hand-holding-dollar theme-active-color"></i>
+                                </a>
+                            </div>
+                        @endif
+                    @endif
+                    
                     </div>
                 </div>
             </div>
@@ -1115,7 +1134,7 @@
                 createAdMarkers: false,
                 autoPlay: true, // Ensure autoplay
                 loopingOn: true, // Enable looping
-                mediaEndAction:'loop',
+                mediaEndAction: 'loop',
                 crossorigin: "link",
                 playlistOpened: false,
                 randomPlay: false,
