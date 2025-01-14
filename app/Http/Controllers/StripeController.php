@@ -211,6 +211,7 @@ class StripeController extends Controller
                             'subsType' => session('MONETIZATION')['SUBS_TYPE'],
                             'paymentInformation' => session('MONETIZATION')['PAYMENT_INFORMATION'],
                             'gift_recipient_email' => session('MONETIZATION')['RECIPIENT_EMAIL'] ?? null,
+                            'tip' => session('MONETIZATION')['TIP'] ?? null,
                         ];
                         $arrRes = GeneralHelper::sendCURLRequest(0, Api::endpoint('/sendpaymentdetails'), $arrFormData);
                         $status = 'success';

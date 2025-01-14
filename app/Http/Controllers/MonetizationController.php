@@ -66,6 +66,14 @@ class MonetizationController extends Controller
             'MONETIZATION.PAYMENT_INFORMATION',
             'Tip The Creator',
         );
+        session()->put(
+            'MONETIZATION.SUBS_TYPE',
+            'O',
+        );
+        session()->put(
+            'MONETIZATION.TIP',
+            1,
+        );
         session()->put('MONETIZATION.MONETIZATION_GUID', $request->streamcode);
         $planData = [
             'PAYMENT_INFORMATION' => 'Tip The Creator',
@@ -101,6 +109,7 @@ class MonetizationController extends Controller
                     'amount' => session('MONETIZATION')['AMOUNT'],
                     'monetizationGuid' => session('MONETIZATION')['MONETIZATION_GUID'],
                     'subsType' => session('MONETIZATION')['SUBS_TYPE'],
+                    'tip' => session('MONETIZATION')['TIP'] ?? null,
                     'paymentInformation' => $paymentInfo,
                 ]);
             $responseJson = $response->json();
