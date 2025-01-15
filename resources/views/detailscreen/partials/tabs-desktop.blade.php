@@ -251,7 +251,7 @@
                                 </div>
                             @endif
 
-                            {{-- {{ $ratingsCount ?? 0 }} --}}
+                            {{ $ratingsCount ?? 0 }}
                         @endif
                             <span class="average-rating">{{ $averageRating ?? '' }} </span>
                     </h1>
@@ -429,35 +429,36 @@
                                 {{ $message }}
                             @enderror
                         </span>
+                        <style>
+                            #submitButton {
+                                background-color: var(--themeActiveColor);
+                                border: 0;
+                                margin-top: 18px;
+                                color: #fff;
+                                padding: 9px 19px;
+                                border-radius: 2px;
+                            }
+                        </style>
+                        <div id="desktopMessageContainer" style="display: none;"></div>
                         <form id="reviewForm" action="{{ route('addrating') }}" method="POST">
                             @csrf
                             <textarea name="comment" cols="30" rows="10" placeholder="Let others know what you think..."></textarea>
                             <input type="hidden" name="rating" id="hiddenRating">
                             <input type="hidden" name="stream_code" value="{{ $stream_details['stream_guid'] }}">
                             <input type="hidden" name="type" value="stream">
-                            {{-- <input class="rounded" type="submit" id="submitButton" value="Submit"> --}}
-                            <style>
-                                #submitButton {
-                                    background-color: var(--themeActiveColor);
-                                    border: 0;
-                                    margin-top: 18px;
-                                    color: #fff;
-                                    padding: 9px 19px;
-                                    border-radius: 2px;
-                                }
-                                </style>
+
                             <button class="rounded" type="submit" id="submitButton">
                                 <span class="button-text">Submit</span>
-                                <span class="spinner-border spinner-border-sm" style="display: none;" role="status" aria-hidden="true"></span>
+                                <span class="spinner-border spinner-border-sm" style="display: none;" role="status"
+                                    aria-hidden="true"></span>
                             </button>
-
                         </form>
                         <hr>
                     @endif
 
                     <div
                         class="member-reviews {{ !session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'] || $userDidComment ? 'mt-4' : '' }}">
-                        @include('detailscreen.partials.review', ['reviews' =>$stream_details['ratings']])
+                        @include('detailscreen.partials.review', ['reviews' => $stream_details['ratings']])
                     </div>
                 </div>
 

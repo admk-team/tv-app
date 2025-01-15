@@ -706,7 +706,8 @@ if (session('USER_DETAILS.USER_CODE')) {
                                     </svg>
                                 </div>
                             @endif
-                            {{-- {{ $ratingsCount ?? 0 }} --}}
+
+                            {{ $ratingsCount ?? 0 }}
                         @endif
                         <span class="average-rating">{{ $averageRating ?? '' }} </span>
                     </h1>
