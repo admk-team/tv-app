@@ -1023,67 +1023,14 @@
                 url: form.attr('action'),
                 type: 'POST',
                 data: formData,
-                beforeSend: function() {
-                    // Clear any existing messages
-                    $('#desktopMessageContainer').html('').hide();
-                },
                 success: function(response) {
-                    $('#desktopMessageContainer').html('').fadeOut();
-                    $('#mobileMessageContainer').html('').fadeOut();
                     if (response.success) {
                         $('.member-reviews').html(response.newReviewHtml);
-
-                        if (response.totalReviews > 0) {
-                            $('.no-reviews-message').hide();
-                        } else {
-                            $('.no-reviews-message').show();
-                        }
-                    if (response.ratingsCount !== undefined) {
-                        $('.section-title .ratings-count').text(`(${response.ratingsCount})`);
-                        console.log(response);
-                    }
-                    console.log(response);
-
-                     // Update average rating
-                    if (response.averageRating !== undefined) {
-                        $('.section-title .average-rating').text(`${response.averageRating}`);
-                    }
                         form[0].reset();
-                        $('#desktopMessageContainer').html(
-                                `<div style="color: var(--themeActiveColor);">Review added.</div>`)
-                            .fadeIn();
-                        setTimeout(function() {
-                            $('#desktopMessageContainer').fadeOut();
-                        }, 3000);
-                        $('#mobileMessageContainer').html(
-                                `<div style="color: var(--themeActiveColor);">Review added.</div>`)
-                            .fadeIn();
-                        setTimeout(function() {
-                            $('#mobileMessageContainer').fadeOut();
-                        }, 3000);
-
                     }
                 },
                 error: function(xhr) {
-                    $('#desktopMessageContainer').html('').fadeOut();
-                    $('#mobileMessageContainer').html('').fadeOut();
-                    console.error(xhr.responseJSON.message);
-                    const errorMessage = xhr.responseJSON.message ||
-                        'An error occurred. Please try again later.';
-                    // Display the error message
-                    $('#desktopMessageContainer').html(
-                        `<div style="color: var(--themeActiveColor); display:block;">${errorMessage}</div>`
-                    ).fadeIn();
-                    setTimeout(function() {
-                        $('#desktopMessageContainer').fadeOut();
-                    }, 3000);
-                    $('#mobileMessageContainer').html(
-                        `<div style="color: var(--themeActiveColor); display:block;">${errorMessage}</div>`
-                    ).fadeIn();
-                    setTimeout(function() {
-                        $('#mobileMessageContainer').fadeOut();
-                    }, 3000);
-
+                    console.error(xhr);
                 },
                 complete: function() {
                     // Re-enable the button and hide spinner
