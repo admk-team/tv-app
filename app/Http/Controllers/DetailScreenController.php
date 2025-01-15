@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 
 class DetailScreenController extends Controller
 {
-    public function index($id)
+    private function fetchStreamDetails($id)
     {
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/getitemdetail/{$id}"));
@@ -17,14 +17,16 @@ class DetailScreenController extends Controller
         if ($data['stream_details'] === []) {
             abort(404);
         }
+
         $streamGuId = $data['stream_details']['stream_guid'];
         $imdb = $data['stream_details']['imdb'];
 
+        // Fetch Ratings
         $responseRatings = Http::withHeaders(Api::headers())
             ->get(Api::endpoint('/userrating/get/' . $streamGuId . '/stream'));
         $data['stream_details']['ratings'] = $responseRatings->json()['data'];
-        // dd($data['stream_details']['ratings']);
 
+        // Fetch IMDb details
         if ($imdb !== "") {
             $responseImdb = Http::timeout(300)
                 ->get("http://www.omdbapi.com/?i={$imdb}&apikey=da5b7118");
@@ -36,42 +38,60 @@ class DetailScreenController extends Controller
                 $data['stream_details']['writer'] = $imdbDetails['Writer'];
             }
         }
+
+        return $data;
+    }
+
+    public function index($id)
+    {
+        $data = $this->fetchStreamDetails($id);
         return view("detailscreen.index", $data);
     }
 
+
     public function addRating(Request $request)
     {
-        if(isset($request->rating_mobile)){
-            $request->validate([
-                'rating_mobile' => 'required',
-            ], [
-                'rating.required' => 'Please rate the stream'
-            ]);
-            $rating=$request->rating_mobile;
-        }else{
-            $request->validate([
-                'rating' => 'required',
-            ], [
-                'rating.required' => 'Please rate the stream'
-            ]);
-            $rating=$request->rating;
-        }
+        $ratingField = $request->has('rating_mobile') ? 'rating_mobile' : 'rating';
+
+        $request->validate([$ratingField => 'required',
+        ], [
+            $ratingField . '.required' => 'Please rate the stream',
+        ]);
+
+        $rating = $request->input($ratingField);
+
         $response = Http::withHeaders(Api::headers())
             ->asForm()
             ->timeout(300)
             ->post(Api::endpoint('/userrating/store'), [
                 'app_code' => env('APP_CODE'),
                 'user_id' => session('USER_DETAILS')['USER_ID'],
-                'rating' => $rating ?? 0,
+            'rating' => $rating,
                 'comment' => $request->comment ?? '',
-                'stream_code' => $request->type == 'stream' ? $request->stream_code : '',
-                'show_code' => $request->type == 'show' ? $request->stream_code : '',
+            'stream_code' => $request->type === 'stream' ? $request->stream_code : '',
+            'show_code' => $request->type === 'show' ? $request->stream_code : '',
             ]);
+
         $responseJson = $response->json();
 
-        if ($responseJson['success'] == false)
-            return back()->with('error', $responseJson['message']);
+        if (!$responseJson['success']) {
+            return response()->json([
+                'success' => false,
+                'message' => $responseJson['message'],
+            ]);
+        }
 
-        return back();
+        // Fetch updated ratings
+        $data = $this->fetchStreamDetails($request->stream_code);
+
+        // Render updated reviews HTML
+        $newReviewHtml = view('detailscreen.partials.review', ['reviews' => $data['stream_details']['ratings']])->render();
+
+        return response()->json([
+            'success' => true,
+            'newReviewHtml' => $newReviewHtml,
+        ]);
     }
+
+
 }

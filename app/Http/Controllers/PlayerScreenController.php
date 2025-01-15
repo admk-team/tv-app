@@ -11,43 +11,96 @@ class PlayerScreenController extends Controller
 {
     public function index($id)
     {
+        $data = $this->fetchStreamDetails($id);
+        return view("playerscreen.index", $data);
+    }
+
+    private function fetchStreamDetails($id)
+    {
         $xyz = base64_encode(request()->ip());
         if (env('NO_IP_ADDRESS') === true) { // For localhost
             $xyz = "MTU0LjE5Mi4xMzguMzY=";
         }
 
+        // Fetch stream details
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/getitemplayerdetail/{$id}?user_data={$xyz}"));
         $data = $response->json();
+
         if ($data['app']['stream_details'] === []) {
             if ($data['geoerror'] ?? null) {
                 return view("page.movienotexist");
             }
             abort(404);
         }
+
+        // Extract necessary details
         $limitWatchTime = $data['app']['app_info']['limit_watch_time'];
         $watchTimeDuration = $data['app']['app_info']['watch_time_duration'];
-
         $streamGuId = $data['app']['stream_details']['stream_guid'];
+
+        // Fetch ratings
         $responseRatings = Http::withHeaders(Api::headers())
             ->get(Api::endpoint('/userrating/get/' . $streamGuId . '/stream'));
-        $data['app']['stream_details']['ratings'] = $responseRatings->json()['data'];
+        $ratings = $responseRatings->json()['data'];
 
         $streamRatingStatus = $data['app']['stream_details']['video_rating'] ?? null;
         $streamRatingType = $data['app']['stream_details']['rating_type'] ?? null;
-        $streamRating= $data['app']['stream_details']['ratings'] ?? [];
 
-        return view("playerscreen.index", [
+        // Return data as an associative array
+        return [
             'arrRes' => $data,
             'streamGuid' => $id,
             'limitWatchTime' => $limitWatchTime,
             'watchTimeDuration' => $watchTimeDuration,
-            'streamratingstatus' =>  $streamRatingStatus,
-            'streamratingtype' =>  $streamRatingType,
-            'streamrating' => $streamRating,
-        ]);
+            'streamratingstatus' => $streamRatingStatus,
+            'streamratingtype' => $streamRatingType,
+            'streamrating' => $ratings,
+        ];
     }
 
+    public function addRating(Request $request)
+    {
+        $ratingField = $request->has('rating_mobile') ? 'rating_mobile' : 'rating';
+
+        $request->validate([
+            $ratingField => 'required',
+        ], [
+            $ratingField . '.required' => 'Please rate the stream',
+        ]);
+
+        $rating = $request->input($ratingField);
+
+        $response = Http::withHeaders(Api::headers())
+            ->asForm()
+            ->timeout(300)
+            ->post(Api::endpoint('/userrating/store'), [
+                'app_code' => env('APP_CODE'),
+                'user_id' => session('USER_DETAILS')['USER_ID'],
+                'rating' => $rating,
+                'comment' => $request->comment ?? '',
+                'stream_code' => $request->type === 'stream' ? $request->stream_code : '',
+                'show_code' => $request->type === 'show' ? $request->stream_code : '',
+            ]);
+
+        $responseJson = $response->json();
+
+        if (!$responseJson['success']) {
+            return response()->json([
+                'success' => false,
+                'message' => $responseJson['message'],
+            ]);
+        }
+
+        // Fetch updated ratings
+        $data = $this->fetchStreamDetails($request->stream_code);
+        $newReviewHtml = view('playerscreen.includes.review', ['reviews' => $data['streamrating']])->render();
+
+        return response()->json([
+            'success' => true,
+            'newReviewHtml' => $newReviewHtml,
+        ]);
+    }
     public function private($id)
     {
         $xyz = base64_encode(request()->ip());

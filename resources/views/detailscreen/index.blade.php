@@ -93,9 +93,7 @@
 
         {{--  .responsive_video>div {
             height: 126%;
-        }  --}}
-
-        .movies_listview dt {
+        }  --}} .movies_listview dt {
             width: 70px;
         }
 
@@ -119,6 +117,7 @@
         .movie_detail_inner_box.without-logo {
             top: 30px !important;
         }
+
         @media (max-width: 600px) {
             .slick-slide {
                 width: 170px !important;
@@ -213,8 +212,9 @@
                                 alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
                         </div>  --}}
                         <div class="__logo">
-                              <img class="logo_img" src="{{ $stream_details['title_logo'] }}" alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
-                          </div>
+                            <img class="logo_img" src="{{ $stream_details['title_logo'] }}"
+                                alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
+                        </div>
                     @else
                         <h1 class="content-heading" title="{{ $stream_details['stream_title'] ?? '' }}">
                             {{ $stream_details['stream_title'] ?? '' }}
@@ -306,8 +306,8 @@
                                     $stream_details['video_rating'] === 'E')
                                 <span class="content_screen themePrimaryTxtColr">
                                     <div class="star active" style="display: inline-flex;">
-                                        <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32" version="1.1"
-                                            xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                        <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32"
+                                            version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
                                             </g>
@@ -985,6 +985,43 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script>
+        $(document).on('submit', '#reviewForm', function(e) {
+            e.preventDefault(); // Prevent form submission
+
+            const form = $(this);
+            const formData = form.serialize();
+            const submitButton = form.find('button[type="submit"]');
+            const buttonText = submitButton.find('.button-text');
+            const spinner = submitButton.find('.spinner-border');
+
+            // Disable the button and show spinner
+            submitButton.prop('disabled', true);
+            // buttonText.hide();
+            spinner.show();
+
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        $('.member-reviews').html(response.newReviewHtml);
+                        form[0].reset();
+                    }
+                },
+                error: function(xhr) {
+                    console.error(xhr);
+                },
+                complete: function() {
+                    // Re-enable the button and hide spinner
+                    submitButton.prop('disabled', false);
+                    buttonText.show();
+                    spinner.hide();
+                }
+            });
+        });
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -1115,7 +1152,7 @@
                 createAdMarkers: false,
                 autoPlay: true, // Ensure autoplay
                 loopingOn: true, // Enable looping
-                mediaEndAction:'loop',
+                mediaEndAction: 'loop',
                 crossorigin: "link",
                 playlistOpened: false,
                 randomPlay: false,
