@@ -44,7 +44,12 @@
                                         <i class="bi bi-dot"></i>
                                     </span>
                                 @endif
-                                <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream->stream_duration) ?? '' }}</span>
+                                @if ($stream->stream_duration)
+                                    <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream->stream_duration) ?? '' }}</span>
+                                @endif
+                                @if (isset($stream->totalseason) && $stream->totalseason != null)
+                                    <span>{{ $stream->totalseason ?? '' }}</span>
+                                @endif
                                 <div class="badges">
                                     @if (isset($stream->content_qlt) && !empty($stream->content_qlt))
                                         <span class="badge">{{ $stream->content_qlt }}</span>
@@ -65,15 +70,15 @@
                                             @csrf
                                             <input type="hidden" name="stream_code" id="stream-code"
                                                 value="{{ $stream->stream_guid }}">
-                                                @if (isset($stream->reminder_set) && $stream->reminder_set == true) 
+                                            @if (isset($stream->reminder_set) && $stream->reminder_set == true)
                                                 <button class="app-primary-btn rounded p-2">
                                                     <i class="fas fa-check-circle"></i> Reminder set
                                                 </button>
-                                                @else
+                                            @else
                                                 <button class="app-primary-btn rounded p-2">
                                                     <i class="fas fa-bell"></i> Remind me
                                                 </button>
-                                                @endif
+                                            @endif
                                         </form>
                                     @else
                                         <a class="app-primary-btn rounded">
@@ -87,8 +92,13 @@
                                         <i class="bi bi-play-fill banner-play-icon"></i> Play
                                     </a>
                                 @endif
-                                <a class="app-secondary-btn rounded"
-                                    href="{{ route('detailscreen', $stream->stream_guid) }}">
+                                @php
+                                    $screen =
+                                        isset($stream->contentType) && $stream->contentType === 'series'
+                                            ? 'seriesDetailscreen'
+                                            : 'detailscreen';
+                                @endphp
+                                <a class="app-secondary-btn rounded" href="{{ route($screen, $stream->stream_guid) }}">
                                     <i class="bi bi-eye banner-view-icon"></i>
                                     Details
                                 </a>

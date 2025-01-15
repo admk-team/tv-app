@@ -40,7 +40,12 @@
                                         <i class="bi bi-dot"></i>
                                     </span>
                                 @endif
-                                <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream->stream_duration) ?? '' }}</span>
+                                @if ($stream->stream_duration)
+                                    <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream->stream_duration) ?? '' }}</span>
+                                @endif
+                                @if (isset($stream->totalseason) && $stream->totalseason != null)
+                                    <span>{{ $stream->totalseason ?? '' }}</span>
+                                @endif
                                 <div class="badges">
                                     @if (isset($stream->content_qlt) && !empty($stream->content_qlt))
                                         <span class="badge">{{ $stream->content_qlt }}</span>
@@ -81,9 +86,15 @@
                                         <i class="bi bi-play-fill banner-play-icon"></i> Play
                                     </a>
                                 @endif
-                                <a class="app-secondary-btn rounded"
-                                    href="{{ route('detailscreen', $stream->stream_guid) }}">
-                                    <i class="bi bi-eye banner-view-icon"></i> Details
+                                @php
+                                    $screen =
+                                        isset($stream->contentType) && $stream->contentType === 'series'
+                                            ? 'seriesDetailscreen'
+                                            : 'detailscreen';
+                                @endphp
+                                <a class="app-secondary-btn rounded" href="{{ route($screen, $stream->stream_guid) }}">
+                                    <i class="bi bi-eye banner-view-icon"></i>
+                                    Details
                                 </a>
                             </div>
                         </div>
