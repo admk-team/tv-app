@@ -125,6 +125,7 @@ Route::middleware('auth.user')->group(function () {
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');
 Route::get('detailscreen/{id}', [DetailScreenController::class, 'index'])->name('detailscreen');
+Route::get('seriesDetailscreen/{id}', [DetailScreenController::class, 'index'])->name('seriesDetailscreen');
 Route::get('page/{slug}', [PageController::class, 'index'])->name('page');
 Route::post('contact-us', [PageController::class, 'submit'])->name('contactus.submit');
 Route::get('cancelsubscription/{subid}', [StripeController::class, 'cancelsub'])->name('cancel.subscription');

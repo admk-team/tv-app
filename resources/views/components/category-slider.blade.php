@@ -90,11 +90,12 @@
                                 if (
                                     (isset(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) &&
                                         \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen == 1) ||
-                                    $stream->bypass_detailscreen == 1
-                                ) {
+                                    $stream->bypass_detailscreen == 1 && $stream?->contentType != 'series') {
                                     $screen = 'playerscreen';
-                                } else {
+                                } elseif($stream?->contentType != 'series'){
                                     $screen = 'detailscreen';
+                                }else{
+                                    $screen = 'seriesDetailscreen'; 
                                 }
                                 if ($stream->stream_type === 'A') {
                                     $url = $stream->stream_promo_url;
