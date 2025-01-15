@@ -1004,14 +1004,51 @@
                 url: form.attr('action'),
                 type: 'POST',
                 data: formData,
+                beforeSend: function() {
+                    // Clear any existing messages
+                    $('#desktopMessageContainer').html('').hide();
+                },
                 success: function(response) {
+                    $('#desktopMessageContainer').html('').fadeOut();
+                    $('#mobileMessageContainer').html('').fadeOut();
                     if (response.success) {
                         $('.member-reviews').html(response.newReviewHtml);
                         form[0].reset();
+                        $('#desktopMessageContainer').html(
+                                `<div style="color: var(--themeActiveColor);">Review added.</div>`)
+                            .fadeIn();
+                        setTimeout(function() {
+                            $('#desktopMessageContainer').fadeOut();
+                        }, 3000);
+                        $('#mobileMessageContainer').html(
+                                `<div style="color: var(--themeActiveColor);">Review added.</div>`)
+                            .fadeIn();
+                        setTimeout(function() {
+                            $('#mobileMessageContainer').fadeOut();
+                        }, 3000);
+
                     }
                 },
                 error: function(xhr) {
-                    console.error(xhr);
+                    $('#desktopMessageContainer').html('').fadeOut();
+                    $('#mobileMessageContainer').html('').fadeOut();
+                    console.error(xhr.responseJSON.message);
+                    const errorMessage = xhr.responseJSON.message ||
+                        'An error occurred. Please try again later.';
+                    // Display the error message
+                    $('#desktopMessageContainer').html(
+                        `<div style="color: var(--themeActiveColor); display:block;">${errorMessage}</div>`
+                    ).fadeIn();
+                    setTimeout(function() {
+                        $('#desktopMessageContainer').fadeOut();
+                    }, 3000);
+                    $('#mobileMessageContainer').html(
+                        `<div style="color: var(--themeActiveColor); display:block;">${errorMessage}</div>`
+                    ).fadeIn();
+                    setTimeout(function() {
+                        $('#mobileMessageContainer').fadeOut();
+                    }, 3000);
+
                 },
                 complete: function() {
                     // Re-enable the button and hide spinner
