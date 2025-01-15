@@ -1701,6 +1701,7 @@ if (!empty($arrCatData))
                                 {{ $message }}
                             @enderror
                         </span>
+                         <div id="messageContainer" style="display: none;"></div>
                         <form id="ratingForm" action="{{route('addrating.playerscreen')}}" method="POST">
                             @csrf
                             <textarea name="comment" cols="30" rows="10" placeholder="Let others know what you think..."></textarea>
@@ -2634,24 +2635,39 @@ if (!empty($arrCatData))
                 type: 'POST',
                 data: formData,
                 success: function(response) {
+                    $('#messageContainer').html('').fadeOut();
                     if (response.success) {
                         $('.member-reviews').html(response.newReviewHtml);
                         form[0].reset();
+                        $('#messageContainer').html(
+                                `<div style="color: var(--themeActiveColor);">Review added.</div>`)
+                            .fadeIn();
+                        setTimeout(function() {
+                            $('#messageContainer').fadeOut();
+                        }, 3000);
                     }
                 },
                 error: function(xhr) {
-                    console.error(xhr);
+                    const errorMessages = xhr.responseJSON.errors;
+                    const errorMessage = errorMessages.rating ? errorMessages.rating[0] :
+                        'An error occurred. Please try again later.';
+                    // Display the error message
+                    $('#messageContainer').html(
+                        `<div style="color: var(--themeActiveColor);">${errorMessage}</div>`
+                    ).fadeIn();
+                    setTimeout(function() {
+                        $('#messageContainer').fadeOut();
+                    }, 3000);
                 },
                 complete: function() {
                     // Re-enable the button and hide spinner
                     submitButton.prop('disabled', false);
-                    // buttonText.show();
+                    buttonText.show();
                     spinner.hide();
                 }
             });
         });
     </script>
-
 
 
 
