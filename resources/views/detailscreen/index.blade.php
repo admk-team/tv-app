@@ -1004,6 +1004,43 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script>
+        $(document).on('submit', '#reviewForm', function(e) {
+            e.preventDefault(); // Prevent form submission
+
+            const form = $(this);
+            const formData = form.serialize();
+            const submitButton = form.find('button[type="submit"]');
+            const buttonText = submitButton.find('.button-text');
+            const spinner = submitButton.find('.spinner-border');
+
+            // Disable the button and show spinner
+            submitButton.prop('disabled', true);
+            // buttonText.hide();
+            spinner.show();
+
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        $('.member-reviews').html(response.newReviewHtml);
+                        form[0].reset();
+                    }
+                },
+                error: function(xhr) {
+                    console.error(xhr);
+                },
+                complete: function() {
+                    // Re-enable the button and hide spinner
+                    submitButton.prop('disabled', false);
+                    buttonText.show();
+                    spinner.hide();
+                }
+            });
+        });
+    </script>
 
     <script>
         $(document).ready(function() {
