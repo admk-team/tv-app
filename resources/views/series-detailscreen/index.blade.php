@@ -1,0 +1,786 @@
+@extends('layouts.app')
+
+@section('meta-tags')
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:type" content='article' />
+    <meta property="og:url" content="{{ url('/detailscreen/' . $stream_details['stream_guid']) }}" />
+    <meta name="twitter:title" content="{{ @$stream_details['stream_title'] }}">
+    <meta name="twitter:description" content="{{ @$stream_details['stream_description'] }}">
+    <meta property="og:title" content="{{ @$stream_details['stream_title'] }}" />
+    <meta property="og:image" content="{{ @$stream_details['stream_poster'] }}" />
+    <meta property="og:description" content="{{ @$stream_details['stream_description'] }}" />
+    {{-- Custom Css --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/details-screen-styling.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/mvp.css') }}" />
+    <script src="{{ asset('assets/js/mvp/new.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/vast.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/share_manager.js') }}"></script>
+    <script src="{{ asset('assets/js/cache.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/ima.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/playlist_navigation.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/youtubeLoader.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/vimeoLoader.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+@endsection
+
+@section('content')
+    <?php
+    $isByPass = 'Y';
+    $streamType = $stream_details['stream_type'];
+    
+    $sharingURL = url('/') . '/seriesDetailscreen/' . $stream_details['stream_guid'];
+    
+    session()->put('REDIRECT_TO_SCREEN', $sharingURL);
+    
+    $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
+    $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
+    
+    $stream_code = $stream_details['stream_guid'];
+    
+    $postData = [
+        'stream_code' => $stream_code,
+    ];
+    $ratingsCount = isset($stream_details['ratings']) && is_array($stream_details['ratings']) ? count($stream_details['ratings']) : 0;
+    
+    $totalRating = 0;
+    
+    if ($ratingsCount !== 0) {
+        foreach ($stream_details['ratings'] as $review) {
+            $totalRating += $review['rating'];
+        }
+        $ratingsCount = $totalRating / $ratingsCount;
+        $ratingsCount = number_format($ratingsCount, 1); // Round to 1 decimal place
+    }
+    ?>
+    <style>
+        .mobile-dot-sep:before {
+            content: '\25CF';
+            font-size: 13px;
+            color: var(--themePrimaryTxtColor);
+            position: relative;
+        }
+
+        .responsive_video {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 0;
+            height: 100%;
+        }
+
+        .responsive_video>div {
+            height: 126%;
+        }
+
+        .movies_listview dt {
+            width: 70px;
+        }
+
+        dl {
+            margin-top: 0;
+            margin-bottom: 0rem !important;
+        }
+
+        dt {
+            margin-right: 15px;
+        }
+
+        .test-comma {
+            color: var(--themePrimaryTxtColor);
+        }
+
+        .movie_detail_inner_box.with-logo {
+            top: 0px !important;
+        }
+
+        .movie_detail_inner_box.without-logo {
+            top: 30px !important;
+        }
+
+        @media (max-width: 600px) {
+            .slick-slide {
+                width: 170px !important;
+            }
+
+            .thumbnail_img {
+                height: 100px !important;
+            }
+
+            .thumbnail_img:first-child {
+                margin-left: 1px !important;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .thumbnail_img {
+                height: 95px !important;
+            }
+        }
+
+        .videocentalize {
+            position: relative;
+        }
+
+        .videocentalize {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+            margin: 0px auto;
+        }
+
+        .mvp-player-controls-main {
+            display: none !important;
+        }
+
+        .mvp-big-play {
+            display: none !important;
+        }
+
+        .mvp-solo-seekbar-visible {
+            display: none !important;
+        }
+    </style>
+
+    <!--Start of banner section-->
+    <section class="banner detailBanner mt-2">
+        <div class="slide">
+            <div class="poster_image_box">
+                <div class="prs_webseri_video_sec_icon_wrapper " style="display:none;">
+                    <ul>
+                        <li><a class="test-popup-link button" rel="external" href="#" title="title"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor"
+                                    class="bi bi-play" viewBox="0 0 16 16">
+                                    <path
+                                        d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
+                                </svg> </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="responsive_video">
+                    <img src="{{ $stream_details['stream_poster'] }}" alt="{{ $stream_details['stream_title'] }}"
+                        onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'">
+                </div>
+            </div>
+            <div class="movie-detail-box desktop-data">
+                <div
+                    class="movie_detail_inner_box {{ isset($stream->title_logo, $stream->show_title_logo) && $stream->title_logo && $stream->show_title_logo === 1 ? 'with-logo' : 'without-logo' }}">
+                    @if (isset($stream_details['title_logo'], $stream_details['show_title_logo']) &&
+                            $stream_details['title_logo'] &&
+                            $stream_details['show_title_logo'] == 1)
+                        {{--  <div class="title_logo mb-1">
+                            <img class="img-fluid" src="{{ $stream_details['title_logo'] }}"
+                                alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
+                        </div>  --}}
+                        <div class="__logo">
+                            <img class="logo_img" src="{{ $stream_details['title_logo'] }}"
+                                alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
+                        </div>
+                    @else
+                        <h1 class="content-heading" title="{{ $stream_details['stream_title'] ?? '' }}">
+                            {{ $stream_details['stream_title'] ?? '' }}
+                        </h1>
+                    @endif
+                    <div class="content-timing">
+                        @if ($stream_details['released_year'])
+                            <a href="{{ route('year', $stream_details['released_year']) }}" class="text-decoration-none">
+                                <span class="year">{{ $stream_details['released_year'] }}</span>
+                            </a>
+                        @endif
+                        @if ($stream_details['totalseason'] != null)
+                            <span class="dot-sep"></span>
+                            <span>{{ $stream_details['totalseason'] ?? '' }}</span>
+                        @endif
+                        @if ($stream_details['genre'])
+                            <span class="dot-sep"></span>
+                            <span class="movie_type">
+                                @foreach ($stream_details['genre'] ?? [] as $item)
+                                    <a href="{{ route('category', $item['code']) }}?type=genre"
+                                        class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
+                                @endforeach
+                            </span>
+                        @endif
+                        @if ($stream_details['content_qlt'] != '')
+                            <span class="content_screen">
+                                @php
+                                    $content_qlt_arr = explode(',', $stream_details['content_qlt']);
+                                    $content_qlt_codes_arr = explode(',', $stream_details['content_qlt_codes']);
+                                @endphp
+                                @foreach ($content_qlt_arr as $i => $item)
+                                    <a
+                                        href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>
+                                    @if (!$loop->last)
+                                        ,
+                                    @endif
+                                @endforeach
+                            </span>
+                        @endif
+                        @if ($stream_details['content_rating'] != '')
+                            <span class="content_screen">
+                                @php
+                                    $content_rating_arr = explode(',', $stream_details['content_rating']);
+                                    $content_rating_codes_arr = explode(',', $stream_details['content_rating_codes']);
+                                @endphp
+                                @foreach ($content_rating_arr as $i => $item)
+                                    <a
+                                        href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>
+                                    @if (!$loop->last)
+                                        ,
+                                    @endif
+                                @endforeach
+                            </span>
+                        @endif
+                    </div>
+
+                    <div class="about-movie aboutmovie_gaps">{{ $stream_details['stream_description'] }}</div>
+                    <dl class="movies_listview">
+                        <dl>
+                            @if (isset($stream_details['cast']) || isset($stream_details['director']) || isset($stream_details['writer']))
+                                @if ($stream_details['cast'])
+                                    <div class="content-person">
+                                        <dt>Cast:</dt>
+                                        <dd>
+                                            {{ $stream_details['cast'] }}
+                                        </dd>
+                                    </div>
+                                @endif
+                                @if ($stream_details['director'])
+                                    <div class="content-person">
+                                        <dt>Director:</dt>
+                                        <dd>
+                                            {{ $stream_details['director'] }}
+                                        </dd>
+                                    </div>
+                                @endif
+                                @if ($stream_details['writer'])
+                                    <div class="content-person">
+                                        <dt>Writer:</dt>
+                                        <dd>
+                                            {{ $stream_details['writer'] }}
+                                        </dd>
+                                    </div>
+                                @endif
+                            @else
+                                @foreach ($stream_details['starring_data'] as $roleKey => $persons)
+                                    @if (!empty($persons))
+                                        <div class="content-person">
+                                            <dt>{{ $roleKey }}:</dt>
+                                            <dd>
+                                                @php
+                                                    if (!is_array($persons)) {
+                                                        $persons = explode(',', $persons);
+                                                    }
+                                                @endphp
+
+                                                @foreach ($persons as $i => $person)
+                                                    @if (is_array($person))
+                                                        <a class="person-link"
+                                                            href="{{ route('person', $person['id']) }}">
+                                                            {{ $person['title'] }}{{ !$loop->last ? ', ' : '' }}
+                                                        </a>
+                                                    @else
+                                                        <a class="person-link" href="{{ route('person', $person) }}">
+                                                            {{ $person }}{{ !$loop->last ? ', ' : '' }}
+                                                        </a>
+                                                    @endif
+                                                @endforeach
+                                            </dd>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endif
+                            @if (!empty($stream_details['advisories']))
+                                <div class="content-person">
+                                    <dt>Advisory: </dt>
+                                    <dd>
+                                        @foreach ($stream_details['advisories'] as $i => $val)
+                                            <a class="person-link" href="{{ route('advisory', $val['code']) }}">
+                                                {{ $val['title'] }}{{ $i < count($stream_details['advisories']) - 1 ? ',' : '' }}
+                                            </a>
+                                        @endforeach
+                                    </dd>
+                                </div>
+                            @endif
+
+                            @if (!empty($stream_details['languages']))
+                                <div class="content-person">
+                                    <dt>Language: </dt>
+                                    <dd>
+                                        @foreach ($stream_details['languages'] as $i => $val)
+                                            <a class="person-link" href="{{ route('language', $val['code']) }}">
+                                                {{ $val['title'] }}{{ $i < count($stream_details['languages']) - 1 ? ',' : '' }}
+                                            </a>
+                                        @endforeach
+                                    </dd>
+                                </div>
+                            @endif
+                            @if (!empty($stream_details['tags']))
+                                <div class="content-person">
+                                    <dt>Tags: </dt>
+                                    <dd>
+                                        @foreach ($stream_details['tags'] as $i => $val)
+                                            @if ($i < 15)
+                                                <!-- Only show the first 15 tags -->
+                                                <a class="person-link" href="{{ route('tag', $val['code']) }}">
+                                                    {{ $val['title'] }}{{ $i < 14 ? ',' : '' }}
+                                                </a>
+                                            @endif
+                                        @endforeach
+                                    </dd>
+                                </div>
+                            @endif
+                        </dl>
+                    </dl>
+                    <div class="button_groupbox d-flex align-items-center mb-4">
+
+                        <div class="btn_box movieDetailPlay">
+                            @if (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'available now')
+                                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                                    class="app-primary-btn rounded">
+                                    <i class="fa fa-play"></i>
+                                    Available Now
+                                </a>
+                            @elseif (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'coming soon')
+                                @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                                    <form id="remind-form-desktop" method="POST" action="{{ route('remind.me') }}">
+                                        @csrf
+                                        <input type="hidden" name="stream_code" id="stream-code"
+                                            value="{{ $stream_details['stream_guid'] }}">
+                                        <button class="app-primary-btn rounded" id="remind-button-desktop">
+                                            <i id="desktop-remind-icon" class="fas fa-bell"></i>
+                                            <span id="desktop-remind-text">Remind me</span>
+                                        </button>
+                                        <div id="response-message">{{ session('status') }}</div>
+                                    </form>
+                                @else
+                                    <a class="app-primary-btn rounded">
+                                        <i class="fa fa-play"></i>
+                                        Coming Soon
+                                    </a>
+                                @endif
+                            @else
+                                @if (session('USER_DETAILS') &&
+                                        session('USER_DETAILS')['USER_CODE'] &&
+                                        ($stream_details['monetization_type'] == 'P' ||
+                                            $stream_details['monetization_type'] == 'S' ||
+                                            $stream_details['monetization_type'] == 'O') &&
+                                        $stream_details['is_buyed'] == 'N')
+                                    <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                                        class="app-primary-btn rounded">
+                                        <i class="fa fa-dollar"></i>
+                                        Buy Now
+                                    </a>
+                                @else
+                                    <a href="{{ route('playerscreen', $stream_details['episode_code']) }}"
+                                        class="app-primary-btn rounded">
+                                        <i class="fa fa-play"></i>
+                                        Play Now
+                                    </a>
+                                @endif
+                            @endif
+
+                        </div>
+                        <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                            <a href="javascript:void(0);" role="button" data-bs-toggle="tooltip" title="Share">
+                                <i class="fa fa-share theme-active-color"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{--  <div class="desktop-tabs">
+        @include('detailscreen.partials.tabs-desktop')
+    </div>
+    <div class="mobile-tabs">
+        @include('detailscreen.partials.tabs-mobile')
+    </div>  --}}
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered sharing-madal" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Share</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="share_list d-flex justify-content-between">
+                        @if ((isset($stream_details['is_embed']) && $stream_details['is_embed'] == 1) || $is_embed == 1)
+                            <li data-bs-toggle="modal" data-bs-target="#exampleModalCenter2">
+                                <a data-toggle="tooltip" data-placement="top" title="embed" href="javascript:void(0)">
+                                    <i class="fa-solid fa-code fa-xs"></i>
+                                </a>
+                            </li>
+                        @endif
+                        <li>
+                            <a data-toggle="tooltip" data-placement="top" title="facebook"
+                                href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $sharingURL; ?>" target="_blank">
+                                <i class="fa-brands fa-facebook"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tooltip" data-placement="top" title="whatsapp"
+                                href="https://wa.me/?text=<?php echo $sharingURL; ?>" target="_blank">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tooltip" data-placement="top" title="twitter"
+                                href="https://twitter.com/intent/tweet?text=<?php echo $sharingURL; ?>" target="_blank">
+                                <i class="fa-brands fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tooltip" data-placement="top" title="telegram"
+                                href="https://t.me/share/url?url=<?php echo $sharingURL; ?>&text=<?php echo $stream_details['stream_title']; ?>"
+                                target="_blank">
+                                <i class="fa-brands fa-telegram"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tooltip" data-placement="top" title="linkedin"
+                                href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $sharingURL; ?>"
+                                target="_blank">
+                                <i class="fa-brands fa-linkedin"></i>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <form class="form-inline d-flex mt-3">
+                        <input type="text" class="share_formbox" id="sharingURL" value="<?php echo $sharingURL; ?>"
+                            readonly>
+                        <input type="button" class="submit_btn share_btnbox" value="Copy">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+@push('scripts')
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+        var themeActiveColor = "{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}";
+
+        function handleStarRating(element) {
+            let rating = element.dataset.rating;
+            let starsWrapper = document.getElementsByClassName("user-rating")[0];
+            let stars = starsWrapper.getElementsByClassName("star");
+            let ratingField = document.getElementsByName("rating")[0];
+
+            for (let i = 0; i < stars.length; i++) {
+                if (stars[i].classList.contains("active"))
+                    stars[i].classList.remove("active")
+            }
+
+            for (let i = 0; i < rating; i++) {
+                if (!stars[i].classList.contains("active"))
+                    stars[i].classList.add("active")
+            }
+
+            ratingField.value = parseInt(rating);
+        }
+
+        function handleHeartRating(element) {
+            var heart = element.getAttribute('data-rating');
+            var newRating = heart == 1 ? 0 : 1;
+
+            if (newRating == 1) {
+                element.setAttribute('data-rating', 1);
+                element.querySelector('svg').style.fill = themeActiveColor; // Change to hearted color
+            } else {
+                element.setAttribute('data-rating', 0);
+                element.querySelector('svg').style.fill = '#ffffff'; // Change to unhearted color
+            }
+            document.getElementById('hiddenRating').value = newRating;
+
+        }
+
+        function handleRating(element, type) {
+            var likeButton = document.querySelector('.like');
+            var dislikeButton = document.querySelector('.dislike');
+            var hiddenRating = document.getElementById('hiddenRating');
+            var isLike = type === 'like';
+
+            if (isLike) {
+                likeButton.querySelector('svg').style.fill = themeActiveColor; // Change to liked color
+                dislikeButton.querySelector('svg').style.fill = '#6e6e6e'; // Reset dislike button color
+                hiddenRating.value = 5; // Set hidden input value to 1 for like
+            } else {
+                dislikeButton.querySelector('svg').style.fill = themeActiveColor; // Change to disliked color
+                likeButton.querySelector('svg').style.fill = '#6e6e6e'; // Reset like button color
+                hiddenRating.value = 1; // Set hidden input value to 0 for dislike
+            }
+        }
+
+
+        function submitOnce() {
+            document.getElementById('submitButton').disabled = true;
+            return true;
+        }
+    </script>
+
+    <script>
+        var themeActiveColor = "{{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }}";
+
+        function handleStarRatingMobile(element) {
+            // Get the rating from the data attribute
+            let rating = element.dataset.ratingMobile;
+
+            // Get the wrapper containing all stars
+            let starsWrapper = document.getElementsByClassName("user-rating-mobile")[0];
+
+            // Get all star elements
+            let stars = starsWrapper.getElementsByClassName("star-mobile");
+
+            // Get the hidden input field to store the rating value
+            let ratingField = document.getElementsByName("rating_mobile")[0];
+
+            // Remove the 'active' class from all stars
+            for (let i = 0; i < stars.length; i++) {
+                stars[i].classList.remove("active");
+                // Reset the star fill color
+                stars[i].querySelector('svg').style.fill = "#ffffff"; // Reset to original color
+            }
+
+            // Add the 'active' class to the stars up to the selected rating
+            for (let i = 0; i < rating; i++) {
+                stars[i].classList.add("active");
+                // Change the star fill color to the active theme color
+                stars[i].querySelector('svg').style.fill = themeActiveColor;
+            }
+
+            // Set the hidden input field value to the selected rating
+            ratingField.value = parseInt(rating);
+        }
+
+        function handleHeartRatingMobile(element) {
+            var heart = element.getAttribute('data-rating-mobile');
+            var newRating = heart == 1 ? 0 : 1;
+
+            if (newRating == 1) {
+                element.setAttribute('data-rating-mobile', 1);
+                element.querySelector('svg').style.fill = themeActiveColor; // Change to hearted color
+            } else {
+                element.setAttribute('data-rating', 0);
+                element.querySelector('svg').style.fill = '#ffffff'; // Change to unhearted color
+            }
+            document.getElementById('hiddenRatingMobile').value = newRating;
+
+        }
+
+        function handleRatingMolbile(element, type) {
+            var likeButton = document.querySelector('.like-mobile');
+            var dislikeButton = document.querySelector('.dislike-mobile');
+            var hiddenRatingMobile = document.getElementById('hiddenRatingMobile');
+            var isLike = type === 'like';
+
+            if (isLike) {
+                likeButton.querySelector('svg').style.fill = themeActiveColor; // Change to liked color
+                dislikeButton.querySelector('svg').style.fill = '#6e6e6e'; // Reset dislike button color
+                hiddenRatingMobile.value = 5; // Set hidden input value to 1 for like
+            } else {
+                dislikeButton.querySelector('svg').style.fill = themeActiveColor; // Change to disliked color
+                likeButton.querySelector('svg').style.fill = '#6e6e6e'; // Reset like button color
+                hiddenRatingMobile.value = 1; // Set hidden input value to 0 for dislike
+            }
+        }
+
+
+        function submitOnceMobile() {
+            document.getElementById('submitButton').disabled = true;
+            return true;
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Function to initialize Slick slider only when needed
+            function initializeSlider() {
+                const sliderElement = $('.landscape_slider:not(.slick-initialized)');
+                if (sliderElement.length) {
+                    sliderElement.slick({
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        infinite: true,
+                        dots: true,
+                        arrows: true,
+                        responsive: [{
+                                breakpoint: 768,
+                                settings: {
+                                    slidesToShow: 3,
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 3,
+                                }
+                            }
+                        ]
+                    });
+                }
+            }
+
+            // Initialize slider for the first tab by default
+            initializeSlider();
+            const tabs = document.querySelectorAll('.sec-device .tab');
+            const contents = document.querySelectorAll('.tab-content .content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and hide all content
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.add('d-none'));
+
+                    // Add active class to the clicked tab and show the corresponding content
+                    this.classList.add('active');
+                    const activeContent = this.closest('.my-tabs').querySelector(
+                        `[data-tab-content=${this.getAttribute('data-tab')}]`);
+                    if (activeContent) {
+                        activeContent.classList.remove('d-none');
+
+                        // If the active content contains the slider, initialize or update it
+                        if (activeContent.querySelector('.landscape_slider')) {
+                            initializeSlider();
+                            $('.landscape_slider').slick('setPosition');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+
+    <script>
+        $(document).ready(function() {
+            // Fetch stream codes from the hidden inputs
+            const desktopStreamCode = $('#stream-code').val();
+            const mobileStreamCode = $('#mobile-stream-code').val();
+
+            // Function to toggle bell icon based on subscription status
+            function updateBellIcon(streamCode, iconId, textId) {
+                $.ajax({
+                    url: "{{ route('check.remind.me') }}",
+                    method: "GET",
+                    data: {
+                        stream_code: streamCode
+                    },
+                    success: function(response) {
+                        if (response.reminded) {
+                            $(`#${iconId}`).removeClass('fa-bell').addClass('fa-check-circle');
+                            $(`#${textId}`).text('Reminder set');
+                        } else {
+                            $(`#${iconId}`).removeClass('fa-check-circle').addClass('fa-bell');
+                            $(`#${textId}`).text('Remind me');
+                        }
+                    },
+                    error: function(xhr) {
+                        // console.error('Error checking subscription status:', xhr.responseText);
+                    }
+                });
+            }
+            // Initial icon status check
+            updateBellIcon(desktopStreamCode, 'desktop-remind-icon', 'desktop-remind-text');
+            if (mobileStreamCode) {
+                updateBellIcon(mobileStreamCode, 'mobile-remind-icon', 'mobile-remind-text');
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            function detectMob() {
+                const toMatch = [
+                    /Android/i,
+                    /webOS/i,
+                    /iPhone/i,
+                    /iPad/i,
+                    /iPod/i,
+                    /BlackBerry/i,
+                    /Windows Phone/i
+                ];
+                return toMatch.some((toMatchItem) => navigator.userAgent.match(toMatchItem));
+            }
+
+            var pListPostion = detectMob() ? 'hb' : 'vrb';
+
+            var settings = {
+                skin: 'sirius', // Choose an appropriate skin
+                playlistPosition: pListPostion,
+                sourcePath: "",
+                useMobileChapterMenu: true,
+                vimeoPlayerType: "chromeless",
+                youtubePlayerType: "chromeless",
+                activeItem: 0,
+                activePlaylist: ".playlist-video",
+                playlistList: "#mvp-playlist-list",
+                instanceName: "player1",
+                hidePlaylistOnMinimize: true,
+                volume: 0.75,
+                createAdMarkers: false,
+                autoPlay: true, // Ensure autoplay
+                loopingOn: true, // Enable looping
+                mediaEndAction: 'loop',
+                crossorigin: "link",
+                playlistOpened: false,
+                randomPlay: false,
+                useEmbed: false,
+                useTime: false,
+                usePip: false,
+                useCc: false,
+                useAirPlay: false,
+                usePlaybackRate: false,
+                useNext: false,
+                usePrevious: false,
+                useRewind: false,
+                useSkipBackward: false,
+                useSkipForward: false,
+                showPrevNextVideoThumb: false,
+                rememberPlaybackPosition: false,
+                useQuality: false,
+                useTheaterMode: false,
+                useSubtitle: false,
+                useTranscript: false,
+                useChapterToggle: false,
+                useCasting: false,
+                useAdSeekbar: false,
+                disableSeekbar: false,
+            };
+
+            // Initialize player
+            if (!window.player) {
+                window.player = new mvp(document.getElementById('wrapper'), settings);
+            }
+
+            // Trailer button logic
+            window.addEventListener('load', () => {
+                var trailerButton = document.getElementById('trailer-id');
+                if (trailerButton) {
+                    trailerButton.addEventListener('click', function() {
+                        console.log("Player load started.");
+                        console.log(player);
+                        player.seek(0); // Reset video to start
+                        player.playMedia();
+                    });
+                }
+            });
+
+        });
+    </script>
+@endpush
