@@ -89,13 +89,8 @@ class DetailScreenController extends Controller
             ]);
 
         $responseJson = $response->json();
-
-        if (!$responseJson['success']) {
-            return response()->json([
-                'success' => false,
-                'message' => $responseJson['message'],
-            ]);
-        }
+        if ($responseJson['success'] == false)
+            return back()->with('error', $responseJson['message']);
 
         // Fetch updated ratings
         //need to send total reviews also ???

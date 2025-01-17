@@ -6,18 +6,18 @@
 </style>
 <div class="button_groupbox ruby align-items-center mb-2 mt-2">
     <div class="movieDetailPlaymobile mb-3">
-        @if (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'available now')
-            <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="mobile-primary-btn rounded">
+        @if (isset($series_details['notify_label']) && $series_details['notify_label'] == 'available now')
+            <a href="{{ route('playerscreen', $series_details['stream_guid']) }}" class="mobile-primary-btn rounded">
                 <i class="fa fa-play"></i>
                 Available Now
             </a>
-        @elseif (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'coming soon')
+        @elseif (isset($series_details['notify_label']) && $series_details['notify_label'] == 'coming soon')
             @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                 <!-- Mobile View -->
                 <form id="remind-form-mobile" method="POST" action="{{ route('remind.me') }}">
                     @csrf
                     <input type="hidden" name="stream_code" id="mobile-stream-code"
-                        value="{{ $stream_details['stream_guid'] }}">
+                        value="{{ $series_details['stream_guid'] }}">
                     <button class="mobile-primary-btn rounded" id="remind-button-mobile">
                         <i id="mobile-remind-icon" class="fas fa-bell"></i>
                         <span id="mobile-remind-text">Remind me</span>
@@ -32,17 +32,17 @@
         @else
             @if (session('USER_DETAILS') &&
                     session('USER_DETAILS')['USER_CODE'] &&
-                    $stream_details['is_buyed'] == 'N' &&
-                    ($stream_details['monetization_type'] == 'P' ||
-                        $stream_details['monetization_type'] == 'S' ||
-                        $stream_details['monetization_type'] == 'O'))
-                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                    $series_details['is_buyed'] == 'N' &&
+                    ($series_details['monetization_type'] == 'P' ||
+                        $series_details['monetization_type'] == 'S' ||
+                        $series_details['monetization_type'] == 'O'))
+                <a href="{{ route('playerscreen', $series_details['stream_guid']) }}"
                     class="mobile-primary-btn rounded">
                     <i class="fa fa-dollar"></i>
                     Buy Now
                 </a>
             @else
-                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                <a href="{{ route('playerscreen', $series_details['stream_guid']) }}"
                     class="mobile-primary-btn rounded">
                     <i class="fa fa-play"></i>
                     Play Now
@@ -50,96 +50,10 @@
             @endif
         @endif
     </div>
-    @if ($streamUrl !== '')
-        <div class="movieDetailPlaymobile mb-3">
-            <a id="trailer-id" class="mobile-primary-btn rounded">
-                <i class="fa fa-play"></i> Trailer
-            </a>
-        </div>
-    @endif
-    <?php
-if (session('USER_DETAILS.USER_CODE')) {
-    $signStr = "+";
-    $cls = 'fa fa-plus';
-    if ($stream_details['stream_is_stream_added_in_wish_list'] == 'Y') {
-        $cls = 'fa fa-minus';
-        $signStr = "-";
-    }
-?>
-    <div class="share_circle addWtchBtn mb-3">
-        <a href="javascript:void(0);" onClick="javascript:manageFavItem();"><i id="btnicon-fav"
-                class="<?php echo $cls; ?> theme-active-color"></i></a>
-        <input type="hidden" id="myWishListSign" value='<?php echo $signStr; ?>' />
-        <input type="hidden" id="strQueryParm" value='<?php echo $strQueryParm; ?>' />
-        <input type="hidden" id="reqUrl" value='{{ route('wishlist.toggle') }}' />
-        @csrf
-    </div>
-    @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
-        @if (!empty($stream_details['is_watch_party']) && $stream_details['is_watch_party'] == 1)
-            <div class="share_circle addWtchBtn mb-3">
-                <a href="{{ route('create.watch.party', $stream_details['stream_guid']) }}" data-bs-toggle="tooltip"
-                    title="Create a Watch Party">
-                    <i class="fa fa-users theme-active-color"></i>
-                </a>
-            </div>
-        @endif
-    @endif
-    <?php
-}
-?>
+   
     <div class="share_circle addWtchBtn mb-3" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
         <a href="javascript:void(0)"><i class="fa fa-share theme-active-color"></i></a>
     </div>
-    @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
-        @if (
-            !empty($stream_details['is_gift']) &&
-                $stream_details['is_gift'] == 1 &&
-                ($stream_details['monetization_type'] == 'P' ||
-                    $stream_details['monetization_type'] == 'S' ||
-                    $stream_details['monetization_type'] == 'O'))
-            <div class="share_circle addWtchBtn mb-3" data-bs-toggle="modal" data-bs-target="#giftModal">
-                <a href="javascript:void(0);"><i class="fa-solid fa-gift theme-active-color"></i></a>
-            </div>
-        @endif
-    @endif
-    @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
-        @if (
-            !empty($stream_details['is_gift']) &&
-                $stream_details['is_gift'] == 1 &&
-                ($stream_details['monetization_type'] == 'P' ||
-                    $stream_details['monetization_type'] == 'S' ||
-                    $stream_details['monetization_type'] == 'O'))
-            <div class="share_circle addWtchBtn mb-3" data-bs-toggle="modal" data-bs-target="#giftModal">
-                <a href="javascript:void(0);"><i class="fa-solid fa-gift theme-active-color"></i></a>
-            </div>
-        @endif
-    @endif
-    @if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
-        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
-            @if (isset($stream_details['gamified_content']) && $stream_details['gamified_content'] == 1)
-                <div class="share_circle addWtchBtn mb-3">
-                    <a href="{{ route('user.badge') }}" data-bs-toggle="tooltip" title="Gamified Content">
-                        <i class="fa-solid fa-award theme-active-color"></i>
-                    </a>
-                </div>
-            @endif
-        @endif
-    @endif
-    @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
-    @if (isset($stream_details['tip_jar']) && $stream_details['tip_jar'] == 1)
-        <div class="share_circle addWtchBtn">
-            <form id="tipjarForm" action="{{ route('tipjar.view') }}" method="POST">
-                @csrf
-                <input type="hidden" value="{{ $stream_details['stream_guid'] }}" name="streamcode" />
-                <input type="hidden" value="{{ $stream_details['stream_poster'] }}" name="streamposter" />
-            </form>
-            <a href="javascript:void(0);" data-bs-toggle="tooltip" title="Tip Jar"
-               onclick="document.getElementById('tipjarForm').submit();">
-                <i class="fa-solid fa-hand-holding-dollar theme-active-color"></i>
-            </a>
-        </div>
-    @endif
-@endif
 </div>
 <div class="my-tabs">
     <div class="sec-device content-wrapper px-3 px-md-3">
@@ -159,7 +73,7 @@ if (session('USER_DETAILS.USER_CODE')) {
             ?>
             <!--End of season section-->
             @if (
-                (isset($stream_details['video_rating']) && $stream_details['video_rating'] === 'E') ||
+                (isset($series_details['video_rating']) && $series_details['video_rating'] === 'E') ||
                     (isset(\App\Services\AppConfig::get()->app->app_info->global_rating_enable) &&
                         \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1))
                 <div class="tab" data-tab="reviews"><span>Reviews</span></div>
@@ -170,51 +84,44 @@ if (session('USER_DETAILS.USER_CODE')) {
     <div class="tab-content">
         <div data-tab-content="overview" class="content">
             <div class="px-4">
-                @if (isset($stream_details['title_logo'], $stream_details['show_title_logo']) &&
-                        $stream_details['title_logo'] &&
-                        $stream_details['show_title_logo'] == 1)
+                @if (isset($series_details['title_logo'], $series_details['show_title_logo']) &&
+                        $series_details['title_logo'] &&
+                        $series_details['show_title_logo'] == 1)
                     <div class="title_logo mb-1">
-                        <img class="img-fluid" src="{{ $stream_details['title_logo'] }}"
-                            alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
+                        <img class="img-fluid" src="{{ $series_details['title_logo'] }}"
+                            alt="{{ $series_details['stream_title'] ?? 'Logo' }}">
                     </div>
                 @else
                     <h1 class="content-heading themePrimaryTxtColr"
-                        title="{{ $stream_details['stream_title'] ?? '' }}">
-                        {{ $stream_details['stream_title'] ?? '' }}
+                        title="{{ $series_details['stream_title'] ?? '' }}">
+                        {{ $series_details['stream_title'] ?? '' }}
                     </h1>
                 @endif
                 <div class="content-timing mb-2">
-                    @if ($stream_details['released_year'])
-                        <a href="{{ route('year', $stream_details['released_year']) }}" class="text-decoration-none">
-                            <span class="year themePrimaryTxtColr">{{ $stream_details['released_year'] }}</span>
+                    @if ($series_details['released_year'])
+                        <a href="{{ route('year', $series_details['released_year']) }}" class="text-decoration-none">
+                            <span class="year themePrimaryTxtColr">{{ $series_details['released_year'] }}</span>
                         </a>
                         <span class="mobile-dot-sep"></span>
                     @endif
                     @if ($streamType != 'S')
-                        @if ($stream_details['stream_duration'] && $stream_details['stream_duration'] !== '0')
+                        @if ($series_details['stream_duration'] && $series_details['stream_duration'] !== '0')
                             <span
-                                class="themePrimaryTxtColr">{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream_details['stream_duration']) }}</span>
+                                class="themePrimaryTxtColr">{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($series_details['stream_duration']) }}</span>
                             <span class="mobile-dot-sep"></span>
                         @endif
-                        {{-- <span class="movie_type">{{ $stream_details['cat_title'] }}</span> --}}
+                        {{-- <span class="movie_type">{{ $series_details['cat_title'] }}</span> --}}
                         <span class="movie_type themePrimaryTxtColr">
-                            @foreach ($stream_details['genre'] ?? [] as $item)
+                            @foreach ($series_details['genre'] ?? [] as $item)
                                 <a href="{{ route('category', $item['code']) }}?type=genre"
                                     class="px-0 themePrimaryTxtColr">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
                             @endforeach
                         </span>
                     @endif
-                    @if ($streamType == 'S')
-                        <span
-                            class="movie_type themePrimaryTxtColr">{{ $stream_details['stream_episode_title'] && $stream_details['stream_episode_title'] !== 'NULL' ? $stream_details['stream_episode_title'] : '' }}</span>
-                        <span class="movie_type themePrimaryTxtColr">{{ $stream_details['show_name'] }}</span>
-                    @endif
-
-                    
                     @if($ratingsCount > 0)
-                    @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                            $stream_details['rating_type'] === 'stars' &&
-                            $stream_details['video_rating'] === 'E')
+                    @if (isset($series_details['rating_type'], $series_details['video_rating']) &&
+                            $series_details['rating_type'] === 'stars' &&
+                            $series_details['video_rating'] === 'E')
                         <span class="content_screen themePrimaryTxtColr">
                             <div class="star active" style="display: inline-flex;">
                                 <svg fill="#ffffff" width="10px" height="10px" viewBox="0 0 32 32"
@@ -231,9 +138,9 @@ if (session('USER_DETAILS.USER_CODE')) {
                             </div>
                             {{ $ratingsCount ?? 0 }}
                         </span>
-                    @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                            $stream_details['rating_type'] === 'hearts' &&
-                            $stream_details['video_rating'] === 'E')
+                    @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
+                            $series_details['rating_type'] === 'hearts' &&
+                            $series_details['video_rating'] === 'E')
                         <span class="content_screen themePrimaryTxtColr">
                             <div class="star active" style="display: inline-flex;">
                                 <svg fill="#ffffff" width="10px" height="10px" viewBox="0 0 32 32"
@@ -250,9 +157,9 @@ if (session('USER_DETAILS.USER_CODE')) {
                             </div>
                             {{ $ratingsCount ?? 0 }}
                         </span>
-                    @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                            $stream_details['rating_type'] === 'thumbs' &&
-                            $stream_details['video_rating'] === 'E')
+                    @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
+                            $series_details['rating_type'] === 'thumbs' &&
+                            $series_details['video_rating'] === 'E')
                         <span class="content_screen themePrimaryTxtColr">
                             <div class="star active" style="display: inline-flex; rotate: 180deg">
                                 <svg fill="#6e6e6e" width="10px" height="10px" version="1.1" id="Capa_1"
@@ -337,12 +244,12 @@ if (session('USER_DETAILS.USER_CODE')) {
                         </span>
                     @endif
                     @endif
-                    @if ($stream_details['content_qlt'] != '')
+                    @if ($series_details['content_qlt'] != '')
                         <span class="content_screen themePrimaryTxtColr"
                             style=" border: 1px var(--themePrimaryTxtColor) solid !important; ">
                             @php
-                                $content_qlt_arr = explode(',', $stream_details['content_qlt']);
-                                $content_qlt_codes_arr = explode(',', $stream_details['content_qlt_codes']);
+                                $content_qlt_arr = explode(',', $series_details['content_qlt']);
+                                $content_qlt_codes_arr = explode(',', $series_details['content_qlt_codes']);
                             @endphp
                             @foreach ($content_qlt_arr as $i => $item)
                                 <a style=" color: var(--themePrimaryTxtColor) !important;"
@@ -353,12 +260,12 @@ if (session('USER_DETAILS.USER_CODE')) {
                             @endforeach
                         </span>
                     @endif
-                    @if ($stream_details['content_rating'] != '')
+                    @if ($series_details['content_rating'] != '')
                         <span class="content_screen themePrimaryTxtColr"
                             style=" border: 1px var(--themePrimaryTxtColor) solid !important; ">
                             @php
-                                $content_rating_arr = explode(',', $stream_details['content_rating']);
-                                $content_rating_codes_arr = explode(',', $stream_details['content_rating_codes']);
+                                $content_rating_arr = explode(',', $series_details['content_rating']);
+                                $content_rating_codes_arr = explode(',', $series_details['content_rating_codes']);
                             @endphp
                             @foreach ($content_rating_arr as $i => $item)
                                 <a style="color: var(--themePrimaryTxtColor) !important;"
@@ -372,36 +279,36 @@ if (session('USER_DETAILS.USER_CODE')) {
                 </div>
 
                 <div class="about-movie aboutmovie_gaps mt-1 themePrimaryTxtColr">
-                    {{ $stream_details['stream_description'] }}</div>
+                    {{ $series_details['stream_description'] }}</div>
                 <dl class="movies_listview mb-3">
                     <dl>
-                        @if (isset($stream_details['cast']) || isset($stream_details['director']) || isset($stream_details['writer']))
-                            @if ($stream_details['cast'])
+                        @if (isset($series_details['cast']) || isset($series_details['director']) || isset($series_details['writer']))
+                            @if ($series_details['cast'])
                                 <div class="content-person themePrimaryTxtColr">
                                     <dt class="themePrimaryTxtColr">Cast:</dt>
                                     <dd class="themePrimaryTxtColr">
-                                        {{ $stream_details['cast'] }}
+                                        {{ $series_details['cast'] }}
                                     </dd>
                                 </div>
                             @endif
-                            @if ($stream_details['director'])
+                            @if ($series_details['director'])
                                 <div class="content-person">
                                     <dt class="themePrimaryTxtColr">Director:</dt>
                                     <dd class="themePrimaryTxtColr">
-                                        {{ $stream_details['director'] }}
+                                        {{ $series_details['director'] }}
                                     </dd>
                                 </div>
                             @endif
-                            @if ($stream_details['writer'])
+                            @if ($series_details['writer'])
                                 <div class="content-person">
                                     <dt class="themePrimaryTxtColr">Writer:</dt>
                                     <dd class="themePrimaryTxtColr">
-                                        {{ $stream_details['writer'] }}
+                                        {{ $series_details['writer'] }}
                                     </dd>
                                 </div>
                             @endif
                         @else
-                            @foreach ($stream_details['starring_data'] as $roleKey => $persons)
+                            @foreach ($series_details['starring_data'] as $roleKey => $persons)
                                 @if (!empty($persons))
                                     <div class="content-person themePrimaryTxtColr">
                                         <dt class="themePrimaryTxtColr">{{ $roleKey }}:</dt>
@@ -432,14 +339,14 @@ if (session('USER_DETAILS.USER_CODE')) {
                                 @endif
                             @endforeach
                         @endif
-                        @if (!empty($stream_details['advisories']))
+                        @if (!empty($series_details['advisories']))
                             <div class="content-person themePrimaryTxtColr">
                                 <dt class="themePrimaryTxtColr">Advisory: </dt>
                                 <dd class="themePrimaryTxtColr">
-                                    @foreach ($stream_details['advisories'] as $i => $val)
+                                    @foreach ($series_details['advisories'] as $i => $val)
                                         <a class="person-link themePrimaryTxtColr"
                                             href="{{ route('advisory', $val['code']) }}">{{ $val['title'] }}</a>
-                                        @if (count($stream_details['advisories']) - 1 !== $i)
+                                        @if (count($series_details['advisories']) - 1 !== $i)
                                             <span class="test-comma themePrimaryTxtColr">, </span>
                                         @endif
                                     @endforeach
@@ -447,28 +354,28 @@ if (session('USER_DETAILS.USER_CODE')) {
                             </div>
                         @endif
 
-                        @if (!empty($stream_details['languages']))
+                        @if (!empty($series_details['languages']))
                             <div class="content-person">
                                 <dt class="themePrimaryTxtColr">Language: </dt>
                                 <dd class="themePrimaryTxtColr">
-                                    @foreach ($stream_details['languages'] as $i => $val)
+                                    @foreach ($series_details['languages'] as $i => $val)
                                         <a class="person-link themePrimaryTxtColr"
                                             href="{{ route('language', $val['code']) }}">{{ $val['title'] }}</a>
-                                        @if (count($stream_details['languages']) - 1 !== $i)
+                                        @if (count($series_details['languages']) - 1 !== $i)
                                             <span class="test-comma themePrimaryTxtColr">, </span>
                                         @endif
                                     @endforeach
                                 </dd>
                             </div>
                         @endif
-                        @if (!empty($stream_details['tags']))
+                        @if (!empty($series_details['tags']))
                             <div class="content-person">
                                 <dt class="themePrimaryTxtColr">Tags: </dt>
                                 <dd class="themePrimaryTxtColr">
-                                    @foreach ($stream_details['tags'] as $i => $val)
+                                    @foreach ($series_details['tags'] as $i => $val)
                                         <a class="person-link themePrimaryTxtColr"
                                             href="{{ route('tag', $val['code']) }}">{{ $val['title'] }}</a>
-                                        @if (count($stream_details['tags']) - 1 !== $i)
+                                        @if (count($series_details['tags']) - 1 !== $i)
                                             <span class="test-comma themePrimaryTxtColr">, </span>
                                         @endif
                                     @endforeach
@@ -519,7 +426,7 @@ if (session('USER_DETAILS.USER_CODE')) {
                             <div class="landscape_slider slider slick-slider">
                                 @foreach ($latest_items['streams'] as $arrStreamsData)
                                     @php
-                                        if ($arrStreamsData['stream_guid'] === $stream_details['stream_guid']) {
+                                        if ($arrStreamsData['stream_guid'] === $series_details['stream_guid']) {
                                             continue;
                                         }
 
@@ -584,7 +491,7 @@ if (session('USER_DETAILS.USER_CODE')) {
             @endif
         </div>
         @if (
-            (isset($stream_details['video_rating']) && $stream_details['video_rating'] === 'E') ||
+            (isset($series_details['video_rating']) && $series_details['video_rating'] === 'E') ||
                 (isset(\App\Services\AppConfig::get()->app->app_info->global_rating_enable) &&
                     \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1))
             <div data-tab-content="reviews" class="content d-none"><!--Start of Ratings section-->
@@ -592,9 +499,9 @@ if (session('USER_DETAILS.USER_CODE')) {
                     <h1 class="section-title" style="display: flex; align-items: center; gap: 10px;">
                         Reviews:
                         @if($ratingsCount > 0)
-                        @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                $stream_details['rating_type'] === 'stars' &&
-                                $stream_details['video_rating'] === 'E')
+                        @if (isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                $series_details['rating_type'] === 'stars' &&
+                                $series_details['video_rating'] === 'E')
                             <div class="star active" style="display: inline-flex;">
                                 <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                     version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
@@ -608,9 +515,9 @@ if (session('USER_DETAILS.USER_CODE')) {
                                     </g>
                                 </svg>
                             </div>
-                        @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                $stream_details['rating_type'] === 'hearts' &&
-                                $stream_details['video_rating'] === 'E')
+                        @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                $series_details['rating_type'] === 'hearts' &&
+                                $series_details['video_rating'] === 'E')
                             <div class="star active" style="display: inline-flex;">
                                 <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                     version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
@@ -624,9 +531,9 @@ if (session('USER_DETAILS.USER_CODE')) {
                                     </g>
                                 </svg>
                             </div>
-                        @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                $stream_details['rating_type'] === 'thumbs' &&
-                                $stream_details['video_rating'] === 'E')
+                        @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                $series_details['rating_type'] === 'thumbs' &&
+                                $series_details['video_rating'] === 'E')
                             <div class="star active" style="display: inline-flex; rotate: 180deg">
                                 <svg fill="#6e6e6e" height="27px" width="27px" version="1.1" id="Capa_1"
                                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -703,12 +610,12 @@ if (session('USER_DETAILS.USER_CODE')) {
                         @endif
                     </h1>
                     @php
-                        if (sizeof($stream_details['ratings'] ?? []) < 1) {
+                        if (sizeof($series_details['ratings'] ?? []) < 1) {
                             echo '<p class="text-white" style="margin-bottom: -8px !important;">No reviews found.</p>';
                         }
 
                         $userDidComment = false;
-                        foreach ($stream_details['ratings'] ?? [] as $rating) {
+                        foreach ($series_details['ratings'] ?? [] as $rating) {
                             if (
                                 session()->has('USER_DETAILS') &&
                                 $rating['user']['id'] == session('USER_DETAILS')['USER_ID']
@@ -720,9 +627,9 @@ if (session('USER_DETAILS.USER_CODE')) {
                     {{--  @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !$userDidComment && !$userDidComment)  --}}
                     @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null)
                         {{-- Stars  --}}
-                        @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                $stream_details['rating_type'] === 'stars' &&
-                                $stream_details['video_rating'] === 'E')
+                        @if (isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                $series_details['rating_type'] === 'stars' &&
+                                $series_details['video_rating'] === 'E')
                             <div class="review-rating user-rating-mobile">
                                 @for ($i = 1; $i <= 5; $i++)
                                     <div class="star-mobile" data-rating-mobile="{{ $i }}"
@@ -743,9 +650,9 @@ if (session('USER_DETAILS.USER_CODE')) {
                                     </div>
                                 @endfor
                             </div>
-                        @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                $stream_details['rating_type'] === 'hearts' &&
-                                $stream_details['video_rating'] === 'E')
+                        @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                $series_details['rating_type'] === 'hearts' &&
+                                $series_details['video_rating'] === 'E')
                             {{-- Hearts  --}}
                             <div class="review-rating user-rating-mobile">
                                 @for ($i = 1; $i <= 5; $i++)
@@ -767,9 +674,9 @@ if (session('USER_DETAILS.USER_CODE')) {
                                     </div>
                                 @endfor
                             </div>
-                        @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                $stream_details['rating_type'] === 'thumbs' &&
-                                $stream_details['video_rating'] === 'E')
+                        @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                $series_details['rating_type'] === 'thumbs' &&
+                                $series_details['video_rating'] === 'E')
                             {{-- Thumbs  --}}
                             <div class="review-rating user-rating-mobile">
                                 @for ($i = 1; $i <= 5; $i++)
@@ -881,7 +788,7 @@ if (session('USER_DETAILS.USER_CODE')) {
                             @csrf
                             <textarea name="comment" cols="30" rows="10" placeholder="Let others know what you think..."></textarea>
                             <input type="hidden" name="rating_mobile" id="hiddenRatingMobile">
-                            <input type="hidden" name="stream_code" value="{{ $stream_details['stream_guid'] }}">
+                            <input type="hidden" name="stream_code" value="{{ $series_details['stream_guid'] }}">
                             <input type="hidden" name="type" value="stream">
                             <input class="rounded" type="submit" id="submitButton" value="Submit">
                         </form>
@@ -891,7 +798,7 @@ if (session('USER_DETAILS.USER_CODE')) {
                     <div
                         class="member-reviews {{ !session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'] || $userDidComment ? 'mt-4' : '' }}">
                         <?php
-                foreach ($stream_details['ratings'] as $review) {
+                foreach ($series_details['ratings'] as $review) {
                     if(isset($review['profile_name']) && $review['profile_name'] ){
                         $name = $review['profile_name'];
                     }else{
@@ -918,9 +825,9 @@ if (session('USER_DETAILS.USER_CODE')) {
                             </div>
                             <div class="review-rating member">
 
-                                @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                        $stream_details['rating_type'] === 'stars' &&
-                                        $stream_details['video_rating'] === 'E')
+                                @if (isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                        $series_details['rating_type'] === 'stars' &&
+                                        $series_details['video_rating'] === 'E')
                                     @for ($i = 0; $i < $review['rating']; $i++)
                                         <div class="star active">
                                             <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
@@ -937,9 +844,9 @@ if (session('USER_DETAILS.USER_CODE')) {
                                             </svg>
                                         </div>
                                     @endfor
-                                @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                        $stream_details['rating_type'] === 'hearts' &&
-                                        $stream_details['video_rating'] === 'E')
+                                @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                        $series_details['rating_type'] === 'hearts' &&
+                                        $series_details['video_rating'] === 'E')
                                     @for ($i = 0; $i < $review['rating']; $i++)
                                         <div class="star active">
                                             <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
@@ -956,9 +863,9 @@ if (session('USER_DETAILS.USER_CODE')) {
                                             </svg>
                                         </div>
                                     @endfor
-                                @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                        $stream_details['rating_type'] === 'thumbs' &&
-                                        $stream_details['video_rating'] === 'E')
+                                @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                        $series_details['rating_type'] === 'thumbs' &&
+                                        $series_details['video_rating'] === 'E')
                                     {{-- Thumbs  --}}
                                     <div class="user-rating-mobile"
                                         style="margin-top: 8px; display: flex; gap: 12px;">

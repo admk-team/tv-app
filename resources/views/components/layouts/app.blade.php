@@ -136,7 +136,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="06c77dde59dd05c5961a21f24a6cfd408f9e9e7e" content="06c77dde59dd05c5961a21f24a6cfd408f9e9e7e" />
     @include('gtm_tags.head')
-    @if (Route::is('detailscreen', 'playerscreen'))
+    @if (Route::is('detailscreen','playerscreen','seriesDetailscreen'))
         @yield('meta-tags')
     @else
         <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />

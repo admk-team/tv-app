@@ -4,51 +4,39 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta property="og:type" content='article' />
-    <meta property="og:url" content="{{ url('/detailscreen/' . $stream_details['stream_guid']) }}" />
-    <meta name="twitter:title" content="{{ @$stream_details['stream_title'] }}">
-    <meta name="twitter:description" content="{{ @$stream_details['stream_description'] }}">
-    <meta property="og:title" content="{{ @$stream_details['stream_title'] }}" />
-    <meta property="og:image" content="{{ @$stream_details['stream_poster'] }}" />
-    <meta property="og:description" content="{{ @$stream_details['stream_description'] }}" />
+    <meta property="og:url" content="{{ url('/detailscreen/' . $series_details['stream_guid']) }}" />
+    <meta name="twitter:title" content="{{ @$series_details['stream_title'] }}">
+    <meta name="twitter:description" content="{{ @$series_details['stream_description'] }}">
+    <meta property="og:title" content="{{ @$series_details['stream_title'] }}" />
+    <meta property="og:image" content="{{ @$series_details['stream_poster'] }}" />
+    <meta property="og:description" content="{{ @$series_details['stream_description'] }}" />
     {{-- Custom Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/details-screen-styling.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/perfect-scrollbar.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/mvp.css') }}" />
-    <script src="{{ asset('assets/js/mvp/new.js') }}"></script>
-    <script src="{{ asset('assets/js/mvp/vast.js') }}"></script>
-    <script src="{{ asset('assets/js/mvp/share_manager.js') }}"></script>
-    <script src="{{ asset('assets/js/cache.js') }}"></script>
-    <script src="{{ asset('assets/js/mvp/ima.js') }}"></script>
-    <script src="{{ asset('assets/js/mvp/perfect-scrollbar.min.js') }}"></script>
-    <script src="{{ asset('assets/js/mvp/playlist_navigation.js') }}"></script>
-    <script src="{{ asset('assets/js/mvp/youtubeLoader.js') }}"></script>
-    <script src="{{ asset('assets/js/mvp/vimeoLoader.js') }}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 @endsection
 
 @section('content')
     <?php
     $isByPass = 'Y';
-    $streamType = $stream_details['stream_type'];
+    $streamType = $series_details['stream_type'];
     
-    $sharingURL = url('/') . '/seriesDetailscreen/' . $stream_details['stream_guid'];
+    $sharingURL = url('/') . '/seriesDetailscreen/' . $series_details['stream_guid'];
     
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
     
-    $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
+    $strQueryParm = "streamGuid={$series_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
     
-    $stream_code = $stream_details['stream_guid'];
+    $stream_code = $series_details['stream_guid'];
     
     $postData = [
         'stream_code' => $stream_code,
     ];
-    $ratingsCount = isset($stream_details['ratings']) && is_array($stream_details['ratings']) ? count($stream_details['ratings']) : 0;
+    $ratingsCount = isset($series_details['ratings']) && is_array($series_details['ratings']) ? count($series_details['ratings']) : 0;
     
     $totalRating = 0;
     
     if ($ratingsCount !== 0) {
-        foreach ($stream_details['ratings'] as $review) {
+        foreach ($series_details['ratings'] as $review) {
             $totalRating += $review['rating'];
         }
         $ratingsCount = $totalRating / $ratingsCount;
@@ -160,53 +148,53 @@
                     </ul>
                 </div>
                 <div class="responsive_video">
-                    <img src="{{ $stream_details['stream_poster'] }}" alt="{{ $stream_details['stream_title'] }}"
+                    <img src="{{ $series_details['stream_poster'] }}" alt="{{ $series_details['stream_title'] }}"
                         onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'">
                 </div>
             </div>
             <div class="movie-detail-box desktop-data">
                 <div
                     class="movie_detail_inner_box {{ isset($stream->title_logo, $stream->show_title_logo) && $stream->title_logo && $stream->show_title_logo === 1 ? 'with-logo' : 'without-logo' }}">
-                    @if (isset($stream_details['title_logo'], $stream_details['show_title_logo']) &&
-                            $stream_details['title_logo'] &&
-                            $stream_details['show_title_logo'] == 1)
+                    @if (isset($series_details['title_logo'], $series_details['show_title_logo']) &&
+                            $series_details['title_logo'] &&
+                            $series_details['show_title_logo'] == 1)
                         {{--  <div class="title_logo mb-1">
-                            <img class="img-fluid" src="{{ $stream_details['title_logo'] }}"
-                                alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
+                            <img class="img-fluid" src="{{ $series_details['title_logo'] }}"
+                                alt="{{ $series_details['stream_title'] ?? 'Logo' }}">
                         </div>  --}}
                         <div class="__logo">
-                            <img class="logo_img" src="{{ $stream_details['title_logo'] }}"
-                                alt="{{ $stream_details['stream_title'] ?? 'Logo' }}">
+                            <img class="logo_img" src="{{ $series_details['title_logo'] }}"
+                                alt="{{ $series_details['stream_title'] ?? 'Logo' }}">
                         </div>
                     @else
-                        <h1 class="content-heading" title="{{ $stream_details['stream_title'] ?? '' }}">
-                            {{ $stream_details['stream_title'] ?? '' }}
+                        <h1 class="content-heading" title="{{ $series_details['stream_title'] ?? '' }}">
+                            {{ $series_details['stream_title'] ?? '' }}
                         </h1>
                     @endif
                     <div class="content-timing">
-                        @if ($stream_details['released_year'])
-                            <a href="{{ route('year', $stream_details['released_year']) }}" class="text-decoration-none">
-                                <span class="year">{{ $stream_details['released_year'] }}</span>
+                        @if ($series_details['released_year'])
+                            <a href="{{ route('year', $series_details['released_year']) }}" class="text-decoration-none">
+                                <span class="year">{{ $series_details['released_year'] }}</span>
                             </a>
                         @endif
-                        @if ($stream_details['totalseason'] != null)
+                        @if ($series_details['totalseason'] != null)
                             <span class="dot-sep"></span>
-                            <span>{{ $stream_details['totalseason'] ?? '' }}</span>
+                            <span>{{ $series_details['totalseason'] ?? '' }}</span>
                         @endif
-                        @if ($stream_details['genre'])
+                        @if ($series_details['genre'])
                             <span class="dot-sep"></span>
                             <span class="movie_type">
-                                @foreach ($stream_details['genre'] ?? [] as $item)
+                                @foreach ($series_details['genre'] ?? [] as $item)
                                     <a href="{{ route('category', $item['code']) }}?type=genre"
                                         class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
                                 @endforeach
                             </span>
                         @endif
-                        @if ($stream_details['content_qlt'] != '')
+                        @if ($series_details['content_qlt'] != '')
                             <span class="content_screen">
                                 @php
-                                    $content_qlt_arr = explode(',', $stream_details['content_qlt']);
-                                    $content_qlt_codes_arr = explode(',', $stream_details['content_qlt_codes']);
+                                    $content_qlt_arr = explode(',', $series_details['content_qlt']);
+                                    $content_qlt_codes_arr = explode(',', $series_details['content_qlt_codes']);
                                 @endphp
                                 @foreach ($content_qlt_arr as $i => $item)
                                     <a
@@ -217,11 +205,11 @@
                                 @endforeach
                             </span>
                         @endif
-                        @if ($stream_details['content_rating'] != '')
+                        @if ($series_details['content_rating'] != '')
                             <span class="content_screen">
                                 @php
-                                    $content_rating_arr = explode(',', $stream_details['content_rating']);
-                                    $content_rating_codes_arr = explode(',', $stream_details['content_rating_codes']);
+                                    $content_rating_arr = explode(',', $series_details['content_rating']);
+                                    $content_rating_codes_arr = explode(',', $series_details['content_rating_codes']);
                                 @endphp
                                 @foreach ($content_rating_arr as $i => $item)
                                     <a
@@ -232,38 +220,168 @@
                                 @endforeach
                             </span>
                         @endif
+                        @if ($ratingsCount > 0)
+                        @if (isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                $series_details['rating_type'] === 'stars' &&
+                                $series_details['video_rating'] === 'E')
+                            <span class="content_screen themePrimaryTxtColr">
+                                <div class="star active" style="display: inline-flex;">
+                                    <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <title>star</title>
+                                            <path
+                                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                                            </path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                {{ $ratingsCount ?? 0 }}
+                            </span>
+                        @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                $series_details['rating_type'] === 'hearts' &&
+                                $series_details['video_rating'] === 'E')
+                            <span class="content_screen themePrimaryTxtColr">
+                                <div class="star active" style="display: inline-flex;">
+                                    <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <title>heart</title>
+                                            <path
+                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
+                                            </path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                {{ $ratingsCount ?? 0 }}
+                            </span>
+                        @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                $series_details['rating_type'] === 'thumbs' &&
+                                $series_details['video_rating'] === 'E')
+                            <span class="content_screen themePrimaryTxtColr">
+                                <div class="star active" style="display: inline-flex; rotate: 180deg">
+                                    <svg fill="#6e6e6e" width="15px" height="15px" version="1.1" id="Capa_1"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <g>
+                                                <path
+                                                    d="M54.715,24.957c-0.544,0.357-1.162,0.598-1.806,0.696l-28.871,4.403c-2.228,0.341-3.956,2.257-3.956,4.511v79.825 c0,1.204,33.353,20.624,43.171,30.142c12.427,12.053,21.31,34.681,33.983,54.373c4.405,6.845,10.201,9.759,15.584,9.759 c10.103,0,18.831-10.273,14.493-24.104c-4.018-12.804-8.195-24.237-13.934-34.529c-4.672-8.376,1.399-18.7,10.989-18.7h48.991 c18.852,0,18.321-26.312,8.552-34.01c-1.676-1.32-2.182-3.682-1.175-5.563c3.519-6.572,2.86-20.571-6.054-25.363 c-2.15-1.156-3.165-3.74-2.108-5.941c3.784-7.878,3.233-24.126-8.71-27.307c-2.242-0.598-3.699-2.703-3.405-5.006 c0.909-7.13-0.509-20.86-22.856-26.447C133.112,0.573,128.281,0,123.136,0C104.047,0.001,80.683,7.903,54.715,24.957z">
+                                                </path>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </div>
+                                {{ $ratingsCount ?? 0 }}
+                            </span>
+                        @elseif (isset(
+                                \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
+                                \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
+                                \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
+                                \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'stars')
+                            <span class="content_screen themePrimaryTxtColr">
+                                <div class="star active" style="display: inline-flex;">
+                                    <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <title>star</title>
+                                            <path
+                                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                                            </path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                {{ $ratingsCount ?? 0 }}
+                            </span>
+                        @elseif (isset(
+                                \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
+                                \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
+                                \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
+                                \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'hearts')
+                            <span class="content_screen themePrimaryTxtColr">
+                                <div class="star active" style="display: inline-flex;">
+                                    <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <title>heart</title>
+                                            <path
+                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
+                                            </path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                {{ $ratingsCount ?? 0 }}
+                            </span>
+                        @else
+                            {{-- Thumbs  --}}
+                            <span class="content_screen themePrimaryTxtColr">
+                                <div class="star active" style="display: inline-flex; rotate: 180deg">
+                                    <svg fill="#6e6e6e" width="15px" height="15px" version="1.1" id="Capa_1"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <g>
+                                                <path
+                                                    d="M54.715,24.957c-0.544,0.357-1.162,0.598-1.806,0.696l-28.871,4.403c-2.228,0.341-3.956,2.257-3.956,4.511v79.825 c0,1.204,33.353,20.624,43.171,30.142c12.427,12.053,21.31,34.681,33.983,54.373c4.405,6.845,10.201,9.759,15.584,9.759 c10.103,0,18.831-10.273,14.493-24.104c-4.018-12.804-8.195-24.237-13.934-34.529c-4.672-8.376,1.399-18.7,10.989-18.7h48.991 c18.852,0,18.321-26.312,8.552-34.01c-1.676-1.32-2.182-3.682-1.175-5.563c3.519-6.572,2.86-20.571-6.054-25.363 c-2.15-1.156-3.165-3.74-2.108-5.941c3.784-7.878,3.233-24.126-8.71-27.307c-2.242-0.598-3.699-2.703-3.405-5.006 c0.909-7.13-0.509-20.86-22.856-26.447C133.112,0.573,128.281,0,123.136,0C104.047,0.001,80.683,7.903,54.715,24.957z">
+                                                </path>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </div>
+                                {{ $ratingsCount ?? 0 }}
+                            </span>
+                        @endif
+                    @endif
                     </div>
 
-                    <div class="about-movie aboutmovie_gaps">{{ $stream_details['stream_description'] }}</div>
+                    <div class="about-movie aboutmovie_gaps">{{ $series_details['stream_description'] }}</div>
                     <dl class="movies_listview">
                         <dl>
-                            @if (isset($stream_details['cast']) || isset($stream_details['director']) || isset($stream_details['writer']))
-                                @if ($stream_details['cast'])
+                            @if (isset($series_details['cast']) || isset($series_details['director']) || isset($series_details['writer']))
+                                @if ($series_details['cast'])
                                     <div class="content-person">
                                         <dt>Cast:</dt>
                                         <dd>
-                                            {{ $stream_details['cast'] }}
+                                            {{ $series_details['cast'] }}
                                         </dd>
                                     </div>
                                 @endif
-                                @if ($stream_details['director'])
+                                @if ($series_details['director'])
                                     <div class="content-person">
                                         <dt>Director:</dt>
                                         <dd>
-                                            {{ $stream_details['director'] }}
+                                            {{ $series_details['director'] }}
                                         </dd>
                                     </div>
                                 @endif
-                                @if ($stream_details['writer'])
+                                @if ($series_details['writer'])
                                     <div class="content-person">
                                         <dt>Writer:</dt>
                                         <dd>
-                                            {{ $stream_details['writer'] }}
+                                            {{ $series_details['writer'] }}
                                         </dd>
                                     </div>
                                 @endif
                             @else
-                                @foreach ($stream_details['starring_data'] as $roleKey => $persons)
+                                @foreach ($series_details['starring_data'] as $roleKey => $persons)
                                     @if (!empty($persons))
                                         <div class="content-person">
                                             <dt>{{ $roleKey }}:</dt>
@@ -291,36 +409,36 @@
                                     @endif
                                 @endforeach
                             @endif
-                            @if (!empty($stream_details['advisories']))
+                            @if (!empty($series_details['advisories']))
                                 <div class="content-person">
                                     <dt>Advisory: </dt>
                                     <dd>
-                                        @foreach ($stream_details['advisories'] as $i => $val)
+                                        @foreach ($series_details['advisories'] as $i => $val)
                                             <a class="person-link" href="{{ route('advisory', $val['code']) }}">
-                                                {{ $val['title'] }}{{ $i < count($stream_details['advisories']) - 1 ? ',' : '' }}
+                                                {{ $val['title'] }}{{ $i < count($series_details['advisories']) - 1 ? ',' : '' }}
                                             </a>
                                         @endforeach
                                     </dd>
                                 </div>
                             @endif
 
-                            @if (!empty($stream_details['languages']))
+                            @if (!empty($series_details['languages']))
                                 <div class="content-person">
                                     <dt>Language: </dt>
                                     <dd>
-                                        @foreach ($stream_details['languages'] as $i => $val)
+                                        @foreach ($series_details['languages'] as $i => $val)
                                             <a class="person-link" href="{{ route('language', $val['code']) }}">
-                                                {{ $val['title'] }}{{ $i < count($stream_details['languages']) - 1 ? ',' : '' }}
+                                                {{ $val['title'] }}{{ $i < count($series_details['languages']) - 1 ? ',' : '' }}
                                             </a>
                                         @endforeach
                                     </dd>
                                 </div>
                             @endif
-                            @if (!empty($stream_details['tags']))
+                            @if (!empty($series_details['tags']))
                                 <div class="content-person">
                                     <dt>Tags: </dt>
                                     <dd>
-                                        @foreach ($stream_details['tags'] as $i => $val)
+                                        @foreach ($series_details['tags'] as $i => $val)
                                             @if ($i < 15)
                                                 <!-- Only show the first 15 tags -->
                                                 <a class="person-link" href="{{ route('tag', $val['code']) }}">
@@ -336,18 +454,18 @@
                     <div class="button_groupbox d-flex align-items-center mb-4">
 
                         <div class="btn_box movieDetailPlay">
-                            @if (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'available now')
-                                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                            @if (isset($series_details['notify_label']) && $series_details['notify_label'] == 'available now')
+                                <a href="{{ route('playerscreen', $series_details['stream_guid']) }}"
                                     class="app-primary-btn rounded">
                                     <i class="fa fa-play"></i>
                                     Available Now
                                 </a>
-                            @elseif (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'coming soon')
+                            @elseif (isset($series_details['notify_label']) && $series_details['notify_label'] == 'coming soon')
                                 @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                                     <form id="remind-form-desktop" method="POST" action="{{ route('remind.me') }}">
                                         @csrf
                                         <input type="hidden" name="stream_code" id="stream-code"
-                                            value="{{ $stream_details['stream_guid'] }}">
+                                            value="{{ $series_details['stream_guid'] }}">
                                         <button class="app-primary-btn rounded" id="remind-button-desktop">
                                             <i id="desktop-remind-icon" class="fas fa-bell"></i>
                                             <span id="desktop-remind-text">Remind me</span>
@@ -363,17 +481,17 @@
                             @else
                                 @if (session('USER_DETAILS') &&
                                         session('USER_DETAILS')['USER_CODE'] &&
-                                        ($stream_details['monetization_type'] == 'P' ||
-                                            $stream_details['monetization_type'] == 'S' ||
-                                            $stream_details['monetization_type'] == 'O') &&
-                                        $stream_details['is_buyed'] == 'N')
-                                    <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                                        ($series_details['monetization_type'] == 'P' ||
+                                            $series_details['monetization_type'] == 'S' ||
+                                            $series_details['monetization_type'] == 'O') &&
+                                        $series_details['is_buyed'] == 'N')
+                                    <a href="{{ route('playerscreen', $series_details['stream_guid']) }}"
                                         class="app-primary-btn rounded">
                                         <i class="fa fa-dollar"></i>
                                         Buy Now
                                     </a>
                                 @else
-                                    <a href="{{ route('playerscreen', $stream_details['episode_code']) }}"
+                                    <a href="{{ route('playerscreen', $series_details['episode_code']) }}"
                                         class="app-primary-btn rounded">
                                         <i class="fa fa-play"></i>
                                         Play Now
@@ -392,11 +510,11 @@
             </div>
         </div>
     </section>
-    {{--  <div class="desktop-tabs">
-        @include('detailscreen.partials.tabs-desktop')
+    <div class="desktop-tabs">
+        @include('series-detailscreen.partials.tabs-desktop')
     </div>
-    <div class="mobile-tabs">
-        @include('detailscreen.partials.tabs-mobile')
+    {{--  <div class="mobile-tabs">
+        @include('series-detailscreen.partials.tabs-mobile')
     </div>  --}}
 
 
@@ -412,7 +530,7 @@
                 </div>
                 <div class="modal-body">
                     <ul class="share_list d-flex justify-content-between">
-                        @if ((isset($stream_details['is_embed']) && $stream_details['is_embed'] == 1) || $is_embed == 1)
+                        @if ((isset($series_details['is_embed']) && $series_details['is_embed'] == 1) || $is_embed == 1)
                             <li data-bs-toggle="modal" data-bs-target="#exampleModalCenter2">
                                 <a data-toggle="tooltip" data-placement="top" title="embed" href="javascript:void(0)">
                                     <i class="fa-solid fa-code fa-xs"></i>
@@ -439,7 +557,7 @@
                         </li>
                         <li>
                             <a data-toggle="tooltip" data-placement="top" title="telegram"
-                                href="https://t.me/share/url?url=<?php echo $sharingURL; ?>&text=<?php echo $stream_details['stream_title']; ?>"
+                                href="https://t.me/share/url?url=<?php echo $sharingURL; ?>&text=<?php echo $series_details['stream_title']; ?>"
                                 target="_blank">
                                 <i class="fa-brands fa-telegram"></i>
                             </a>
@@ -615,7 +733,7 @@
                 if (sliderElement.length) {
                     sliderElement.slick({
                         slidesToShow: 3,
-                        slidesToScroll: 1,
+                        slidesToScroll: 2,
                         infinite: true,
                         dots: true,
                         arrows: true,
@@ -704,83 +822,79 @@
         });
     </script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            function detectMob() {
-                const toMatch = [
-                    /Android/i,
-                    /webOS/i,
-                    /iPhone/i,
-                    /iPad/i,
-                    /iPod/i,
-                    /BlackBerry/i,
-                    /Windows Phone/i
-                ];
-                return toMatch.some((toMatchItem) => navigator.userAgent.match(toMatchItem));
-            }
-
-            var pListPostion = detectMob() ? 'hb' : 'vrb';
-
-            var settings = {
-                skin: 'sirius', // Choose an appropriate skin
-                playlistPosition: pListPostion,
-                sourcePath: "",
-                useMobileChapterMenu: true,
-                vimeoPlayerType: "chromeless",
-                youtubePlayerType: "chromeless",
-                activeItem: 0,
-                activePlaylist: ".playlist-video",
-                playlistList: "#mvp-playlist-list",
-                instanceName: "player1",
-                hidePlaylistOnMinimize: true,
-                volume: 0.75,
-                createAdMarkers: false,
-                autoPlay: true, // Ensure autoplay
-                loopingOn: true, // Enable looping
-                mediaEndAction: 'loop',
-                crossorigin: "link",
-                playlistOpened: false,
-                randomPlay: false,
-                useEmbed: false,
-                useTime: false,
-                usePip: false,
-                useCc: false,
-                useAirPlay: false,
-                usePlaybackRate: false,
-                useNext: false,
-                usePrevious: false,
-                useRewind: false,
-                useSkipBackward: false,
-                useSkipForward: false,
-                showPrevNextVideoThumb: false,
-                rememberPlaybackPosition: false,
-                useQuality: false,
-                useTheaterMode: false,
-                useSubtitle: false,
-                useTranscript: false,
-                useChapterToggle: false,
-                useCasting: false,
-                useAdSeekbar: false,
-                disableSeekbar: false,
-            };
-
-            // Initialize player
-            if (!window.player) {
-                window.player = new mvp(document.getElementById('wrapper'), settings);
-            }
-
-            // Trailer button logic
-            window.addEventListener('load', () => {
-                var trailerButton = document.getElementById('trailer-id');
-                if (trailerButton) {
-                    trailerButton.addEventListener('click', function() {
-                        console.log("Player load started.");
-                        console.log(player);
-                        player.seek(0); // Reset video to start
-                        player.playMedia();
-                    });
-                }
+        $(document).ready(function () {
+            const seasonDropdown = $('#seasonDropdown');
+            const sliderContainer = $('.landscape_slider');
+    
+            // Parse JSON-encoded PHP data
+            const seasons = @json($seasons);
+    
+            // Populate dropdown with seasons
+            seasons.forEach((season, index) => {
+                seasonDropdown.append(
+                    `<option value="${index}" ${index === 0 ? 'selected' : ''}>Season ${index + 1}</option>`
+                );
             });
-
+    
+            // Function to populate episodes in slider
+            function populateEpisodes(episodes) {
+                sliderContainer.empty(); // Clear existing slider items
+                episodes.forEach((episode) => {
+                    sliderContainer.append(`
+                        <div>
+                            <a href="/detailscreen/${episode.stream_guid}">
+                                <div class="thumbnail_img">
+                                    <img src="${episode.stream_poster}" alt="${episode.stream_title}" onerror="this.src='/assets/images/default_img.jpg'">
+                                    <div class="detail_box_hide">
+                                        <div class="detailbox_time">${episode.stream_duration_timeformat}</div>
+                                        <div class="content_title">${episode.stream_title}</div>
+                                        <div class="content_description">${episode.stream_description}</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    `);
+                });
+    
+                // Reinitialize or refresh the slider
+                if (!sliderContainer.hasClass('slick-initialized')) {
+                    sliderContainer.slick({
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        infinite: true,
+                        dots: true,
+                        arrows: true,
+                        responsive: [
+                            {
+                                breakpoint: 768,
+                                settings: {
+                                    slidesToShow: 2,
+                                },
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 1,
+                                },
+                            },
+                        ],
+                    });
+                } else {
+                    sliderContainer.slick('refresh');
+                }
+            }
+    
+            // Initial population of episodes (first season)
+            if (seasons.length > 0) {
+                populateEpisodes(seasons[0].episodes); // Display episodes of the first season
+            }
+    
+            // On season change, update episodes
+            seasonDropdown.change(function () {
+                const selectedIndex = $(this).val();
+                const selectedSeason = seasons[selectedIndex];
+                populateEpisodes(selectedSeason.episodes);
+            });
         });
     </script>
 @endpush

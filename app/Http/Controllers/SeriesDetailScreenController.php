@@ -14,16 +14,16 @@ class SeriesDetailScreenController extends Controller
             ->get(Api::endpoint("/getseriesdetails/{$id}"));
 
         $data = $response->json()['app'];
-        if ($data['stream_details'] === []) {
+        if ($data['series_details'] === []) {
             abort(404);
         }
-        $streamGuId = $data['stream_details']['stream_guid'];
+        $streamGuId = $data['series_details']['stream_guid'];
         $responseRatings = Http::withHeaders(Api::headers())
             ->get(Api::endpoint('/userrating/get/' . $streamGuId . '/stream'));
-        $data['stream_details']['ratings'] = $responseRatings->json()['data'];
-        $streamGuId = $data['stream_details']['stream_guid'];
-        $imdb = $data['stream_details']['imdb'];
-        // dd($data['stream_details']['ratings']);
+        $data['series_details']['ratings'] = $responseRatings->json()['data'];
+        $streamGuId = $data['series_details']['stream_guid'];
+        $imdb = $data['series_details']['imdb'];
+        // dd($data['series_details']['ratings']);
 
         if ($imdb !== "") {
             $responseImdb = Http::timeout(300)
@@ -31,9 +31,9 @@ class SeriesDetailScreenController extends Controller
 
             $imdbDetails = $responseImdb->json();
             if ($imdbDetails !== null && $imdbDetails["Response"] !== "False") {
-                $data['stream_details']['cast'] = $imdbDetails['Actors'];
-                $data['stream_details']['director'] = $imdbDetails['Director'];
-                $data['stream_details']['writer'] = $imdbDetails['Writer'];
+                $data['series_details']['cast'] = $imdbDetails['Actors'];
+                $data['series_details']['director'] = $imdbDetails['Director'];
+                $data['series_details']['writer'] = $imdbDetails['Writer'];
             }
         }
         return view("series-detailscreen.index", $data);
