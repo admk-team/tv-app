@@ -138,6 +138,58 @@
         margin-bottom: 6rem;
     }
 } */
+/* Container for the dropdown */
+.custom-dropdown {
+    position: relative;
+    width: 250px;
+    margin-left: 1%;
+}
+
+/* Transparent dropdown styling */
+.styled-dropdown {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid var(--themePrimaryTxtColor); /* Semi-transparent border */
+    border-radius: 5px;
+    background: var(--bgcolor); /* Transparent background */
+    font-size: 16px;
+    color: var(--themePrimaryTxtColor); /* White text */
+    appearance: none; /* Remove default arrow */
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="10" height="6"%3E%3Cpath fill="none" stroke="white" stroke-width="1.5" d="M1 1l4 4 4-4"/%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* Custom arrow position */
+    cursor: pointer;
+}
+
+/* Focused state */
+.styled-dropdown:focus {
+    outline: none;
+    border-color: var(--themePrimaryTxtColor); /* Solid white border */
+    background-color: var(--bgcolor); /* Slight background change */
+}
+
+/* Dropdown menu styling (for most browsers) */
+select.styled-dropdown option {
+    background-color: var(--bgcolor); /* Slight background change */
+    color: var(--themePrimaryTxtColor); /* White text */
+    padding: 10px 15px;
+    border: none;
+    font-size: 16px;
+}
+
+/* Hover and focus effect for dropdown options */
+select.styled-dropdown option:hover,
+select.styled-dropdown option:focus {
+    background: var(--bgcolor); /* Highlight with semi-transparent white */
+    color: var(--themePrimaryTxtColor); /* Ensure text remains white */
+}
+
+/* Optional: Smooth transition */
+.styled-dropdown,
+select.styled-dropdown option {
+    transition: background-color 0.3s, color 0.3s;
+}
+
 @media (min-width: 768px) {
     .sec-device .tab-btns {
         margin-bottom: 3rem;

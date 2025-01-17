@@ -68,7 +68,6 @@ class DetailScreenController extends Controller
                 'show_code' => $request->type == 'show' ? $request->stream_code : '',
             ]);
         $responseJson = $response->json();
-
         if ($responseJson['success'] == false)
             return back()->with('error', $responseJson['message']);
 

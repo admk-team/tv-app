@@ -7,7 +7,7 @@
 
 
     @include('gtm_tags.head')
-    @if (Route::is('detailscreen'))
+    @if (Route::is('detailscreen','playerscreen','seriesDetailscreen'))
         @yield('meta-tags')
     @else
         <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
