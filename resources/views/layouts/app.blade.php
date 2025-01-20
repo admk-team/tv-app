@@ -66,6 +66,15 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
     <meta name="csrf_token" content="{{ csrf_token() }}" />
     @yield('head')
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        OneSignalDeferred.push(async function(OneSignal) {
+            await OneSignal.init({
+                appId: "{{ config('services.onesignal.app_id') }}",
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -82,7 +91,19 @@
     @include('components.footers.footer')
 
 
-
+    <script>
+        const handleInputChange = debounce(function() {
+            var searchQuery = searchInput.value;
+            if (searchQuery.length > 3) {
+                dataLayer.push({
+                    'event': 'custom_search_input',
+                    'search_term': searchQuery,
+                    'user': '{{ session('USER_DETAILS')['FULL_USER_NAME'] ?? 'Guest' }}',
+                });
+            }
+        }, 300);
+        searchInput.addEventListener('input', handleInputChange);
+    </script>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

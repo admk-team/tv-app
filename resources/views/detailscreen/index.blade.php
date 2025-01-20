@@ -1032,6 +1032,22 @@
                     $('#mobileMessageContainer').html('').fadeOut();
                     if (response.success) {
                         $('.member-reviews').html(response.newReviewHtml);
+
+                        if (response.totalReviews > 0) {
+                            $('.no-reviews-message').hide();
+                        } else {
+                            $('.no-reviews-message').show();
+                        }
+                    if (response.ratingsCount !== undefined) {
+                        $('.section-title .ratings-count').text(`(${response.ratingsCount})`);
+                        console.log(response);
+                    }
+                    console.log(response);
+
+                     // Update average rating
+                    if (response.averageRating !== undefined) {
+                        $('.section-title .average-rating').text(`${response.averageRating}`);
+                    }
                         form[0].reset();
                         $('#desktopMessageContainer').html(
                                 `<div style="color: var(--themeActiveColor);">Review added.</div>`)
