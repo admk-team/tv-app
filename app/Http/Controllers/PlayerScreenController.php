@@ -12,6 +12,9 @@ class PlayerScreenController extends Controller
     public function index($id)
     {
         $data = $this->fetchStreamDetails($id);
+        if (isset($data['errorView'])) {
+            return $data['errorView'];
+        }
         return view("playerscreen.index", $data);
     }
 
@@ -27,13 +30,18 @@ class PlayerScreenController extends Controller
             ->get(Api::endpoint("/getitemplayerdetail/{$id}?user_data={$xyz}"));
         $data = $response->json();
 
+        // if ($data['app']['stream_details'] === []) {
+        //     if ($data['geoerror'] ?? null) {
+        //         return view("page.movienotexist");
+        //     }
+        //     abort(404);
+        // }
         if ($data['app']['stream_details'] === []) {
             if ($data['geoerror'] ?? null) {
-                return view("page.movienotexist");
+                return ['errorView' => view("page.movienotexist")];
             }
             abort(404);
         }
-
         // Extract necessary details
         $limitWatchTime = $data['app']['app_info']['limit_watch_time'];
         $watchTimeDuration = $data['app']['app_info']['watch_time_duration'];
