@@ -47,6 +47,18 @@ class PlayerScreenController extends Controller
         $streamRatingStatus = $data['app']['stream_details']['video_rating'] ?? null;
         $streamRatingType = $data['app']['stream_details']['rating_type'] ?? null;
 
+        $ratingsCount = count($ratings);
+        $totalRating = 0;
+        $totalReviews = count($ratings);
+        if ($ratingsCount > 0) {
+            foreach ($ratings as $review) {
+                $totalRating += $review['rating'];
+            }
+            $averageRating = $totalRating / $ratingsCount;
+            $averageRating = number_format($averageRating, 1);
+        } else {
+            $averageRating = 0;
+        }
         // Return data as an associative array
         return [
             'arrRes' => $data,
@@ -56,6 +68,9 @@ class PlayerScreenController extends Controller
             'streamratingstatus' => $streamRatingStatus,
             'streamratingtype' => $streamRatingType,
             'streamrating' => $ratings,
+            'ratingsCount' => $totalReviews,
+            'totalReviews' => $totalReviews,
+            'averageRating' => $averageRating,
         ];
     }
 
@@ -94,11 +109,23 @@ class PlayerScreenController extends Controller
 
         // Fetch updated ratings
         $data = $this->fetchStreamDetails($request->stream_code);
+        $reviews = $data['streamrating'] ?? [];
+        $totalReviews = count($reviews);
+        // Calculate the average rating
+        $totalRating = 0;
+        foreach ($reviews as $review) {
+            $totalRating += $review['rating'];
+        }
+        $averageRating = $totalReviews > 0 ? number_format($totalRating / $totalReviews, 1) : 0;
+
         $newReviewHtml = view('playerscreen.includes.review', ['reviews' => $data['streamrating']])->render();
 
         return response()->json([
             'success' => true,
             'newReviewHtml' => $newReviewHtml,
+            'totalReviews' => $totalReviews ?? '',
+            'ratingsCount' => $totalReviews ?? '',
+            'averageRating' => $averageRating
         ]);
     }
     public function private($id)
