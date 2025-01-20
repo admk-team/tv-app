@@ -24,8 +24,12 @@ class DetailScreenController extends Controller
         // Fetch Ratings
         $responseRatings = Http::withHeaders(Api::headers())
             ->get(Api::endpoint('/userrating/get/' . $streamGuId . '/stream'));
-        $data['stream_details']['ratings'] = $responseRatings->json()['data'];
+        // $data['stream_details']['ratings'] = $responseRatings->json()['data'];
 
+        $reviews = $data['stream_details']['ratings'] ?? [];
+        $data['stream_details']['ratings'] = $responseRatings->successful()
+            ? $responseRatings->json()['data']
+            : [];
         // Fetch IMDb details
         if ($imdb !== "") {
             $responseImdb = Http::timeout(300)
@@ -38,14 +42,25 @@ class DetailScreenController extends Controller
                 $data['stream_details']['writer'] = $imdbDetails['Writer'];
             }
         }
-
         return $data;
     }
 
     public function index($id)
     {
         $data = $this->fetchStreamDetails($id);
-        return view("detailscreen.index", $data);
+        // Calculate total reviews and average rating
+        $reviews = $data['stream_details']['ratings'] ?? [];
+        $totalReviews = count($reviews);
+        $averageRating = $totalReviews > 0
+            ? number_format(array_sum(array_column($reviews, 'rating')) / $totalReviews, 1)
+            : '0.0';
+
+        return view("detailscreen.index", array_merge($data, [
+            'totalReviews' => $totalReviews,
+            'averageRating' => $averageRating,
+        ]));
+
+        // return view("detailscreen.index", $data); //old way
     }
 
 
@@ -82,7 +97,16 @@ class DetailScreenController extends Controller
         }
 
         // Fetch updated ratings
+        //need to send total reviews also ???
         $data = $this->fetchStreamDetails($request->stream_code);
+        $reviews = $data['stream_details']['ratings'] ?? [];
+        $totalReviews = count($reviews);
+        // Calculate the average rating
+        $totalRating = 0;
+        foreach ($reviews as $review) {
+            $totalRating += $review['rating'];
+        }
+        $averageRating = $totalReviews > 0 ? number_format($totalRating / $totalReviews, 1) : 0;
 
         // Render updated reviews HTML
         $newReviewHtml = view('detailscreen.partials.review', ['reviews' => $data['stream_details']['ratings']])->render();
@@ -90,6 +114,9 @@ class DetailScreenController extends Controller
         return response()->json([
             'success' => true,
             'newReviewHtml' => $newReviewHtml,
+            'totalReviews' => $totalReviews ?? '',
+            'ratingsCount' => $totalReviews ?? '',
+            'averageRating' => $averageRating
         ]);
     }
 
