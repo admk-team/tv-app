@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
-    public function index(Request $request ,$slug = 'home')
+    public function index(Request $request, $slug = 'home')
     {
         Log::info(Carbon::now()->toString());
         // Construct the full URL from the request
@@ -24,22 +24,21 @@ class HomeController extends Controller
                 // If not, store the full URL in the session
                 session(['partner_url' => $currentUrl]);
                 Log::info('URL set in session: ' . $currentUrl);
-                if(session('partner_url')){
+                if (session('partner_url')) {
                     $response = Http::timeout(300)->withHeaders(Api::headers())
-                    ->asForm()
-                    ->post(Api::endpoint("/partner-link-count"), [
-                        'partner_url' => session('partner_url'),
-                    ]);
-                $responseJson = $response->json();
+                        ->asForm()
+                        ->post(Api::endpoint("/partner-link-count"), [
+                            'partner_url' => session('partner_url'),
+                        ]);
+                    $responseJson = $response->json();
                 }
             }
         }
         $referral_link = $request->query('referral_link');
-        if($referral_link){
-            if (!session()->has('referral_link')) 
-                {
-                    session(['referral_link' => $currentUrl]); 
-                }
+        if ($referral_link) {
+            if (!session()->has('referral_link')) {
+                session(['referral_link' => $currentUrl]);
+            }
         }
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/{$slug}"));

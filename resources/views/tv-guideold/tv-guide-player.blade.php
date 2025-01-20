@@ -30,13 +30,25 @@
 @endpush
 @section('content')
     @php
+        $arrRes; //coming from controller
+        $channelGuid; //coming from controller
+        $ARR_FEED_DATA = \App\Helpers\GeneralHelper::parseMainFeedArrData__TVGuide(0, $arrRes);
+        $channels = $ARR_FEED_DATA['arrChannelsData'];
+        $epgArr = [];
+        foreach ($channels as $key => $channel) {
+            if ($channel->id == $channelGuid) {
+                $epgArr = $channel->epg;
+                break;
+            }
+        }
+        // @dd($epgArr);
         if (isset($_COOKIE['timezoneStr']) && !empty($_COOKIE['timezoneStr'])) {
             date_default_timezone_set($_COOKIE['timezoneStr']);
         } else {
             date_default_timezone_set('America/New_York');
         }
-
-        // $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
+        $curUnixTime = date('U');
+        $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
 
         if (!session('ADS_INFO')) {
             session([
@@ -60,12 +72,11 @@
             $isLocalHost = true;
         }
 
-        // $adMacros =
-        //     $adUrl .
-        //     "&width=1920&height=1080&cb=$cb" .
-        //     (!$isLocalHost ? "&uip=$userIP" : '') .
-        //     "&device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
-
+        $adMacros =
+            $adUrl .
+            "&width=1920&height=1080&cb=$cb" .
+            (!$isLocalHost ? "&uip=$userIP" : '') .
+            "&device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     @endphp
 
     <div class="top_gaps">
@@ -78,84 +89,37 @@
                             <div class="mvp-global-playlist-data"></div>
                             <div class="playlist-video">
                                 @php
-                                    $leftTime = 0; // Playback offset within the current stream
-                                    $currentStream = null; // The stream that is currently playing
-                                    $curUnixTime = now()->timestamp; // Current timestamp
-
-                                    foreach ($data['channel'] ?? [] as $channel) {
-                                        foreach ($channel['playlists'] as $playlist) {
-                                            // Calculate playlist start and end timestamps
-                                            $playlistStartDateTime = strtotime(
-                                                $playlist['start_date'] . ' ' . $playlist['start_time'],
-                                            );
-                                            $playlistEndDateTime = strtotime(
-                                                $playlist['end_date'] . ' ' . $playlist['end_time'],
-                                            );
-
-                                            // Check if the current time falls within the playlist duration
-                                            if (
-                                                $curUnixTime >= $playlistStartDateTime &&
-                                                $curUnixTime <= $playlistEndDateTime
-                                            ) {
-                                                // Calculate total stream duration for one cycle (all streams)
-                                                $totalStreamDuration =
-                                                    array_sum(array_column($playlist['streams'], 'duration')) * 60;
-
-                                                // Calculate elapsed time within the playlist
-                                                $elapsedTimeInPlaylist = $curUnixTime - $playlistStartDateTime;
-
-                                                // Find the elapsed time within the repeated stream cycle
-                                                $loopedElapsedTime = $elapsedTimeInPlaylist % $totalStreamDuration;
-
-                                                $adUrl = $playlist['vmap'];
-                                                // $adUrl = "http://127.0.0.1:8000/vast-tags/41/xml";
-                                                $adMacros =
-                                                    $adUrl .
-                                                    "&width=1920&height=1080&cb=$cb" .
-                                                    (!$isLocalHost ? "&uip=$userIP" : '') .
-                                                    "&device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
-                                                $dataVast = 'data-vast="' . url('/get-ad') . '"';
-                                                $dataVast = "data-vast='$adMacros'";
-                                                if ($adUrl == '') {
-                                                    $dataVast = '';
-                                                }
-
-                                                // Iterate over the streams to determine the current stream
-                                                $streamStartTime = 0; // Start at the beginning of the stream cycle
-                                                foreach ($playlist['streams'] as $stream) {
-                                                    $streamDurationInSeconds = $stream['duration'] * 60; // Convert minutes to seconds
-                                                    $streamEndTime = $streamStartTime + $streamDurationInSeconds;
-
-                                                    // Check if the looped elapsed time falls within the current stream
-                                                    if (
-                                                        $loopedElapsedTime >= $streamStartTime &&
-                                                        $loopedElapsedTime < $streamEndTime
-                                                    ) {
-                                                        $currentStream = $stream; // Set the current stream
-                                                        $leftTime = $loopedElapsedTime - $streamStartTime; // Calculate playback offset
-                                                        break 2; // Exit both loops
-                                                    }
-
-                                                    $streamStartTime = $streamEndTime; // Move to the next stream
-                                                }
-                                            }
-                                        }
-                                    }
+                                    $cnt = 0;
+                                    $leftTime = 0;
                                 @endphp
+                                @foreach ($epgArr as $epgData)
+                                    = @if ($curUnixTime <= strtotime($epgData->end_date_time_utc))
+                                        @php
+                                            if ($cnt == 0) {
+                                                $leftTime = $curUnixTime - strtotime($epgData->start_date_time_utc);
+                                            }
 
-                                @if ($currentStream)
-                                    <div class="mvp-playlist-item" data-preview-seek="auto" data-type="hls"
-                                        data-path="{{ $currentStream['url'] }}" {!! $dataVast !!}
-                                        data-poster="{{ $currentStream['poster'] }}"
-                                        data-thumb="{{ $currentStream['poster'] }}"
-                                        data-title="{{ $currentStream['title'] }}"
-                                        data-description="{{ $currentStream['title'] }}">
-                                    </div>
-                                @else
-                                    <p>No stream is currently playing at this time.</p>
-                                @endif
+                                            $poster = $epgData->poster;
+                                            $videoUrl = $epgData->url;
+                                            $quality = 'video';
+                                            if (strpos($videoUrl, '.m3u8')) {
+                                                $quality = 'hls';
+                                            }
+                                            $cnt++;
 
-
+                                            $dataVast = 'data-vast="' . url('/get-ad') . '"';
+                                            $dataVast = "data-vast='$adMacros'";
+                                            if ($adUrl == '') {
+                                                $dataVast = '';
+                                            }
+                                        @endphp
+                                        <div class="mvp-playlist-item" data-preview-seek="auto"
+                                            data-type="{{ $quality }}" data-path="{{ $videoUrl }}"
+                                            {!! $dataVast !!} data-poster="{{ $poster }}"
+                                            data-thumb="{{ $poster }}" data-title="{{ $epgData->title }}"
+                                            data-description="{{ $epgData->description }}"></div>
+                                    @endif
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -165,11 +129,9 @@
     </div>
 @endsection
 
-
 @push('scripts')
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
-            var leftTime = {{ $leftTime }};
             var isshowlist = true;
             var pListPostion = 'vrb';
             if (detectMob()) {
@@ -250,7 +212,6 @@
                 ],
             };
             player = new mvp(document.getElementById('wrapper'), settings);
-            // document.querySelector(".videocentalize").style.pointerEvents = "none";
 
             setTimeout(unmutedVoice, 2000);
             var isFirstTIme = true;
@@ -263,16 +224,9 @@
                 data.instance.getDuration();
 
             });
-            player.addEventListener("mediaEnd", function(data) {
-                // Automatically move to the next stream in the playlist
-                player.nextMedia({
-                    autoPlay: true
-                });
-            });
             player.addEventListener("mediaPlay", function(data) {
 
                 // alert("mediaPlay");
-
             });
             player.addEventListener("adPlay", function(data) {
 

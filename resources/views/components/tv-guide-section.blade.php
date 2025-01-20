@@ -22,726 +22,873 @@
 
                         <div class="timeline">
                             <div class="list">
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>{{ $day }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>0:00 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>0:30 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>1:00 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>1:30 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>2:00 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>2:30 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>3:00 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>3:30 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>4:00 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>4:30 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>5:00 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>5:30 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>6:00 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>6:30 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>7:00 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>7:30 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>8:00 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>8:30 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>9:00 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>9:30 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>10:00 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>10:30 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>11:00 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>11:30 AM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>12:00 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>12:30 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>1:00 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>1:30 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>2:00 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>2:30 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>3:00 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>3:30 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>4:00 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>4:30 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>5:00 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>5:30 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>6:00 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>6:30 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>7:00 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>7:30 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>8:00 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>8:30 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>9:00 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>9:30 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
                                     <div>10:00 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>10:30 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>11:00 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>11:30 PM</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>00:00 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>00:30 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>01:00 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>01:30 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>02:00 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>02:30 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>03:00 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>03:30 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>04:00 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>04:30 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>05:00 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>05:30 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>06:00 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>06:30 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>07:00 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>07:30 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>08:00 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>08:30 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>09:00 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>09:30 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>10:00 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>10:30 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>11:00 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>11:30 AM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>12:00 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>12:30 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>01:00 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>01:30 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>02:00 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>02:30 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>03:00 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>03:30 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>04:00 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>04:30 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>05:00 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>05:30 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>06:00 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>06:30 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>07:00 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>07:30 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>08:00 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>08:30 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>09:00 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>09:30 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>10:00 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>10:30 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>11:00 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>11:30 PM</div>
                                     <div>{{ $nextDate }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>00:00 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>00:30 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>01:00 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>01:30 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>02:00 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>02:30 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>03:00 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>03:30 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>04:00 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>04:30 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>05:00 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>05:30 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>06:00 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>06:30 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>07:00 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>07:30 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>08:00 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>08:30 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>09:00 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>09:30 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>10:00 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>10:30 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>11:00 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>11:30 AM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>12:00 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>12:30 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>01:00 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>01:30 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>02:00 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>02:30 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>03:00 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>03:30 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>04:00 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>04:30 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>05:00 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>05:30 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>06:00 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>06:30 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>07:00 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>07:30 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>08:00 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>08:30 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>09:00 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>09:30 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>10:00 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>10:30 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>11:00 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>11:30 PM</div>
                                     <div>{{ $nextDate1 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>00:00 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>00:30 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>01:00 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>01:30 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>02:00 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>02:30 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>03:00 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>03:30 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>04:00 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>04:30 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>05:00 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>05:30 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>06:00 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>06:30 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>07:00 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>07:30 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>08:00 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>08:30 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>09:00 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>09:30 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>10:00 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>10:30 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>11:00 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>11:30 AM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>12:00 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>12:30 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>01:00 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>01:30 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>02:00 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>02:30 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>03:00 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>03:30 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>04:00 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>04:30 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>05:00 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>05:30 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>06:00 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>06:30 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>07:00 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>07:30 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>08:00 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>08:30 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>09:00 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>09:30 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>10:00 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>10:30 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>11:00 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
-                                <div style="width: 300px;">
+                                <div style="width: 300px; margin-left:0.3rem;"
+                                    class="shadow bg-body-tertiary rounded">
                                     <div>11:30 PM</div>
                                     <div>{{ $nextDate2 }}</div>
                                 </div>
@@ -753,95 +900,156 @@
                                 $cnt = 0;
                                 $ARR_FEED_DATA = \App\Helpers\GeneralHelper::parseMainFeedArrData(0, (array) $data);
                                 $channels = $ARR_FEED_DATA['arrChannelsData'];
-                                $channels = json_decode(json_encode($channels), true);
+                                $channels = json_decode(json_encode($data->channels), true);
                             @endphp
-
-                            @foreach ($channels as $key => $channel)
+                            @foreach ($channels as $channel)
                                 @php
                                     $episodeDisplayed = false;
                                 @endphp
-                                <div class="main-container" style="display: flex;border: 1px solid;">
-                                    <div class="channnel">
+                                <div class="main-container"
+                                    style="display: flex; border: 1px solid;background: none; margin-top: 1rem;">
+                                    <!-- Channel Information -->
+                                    <div class="channnel shadow bg-body-tertiary rounded">
                                         <div class="channnel_ch_icon">
                                             <a
-                                                href="{{ route('player.tvguide', ['channelGuid' => $channel['id'], 'slug' => $slug]) }}">
-                                                <img src="{{ $channel['ch_icon'] }}"></a>
+                                                href="{{ route('player.tvguide', ['channelGuid' => $channel['code'], 'slug' => $slug]) }}">
+                                                <img src="{{ $channel['ch_icon'] }}"
+                                                    alt="{{ $channel['title'] }}">
+                                            </a>
                                         </div>
                                         <div class="channnel_detail">
-                                            <p>{{ $channel['ch_no'] }}</p>
                                             <p>
                                                 <a class="text-decoration-none"
-                                                    href="{{ route('player.tvguide', ['channelGuid' => $channel['id'], 'slug' => $slug]) }}">
+                                                    href="{{ route('player.tvguide', ['channelGuid' => $channel['code'], 'slug' => $slug]) }}">
                                                     {{ $channel['title'] }}
                                                 </a>
                                             </p>
                                         </div>
-
                                     </div>
 
-                                    @php
-                                        $startTime = strtotime($currentDate . ' 00:00:00');
-                                        $endTime = strtotime($currentDate . ' +3 days 23:59:59');
-                                        $episodeDisplayed = false;
-                                    @endphp
-                                    @foreach ($channel['epg'] as $show)
-                                        @php
 
-                                            $showStartTime = strtotime($show['start_date_time_utc']);
-                                            $showEndTime = strtotime($show['end_date_time_utc']);
-                                            $intersectionStartTime = max($startTime, $showStartTime);
-                                            $intersectionEndTime = min($endTime, $showEndTime);
-
-                                        @endphp
-                                        @if ($intersectionStartTime < $intersectionEndTime)
+                                    @foreach ($channel['schedules'] as $scheduleDay)
+                                        <!-- Loop through days of schedules -->
+                                        @foreach ($scheduleDay['schedules'] as $schedule)
                                             @php
-
-                                                $timeDifference = ($intersectionEndTime - $intersectionStartTime) / 60;
-                                                $detect = '';
-
+                                                $currentStreamStartTime = strtotime($schedule['start_time']);
+                                                $endOfSchedule = strtotime($schedule['end_time']);
+                                                $streams = $schedule['streams'] ?? [];
+                                                $scheduleDuration = ($endOfSchedule - $currentStreamStartTime) / 60; // Duration of schedule in minutes
                                                 $userAgent = request()->server('HTTP_USER_AGENT');
-                                                if (strpos($userAgent, 'Mobile') !== false) {
-                                                    $detect = $timeDifference * 5;
-                                                } else {
-                                                    $detect = $timeDifference * 10;
-                                                }
+                                                $detect =
+                                                    strpos($userAgent, 'Mobile') !== false
+                                                        ? $scheduleDuration * 5
+                                                        : $scheduleDuration * 10; // Adjust width based on duration
                                             @endphp
-                                            <div class="shows"
-                                                style="display: flex; width:{{ $detect }}px ;">
-                                                <div class="tooltip">
-                                                    <a
-                                                        href="{{ route('player.tvguide', ['channelGuid' => $channel['id'], 'slug' => $slug]) }}">
-                                                        <div class="shows-eps">
-                                                            <p>{{ $show['title'] }}</p>
-                                                            <p> {{ $show['duration'] }} MIN</p>
+
+                                            @if (!empty($streams))
+                                                @php $streamIndex = 0; @endphp
+
+                                                @while ($currentStreamStartTime < $endOfSchedule)
+                                                    @php
+                                                        // Get the current stream details
+                                                        $stream = $streams[$streamIndex];
+                                                        $streamTitle = $stream['title'];
+                                                        $streamPoster = $stream['poster'];
+                                                        $streamDuration = $stream['duration'] ?? 0; // Default to 0 if duration is null
+                                                        $streamCode = $stream['code'];
+
+                                                        // Calculate end time for the current stream
+                                                        $currentStreamEndTime =
+                                                            $currentStreamStartTime + $streamDuration * 60;
+
+                                                        // Ensure the stream doesn't exceed the schedule's end time
+                                                        if ($currentStreamEndTime > $endOfSchedule) {
+                                                            $currentStreamEndTime = $endOfSchedule;
+                                                        }
+
+                                                        // Format times for display
+                                                        $formattedStartTime = date('h:i A', $currentStreamStartTime);
+                                                        $formattedEndTime = date('h:i A', $currentStreamEndTime);
+
+                                                        // Adjust display width based on duration
+                                                        $timeDifference =
+                                                            ($currentStreamEndTime - $currentStreamStartTime) / 60; // Minutes
+                                                        $width =
+                                                            strpos($userAgent, 'Mobile') !== false
+                                                                ? $timeDifference * 5 // Slightly increase multiplier for mobile
+                                                                : $timeDifference * 10; // Slightly increase multiplier for desktop
+
+                                                        // Update the start time for the next stream
+                                                        $currentStreamStartTime = $currentStreamEndTime;
+
+                                                        // Cycle to the next stream (wrap around if needed)
+                                                        $streamIndex = ($streamIndex + 1) % count($streams);
+                                                    @endphp
+
+                                                    {{-- <div class="shows"
+                                                        style="display: flex; width:{{ $width }}px;margin-left:0.3rem;" class="shadow bg-body-tertiary rounded">
+                                                        <div class="tooltip"> --}}
+                                                    <div class="shows shadow p-3 bg-body-tertiary rounded"
+                                                        style="
+                                                        display: flex; width:{{ $width }}px;margin-left:0.3rem;"
+                                                        class="shadow bg-body-tertiary rounded">
+                                                        <div class="tooltip">
+                                                            <a
+                                                                href="{{ route('player.tvguide', ['channelGuid' => $channel['code'], 'slug' => $streamCode]) }}">
+                                                                <div class="shows-eps">
+                                                                    <div class="d-flex justify-content-center gap-2">
+                                                                        <img src="{{ $streamPoster }}"
+                                                                            alt="{{ $streamTitle }}"
+                                                                            style="height: 60px; width:100px; border-radius: 5px;">
+                                                                        <div>
+                                                                            @php
+                                                                                $maxLength = 25; // Set the maximum number of characters for display
+                                                                                $truncatedTitle =
+                                                                                    strlen($streamTitle) > $maxLength
+                                                                                        ? substr(
+                                                                                                $streamTitle,
+                                                                                                0,
+                                                                                                $maxLength,
+                                                                                            ) . '...'
+                                                                                        : $streamTitle;
+                                                                            @endphp
+                                                                            <strong
+                                                                                style="font-size: 1.15rem;">{{ $truncatedTitle }}</strong>
+
+                                                                            <p>{{ $formattedStartTime }} -
+                                                                                {{ $formattedEndTime }}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                            <span class="tooltiptext">
+                                                                <a
+                                                                    href="{{ route('player.tvguide', ['channelGuid' => $channel['code'], 'slug' => $streamCode]) }}">
+                                                                    {{ $streamTitle }}
+                                                                    <!-- Show full title in the tooltip -->
+                                                                </a>
+                                                            </span>
+
                                                         </div>
-                                                    </a>
-                                                    <span class="tooltiptext">
-                                                        <a
-                                                            href="{{ route('player.tvguide', ['channelGuid' => $channel['id'], 'slug' => $slug]) }}">
-                                                            {{ $show['title'] }}
-                                                        </a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            @php $episodeDisplayed = true; @endphp
-                                        @endif
+                                                    </div>
+                                                @endwhile
+                                            @else
+                                                <!-- Placeholder for no streams -->
+                                                <p class="shadow bg-body-tertiary rounded mx-2"
+                                                    style="display: flex; width:{{ $detect }}px; background-color: #f8f9fa; color: #6c757d; justify-content: center; align-items: center;margin-top:1rem;">
+                                                    No streams available for this schedule.
+                                                </p>
+                                            @endif
+                                        @endforeach
                                     @endforeach
-                                    @if (!$episodeDisplayed)
+
+
+
+                                    @empty($channel['schedules'])
                                         <div class="not_available">
-                                            <div class="shows">No shows available for today</div>
+                                            <div class="shows">No schedules available for this channel</div>
                                         </div>
-                                    @endif
-                                    {{-- echo '<div class="not_available">
-                                        <div class="shows">No shows available for today</div>
-                                    </div>' --}}
+                                    @endempty
                                 </div>
-                                @php
-                                    if ($cnt == 1) {
-                                    }
-                                    $cnt++;
-                                @endphp
                             @endforeach
+
                             <div class="current-time-line" id="current-time-line"></div>
                         </div>
                     </div>

@@ -168,6 +168,8 @@ Route::get('/content-bundle/{stream_guid}', [BundleContentController::class, 'in
 Route::post('/purchase', [BundleContentController::class, 'purchase'])->name('bundle.purchase');
 Route::post('/stripe/purchase', [BundleContentController::class, 'createCheckoutSession'])->name('stripe.purchase');
 Route::get('/bundle/success', [BundleContentController::class, 'success'])->name('bundle.success');
+Route::get('live-tv-guide/channel/stream/{channelCode}', [TvGuidePlayerController::class, 'getChannelStreams'])->name('channel.streams');
+Route::get('tv-guide-group/{tvGuidePlaylist}', [TvGuidePlayerController::class, 'watchTvGuideStreams']);
 
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
 
@@ -185,4 +187,3 @@ Route::get('/watch/ended-watch-party', function () {
 
 Route::get('/create/{streamCode}/watch/party', [WatchPartyController::class, 'create'])->name('create.watch.party');
 Route::post('/store/watch/party', [WatchPartyController::class, 'store'])->name('store.watch.party');
-Route::get('{slug?}', [HomeController::class, 'index'])->name('home');

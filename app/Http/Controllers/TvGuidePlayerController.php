@@ -4,24 +4,40 @@ namespace App\Http\Controllers;
 
 use App\Services\Api;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 
 class TvGuidePlayerController extends Controller
 {
     public function index($channelGuid, $menuSlug)
     {
-        // $menuSlug = 'live-tv-guide';
+        $data = $this->fetchChannelPlaylists($channelGuid);
 
+        $data = ['channelGuid' => $channelGuid, 'data' => $data];
+        return view('tv-guide.tv-guide-player', $data);
+    }
+
+    private function fetchChannelPlaylists($channelCode)
+    {
         $response = Http::timeout(300)->withHeaders(Api::headers())
-            ->get(Api::endpoint("/{$menuSlug}"));
+            ->asForm()
+            ->get(Api::endpoint("/live-tv-guide/channel/{$channelCode}"));
+        $responseJson = $response->json();
 
-        $tvGuideData = json_decode($response->getBody()->getContents());
+        return $responseJson;
+    }
 
-        if (isset($tvGuideData->app->app_info->timezone)) {
-            config(['app.timezone' => $tvGuideData->app->app_info->timezone]);
+    public function watchTvGuideStreams(Request $request)
+    {
+        if (!$request->has('data')) {
+            return abort(404, 'Missing data');
+        }
+        try {
+            $decryptedStreams = Crypt::decrypt($request->query('data'));
+        } catch (\Exception $e) {
+            return abort(403, $e->getMessage());
         }
 
-        $data = ['channelGuid' => $channelGuid, 'arrRes' => $tvGuideData];
-        return view('tv-guide.tv-guide-player', $data);
+        return view('tv-guide.tv-guide-group-streams', compact('decryptedStreams'));
     }
 }
