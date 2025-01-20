@@ -446,25 +446,25 @@
 
         /* Styles for BuyNow redirect message */
         /* .buynow-redirect-message {
-                        background-color: #353b49;
-                        color: var(--themePrimaryTxtColor);
-                        max-width: 1000.89px;
-                        width: fit-content;
-                        padding: .8rem 1.2rem;
-                        font-weight: 600;
-                        border-radius: 2px;
-                        position: absolute;
-                        z-index: 1000;
-                        bottom: 68px;
-                        height: fit-content;
-                        left: 18px;
-                        user-select: none;
-                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                        transition: all 0.5s ease-in-out;
-                        transform: translateX(-400px);
-                        opacity: 0;
-                        visibility: hidden;
-                    } */
+                            background-color: #353b49;
+                            color: var(--themePrimaryTxtColor);
+                            max-width: 1000.89px;
+                            width: fit-content;
+                            padding: .8rem 1.2rem;
+                            font-weight: 600;
+                            border-radius: 2px;
+                            position: absolute;
+                            z-index: 1000;
+                            bottom: 68px;
+                            height: fit-content;
+                            left: 18px;
+                            user-select: none;
+                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                            transition: all 0.5s ease-in-out;
+                            transform: translateX(-400px);
+                            opacity: 0;
+                            visibility: hidden;
+                        } */
         .buynow-redirect-message {
             background-color: var(--themeActiveColor);
             color: var(--themePrimaryTxtColor);
@@ -1403,7 +1403,7 @@ if (!empty($arrCatData))
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                                                                          </div> -->
+                                                                                                                                                                                                                                                                                              </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}</div>
@@ -1433,12 +1433,15 @@ if (!empty($arrCatData))
                     <h1 class="section-title" style="display: flex; align-items: center; gap: 10px;">
                         Reviews:
                         @if ($ratingsCount > 0)
-                            @if (isset($streamratingtype, $streamratingstatus) && $streamratingtype === 'stars' && $streamratingstatus === 'E')
+                            @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
+                                    $stream_details['rating_type'] === 'stars' &&
+                                    $stream_details['video_rating'] === 'E')
                                 <div class="star active" style="display: inline-flex;">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>star</title>
                                             <path
@@ -1447,12 +1450,15 @@ if (!empty($arrCatData))
                                         </g>
                                     </svg>
                                 </div>
-                            @elseif(isset($streamratingtype, $streamratingstatus) && $streamratingtype === 'hearts' && $streamratingstatus === 'E')
+                            @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
+                                    $stream_details['rating_type'] === 'hearts' &&
+                                    $stream_details['video_rating'] === 'E')
                                 <div class="star active" style="display: inline-flex;">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>heart</title>
                                             <path
@@ -1461,8 +1467,10 @@ if (!empty($arrCatData))
                                         </g>
                                     </svg>
                                 </div>
-                            @elseif(isset($streamratingtype, $streamratingstatus) && $streamratingtype === 'thumbs' && $streamratingstatus === 'E')
-                                <div class="star active" style="display: inline-flex; rotate: 180deg">
+                            @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
+                                    $stream_details['rating_type'] === 'thumbs' &&
+                                    $stream_details['video_rating'] === 'E')
+                                <div class="star active" style="rotate: 180deg">
                                     <svg fill="#6e6e6e" height="27px" width="27px" version="1.1" id="Capa_1"
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
@@ -1484,10 +1492,11 @@ if (!empty($arrCatData))
                                     \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
                                     \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'stars')
                                 <div class="star active" style="display: inline-flex;">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>star</title>
                                             <path
@@ -1505,7 +1514,8 @@ if (!empty($arrCatData))
                                     <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
                                         <g id="SVGRepo_iconCarrier">
                                             <title>heart</title>
                                             <path
@@ -1516,8 +1526,7 @@ if (!empty($arrCatData))
                                 </div>
                             @else
                                 {{-- Thumbs  --}}
-                                <div class="star active" style="display: inline-flex; rotate: 180deg"
-                                    onclick="handleStarRating(this)">
+                                <div class="star active" style="rotate: 180deg">
                                     <svg fill="#6e6e6e" height="27px" width="27px" version="1.1" id="Capa_1"
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
@@ -1535,8 +1544,9 @@ if (!empty($arrCatData))
                                 </div>
                             @endif
 
-                            {{ $ratingsCount ?? 0 }}
+                            {{-- {{ $ratingsCount ?? 0 }} --}}
                         @endif
+                            <span class="average-rating">{{ $averageRating ?? '' }} </span>
                     </h1>
 
                     @php
@@ -1701,8 +1711,8 @@ if (!empty($arrCatData))
                                 {{ $message }}
                             @enderror
                         </span>
-                         <div id="messageContainer" style="display: none;"></div>
-                        <form id="ratingForm" action="{{route('addrating.playerscreen')}}" method="POST">
+                        <div id="messageContainer" style="display: none;"></div>
+                        <form id="ratingForm" action="{{ route('addrating.playerscreen') }}" method="POST">
                             @csrf
                             <textarea name="comment" cols="30" rows="10" placeholder="Let others know what you think..."></textarea>
                             <input type="hidden" name="rating" id="hiddenRating">
@@ -2638,6 +2648,22 @@ if (!empty($arrCatData))
                     $('#messageContainer').html('').fadeOut();
                     if (response.success) {
                         $('.member-reviews').html(response.newReviewHtml);
+
+                        if (response.totalReviews > 0) {
+                            $('.no-reviews-message').hide();
+                        } else {
+                            $('.no-reviews-message').show();
+                        }
+
+                        if (response.ratingsCount !== undefined) {
+                            $('.section-title .ratings-count').text(`(${response.ratingsCount})`);
+                            console.log(response);
+                        }
+                        console.log(response);
+                        // Update average rating
+                        if (response.averageRating !== undefined) {
+                            $('.section-title .average-rating').text(`${response.averageRating}`);
+                        }
                         form[0].reset();
                         $('#messageContainer').html(
                                 `<div style="color: var(--themeActiveColor);">Review added.</div>`)

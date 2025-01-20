@@ -251,14 +251,17 @@
                                 </div>
                             @endif
 
-                            {{ $ratingsCount ?? 0 }}
+                            {{-- {{ $ratingsCount ?? 0 }} --}}
                         @endif
+                            <span class="average-rating">{{ $averageRating ?? '' }} </span>
                     </h1>
-                    @php
-                        if (sizeof($stream_details['ratings'] ?? []) < 1) {
-                            echo '<p class="text-white" style="margin-bottom: -8px !important;">No reviews found.</p>';
-                        }
 
+                    <p class="text-white no-reviews-message"
+                        style="margin-bottom: -8px !important; {{ sizeof($stream_details['ratings'] ?? []) > 0 ? 'display: none;' : '' }}">
+                        No reviews found.
+                    </p>
+
+                    @php
                         $userDidComment = false;
                         foreach ($stream_details['ratings'] ?? [] as $rating) {
                             if (
