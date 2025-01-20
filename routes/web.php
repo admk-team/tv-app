@@ -126,7 +126,7 @@ Route::middleware('auth.user')->group(function () {
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');
 Route::get('detailscreen/{id}', [DetailScreenController::class, 'index'])->name('detailscreen');
-Route::get('seriesDetailscreen/{id}', [SeriesDetailScreenController::class, 'index'])->name('seriesDetailscreen');
+Route::get('series/{id}', [SeriesDetailScreenController::class, 'index'])->name('series');
 Route::get('page/{slug}', [PageController::class, 'index'])->name('page');
 Route::post('contact-us', [PageController::class, 'submit'])->name('contactus.submit');
 Route::get('playerscreen/{id}', [PlayerScreenController::class, 'index'])->name('playerscreen'); // Main Player Screen

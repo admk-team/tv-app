@@ -77,7 +77,7 @@
                             @php
                                 $screen =
                                     isset($stream->contentType) && $stream->contentType === 'series'
-                                        ? 'seriesDetailscreen'
+                                        ? 'series'
                                         : 'detailscreen';
                             @endphp
                             <a class="app-secondary-btn rounded" href="{{ route($screen, $stream->stream_guid) }}">

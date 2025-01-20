@@ -95,7 +95,7 @@
                                 } elseif($stream?->contentType != 'series'){
                                     $screen = 'detailscreen';
                                 }else{
-                                    $screen = 'seriesDetailscreen'; 
+                                    $screen = 'series'; 
                                 }
                                 if ($stream->stream_type === 'A') {
                                     $url = $stream->stream_promo_url;

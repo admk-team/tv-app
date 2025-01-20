@@ -12,17 +12,22 @@
     </div>
 
     <div class="tab-content">
+        <!-- Desktop -->
         <div data-tab-content="like" class="content">
-            <div id="seasonSelector" class="custom-dropdown">
+            <div class="custom-dropdown">
                 <select id="seasonDropdown" class="styled-dropdown">
                     <!-- Options dynamically populated -->
                 </select>
             </div>
-            <div class="slider-container">
-                <div class="landscape_slider slider slick-slider">
-                    <!-- Episodes will be dynamically populated -->
+            <section class="sliders">
+                <div class="slider-container">
+                    <div class="listing_box">
+                        <div class="landscape_slider slider slick-slider">
+                            <!-- Episodes dynamically populated -->
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
         </div>
 
         @if (

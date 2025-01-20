@@ -19,7 +19,7 @@
     $isByPass = 'Y';
     $streamType = $series_details['stream_type'];
     
-    $sharingURL = url('/') . '/seriesDetailscreen/' . $series_details['stream_guid'];
+    $sharingURL = url('/') . '/series/' . $series_details['stream_guid'];
     
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
     
@@ -221,135 +221,135 @@
                             </span>
                         @endif
                         @if ($ratingsCount > 0)
-                        @if (isset($series_details['rating_type'], $series_details['video_rating']) &&
-                                $series_details['rating_type'] === 'stars' &&
-                                $series_details['video_rating'] === 'E')
-                            <span class="content_screen themePrimaryTxtColr">
-                                <div class="star active" style="display: inline-flex;">
-                                    <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>star</title>
-                                            <path
-                                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                {{ $ratingsCount ?? 0 }}
-                            </span>
-                        @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
-                                $series_details['rating_type'] === 'hearts' &&
-                                $series_details['video_rating'] === 'E')
-                            <span class="content_screen themePrimaryTxtColr">
-                                <div class="star active" style="display: inline-flex;">
-                                    <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>heart</title>
-                                            <path
-                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                {{ $ratingsCount ?? 0 }}
-                            </span>
-                        @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
-                                $series_details['rating_type'] === 'thumbs' &&
-                                $series_details['video_rating'] === 'E')
-                            <span class="content_screen themePrimaryTxtColr">
-                                <div class="star active" style="display: inline-flex; rotate: 180deg">
-                                    <svg fill="#6e6e6e" width="15px" height="15px" version="1.1" id="Capa_1"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <g>
+                            @if (isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                    $series_details['rating_type'] === 'stars' &&
+                                    $series_details['video_rating'] === 'E')
+                                <span class="content_screen themePrimaryTxtColr">
+                                    <div class="star active" style="display: inline-flex;">
+                                        <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32" version="1.1"
+                                            xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title>star</title>
                                                 <path
-                                                    d="M54.715,24.957c-0.544,0.357-1.162,0.598-1.806,0.696l-28.871,4.403c-2.228,0.341-3.956,2.257-3.956,4.511v79.825 c0,1.204,33.353,20.624,43.171,30.142c12.427,12.053,21.31,34.681,33.983,54.373c4.405,6.845,10.201,9.759,15.584,9.759 c10.103,0,18.831-10.273,14.493-24.104c-4.018-12.804-8.195-24.237-13.934-34.529c-4.672-8.376,1.399-18.7,10.989-18.7h48.991 c18.852,0,18.321-26.312,8.552-34.01c-1.676-1.32-2.182-3.682-1.175-5.563c3.519-6.572,2.86-20.571-6.054-25.363 c-2.15-1.156-3.165-3.74-2.108-5.941c3.784-7.878,3.233-24.126-8.71-27.307c-2.242-0.598-3.699-2.703-3.405-5.006 c0.909-7.13-0.509-20.86-22.856-26.447C133.112,0.573,128.281,0,123.136,0C104.047,0.001,80.683,7.903,54.715,24.957z">
+                                                    d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
                                                 </path>
                                             </g>
-                                        </g>
-                                    </svg>
-                                </div>
-                                {{ $ratingsCount ?? 0 }}
-                            </span>
-                        @elseif (isset(
-                                \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
-                                \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
-                                \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
-                                \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'stars')
-                            <span class="content_screen themePrimaryTxtColr">
-                                <div class="star active" style="display: inline-flex;">
-                                    <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>star</title>
-                                            <path
-                                                d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                {{ $ratingsCount ?? 0 }}
-                            </span>
-                        @elseif (isset(
-                                \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
-                                \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
-                                \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
-                                \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'hearts')
-                            <span class="content_screen themePrimaryTxtColr">
-                                <div class="star active" style="display: inline-flex;">
-                                    <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>heart</title>
-                                            <path
-                                                d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </div>
-                                {{ $ratingsCount ?? 0 }}
-                            </span>
-                        @else
-                            {{-- Thumbs  --}}
-                            <span class="content_screen themePrimaryTxtColr">
-                                <div class="star active" style="display: inline-flex; rotate: 180deg">
-                                    <svg fill="#6e6e6e" width="15px" height="15px" version="1.1" id="Capa_1"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <g>
+                                        </svg>
+                                    </div>
+                                    {{ $ratingsCount ?? 0 }}
+                                </span>
+                            @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                    $series_details['rating_type'] === 'hearts' &&
+                                    $series_details['video_rating'] === 'E')
+                                <span class="content_screen themePrimaryTxtColr">
+                                    <div class="star active" style="display: inline-flex;">
+                                        <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32" version="1.1"
+                                            xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title>heart</title>
                                                 <path
-                                                    d="M54.715,24.957c-0.544,0.357-1.162,0.598-1.806,0.696l-28.871,4.403c-2.228,0.341-3.956,2.257-3.956,4.511v79.825 c0,1.204,33.353,20.624,43.171,30.142c12.427,12.053,21.31,34.681,33.983,54.373c4.405,6.845,10.201,9.759,15.584,9.759 c10.103,0,18.831-10.273,14.493-24.104c-4.018-12.804-8.195-24.237-13.934-34.529c-4.672-8.376,1.399-18.7,10.989-18.7h48.991 c18.852,0,18.321-26.312,8.552-34.01c-1.676-1.32-2.182-3.682-1.175-5.563c3.519-6.572,2.86-20.571-6.054-25.363 c-2.15-1.156-3.165-3.74-2.108-5.941c3.784-7.878,3.233-24.126-8.71-27.307c-2.242-0.598-3.699-2.703-3.405-5.006 c0.909-7.13-0.509-20.86-22.856-26.447C133.112,0.573,128.281,0,123.136,0C104.047,0.001,80.683,7.903,54.715,24.957z">
+                                                    d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
                                                 </path>
                                             </g>
-                                        </g>
-                                    </svg>
-                                </div>
-                                {{ $ratingsCount ?? 0 }}
-                            </span>
+                                        </svg>
+                                    </div>
+                                    {{ $ratingsCount ?? 0 }}
+                                </span>
+                            @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                    $series_details['rating_type'] === 'thumbs' &&
+                                    $series_details['video_rating'] === 'E')
+                                <span class="content_screen themePrimaryTxtColr">
+                                    <div class="star active" style="display: inline-flex; rotate: 180deg">
+                                        <svg fill="#6e6e6e" width="15px" height="15px" version="1.1" id="Capa_1"
+                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <g>
+                                                    <path
+                                                        d="M54.715,24.957c-0.544,0.357-1.162,0.598-1.806,0.696l-28.871,4.403c-2.228,0.341-3.956,2.257-3.956,4.511v79.825 c0,1.204,33.353,20.624,43.171,30.142c12.427,12.053,21.31,34.681,33.983,54.373c4.405,6.845,10.201,9.759,15.584,9.759 c10.103,0,18.831-10.273,14.493-24.104c-4.018-12.804-8.195-24.237-13.934-34.529c-4.672-8.376,1.399-18.7,10.989-18.7h48.991 c18.852,0,18.321-26.312,8.552-34.01c-1.676-1.32-2.182-3.682-1.175-5.563c3.519-6.572,2.86-20.571-6.054-25.363 c-2.15-1.156-3.165-3.74-2.108-5.941c3.784-7.878,3.233-24.126-8.71-27.307c-2.242-0.598-3.699-2.703-3.405-5.006 c0.909-7.13-0.509-20.86-22.856-26.447C133.112,0.573,128.281,0,123.136,0C104.047,0.001,80.683,7.903,54.715,24.957z">
+                                                    </path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    {{ $ratingsCount ?? 0 }}
+                                </span>
+                            @elseif (isset(
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'stars')
+                                <span class="content_screen themePrimaryTxtColr">
+                                    <div class="star active" style="display: inline-flex;">
+                                        <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32"
+                                            version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title>star</title>
+                                                <path
+                                                    d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                                                </path>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    {{ $ratingsCount ?? 0 }}
+                                </span>
+                            @elseif (isset(
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
+                                    \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'hearts')
+                                <span class="content_screen themePrimaryTxtColr">
+                                    <div class="star active" style="display: inline-flex;">
+                                        <svg fill="#ffffff" width="15px" height="15px" viewBox="0 0 32 32"
+                                            version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title>heart</title>
+                                                <path
+                                                    d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
+                                                </path>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    {{ $ratingsCount ?? 0 }}
+                                </span>
+                            @else
+                                {{-- Thumbs  --}}
+                                <span class="content_screen themePrimaryTxtColr">
+                                    <div class="star active" style="display: inline-flex; rotate: 180deg">
+                                        <svg fill="#6e6e6e" width="15px" height="15px" version="1.1" id="Capa_1"
+                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            viewBox="0 0 208.666 208.666" xml:space="preserve" stroke="#6e6e6e">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <g>
+                                                    <path
+                                                        d="M54.715,24.957c-0.544,0.357-1.162,0.598-1.806,0.696l-28.871,4.403c-2.228,0.341-3.956,2.257-3.956,4.511v79.825 c0,1.204,33.353,20.624,43.171,30.142c12.427,12.053,21.31,34.681,33.983,54.373c4.405,6.845,10.201,9.759,15.584,9.759 c10.103,0,18.831-10.273,14.493-24.104c-4.018-12.804-8.195-24.237-13.934-34.529c-4.672-8.376,1.399-18.7,10.989-18.7h48.991 c18.852,0,18.321-26.312,8.552-34.01c-1.676-1.32-2.182-3.682-1.175-5.563c3.519-6.572,2.86-20.571-6.054-25.363 c-2.15-1.156-3.165-3.74-2.108-5.941c3.784-7.878,3.233-24.126-8.71-27.307c-2.242-0.598-3.699-2.703-3.405-5.006 c0.909-7.13-0.509-20.86-22.856-26.447C133.112,0.573,128.281,0,123.136,0C104.047,0.001,80.683,7.903,54.715,24.957z">
+                                                    </path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    {{ $ratingsCount ?? 0 }}
+                                </span>
+                            @endif
                         @endif
-                    @endif
                     </div>
 
                     <div class="about-movie aboutmovie_gaps">{{ $series_details['stream_description'] }}</div>
@@ -500,11 +500,55 @@
                             @endif
 
                         </div>
+                        <?php
+                        if (session('USER_DETAILS.USER_CODE')) {
+                            $signStr = "+";
+                            $cls = 'fa fa-plus';
+                                    $tooltip = "Add to Watchlist";
+    
+                                // Check if the stream is already in the wishlist
+                                if ($series_details['stream_is_stream_added_in_wish_list'] == 'Y') {
+                                    // Update values for removing from wishlist
+                                    $cls = 'fa fa-minus';
+                                    $signStr = "-";
+                                    $tooltip = "Remove from Watchlist";
+                                }
+    
+                            if ($series_details['stream_is_stream_added_in_wish_list'] == 'Y') {
+                                $cls = 'fa fa-minus';
+                                $signStr = "-";
+                            }
+                        ?>
+                            <div class="share_circle addWtchBtn">
+                                <a href="javascript:void(0);" onClick="manageFavItem();">
+                                    <i id="btnicon-fav" class="{{ $cls }} theme-active-color"
+                                        data-bs-toggle="tooltip" title="{{ $tooltip }}"></i>
+                                </a>
+                                <input type="hidden" id="myWishListSign" value="{{ $signStr }}" />
+                                <input type="hidden" id="strQueryParm" value="{{ $strQueryParm }}" />
+                                <input type="hidden" id="reqUrl" value="{{ route('wishlist.toggle') }}" />
+                                @csrf
+                            </div>
+                            <?php
+                        }
+                        ?>
                         <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                             <a href="javascript:void(0);" role="button" data-bs-toggle="tooltip" title="Share">
                                 <i class="fa fa-share theme-active-color"></i>
                             </a>
                         </div>
+                        @if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
+                        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+                            @if (isset($series_details['gamified_content']) && $series_details['gamified_content'] == 1)
+                                <div class="share_circle addWtchBtn">
+                                    <a href="{{ route('user.badge') }}" data-bs-toggle="tooltip"
+                                        title="Gamified Content">
+                                        <i class="fa-solid fa-award theme-active-color"></i>
+                                    </a>
+                                </div>
+                            @endif
+                        @endif
+                    @endif
                     </div>
                 </div>
             </div>
@@ -513,15 +557,15 @@
     <div class="desktop-tabs">
         @include('series-detailscreen.partials.tabs-desktop')
     </div>
-    {{--  <div class="mobile-tabs">
+    <div class="mobile-tabs">
         @include('series-detailscreen.partials.tabs-mobile')
-    </div>  --}}
+    </div>
 
 
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered sharing-madal" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -822,79 +866,111 @@
         });
     </script>
     <script>
-        $(document).ready(function () {
-            const seasonDropdown = $('#seasonDropdown');
-            const sliderContainer = $('.landscape_slider');
-    
-            // Parse JSON-encoded PHP data
-            const seasons = @json($seasons);
-    
-            // Populate dropdown with seasons
-            seasons.forEach((season, index) => {
-                seasonDropdown.append(
-                    `<option value="${index}" ${index === 0 ? 'selected' : ''}>Season ${index + 1}</option>`
-                );
-            });
-    
-            // Function to populate episodes in slider
-            function populateEpisodes(episodes) {
-                sliderContainer.empty(); // Clear existing slider items
-                episodes.forEach((episode) => {
-                    sliderContainer.append(`
-                        <div>
-                            <a href="/detailscreen/${episode.stream_guid}">
-                                <div class="thumbnail_img">
-                                    <img src="${episode.stream_poster}" alt="${episode.stream_title}" onerror="this.src='/assets/images/default_img.jpg'">
-                                    <div class="detail_box_hide">
-                                        <div class="detailbox_time">${episode.stream_duration_timeformat}</div>
-                                        <div class="content_title">${episode.stream_title}</div>
-                                        <div class="content_description">${episode.stream_description}</div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    `);
+        $(document).ready(function() {
+            function initSeasonDropdown(dropdownId, sliderClass, seasons) {
+                const seasonDropdown = $(`#${dropdownId}`);
+                const sliderContainer = $(`.${sliderClass}`);
+
+                // Populate dropdown with seasons
+                seasons.forEach((season, index) => {
+                    seasonDropdown.append(
+                        `<option value="${index}" ${index === 0 ? 'selected' : ''}>${season.season_title}</option>`
+                    );
                 });
-    
-                // Reinitialize or refresh the slider
-                if (!sliderContainer.hasClass('slick-initialized')) {
-                    sliderContainer.slick({
-                        slidesToShow: 3,
-                        slidesToScroll: 1,
-                        infinite: true,
-                        dots: true,
-                        arrows: true,
-                        responsive: [
-                            {
-                                breakpoint: 768,
-                                settings: {
-                                    slidesToShow: 2,
-                                },
-                            },
-                            {
-                                breakpoint: 480,
-                                settings: {
-                                    slidesToShow: 1,
-                                },
-                            },
-                        ],
+
+                // Function to populate episodes in slider
+                function populateEpisodes(episodes) {
+                    sliderContainer.empty(); // Clear existing slider items
+
+                    episodes.forEach((episode) => {
+                        let strBrige = '';
+                        if (episode.monetization_type === 'F') {
+                            strBrige = "style='display: none;'";
+                        }
+
+                        let screen =
+                            (episode.bypass_detailscreen == 1) ||
+                            (typeof AppConfig !== 'undefined' && AppConfig.app.app_info
+                                .bypass_detailscreen == 1) ?
+                            'playerscreen' :
+                            'detailscreen';
+
+                        sliderContainer.append(`
+                            <div>
+                                <a href="{{ url('/') }}/${screen}/${episode.stream_guid}">
+                                    <div class="thumbnail_img">
+                                        <div class="trending_icon_box" ${strBrige}>
+                                            <img src="{{ url('/') }}/assets/images/trending_icon.png" alt="${episode.stream_title}">
+                                        </div>
+                                        ${episode.is_newly_added === 'Y' ? `
+                                                <div class="newly-added-label">
+                                                    <span>New Episode</span>
+                                                </div>
+                                            ` : ''}
+                                        <img onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'"
+                                            src="${episode.stream_poster}" alt="${episode.stream_title}">
+                                        <div class="detail_box_hide">
+                                            <div class="detailbox_time">${episode.stream_duration_timeformat}</div>
+                                            <div class="deta_box">
+                                                <div class="season_title">${episode.stream_title}</div>
+                                                <div class="content_description">${episode.stream_description}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        `);
                     });
-                } else {
+
+                    // Initialize or refresh the slider
+                    if (!sliderContainer.hasClass('slick-initialized')) {
+                        sliderContainer.slick({
+                            slidesToShow: 3,
+                            slidesToScroll: 1,
+                            infinite: true,
+                            dots: true,
+                            arrows: true,
+                            responsive: [{
+                                    breakpoint: 768,
+                                    settings: {
+                                        slidesToShow: 2
+                                    }
+                                },
+                                {
+                                    breakpoint: 480,
+                                    settings: {
+                                        slidesToShow: 1
+                                    }
+                                },
+                            ],
+                        });
+                    } else {
+                        sliderContainer.slick('refresh');
+                    }
+                }
+                // On season change, update episodes
+                seasonDropdown.change(function() {
+                    const selectedIndex = $(this).val();
+                    const selectedSeason = seasons[selectedIndex];
+                    // Populate the new episodes
+                    sliderContainer.empty(); // Clear existing slider items
                     sliderContainer.slick('refresh');
+                    populateEpisodes(selectedSeason.episodes);
+                });
+                // Initial population of episodes (first season)
+                if (seasons.length > 0) {
+                    populateEpisodes(seasons[0].episodes); // Display episodes of the first season
                 }
             }
-    
-            // Initial population of episodes (first season)
-            if (seasons.length > 0) {
-                populateEpisodes(seasons[0].episodes); // Display episodes of the first season
-            }
-    
-            // On season change, update episodes
-            seasonDropdown.change(function () {
-                const selectedIndex = $(this).val();
-                const selectedSeason = seasons[selectedIndex];
-                populateEpisodes(selectedSeason.episodes);
-            });
+
+            // Parse JSON-encoded PHP data
+            const seasons = @json($seasons);
+
+            // Initialize for desktop
+            initSeasonDropdown('seasonDropdown', 'landscape_slider', seasons);
+
+            // Initialize for mobile
+            initSeasonDropdown('seasonDropdownMobile', 'landscape_slider_mobile', seasons);
         });
     </script>
 @endpush

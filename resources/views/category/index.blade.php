@@ -75,12 +75,14 @@
                     // Determine the screen based on bypass_detailscreen condition
                     var screenRoute;
 
-                    if (bypassDetailscreen == 1 || stream.bypass_detailscreen == 1) {
+                    if (bypassDetailscreen === 1 || stream.bypass_detailscreen === 1 || stream.contentType === 'movies') {
                         screenRoute = "{{ route('playerscreen', ':id') }}";
+                    } else if (stream.contentType === 'series') {
+                        screenRoute = "{{ route('series', ':id') }}";
                     } else {
                         screenRoute = "{{ route('detailscreen', ':id') }}";
                     }
-
+                    
                     // Generate URL by replacing the placeholder with the stream's GUID
                     var url = screenRoute.replace(':id', stream.stream_guid);
 

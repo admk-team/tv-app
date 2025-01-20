@@ -71,8 +71,10 @@
                 streams.forEach(function(stream) {
                     var screenRoute;
 
-                    if (bypassDetailscreen == 1 || stream.bypass_detailscreen == 1) {
+                    if (bypassDetailscreen === 1 || stream.bypass_detailscreen === 1 || stream.contentType === 'movies') {
                         screenRoute = "{{ route('playerscreen', ':id') }}";
+                    } else if (stream.contentType === 'series') {
+                        screenRoute = "{{ route('series', ':id') }}";
                     } else {
                         screenRoute = "{{ route('detailscreen', ':id') }}";
                     }
