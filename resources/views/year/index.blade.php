@@ -68,10 +68,13 @@
 
             streams.forEach(function(stream) {
                 // Determine the screen based on bypass_detailscreen condition
-                var screenRoute = bypassDetailscreen == 1 || stream.bypass_detailscreen == 1 
-                    ? "{{ route('playerscreen', ':id') }}" 
-                    : "{{ route('detailscreen', ':id') }}";
-
+                if (bypassDetailscreen === 1 || stream.bypass_detailscreen === 1 || stream.contentType === 'movies') {
+                    screenRoute = "{{ route('playerscreen', ':id') }}";
+                } else if (stream.contentType === 'series') {
+                    screenRoute = "{{ route('series', ':id') }}";
+                } else {
+                    screenRoute = "{{ route('detailscreen', ':id') }}";
+                }
                 // Replace placeholder ':id' with the actual stream_guid
                 var url = screenRoute.replace(':id', stream.stream_guid);
 

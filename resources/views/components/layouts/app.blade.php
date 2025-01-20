@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @include('gtm_tags.head')
-    @if (Route::is('detailscreen','playerscreen','seriesDetailscreen'))
+    @if (Route::is('detailscreen','playerscreen','series'))
         @yield('meta-tags')
     @else
         <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
