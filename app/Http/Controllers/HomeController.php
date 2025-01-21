@@ -41,8 +41,14 @@ class HomeController extends Controller
                     session(['referral_link' => $currentUrl]); 
                 }
         }
+
+        $xyz = base64_encode(request()->ip());
+        if (env('NO_IP_ADDRESS') === true) { // For localhost
+            $xyz = "MTU0LjE5Mi4xMzguMzY=";
+        }
+
         $response = Http::timeout(300)->withHeaders(Api::headers())
-            ->get(Api::endpoint("/{$slug}"));
+            ->get(Api::endpoint("/{$slug}?user_data={$xyz}"));
         Log::info(Carbon::now()->toString());
         $data = json_decode($response->getBody()->getContents());
         if (isset(\App\Services\AppConfig::get()->app->app_info->timezone)) {
