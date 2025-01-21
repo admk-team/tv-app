@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @include('gtm_tags.head')
-    @if (Route::is('detailscreen', 'playerscreen'))
+    @if (Route::is('detailscreen','playerscreen','series'))
         @yield('meta-tags')
     @else
         <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
@@ -63,7 +63,20 @@
     @yield('head')
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+     <script>
+        (function() {
+            // Detect if the user is on a mobile device
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
+            // If mobile, remove the specific element
+            if (isMobile) {
+                document.addEventListener('DOMContentLoaded', () => {
+                    const elements = document.querySelectorAll('.card-video-js.vjs-tech');
+                    elements.forEach(element => element.remove());
+                });
+            }
+        })();
+    </script>
 </head>
 
 <body>

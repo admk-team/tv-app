@@ -154,17 +154,14 @@
                             @forelse ($searchResult['streams'] as $stream)
                                 <div class="resposnive_Box">
                                     @php
-                                        if (
-                                            (isset(
-                                                \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen,
-                                            ) &&
+                                        if ((isset(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen,) &&
                                                 \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen ==
                                                     1) ||
                                             $stream['bypass_detailscreen'] == 1
                                         ) {
                                             $screen = 'playerscreen';
                                         } else {
-                                            $screen = 'detailscreen';
+                                            $screen = ($stream['stream_type'] !== 'S') ? 'detailscreen' : 'playerscreen';
                                         }
                                     @endphp
                                     <a href="{{ url('/') }}/{{ $screen }}/{{ $stream['stream_guid'] }}">
