@@ -52,21 +52,21 @@
         $mType = 'hls';
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-    
+
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-    
+
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
-    
+
     $stream_code = $stream_details['stream_guid'];
-    
+
     $postData = [
         'stream_code' => $stream_code,
     ];
     $ratingsCount = isset($stream_details['ratings']) && is_array($stream_details['ratings']) ? count($stream_details['ratings']) : 0;
-    
+
     $totalRating = 0;
-    
+
     if ($ratingsCount !== 0) {
         foreach ($stream_details['ratings'] as $review) {
             $totalRating += $review['rating'];
@@ -650,7 +650,7 @@
                             </div>
                         @endif
                     @endif
-                    
+
                     </div>
                 </div>
             </div>
