@@ -69,7 +69,7 @@
                                 @endif
                             @else
                                 <a class="app-primary-btn rounded"
-                                    href="{{ route('playerscreen', $stream->stream_guid) }}">
+                                    href="{{ route('playerscreen', $stream->contentType === 'series' ? $stream->episode_code : $stream->stream_guid) }}">
                                     <i class="bi bi-play-fill banner-play-icon"></i> Play
                                 </a>
                             @endif

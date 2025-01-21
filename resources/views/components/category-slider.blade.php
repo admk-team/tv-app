@@ -93,7 +93,7 @@
                                     $stream->bypass_detailscreen == 1 && $stream?->contentType != 'series') {
                                     $screen = 'playerscreen';
                                 } elseif($stream?->contentType != 'series'){
-                                    $screen = 'detailscreen';
+                                    $screen = ($stream->stream_type !== 'S') ? 'detailscreen' : 'playerscreen';
                                 }else{
                                     $screen = 'series'; 
                                 }
