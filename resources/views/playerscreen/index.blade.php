@@ -1384,7 +1384,7 @@ if (!empty($arrCatData))
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                                                                                              </div> -->
+                                                                                                                                                                                                                                                                                              </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}</div>
@@ -1418,8 +1418,8 @@ if (!empty($arrCatData))
                                     $stream_details['rating_type'] === 'stars' &&
                                     $stream_details['video_rating'] === 'E')
                                 <div class="star active" style="display: inline-flex;">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
                                         </g>
@@ -1435,8 +1435,8 @@ if (!empty($arrCatData))
                                     $stream_details['rating_type'] === 'hearts' &&
                                     $stream_details['video_rating'] === 'E')
                                 <div class="star active" style="display: inline-flex;">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
                                         </g>
@@ -1473,8 +1473,8 @@ if (!empty($arrCatData))
                                     \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
                                     \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'stars')
                                 <div class="star active" style="display: inline-flex;">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
                                         </g>
@@ -1527,7 +1527,7 @@ if (!empty($arrCatData))
 
                             {{-- {{ $ratingsCount ?? 0 }} --}}
                         @endif
-                        <span class="average-rating">{{ $averageRating ?? '' }} </span>
+                            <span class="average-rating">{{ $averageRating ?? '' }} </span>
                     </h1>
 
                     @php
@@ -2676,6 +2676,51 @@ if (!empty($arrCatData))
         });
     </script>
 
+                        if (response.totalReviews > 0) {
+                            $('.no-reviews-message').hide();
+                        } else {
+                            $('.no-reviews-message').show();
+                        }
+
+                        if (response.ratingsCount !== undefined) {
+                            $('.section-title .ratings-count').text(`(${response.ratingsCount})`);
+                            console.log(response);
+                        }
+                        console.log(response);
+                        // Update average rating
+                        if (response.averageRating !== undefined) {
+                            $('.section-title .average-rating').text(`${response.averageRating}`);
+                        }
+                        form[0].reset();
+                        $('#messageContainer').html(
+                                `<div style="color: var(--themeActiveColor);">Review added.</div>`)
+                            .fadeIn();
+                        setTimeout(function() {
+                            $('#messageContainer').fadeOut();
+                        }, 3000);
+                    }
+                },
+                error: function(xhr) {
+                    const errorMessages = xhr.responseJSON.errors;
+                    const errorMessage = errorMessages.rating ? errorMessages.rating[0] :
+                        'An error occurred. Please try again later.';
+                    // Display the error message
+                    $('#messageContainer').html(
+                        `<div style="color: var(--themeActiveColor);">${errorMessage}</div>`
+                    ).fadeIn();
+                    setTimeout(function() {
+                        $('#messageContainer').fadeOut();
+                    }, 3000);
+                },
+                complete: function() {
+                    // Re-enable the button and hide spinner
+                    submitButton.prop('disabled', false);
+                    buttonText.show();
+                    spinner.hide();
+                }
+            });
+        });
+    </script>
 
 
 
