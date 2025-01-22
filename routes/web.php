@@ -147,7 +147,8 @@ Route::get('tag/{id}', [TagController::class, 'index'])->name('tag');
 
 
 Route::get('person/{id?}', [PersonController::class, 'index'])->name('person');
-Route::post('addrating', [DetailScreenController::class, 'addRating'])->name('addrating');
+Route::post('addrating/post', [DetailScreenController::class, 'addRating'])->name('addrating');
+Route::post('addrating', [PlayerScreenController::class, 'addRating'])->name('addrating.playerscreen');
 Route::post('wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
 
 // Screener
