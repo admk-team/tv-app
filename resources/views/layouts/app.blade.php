@@ -85,6 +85,7 @@
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
         <meta name="csrf_token" content="{{ csrf_token() }}" />
         @yield('head')
+        @include('layouts.one-signal.one-signal-scripts')
         <!-- Matomo Tag Manager -->
 
         <script>
@@ -190,6 +191,7 @@
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5219646118453263"
                 crossorigin="anonymous"></script>
             @yield('head')
+            @include('layouts.one-signal.one-signal-scripts')
         </head>
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16683333036"></script>
@@ -278,15 +280,7 @@
                     rel="stylesheet">
                 <meta name="csrf_token" content="{{ csrf_token() }}" />
                 @yield('head')
-                <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-                <script>
-                    window.OneSignalDeferred = window.OneSignalDeferred || [];
-                    OneSignalDeferred.push(async function(OneSignal) {
-                        await OneSignal.init({
-                            appId: "{{ config('services.onesignal.app_id') }}",
-                        });
-                    });
-                </script>
+                @include('layouts.one-signal.one-signal-scripts')
             </head>
 
             <body>
