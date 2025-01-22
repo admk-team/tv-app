@@ -32,6 +32,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QualityController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ScreenerController;
+use App\Http\Controllers\SeriesDetailScreenController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TvGuidePlayerController;
 use App\Http\Controllers\UserBadgeController;
@@ -107,6 +108,7 @@ Route::middleware('auth.user')->group(function () {
     Route::post('apply-coupon', [MonetizationController::class, 'applyCoupon'])->name('apply-coupon');
     Route::match(['get', 'post'], 'monetization/success', [MonetizationController::class, 'success'])->name('monetization.success');
     Route::get('monetization/cancel', [MonetizationController::class, 'cancel'])->name('monetization.cancel');
+    Route::post('tipjar', [MonetizationController::class, 'tipjar'])->name('tipjar.view');
     Route::post('stripe/checkout', [StripeController::class, 'checkout'])->name('stripe.checkout');
     Route::get('stripe/success', [StripeController::class, 'success'])->name('stripe.success');
     Route::get('password/edit', [PasswordUpdateController::class, 'index'])->name('password.edit');
@@ -124,6 +126,8 @@ Route::middleware('auth.user')->group(function () {
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');
 Route::get('detailscreen/{id}', [DetailScreenController::class, 'index'])->name('detailscreen');
+Route::get('series/{id}', [SeriesDetailScreenController::class, 'index'])->name('series');
+Route::post('addrating/series', [SeriesDetailScreenController::class, 'addRating'])->name('addrating.series');
 Route::get('page/{slug}', [PageController::class, 'index'])->name('page');
 Route::post('contact-us', [PageController::class, 'submit'])->name('contactus.submit');
 Route::get('cancelsubscription/{subid}', [StripeController::class, 'cancelsub'])->name('cancel.subscription');

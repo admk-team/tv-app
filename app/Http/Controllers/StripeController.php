@@ -9,28 +9,34 @@ use Illuminate\Http\Request;
 use App\Helpers\GeneralHelper;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
 
 class StripeController extends Controller
 {
     public function checkout(Request $request)
     {
         Stripe::setApiKey($request->stripeSecret);
+        if ($request->has('amount'))
+        {
+            session()->put('MONETIZATION.AMOUNT',$request->amount);
+        }
         $stripeAmount = round(session('MONETIZATION')['AMOUNT'] * 100, 2);
+        $stripeProductId = null;
+        $plan = null;
         if (isset(session('MONETIZATION')['stripe_product_id']) && !empty(session('MONETIZATION')['stripe_product_id'])) {
             $stripeProductId = session('MONETIZATION')['stripe_product_id'];
         }
 
         $sPlans = AppConfig::get()->app->s_plan;
 
-        // Filter the plan
-        $matchingPlan = array_filter($sPlans, function ($plan) use ($stripeProductId) {
-            return isset($plan->stripe_product_id) && $plan->stripe_product_id === $stripeProductId;
-        });
+            // Filter the plan
+            $matchingPlan = array_filter($sPlans, function ($plan) use ($stripeProductId) {
+                return isset($plan->stripe_product_id) && $plan->stripe_product_id === $stripeProductId;
+            });
 
-        // Get the first matching plan (if necessary)
-        $plan = reset($matchingPlan); // This retrieves the first element
-
-        if ($plan->stripe_product_trail) {
+            // Get the first matching plan (if necessary)
+            $plan = reset($matchingPlan); // This retrieves the first element
+        if ($plan && $plan->stripe_product_trail) {
             $subscriptionData = [
                 'trial_period_days' => $plan->stripe_product_trail ? $plan->stripe_product_trail : 0
             ];
@@ -202,6 +208,7 @@ class StripeController extends Controller
                             'subsType' => session('MONETIZATION')['SUBS_TYPE'],
                             'paymentInformation' => session('MONETIZATION')['PAYMENT_INFORMATION'],
                             'gift_recipient_email' => session('MONETIZATION')['RECIPIENT_EMAIL'] ?? null,
+                            'tip' => session('MONETIZATION')['TIP'] ?? null,
                         ];
                         $arrRes = GeneralHelper::sendCURLRequest(0, Api::endpoint('/sendpaymentdetails'), $arrFormData);
                         $status = 'success';

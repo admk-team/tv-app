@@ -210,17 +210,7 @@
 
     $watermark = $arrSlctItemData['watermark'] ?? null;
 
-    $ratingsCount = isset($arrSlctItemData['ratings']) && is_array($arrSlctItemData['ratings']) ? count($arrSlctItemData['ratings']) : 0;
-
-    $totalRating = 0;
-
-    if ($ratingsCount !== 0) {
-        foreach ($arrSlctItemData['ratings'] as $review) {
-            $totalRating += $review['rating'];
-        }
-        $ratingsCount = $totalRating / $ratingsCount;
-        $ratingsCount = number_format($ratingsCount, 1); // Round to 1 decimal place
-    }
+   
 
     ?>
 
@@ -1072,69 +1062,50 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                         <span class="dot-sep themePrimaryTxtColr"></span>
                                     @endif
                                     {{-- <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span> --}}
-                                    <span class="movie_type themePrimaryTxtColr">
-                                        @foreach ($arrSlctItemData['genre'] ?? [] as $item)
-                                            <a href="{{ route('category', $item['code']) }}?type=genre"
-                                                class="px-0 themePrimaryTxtColr">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
-                                        @endforeach
-                                    </span>
-                                    <?php
-                            if ($streamType == 'S')
-                            {
-                                ?>
-                                    <span
-                                        class="movie_type themePrimaryTxtColr">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL' ? $arrSlctItemData['stream_episode_title'] : '' }}</span>
-                                    <span
-                                        class="movie_type themePrimaryTxtColr">{{ $arrSlctItemData['show_name'] ?? '' }}</span>
-                                    <?php
-                            }
-    ?>
-                                    <?php
-                  if ($arrSlctItemData['content_qlt'] != '')
-                  {
-    ?>
-                                    <span class="content_screen themePrimaryTxtColr">
-                                        @php
-                                            $content_qlt_arr = explode(',', $arrSlctItemData['content_qlt']);
-                                            $content_qlt_codes_arr = explode(
-                                                ',',
-                                                $arrSlctItemData['content_qlt_codes'],
-                                            );
-                                        @endphp
-                                        @foreach ($content_qlt_arr as $i => $item)
-                                            <a class="themePrimaryTxtColr"
-                                                href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>
-                                            @if (!$loop->last)
-                                                ,
-                                            @endif
-                                        @endforeach
-                                    </span>
-                                    <?php
-                  }
-    ?>
-                                    <?php
-                      if ($arrSlctItemData['content_rating'] != '')
-                      {
-                        ?>
-                                    <span class="content_screen themePrimaryTxtColr">
-                                        @php
-                                            $content_rating_arr = explode(',', $arrSlctItemData['content_rating']);
-                                            $content_rating_codes_arr = explode(
-                                                ',',
-                                                $arrSlctItemData['content_rating_codes'],
-                                            );
-                                        @endphp
-                                        @foreach ($content_rating_arr as $i => $item)
-                                            <a class="themePrimaryTxtColr"
-                                                href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>
-                                            @if (!$loop->last)
-                                                ,
-                                            @endif
-                                        @endforeach
-                                    </span>
-                                    <?php
-                      }
-                      ?>
+                                    @if ($arrSlctItemData['genre'])
+                                        <span class="movie_type themePrimaryTxtColr">
+                                            @foreach ($arrSlctItemData['genre'] ?? [] as $item)
+                                                <a href="{{ route('category', $item['code']) }}?type=genre"
+                                                    class="px-0 themePrimaryTxtColr">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
+                                            @endforeach
+                                        </span>
+                                    @endif
+                                    @if ($arrSlctItemData['content_qlt'] != '')
+                                        <span class="content_screen themePrimaryTxtColr">
+                                            @php
+                                                $content_qlt_arr = explode(',', $arrSlctItemData['content_qlt']);
+                                                $content_qlt_codes_arr = explode(
+                                                    ',',
+                                                    $arrSlctItemData['content_qlt_codes'],
+                                                );
+                                            @endphp
+                                            @foreach ($content_qlt_arr as $i => $item)
+                                                <a class="themePrimaryTxtColr"
+                                                    href="{{ route('quality', trim($content_qlt_codes_arr[$i])) }}">{{ $item }}</a>
+                                                @if (!$loop->last)
+                                                    ,
+                                                @endif
+                                            @endforeach
+                                        </span>
+                                    @endif
+                                    @if ($arrSlctItemData['content_rating'] != '')
+                                        <span class="content_screen themePrimaryTxtColr">
+                                            @php
+                                                $content_rating_arr = explode(',', $arrSlctItemData['content_rating']);
+                                                $content_rating_codes_arr = explode(
+                                                    ',',
+                                                    $arrSlctItemData['content_rating_codes'],
+                                                );
+                                            @endphp
+                                            @foreach ($content_rating_arr as $i => $item)
+                                                <a class="themePrimaryTxtColr"
+                                                    href="{{ route('rating', trim($content_rating_codes_arr[$i])) }}">{{ $item }}</a>
+                                                @if (!$loop->last)
+                                                    ,
+                                                @endif
+                                            @endforeach
+                                        </span>
+                                    @endif
                                     @if ($ratingsCount > 0)
                                         @if (isset($streamratingtype, $streamratingstatus) && $streamratingtype === 'stars' && $streamratingstatus === 'E')
                                             <span class="content_screen themePrimaryTxtColr">
@@ -1153,7 +1124,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                         </g>
                                                     </svg>
                                                 </div>
-                                                {{ $ratingsCount ?? 0 }}
+                                                {{ $averageRating ?? 0 }}
                                             </span>
                                         @elseif(isset($streamratingtype, $streamratingstatus) && $streamratingtype === 'hearts' && $streamratingstatus === 'E')
                                             <span class="content_screen themePrimaryTxtColr">
@@ -1172,7 +1143,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                         </g>
                                                     </svg>
                                                 </div>
-                                                {{ $ratingsCount ?? 0 }}
+                                                {{ $averageRating ?? 0 }}
                                             </span>
                                         @elseif(isset($streamratingtype, $streamratingstatus) && $streamratingtype === 'thumbs' && $streamratingstatus === 'E')
                                             <span class="content_screen themePrimaryTxtColr">
@@ -1195,7 +1166,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                         </g>
                                                     </svg>
                                                 </div>
-                                                {{ $ratingsCount ?? 0 }}
+                                                {{ $averageRating ?? 0 }}
                                             </span>
                                         @elseif (isset(
                                                 \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
@@ -1218,7 +1189,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                         </g>
                                                     </svg>
                                                 </div>
-                                                {{ $ratingsCount ?? 0 }}
+                                                {{ $averageRating ?? 0 }}
                                             </span>
                                         @elseif (isset(
                                                 \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
@@ -1241,7 +1212,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                         </g>
                                                     </svg>
                                                 </div>
-                                                {{ $ratingsCount ?? 0 }}
+                                                {{ $averageRating ?? 0 }}
                                             </span>
                                         @else
                                             {{-- Thumbs  --}}
@@ -1266,7 +1237,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                         </g>
                                                     </svg>
                                                 </div>
-                                                {{ $ratingsCount ?? 0 }}
+                                                {{ $averageRating ?? 0 }}
                                             </span>
                                         @endif
                                     @endif
@@ -1432,7 +1403,7 @@ if (!empty($arrCatData))
                 <div class="item-ratings">
                     <h1 class="section-title" style="display: flex; align-items: center; gap: 10px;">
                         Reviews:
-                        @if ($ratingsCount > 0)
+                        @if ($averageRating > 0)
                             @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
                                     $stream_details['rating_type'] === 'stars' &&
                                     $stream_details['video_rating'] === 'E')
@@ -1544,7 +1515,7 @@ if (!empty($arrCatData))
                                 </div>
                             @endif
 
-                            {{-- {{ $ratingsCount ?? 0 }} --}}
+                            {{-- {{ $averageRating ?? 0 }} --}}
                         @endif
                             <span class="average-rating">{{ $averageRating ?? '' }} </span>
                     </h1>
@@ -2655,6 +2626,52 @@ if (!empty($arrCatData))
                             $('.no-reviews-message').show();
                         }
 
+                        if (response.averageRating !== undefined) {
+                            $('.section-title .ratings-count').text(`(${response.averageRating})`);
+                            console.log(response);
+                        }
+                        console.log(response);
+                        // Update average rating
+                        if (response.averageRating !== undefined) {
+                            $('.section-title .average-rating').text(`${response.averageRating}`);
+                        }
+                        form[0].reset();
+                        $('#messageContainer').html(
+                                `<div style="color: var(--themeActiveColor);">Review added.</div>`)
+                            .fadeIn();
+                        setTimeout(function() {
+                            $('#messageContainer').fadeOut();
+                        }, 3000);
+                    }
+                },
+                error: function(xhr) {
+                    const errorMessages = xhr.responseJSON.errors;
+                    const errorMessage = errorMessages.rating ? errorMessages.rating[0] :
+                        'An error occurred. Please try again later.';
+                    // Display the error message
+                    $('#messageContainer').html(
+                        `<div style="color: var(--themeActiveColor);">${errorMessage}</div>`
+                    ).fadeIn();
+                    setTimeout(function() {
+                        $('#messageContainer').fadeOut();
+                    }, 3000);
+                },
+                complete: function() {
+                    // Re-enable the button and hide spinner
+                    submitButton.prop('disabled', false);
+                    buttonText.show();
+                    spinner.hide();
+                }
+            });
+        });
+    </script>
+
+                        if (response.totalReviews > 0) {
+                            $('.no-reviews-message').hide();
+                        } else {
+                            $('.no-reviews-message').show();
+                        }
+
                         if (response.ratingsCount !== undefined) {
                             $('.section-title .ratings-count').text(`(${response.ratingsCount})`);
                             console.log(response);
@@ -2694,7 +2711,6 @@ if (!empty($arrCatData))
             });
         });
     </script>
-
 
 
 

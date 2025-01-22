@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppCofig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Services\Api;
@@ -59,6 +60,30 @@ class MonetizationController extends Controller
         return view('monetization.index', compact('planData'));
     }
 
+    public function tipjar(Request $request)
+    {
+        session()->put(
+            'MONETIZATION.PAYMENT_INFORMATION',
+            'Tip The Creator',
+        );
+        session()->put(
+            'MONETIZATION.SUBS_TYPE',
+            'O',
+        );
+        session()->put(
+            'MONETIZATION.TIP',
+            1,
+        );
+        session()->put('MONETIZATION.MONETIZATION_GUID', $request->streamcode);
+        $planData = [
+            'PAYMENT_INFORMATION' => 'Tip The Creator',
+            'MONETIZATION_GUID' => $request->streamcode,
+            'POSTER' => $request->streamposter,
+        ];
+
+        return view('monetization.tipjar', compact('planData'));
+    }
+
     public function success(Request $request)
     {
         if (session()->has('stripe_payment_processed') && session()->get('stripe_payment_processed')) {
@@ -84,6 +109,7 @@ class MonetizationController extends Controller
                     'amount' => session('MONETIZATION')['AMOUNT'],
                     'monetizationGuid' => session('MONETIZATION')['MONETIZATION_GUID'],
                     'subsType' => session('MONETIZATION')['SUBS_TYPE'],
+                    'tip' => session('MONETIZATION')['TIP'] ?? null,
                     'paymentInformation' => $paymentInfo,
                 ]);
             $responseJson = $response->json();
