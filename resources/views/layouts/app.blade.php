@@ -65,16 +65,10 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
     <meta name="csrf_token" content="{{ csrf_token() }}" />
+
     @yield('head')
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
-        window.OneSignalDeferred = window.OneSignalDeferred || [];
-        OneSignalDeferred.push(async function(OneSignal) {
-            await OneSignal.init({
-                appId: "{{ config('services.onesignal.app_id') }}",
-            });
-        });
-    </script>
+    @include('layouts.one-signal.one-signal-scripts')
+
 </head>
 
 <body>

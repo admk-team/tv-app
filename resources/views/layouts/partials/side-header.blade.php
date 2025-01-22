@@ -130,13 +130,15 @@
                     <i class="bi bi-search search-icon"></i>
                 </a>
                 @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
-                    <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+                <div id="notification-container" style="display: none;"></div>
+
+                    <form id="subscribe-form-toggle" action="{{ route('toggle.subscribe') }}" method="POST">
                         @csrf
-                        <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
-                            <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
+                        <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="button">
+                            <i id="subscribe-icon" class="fas fa-bell"></i>
                             <span id="subscribe-text"></span>
                         </button>
-                        <div id="response-message">{{ session('status') }}</div>
+                        <div id="response-message"></div>
                     </form>
                     <li class="nav-item">
                         <div class="dropdown dropdin">

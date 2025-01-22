@@ -371,42 +371,5 @@
         //     });
         // });
     </script>
-    <!-- AJAX Request to Check Subscription Status -->
-    <script>
-        $(document).ready(function() {
-            // Set up AJAX to include CSRF token
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
 
-            $.ajax({
-                url: "{{ route('check.subscription.status') }}",
-                method: "GET",
-                success: function(response) {
-                    if (response.success) {
-                        if (response.subscribed) {
-                            $('#subscribe-icon').removeClass('fa-bell').addClass('fa-bell-slash');
-                            $('#subscribe-text').text('');
-                        } else {
-                            $('#subscribe-icon').removeClass('fa-bell-slash').addClass('fa-bell');
-                            $('#subscribe-text').text('');
-                        }
-                    } else {
-                        $('#subscribe-icon').removeClass('fa-bell-slash').addClass('fa-bell');
-                        $('#subscribe-text').text('');
-                        console.error('Subscription check failed:', response.message);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    $('#subscribe-icon').removeClass('fa-bell-slash').addClass('fa-bell');
-                    $('#subscribe-text').text('Subscribe'); // Default to Subscribe on error
-                    console.error('AJAX error:', error); // Debugging AJAX error
-                    console.error('Response text:', xhr
-                        .responseText); // Log the response text for debugging
-                }
-            });
-        });
-    </script>
 @endpush
