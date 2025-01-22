@@ -893,7 +893,7 @@
                             (typeof AppConfig !== 'undefined' && AppConfig.app.app_info
                                 .bypass_detailscreen == 1) ?
                             'playerscreen' :
-                            'detailscreen';
+                            'playerscreen';
 
                         sliderContainer.append(`
                             <div>
@@ -971,6 +971,97 @@
 
             // Initialize for mobile
             initSeasonDropdown('seasonDropdownMobile', 'landscape_slider_mobile', seasons);
+        });
+    </script>
+
+    <script>
+        $(document).on('submit', '#reviewForm', function(e) {
+            e.preventDefault(); // Prevent form submission
+
+            const form = $(this);
+            const formData = form.serialize();
+            const submitButton = form.find('button[type="submit"]');
+            const buttonText = submitButton.find('.button-text');
+            const spinner = submitButton.find('.spinner-border');
+
+            // Disable the button and show spinner
+            submitButton.prop('disabled', true);
+            // buttonText.hide();
+            spinner.show();
+
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: formData,
+                beforeSend: function() {
+                    // Clear any existing messages
+                    $('#desktopMessageContainer').html('').hide();
+                },
+                success: function(response) {
+                    $('#desktopMessageContainer').html('').fadeOut();
+                    $('#mobileMessageContainer').html('').fadeOut();
+                    if (response.success) {
+                        $('.member-reviews').html(response.newReviewHtml);
+
+                        if (response.totalReviews > 0) {
+                            $('.no-reviews-message').hide();
+                        } else {
+                            $('.no-reviews-message').show();
+                        }
+                    if (response.ratingsCount !== undefined) {
+                        $('.section-title .ratings-count').text(`(${response.ratingsCount})`);
+                        console.log(response);
+                    }
+                    console.log(response);
+
+                     // Update average rating
+                    if (response.averageRating !== undefined) {
+                        $('.section-title .average-rating').text(`${response.averageRating}`);
+                    }
+                        form[0].reset();
+                        $('#desktopMessageContainer').html(
+                                `<div style="color: var(--themeActiveColor);">Review added.</div>`)
+                            .fadeIn();
+                        setTimeout(function() {
+                            $('#desktopMessageContainer').fadeOut();
+                        }, 3000);
+                        $('#mobileMessageContainer').html(
+                                `<div style="color: var(--themeActiveColor);">Review added.</div>`)
+                            .fadeIn();
+                        setTimeout(function() {
+                            $('#mobileMessageContainer').fadeOut();
+                        }, 3000);
+
+                    }
+                },
+                error: function(xhr) {
+                    $('#desktopMessageContainer').html('').fadeOut();
+                    $('#mobileMessageContainer').html('').fadeOut();
+                    console.error(xhr.responseJSON.message);
+                    const errorMessage = xhr.responseJSON.message ||
+                        'An error occurred. Please try again later.';
+                    // Display the error message
+                    $('#desktopMessageContainer').html(
+                        `<div style="color: var(--themeActiveColor); display:block;">${errorMessage}</div>`
+                    ).fadeIn();
+                    setTimeout(function() {
+                        $('#desktopMessageContainer').fadeOut();
+                    }, 3000);
+                    $('#mobileMessageContainer').html(
+                        `<div style="color: var(--themeActiveColor); display:block;">${errorMessage}</div>`
+                    ).fadeIn();
+                    setTimeout(function() {
+                        $('#mobileMessageContainer').fadeOut();
+                    }, 3000);
+
+                },
+                complete: function() {
+                    // Re-enable the button and hide spinner
+                    submitButton.prop('disabled', false);
+                    buttonText.show();
+                    spinner.hide();
+                }
+            });
         });
     </script>
 @endpush
