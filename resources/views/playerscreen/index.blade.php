@@ -210,17 +210,7 @@
 
     $watermark = $arrSlctItemData['watermark'] ?? null;
 
-    $ratingsCount = isset($arrSlctItemData['ratings']) && is_array($arrSlctItemData['ratings']) ? count($arrSlctItemData['ratings']) : 0;
-
-    $totalRating = 0;
-
-    if ($ratingsCount !== 0) {
-        foreach ($arrSlctItemData['ratings'] as $review) {
-            $totalRating += $review['rating'];
-        }
-        $ratingsCount = $totalRating / $ratingsCount;
-        $ratingsCount = number_format($ratingsCount, 1); // Round to 1 decimal place
-    }
+   
 
     ?>
 
@@ -1134,7 +1124,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                         </g>
                                                     </svg>
                                                 </div>
-                                                {{ $ratingsCount ?? 0 }}
+                                                {{ $averageRating ?? 0 }}
                                             </span>
                                         @elseif(isset($streamratingtype, $streamratingstatus) && $streamratingtype === 'hearts' && $streamratingstatus === 'E')
                                             <span class="content_screen themePrimaryTxtColr">
@@ -1153,7 +1143,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                         </g>
                                                     </svg>
                                                 </div>
-                                                {{ $ratingsCount ?? 0 }}
+                                                {{ $averageRating ?? 0 }}
                                             </span>
                                         @elseif(isset($streamratingtype, $streamratingstatus) && $streamratingtype === 'thumbs' && $streamratingstatus === 'E')
                                             <span class="content_screen themePrimaryTxtColr">
@@ -1176,7 +1166,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                         </g>
                                                     </svg>
                                                 </div>
-                                                {{ $ratingsCount ?? 0 }}
+                                                {{ $averageRating ?? 0 }}
                                             </span>
                                         @elseif (isset(
                                                 \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
@@ -1199,7 +1189,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                         </g>
                                                     </svg>
                                                 </div>
-                                                {{ $ratingsCount ?? 0 }}
+                                                {{ $averageRating ?? 0 }}
                                             </span>
                                         @elseif (isset(
                                                 \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
@@ -1222,7 +1212,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                         </g>
                                                     </svg>
                                                 </div>
-                                                {{ $ratingsCount ?? 0 }}
+                                                {{ $averageRating ?? 0 }}
                                             </span>
                                         @else
                                             {{-- Thumbs  --}}
@@ -1247,7 +1237,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                         </g>
                                                     </svg>
                                                 </div>
-                                                {{ $ratingsCount ?? 0 }}
+                                                {{ $averageRating ?? 0 }}
                                             </span>
                                         @endif
                                     @endif
@@ -1413,7 +1403,7 @@ if (!empty($arrCatData))
                 <div class="item-ratings">
                     <h1 class="section-title" style="display: flex; align-items: center; gap: 10px;">
                         Reviews:
-                        @if ($ratingsCount > 0)
+                        @if ($averageRating > 0)
                             @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
                                     $stream_details['rating_type'] === 'stars' &&
                                     $stream_details['video_rating'] === 'E')
@@ -1525,7 +1515,7 @@ if (!empty($arrCatData))
                                 </div>
                             @endif
 
-                            {{-- {{ $ratingsCount ?? 0 }} --}}
+                            {{-- {{ $averageRating ?? 0 }} --}}
                         @endif
                             <span class="average-rating">{{ $averageRating ?? '' }} </span>
                     </h1>
@@ -2636,8 +2626,8 @@ if (!empty($arrCatData))
                             $('.no-reviews-message').show();
                         }
 
-                        if (response.ratingsCount !== undefined) {
-                            $('.section-title .ratings-count').text(`(${response.ratingsCount})`);
+                        if (response.averageRating !== undefined) {
+                            $('.section-title .ratings-count').text(`(${response.averageRating})`);
                             console.log(response);
                         }
                         console.log(response);
