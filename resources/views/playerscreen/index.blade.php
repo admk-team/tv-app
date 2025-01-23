@@ -13,7 +13,7 @@
     $IS_SIGNIN_BYPASS = 'N';
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
-
+    
     session('GLOBAL_PASS', 0);
     request()->server('REQUEST_METHOD');
     $protocol = request()->server('HTTPS') === 'on' ? 'https' : 'http';
@@ -54,7 +54,7 @@
         session('IS_SIGNIN_BYPASS', url('/playerscreen/' . $streamGuid));
         \App\Helpers\GeneralHelper::headerRedirect(url('/signin'));
     }
-
+    
     //monetioztion
     $redirectUrl = null;
     if ($limitWatchTime === 'yes' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -62,7 +62,7 @@
         session()->save();
         $redirectUrl = route('login');
     }
-
+    
     $sharingURL = route('playerscreen', $streamGuid);
     $isBuyed = $arrSlctItemData['is_buyed'];
     $monetizationType = $arrSlctItemData['monetization_type'];
@@ -96,7 +96,7 @@
             \Illuminate\Support\Facades\Redirect::to(route('monetization'))->send();
         }
     }
-
+    
     // Check if subscription is required for all content and is not subscribed
     if (\App\Helpers\GeneralHelper::subscriptionIsRequired() && $isBuyed == 'N') {
         if ($limitWatchTime === 'no' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -109,15 +109,15 @@
             \Illuminate\Support\Facades\Redirect::to(route('subscription'))->send();
         }
     }
-
+    
     $mType = isset($mType) ? $mType : 'video';
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
     }
     $apiPath = App\Services\Api::endpoint('/mngstrmdur');
-
+    
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN') . '&userProfileId=' . session('USER_DETAILS.USER_PROFILE');
-
+    
     // dd(session('USER_DETAILS.USER_PROFILE'));
     // here get the video duration
     $seekFunStr = '';
@@ -135,7 +135,7 @@
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
         $seekFunStr = "this.currentTime($streamDurationInSec);";
     }
-
+    
     // Here Set Ad URL in Session
     $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
     if (!session('ADS_INFO')) {
@@ -147,7 +147,7 @@
             ],
         ]);
     }
-
+    
     $useragent = request()->server('HTTP_USER_AGENT');
     $isMobileBrowser = 0;
     if (
@@ -165,13 +165,13 @@
     $userAgent = urlencode(request()->server('HTTP_USER_AGENT'));
     $userIP = \App\Helpers\GeneralHelper::getRealIpAddr();
     $channelName = urlencode(\App\Services\AppConfig::get()->app->app_info->app_name);
-
+    
     $isLocalHost = false;
     $host = parse_url(url()->current())['host'];
     if (in_array($host, ['localhost', '127.0.0.1'])) {
         $isLocalHost = true;
     }
-
+    
     //&app_bundle=669112
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
@@ -182,11 +182,11 @@
     }
     $adMacros .= "&duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
     $dataVast = "data-vast='$adMacros'";
-
+    
     if ($isMobileBrowser == 1 || $adUrl == '') {
         $dataVast = '';
     }
-
+    
     $stream_ad_url = $arrSlctItemData['stream_ad_url'];
     if (parse_url($stream_ad_url, PHP_URL_QUERY)) {
         $stream_ad_url = $stream_ad_url . "&duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
@@ -194,20 +194,20 @@
         $stream_ad_url = $stream_ad_url . "?duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
     }
     $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $stream_ad_url . '"' : null;
-
+    
     if (!$arrSlctItemData['has_global_ads']) {
         $dataVast = '';
     }
-
+    
     if (!$arrSlctItemData['has_individual_ads']) {
         $dataVast2 = '';
     }
-
+    
     if (!$arrSlctItemData['has_ads']) {
         $dataVast = '';
         $dataVast2 = '';
     }
-
+    
     $watermark = $arrSlctItemData['watermark'] ?? null;
 
    
@@ -436,25 +436,25 @@
 
         /* Styles for BuyNow redirect message */
         /* .buynow-redirect-message {
-                            background-color: #353b49;
-                            color: var(--themePrimaryTxtColor);
-                            max-width: 1000.89px;
-                            width: fit-content;
-                            padding: .8rem 1.2rem;
-                            font-weight: 600;
-                            border-radius: 2px;
-                            position: absolute;
-                            z-index: 1000;
-                            bottom: 68px;
-                            height: fit-content;
-                            left: 18px;
-                            user-select: none;
-                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                            transition: all 0.5s ease-in-out;
-                            transform: translateX(-400px);
-                            opacity: 0;
-                            visibility: hidden;
-                        } */
+                                background-color: #353b49;
+                                color: var(--themePrimaryTxtColor);
+                                max-width: 1000.89px;
+                                width: fit-content;
+                                padding: .8rem 1.2rem;
+                                font-weight: 600;
+                                border-radius: 2px;
+                                position: absolute;
+                                z-index: 1000;
+                                bottom: 68px;
+                                height: fit-content;
+                                left: 18px;
+                                user-select: none;
+                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                                transition: all 0.5s ease-in-out;
+                                transform: translateX(-400px);
+                                opacity: 0;
+                                visibility: hidden;
+                            } */
         .buynow-redirect-message {
             background-color: var(--themeActiveColor);
             color: var(--themePrimaryTxtColor);
@@ -1061,6 +1061,17 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                             class="themePrimaryTxtColr">{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
                                         <span class="dot-sep themePrimaryTxtColr"></span>
                                     @endif
+                                    @if ($streamType == 'S')
+                                    @if ($arrSlctItemData['show_name'])
+                                         <a class="text-decoration-none" href="{{ route('series', $arrSlctItemData['show_guid']) }}">
+                                            <span class="movie_type">{{ $arrSlctItemData['show_name'] }}</span>
+                                         </a>
+                                        @endif
+                                        @if ($arrSlctItemData['stream_episode_title'])
+                                            <span
+                                                class="movie_type">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL' ? $arrSlctItemData['stream_episode_title'] : '' }}</span>
+                                        @endif
+                                    @endif
                                     {{-- <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span> --}}
                                     @if ($arrSlctItemData['genre'])
                                         <span class="movie_type themePrimaryTxtColr">
@@ -1374,7 +1385,7 @@ if (!empty($arrCatData))
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                                                                              </div> -->
+                                                                                                                                                                                                                                                                                                  </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}</div>
@@ -1408,8 +1419,8 @@ if (!empty($arrCatData))
                                     $stream_details['rating_type'] === 'stars' &&
                                     $stream_details['video_rating'] === 'E')
                                 <div class="star active" style="display: inline-flex;">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
                                         </g>
@@ -1425,8 +1436,8 @@ if (!empty($arrCatData))
                                     $stream_details['rating_type'] === 'hearts' &&
                                     $stream_details['video_rating'] === 'E')
                                 <div class="star active" style="display: inline-flex;">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
                                         </g>
@@ -1463,8 +1474,8 @@ if (!empty($arrCatData))
                                     \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
                                     \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'stars')
                                 <div class="star active" style="display: inline-flex;">
-                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                    <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
                                         </g>
@@ -1517,7 +1528,7 @@ if (!empty($arrCatData))
 
                             {{-- {{ $averageRating ?? 0 }} --}}
                         @endif
-                            <span class="average-rating">{{ $averageRating ?? '' }} </span>
+                        <span class="average-rating">{{ $averageRating ?? '' }} </span>
                     </h1>
 
                     @php
@@ -2666,50 +2677,50 @@ if (!empty($arrCatData))
         });
     </script>
 
-                        if (response.totalReviews > 0) {
-                            $('.no-reviews-message').hide();
-                        } else {
-                            $('.no-reviews-message').show();
-                        }
+    if (response.totalReviews > 0) {
+    $('.no-reviews-message').hide();
+    } else {
+    $('.no-reviews-message').show();
+    }
 
-                        if (response.ratingsCount !== undefined) {
-                            $('.section-title .ratings-count').text(`(${response.ratingsCount})`);
-                            console.log(response);
-                        }
-                        console.log(response);
-                        // Update average rating
-                        if (response.averageRating !== undefined) {
-                            $('.section-title .average-rating').text(`${response.averageRating}`);
-                        }
-                        form[0].reset();
-                        $('#messageContainer').html(
-                                `<div style="color: var(--themeActiveColor);">Review added.</div>`)
-                            .fadeIn();
-                        setTimeout(function() {
-                            $('#messageContainer').fadeOut();
-                        }, 3000);
-                    }
-                },
-                error: function(xhr) {
-                    const errorMessages = xhr.responseJSON.errors;
-                    const errorMessage = errorMessages.rating ? errorMessages.rating[0] :
-                        'An error occurred. Please try again later.';
-                    // Display the error message
-                    $('#messageContainer').html(
-                        `<div style="color: var(--themeActiveColor);">${errorMessage}</div>`
-                    ).fadeIn();
-                    setTimeout(function() {
-                        $('#messageContainer').fadeOut();
-                    }, 3000);
-                },
-                complete: function() {
-                    // Re-enable the button and hide spinner
-                    submitButton.prop('disabled', false);
-                    buttonText.show();
-                    spinner.hide();
-                }
-            });
-        });
+    if (response.ratingsCount !== undefined) {
+    $('.section-title .ratings-count').text(`(${response.ratingsCount})`);
+    console.log(response);
+    }
+    console.log(response);
+    // Update average rating
+    if (response.averageRating !== undefined) {
+    $('.section-title .average-rating').text(`${response.averageRating}`);
+    }
+    form[0].reset();
+    $('#messageContainer').html(
+    `<div style="color: var(--themeActiveColor);">Review added.</div>`)
+    .fadeIn();
+    setTimeout(function() {
+    $('#messageContainer').fadeOut();
+    }, 3000);
+    }
+    },
+    error: function(xhr) {
+    const errorMessages = xhr.responseJSON.errors;
+    const errorMessage = errorMessages.rating ? errorMessages.rating[0] :
+    'An error occurred. Please try again later.';
+    // Display the error message
+    $('#messageContainer').html(
+    `<div style="color: var(--themeActiveColor);">${errorMessage}</div>`
+    ).fadeIn();
+    setTimeout(function() {
+    $('#messageContainer').fadeOut();
+    }, 3000);
+    },
+    complete: function() {
+    // Re-enable the button and hide spinner
+    submitButton.prop('disabled', false);
+    buttonText.show();
+    spinner.hide();
+    }
+    });
+    });
     </script>
 
 

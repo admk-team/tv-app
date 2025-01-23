@@ -176,13 +176,13 @@
                             <a href="{{ route('year', $series_details['released_year']) }}" class="text-decoration-none">
                                 <span class="year">{{ $series_details['released_year'] }}</span>
                             </a>
+                            <span class="dot-sep"></span>
                         @endif
                         @if ($series_details['totalseason'] != null)
-                            <span class="dot-sep"></span>
                             <span>{{ $series_details['totalseason'] ?? '' }}</span>
+                            <span class="dot-sep"></span>
                         @endif
                         @if ($series_details['genre'])
-                            <span class="dot-sep"></span>
                             <span class="movie_type">
                                 @foreach ($series_details['genre'] ?? [] as $item)
                                     <a href="{{ route('category', $item['code']) }}?type=genre"
@@ -893,7 +893,7 @@
                             (typeof AppConfig !== 'undefined' && AppConfig.app.app_info
                                 .bypass_detailscreen == 1) ?
                             'playerscreen' :
-                            'playerscreen';
+                            'detailscreen';
 
                         sliderContainer.append(`
                             <div>

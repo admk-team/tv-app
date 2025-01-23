@@ -146,7 +146,7 @@ if (session('USER_DETAILS.USER_CODE')) {
         <div class="tab-btns d-flex gap-3 gap-sm-3 gap-md-4 gap-lg-5">
             <div class="tab mobile-data active" data-tab="overview"><span>Overview</span></div>
             <!-- Start of season section -->
-            <?php
+            {{--  <?php
             $arrSeasonData = isset($seasons) ? $seasons['streams'] : null;
             
             if (!empty($arrSeasonData)) {
@@ -156,7 +156,10 @@ if (session('USER_DETAILS.USER_CODE')) {
                 // Display the "You Might Also Like" tab if no season data is available
                 echo '<div class="tab" data-tab="like"><span>You Might Also Like</span></div>';
             }
-            ?>
+            ?>  --}}
+            @if ($latest_items['title'])
+            <div class="tab " data-tab="like"><span>{{ $latest_items['title'] }}</span></div>
+            @endif
             <!--End of season section-->
             @if (
                 (isset($stream_details['video_rating']) && $stream_details['video_rating'] === 'E') ||
