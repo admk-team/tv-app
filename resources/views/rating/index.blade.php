@@ -62,7 +62,7 @@
             var currentIndex = 0;
             var batchSize = 20;
 
-           
+
 
             // Function to load more data in batches
             function loadMoreData() {
@@ -75,6 +75,8 @@
                         screenRoute = "{{ route('playerscreen', ':id') }}";
                     } else if (stream.contentType === 'series') {
                         screenRoute = "{{ route('series', ':id') }}";
+                    } else if (stream.stream_type == 'BC') {
+                        screenRoute = "{{ route('content-bundle', ':id') }}";
                     } else {
                         screenRoute = "{{ route('detailscreen', ':id') }}";
                     }

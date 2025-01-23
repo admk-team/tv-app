@@ -65,7 +65,7 @@
             var batchSize = 20;
 
             // Determine the screen based on bypass_detailscreen condition using Blade
-          
+
 
             // Function to load more data in batches
             function loadMoreData() {
@@ -78,6 +78,8 @@
                         screenRoute = "{{ route('playerscreen', ':id') }}";
                     } else if (stream.contentType === 'series') {
                         screenRoute = "{{ route('series', ':id') }}";
+                    } else if (stream.stream_type == 'BC') {
+                        screenRoute = "{{ route('content-bundle', ':id') }}";
                     } else {
                         screenRoute = "{{ route('detailscreen', ':id') }}";
                     }
