@@ -161,7 +161,7 @@
                                         ) {
                                             $screen = 'playerscreen';
                                         } else {
-                                            $screen = ($stream['stream_type'] !== 'S') ? 'detailscreen' : 'playerscreen';
+                                            $screen = 'detailscreen';
                                         }
                                     @endphp
                                     <a href="{{ url('/') }}/{{ $screen }}/{{ $stream['stream_guid'] }}">
