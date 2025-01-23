@@ -52,21 +52,21 @@
         $mType = 'hls';
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-
+    
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-
+    
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
-
+    
     $stream_code = $stream_details['stream_guid'];
-
+    
     $postData = [
         'stream_code' => $stream_code,
     ];
     $ratingsCount = isset($stream_details['ratings']) && is_array($stream_details['ratings']) ? count($stream_details['ratings']) : 0;
-
+    
     $totalRating = 0;
-
+    
     if ($ratingsCount !== 0) {
         foreach ($stream_details['ratings'] as $review) {
             $totalRating += $review['rating'];
@@ -234,23 +234,25 @@
                                 <span>{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($stream_details['stream_duration']) }}</span>
                                 <span class="dot-sep"></span>
                             @endif
-                            @if ($stream_details['genre'])
-                                <span class="movie_type">
-                                    @foreach ($stream_details['genre'] ?? [] as $item)
-                                        <a href="{{ route('category', $item['code']) }}?type=genre"
-                                            class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
-                                    @endforeach
-                                </span>
-                            @endif
                         @endif
                         @if ($streamType == 'S')
+                            @if ($stream_details['show_name'])
+                                <a class="text-decoration-none" href="{{ route('series', $stream_details['show_guid']) }}">
+                                    <span class="movie_type">{{ $stream_details['show_name'] }}</span>
+                                </a>
+                            @endif
                             @if ($stream_details['stream_episode_title'])
                                 <span
                                     class="movie_type">{{ $stream_details['stream_episode_title'] && $stream_details['stream_episode_title'] !== 'NULL' ? $stream_details['stream_episode_title'] : '' }}</span>
                             @endif
-                            @if ($stream_details['show_name'])
-                                <span class="movie_type">{{ $stream_details['show_name'] }}</span>
-                            @endif
+                        @endif
+                        @if ($stream_details['genre'])
+                            <span class="movie_type">
+                                @foreach ($stream_details['genre'] ?? [] as $item)
+                                    <a href="{{ route('category', $item['code']) }}?type=genre"
+                                        class="px-0">{{ $item['title'] }}</a>{{ !$loop->last ? ', ' : '' }}
+                                @endforeach
+                            </span>
                         @endif
                         @if ($stream_details['content_qlt'] != '')
                             <span class="content_screen">

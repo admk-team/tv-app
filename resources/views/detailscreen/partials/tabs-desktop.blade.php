@@ -3,7 +3,7 @@
         <div class="tab-btns d-flex gap-3 gap-sm-3 gap-md-4 gap-lg-5">
 
             <!-- Start of season section -->
-            <?php
+            {{--  <?php
             $arrSeasonData = isset($seasons) ? $seasons['streams'] : null;
 
             if (!empty($arrSeasonData)) {
@@ -13,7 +13,10 @@
                 // Display the "You Might Also Like" tab if no season data is available
                 echo '<div class="tab active" data-tab="like"><span>You Might Also Like</span></div>';
             }
-            ?>
+            ?>  --}}
+            @if ($latest_items['title'])
+            <div class="tab active" data-tab="like"><span>{{ $latest_items['title'] }}</span></div>
+            @endif
             <!--End of season section-->
             @if (
                 (isset($stream_details['video_rating']) && $stream_details['video_rating'] === 'E') ||

@@ -93,7 +93,7 @@
                                     $stream->bypass_detailscreen == 1 && $stream?->contentType != 'series') {
                                     $screen = 'playerscreen';
                                 } elseif($stream?->contentType != 'series'){
-                                    $screen = ($stream->stream_type !== 'S') ? 'detailscreen' : 'playerscreen';
+                                    $screen = ($stream->stream_type !== 'S') ? 'detailscreen' : 'detailscreen';
                                 }else{
                                     $screen = 'series'; 
                                 }
@@ -219,7 +219,7 @@
                                                                 </div>
                                                             @endif
                                                             <div class="deta_box">
-                                                                <div class="season_title"></div>
+                                                                {{--  <div class="season_title">{{ $stream->series_season_title }}</div>  --}}
                                                                 <div class="content_title">{{ $stream->stream_title }}
                                                                 </div>
                                                                 @if ($stream->stream_description)
@@ -324,7 +324,7 @@
                                                             </div>
                                                         @endif
                                                         <div class="deta_box">
-                                                            <div class="season_title"></div>
+                                                            {{--  <div class="season_title">{{ $stream->series_season_title }}</div>  --}}
                                                             <div class="content_title">{{ $stream->stream_title }}
                                                             </div>
                                                             @if ($stream->stream_description)

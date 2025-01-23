@@ -436,25 +436,25 @@
 
         /* Styles for BuyNow redirect message */
         /* .buynow-redirect-message {
-                                            background-color: #353b49;
-                                            color: var(--themePrimaryTxtColor);
-                                            max-width: 1000.89px;
-                                            width: fit-content;
-                                            padding: .8rem 1.2rem;
-                                            font-weight: 600;
-                                            border-radius: 2px;
-                                            position: absolute;
-                                            z-index: 1000;
-                                            bottom: 68px;
-                                            height: fit-content;
-                                            left: 18px;
-                                            user-select: none;
-                                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                                            transition: all 0.5s ease-in-out;
-                                            transform: translateX(-400px);
-                                            opacity: 0;
-                                            visibility: hidden;
-                                        } */
+                                background-color: #353b49;
+                                color: var(--themePrimaryTxtColor);
+                                max-width: 1000.89px;
+                                width: fit-content;
+                                padding: .8rem 1.2rem;
+                                font-weight: 600;
+                                border-radius: 2px;
+                                position: absolute;
+                                z-index: 1000;
+                                bottom: 68px;
+                                height: fit-content;
+                                left: 18px;
+                                user-select: none;
+                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                                transition: all 0.5s ease-in-out;
+                                transform: translateX(-400px);
+                                opacity: 0;
+                                visibility: hidden;
+                            } */
         .buynow-redirect-message {
             background-color: var(--themeActiveColor);
             color: var(--themePrimaryTxtColor);
@@ -1060,6 +1060,17 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                         <span
                                             class="themePrimaryTxtColr">{{ \App\Helpers\GeneralHelper::showDurationInHourAndMins($arrSlctItemData['stream_duration']) }}</span>
                                         <span class="dot-sep themePrimaryTxtColr"></span>
+                                    @endif
+                                    @if ($streamType == 'S')
+                                    @if ($arrSlctItemData['show_name'])
+                                         <a class="text-decoration-none" href="{{ route('series', $arrSlctItemData['show_guid']) }}">
+                                            <span class="movie_type">{{ $arrSlctItemData['show_name'] }}</span>
+                                         </a>
+                                        @endif
+                                        @if ($arrSlctItemData['stream_episode_title'])
+                                            <span
+                                                class="movie_type">{{ $arrSlctItemData['stream_episode_title'] && $arrSlctItemData['stream_episode_title'] !== 'NULL' ? $arrSlctItemData['stream_episode_title'] : '' }}</span>
+                                        @endif
                                     @endif
                                     {{-- <span class="movie_type">{{ $arrSlctItemData['cat_title'] }}</span> --}}
                                     @if ($arrSlctItemData['genre'])
