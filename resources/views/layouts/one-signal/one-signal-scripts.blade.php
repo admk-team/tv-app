@@ -81,7 +81,8 @@
                         console.log(response);
                         if (response.success) {
                             $('#subscribe-icon').toggleClass('fa-bell fa-bell-slash');
-                            $('#subscribe-text').text(response.subscribed ? 'Unsubscribe' : 'Subscribe');
+                            $('#subscribe-text').text(response.subscribed ? 'Unsubscribe' :
+                                'Subscribe');
                         } else {
                             console.error('Subscription toggle failed:', response.message);
                         }
@@ -91,11 +92,6 @@
                     },
                 });
             });
-            /* These examples are all valid */
-            OneSignal.getUserId(function(userId) {
-                console.log("OneSignal User ID: ", userId);
-            });
 
         });
-
     </script>
