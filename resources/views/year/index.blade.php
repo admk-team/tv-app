@@ -54,40 +54,42 @@
     </section>
 @endsection
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        var data = {!! json_encode($streams) !!};  // Convert streams data to JSON
-        var bypassDetailscreen = {!! json_encode(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) !!};  // Get bypass detailscreen setting
+    <script>
+        $(document).ready(function() {
+            var data = {!! json_encode($streams) !!}; // Convert streams data to JSON
+            var bypassDetailscreen = {!! json_encode(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) !!}; // Get bypass detailscreen setting
 
-        var currentIndex = 0;
-        var batchSize = 20;
+            var currentIndex = 0;
+            var batchSize = 20;
 
-        // Function to load more data in batches
-        function loadMoreData() {
-            var streams = data.slice(currentIndex, currentIndex + batchSize);
+            // Function to load more data in batches
+            function loadMoreData() {
+                var streams = data.slice(currentIndex, currentIndex + batchSize);
 
-            streams.forEach(function(stream) {
-                // Determine the screen based on bypass_detailscreen condition
-                if (bypassDetailscreen === 1 || stream.bypass_detailscreen === 1) {
-                    screenRoute = "{{ route('playerscreen', ':id') }}";
-                } else if (stream.contentType === 'series') {
-                    screenRoute = "{{ route('series', ':id') }}";
-                } else {
-                    screenRoute = "{{ route('detailscreen', ':id') }}";
-                }
-                // Replace placeholder ':id' with the actual stream_guid
-                var url = screenRoute.replace(':id', stream.stream_guid);
-
-                // If stream_type is 'A', handle promo URL logic
-                if (stream.stream_type === 'A') {
-                    url = stream.stream_promo_url;
-                    if (stream.is_external_ad === 'N') {
-                        url = `${screenRoute}/${stream.stream_promo_url}`;
+                streams.forEach(function(stream) {
+                    // Determine the screen based on bypass_detailscreen condition
+                    if (bypassDetailscreen === 1 || stream.bypass_detailscreen === 1) {
+                        screenRoute = "{{ route('playerscreen', ':id') }}";
+                    } else if (stream.contentType === 'series') {
+                        screenRoute = "{{ route('series', ':id') }}";
+                    } else if (stream.stream_type == 'BC') {
+                        screenRoute = "{{ route('content-bundle', ':id') }}";
+                    } else {
+                        screenRoute = "{{ route('detailscreen', ':id') }}";
                     }
-                }
+                    // Replace placeholder ':id' with the actual stream_guid
+                    var url = screenRoute.replace(':id', stream.stream_guid);
 
-                // Append stream information to the container
-                $('#data-container').append(`
+                    // If stream_type is 'A', handle promo URL logic
+                    if (stream.stream_type === 'A') {
+                        url = stream.stream_promo_url;
+                        if (stream.is_external_ad === 'N') {
+                            url = `${screenRoute}/${stream.stream_promo_url}`;
+                        }
+                    }
+
+                    // Append stream information to the container
+                    $('#data-container').append(`
                     <div class="resposnive_Box">
                         <a href="${url}">
                             <div class="thumbnail_img">
@@ -109,34 +111,33 @@
                         </a>
                     </div>
                 `);
-            });
+                });
 
-            currentIndex += batchSize;
+                currentIndex += batchSize;
 
-            // Hide the load-more button when all streams are loaded
-            if (currentIndex >= data.length) {
-                $('#load-more-btn').hide();
-            }
+                // Hide the load-more button when all streams are loaded
+                if (currentIndex >= data.length) {
+                    $('#load-more-btn').hide();
+                }
 
-            // Show message if no videos are available
-            if (streams.length === 0) {
-                $('#load-more-btn').hide();
-                $('#data-container').append(`
+                // Show message if no videos are available
+                if (streams.length === 0) {
+                    $('#load-more-btn').hide();
+                    $('#data-container').append(`
                     <div>
                         <h1 class="text-center text-white">No videos found</h1>
                     </div>
                 `);
+                }
             }
-        }
 
-        // Load more data when the button is clicked
-        $('#load-more-btn').on('click', function() {
+            // Load more data when the button is clicked
+            $('#load-more-btn').on('click', function() {
+                loadMoreData();
+            });
+
+            // Initial data load
             loadMoreData();
         });
-
-        // Initial data load
-        loadMoreData();
-    });
-</script>
-
+    </script>
 @endpush

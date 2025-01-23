@@ -79,7 +79,10 @@
                         screenRoute = "{{ route('playerscreen', ':id') }}";
                     } else if (stream.contentType === 'series') {
                         screenRoute = "{{ route('series', ':id') }}";
-                    } else {
+                    }else if (stream.stream_type == 'BC') {
+                        screenRoute = "{{ route('content-bundle', ':id') }}";
+                    }
+                     else {
                         screenRoute = "{{ route('detailscreen', ':id') }}";
                     }
                     
