@@ -25,7 +25,7 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         @include('gtm_tags.head')
-        @if (Route::is('detailscreen', 'playerscreen'))
+        @if (Route::is('detailscreen', 'playerscreen', 'series'))
             @yield('meta-tags')
         @else
             <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
@@ -117,12 +117,13 @@
                 style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
     @elseif (env('APP_CODE') == '588b8647ff77800ed4134024fb1e2ca5')
-    <!-- QuanioBranch -->
+        <!-- QuanioBranch -->
+
         <head>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta name="06c77dde59dd05c5961a21f24a6cfd408f9e9e7e" content="06c77dde59dd05c5961a21f24a6cfd408f9e9e7e" />
             @include('gtm_tags.head')
-            @if (Route::is('detailscreen'))
+            @if (Route::is('detailscreen', 'playerscreen', 'series'))
                 @yield('meta-tags')
             @else
                 <meta property="og:title"
@@ -206,13 +207,14 @@
         <body>
         @else
             <!-- Other -->
+
             <head>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
                 @include('gtm_tags.head')
-                @if (Route::is('detailscreen', 'playerscreen'))
+                @if (Route::is('detailscreen', 'playerscreen', 'series'))
                     @yield('meta-tags')
                 @else
                     <meta property="og:title"
