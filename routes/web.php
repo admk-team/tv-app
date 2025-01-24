@@ -85,13 +85,18 @@ Route::get('video/download/{streamId}', [GumletController::class, 'download'])->
 
 Route::get('/check-channel-status', [ChannelSubscribeController::class, 'checkSubscriptionStatus'])->name('check.subscription.status');
 
+
+
 // Authentication
 Route::get('signup', [RegisterController::class, 'index'])->name('register');
-Route::middleware('throttle:2,1')->group(
-    function () {
-        Route::post('signup', [RegisterController::class, 'register'])->name('register');
-    }
-);
+Route::post('signup', [RegisterController::class, 'register'])->name('register'); 
+Route::get('auth/google', [RegisterController::class, 'socialLogin'])->name('social');
+Route::get('auth/facebook', [RegisterController::class, 'socialfacebook'])->name('facebook');
+Route::get('auth/linkedin', [RegisterController::class, 'socialLinkedin'])->name('linkedin');
+Route::get('login/google/callback', [RegisterController::class, 'redirectBack']);
+Route::get('login/facebook/callback', [RegisterController::class, 'redirectfaceook']);
+Route::get('login/linkedin/callback', [RegisterController::class, 'redirectLinkedin']);
+   
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::get('logout', [LogoutController::class, 'index'])->name('logout');
@@ -103,6 +108,7 @@ Route::get('forgot', [LoginController::class, 'forgot'])->name('forgot');
 Route::post('forgot', [LoginController::class, 'forgotPassword'])->name('forgot');
 // Authenticated Routes
 Route::middleware('auth.user')->group(function () {
+    
     Route::match(['get', 'post'], 'monetization', [MonetizationController::class, 'index'])->name('monetization');
     Route::post('apply-coupon', [MonetizationController::class, 'applyCoupon'])->name('apply-coupon');
     Route::match(['get', 'post'], 'monetization/success', [MonetizationController::class, 'success'])->name('monetization.success');
@@ -171,6 +177,8 @@ Route::post('/stripe/purchase', [BundleContentController::class, 'createCheckout
 Route::get('/bundle/success', [BundleContentController::class, 'success'])->name('bundle.success');
 Route::get('live-tv-guide/channel/stream/{channelCode}', [TvGuidePlayerController::class, 'getChannelStreams'])->name('channel.streams');
 Route::get('tv-guide-group/{tvGuidePlaylist}', [TvGuidePlayerController::class, 'watchTvGuideStreams']);
+
+
 
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
 
