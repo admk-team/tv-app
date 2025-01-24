@@ -84,7 +84,7 @@ class SeriesDetailScreenController extends Controller
         $totalReviews = count($reviews);
         $averageRating = $totalReviews > 0
             ? number_format(array_sum(array_column($reviews, 'rating')) / $totalReviews, 1)
-            : '0.0';
+            : '';
 
         return view("series-detailscreen.index", array_merge($data, [
             'totalReviews' => $totalReviews,
@@ -138,17 +138,19 @@ class SeriesDetailScreenController extends Controller
         foreach ($reviews as $review) {
             $totalRating += $review['rating'];
         }
-        $averageRating = $totalReviews > 0 ? number_format($totalRating / $totalReviews, 1) : 0;
+        $averageRating = $totalReviews > 0 ? number_format($totalRating / $totalReviews, 1) : '';
 
-        // Render updated reviews HTML
-        $newReviewHtml = view('detailscreen.partials.review', ['reviews' => $data['series_details']['ratings']])->render();
-
-        return response()->json([
-            'success' => true,
-            'newReviewHtml' => $newReviewHtml,
-            'totalReviews' => $totalReviews ?? '',
-            'ratingsCount' => $totalReviews ?? '',
-            'averageRating' => $averageRating
-        ]);
+         // Render updated reviews HTML
+         $newReviewHtml = view('series-detailscreen.partials.review', ['reviews' => $data['series_details']['ratings']])->render();
+         $ratingIconHtml = view('series-detailscreen.partials.rating-icon', ['ratingsCount' => $totalReviews])->render();
+ 
+         return response()->json([
+             'success' => true,
+             'newReviewHtml' => $newReviewHtml,
+             'ratingIconHtml' => $ratingIconHtml,
+             'totalReviews' => $totalReviews ?? '',
+             'ratingsCount' => $totalReviews ?? '',
+             'averageRating' => $averageRating
+         ]);
     }
 }

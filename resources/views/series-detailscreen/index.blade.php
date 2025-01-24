@@ -1008,16 +1008,27 @@
                         } else {
                             $('.no-reviews-message').show();
                         }
-                    if (response.ratingsCount !== undefined) {
-                        $('.section-title .ratings-count').text(`(${response.ratingsCount})`);
+                        if (response.ratingsCount !== undefined) {
+                            $('.section-title .ratings-count').text(`(${response.ratingsCount})`);
+                            console.log(response);
+                        }
                         console.log(response);
-                    }
-                    console.log(response);
 
-                     // Update average rating
-                    if (response.averageRating !== undefined) {
-                        $('.section-title .average-rating').text(`${response.averageRating}`);
-                    }
+                        // Update average rating
+                        if (response.averageRating !== undefined) {
+                            $('.section-title .average-rating').text(`${response.averageRating}`);
+                        }
+                        if (response.ratingIconHtml !== undefined) {
+                            $('#rating-icon').html(response.ratingIconHtml);
+                        }
+                        if (response.ratingIconHtml !== undefined) {
+                            $('#rating-icon-mobile').html(response.ratingIconHtml);
+                        }
+                        if (response.totalReviews > 0) {
+                            $('.no-reviews-message-mobile').hide();
+                        } else {
+                            $('.no-reviews-message-mobile').show();
+                        }
                         form[0].reset();
                         $('#desktopMessageContainer').html(
                                 `<div style="color: var(--themeActiveColor);">Review added.</div>`)
