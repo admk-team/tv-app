@@ -33,4 +33,22 @@ return [
     'onesignal' => [
         'app_id' => env('ONESIGNAL_APP_ID'),
     ],
+
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI'),
+    ],
+    
+    'facebook' => [
+        'client_id' => env('FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+        'redirect' => env('FACEBOOK_REDIRECT_URI'),
+    ],
+
+    'linkedin-openid' => [
+        'client_id' => env('LINKEDIN_CLIENT_ID'),
+        'client_secret' => 'WPL_AP1.rZws0PoqhcuL1ook.phmIsg==',
+        'redirect' => env('LINKEDIN_REDIRECT_URI'),
+    ],
 ];

@@ -16,25 +16,34 @@
                     class="cred_form">
                     @csrf
                     <div class="row">
-                        <div class="col-md-6 ind1" style="display:none;">
-                            <div class="inner-div dv23">
+                    <div class="col-md-6 ind1">
+                                <div class="inner-div dv1">
 
-                                <input type="hidden" name="">
-                                <div class="social_space" style="display:none;">
-                                    <a class="btn_facebook" id="quickstart-sign-in" href=""><i
-                                            class="fa-brands fa-facebook"></i> Login with Facebook</a>
-                                </div>
-                                <div class="social_space" style="display:none;">
-                                    <a class="btn_twitter" href=""><i class="fa-brands fa-twitter"></i> Login with
-                                        Twitter</a>
-                                </div>
-                                <div class="social_space">
-                                    <a class="btn_google" href=""><i class="fa fa-google"></i> Login with Google</a>
-                                </div>
-                            </div>
+                                    <div class="social_space">
+                                            <a class="btn_facebook text-decoration-none rounded" id="quickstart-sign-in"
+                                                href="{{ route('facebook') }}"><i
+                                                    class="fa-brands fa-facebook"></i> Login with Facebook</a>
+                                    </div>
 
-                        </div>
-                        <div class="col-md-12">
+
+                                    <div class="social_space">
+                                        <a class="btn_twitter text-decoration-none rounded"
+                                            href="{{ route('linkedin') }}"><i class="fa-brands fa-linkedin"></i>
+                                            Login
+                                            with LinkedIn</a>
+                                    </div>
+
+
+                                    <div class="social_space">
+                                        <a class="btn_google text-decoration-none rounded"
+                                            href="{{ route('social') }}"><i
+                                                class="fa-brands fa-google"></i> Login with Google</a>
+                                    </div>
+
+
+                                </div>
+                            </div> 
+                        <div class="col-md-6">
                             <div class="inner-div dv2">
                                 <div class="input_groupbox">
                                     <label class="contact-label">
