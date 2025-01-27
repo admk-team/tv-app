@@ -90,13 +90,13 @@ class RegisterController extends Controller
     }
 
     public function socialLogin(){
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')->with(['prompt' => 'select_account'])->redirect();
     }
     public function socialfacebook(){
-        return Socialite::driver('facebook')->redirect();
+        return Socialite::driver('facebook')->with(['prompt' => 'select_account'])->redirect();
     }
     public function socialLinkedin(){
-        return Socialite::driver('linkedin-openid')->redirect();
+        return Socialite::driver('linkedin-openid')->with(['prompt' => 'select_account'])->redirect();
     }
 
     public function redirectfaceook(){
