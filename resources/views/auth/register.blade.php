@@ -17,31 +17,34 @@
                     @csrf
                     <div class="row">
                     <div class="col-md-6 ind1">
-                                <div class="inner-div dv1">
-
-                                    <div class="social_space">
-                                            <a class="btn_facebook text-decoration-none rounded" id="quickstart-sign-in"
-                                                href="{{ route('facebook') }}"><i
-                                                    class="fa-brands fa-facebook"></i> Login with Facebook</a>
-                                    </div>
-
-
-                                    <div class="social_space">
-                                        <a class="btn_twitter text-decoration-none rounded"
-                                            href="{{ route('linkedin') }}"><i class="fa-brands fa-linkedin"></i>
-                                            Login
-                                            with LinkedIn</a>
-                                    </div>
-
-
-                                    <div class="social_space">
-                                        <a class="btn_google text-decoration-none rounded"
-                                            href="{{ route('social') }}"><i
-                                                class="fa-brands fa-google"></i> Login with Google</a>
-                                    </div>
-
-
+                        <div class="inner-div dv1">
+                            @if (\App\Services\AppConfig::get()->app->colors_assets_for_branding->is_facebook_feature_active === 'true')
+                                <div class="social_space">
+                                    <a class="btn_facebook text-decoration-none rounded" id="quickstart-sign-in"
+                                        href="{{ route('facebook') }}"><i
+                                            class="fa-brands fa-facebook"></i> Login with Facebook</a>
                                 </div>
+                            @endif
+                            
+                            @if (\App\Services\AppConfig::get()->app->colors_assets_for_branding->is_linkedin_feature_active === 'true')
+                                <div class="social_space">
+                                    <a class="btn_twitter text-decoration-none rounded"
+                                        href="{{ route('linkedin') }}"><i class="fa-brands fa-linkedin"></i>
+                                        Login
+                                        with LinkedIn</a>
+                                </div>
+                            @endif
+                            
+
+                            @if (\App\Services\AppConfig::get()->app->colors_assets_for_branding->is_google_feature_active === 'true')
+                                <div class="social_space">
+                                    <a class="btn_google text-decoration-none rounded"
+                                        href="{{ route('social') }}"><i
+                                            class="fa-brands fa-google"></i> Login with Google</a>
+                                </div>
+                            @endif
+                            
+                        </div>
                             </div> 
                         <div class="col-md-6">
                             <div class="inner-div dv2">
