@@ -101,7 +101,7 @@ class RegisterController extends Controller
 
     public function redirectfaceook(){
         $facebookUser = Socialite::driver('facebook')->stateless()->user();
-        $this->sendSocialData($facebookUser->id,$facebookUser->name,$facebookUser->email);
+        return $this->sendSocialData($facebookUser->id,$facebookUser->name,$facebookUser->email);
     }
 
     public function redirectLinkedin(){
