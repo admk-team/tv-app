@@ -185,13 +185,13 @@ class RegisterController extends Controller
             ->asForm()
             ->post(Api::endpoint("/mngappusrs?user_data={$xyz}&user_device={$finalresultDevice}"), [
                 'requestAction' => 'validateUserAccount',
+                'social_id' => $id ?? null,
                 'name' => $responseJson1['app']['data']['name'] ?? null,
                 'email' => $responseJson1['app']['data']['email'] ?? null,
                 'isBypassEmailVerificationStep' => 'Y',
                 'partner_url' => $partnerlink ?? null
             ]);
         $responseJson = $response->json();
-
         if ($responseJson['app']['status'] === 0) {
             return redirect()->route('login')->with('error', $responseJson['app']['msg']);
         }
