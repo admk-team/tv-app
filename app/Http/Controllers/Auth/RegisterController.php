@@ -93,7 +93,7 @@ class RegisterController extends Controller
         return Socialite::driver('google')->with(['prompt' => 'select_account'])->redirect();
     }
     public function socialfacebook(){
-        return Socialite::driver('facebook')->with(['prompt' => 'select_account'])->redirect();
+        return Socialite::driver('facebook')->with(['auth_type' => 'reauthenticate'])->redirect();
     }
     public function socialLinkedin(){
         return Socialite::driver('linkedin-openid')->with(['prompt' => 'select_account'])->redirect();
