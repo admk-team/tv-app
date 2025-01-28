@@ -16,9 +16,8 @@ class StripeController extends Controller
     public function checkout(Request $request)
     {
         Stripe::setApiKey($request->stripeSecret);
-        if ($request->has('amount'))
-        {
-            session()->put('MONETIZATION.AMOUNT',$request->amount);
+        if ($request->has('amount')) {
+            session()->put('MONETIZATION.AMOUNT', $request->amount);
         }
         $stripeAmount = round(session('MONETIZATION')['AMOUNT'] * 100, 2);
         $stripeProductId = null;
@@ -120,6 +119,7 @@ class StripeController extends Controller
         $title = 'Great!';
         $error = false;
         $api_error = '';
+        $subscriptionId = null;
 
         // Check whether stripe checkout session is not empty
         if ($request->session_id) {
@@ -152,6 +152,7 @@ class StripeController extends Controller
 
                         // Ensure the subscription was retrieved successfully
                         if ($subscription) {
+                            $subscriptionId = $subscription->id;
                             // Check if latest_invoice exists and is valid
                             if (isset($subscription->latest_invoice) && !empty($subscription->latest_invoice)) {
                                 $latestInvoiceId = $subscription->latest_invoice;
@@ -206,7 +207,7 @@ class StripeController extends Controller
                         // Prepare data for processing
                         $arrFormData = [
                             'requestAction' => 'sendPaymentInfo',
-                            'transactionId' => $transactionID,
+                            'transactionId' => $subscriptionId ? $subscriptionId : $transactionID,
                             'amount' => $paidAmount,
                             'monetizationGuid' => session('MONETIZATION')['MONETIZATION_GUID'],
                             'subsType' => session('MONETIZATION')['SUBS_TYPE'],
