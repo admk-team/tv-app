@@ -1915,6 +1915,8 @@ if (!empty($arrCatData))
                 showOverlayAd();
 
                 detectPopupEvent();
+
+                makeVolumeButtontoggable(); // Fix mute toggle
             });
             let eventHappening = false;
 
@@ -2161,6 +2163,10 @@ if (!empty($arrCatData))
                     player.playMedia();
                 }
             }, 500);
+        }
+
+        function makeVolumeButtontoggable() {
+            $('.mvp-volume-toggle').addClass('mvp-volume-toggable');
         }
     </script>
     <script>
