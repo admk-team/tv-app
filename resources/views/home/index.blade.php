@@ -5,6 +5,12 @@
         </x-layouts.app>
     @break
 
+    @case('MB')
+        <x-layouts.app :appInfo="\App\Services\AppConfig::get()->app->app_info">
+            @include('components.mood-based')
+        </x-layouts.app>
+    @break
+
     @case('HO')
         @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
             <x-layouts.app :appInfo="\App\Services\AppConfig::get()->app->app_info">
@@ -62,7 +68,7 @@
     @break
 
     @case('TG')
-    {{--  @include('components.tv-guide-section-new')  --}}
+        {{--  @include('components.tv-guide-section-new')  --}}
         <x-layouts.app :appInfo="\App\Services\AppConfig::get()->app->app_info">
             @include('components.tv-guide-section')
         </x-layouts.app>
