@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\SiteCloneController;
 use App\Services\Api;
 use App\Models\AppCofig;
 use Illuminate\Http\Request;
@@ -32,3 +33,5 @@ Route::get('refreshBackData', function () {
         AppCofig::create(['app_code' => env('APP_CODE'), 'api_data' => $response->body()]);
     }
 });
+
+Route::post('createsubdomain', [SiteCloneController::class, 'createSubdomain']);
