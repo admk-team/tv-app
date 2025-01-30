@@ -65,7 +65,7 @@ class PlayerScreenController extends Controller
             $averageRating = $totalRating / $ratingsCount;
             $averageRating = number_format($averageRating, 1);
         } else {
-            $averageRating = 0;
+            $averageRating = '';
         }
         // Return data as an associative array
         return [
@@ -124,14 +124,16 @@ class PlayerScreenController extends Controller
         foreach ($reviews as $review) {
             $totalRating += $review['rating'];
         }
-        $averageRating = $totalReviews > 0 ? number_format($totalRating / $totalReviews, 1) : 0;
+        $averageRating = $totalReviews > 0 ? number_format($totalRating / $totalReviews, 1) : '';
 
         $newReviewHtml = view('playerscreen.includes.review', ['reviews' => $data['streamrating']])->render();
+        $ratingIconHtml = view('detailscreen.partials.rating-icon', ['ratingsCount' => $totalReviews])->render();
 
         return response()->json([
             'success' => true,
             'newReviewHtml' => $newReviewHtml,
             'totalReviews' => $totalReviews ?? '',
+            'ratingIconHtml' => $ratingIconHtml,
             'ratingsCount' => $totalReviews ?? '',
             'averageRating' => $averageRating
         ]);

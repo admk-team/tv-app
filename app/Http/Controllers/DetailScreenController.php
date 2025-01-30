@@ -53,11 +53,12 @@ class DetailScreenController extends Controller
         $totalReviews = count($reviews);
         $averageRating = $totalReviews > 0
             ? number_format(array_sum(array_column($reviews, 'rating')) / $totalReviews, 1)
-            : '0.0';
+            : ' ';
 
         return view("detailscreen.index", array_merge($data, [
             'totalReviews' => $totalReviews,
             'averageRating' => $averageRating,
+            'ratingsCount' => $totalReviews ?? '',
         ]));
 
         // return view("detailscreen.index", $data); //old way
@@ -110,10 +111,12 @@ class DetailScreenController extends Controller
 
         // Render updated reviews HTML
         $newReviewHtml = view('detailscreen.partials.review', ['reviews' => $data['stream_details']['ratings']])->render();
+        $ratingIconHtml = view('detailscreen.partials.rating-icon', ['ratingsCount' => $totalReviews])->render();
 
         return response()->json([
             'success' => true,
             'newReviewHtml' => $newReviewHtml,
+            'ratingIconHtml' => $ratingIconHtml,
             'totalReviews' => $totalReviews ?? '',
             'ratingsCount' => $totalReviews ?? '',
             'averageRating' => $averageRating
