@@ -643,7 +643,7 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
                 useSkipBackward: true,
                 useSkipForward: true,
                 showPrevNextVideoThumb: true,
-                rememberPlaybackPosition: 'all', //remember last video position (false, 1, all)
+                rememberPlaybackPosition: '0', //remember last video position (0, 1, all)
                 useQuality: true,
                 useImaLoader: false,
                 useTheaterMode: true,
