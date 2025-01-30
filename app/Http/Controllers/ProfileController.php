@@ -26,6 +26,11 @@ class ProfileController extends Controller
         return redirect()->route('home');
     }
 
+    public function view_setting()
+    {
+        return view('profile.setting');
+    }
+
     public function history()
     {
         $userProfileId = session('USER_DETAILS.USER_PROFILE') ?? null;

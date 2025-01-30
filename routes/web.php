@@ -90,14 +90,14 @@ Route::get('/check-channel-status', [ChannelSubscribeController::class, 'checkSu
 
 // Authentication
 Route::get('signup', [RegisterController::class, 'index'])->name('register');
-Route::post('signup', [RegisterController::class, 'register'])->name('register'); 
+Route::post('signup', [RegisterController::class, 'register'])->name('register');
 Route::get('auth/google', [RegisterController::class, 'socialLogin'])->name('social');
 Route::get('auth/facebook', [RegisterController::class, 'socialfacebook'])->name('facebook');
 Route::get('auth/linkedin', [RegisterController::class, 'socialLinkedin'])->name('linkedin');
 Route::get('login/google/callback', [RegisterController::class, 'redirectBack']);
 Route::get('login/facebook/callback', [RegisterController::class, 'redirectfaceook']);
 Route::get('login/linkedin/callback', [RegisterController::class, 'redirectLinkedin']);
-   
+
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::get('logout', [LogoutController::class, 'index'])->name('logout');
@@ -109,7 +109,7 @@ Route::get('forgot', [LoginController::class, 'forgot'])->name('forgot');
 Route::post('forgot', [LoginController::class, 'forgotPassword'])->name('forgot');
 // Authenticated Routes
 Route::middleware('auth.user')->group(function () {
-    
+
     Route::match(['get', 'post'], 'monetization', [MonetizationController::class, 'index'])->name('monetization');
     Route::post('apply-coupon', [MonetizationController::class, 'applyCoupon'])->name('apply-coupon');
     Route::match(['get', 'post'], 'monetization/success', [MonetizationController::class, 'success'])->name('monetization.success');
@@ -120,6 +120,7 @@ Route::middleware('auth.user')->group(function () {
     Route::get('password/edit', [PasswordUpdateController::class, 'index'])->name('password.edit');
     Route::post('password/update', [PasswordUpdateController::class, 'update'])->name('password.update');
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('profile-setting', [ProfileController::class, 'view_setting'])->name('profile.setting');
     Route::get('manageprofile/{id}', [ProfileController::class, 'manage_profile'])->name('profile.manage');
     Route::get('/view/profile/{id}', [ProfileController::class, 'view_profile'])->name('profile.view_profile');
     //watch history
