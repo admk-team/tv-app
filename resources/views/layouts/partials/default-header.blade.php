@@ -64,6 +64,9 @@
                                         <li><a class="text-decoration-none"
                                                 href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
                                                 Profiles</a></li>
+                                        <li><a class="text-decoration-none"
+                                                href="{{ route('profile.setting', session('USER_DETAILS')['USER_ID']) }}">Setting
+                                            </a></li>
                                     @endif
                                     <li><a class="text-decoration-none"
                                             href="{{ route('transaction-history') }}">Transaction
@@ -119,6 +122,9 @@
                                     <li><a class="text-decoration-none"
                                             href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
                                             Profiles</a></li>
+                                    <li><a class="text-decoration-none"
+                                            href="{{ route('profile.setting', session('USER_DETAILS')['USER_ID']) }}">Setting
+                                        </a></li>
                                     <li><a class="text-decoration-none"
                                             href="{{ route('transaction-history') }}">Transaction
                                             History</a></li>
