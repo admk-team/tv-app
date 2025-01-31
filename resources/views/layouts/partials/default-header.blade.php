@@ -11,12 +11,24 @@
                         \App\Services\AppConfig::get()->app->app_info->web_menu === 'default' ||
                             \App\Services\AppConfig::get()->app->app_info->web_menu == 'left')
                         @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
+                            {{-- Skip if the menu is of type 'FA' and the user is not logged in --}}
                             @if ($menu->menu_type === 'FA' && !session()->has('USER_DETAILS.USER_CODE'))
                                 @continue
                             @endif
-                            <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
-                                <li class="pc">{{ $menu->menu_title }}</li>
-                            </a>
+
+                            {{-- Show the menu if it is for group users and the user is a group user --}}
+                            @if (isset($menu->for_group_user) && $menu->for_group_user === 1)
+                                @if (session()->has('USER_DETAILS.GROUP_USER') && session('USER_DETAILS.GROUP_USER') == 1)
+                                    <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
+                                        <li class="pc">{{ $menu->menu_title }}</li>
+                                    </a>
+                                @endif
+                            @else
+                                {{-- Show the menu if it is not for group users --}}
+                                <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
+                                    <li class="pc">{{ $menu->menu_title }}</li>
+                                </a>
+                            @endif
                         @endif
                     @endif
                 @endforeach
@@ -170,9 +182,19 @@
                         \App\Services\AppConfig::get()->app->app_info->web_menu === 'default' ||
                             \App\Services\AppConfig::get()->app->app_info->web_menu == 'left')
                         @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
-                            <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
-                                <li class="pc">{{ $menu->menu_title }}</li>
-                            </a>
+                            {{-- Show the menu if it is for group users and the user is a group user --}}
+                            @if (isset($menu->for_group_user) && $menu->for_group_user === 1)
+                                @if (session()->has('USER_DETAILS.GROUP_USER') && session('USER_DETAILS.GROUP_USER') == 1)
+                                    <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
+                                        <li class="pc">{{ $menu->menu_title }}</li>
+                                    </a>
+                                @endif
+                            @else
+                                {{-- Show the menu if it is not for group users --}}
+                                <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
+                                    <li class="pc">{{ $menu->menu_title }}</li>
+                                </a>
+                            @endif
                         @endif
                     @endif
                 @endforeach

@@ -98,6 +98,8 @@ class LoginController extends Controller
                 'USER_ACCOUNT_STATUS' => $responseJson['app']['data']['account_status'] ?? null,
                 'USER_EMAIL' => $responseJson['app']['data']['email'] ?? null,
                 'USER_ID' => $responseJson['app']['data']['user_id'] ?? null,
+                'GROUP_USER' => $responseJson['app']['data']['group_user'] ?? null,
+
             ],
             'msgTrue' => 1,
         ]);

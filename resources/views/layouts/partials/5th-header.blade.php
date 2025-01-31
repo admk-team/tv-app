@@ -9,12 +9,19 @@
             <ul class="nav-links-items">
                 @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
                     @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
-                        @if ($menu->menu_type === 'FA' && !session()->has('USER_DETAILS.USER_CODE'))
-                            @continue
+                        {{-- Show the menu if it is for group users and the user is a group user --}}
+                        @if (isset($menu->for_group_user) && $menu->for_group_user === 1)
+                            @if (session()->has('USER_DETAILS.GROUP_USER') && session('USER_DETAILS.GROUP_USER') == 1)
+                                <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
+                                    <li class="pc">{{ $menu->menu_title }}</li>
+                                </a>
+                            @endif
+                        @else
+                            {{-- Show the menu if it is not for group users --}}
+                            <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
+                                <li class="pc">{{ $menu->menu_title }}</li>
+                            </a>
                         @endif
-                        <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
-                            <li class="pc">{{ $menu->menu_title }}</li>
-                        </a>
                     @endif
                 @endforeach
                 @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
@@ -54,7 +61,8 @@
                                 <li style="display: none;"><a href="update-profile.php"><span
                                             class="userno">user-26</span></a></li>
                                 @if (\App\Services\AppConfig::get()->app->app_info->profile_manage == 1)
-                                    <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a>
+                                    <li><a class="text-decoration-none"
+                                            href="{{ route('profile.index') }}">Profiles</a>
                                     </li>
                                     <li><a class="text-decoration-none"
                                             href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
@@ -96,9 +104,19 @@
             <ul>
                 @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
                     @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
-                        <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
-                            <li class="pc">{{ $menu->menu_title }}</li>
-                        </a>
+                        {{-- Show the menu if it is for group users and the user is a group user --}}
+                        @if (isset($menu->for_group_user) && $menu->for_group_user === 1)
+                            @if (session()->has('USER_DETAILS.GROUP_USER') && session('USER_DETAILS.GROUP_USER') == 1)
+                                <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
+                                    <li class="pc">{{ $menu->menu_title }}</li>
+                                </a>
+                            @endif
+                        @else
+                            {{-- Show the menu if it is not for group users --}}
+                            <a class="text-decoration-none" href="/{{ $menu->menu_slug }}">
+                                <li class="pc">{{ $menu->menu_title }}</li>
+                            </a>
+                        @endif
                     @endif
                 @endforeach
                 @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
