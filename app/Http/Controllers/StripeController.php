@@ -27,8 +27,7 @@ class StripeController extends Controller
             $stripeProductId = session('MONETIZATION')['stripe_product_id'];
         }
 
-        if ($stripeProductId) {
-            $sPlans = AppConfig::get()->app->s_plan;
+        $sPlans = AppConfig::get()->app->s_plan;
 
             // Filter the plan
             $matchingPlan = array_filter($sPlans, function ($plan) use ($stripeProductId) {
@@ -37,9 +36,6 @@ class StripeController extends Controller
 
             // Get the first matching plan (if necessary)
             $plan = reset($matchingPlan); // This retrieves the first element
-        }
-
-
         if ($plan && $plan->stripe_product_trail) {
             $subscriptionData = [
                 'trial_period_days' => $plan->stripe_product_trail ? $plan->stripe_product_trail : 0

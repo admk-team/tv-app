@@ -65,16 +65,10 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
     <meta name="csrf_token" content="{{ csrf_token() }}" />
+
     @yield('head')
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
-        window.OneSignalDeferred = window.OneSignalDeferred || [];
-        OneSignalDeferred.push(async function(OneSignal) {
-            await OneSignal.init({
-                appId: "{{ config('services.onesignal.app_id') }}",
-            });
-        });
-    </script>
+    @include('layouts.one-signal.one-signal-scripts')
+
 </head>
 
 <body>
@@ -92,17 +86,55 @@
 
 
     <script>
-        const handleInputChange = debounce(function() {
-            var searchQuery = searchInput.value;
-            if (searchQuery.length > 3) {
-                dataLayer.push({
-                    'event': 'custom_search_input',
-                    'search_term': searchQuery,
-                    'user': '{{ session('USER_DETAILS')['FULL_USER_NAME'] ?? 'Guest' }}',
-                });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Select elements
+            const searchInput = document.querySelector('#searchKeyword');
+            const searchForm = document.querySelector('#searchForm');
+
+            // Ensure the elements exist
+            if (!searchInput) {
+                // console.warn('Search input element (#searchKeyword) not found.');
+                return; // Exit if the search input is missing
             }
-        }, 300);
-        searchInput.addEventListener('input', handleInputChange);
+
+            if (!searchForm) {
+                // console.warn('Search form element (#searchForm) not found.');
+                // Optional: Handle cases where the search form is missing
+            }
+
+            // Debounce function
+            const debounce = (func, delay) => {
+                let timeoutId;
+                return (...args) => {
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                    }
+                    timeoutId = setTimeout(() => {
+                        func.apply(null, args);
+                    }, delay);
+                };
+            };
+
+            // Handle input change with debounce
+            const handleInputChange = debounce(function() {
+                const searchQuery = searchInput.value;
+                if (searchQuery.length > 3) {
+                    console.log('Input changed:', searchQuery);
+                    if (typeof dataLayer !== 'undefined') {
+                        dataLayer.push({
+                            event: 'custom_search_input',
+                            search_term: searchQuery,
+                            user: '{{ session('USER_DETAILS')['FULL_USER_NAME'] ?? 'Guest' }}',
+                        });
+                    } else {
+                        // console.warn('dataLayer is not defined.');
+                    }
+                }
+            }, 300); // Adjust the delay as necessary
+
+            // Add event listener
+            searchInput.addEventListener('input', handleInputChange);
+        });
     </script>
 
 

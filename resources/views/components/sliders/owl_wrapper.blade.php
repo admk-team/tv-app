@@ -171,7 +171,6 @@
                         stream_code: streamCode
                     },
                     success: function(response) {
-                        console.log(response.reminded);
                         if (response.reminded) {
                             $(`#${iconId}`).removeClass('fa-bell').addClass('fa-check-circle');
                             $(`#${textId}`).text('Reminder set');

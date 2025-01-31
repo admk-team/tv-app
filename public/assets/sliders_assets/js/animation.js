@@ -332,7 +332,6 @@
 
 						if((nextIndex+1) >= self.imagesCount) { self.bgSld[0].style.zIndex = 1; }
 						else { self.bgSld[nextIndex+1].style.zIndex = 1; }
-						//console.log(self.bgSld[nextIndex+1], ' : ', nextIndex+1);
 
 						// Reinitialize the slider
 						self.current = nextIndex;

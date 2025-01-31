@@ -176,6 +176,39 @@
         });
     </script>
 
+    {{-- Search --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('#searchKeyword');
+            const searchForm = document.querySelector('#searchForm');
+
+            const debounce = (func, delay) => {
+                let timeoutId;
+                return (...args) => {
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                    }
+                    timeoutId = setTimeout(() => {
+                        func.apply(null, args);
+                    }, delay);
+                };
+            };
+
+            const handleInputChange = debounce(function() {
+                var searchQuery = searchInput.value;
+                if (searchQuery.length > 3) {
+                    dataLayer.push({
+                        'event': 'custom_search_input',
+                        'search_term': searchQuery,
+                        'user': '{{ session('USER_DETAILS')['FULL_USER_NAME'] ?? 'Guest' }}',
+                    });
+                }
+            }, 300); // Adjust the delay as necessary
+
+            searchInput.addEventListener('input', handleInputChange);
+        });
+    </script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">

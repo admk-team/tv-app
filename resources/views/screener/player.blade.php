@@ -706,9 +706,6 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
             player.addEventListener('mediaStart', function(data) {
                 //called on media start, returns (instance, instanceName, counter)
 
-                console.log(data.instanceName);
-                console.log(data.counter); //active item
-
                 //get media current time
                 data.instance.getCurrentTime();
 
@@ -741,7 +738,7 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
-                        console.log(this.responseText);
+                        
                     }
                 };
                 xhttp.open("POST", "<?php echo $apiPath; ?>", true);
