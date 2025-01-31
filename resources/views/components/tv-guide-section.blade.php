@@ -667,7 +667,7 @@
                                     $episodeDisplayed = false;
                                 @endphp
                                 <div class="main-container"
-                                    style="display: flex; border: 1px solid;background: none; margin-top: 1rem;z-index:-1;">
+                                    style="display: flex; border: 1px solid;background: none; margin-top: 1rem;">
                                     <!-- Channel Information -->
                                     <div class="channnel shadow bg-body-tertiary rounded">
                                         <div class="channnel_ch_icon">
@@ -811,7 +811,7 @@
                                 </div>
                             @endforeach
 
-                            <div class="current-time-line" id="current-time-line"></div>
+                            <div class="current-time-line" id="current-time-line" style="z-index: 99999;"></div>
                         </div>
                     </div>
                 </div>
