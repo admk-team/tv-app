@@ -16,22 +16,44 @@
                     @endphp
 
                     @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
-                        @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
-                            @if ($count >= 10)
+                    @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
+                        @if ($count >= 10)
                             @break
                         @endif
                         @php
                             $count++;
                         @endphp
-                        <li class="nav-item">
-                            <a class="nav-link" href="/{{ $menu->menu_slug }}">
-                                <div id="movies" class="clsiconmenu"
-                                    style="background: url('{{ $menu->tv_menu_icon_active ?? '' }}');">
-                                    &nbsp;
-                                </div>
-                                {{ $menu->menu_title }}
-                            </a>
-                        </li>
+                
+                        {{-- Skip if the menu is of type 'FA' and the user is not logged in --}}
+                        @if ($menu->menu_type === 'FA' && !session()->has('USER_DETAILS.USER_CODE'))
+                            @continue
+                        @endif
+                
+                        {{-- Show the menu if it is for group users and the user is a group user --}}
+                        @if (isset($menu->for_group_user) && $menu->for_group_user === 1)
+                            @if (session()->has('USER_DETAILS.GROUP_USER') && session('USER_DETAILS.GROUP_USER') == 1)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/{{ $menu->menu_slug }}">
+                                        <div id="movies" class="clsiconmenu"
+                                            style="background: url('{{ $menu->tv_menu_icon_active ?? '' }}');">
+                                            &nbsp;
+                                        </div>
+                                        {{ $menu->menu_title }}
+                                    </a>
+                                </li>
+                            @endif
+                        @else
+                            {{-- Show the menu if it is not for group users --}}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/{{ $menu->menu_slug }}">
+                                    <div id="movies" class="clsiconmenu"
+                                        style="background: url('{{ $menu->tv_menu_icon_active ?? '' }}');">
+                                        &nbsp;
+                                    </div>
+                                    {{ $menu->menu_title }}
+                                </a>
+                            </li>
+                        @endif
                     @endif
                 @endforeach
 
@@ -101,10 +123,9 @@
                     <div class="dropdown-menu drpdown_borde">
                         <ul class="dropsmenubox">
                             @if (\App\Services\AppConfig::get()->app->app_info->profile_manage == 1)
-                                <li><a class="text-decoration-none"
-                                        href="{{ route('profile.index') }}">Profiles</a>
+                                <li><a class="dropdown-item" href="{{ route('profile.index') }}">Profiles</a>
                                 </li>
-                                <li><a class="text-decoration-none"
+                                <li><a class="dropdown-item"
                                         href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
                                         Profiles</a></li>
                             @endif
@@ -117,7 +138,7 @@
                                         History</a></li>
                             @endif
                             @if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
-                                <li><a class="text-decoration-none" href="{{ route('user.badge') }}">User
+                                <li><a class="dropdown-item" href="{{ route('user.badge') }}">User
                                         Badge</a>
                                 </li>
                             @endif
