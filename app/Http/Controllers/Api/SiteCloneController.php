@@ -46,7 +46,7 @@ class SiteCloneController extends Controller
             $arg3 = escapeshellarg("{$input['name']}.octv.online");
 
             // Run script with arguments
-            $command = "$scriptPath $arg1 $arg2 $arg3 2>&1";
+            $command = "echo 'iltbtlmn3520ashT@' | su - root -c '/home/octv.online/public_html/finalscript.sh $arg1 $arg2 $arg3' 2>&1";
             $output = shell_exec($command);
 
             return response()->json([
