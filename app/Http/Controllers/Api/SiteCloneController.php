@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use App\Http\Requests\CreateSubdomainRequest;
@@ -13,13 +14,13 @@ class SiteCloneController extends Controller
     public function createSubdomain(CreateSubdomainRequest $request)
     {
         $input = $request->validated();
-        $referer = request()->getHost();
+        $referer = request()->ip();
 
         $input['name'] = Str::lower($input['name']);
         $input['name'] = Str::replace(' ', '', $input['name']);
         $input['name'] = Str::substr($input['name'], 0, 7);
 
-        if ($referer === '127.0.0.1') {
+        if ($referer === '46.202.176.117') {
             $response = Http::withOptions([
                 'verify' => false,
             ])->withHeaders([
@@ -33,12 +34,10 @@ class SiteCloneController extends Controller
                 "websiteOwner" => "admin",
                 "ownerPassword" => "2MQVOWTfUdFJLTJw"
             ]);
-
             // Get response data
             $createdWebsite = $response->json(); // Decodes JSON response into an associative array
-
-
             // Define script path
+            Log::info($createdWebsite);
             $scriptPath = base_path('finalscript.sh');
 
             // Define arguments
@@ -56,6 +55,6 @@ class SiteCloneController extends Controller
             ]);
         }
 
-        return response()->json(['success' => $referer]);
+        return response()->json(['error' => 'Try Again Later']);
     }
 }
