@@ -93,7 +93,9 @@
 
         {{--  .responsive_video>div {
             height: 126%;
-        }  --}} .movies_listview dt {
+        }  --}}
+
+        .movies_listview dt {
             width: 70px;
         }
 

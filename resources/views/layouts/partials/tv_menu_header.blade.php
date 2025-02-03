@@ -16,31 +16,47 @@
                     @endphp
 
                     @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
-                    @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
-                        @if ($count >= 10)
+                        @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
+                            @if ($count >= 10)
                             @break
                         @endif
                         @php
                             $count++;
                         @endphp
-                
+
                         {{-- Skip if the menu is of type 'FA' and the user is not logged in --}}
                         @if ($menu->menu_type === 'FA' && !session()->has('USER_DETAILS.USER_CODE'))
                             @continue
                         @endif
-                
-                        {{-- Show the menu if it is for group users and the user is a group user --}}
-                        @if (isset($menu->for_group_user) && $menu->for_group_user === 1)
-                            @if (session()->has('USER_DETAILS.GROUP_USER') && session('USER_DETAILS.GROUP_USER') == 1)
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/{{ $menu->menu_slug }}">
-                                        <div id="movies" class="clsiconmenu"
-                                            style="background: url('{{ $menu->tv_menu_icon_active ?? '' }}');">
-                                            &nbsp;
-                                        </div>
-                                        {{ $menu->menu_title }}
-                                    </a>
-                                </li>
+                        @if (!empty($menu->for_group_user))
+                            {{-- Check if the user has a group assigned in session --}}
+                            @if (session()->has('USER_DETAILS.GROUP_USER') && !empty(session('USER_DETAILS.GROUP_USER')))
+                                @php
+                                    // Ensure both are arrays
+                                    $menuGroups = is_array($menu->for_group_user)
+                                        ? $menu->for_group_user
+                                        : explode(',', (string) $menu->for_group_user);
+                                    $userGroups = is_array(session('USER_DETAILS.GROUP_USER'))
+                                        ? session('USER_DETAILS.GROUP_USER')
+                                        : explode(',', (string) session('USER_DETAILS.GROUP_USER'));
+
+                                    // Find common groups
+                                    $commonGroups = array_intersect($menuGroups, $userGroups);
+                                @endphp
+
+                                {{-- If there's at least one common group, show the menu --}}
+                                @if (!empty($commonGroups))
+                                    {{-- Show the menu if it is not for group users --}}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/{{ $menu->menu_slug }}">
+                                            <div id="movies" class="clsiconmenu"
+                                                style="background: url('{{ $menu->tv_menu_icon_active ?? '' }}');">
+                                                &nbsp;
+                                            </div>
+                                            {{ $menu->menu_title }}
+                                        </a>
+                                    </li>
+                                @endif
                             @endif
                         @else
                             {{-- Show the menu if it is not for group users --}}
