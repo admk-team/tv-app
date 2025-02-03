@@ -23,6 +23,8 @@
     <!-- End Google Tag Manager -->
 
     <head>
+
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         @include('gtm_tags.head')
         @if (Route::is('detailscreen', 'playerscreen'))
@@ -80,6 +82,10 @@
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;200;300;400;500;600;700;800&display=swap');
         </style>
+
+        {{-- alert csss --}}
+        <link rel="stylesheet" href="sweetalert2.min.css">
+
         {{-- Custom Css --}}
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
@@ -108,6 +114,7 @@
             })();
         </script>
 
+
         <!-- End Matomo Tag Manager -->
     </head>
 
@@ -117,7 +124,8 @@
                 style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
     @elseif (env('APP_CODE') == '588b8647ff77800ed4134024fb1e2ca5')
-    <!-- QuanioBranch -->
+        <!-- QuanioBranch -->
+
         <head>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta name="06c77dde59dd05c5961a21f24a6cfd408f9e9e7e" content="06c77dde59dd05c5961a21f24a6cfd408f9e9e7e" />
@@ -206,6 +214,7 @@
         <body>
         @else
             <!-- Other -->
+
             <head>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <meta name="csrf-token" content="{{ csrf_token() }}" />

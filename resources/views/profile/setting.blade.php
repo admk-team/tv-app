@@ -10,14 +10,15 @@
             color: var(--themePrimaryTxtColor);
         }
 
-        .input{
+        .input {
             background: var(--headerBgColor) !important;
             color: var(--themeSecondaryTxtColor);
         }
 
-        .form-label{
+        .form-label {
             color: var(--themeActiveColor);
         }
+
         .label-button {
             padding: 5px;
             margin-top: 10px;
@@ -224,20 +225,20 @@
 @section('content')
     <ul class="nav nav-underline justify-content-center" id="nav-tab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" href="#nav-home" data-bs-toggle="tab" role="tab"
+            <a class="nav-link active" href="#nav-home" data-bs-toggle="tab" role="tab" id="get-profile-data"
                 style="color: var(--themeSecondaryTxtColor);">Profile</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#nav-profile" data-bs-toggle="tab" role="tab"
+            <a class="nav-link" href="#nav-profile" data-bs-toggle="tab" role="tab" id="friend-tab"
                 style="color: var(--themeSecondaryTxtColor);">Friends</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#nav-contact" data-bs-toggle="tab" role="tab"
+            <a class="nav-link" href="#nav-contact" data-bs-toggle="tab" role="tab" id="friend-find-tab"
                 style="color: var(--themeSecondaryTxtColor);">Find Friend</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#nav-disabled" data-bs-toggle="tab" role="tab" aria-disabled="true"
-                style="color: var(--themeSecondaryTxtColor);">Friend Requests</a>
+            <a class="nav-link" href="#nav-disabled" data-bs-toggle="tab" role="tab" id="friend-requests-tab"
+                aria-disabled="true" style="color: var(--themeSecondaryTxtColor);">Friend Requests</a>
         </li>
     </ul>
 
@@ -260,29 +261,35 @@
                             </div>
 
                             <!-- Profile Form -->
-                            <form>
-                                <div class="mb-3">
-                                    <label class="form-label">Full Name</label>
-                                    <input type="text" class="form-control input" placeholder="John Doe">
-                                </div>
+                            {{-- <form> --}}
+                            <div class="mb-3">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control input" placeholder="John Doe" id="user-name">
+                            </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" class="form-control input" placeholder="example@gmail.com">
-                                </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control input" placeholder="example@gmail.com"
+                                    id="user-email">
+                            </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Phone</label>
-                                    <input type="tel" class="form-control input" placeholder="+123 456 7890">
-                                </div>
+                            <div class="mb-3">
+                                <label class="form-label">Phone</label>
+                                <input type="tel" class="form-control input" placeholder="+123 456 7890"
+                                    id="user-phone">
+                            </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Address</label>
-                                    <input type="text" class="form-control input" placeholder="123 Street, City, Country">
-                                </div>
+                            <div class="mb-3">
+                                <label class="form-label">Account Type</label>
+                                <select class="form-control input" id="user-account-type">
+                                    <option value=""> select visibility </option>
+                                    <option value="public">Public</option>
+                                    <option value="private">Private</option>
+                                </select>
+                            </div>
 
-                                <button type="submit" class="btn btn-primary w-100 btn-e">Save Changes</button>
-                            </form>
+                            <button class="btn btn-primary w-100 btn-e" id="UpdateProfile">Save Changes</button>
+                            {{-- </form> --}}
                         </div>
                     </div>
 
@@ -316,83 +323,17 @@
                     <div class="col-md-6">
                         <h3>Friend List</h3>
 
-                        <!-- Friend Request List Section -->
-                        <div class="request-list">
-                            <!-- Request Item 1 -->
-                            <div class="request-item">
-                                <div class="request-info">
-                                    <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                                    <p class="request-name">John Doe</p>
-                                </div>
-                                <div class="request-action">
-                                    <button class="btn accept"><i class="fa fa-heart"></i></button>
-                                    <button class="btn reject">Unfriend</button>
-                                </div>
-                            </div>
+                        <!-- Friend Request List Section load dynamicaly -->
+                        <div class="request-list" id="all-friends-data">
 
-                            <!-- Request Item 2 -->
-                            <div class="request-item">
-                                <div class="request-info">
-                                    <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                                    <p class="request-name">Jane Smith</p>
-                                </div>
-                                <div class="request-action">
-                                    <button class="btn accept"><i class="fa fa-heart"></i></button>
-                                    <button class="btn reject">Unfriend</button>
-                                </div>
-                            </div>
-
-                            <!-- Request Item 3 -->
-                            <div class="request-item">
-                                <div class="request-info">
-                                    <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                                    <p class="request-name">Michael Brown</p>
-                                </div>
-                                <div class="request-action">
-                                    <button class="btn accept"><i class="fa fa-heart"></i></button>
-                                    <button class="btn reject">Unfriend</button>
-                                </div>
-                            </div>
-
-                            <!-- Request Item 4 -->
-                            <div class="request-item">
-                                <div class="request-info">
-                                    <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                                    <p class="request-name">Sarah Lee</p>
-                                </div>
-                                <div class="request-action">
-                                    <button class="btn accept"><i class="fa fa-heart"></i></button>
-                                    <button class="btn reject">Unfriend</button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <h3>Favourite Friend</h3>
 
-                        <!-- Friend Request List Section -->
-                        <div class="request-list">
-                            <!-- Request Item 1 -->
-                            <div class="request-item">
-                                <div class="request-info">
-                                    <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                                    <p class="request-name">John Doe</p>
-                                </div>
-                                <div class="request-action">
-                                    <button class="btn btn-warning"><i class="fa fa-heart"></i></button>
-                                </div>
-                            </div>
+                        <!-- Friend Request List Section load dynamicaly -->
+                        <div class="request-list" id="fav-freind-list">
 
-                            <!-- Request Item 2 -->
-                            <div class="request-item">
-                                <div class="request-info">
-                                    <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                                    <p class="request-name">Jane Smith</p>
-                                </div>
-                                <div class="request-action">
-                                    <button class="btn btn-warning"><i class="fa fa-heart"></i></button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -406,239 +347,9 @@
                     <input type="text" class="form-control input" id="searchInput" placeholder="Search for friends...">
                 </div> --}}
 
-                <!-- Friend Cards Section -->
-                <div class="friend-list">
-                    <!-- Friend Card 1 -->
-                    <div class="friend-card">
-                        <div class="container-image justify-content-center">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">John Doe</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friend Card 1 -->
-                    <div class="friend-card">
-                        <div class="container-image justify-content-center">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">John Doe</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friend Card 1 -->
-                    <div class="friend-card">
-                        <div class="container-image justify-content-center">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">John Doe</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friend Card 1 -->
-                    <div class="friend-card">
-                        <div class="container-image justify-content-center">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">John Doe</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friend Card 1 -->
-                    <div class="friend-card">
-                        <div class="container-image justify-content-center">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">John Doe</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friend Card 1 -->
-                    <div class="friend-card">
-                        <div class="container-image justify-content-center">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">John Doe</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friend Card 1 -->
-                    <div class="friend-card">
-                        <div class="container-image justify-content-center">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">John Doe</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friend Card 1 -->
-                    <div class="friend-card">
-                        <div class="container-image justify-content-center">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">John Doe</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friend Card 1 -->
-                    <div class="friend-card">
-                        <div class="container-image justify-content-center">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">John Doe</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friend Card 1 -->
-                    <div class="friend-card">
-                        <div class="container-image justify-content-center">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">John Doe</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friend Card 1 -->
-                    <div class="friend-card">
-                        <div class="container-image justify-content-center">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">John Doe</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friend Card 1 -->
-                    <div class="friend-card">
-                        <div class="container-image justify-content-center">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">John Doe</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friend Card 1 -->
-                    <div class="friend-card">
-                        <div class="container-image justify-content-center">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">John Doe</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friend Card 1 -->
-                    <div class="friend-card">
-                        <div class="container-image justify-content-center">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">John Doe</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friend Card 1 -->
-                    <div class="friend-card">
-                        <div class="container-image justify-content-center">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">John Doe</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friend Card 1 -->
-                    <div class="friend-card">
-                        <div class="container-image justify-content-center">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">John Doe</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Friend Cards Section load dynamicaly -->
+                <div class="friend-list" id="friend-list-responce">
 
-                    <!-- Friend Card 2 -->
-                    <div class="friend-card">
-                        <div class="container-image">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">Jane Smith</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Friend Card 3 -->
-                    <div class="friend-card">
-                        <div class="container-image">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">Michael Brown</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Friend Card 4 -->
-                    <div class="friend-card">
-                        <div class="container-image">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                        </div>
-                        <div class="friend-card-body">
-                            <p class="friend-name">Sarah Lee</p>
-                            <div class="friend-action">
-                                <button class="btn">Send Friend Request</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -646,55 +357,9 @@
             <div class="container mt-5 request-box">
                 <h3>Received Friend Requests</h3>
 
-                <!-- Friend Request List Section -->
-                <div class="request-list">
-                    <!-- Request Item 1 -->
-                    <div class="request-item">
-                        <div class="request-info">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                            <p class="request-name">John Doe</p>
-                        </div>
-                        <div class="request-action">
-                            <button class="btn accept">Accept</button>
-                            <button class="btn reject">Reject</button>
-                        </div>
-                    </div>
+                <!-- Friend Request List Section load dynamicaly -->
+                <div class="request-list" id="friend-request-list-data">
 
-                    <!-- Request Item 2 -->
-                    <div class="request-item">
-                        <div class="request-info">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                            <p class="request-name">Jane Smith</p>
-                        </div>
-                        <div class="request-action">
-                            <button class="btn accept">Accept</button>
-                            <button class="btn reject">Reject</button>
-                        </div>
-                    </div>
-
-                    <!-- Request Item 3 -->
-                    <div class="request-item">
-                        <div class="request-info">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                            <p class="request-name">Michael Brown</p>
-                        </div>
-                        <div class="request-action">
-                            <button class="btn accept">Accept</button>
-                            <button class="btn reject">Reject</button>
-                        </div>
-                    </div>
-
-                    <!-- Request Item 4 -->
-                    <div class="request-item">
-                        <div class="request-info">
-                            <img src="{{ asset('assets/images/download.jpg') }}" alt="Friend 1">
-                            <p class="request-name">Sarah Lee</p>
-                        </div>
-                        <div class="request-action">
-                            <button class="btn accept">Accept</button>
-                            <button class="btn reject">Reject</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -703,4 +368,448 @@
 @push('scripts')
     <!-- INTERNAL QUILL JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            let imagefile = null;
+            $('#fileInput').on('change', function() {
+                imagefile = this.files[0];
+                let file = this.files[0];
+
+                if (file) {
+                    let reader = new FileReader();
+                    reader.readAsDataURL(file);
+
+                    reader.onload = function() {
+                        $('#profileImage').attr('src', reader.result);
+                    };
+
+                    reader.onerror = function(error) {
+                        console.error('Error: ', error);
+                    };
+                }
+            });
+
+
+            // Update the profile
+
+            $('#UpdateProfile').on('click', function() {
+                let formData = new FormData();
+                formData.append('name', $('#user-name').val());
+                formData.append('email', $('#user-email').val());
+                formData.append('mobile', $('#user-phone').val());
+                formData.append('account_type', $('#user-account-type').val());
+
+                // If an image is selected, append it to formData
+                if (imagefile) {
+                    formData.append('image', imagefile);
+                }
+                $.ajax({
+                    url: "{{ route('update-profile') }}",
+                    method: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+                        if (data.status == true) {
+                            Swal.fire({
+                                icon: "warning",
+                                title: data.message,
+                            });
+                            loadProfileData();
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: data.message,
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching profile data:', error);
+                    }
+                });
+
+            })
+
+            // get user data 
+            $('#get-profile-data').on('click', function() {
+                loadProfileData();
+            })
+
+            // get all the public friends
+            $('#friend-find-tab').on('click', function() {
+                $.ajax({
+                    url: "{{ route('public-friend') }}",
+                    method: 'GET',
+                    success: function(data) {
+                        let users = data.public_users;
+                        let friendList = $('#friend-list-responce');
+                        friendList.empty();
+                        users.forEach(user => {
+                            let imageUrl = user.image ? user.image :
+                                "{{ asset('assets/images/user1.png') }}";
+                            let friendCard = `
+                                <div class="friend-card">
+                                    <div class="container-image justify-content-center">
+                                        <img src="${imageUrl}" alt="${user.name}">
+                                    </div>
+                                    <div class="friend-card-body">
+                                        <p class="friend-name">${user.name}</p>
+                                        <div class="friend-action">
+                                            <button class="btn send-request" data-id="${user.code}">Send Friend Request</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            friendList.append(friendCard);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching friend requests:', error);
+                    }
+                });
+            });
+
+            // handel the send freirnd request tab
+            $(document).on('click', '.send-request', function() {
+                let userId = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('send-friend-request') }}",
+                    method: 'POST',
+                    data: {
+                        user_code: userId
+                    },
+                    success: function(data) {
+                        if (data.status == true) {
+                            Swal.fire({
+                                icon: "success",
+                                title: data.message,
+                            });
+                        } else if (data.status == false) {
+                            Swal.fire({
+                                icon: "warning",
+                                title: data.message,
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching friend requests:', error);
+                    }
+                });
+            });
+
+            // get all the friends requests
+            $('#friend-requests-tab').on('click', function() {
+                loadfriendRequests();
+            });
+
+            // get all the friends
+            $('#friend-tab').on('click', function() {
+                getFirends();
+                getFavFirends();
+            });
+
+            // handel the accept the freind request
+            $(document).on('click', '.accept-request', function() {
+                let userId = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('accept-friend-request') }}",
+                    method: 'POST',
+                    data: {
+                        receiver_id: userId
+                    },
+                    success: function(data) {
+                        if (data.status == false) {
+                            Swal.fire({
+                                icon: "error",
+                                title: data.message,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "success",
+                                title: data.message,
+                            });
+                            loadfriendRequests();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching friend requests:', error);
+                    }
+                });
+            });
+
+            // handel the reject freirnd request
+            $(document).on('click', '.reject-request', function() {
+                let userId = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('reject-friend-request') }}",
+                    method: 'POST',
+                    data: {
+                        receiver_id: userId
+                    },
+                    success: function(data) {
+                        if (data.status == false) {
+                            Swal.fire({
+                                icon: "error",
+                                title: data.message,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "success",
+                                title: data.message,
+                            });
+                            loadfriendRequests();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching friend requests:', error);
+                    }
+                });
+            });
+
+            // handel the add to favourit and unfavourite freind 
+            $(document).on('click', '.add-to-fav', function() {
+                let userId = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('mark-fav-friend') }}",
+                    method: 'POST',
+                    data: {
+                        receiver_id: userId
+                    },
+                    success: function(data) {
+                        if (data.status == false) {
+                            Swal.fire({
+                                icon: "error",
+                                title: data.message,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "success",
+                                title: data.message,
+                            });
+                            getFirends();
+                            getFavFirends();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching friend requests:', error);
+                    }
+                });
+            });
+
+            // handel the un freirnd request
+            $(document).on('click', '.unfriend', function() {
+                let userId = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('un-friend') }}",
+                    method: 'POST',
+                    data: {
+                        receiver_id: userId
+                    },
+                    success: function(data) {
+                        if (data.status == false) {
+                            Swal.fire({
+                                icon: "error",
+                                title: data.message,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "success",
+                                title: data.message,
+                            });
+                            getFirends();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching friend requests:', error);
+                    }
+                });
+            });
+
+            function loadProfileData() {
+                $.ajax({
+                    url: "{{ route('public-profile') }}",
+                    method: 'GET',
+                    success: function(data) {
+                        console.log(data);
+                        if (data.status == true) {
+                            $('#user-name').val(data.message.name);
+                            $('#user-email').val(data.message.email);
+                            $('#user-phone').val(data.message.mobile);
+                            $('#user-account-type').val(data.message.account_type);
+                            let profileImage = data.message.image && data.message.image.trim() !== "" ?
+                                data.message.image :
+                                "{{ asset('assets/images/user1.png') }}";
+                            $('#profileImage').attr('src', profileImage);
+                        } else {
+                            Swal.fire({
+                                icon: "warning",
+                                title: data.message,
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching profile data:', error);
+                    }
+                });
+            }
+
+
+
+
+            function getFirends() {
+                let requestList = $('#all-friends-data');
+                requestList.empty();
+                $.ajax({
+                    url: "{{ route('get-friend') }}",
+                    method: 'GET',
+                    success: function(data) {
+                        // console.log(data);
+                        if (data.status == true) {
+                            let users = data.friends;
+                            if (users.length > 0) {
+                                users.forEach(user => {
+                                    let imageUrl = user.sender.image ? user.sender.image :
+                                        "{{ asset('assets/images/user1.png') }}";
+
+                                    let requestCard = `
+                                        <div class="request-item">
+                                            <div class="request-info">
+                                                <img src="${imageUrl}" alt="Friend 1">
+                                                <p class="request-name">${user.sender.name}</p>
+                                            </div>
+                                            <div class="request-action">
+                                               <button class="btn accept add-to-fav" data-id="${user.sender.code}"><i class="fa fa-heart"></i></button>
+                                               <button class="btn reject unfriend" data-id="${user.sender.code}">Unfriend</button>
+                                            </div>
+                                        </div>
+                                    `;
+
+                                    requestList.append(requestCard);
+                                });
+                            } else {
+                                requestList.append(`<h3>No Friend Found</h3>`);
+                            }
+                        } else if (data.status == false) {
+                            let errorCard = `
+                                   <h3>No Record Found</h3>
+                                `;
+                            requestList.append(errorCard);
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching friend requests:', error);
+                    }
+                });
+            }
+
+            function getFavFirends() {
+                let requestList = $('#fav-freind-list');
+                requestList.empty();
+                $.ajax({
+                    url: "{{ route('get-fav-friend') }}",
+                    method: 'GET',
+                    success: function(data) {
+                        // console.log(data);
+                        if (data.status == true) {
+                            let users = data.friends;
+                            if (users.length > 0) {
+                                users.forEach(user => {
+                                    let imageUrl = user.sender.image ? user.sender.image :
+                                        "{{ asset('assets/images/user1.png') }}";
+
+                                    let requestCard = `
+                                        <div class="request-item">
+                                            <div class="request-info">
+                                                <img src="${imageUrl}" alt="Friend 1">
+                                                <p class="request-name">${user.sender.name}</p>
+                                            </div>
+                                            <div class="request-action">
+                                               <button class="btn btn-warning add-to-fav" data-id="${user.sender.code}"><i class="fa fa-heart"></i></button>
+                                            </div>
+                                        </div>
+                                    `;
+
+                                    requestList.append(requestCard);
+                                });
+                            } else {
+                                requestList.append(`<h3>No Friend Added</h3>`);
+                            }
+                        } else if (data.status == false) {
+                            let errorCard = `
+                                   <h3>No Record Found</h3>
+                                `;
+                            requestList.append(errorCard);
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching friend requests:', error);
+                    }
+                });
+            }
+
+            function loadfriendRequests() {
+                let requestList = $('#friend-request-list-data');
+                requestList.empty();
+                $.ajax({
+                    url: "{{ route('get-friend-request') }}",
+                    method: 'GET',
+                    success: function(data) {
+                        // console.log(data);
+                        if (data.status == true) {
+                            let users = data.incoming_requests;
+                            if (users.length > 0) {
+                                users.forEach(user => {
+                                    let imageUrl = user.sender.image ? user.sender.image :
+                                        "{{ asset('assets/images/user1.png') }}";
+                                    let buttonHtml = '';
+
+                                    if (user.status === 'pending') {
+                                        buttonHtml = `
+                                            <button class="btn accept accept-request" data-id="${user.sender.code}">Accept</button>
+                                            <button class="btn reject reject-request" data-id="${user.sender.code}">Reject</button>
+                                        `;
+                                    } else if (user.status === 'declined') {
+                                        buttonHtml = `
+                                            <button class="btn reject" data-id="${user.sender.code}" disabled>Rejected</button>
+                                        `;
+                                    }
+
+                                    let requestCard = `
+                                        <div class="request-item">
+                                            <div class="request-info">
+                                                <img src="${imageUrl}" alt="Friend 1">
+                                                <p class="request-name">${user.sender.name}</p>
+                                            </div>
+                                            <div class="request-action">
+                                                ${buttonHtml}
+                                            </div>
+                                        </div>
+                                    `;
+
+                                    requestList.append(requestCard);
+                                });
+                            } else {
+                                requestList.append(`<h3>No Request Found</h3>`);
+                            }
+                        } else if (data.status == false) {
+                            let errorCard = `
+                                   <h3>No Record Found</h3>
+                                `;
+                            requestList.append(errorCard);
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching friend requests:', error);
+                    }
+                });
+            }
+
+            // Load profile data on page load
+            loadProfileData();
+        })
+    </script>
 @endpush

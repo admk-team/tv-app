@@ -132,7 +132,7 @@ class RegisterController extends Controller
                 'social_id' => $id,
             ]);
         $responseJson1 = $response->json();
-
+        
         $finalresultDevice = null;
         // Get the user agent string
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
@@ -191,7 +191,9 @@ class RegisterController extends Controller
                 'isBypassEmailVerificationStep' => 'Y',
                 'partner_url' => $partnerlink ?? null
             ]);
+        
         $responseJson = $response->json();
+        
         if ($responseJson['app']['status'] === 0) {
             return redirect()->route('login')->with('error', $responseJson['app']['msg']);
         }

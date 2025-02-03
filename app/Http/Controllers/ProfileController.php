@@ -37,7 +37,7 @@ class ProfileController extends Controller
 
         $response = Http::withHeaders(Api::headers())
             ->asForm()
-            ->get(Api::endpoint('/watch/history?userProfileID='. $userProfileId));
+            ->get(Api::endpoint('/watch/history?userProfileID=' . $userProfileId));
 
         $data = $response->json();
         return view('watch_history.index', compact('data'));
@@ -51,5 +51,43 @@ class ProfileController extends Controller
         $user_data = $response->json();
 
         return view('profile.manage', compact('user_data'));
+    }
+
+
+    public function getUserProfile()
+    {
+        $response = Http::timeout(300)->withHeaders(Api::headers(
+            [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ]
+        ))
+            ->asForm()
+            ->post(Api::endpoint('/getUserprofiles'), [
+                'code' => session('USER_DETAILS.USER_CODE')
+            ]);
+        $responseJson1 = $response->json();
+        return $responseJson1;
+    }
+
+    public function UpdateProfile(Request $request)
+    {
+        $response = Http::timeout(300)->withHeaders(Api::headers(
+            [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ]
+        ))
+            ->asForm()
+            ->post(Api::endpoint('/Updateprofile'), [
+                'code' => session('USER_DETAILS.USER_CODE'),
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'mobile' => $request->input('mobile'),
+                'account_type' => $request->input('account_type'),
+                'image' => $request->input('image'),
+            ]);
+        $responseJson1 = $response->json();
+        return $responseJson1;
     }
 }
