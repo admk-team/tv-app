@@ -109,11 +109,23 @@
 
                                                 $adUrl = $playlist['vmap'];
                                                 // $adUrl = "http://127.0.0.1:8000/vast-tags/41/xml";
-                                                $adMacros =
-                                                    $adUrl .
-                                                    "&width=1920&height=1080&cb=$cb" .
-                                                    (!$isLocalHost ? "&uip=$userIP" : '') .
-                                                    "&device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+
+                                                $adMacros = '';
+                                                $parsed_url = parse_url($adUrl);
+                                                if (isset($parsed_url['query'])) {
+                                                    $adMacros =
+                                                        $adUrl .
+                                                        "&width=1920&height=1080&cb=$cb" .
+                                                        (!$isLocalHost ? "&uip=$userIP" : '') .
+                                                        "&device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+                                                } else {
+                                                    $adMacros =
+                                                        $adUrl .
+                                                        "?width=1920&height=1080&cb=$cb" .
+                                                        (!$isLocalHost ? "&uip=$userIP" : '') .
+                                                        "&device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+                                                }
+
                                                 $dataVast = 'data-vast="' . url('/get-ad') . '"';
                                                 $dataVast = "data-vast='$adMacros'";
                                                 if ($adUrl == '') {
