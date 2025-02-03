@@ -4292,6 +4292,9 @@ textarea.form-control:focus {
         width: 70px;
         display: inline-block;
     }
+    .slide {
+        height: 450px;
+    }
 }
 
 @media (max-width: 1368px) {
@@ -4669,7 +4672,7 @@ textarea.form-control:focus {
     }
 
     .slide {
-        height: 400px;
+        height: 370px;
     }
 }
 
