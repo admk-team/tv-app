@@ -40,6 +40,8 @@ use App\Http\Controllers\VideoEventsController;
 use App\Http\Controllers\WatchPartyController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\YearController;
+use App\Http\Controllers\FriendRequestController;
+
 use App\Models\WatchParty;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -129,6 +131,20 @@ Route::middleware('auth.user')->group(function () {
     Route::post('extra/video', [PlayerScreenController::class, 'extraVideo'])->name('extra-video');
     //watch history
     Route::get('user/badge', [UserBadgeController::class, 'index'])->name('user.badge');
+
+    Route::get('get-profile', [ProfileController::class, 'getUserProfile'])->name('public-profile');
+    Route::post('update-profile', [ProfileController::class, 'UpdateProfile'])->name('update-profile');
+
+    // friend request controller 
+    Route::get('public-firends', [FriendRequestController::class, 'getPublicFriend'])->name('public-friend');
+    Route::post('send-firend-request', [FriendRequestController::class, 'sendFriendRequest'])->name('send-friend-request');
+    Route::get('get-firend-request', [FriendRequestController::class, 'getFriendRequests'])->name('get-friend-request');
+    Route::post('accept-firend-request', [FriendRequestController::class, 'AceptFriendRequests'])->name('accept-friend-request');
+    Route::post('reject-firend-request', [FriendRequestController::class, 'rejectFriendRequests'])->name('reject-friend-request');
+    Route::get('get-firend', [FriendRequestController::class, 'getFriends'])->name('get-friend');
+    Route::post('un-firend', [FriendRequestController::class, 'markUnFriends'])->name('un-friend');
+    Route::get('get-fav-firend', [FriendRequestController::class, 'getFavFriends'])->name('get-fav-friend');
+    Route::post('mark-fav-firend', [FriendRequestController::class, 'markAsFavFriends'])->name('mark-fav-friend');
 });
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');
