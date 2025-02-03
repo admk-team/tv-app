@@ -9,9 +9,35 @@
     <div class="slider-container">
         @foreach ($data->app->categories ?? [] as $category)
             @if (!empty($category->streams))
-                @if (isset($category->for_group_user) && $category->for_group_user == 1)
-                    @if (session()->has('USER_DETAILS.GROUP_USER') && session('USER_DETAILS.GROUP_USER') == 1)
-                        @include('components.include_file_cat_slider')
+                @if (!empty($category->for_group_user))
+                    {{-- Check if the user has a group assigned in session --}}
+                    @if (session()->has('USER_DETAILS.GROUP_USER') && !empty(session('USER_DETAILS.GROUP_USER')))
+                        @php
+                            // Ensure both are arrays and properly formatted
+                            $menuGroups = is_array($category->for_group_user)
+                                ? array_map('intval', $category->for_group_user) // Convert to integers
+                                : (!empty($category->for_group_user)
+                                    ? array_map(
+                                        'intval',
+                                        json_decode($category->for_group_user, true) ??
+                                            explode(',', (string) $category->for_group_user),
+                                    )
+                                    : []);
+
+                            $userGroups = is_array(session('USER_DETAILS.GROUP_USER'))
+                                ? array_map('intval', session('USER_DETAILS.GROUP_USER'))
+                                : (!empty(session('USER_DETAILS.GROUP_USER'))
+                                    ? array_map('intval', explode(',', (string) session('USER_DETAILS.GROUP_USER')))
+                                    : []);
+
+                            // Find common groups
+                            $commonGroups = array_intersect($menuGroups, $userGroups);
+                        @endphp
+
+                        {{-- If there's at least one common group, show the menu --}}
+                        @if (!empty($commonGroups))
+                            @include('components.include_file_cat_slider')
+                        @endif
                     @endif
                 @else
                     @include('components.include_file_cat_slider')

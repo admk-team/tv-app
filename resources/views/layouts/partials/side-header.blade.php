@@ -12,12 +12,34 @@
                         <ul class="menu-links d-flex align-items-center justify-content-center gap-4 flex-wrap mb-0">
                             @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
                                 @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
-                                    {{-- Show the menu if it is for group users and the user is a group user --}}
-                                    @if (isset($menu->for_group_user) && $menu->for_group_user === 1)
-                                        @if (session()->has('USER_DETAILS.GROUP_USER') && session('USER_DETAILS.GROUP_USER') == 1)
-                                            <a class="text-decoration-none header-text" href="/{{ $menu->menu_slug }}">
-                                                <li class="pc">{{ $menu->menu_title }}</li>
-                                            </a>
+                                    {{-- Skip if the menu is of type 'FA' and the user is not logged in --}}
+                                    @if ($menu->menu_type === 'FA' && !session()->has('USER_DETAILS.USER_CODE'))
+                                        @continue
+                                    @endif
+                                    @if (!empty($menu->for_group_user))
+                                        {{-- Check if the user has a group assigned in session --}}
+                                        @if (session()->has('USER_DETAILS.GROUP_USER') && !empty(session('USER_DETAILS.GROUP_USER')))
+                                            @php
+                                                // Ensure both are arrays
+                                                $menuGroups = is_array($menu->for_group_user)
+                                                    ? $menu->for_group_user
+                                                    : explode(',', (string) $menu->for_group_user);
+                                                $userGroups = is_array(session('USER_DETAILS.GROUP_USER'))
+                                                    ? session('USER_DETAILS.GROUP_USER')
+                                                    : explode(',', (string) session('USER_DETAILS.GROUP_USER'));
+
+                                                // Find common groups
+                                                $commonGroups = array_intersect($menuGroups, $userGroups);
+                                            @endphp
+
+                                            {{-- If there's at least one common group, show the menu --}}
+                                            @if (!empty($commonGroups))
+                                                {{-- Show the menu if it is not for group users --}}
+                                                <a class="text-decoration-none header-text"
+                                                    href="/{{ $menu->menu_slug }}">
+                                                    <li class="pc">{{ $menu->menu_title }}</li>
+                                                </a>
+                                            @endif
                                         @endif
                                     @else
                                         {{-- Show the menu if it is not for group users --}}
@@ -114,12 +136,33 @@
             <ul>
                 @foreach (\App\Services\AppConfig::get()->app->menus as $menu)
                     @if (!in_array($menu->menu_type, ['HO', 'SE', 'ST', 'PR']))
-                        {{-- Show the menu if it is for group users and the user is a group user --}}
-                        @if (isset($menu->for_group_user) && $menu->for_group_user === 1)
-                            @if (session()->has('USER_DETAILS.GROUP_USER') && session('USER_DETAILS.GROUP_USER') == 1)
-                                <a class="text-decoration-none header-text" href="/{{ $menu->menu_slug }}">
-                                    <li class="pc">{{ $menu->menu_title }}</li>
-                                </a>
+                        {{-- Skip if the menu is of type 'FA' and the user is not logged in --}}
+                        @if ($menu->menu_type === 'FA' && !session()->has('USER_DETAILS.USER_CODE'))
+                            @continue
+                        @endif
+                        @if (!empty($menu->for_group_user))
+                            {{-- Check if the user has a group assigned in session --}}
+                            @if (session()->has('USER_DETAILS.GROUP_USER') && !empty(session('USER_DETAILS.GROUP_USER')))
+                                @php
+                                    // Ensure both are arrays
+                                    $menuGroups = is_array($menu->for_group_user)
+                                        ? $menu->for_group_user
+                                        : explode(',', (string) $menu->for_group_user);
+                                    $userGroups = is_array(session('USER_DETAILS.GROUP_USER'))
+                                        ? session('USER_DETAILS.GROUP_USER')
+                                        : explode(',', (string) session('USER_DETAILS.GROUP_USER'));
+
+                                    // Find common groups
+                                    $commonGroups = array_intersect($menuGroups, $userGroups);
+                                @endphp
+
+                                {{-- If there's at least one common group, show the menu --}}
+                                @if (!empty($commonGroups))
+                                    {{-- Show the menu if it is not for group users --}}
+                                    <a class="text-decoration-none header-text" href="/{{ $menu->menu_slug }}">
+                                        <li class="pc">{{ $menu->menu_title }}</li>
+                                    </a>
+                                @endif
                             @endif
                         @else
                             {{-- Show the menu if it is not for group users --}}
