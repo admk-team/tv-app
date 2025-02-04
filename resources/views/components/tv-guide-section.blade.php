@@ -855,36 +855,39 @@
         }
     }
 
-    function updateCurrentTimeLine() {
-        const now = new Date();
+function updateCurrentTimeLine() {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const time = hours + ':' + minutes;
 
-        const hours = now.getHours();
-        const minutes = now.getMinutes();
-        const time = hours + ':' + minutes;
-
-        function convertH2M(timeInHour) {
-            var timeParts = timeInHour.split(":");
-            return Number(timeParts[0]) * 60 + Number(timeParts[1]);
-        }
-        var timeInMinutes = convertH2M(time);
-        let totalMinutes;
-
-        if (minutes > 30) {
-            totalMinutes = minutes - 30; // Changed var to let
-        } else {
-            totalMinutes = minutes;
-        }
-        let marginLeft;
-        var userAgent = navigator.userAgent;
-        if (/Mobi/.test(userAgent)) {
-            marginLeft = 300 + timeInMinutes * 5;
-        } else {
-            marginLeft = 300 + timeInMinutes * 10;
-        }
-        const currentTimeLine = document.getElementById('current-time-line');
-        currentTimeLine.style.marginLeft = `${marginLeft}px`;
+    function convertH2M(timeInHour) {
+        var timeParts = timeInHour.split(":");
+        return Number(timeParts[0]) * 60 + Number(timeParts[1]);
     }
-    setInterval(updateCurrentTimeLine, 100);
+
+    var timeInMinutes = convertH2M(time);
+    let totalMinutes = minutes > 30 ? minutes - 30 : minutes;
+    let marginLeft;
+
+    var userAgent = navigator.userAgent;
+    var screenWidth = window.innerWidth; // Get screen width
+    var mobileMultiplier = screenWidth < 768 ? 6 : 10; // Adjust the scaling factor
+
+    if (/Mobi/.test(userAgent) || screenWidth < 768) {
+        marginLeft = 100 + timeInMinutes * mobileMultiplier; // Adjusted for mobile
+    } else {
+        marginLeft = 300 + timeInMinutes * 10;
+    }
+
+    const currentTimeLine = document.getElementById('current-time-line');
+    currentTimeLine.style.marginLeft = `${marginLeft}px`;
+    currentTimeLine.style.display = 'block'; // Ensure it's visible
+}
+
+// Run the function every second
+setInterval(updateCurrentTimeLine, 100);
+
 </script>
 
 <script>

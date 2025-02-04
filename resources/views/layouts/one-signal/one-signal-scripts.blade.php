@@ -5,14 +5,14 @@
         if ("serviceWorker" in navigator) {
             navigator.serviceWorker.register(oneSignalWorkerPath).then(
                 (registration) => {
-                    // console.log("Service worker registration succeeded:", registration);
+                    console.log("Service worker registration succeeded:", registration);
                 },
                 (error) => {
-                    // console.error(`Service worker registration failed: ${error}`);
+                    console.error(`Service worker registration failed: ${error}`);
                 },
             );
         } else {
-            // console.error("Service workers are not supported.");
+            console.error("Service workers are not supported.");
         }
 
         // Initialize OneSignal
@@ -24,15 +24,19 @@
                 serviceWorkerParam: {
                     scope: '/onesignal/',
                 },
-                serviceWorkerPath: oneSignalWorkerPath
+                serviceWorkerPath: oneSignalWorkerPath,
+                allowLocalhostAsSecureOrigin: true,
+                notifyButton: {
+                    enable: true
+                }
             });
             OneSignal.Notifications.requestPermission(true);
             let permission = OneSignal.Notifications.permission;
             let subscriptionId = OneSignal.User.PushSubscription.id;
             var onesignalId = OneSignal.User.onesignalId;
-            // console.log("OneSignal Init");
-            // console.log("subscriptionId: ", subscriptionId);
-            // console.log("onesignalId: " + onesignalId);
+            console.log("OneSignal Init");
+            console.log("subscriptionId: ", subscriptionId);
+            console.log("onesignalId: " + onesignalId);
 
             $.ajaxSetup({
                 headers: {
@@ -56,12 +60,12 @@
                             $('#subscribe-text').text('Subscribe');
                         }
                     } else {
-                        // console.error('Subscription check failed:', response.message);
+                        console.error('Subscription check failed:', response.message);
                     }
                 },
                 error: function(xhr, status, error) {
-                    // console.error('Error checking subscription status:', xhr
-                    //     .responseText);
+                    console.error('Error checking subscription status:', xhr
+                        .responseText);
                 },
             });
             //toggle notification
@@ -74,20 +78,20 @@
                         player_id: subscriptionId,
                     },
                     success: function(response) {
-                        // console.log(response);
+                        console.log(response);
                         if (response.success) {
                             $('#subscribe-icon').toggleClass('fa-bell fa-bell-slash');
-                            $('#subscribe-text').text(response.subscribed ? 'Unsubscribe' : 'Subscribe');
+                            $('#subscribe-text').text(response.subscribed ? 'Unsubscribe' :
+                                'Subscribe');
                         } else {
-                            // console.error('Subscription toggle failed:', response.message);
+                            console.error('Subscription toggle failed:', response.message);
                         }
                     },
                     error: function(xhr, status, error) {
-                        // console.error('Error toggling subscription:', xhr.responseText);
+                        console.error('Error toggling subscription:', xhr.responseText);
                     },
                 });
             });
 
         });
-
     </script>
