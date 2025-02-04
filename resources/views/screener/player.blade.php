@@ -161,7 +161,7 @@
 
         .watermark {
             position: absolute;
-            z-index: 100;
+            z-index: 99999999999;
             user-select: none;
         }
 
@@ -285,16 +285,17 @@
                 <div class="col-md-12">
 
                     <div class="videocentalize">
-                        @if ($watermark)
-                            <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}">
-                                @if ($watermark['type'] === 'text')
-                                    {{ $watermark['text'] }}
-                                @else
-                                    <img src="{{ $watermark['image'] }}" alt="watermark">
-                                @endif
-                            </div>
-                        @endif
-                        <div id="wrapper"></div>
+                        <div id="wrapper">
+                            @if ($watermark)
+                                <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}">
+                                    @if ($watermark['type'] === 'text')
+                                        {{ $watermark['text'] }}
+                                    @else
+                                        <img src="{{ $watermark['image'] }}" alt="watermark">
+                                    @endif
+                                </div>
+                            @endif
+                        </div>
                         <!-- LIST OF PLAYLISTS -->
                         <div id="mvp-playlist-list">
                             <div class="mvp-global-playlist-data"></div>
@@ -643,7 +644,7 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
                 useSkipBackward: true,
                 useSkipForward: true,
                 showPrevNextVideoThumb: true,
-                rememberPlaybackPosition: '0', //remember last video position (0, 1, all)
+                rememberPlaybackPosition: 'all', //remember last video position (false, 1, all)
                 useQuality: true,
                 useImaLoader: false,
                 useTheaterMode: true,

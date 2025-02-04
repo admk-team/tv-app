@@ -71,7 +71,9 @@ class AppConfig
             }
 
             $xyz = base64_encode(request()->ip());
-            $response = Http::timeout(300)->withHeaders(Api::headers())
+            $response = Http::timeout(300)->withOptions([
+                'verify' => false,
+            ])->withHeaders(Api::headers())
                 ->get(Api::endpoint("/masterfeed?user_data={$xyz}&user_device={$finalresultDevice}"));
 
             $appconfig = AppCofig::where('app_code', env('APP_CODE'))->first();

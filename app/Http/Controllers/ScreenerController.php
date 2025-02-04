@@ -28,7 +28,6 @@ class ScreenerController extends Controller
         }
 
         if ($data['app']['stream_details'] === []) {
-            dd("dsfdsf");
             return view('screener.expired');
         }
         

@@ -292,7 +292,7 @@
 
         .watermark {
             position: absolute;
-            z-index: 100;
+            z-index: 99999999999;
             user-select: none;
         }
 
@@ -615,22 +615,22 @@
                     <?php else: ?>
 
                     <div class="videocentalize">
-                        @if ($watermark)
-                            <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}"
-                                style="display: none;">
-                                @if ($watermark['type'] === 'text')
-                                    {{ $watermark['text'] }}
-                                @else
-                                    <img src="{{ $watermark['image'] }}" alt="watermark">
-                                @endif
-                            </div>
-                        @endif
                         @if (strpos($streamUrl, 'https://stream.live.gumlet.io') !== false)
                             <div class="live-video top-right text" style="display: block;">
                                 <img src="{{ asset('assets/images/live-video.png') }}" height="30" alt="watermark">
                             </div>
                         @endif
                         <div id="wrapper">
+                            @if ($watermark)
+                                <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}"
+                                    style="display: none;">
+                                    @if ($watermark['type'] === 'text')
+                                        {{ $watermark['text'] }}
+                                    @else
+                                        <img src="{{ $watermark['image'] }}" alt="watermark">
+                                    @endif
+                                </div>
+                            @endif
                             <div class="trail-redirect-message">You will be redirected to login in <span class="time">45
                                     second</span></div>
                             <div class="buynow-redirect-message">
