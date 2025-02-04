@@ -32,15 +32,12 @@
                                 <li><a class="text-decoration-none"
                                         href="{{ route('profile.manage', session('USER_DETAILS')['USER_ID']) }}">Manage
                                         Profiles</a></li>
-                                <li><a class="text-decoration-none"
-                                        href="{{ route('profile.setting', session('USER_DETAILS')['USER_ID']) }}">Setting
-                                    </a></li>
                             @endif
                             <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
                                     History</a></li>
-                            <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
+                            {{-- <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
                                     Password</a>
-                            </li>
+                            </li> --}}
                             @if (\App\Services\AppConfig::get()->app->app_info->watch_history === 1)
                                 <li><a class="text-decoration-none" href="{{ route('watch.history') }}">Watch
                                         History</a>
@@ -50,6 +47,10 @@
                                 <li><a class="text-decoration-none" href="{{ route('user.badge') }}">User Badge</a>
                                 </li>
                             @endif
+                            <li><a class="text-decoration-none"
+                                href="{{ route('profile.setting', session('USER_DETAILS')['USER_ID']) }}">Setting
+                            </a>
+                        </li>
                             <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a>
                             </li>
                         </ul>
@@ -211,11 +212,12 @@
                                 <li><a class="text-decoration-none"
                                         href="{{ route('transaction-history') }}">Transaction
                                         History</a></li>
+                                {{-- <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
+                                        Password</a>
+                                </li> --}}
                                 <li><a class="text-decoration-none"
                                         href="{{ route('profile.setting', session('USER_DETAILS')['USER_ID']) }}">Setting
-                                    </a></li>
-                                <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
-                                        Password</a>
+                                    </a>
                                 </li>
                                 <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
                             </ul>
@@ -252,13 +254,14 @@
                                 <li><a class="text-decoration-none" href="{{ route('profile.index') }}">Profiles</a>
                                 </li>
                                 <li><a class="text-decoration-none"
-                                        href="{{ route('profile.setting', session('USER_DETAILS')['USER_ID']) }}">Setting
-                                    </a></li>
-                                <li><a class="text-decoration-none"
                                         href="{{ route('transaction-history') }}">Transaction
                                         History</a></li>
-                                <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
+                                {{-- <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
                                         Password</a>
+                                </li> --}}
+                                <li><a class="text-decoration-none"
+                                        href="{{ route('profile.setting', session('USER_DETAILS')['USER_ID']) }}">Setting
+                                    </a>
                                 </li>
                                 <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a></li>
                             </ul>
