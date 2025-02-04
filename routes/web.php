@@ -133,7 +133,7 @@ Route::middleware('auth.user')->group(function () {
     Route::get('user/badge', [UserBadgeController::class, 'index'])->name('user.badge');
 
     Route::get('get-profile', [ProfileController::class, 'getUserProfile'])->name('public-profile');
-    Route::post('update-profile', [ProfileController::class, 'UpdateProfile'])->name('update-profile');
+    Route::post('update-profile', [ProfileController::class, 'updateProfile'])->name('update-profile');
 
     // friend request controller 
     Route::get('public-firends', [FriendRequestController::class, 'getPublicFriend'])->name('public-friend');
