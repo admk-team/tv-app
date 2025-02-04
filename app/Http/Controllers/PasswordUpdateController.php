@@ -15,23 +15,42 @@ class PasswordUpdateController extends Controller
         return view('change-password.index');
     }
 
-    public function update(UpdatePasswordRequest $request)
+    // public function update(UpdatePasswordRequest $request)
+    // {
+    //     $response = Http::timeout(300)->withHeaders(Api::headers())
+    //         ->asForm()
+    //         ->post(Api::endpoint('/mngappusrs'), [
+    //             'oldPassword' => $request->oldPassword,
+    //             'nPassword' => $request->password,
+    //             'cPassword' => $request->password_confirmation,
+    //             'userCode' => session('USER_DETAILS')['USER_CODE'],
+    //             'requestAction' => 'changeAccountPassword',
+    //         ]);
+    //     $responseJson = $response->json();
+
+    //     if ($responseJson['app']['status'] === 0) {
+    //         return back()->with('error', $responseJson['app']['msg']);
+    //     } else {
+    //         return back()->with('success', $responseJson['app']['msg']);
+    //     }
+    // }
+    public function update(Request $request)
     {
-        $response = Http::timeout(300)->withHeaders(Api::headers())
+        $response = Http::timeout(300)->withHeaders(Api::headers(
+            [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ]
+        ))
             ->asForm()
             ->post(Api::endpoint('/mngappusrs'), [
                 'oldPassword' => $request->oldPassword,
                 'nPassword' => $request->password,
-                'cPassword' => $request->password_confirmation,
-                'userCode' => session('USER_DETAILS')['USER_CODE'],
+                'cPassword' => $request->cpassword,
+                'userCode' => session('USER_DETAILS.USER_CODE'),
                 'requestAction' => 'changeAccountPassword',
             ]);
         $responseJson = $response->json();
-
-        if ($responseJson['app']['status'] === 0) {
-            return back()->with('error', $responseJson['app']['msg']);
-        } else {
-            return back()->with('success', $responseJson['app']['msg']);
-        }
+        return $responseJson;
     }
 }

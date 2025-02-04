@@ -251,45 +251,48 @@
                         <h3 class="heading">Profile</h3>
                         <div class="profile-card p-4 mb-4">
                             <!-- Profile Image Upload -->
-                            <div class="d-flex flex-column align-items-center mb-4">
-                                <img src="{{ asset('assets/images/download.jpg') }}" alt="Profile Picture"
-                                    class="profile-pic" id="profileImage">
-                                <label class="label-button">
-                                    Upload Image
-                                    <input type="file" class="d-none" id="fileInput">
-                                </label>
-                            </div>
+                            <form id="updateProfileForm" enctype="multipart/form-data">
+                                <div class="d-flex flex-column align-items-center mb-4">
+                                    <img src="{{ asset('assets/images/download.jpg') }}" alt="Profile Picture"
+                                        class="profile-pic" id="profileImage">
+                                    <label class="label-button">
+                                        Upload Image
+                                        <input type="file" class="d-none" id="fileInput" name="image">
+                                        <!-- ✅ Added name="image" -->
+                                    </label>
+                                </div>
 
-                            <!-- Profile Form -->
-                            {{-- <form> --}}
-                            <div class="mb-3">
-                                <label class="form-label">Full Name</label>
-                                <input type="text" class="form-control input" placeholder="John Doe" id="user-name">
-                            </div>
+                                <!-- Other Fields -->
+                                <div class="mb-3">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" class="form-control input" placeholder="John Doe" id="user-name"
+                                        name="name">
+                                </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control input" placeholder="example@gmail.com"
-                                    id="user-email">
-                            </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control input" placeholder="example@gmail.com"
+                                        id="user-email" name="email">
+                                </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Phone</label>
-                                <input type="tel" class="form-control input" placeholder="+123 456 7890"
-                                    id="user-phone">
-                            </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Phone</label>
+                                    <input type="tel" class="form-control input" placeholder="+123 456 7890"
+                                        id="user-phone" name="mobile">
+                                </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Account Type</label>
-                                <select class="form-control input" id="user-account-type">
-                                    <option value=""> select visibility </option>
-                                    <option value="public">Public</option>
-                                    <option value="private">Private</option>
-                                </select>
-                            </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Account Type</label>
+                                    <select class="form-control input" id="user-account-type" name="account_type">
+                                        <option value=""> Select Visibility </option>
+                                        <option value="public">Public</option>
+                                        <option value="private">Private</option>
+                                    </select>
+                                </div>
 
-                            <button class="btn btn-primary w-100 btn-e" id="UpdateProfile">Save Changes</button>
-                            {{-- </form> --}}
+                                <button class="btn btn-primary w-100 btn-e" type="submit">Save Changes</button>
+                            </form>
+
                         </div>
                     </div>
 
@@ -298,15 +301,23 @@
                         <h3 class="heading">Change Password</h3>
                         <div class="profile-card p-4 mb-4">
                             <!-- Change Password Form -->
-                            <form>
+                            <form id="passwordUpdate">
+                                <div class="mb-3">
+                                    <label class="form-label">Old Password</label>
+                                    <input type="password" class="form-control input" placeholder="Enter old password"
+                                        id="oldPassword" name="oldPassword">
+                                </div>
+
                                 <div class="mb-3">
                                     <label class="form-label">New Password</label>
-                                    <input type="password" class="form-control input" placeholder="Enter new password">
+                                    <input type="password" class="form-control input" placeholder="Enter new password"
+                                        id="npassword" name="password">
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="form-label">Confirm Password</label>
-                                    <input type="password" class="form-control input" placeholder="Confirm new password">
+                                    <input type="password" class="form-control input" placeholder="Confirm new password"
+                                        id="cpassword" name="cpassword">
                                 </div>
 
                                 <button type="submit" class="btn btn-primary w-100 btn-e">Save New Password</button>
@@ -371,10 +382,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
-            let imagefile = null;
-            $('#fileInput').on('change', function() {
-                imagefile = this.files[0];
-                let file = this.files[0];
+
+            $('#fileInput').on('change', function(event) {
+                let file = event.target.files[0];
 
                 if (file) {
                     let reader = new FileReader();
@@ -392,31 +402,24 @@
 
 
             // Update the profile
-
-            $('#UpdateProfile').on('click', function() {
-                let formData = new FormData();
-                formData.append('name', $('#user-name').val());
-                formData.append('email', $('#user-email').val());
-                formData.append('mobile', $('#user-phone').val());
-                formData.append('account_type', $('#user-account-type').val());
-
-                // If an image is selected, append it to formData
-                if (imagefile) {
-                    formData.append('image', imagefile);
-                }
+            $('#updateProfileForm').on('submit', (function(event) {
+                event.preventDefault();
+                var formData = new FormData(this);
                 $.ajax({
+                    type: 'POST',
                     url: "{{ route('update-profile') }}",
-                    method: 'POST',
                     data: formData,
+                    cache: false,
                     contentType: false,
                     processData: false,
+                    enctype: 'multipart/form-data',
                     success: function(data) {
+                        // console.log(data);
                         if (data.status == true) {
                             Swal.fire({
-                                icon: "warning",
+                                icon: "success",
                                 title: data.message,
                             });
-                            loadProfileData();
                         } else {
                             Swal.fire({
                                 icon: "error",
@@ -424,12 +427,65 @@
                             });
                         }
                     },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching profile data:', error);
+                    error: function(data) {
+                        console.log(data);
                     }
                 });
+            }));
 
-            })
+            // update password function 
+            $('#passwordUpdate').on('submit', (function(event) {
+                event.preventDefault();
+                $('.form-control').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+                var formData = new FormData(this);
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('password.update') }}",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+
+                        // Loop through the errors and display them
+                        if (data.errors) {
+
+                            if (data.errors.oldPassword) {
+                                $('#oldPassword').addClass('is-invalid');
+                                $('#oldPassword').after('<div class="invalid-feedback">' +
+                                    data.errors.oldPassword[0] + '</div>');
+                            }
+                            if (data.errors.nPassword) {
+                                $('#npassword').addClass('is-invalid');
+                                $('#npassword').after('<div class="invalid-feedback">' +
+                                    data
+                                    .errors.nPassword[0] + '</div>');
+                            }
+                            if (data.errors.cPassword) {
+                                $('#cpassword').addClass('is-invalid');
+                                $('#cpassword').after('<div class="invalid-feedback">' +
+                                    data.errors.cPassword[0] + '</div>');
+                            }
+                        }
+                        if (data.app.status == 1) {
+                            Swal.fire({
+                                icon: "success",
+                                title: data.app.msg,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "warning",
+                                title: data.app.msg,
+                            });
+                        }
+
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+            }));
 
             // get user data 
             $('#get-profile-data').on('click', function() {
@@ -438,36 +494,7 @@
 
             // get all the public friends
             $('#friend-find-tab').on('click', function() {
-                $.ajax({
-                    url: "{{ route('public-friend') }}",
-                    method: 'GET',
-                    success: function(data) {
-                        let users = data.public_users;
-                        let friendList = $('#friend-list-responce');
-                        friendList.empty();
-                        users.forEach(user => {
-                            let imageUrl = user.image ? user.image :
-                                "{{ asset('assets/images/user1.png') }}";
-                            let friendCard = `
-                                <div class="friend-card">
-                                    <div class="container-image justify-content-center">
-                                        <img src="${imageUrl}" alt="${user.name}">
-                                    </div>
-                                    <div class="friend-card-body">
-                                        <p class="friend-name">${user.name}</p>
-                                        <div class="friend-action">
-                                            <button class="btn send-request" data-id="${user.code}">Send Friend Request</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                            friendList.append(friendCard);
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching friend requests:', error);
-                    }
-                });
+                findFreindTab();
             });
 
             // handel the send freirnd request tab
@@ -485,6 +512,7 @@
                                 icon: "success",
                                 title: data.message,
                             });
+                            findFreindTab();
                         } else if (data.status == false) {
                             Swal.fire({
                                 icon: "warning",
@@ -631,14 +659,14 @@
                     url: "{{ route('public-profile') }}",
                     method: 'GET',
                     success: function(data) {
-                        console.log(data);
+                        // console.log(data);
                         if (data.status == true) {
                             $('#user-name').val(data.message.name);
                             $('#user-email').val(data.message.email);
                             $('#user-phone').val(data.message.mobile);
                             $('#user-account-type').val(data.message.account_type);
-                            let profileImage = data.message.image && data.message.image.trim() !== "" ?
-                                data.message.image :
+                            let profileImage = data.message.image_url && data.message.image_url.trim() !== "" ?
+                                data.message.image_url :
                                 "{{ asset('assets/images/user1.png') }}";
                             $('#profileImage').attr('src', profileImage);
                         } else {
@@ -654,8 +682,47 @@
                 });
             }
 
-
-
+            function findFreindTab() {
+                $.ajax({
+                    url: "{{ route('public-friend') }}",
+                    method: 'GET',
+                    success: function(data) {
+                        // console.log(data);
+                        let users = data.public_users;
+                        let friendList = $('#friend-list-responce');
+                        friendList.empty();
+                        users.forEach(user => {
+                            let imageUrl = user.image_url ? user.image_url :
+                                "{{ asset('assets/images/user1.png') }}";
+                            let buttonHtml = '';
+                            if (user.request_status == 1) {
+                                buttonHtml =
+                                    `<button class="btn reject" data-id="${user.code}" disabled>Sended</button> `;
+                            } else {
+                                buttonHtml =
+                                    `<button class="btn send-request" data-id="${user.code}">Send Friend Request</button> `;
+                            }
+                            let friendCard = `
+                                <div class="friend-card">
+                                    <div class="container-image justify-content-center">
+                                        <img src="${imageUrl}" alt="${user.name}">
+                                    </div>
+                                    <div class="friend-card-body">
+                                        <p class="friend-name">${user.name}</p>
+                                        <div class="friend-action">
+                                            ${buttonHtml}
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            friendList.append(friendCard);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching friend requests:', error);
+                    }
+                });
+            }
 
             function getFirends() {
                 let requestList = $('#all-friends-data');
@@ -669,7 +736,7 @@
                             let users = data.friends;
                             if (users.length > 0) {
                                 users.forEach(user => {
-                                    let imageUrl = user.sender.image ? user.sender.image :
+                                    let imageUrl = user.sender.image_url ? user.sender.image_url :
                                         "{{ asset('assets/images/user1.png') }}";
 
                                     let requestCard = `
@@ -716,7 +783,7 @@
                             let users = data.friends;
                             if (users.length > 0) {
                                 users.forEach(user => {
-                                    let imageUrl = user.sender.image ? user.sender.image :
+                                    let imageUrl = user.sender.image_url ? user.sender.image_url :
                                         "{{ asset('assets/images/user1.png') }}";
 
                                     let requestCard = `
@@ -762,7 +829,7 @@
                             let users = data.incoming_requests;
                             if (users.length > 0) {
                                 users.forEach(user => {
-                                    let imageUrl = user.sender.image ? user.sender.image :
+                                    let imageUrl = user.sender.image_url ? user.sender.image_url :
                                         "{{ asset('assets/images/user1.png') }}";
                                     let buttonHtml = '';
 

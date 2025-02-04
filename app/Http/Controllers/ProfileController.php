@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\Api;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -70,24 +71,30 @@ class ProfileController extends Controller
         return $responseJson1;
     }
 
-    public function UpdateProfile(Request $request)
+    public function updateProfile(Request $request)
     {
-        $response = Http::timeout(300)->withHeaders(Api::headers(
-            [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-            ]
-        ))
-            ->asForm()
+        $filename = null;
+
+        // Handle file upload
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $filename = str_replace(' ', '', $request->input('name')) . '_' . now()->format('Y-m-d_H-i-s') . '.' . $request->file('image')->getClientOriginalExtension();
+            $imagePath = storage_path('app/public/images/appuser/' . $filename);
+            $request->file('image')->move(storage_path('app/public/images/appuser'), $filename);
+        }
+    
+        // Prepare the API request
+        $response = Http::timeout(300)->withHeaders(Api::headers([
+            'Accept' => 'application/json',
+        ]))
+            ->attach('image', $filename ? fopen(storage_path('app/public/images/appuser/' . $filename), 'r') : null, $filename)
             ->post(Api::endpoint('/Updateprofile'), [
                 'code' => session('USER_DETAILS.USER_CODE'),
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
                 'mobile' => $request->input('mobile'),
                 'account_type' => $request->input('account_type'),
-                'image' => $request->input('image'),
             ]);
-        $responseJson1 = $response->json();
-        return $responseJson1;
+    
+        return response()->json($response->json());
     }
 }
