@@ -306,6 +306,8 @@
                     trackMediaEvent('mediaPlay', data);
                     isUserInitiated = false;
                 }
+
+                makeVolumeButtontoggable(); // Fix mute toggle
             });
             player.addEventListener('mediaPause', (data) => {
                 if (isUserInitiated) {
@@ -500,5 +502,9 @@
             // setInterval(updatePlaybackState, 30000);
 
         });
+
+        function makeVolumeButtontoggable() {
+            $('.mvp-volume-toggle').addClass('mvp-volume-toggable');
+        }
     </script>
 @endpush

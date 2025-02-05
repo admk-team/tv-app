@@ -716,8 +716,7 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
                 //get media duration
                 data.instance.getDuration();
 
-
-
+                makeVolumeButtontoggable(); // Fix mute toggle
             });
         });
 
@@ -725,6 +724,10 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
             $.get("<?php echo $dataVast3 ?? ''; ?>", function(data, status) {
                 //alert("Data: " + data + "\nStatus: " + status);
             });
+        }
+
+        function makeVolumeButtontoggable() {
+            $('.mvp-volume-toggle').addClass('mvp-volume-toggable');
         }
     </script>
     <script>

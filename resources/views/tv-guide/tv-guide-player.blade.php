@@ -274,6 +274,7 @@
                 data.instance.getCurrentTime();
                 data.instance.getDuration();
 
+                makeVolumeButtontoggable(); // Fix mute toggle
             });
             player.addEventListener("mediaEnd", function(data) {
                 // Automatically move to the next stream in the playlist
@@ -306,6 +307,10 @@
         function unmutedVoice() {
             player.toggleMute();
             player.playMedia();
+        }
+
+        function makeVolumeButtontoggable() {
+            $('.mvp-volume-toggle').addClass('mvp-volume-toggable');
         }
     </script>
 @endpush
