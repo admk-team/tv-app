@@ -199,7 +199,7 @@ pre {
 .chanel-inr {
     position: relative;
     display: grid;
-    overflow-x: auto; /* Enable horizontal scrolling */
+    /* overflow-x: auto;  */
     white-space: nowrap;
 }
 

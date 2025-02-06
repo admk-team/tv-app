@@ -673,12 +673,11 @@
                                         <div class="channnel_ch_icon">
                                             <a
                                                 href="{{ route('player.tvguide', ['channelGuid' => $channel['code'], 'slug' => $slug]) }}">
-                                                <img src="{{ $channel['ch_icon'] }}"
-                                                    alt="{{ $channel['title'] }}">
+                                                <img src="{{ $channel['ch_icon'] }}" alt="{{ $channel['title'] }}">
                                             </a>
                                         </div>
                                         <div class="channnel_detail">
-                                            <span># {{$channel['channel_no']}}</span>
+                                            <span># {{ $channel['channel_no'] }}</span>
                                             <p>
                                                 <a class="text-decoration-none"
                                                     href="{{ route('player.tvguide', ['channelGuid' => $channel['code'], 'slug' => $slug]) }}">
@@ -734,7 +733,7 @@
                                                             ($currentStreamEndTime - $currentStreamStartTime) / 60; // Minutes
                                                         $width =
                                                             strpos($userAgent, 'Mobile') !== false
-                                                                ? $timeDifference * 5 // Slightly increase multiplier for mobile
+                                                                ? $timeDifference * 6 // Slightly increase multiplier for mobile
                                                                 : $timeDifference * 10; // Slightly increase multiplier for desktop
 
                                                         // Update the start time for the next stream
@@ -855,39 +854,52 @@
         }
     }
 
-function updateCurrentTimeLine() {
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const time = hours + ':' + minutes;
+    function updateCurrentTimeLine() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const time = hours + ':' + minutes;
 
-    function convertH2M(timeInHour) {
-        var timeParts = timeInHour.split(":");
-        return Number(timeParts[0]) * 60 + Number(timeParts[1]);
+        function convertH2M(timeInHour) {
+            var timeParts = timeInHour.split(":");
+            return Number(timeParts[0]) * 60 + Number(timeParts[1]);
+        }
+
+        var timeInMinutes = convertH2M(time);
+        let marginLeft;
+
+        var userAgent = navigator.userAgent;
+        var screenWidth = window.innerWidth; // Get screen width
+        var mobileMultiplier = screenWidth < 768 ? 5.5 : 10.5; // Adjust scaling for mobile
+
+        if (/Mobi/.test(userAgent) || screenWidth < 768) {
+            marginLeft = 70 + timeInMinutes * mobileMultiplier; // Adjusted for mobile
+        } else {
+            marginLeft = 500 + timeInMinutes * 10;
+        }
+
+        const currentTimeLine = document.getElementById('current-time-line');
+        if (currentTimeLine) {
+            currentTimeLine.style.marginLeft = `${marginLeft}px`;
+            currentTimeLine.style.display = 'block'; // Ensure it's visible
+
+            // Check if the red line is already in the viewport
+            const rect = currentTimeLine.getBoundingClientRect();
+            if (rect.right > 0 && rect.left < window.innerWidth) {
+                // Red line is in the viewport, don't scroll
+                return;
+            }
+
+            // Scroll the page to bring the red line into view
+            window.scrollTo({
+                left: marginLeft - window.innerWidth / 2, // Adjust to center the line
+                behavior: 'smooth'
+            });
+        }
     }
 
-    var timeInMinutes = convertH2M(time);
-    let totalMinutes = minutes > 30 ? minutes - 30 : minutes;
-    let marginLeft;
-
-    var userAgent = navigator.userAgent;
-    var screenWidth = window.innerWidth; // Get screen width
-    var mobileMultiplier = screenWidth < 768 ? 6 : 10; // Adjust the scaling factor
-
-    if (/Mobi/.test(userAgent) || screenWidth < 768) {
-        marginLeft = 100 + timeInMinutes * mobileMultiplier; // Adjusted for mobile
-    } else {
-        marginLeft = 300 + timeInMinutes * 10;
-    }
-
-    const currentTimeLine = document.getElementById('current-time-line');
-    currentTimeLine.style.marginLeft = `${marginLeft}px`;
-    currentTimeLine.style.display = 'block'; // Ensure it's visible
-}
-
-// Run the function every second
-setInterval(updateCurrentTimeLine, 100);
-
+    // Run the function every second without interfering with user scroll
+    setInterval(updateCurrentTimeLine, 1000);
 </script>
 
 <script>
