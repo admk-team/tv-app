@@ -25,12 +25,16 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->renderable(function (NotFoundHttpException $e, $request) {
+            $errorMessage = $e->getMessage(); // Get error message from exception
+        
             $error = [
-                'responseMessage' => 'Sorry, You Don’t Have Access to This Content',
+                'responseMessage' => !empty($errorMessage) ? $errorMessage : 'Sorry, You Don’t Have Access to This Content',
                 'responseStatus'  => 404,
             ];
+        
             return response()->view('error.error404', compact('error'));
         });
+        
 
         $this->reportable(function (Throwable $e) {
             //

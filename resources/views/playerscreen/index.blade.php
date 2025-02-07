@@ -1507,20 +1507,25 @@ if (!empty($arrCatData))
                     </h1>
 
                     @php
-                        if (sizeof($streamrating ?? []) < 1) {
-                            echo '<p class="text-white" style="margin-bottom: -8px !important;">No reviews found.</p>';
+                    // Ensure $streamrating is an array before using it
+                    $ratings = (!empty($streamrating) && is_array($streamrating)) ? $streamrating : [];
+                
+                    if (count($ratings) < 1) {
+                        echo '<p class="text-white" style="margin-bottom: -8px !important;">No reviews found.</p>';
+                    }
+                
+                    $userDidComment = false;
+                    foreach ($ratings as $rating) {
+                        if (
+                            session()->has('USER_DETAILS') &&
+                            isset($rating['user']['id']) &&
+                            $rating['user']['id'] == session('USER_DETAILS')['USER_ID']
+                        ) {
+                            $userDidComment = true;
+                            break; // Exit loop early if found
                         }
-
-                        $userDidComment = false;
-                        foreach ($streamrating ?? [] as $rating) {
-                            if (
-                                session()->has('USER_DETAILS') &&
-                                $rating['user']['id'] == session('USER_DETAILS')['USER_ID']
-                            ) {
-                                $userDidComment = true;
-                            }
-                        }
-                    @endphp
+                    }
+                @endphp                
                     {{--  @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !$userDidComment && !$userDidComment)  --}}
 
                     @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null)

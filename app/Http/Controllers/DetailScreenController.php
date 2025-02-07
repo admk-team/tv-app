@@ -14,8 +14,13 @@ class DetailScreenController extends Controller
             ->get(Api::endpoint("/getitemdetail/{$id}"));
 
         $data = $response->json()['app'];
-        if ($data['stream_details'] === []) {
-            abort(404);
+        // Dynamic Error Handling
+        if (!empty($data['early_message'])) {
+            abort(404, __('Sorry, this content is available only for Early Screening members. Please subscribe to an Early Screening membership plan to watch.'));
+        }
+
+        if (empty($data['stream_details'])) {
+            abort(404, __('Sorry, You Don’t Have Access to This Content.'));
         }
 
         $streamGuId = $data['stream_details']['stream_guid'];
@@ -68,7 +73,8 @@ class DetailScreenController extends Controller
     {
         $ratingField = $request->has('rating_mobile') ? 'rating_mobile' : 'rating';
 
-        $request->validate([$ratingField => 'required',
+        $request->validate([
+            $ratingField => 'required',
         ], [
             $ratingField . '.required' => 'Please rate the stream',
         ]);
@@ -81,10 +87,10 @@ class DetailScreenController extends Controller
             ->post(Api::endpoint('/userrating/store'), [
                 'app_code' => env('APP_CODE'),
                 'user_id' => session('USER_DETAILS')['USER_ID'],
-            'rating' => $rating,
+                'rating' => $rating,
                 'comment' => $request->comment ?? '',
-            'stream_code' => $request->type === 'stream' ? $request->stream_code : '',
-            'show_code' => $request->type === 'show' ? $request->stream_code : '',
+                'stream_code' => $request->type === 'stream' ? $request->stream_code : '',
+                'show_code' => $request->type === 'show' ? $request->stream_code : '',
             ]);
 
         $responseJson = $response->json();
@@ -119,6 +125,4 @@ class DetailScreenController extends Controller
             'averageRating' => $averageRating
         ]);
     }
-
-
 }
