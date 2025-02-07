@@ -262,6 +262,7 @@
             'P' => 'Pay Per View / Rental',
             'O' => 'Life Time Access',
             'S' => 'Subscription Based',
+            'ES' => 'Early Screening Membership',
             'E' => 'Season Wise Pay',
         ];
         // $typeStr = \App\Services\AppConfig::get()->app->keys_description->MONETIZATION_TYPES;
@@ -283,7 +284,7 @@
             <div class="row">
                 <div class="card px-0">
                     <div class="card-header">
-                        @if (isset($planData['SUBS_TYPE']) && $planData['SUBS_TYPE'] != 'S')
+                        @if (isset($planData['SUBS_TYPE']) && $planData['SUBS_TYPE'] != 'S' && $planData['SUBS_TYPE'] != 'ES')
                             <img src="{{ $planData['POSTER'] }}" class="img-thumbnail"
                                 alt="{{ $planData['PAYMENT_INFORMATION'] }}">
                         @else

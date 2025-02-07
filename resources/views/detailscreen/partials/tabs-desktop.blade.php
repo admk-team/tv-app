@@ -5,7 +5,7 @@
             <!-- Start of season section -->
             {{--  <?php
             $arrSeasonData = isset($seasons) ? $seasons['streams'] : null;
-
+            
             if (!empty($arrSeasonData)) {
                 // Display the Season tab if data is available
                 echo '<div class="tab active" data-tab="like"><span>Season</span></div>';
@@ -15,7 +15,7 @@
             }
             ?>  --}}
             @if ($latest_items['title'])
-            <div class="tab active" data-tab="like"><span>{{ $latest_items['title'] }}</span></div>
+                <div class="tab active" data-tab="like"><span>{{ $latest_items['title'] }}</span></div>
             @endif
             <!--End of season section-->
             @if (
@@ -256,22 +256,31 @@
 
                             {{-- {{ $ratingsCount ?? 0 }} --}}
                         @endif
-                            <span class="average-rating">{{ $averageRating ?? '' }} </span>
+                        <span class="average-rating">{{ $averageRating ?? '' }} </span>
                     </h1>
 
                     <p class="text-white no-reviews-message"
-                        style="margin-bottom: -8px !important; {{ sizeof($stream_details['ratings'] ?? []) > 0 ? 'display: none;' : '' }}">
+                        style="margin-bottom: -8px !important; {{ !empty($stream_details['ratings']) && is_array($stream_details['ratings']) ? 'display: none;' : '' }}">
                         No reviews found.
                     </p>
 
                     @php
                         $userDidComment = false;
-                        foreach ($stream_details['ratings'] ?? [] as $rating) {
-                            if (
-                                session()->has('USER_DETAILS') &&
-                                $rating['user']['id'] == session('USER_DETAILS')['USER_ID']
-                            ) {
-                                $userDidComment = true;
+                        if (
+                            !empty($stream_details) &&
+                            is_array($stream_details) &&
+                            !empty($stream_details['ratings']) &&
+                            is_array($stream_details['ratings'])
+                        ) {
+                            foreach ($stream_details['ratings'] as $rating) {
+                                if (
+                                    session()->has('USER_DETAILS') &&
+                                    isset($rating['user']['id']) &&
+                                    $rating['user']['id'] == session('USER_DETAILS')['USER_ID']
+                                ) {
+                                    $userDidComment = true;
+                                    break; // Exit loop early if found
+                                }
                             }
                         }
                     @endphp
