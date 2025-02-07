@@ -852,7 +852,7 @@ if (!empty($arrCatData))
                 showPrevNextVideoThumb: true,
                 rememberPlaybackPosition: 'all', //remember last video position (false, 1, all)
                 useQuality: true,
-                useImaLoader: false,
+                useImaLoader: true,
                 useTheaterMode: true,
                 focusVideoInTheater: true,
                 focusVideoInTheater: true,

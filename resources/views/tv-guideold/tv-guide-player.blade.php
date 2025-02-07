@@ -169,7 +169,7 @@
                 showPrevNextVideoThumb: false,
                 rememberPlaybackPosition: 'all',
                 useQuality: true,
-                useImaLoader: false,
+                useImaLoader: true,
                 useTheaterMode: true,
                 focusVideoInTheater: true,
                 hidePlaylistOnTheaterEnter: true,

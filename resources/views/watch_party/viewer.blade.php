@@ -222,7 +222,7 @@
                 useSkipForward: false,
                 showPrevNextVideoThumb: false,
                 useQuality: true,
-                useImaLoader: false,
+                useImaLoader: true,
                 useTheaterMode: false,
                 focusVideoInTheater: false,
                 focusVideoInTheater: false,
