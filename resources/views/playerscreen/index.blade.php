@@ -950,53 +950,28 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     <h5 class="modal-title " id="reportModalLabel">Want to report this content?</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
                 <div class="modal-body ">
-                    <form class="p-3 d-flex flex-column justify-content-center w-100 mb-4" id="reportForm">
-                        @csrf
-                        <label class="px-3 alert alert-warning mb-3" id="radio-error" style="display: none;"></label>
-                        <label class="report-label alert alert-light p-2">
-                            <input type="radio" name="code" value="1" class="mx-2 report-radio small"
-                                required>
-                            Inappropriate Content
-                        </label>
-                        <label class="report-label alert alert-light p-2">
-                            <input type="radio" name="code" value="2" class="mx-2 report-radio small"
-                                required>
-                            Misinformation
-                        </label>
-                        <label class="report-label alert alert-light p-2">
-                            <input type="radio" name="code" value="3" class="mx-2 report-radio small"
-                                required>
-                            Copyright Violation
-                        </label>
-                        <label class="report-label alert alert-light p-2">
-                            <input type="radio" name="code" value="4" class="mx-2 report-radio small"
-                                required>
-                            Privacy Violation
-                        </label>
-                        <label class="report-label alert alert-light p-2">
-                            <input type="radio" name="code" value="5" class="mx-2 report-radio small"
-                                required>
-                            Harmful or Dangerous Acts
-                        </label>
-                        <label class="report-label alert alert-light p-2">
-                            <input type="radio" name="code" value="6" class="mx-2 report-radio small"
-                                required>
-                            Hateful or Discriminatory Content
-                        </label>
-                        <label class="report-label alert alert-light p-2">
-                            <input type="radio" name="code" value="7" class="mx-2 report-radio small"
-                                required>
-                            Spam or Scams
-                        </label>
-                        <input type="hidden" name="user_code" value="{{ session('USER_DETAILS')['USER_CODE'] ?? '' }}">
-                        <input type="hidden" name="stream_code" value="{{ $streamGuid }}">
-                        <input type="hidden" name="app_code" value="{{ env('APP_CODE') }}">
-                        <button type="submit" id="reportSubmit"
-                            class="share_btnbox d-flex align-items-center justify-content-center">Submit <span
-                                class="loader mx-2" style="display: none;" id="loader"></span></button>
-                    </form>
+                <form class="p-3 d-flex flex-column justify-content-center w-100 mb-4" id="reportForm">
+                    @csrf
+                    <label class="px-3 alert alert-warning mb-3" id="radio-error" style="display: none;"></label>
+                    @if(isset(\App\Services\AppConfig::get()->app->content_report) && !empty(\App\Services\AppConfig::get()->app->content_report))
+                    @foreach(\App\Services\AppConfig::get()->app->content_report as $report)
+                    <label class="report-label alert alert-light p-2">
+                        <input type="radio" name="code" value="{{$report->id}}" class="mx-2 report-radio small" required>
+
+                        {{$report->content_report}}
+                    </label>
+                    @endforeach
+
+                    @endif
+
+                    <input type="hidden" name="user_code" value="{{ session('USER_DETAILS')['USER_CODE'] ?? '' }}">
+                    <input type="hidden" name="stream_code" value="{{ $streamGuid }}">
+                    <input type="hidden" name="app_code" value="{{ env('APP_CODE') }}">
+                    <button type="submit" id="reportSubmit"
+                        class="share_btnbox d-flex align-items-center justify-content-center">Submit <span
+                            class="loader mx-2" style="display: none;" id="loader"></span></button>
+                </form>
                 </div>
             </div>
         </div>
