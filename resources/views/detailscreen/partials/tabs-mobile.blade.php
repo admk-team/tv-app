@@ -158,7 +158,7 @@ if (session('USER_DETAILS.USER_CODE')) {
             }
             ?>  --}}
             @if ($latest_items['title'])
-            <div class="tab " data-tab="like"><span>{{ $latest_items['title'] }}</span></div>
+                <div class="tab " data-tab="like"><span>{{ $latest_items['title'] }}</span></div>
             @endif
             <!--End of season section-->
             @if (
@@ -607,13 +607,28 @@ if (session('USER_DETAILS.USER_CODE')) {
                         No reviews found.
                     </p>
                     @php
+                        // Ensure $stream_details is an array before checking 'ratings'
+                        $ratings =
+                            !empty($stream_details) &&
+                            is_array($stream_details) &&
+                            isset($stream_details['ratings']) &&
+                            is_array($stream_details['ratings'])
+                                ? $stream_details['ratings']
+                                : [];
+
+                        if (count($ratings) < 1) {
+                            echo '<p class="text-white" style="margin-bottom: -8px !important;">No reviews found.</p>';
+                        }
+
                         $userDidComment = false;
-                        foreach ($stream_details['ratings'] ?? [] as $rating) {
+                        foreach ($ratings as $rating) {
                             if (
                                 session()->has('USER_DETAILS') &&
+                                isset($rating['user']['id']) &&
                                 $rating['user']['id'] == session('USER_DETAILS')['USER_ID']
                             ) {
                                 $userDidComment = true;
+                                break; // Stop loop early if found
                             }
                         }
                     @endphp

@@ -10,6 +10,7 @@
                 <div class="detailtitle">Subscription Plans</div>
                 <div class="row">
                     @foreach (\App\Services\AppConfig::get()->app->s_plan as $plan)
+                    
                         @php
                             $suffix = '';
                             $planStr = '';
@@ -54,7 +55,7 @@
                                     {{-- Hidden Stripe Details if Available --}}
                                     <form action="{{ route('monetization') }}" method="POST">
                                         @csrf
-                                        <input type="hidden" name="SUBS_TYPE" value="S">
+                                        <input type="hidden" name="SUBS_TYPE" value="{{ isset($plan->plan_type) && $plan->plan_type == 'ES' ? 'ES' : 'S' }}">
                                         <input type="hidden" name="PLAN_TYPE" value="{{ $plan->plan_type }}">
                                         <input type="hidden" name="PLAN_PERIOD" value="{{ $plan->plan_period }}">
                                         <input type="hidden" name="PAYMENT_INFORMATION" value="{{ $plan->plan_name }}">
@@ -69,9 +70,8 @@
                                             value="{{ isset($plan->paypal_plan_duration) ? $plan->paypal_plan_duration : '' }}">
                                         <input type="hidden" name="PAYPAL_PLAN_TRAIL"
                                             value="{{ isset($plan->paypal_plan_trail) ? $plan->paypal_plan_trail : '' }}">
-
-
-                                        <input type="hidden" name="MONETIZATION_TYPE" value="S">
+                                        <input type="hidden" name="MONETIZATION_TYPE"
+                                            value="{{ isset($plan->plan_type) && $plan->plan_type == 'ES' ? 'ES' : 'S' }}">
                                         <input type="hidden" name="STREAM_DESC" value="{{ $plan->plan_desc }}">
                                         <input type="hidden" name="PLAN" value="{{ $periodStr }}">
                                         <input type="hidden" name="MONETIZATION_GUID" value="{{ $plan->sub_plan_guid }}">

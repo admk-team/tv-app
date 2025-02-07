@@ -36,11 +36,21 @@ class PlayerScreenController extends Controller
         //     }
         //     abort(404);
         // }
-        if ($data['app']['stream_details'] === []) {
+        // if ($data['app']['stream_details'] === []) {
+        //     if ($data['geoerror'] ?? null) {
+        //         return ['errorView' => view("page.movienotexist")];
+        //     }
+        //     abort(404);
+        // }
+        if (!empty($data['app']['early_message'])) {
+            abort(404, __('Sorry, this content is available only for Early Screening members. Please subscribe to an Early Screening membership plan to watch.'));
+        }
+
+        if (empty($data['app']['stream_details'])) {
             if ($data['geoerror'] ?? null) {
                 return ['errorView' => view("page.movienotexist")];
             }
-            abort(404);
+            abort(404, __('Sorry, You Don’t Have Access to This Content.'));
         }
         // Extract necessary details
         $limitWatchTime = $data['app']['app_info']['limit_watch_time'];
