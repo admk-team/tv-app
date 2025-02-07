@@ -958,11 +958,11 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     @foreach(\App\Services\AppConfig::get()->app->content_report as $report)
                     <label class="report-label alert alert-light p-2">
                         <input type="radio" name="code" value="{{$report->id}}" class="mx-2 report-radio small" required>
-
                         {{$report->content_report}}
                     </label>
                     @endforeach
-
+                    @else
+                    <div class="alert alert-light">✨ "Oops! No content message available yet. Stay tuned!" ✨</div>
                     @endif
 
                     <input type="hidden" name="user_code" value="{{ session('USER_DETAILS')['USER_CODE'] ?? '' }}">
