@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\Api;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class ProfileController extends Controller
@@ -75,7 +76,7 @@ class ProfileController extends Controller
     {
         // dd($request);
         $filename = null;
-
+        Storage::deleteDirectory('public/images/appuser');
         // Handle file upload
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $filename = str_replace(' ', '', $request->input('name')) . '_' . now()->format('Y-m-d_H-i-s') . '.' . $request->file('image')->getClientOriginalExtension();
