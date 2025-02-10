@@ -29,7 +29,7 @@
                 serviceWorkerPath: oneSignalWorkerPath,
                 allowLocalhostAsSecureOrigin: true,
                 notifyButton: {
-                    enable: true
+                    enable: false
                 }
             });
             OneSignal.Notifications.requestPermission(true);
@@ -38,7 +38,7 @@
             var onesignalId = OneSignal.User.onesignalId;
             console.log("OneSignal Init");
             console.log("subscriptionId: ", subscriptionId);
-            console.log("onesignalId: " + onesignalId);
+            console.log("onesignalUserId: " + onesignalId);
 
             $.ajaxSetup({
                 headers: {
