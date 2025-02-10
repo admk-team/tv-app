@@ -68,7 +68,7 @@ class RegisterController extends Controller
             session()->forget('REDIRECT_TO_SCREEN');
             return redirect($redirectUrl);
         }
-
+        $finalresultDevice = null;
         // If subscription is required and is not subscribed redirect to subscription page
         if (GeneralHelper::subscriptionIsRequired()) {
             return redirect(route('subscription'));

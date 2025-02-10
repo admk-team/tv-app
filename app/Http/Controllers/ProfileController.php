@@ -82,20 +82,34 @@ class ProfileController extends Controller
             $filename = str_replace(' ', '', $request->input('name')) . '_' . now()->format('Y-m-d_H-i-s') . '.' . $request->file('image')->getClientOriginalExtension();
             $imagePath = storage_path('app/public/images/appuser/' . $filename);
             $request->file('image')->move(storage_path('app/public/images/appuser'), $filename);
+
+            // Prepare the API request
+            $response = Http::timeout(300)->withHeaders(Api::headers([
+                'Accept' => 'application/json',
+            ]))
+                ->attach('image', $filename ? fopen(storage_path('app/public/images/appuser/' . $filename), 'r') : null, $filename)
+                ->post(Api::endpoint('/Updateprofile'), [
+                    'code' => session('USER_DETAILS.USER_CODE'),
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    'mobile' => $request->input('mobile'),
+                    'account_type' => $request->input('account_type'),
+                ]);
+            return response()->json($response->json());
+            
+        } else {
+
+            $response = Http::timeout(300)->withHeaders(Api::headers([
+                'Accept' => 'application/json',
+            ]))
+                ->post(Api::endpoint('/Updateprofile'), [
+                    'code' => session('USER_DETAILS.USER_CODE'),
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    'mobile' => $request->input('mobile'),
+                    'account_type' => $request->input('account_type'),
+                ]);
+            return response()->json($response->json());
         }
-    
-        // Prepare the API request
-        $response = Http::timeout(300)->withHeaders(Api::headers([
-            'Accept' => 'application/json',
-        ]))
-            // ->attach('image', $filename ? fopen(storage_path('app/public/images/appuser/' . $filename), 'r') : null, $filename)
-            ->post(Api::endpoint('/Updateprofile'), [
-                'code' => session('USER_DETAILS.USER_CODE'),
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'mobile' => $request->input('mobile'),
-                'account_type' => $request->input('account_type'),
-            ]);
-        return response()->json($response->json());
     }
 }
