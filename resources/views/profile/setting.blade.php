@@ -253,7 +253,7 @@
                             <!-- Profile Image Upload -->
                             <form id="updateProfileForm" enctype="multipart/form-data">
                                 <div class="d-flex flex-column align-items-center mb-4">
-                                    <img src="{{ asset('assets/images/download.jpg') }}" alt="Profile Picture"
+                                    <img src="{{ asset('assets/images/user1.png') }}" alt="Profile Picture"
                                         class="profile-pic" id="profileImage">
                                     <label class="label-button">
                                         Upload Image
