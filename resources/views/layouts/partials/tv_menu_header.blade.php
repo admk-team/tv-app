@@ -120,15 +120,14 @@
             @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                 <li class="nav-item">
                     <div class="mt-2">
-                        <form id="subscribe-form-toggle" method="POST"
-                            action="{{ route('toggle.subscribe') }}">
-                            @csrf
-                            <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
-                                <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
-                                <span id="subscribe-text"></span>
-                            </button>
-                            <div id="response-message">{{ session('status') }}</div>
-                        </form>
+                    <div id="notification-container" style="display: none;"></div>
+                    <form id="subscribe-form-toggle" action="{{ route('toggle.subscribe') }}" method="POST">
+                        <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="button">
+                            <i id="subscribe-icon" class="fas fa-bell"></i>
+                            <span id="subscribe-text"></span>
+                        </button>
+                        <div id="response-message"></div>
+                    </form>
                     </div>
                 </li>
                 <li class="nav-item dropdown">

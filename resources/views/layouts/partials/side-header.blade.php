@@ -192,9 +192,7 @@
                 </a>
                 @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                     <div id="notification-container" style="display: none;"></div>
-
                     <form id="subscribe-form-toggle" action="{{ route('toggle.subscribe') }}" method="POST">
-                        @csrf
                         <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="button">
                             <i id="subscribe-icon" class="fas fa-bell"></i>
                             <span id="subscribe-text"></span>
