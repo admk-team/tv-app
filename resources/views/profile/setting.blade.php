@@ -272,7 +272,7 @@
                                 <div class="mb-3">
                                     <label class="form-label">Email</label>
                                     <input type="email" class="form-control input" placeholder="example@gmail.com"
-                                        id="user-email" name="email">
+                                        id="user-email" name="email" disabled>
                                 </div>
 
                                 <div class="mb-3">
