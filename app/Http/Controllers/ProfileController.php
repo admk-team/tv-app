@@ -73,6 +73,7 @@ class ProfileController extends Controller
 
     public function updateProfile(Request $request)
     {
+        // dd($request);
         $filename = null;
 
         // Handle file upload
@@ -86,7 +87,7 @@ class ProfileController extends Controller
         $response = Http::timeout(300)->withHeaders(Api::headers([
             'Accept' => 'application/json',
         ]))
-            ->attach('image', $filename ? fopen(storage_path('app/public/images/appuser/' . $filename), 'r') : null, $filename)
+            // ->attach('image', $filename ? fopen(storage_path('app/public/images/appuser/' . $filename), 'r') : null, $filename)
             ->post(Api::endpoint('/Updateprofile'), [
                 'code' => session('USER_DETAILS.USER_CODE'),
                 'name' => $request->input('name'),
@@ -94,7 +95,6 @@ class ProfileController extends Controller
                 'mobile' => $request->input('mobile'),
                 'account_type' => $request->input('account_type'),
             ]);
-    
         return response()->json($response->json());
     }
 }
