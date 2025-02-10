@@ -125,7 +125,7 @@
 
         .search-box input {
 
-            width: 80%;
+            width: 100%;
             padding: 10px;
             border-radius: 20px;
             border: 1px solid var(--themeActiveColor);
@@ -219,11 +219,33 @@
             margin-bottom: 20px;
             color: var(--themeActiveColor);
         }
+
+        @media (max-width: 768px) {
+            .request-list {
+                margin: 10px auto;
+                padding: 5px;
+            }
+
+            .request-item {
+                padding: 0px;
+            }
+
+            .request-item .request-action {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .request-item .btn {
+                padding: 5px 10px;
+                font-size: 13px;
+                border: none;
+            }
+        }
     </style>
 @endpush
 
 @section('content')
-    <ul class="nav nav-underline justify-content-center" id="nav-tab" role="tablist">
+    <ul class="nav nav-underline justify-content-center " id="nav-tab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" href="#nav-home" data-bs-toggle="tab" role="tab" id="get-profile-data"
                 style="color: var(--themeSecondaryTxtColor);">Profile</a>
@@ -354,9 +376,10 @@
         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
             <div class="container mt-5">
                 <!-- Search Bar -->
-                {{-- <div class="search-box">
-                    <input type="text" class="form-control input" id="searchInput" placeholder="Search for friends...">
-                </div> --}}
+                <div class="search-box">
+                    <input type="text" class="form-control input" id="searchInput"
+                        placeholder="Search for friends...">
+                </div>
 
                 <!-- Friend Cards Section load dynamicaly -->
                 <div class="friend-list" id="friend-list-responce">
@@ -382,6 +405,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
+            //variables
+            let filter_Array = [];
+            let all_Friends = [];
+            let displayedFriends = 20;
 
             $('#fileInput').on('change', function(event) {
                 let file = event.target.files[0];
@@ -398,6 +425,52 @@
                         console.error('Error: ', error);
                     };
                 }
+            });
+
+            $('#searchInput').on('input', function(event) {
+                let searchValue = $(this).val().trim().toLowerCase();
+                if ($(this).val().trim() == '') {
+                    findFreindTab();
+                } else {
+                    let friendList = $('#friend-list-responce');
+                    friendList.empty();
+                    const users = filter_Array.filter(user =>
+                        user.name.toLowerCase().includes(searchValue)
+                    );
+                    if (users.length > 0) {
+                        users.forEach(user => {
+                            let imageUrl = user.image_url ? user.image_url :
+                                "{{ asset('assets/images/user1.png') }}";
+                            let buttonHtml = '';
+                            if (user.request_status == 1) {
+                                buttonHtml =
+                                    `<button class="btn reject" data-id="${user.code}" disabled>Sent</button> `;
+                            } else {
+                                buttonHtml =
+                                    `<button class="btn send-request" data-id="${user.code}">Send Friend Request</button> `;
+                            }
+                            let friendCard = `
+                                <div class="friend-card">
+                                    <div class="container-image justify-content-center">
+                                        <img src="${imageUrl}" alt="${user.name}">
+                                    </div>
+                                    <div class="friend-card-body">
+                                        <p class="friend-name">${user.name}</p>
+                                        <div class="friend-action">
+                                            ${buttonHtml}
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            friendList.append(friendCard);
+                        });
+                    } else {
+                        console.log("No Friend Found Message is Triggered");
+                        friendList.append(
+                            '<h3 style="color: var(--themeActiveColor);">No Friend Found</h3>');
+                    }
+                }
+
             });
 
 
@@ -420,6 +493,7 @@
                                 icon: "success",
                                 title: data.message,
                             });
+                            loadProfileData();
                         } else {
                             Swal.fire({
                                 icon: "error",
@@ -654,6 +728,52 @@
                 });
             });
 
+            // Load More Button Click Event
+            $(document).on('click', '#loadMoreBtn', function() {
+                displayedFriends += 20;
+                renderFriends();
+            });
+
+            //freind load more functionality
+            function renderFriends() {
+                let friendList = $('#friend-list-responce');
+                friendList.empty();
+                let users = all_Friends.slice(0, displayedFriends);
+                users.forEach(user => {
+                    let imageUrl = user.image_url ? user.image_url :
+                        "{{ asset('assets/images/user1.png') }}";
+                    let buttonHtml = '';
+                    if (user.request_status == 1) {
+                        buttonHtml =
+                            `<button class="btn reject" data-id="${user.code}" disabled>Sent</button> `;
+                    } else {
+                        buttonHtml =
+                            `<button class="btn send-request" data-id="${user.code}">Send Friend Request</button> `;
+                    }
+                    let friendCard = `
+                                <div class="friend-card">
+                                    <div class="container-image justify-content-center">
+                                        <img src="${imageUrl}" alt="${user.name}">
+                                    </div>
+                                    <div class="friend-card-body">
+                                        <p class="friend-name">${user.name}</p>
+                                        <div class="friend-action">
+                                            ${buttonHtml}
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                    friendList.append(friendCard);
+                });
+                if (displayedFriends < all_Friends.length) {
+                    friendList.append(`
+                        <div class="friend-action">
+                             <button id="loadMoreBtn" class="btn load-more">Load More</button>
+                        </div>
+                    `);
+                }
+            }
+
             function loadProfileData() {
                 $.ajax({
                     url: "{{ route('public-profile') }}",
@@ -665,7 +785,8 @@
                             $('#user-email').val(data.message.email);
                             $('#user-phone').val(data.message.mobile);
                             $('#user-account-type').val(data.message.account_type);
-                            let profileImage = data.message.image_url && data.message.image_url.trim() !== "" ?
+                            let profileImage = data.message.image_url && data.message.image_url
+                                .trim() !== "" ?
                                 data.message.image_url :
                                 "{{ asset('assets/images/user1.png') }}";
                             $('#profileImage').attr('src', profileImage);
@@ -689,34 +810,9 @@
                     success: function(data) {
                         // console.log(data);
                         let users = data.public_users;
-                        let friendList = $('#friend-list-responce');
-                        friendList.empty();
-                        users.forEach(user => {
-                            let imageUrl = user.image_url ? user.image_url :
-                                "{{ asset('assets/images/user1.png') }}";
-                            let buttonHtml = '';
-                            if (user.request_status == 1) {
-                                buttonHtml =
-                                    `<button class="btn reject" data-id="${user.code}" disabled>Sended</button> `;
-                            } else {
-                                buttonHtml =
-                                    `<button class="btn send-request" data-id="${user.code}">Send Friend Request</button> `;
-                            }
-                            let friendCard = `
-                                <div class="friend-card">
-                                    <div class="container-image justify-content-center">
-                                        <img src="${imageUrl}" alt="${user.name}">
-                                    </div>
-                                    <div class="friend-card-body">
-                                        <p class="friend-name">${user.name}</p>
-                                        <div class="friend-action">
-                                            ${buttonHtml}
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                            friendList.append(friendCard);
-                        });
+                        filter_Array = users;
+                        all_Friends = users;
+                        renderFriends();
                     },
                     error: function(xhr, status, error) {
                         console.error('Error fetching friend requests:', error);
@@ -736,7 +832,8 @@
                             let users = data.friends;
                             if (users.length > 0) {
                                 users.forEach(user => {
-                                    let imageUrl = user.sender.image_url ? user.sender.image_url :
+                                    let imageUrl = user.sender.image_url ? user.sender
+                                        .image_url :
                                         "{{ asset('assets/images/user1.png') }}";
 
                                     let requestCard = `
@@ -783,7 +880,8 @@
                             let users = data.friends;
                             if (users.length > 0) {
                                 users.forEach(user => {
-                                    let imageUrl = user.sender.image_url ? user.sender.image_url :
+                                    let imageUrl = user.sender.image_url ? user.sender
+                                        .image_url :
                                         "{{ asset('assets/images/user1.png') }}";
 
                                     let requestCard = `
@@ -829,7 +927,8 @@
                             let users = data.incoming_requests;
                             if (users.length > 0) {
                                 users.forEach(user => {
-                                    let imageUrl = user.sender.image_url ? user.sender.image_url :
+                                    let imageUrl = user.sender.image_url ? user.sender
+                                        .image_url :
                                         "{{ asset('assets/images/user1.png') }}";
                                     let buttonHtml = '';
 
