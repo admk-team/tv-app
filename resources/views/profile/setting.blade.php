@@ -13,6 +13,7 @@
         .input {
             background: var(--headerBgColor) !important;
             color: var(--themeSecondaryTxtColor);
+            
         }
 
         .form-label {
@@ -30,10 +31,10 @@
         .profile-card {
             max-width: 600px;
             margin: auto;
-            background: var(--headerBgColor);
+            background: var(--themePrimaryTxtColor);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px var(--themeActiveColor);
         }
 
         .profile-pic {
@@ -57,7 +58,7 @@
             border: none;
             border-radius: 8px;
             box-shadow: 0 0 8px var(--themeActiveColor);
-            background-color: var(--headerBgColor);
+            background-color: var(--themePrimaryTxtColor);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -83,7 +84,7 @@
         .friend-name {
             font-size: 1.25rem;
             font-weight: 500;
-            color: var(--themeSecondaryTxtColor);
+            color: var(--bgcolor);
             text-align: center;
         }
 
@@ -140,9 +141,9 @@
             max-width: 800px;
             margin: 30px auto;
             padding: 20px;
-            background-color: var(--headerBgColor);
+            background-color: var(--themePrimaryTxtColor);
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px var(--themeActiveColor);
         }
 
         .request-item {
@@ -174,7 +175,7 @@
         .request-item .request-name {
             font-size: 1.1rem;
             font-weight: 500;
-            color: var(--themeSecondaryTxtColor);
+            color: var(--bgcolor);
             margin: 0;
         }
 
