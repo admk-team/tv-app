@@ -1,7 +1,9 @@
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
+        var oneSignalAppId;
         const oneSignalWorkerPath = "{{ asset('onesignal/OneSignalSDKWorker.js') }}";
-
+        var oneSignalAppId = '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->one_signal_app_id }}';
+        console.log(oneSignalAppId);
         if ("serviceWorker" in navigator) {
             navigator.serviceWorker.register(oneSignalWorkerPath).then(
                 (registration) => {
@@ -19,7 +21,7 @@
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         OneSignalDeferred.push(async function(OneSignal) {
             await OneSignal.init({
-                appId: "{{ config('services.onesignal.app_id') }}",
+                appId: oneSignalAppId,
                 autoRegister: false,
                 serviceWorkerParam: {
                     scope: '/onesignal/',
@@ -27,7 +29,7 @@
                 serviceWorkerPath: oneSignalWorkerPath,
                 allowLocalhostAsSecureOrigin: true,
                 notifyButton: {
-                    enable: true
+                    enable: false
                 }
             });
             OneSignal.Notifications.requestPermission(true);
@@ -36,7 +38,7 @@
             var onesignalId = OneSignal.User.onesignalId;
             console.log("OneSignal Init");
             console.log("subscriptionId: ", subscriptionId);
-            console.log("onesignalId: " + onesignalId);
+            console.log("onesignalUserId: " + onesignalId);
 
             $.ajaxSetup({
                 headers: {
@@ -69,8 +71,9 @@
                 },
             });
             //toggle notification
-            $('#subscribe-form-toggle').on('submit', function(e) {
+            $('#subscribe-button-toggle').on('click', function(e) {
                 e.preventDefault();
+
                 $.ajax({
                     url: "{{ route('toggle.subscribe') }}",
                     method: "POST",
@@ -92,6 +95,7 @@
                     },
                 });
             });
+
 
         });
     </script>
