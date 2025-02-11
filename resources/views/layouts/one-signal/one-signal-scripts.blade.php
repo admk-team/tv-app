@@ -2,7 +2,9 @@
     <script>
         var oneSignalAppId;
         const oneSignalWorkerPath = "{{ asset('onesignal/OneSignalSDKWorker.js') }}";
-        var oneSignalAppId = '{{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->one_signal_app_id }}';
+        var oneSignalAppId =
+            '{{ isset(\App\Services\AppConfig::get()->app->colors_assets_for_branding->one_signal_app_id) ? \App\Services\AppConfig::get()->app->colors_assets_for_branding->one_signal_app_id : '' }}';
+
         console.log(oneSignalAppId);
         if ("serviceWorker" in navigator) {
             navigator.serviceWorker.register(oneSignalWorkerPath).then(
