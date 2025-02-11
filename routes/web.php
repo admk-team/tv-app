@@ -40,6 +40,8 @@ use App\Http\Controllers\VideoEventsController;
 use App\Http\Controllers\WatchPartyController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\YearController;
+use App\Http\Controllers\FriendRequestController;
+
 use App\Models\WatchParty;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -90,14 +92,14 @@ Route::get('/check-channel-status', [ChannelSubscribeController::class, 'checkSu
 
 // Authentication
 Route::get('signup', [RegisterController::class, 'index'])->name('register');
-Route::post('signup', [RegisterController::class, 'register'])->name('register'); 
+Route::post('signup', [RegisterController::class, 'register'])->name('register');
 Route::get('auth/google', [RegisterController::class, 'socialLogin'])->name('social');
 Route::get('auth/facebook', [RegisterController::class, 'socialfacebook'])->name('facebook');
 Route::get('auth/linkedin', [RegisterController::class, 'socialLinkedin'])->name('linkedin');
 Route::get('login/google/callback', [RegisterController::class, 'redirectBack']);
 Route::get('login/facebook/callback', [RegisterController::class, 'redirectfaceook']);
 Route::get('login/linkedin/callback', [RegisterController::class, 'redirectLinkedin']);
-   
+
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::get('logout', [LogoutController::class, 'index'])->name('logout');
@@ -109,7 +111,7 @@ Route::get('forgot', [LoginController::class, 'forgot'])->name('forgot');
 Route::post('forgot', [LoginController::class, 'forgotPassword'])->name('forgot');
 // Authenticated Routes
 Route::middleware('auth.user')->group(function () {
-    
+
     Route::match(['get', 'post'], 'monetization', [MonetizationController::class, 'index'])->name('monetization');
     Route::post('apply-coupon', [MonetizationController::class, 'applyCoupon'])->name('apply-coupon');
     Route::match(['get', 'post'], 'monetization/success', [MonetizationController::class, 'success'])->name('monetization.success');
@@ -120,6 +122,7 @@ Route::middleware('auth.user')->group(function () {
     Route::get('password/edit', [PasswordUpdateController::class, 'index'])->name('password.edit');
     Route::post('password/update', [PasswordUpdateController::class, 'update'])->name('password.update');
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('profile-setting', [ProfileController::class, 'view_setting'])->name('profile.setting');
     Route::get('manageprofile/{id}', [ProfileController::class, 'manage_profile'])->name('profile.manage');
     Route::get('/view/profile/{id}', [ProfileController::class, 'view_profile'])->name('profile.view_profile');
     //watch history
@@ -128,6 +131,20 @@ Route::middleware('auth.user')->group(function () {
     Route::post('extra/video', [PlayerScreenController::class, 'extraVideo'])->name('extra-video');
     //watch history
     Route::get('user/badge', [UserBadgeController::class, 'index'])->name('user.badge');
+
+    Route::get('get-profile', [ProfileController::class, 'getUserProfile'])->name('public-profile');
+    Route::post('update-profile', [ProfileController::class, 'updateProfile'])->name('update-profile');
+
+    // friend request controller 
+    Route::get('public-firends', [FriendRequestController::class, 'getPublicFriend'])->name('public-friend');
+    Route::post('send-firend-request', [FriendRequestController::class, 'sendFriendRequest'])->name('send-friend-request');
+    Route::get('get-firend-request', [FriendRequestController::class, 'getFriendRequests'])->name('get-friend-request');
+    Route::post('accept-firend-request', [FriendRequestController::class, 'AceptFriendRequests'])->name('accept-friend-request');
+    Route::post('reject-firend-request', [FriendRequestController::class, 'rejectFriendRequests'])->name('reject-friend-request');
+    Route::get('get-firend', [FriendRequestController::class, 'getFriends'])->name('get-friend');
+    Route::post('un-firend', [FriendRequestController::class, 'markUnFriends'])->name('un-friend');
+    Route::get('get-fav-firend', [FriendRequestController::class, 'getFavFriends'])->name('get-fav-friend');
+    Route::post('mark-fav-firend', [FriendRequestController::class, 'markAsFavFriends'])->name('mark-fav-friend');
 });
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');
