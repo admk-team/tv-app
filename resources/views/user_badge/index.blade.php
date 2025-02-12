@@ -164,7 +164,20 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const copyButton = document.getElementById('copyButton');
-            const referralLink = document.getElementById('referralLink').innerText;
+            const referralElement = document.getElementById('referralLink');
+
+            if (referralElement) {
+                const referralLink = referralElement.innerText;
+            } 
+            if (!copyButton) {
+                {{--  console.error("Element with ID 'copyButton' not found.");  --}}
+                return;
+            }
+        
+            if (!referralElement) {
+                {{--  console.error("Element with ID 'referralLink' not found.");  --}}
+                return;
+            }
 
             copyButton.addEventListener('click', function() {
                 // Create a temporary input element

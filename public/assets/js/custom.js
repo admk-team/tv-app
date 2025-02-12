@@ -113,13 +113,13 @@ function sendAjaxResForFavItem(requestAction) {
     if (this.readyState == 4 && this.status == 200) {
       console.log(this.responseText);
       var response = JSON.parse(this.responseText);
-      if (response.data['user_code']) {
+      // if (response.data['user_code']) {
         //$('#btnicon-fav').removeClass('fa fa-minus');
         //  $('#btnicon-fav').addClass('fa fa-plus');
-      } else {
+      // } else {
         ///$('#btnicon-fav').removeClass('fa fa-plus');
         //$('#btnicon-fav').addClass('fa fa-minus');
-      }
+      // }
     }
   };
   xhttp.open("POST", reqUrl, true);

@@ -1176,32 +1176,33 @@
             // Fetch stream codes from the hidden inputs
             const desktopStreamCode = $('#stream-code').val();
             const mobileStreamCode = $('#mobile-stream-code').val();
-
-            // Function to toggle bell icon based on subscription status
-            function updateBellIcon(streamCode, iconId, textId) {
-                $.ajax({
-                    url: "{{ route('check.remind.me') }}",
-                    method: "GET",
-                    data: {
-                        stream_code: streamCode
-                    },
-                    success: function(response) {
-                        if (response.reminded) {
-                            $(`#${iconId}`).removeClass('fa-bell').addClass('fa-check-circle');
-                            $(`#${textId}`).text('Reminder set');
-                        } else {
-                            $(`#${iconId}`).removeClass('fa-check-circle').addClass('fa-bell');
-                            $(`#${textId}`).text('Remind me');
+        
+            if (desktopStreamCode || mobileStreamCode) {
+                // Function to toggle bell icon based on subscription status
+                function updateBellIcon(streamCode, iconId, textId) {
+                    if (!streamCode) return; // Prevent unnecessary AJAX calls
+        
+                    $.ajax({
+                        url: "{{ route('check.remind.me') }}",
+                        method: "GET",
+                        data: { stream_code: streamCode },
+                        success: function(response) {
+                            if (response.reminded) {
+                                $(`#${iconId}`).removeClass('fa-bell').addClass('fa-check-circle');
+                                $(`#${textId}`).text('Reminder set');
+                            } else {
+                                $(`#${iconId}`).removeClass('fa-check-circle').addClass('fa-bell');
+                                $(`#${textId}`).text('Remind me');
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error('Error checking subscription status:', xhr.responseText);
                         }
-                    },
-                    error: function(xhr) {
-                        // console.error('Error checking subscription status:', xhr.responseText);
-                    }
-                });
-            }
-            // Initial icon status check
-            updateBellIcon(desktopStreamCode, 'desktop-remind-icon', 'desktop-remind-text');
-            if (mobileStreamCode) {
+                    });
+                }
+        
+                // Initial icon status check
+                updateBellIcon(desktopStreamCode, 'desktop-remind-icon', 'desktop-remind-text');
                 updateBellIcon(mobileStreamCode, 'mobile-remind-icon', 'mobile-remind-text');
             }
         });
