@@ -587,6 +587,7 @@
                                 icon: "success",
                                 title: data.message,
                             });
+                            $('#searchInput').val('');
                             findFreindTab();
                         } else if (data.status == false) {
                             Swal.fire({
@@ -671,63 +672,65 @@
             });
 
             // handel the add to favourit and unfavourite freind 
-            $(document).on('click', '.add-to-fav', function() {
-                let userId = $(this).data('id');
-                $.ajax({
-                    url: "{{ route('mark-fav-friend') }}",
-                    method: 'POST',
-                    data: {
-                        receiver_id: userId
-                    },
-                    success: function(data) {
-                        if (data.status == false) {
-                            Swal.fire({
-                                icon: "error",
-                                title: data.message,
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: "success",
-                                title: data.message,
-                            });
-                            getFirends();
-                            getFavFirends();
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching friend requests:', error);
-                    }
-                });
-            });
+
+            // $(document).on('click', '.add-to-fav', function() {
+            //     let userId = $(this).data('id');
+            //     $.ajax({
+            //         url: "{{ route('mark-fav-friend') }}",
+            //         method: 'POST',
+            //         data: {
+            //             receiver_id: userId
+            //         },
+            //         success: function(data) {
+            //             if (data.status == false) {
+            //                 Swal.fire({
+            //                     icon: "error",
+            //                     title: data.message,
+            //                 });
+            //             } else {
+            //                 Swal.fire({
+            //                     icon: "success",
+            //                     title: data.message,
+            //                 });
+            //                 getFirends();
+            //                 getFavFirends();
+            //             }
+            //         },
+            //         error: function(xhr, status, error) {
+            //             console.error('Error fetching friend requests:', error);
+            //         }
+            //     });
+            // });
 
             // handel the un freirnd request
-            $(document).on('click', '.unfriend', function() {
-                let userId = $(this).data('id');
-                $.ajax({
-                    url: "{{ route('un-friend') }}",
-                    method: 'POST',
-                    data: {
-                        receiver_id: userId
-                    },
-                    success: function(data) {
-                        if (data.status == false) {
-                            Swal.fire({
-                                icon: "error",
-                                title: data.message,
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: "success",
-                                title: data.message,
-                            });
-                            getFirends();
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching friend requests:', error);
-                    }
-                });
-            });
+
+            // $(document).on('click', '.unfriend', function() {
+            //     let userId = $(this).data('id');
+            //     $.ajax({
+            //         url: "{{ route('un-friend') }}",
+            //         method: 'POST',
+            //         data: {
+            //             receiver_id: userId
+            //         },
+            //         success: function(data) {
+            //             if (data.status == false) {
+            //                 Swal.fire({
+            //                     icon: "error",
+            //                     title: data.message,
+            //                 });
+            //             } else {
+            //                 Swal.fire({
+            //                     icon: "success",
+            //                     title: data.message,
+            //                 });
+            //                 getFirends();
+            //             }
+            //         },
+            //         error: function(xhr, status, error) {
+            //             console.error('Error fetching friend requests:', error);
+            //         }
+            //     });
+            // });
 
             // Load More Button Click Event
             $(document).on('click', '#loadMoreBtn', function() {
@@ -824,44 +827,44 @@
             function getFirends() {
                 let requestList = $('#all-friends-data');
                 requestList.empty();
+
                 $.ajax({
                     url: "{{ route('get-friend') }}",
                     method: 'GET',
                     success: function(data) {
-                        // console.log(data);
-                        if (data.status == true) {
+                        if (data.status === true) {
                             let users = data.friends;
                             if (users.length > 0) {
                                 users.forEach(user => {
-                                    let imageUrl = user.sender.image_url ? user.sender
-                                        .image_url :
+                                    // The friend is now dynamically assigned in Laravel as `friend`
+                                    let friend = user.friend;
+                                    let imageUrl = friend.image_url ? friend.image_url :
                                         "{{ asset('assets/images/user1.png') }}";
-
                                     let requestCard = `
-                                        <div class="request-item">
-                                            <div class="request-info">
-                                                <img src="${imageUrl}" alt="Friend 1">
-                                                <p class="request-name">${user.sender.name}</p>
+                                            <div class="request-item">
+                                                <div class="request-info">
+                                                    <img src="${imageUrl}" alt="Friend 1">
+                                                    <p class="request-name">${friend.name}</p>
+                                                </div>
+                                                <div class="request-action">
+                                                 <!--<button class="btn accept add-to-fav" data-id="${friend.code}">
+                                                    <i class="fa fa-heart"></i>
+                                                 </button> -->
+                                                <button class="btn reject unfriend" data-id="${friend.code}">
+                                                    Unfriend
+                                                </button>
+                                                </div>
                                             </div>
-                                            <div class="request-action">
-                                               <button class="btn accept add-to-fav" data-id="${user.sender.code}"><i class="fa fa-heart"></i></button>
-                                               <button class="btn reject unfriend" data-id="${user.sender.code}">Unfriend</button>
-                                            </div>
-                                        </div>
-                                    `;
+                                        `;
 
                                     requestList.append(requestCard);
                                 });
                             } else {
                                 requestList.append(`<h3>No Friend Found</h3>`);
                             }
-                        } else if (data.status == false) {
-                            let errorCard = `
-                                   <h3>No Record Found</h3>
-                                `;
-                            requestList.append(errorCard);
+                        } else {
+                            requestList.append(`<h3>No Record Found</h3>`);
                         }
-
                     },
                     error: function(xhr, status, error) {
                         console.error('Error fetching friend requests:', error);
@@ -869,52 +872,53 @@
                 });
             }
 
-            function getFavFirends() {
-                let requestList = $('#fav-freind-list');
-                requestList.empty();
-                $.ajax({
-                    url: "{{ route('get-fav-friend') }}",
-                    method: 'GET',
-                    success: function(data) {
-                        // console.log(data);
-                        if (data.status == true) {
-                            let users = data.friends;
-                            if (users.length > 0) {
-                                users.forEach(user => {
-                                    let imageUrl = user.sender.image_url ? user.sender
-                                        .image_url :
-                                        "{{ asset('assets/images/user1.png') }}";
+            // function getFavFirends() {
+            //     let requestList = $('#fav-freind-list');
+            //     requestList.empty();
+            //     $.ajax({
+            //         url: "{{ route('get-fav-friend') }}",
+            //         method: 'GET',
+            //         success: function(data) {
+            //             // console.log(data);
+            //             if (data.status == true) {
+            //                 let users = data.friends;
+            //                 if (users.length > 0) {
+            //                     users.forEach(user => {
 
-                                    let requestCard = `
-                                        <div class="request-item">
-                                            <div class="request-info">
-                                                <img src="${imageUrl}" alt="Friend 1">
-                                                <p class="request-name">${user.sender.name}</p>
-                                            </div>
-                                            <div class="request-action">
-                                               <button class="btn btn-warning add-to-fav" data-id="${user.sender.code}"><i class="fa fa-heart"></i></button>
-                                            </div>
-                                        </div>
-                                    `;
+            //                         let friend = user.friend;
+            //                         let imageUrl = friend.image_url ? friend.image_url :
+            //                             "{{ asset('assets/images/user1.png') }}";
 
-                                    requestList.append(requestCard);
-                                });
-                            } else {
-                                requestList.append(`<h3>No Friend Added</h3>`);
-                            }
-                        } else if (data.status == false) {
-                            let errorCard = `
-                                   <h3>No Record Found</h3>
-                                `;
-                            requestList.append(errorCard);
-                        }
+            //                         let requestCard = `
+            //                             <div class="request-item">
+            //                                 <div class="request-info">
+            //                                     <img src="${imageUrl}" alt="Friend 1">
+            //                                     <p class="request-name">${friend.name}</p>
+            //                                 </div>
+            //                                 <div class="request-action">
+            //                                    <button class="btn btn-warning add-to-fav" data-id="${friend.code}"><i class="fa fa-heart"></i></button>
+            //                                 </div>
+            //                             </div>
+            //                         `;
 
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching friend requests:', error);
-                    }
-                });
-            }
+            //                         requestList.append(requestCard);
+            //                     });
+            //                 } else {
+            //                     requestList.append(`<h3>No Friend Added</h3>`);
+            //                 }
+            //             } else if (data.status == false) {
+            //                 let errorCard = `
+            //                        <h3>No Record Found</h3>
+            //                     `;
+            //                 requestList.append(errorCard);
+            //             }
+
+            //         },
+            //         error: function(xhr, status, error) {
+            //             console.error('Error fetching friend requests:', error);
+            //         }
+            //     });
+            // }
 
             function loadfriendRequests() {
                 let requestList = $('#friend-request-list-data');
