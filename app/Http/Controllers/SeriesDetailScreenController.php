@@ -43,7 +43,6 @@ class SeriesDetailScreenController extends Controller
     {
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/getseriesdetails/{$id}"));
-
         $data = $response->json()['app'];
         if ($data['series_details'] === []) {
             abort(404);

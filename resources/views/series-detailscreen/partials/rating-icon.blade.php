@@ -1,7 +1,7 @@
                             @if ($ratingsCount > 0)
-                                @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                        $stream_details['rating_type'] === 'stars' &&
-                                        $stream_details['video_rating'] === 'E')
+                                @if (isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                        $series_details['rating_type'] === 'stars' &&
+                                        $series_details['video_rating'] === 'E')
                                     <div class="star active" style="display: inline-flex;">
                                         <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32" version="1.1"
                                             xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
@@ -17,9 +17,9 @@
                                             </g>
                                         </svg>
                                     </div>
-                                @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                        $stream_details['rating_type'] === 'hearts' &&
-                                        $stream_details['video_rating'] === 'E')
+                                @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                        $series_details['rating_type'] === 'hearts' &&
+                                        $series_details['video_rating'] === 'E')
                                     <div class="star active" style="display: inline-flex;">
                                         <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
                                             version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
@@ -35,9 +35,9 @@
                                             </g>
                                         </svg>
                                     </div>
-                                @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                        $stream_details['rating_type'] === 'thumbs' &&
-                                        $stream_details['video_rating'] === 'E')
+                                @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                        $series_details['rating_type'] === 'thumbs' &&
+                                        $series_details['video_rating'] === 'E')
                                     <div class="star active" style="rotate: 180deg">
                                         <svg fill="#6e6e6e" height="27px" width="27px" version="1.1" id="Capa_1"
                                             xmlns="http://www.w3.org/2000/svg"

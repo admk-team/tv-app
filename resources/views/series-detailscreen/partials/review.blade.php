@@ -26,9 +26,9 @@
                             </div>
                             <div class="review-rating member">
 
-                                @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                        $stream_details['rating_type'] === 'stars' &&
-                                        $stream_details['video_rating'] === 'E')
+                                @if (isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                        $series_details['rating_type'] === 'stars' &&
+                                        $series_details['video_rating'] === 'E')
                                     @for ($i = 0; $i < $review['rating']; $i++)
                                         <div class="star active">
                                             <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
@@ -45,9 +45,9 @@
                                             </svg>
                                         </div>
                                     @endfor
-                                @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                        $stream_details['rating_type'] === 'hearts' &&
-                                        $stream_details['video_rating'] === 'E')
+                                @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                        $series_details['rating_type'] === 'hearts' &&
+                                        $series_details['video_rating'] === 'E')
                                     @for ($i = 0; $i < $review['rating']; $i++)
                                         <div class="star active">
                                             <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
@@ -64,9 +64,9 @@
                                             </svg>
                                         </div>
                                     @endfor
-                                @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                        $stream_details['rating_type'] === 'thumbs' &&
-                                        $stream_details['video_rating'] === 'E')
+                                @elseif(isset($series_details['rating_type'], $series_details['video_rating']) &&
+                                        $series_details['rating_type'] === 'thumbs' &&
+                                        $series_details['video_rating'] === 'E')
                                     {{-- Thumbs  --}}
                                     <div class="user-rating" style="margin-top: 10px; display: flex; gap: 12px;">
                                         @if ($review['rating'] >= 3)
