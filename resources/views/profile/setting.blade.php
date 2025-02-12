@@ -354,7 +354,7 @@
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
             <div class="container mt-5 request-box">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <h3>Friend List</h3>
 
                         <!-- Friend Request List Section load dynamicaly -->
@@ -362,14 +362,14 @@
 
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <h3>Favourite Friend</h3>
 
                         <!-- Friend Request List Section load dynamicaly -->
                         <div class="request-list" id="fav-freind-list">
 
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
 
             </div>
@@ -610,7 +610,7 @@
             // get all the friends
             $('#friend-tab').on('click', function() {
                 getFirends();
-                getFavFirends();
+                // getFavFirends();
             });
 
             // handel the accept the freind request
