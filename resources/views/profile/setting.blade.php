@@ -13,7 +13,7 @@
         .input {
             background: var(--headerBgColor) !important;
             color: var(--themeSecondaryTxtColor);
-            
+
         }
 
         .form-label {
@@ -704,33 +704,33 @@
 
             // handel the un freirnd request
 
-            // $(document).on('click', '.unfriend', function() {
-            //     let userId = $(this).data('id');
-            //     $.ajax({
-            //         url: "{{ route('un-friend') }}",
-            //         method: 'POST',
-            //         data: {
-            //             receiver_id: userId
-            //         },
-            //         success: function(data) {
-            //             if (data.status == false) {
-            //                 Swal.fire({
-            //                     icon: "error",
-            //                     title: data.message,
-            //                 });
-            //             } else {
-            //                 Swal.fire({
-            //                     icon: "success",
-            //                     title: data.message,
-            //                 });
-            //                 getFirends();
-            //             }
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error('Error fetching friend requests:', error);
-            //         }
-            //     });
-            // });
+            $(document).on('click', '.unfriend', function() {
+                let userId = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('un-friend') }}",
+                    method: 'POST',
+                    data: {
+                        receiver_id: userId
+                    },
+                    success: function(data) {
+                        if (data.status == false) {
+                            Swal.fire({
+                                icon: "error",
+                                title: data.message,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "success",
+                                title: data.message,
+                            });
+                            getFirends();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching friend requests:', error);
+                    }
+                });
+            });
 
             // Load More Button Click Event
             $(document).on('click', '#loadMoreBtn', function() {
@@ -890,16 +890,16 @@
             //                             "{{ asset('assets/images/user1.png') }}";
 
             //                         let requestCard = `
-            //                             <div class="request-item">
-            //                                 <div class="request-info">
-            //                                     <img src="${imageUrl}" alt="Friend 1">
-            //                                     <p class="request-name">${friend.name}</p>
-            //                                 </div>
-            //                                 <div class="request-action">
-            //                                    <button class="btn btn-warning add-to-fav" data-id="${friend.code}"><i class="fa fa-heart"></i></button>
-            //                                 </div>
-            //                             </div>
-            //                         `;
+        //                             <div class="request-item">
+        //                                 <div class="request-info">
+        //                                     <img src="${imageUrl}" alt="Friend 1">
+        //                                     <p class="request-name">${friend.name}</p>
+        //                                 </div>
+        //                                 <div class="request-action">
+        //                                    <button class="btn btn-warning add-to-fav" data-id="${friend.code}"><i class="fa fa-heart"></i></button>
+        //                                 </div>
+        //                             </div>
+        //                         `;
 
             //                         requestList.append(requestCard);
             //                     });
@@ -908,8 +908,8 @@
             //                 }
             //             } else if (data.status == false) {
             //                 let errorCard = `
-            //                        <h3>No Record Found</h3>
-            //                     `;
+        //                        <h3>No Record Found</h3>
+        //                     `;
             //                 requestList.append(errorCard);
             //             }
 
