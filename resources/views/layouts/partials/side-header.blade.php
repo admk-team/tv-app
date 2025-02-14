@@ -75,13 +75,26 @@
                     <i class="fa fa-bars" style="color:white;"></i>
                 </button>
                 @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                    <style>
+                        .onesignal-customlink-container {
+                            min-height: 0 !important;
+                        }
+
+                        .onesignal-customlink-container .onesignal-customlink-subscribe::before {
+                            content: "\f0f3";
+                            font-family: "Font Awesome 6 Free";
+                            font-weight: 900;
+                            margin-right: 5px;
+                        }
+
+                        .onesignal-customlink-subscribe.button.medium {
+                            background: var(--themeActiveColor) !important;
+                            color: rgb(255, 255, 255);
+                        }
+                    </style>
                     <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
                         @csrf
-                        <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="submit">
-                            <i id="subscribe-icon" class="fas fa-bell"></i> <!-- Default icon -->
-                            <span id="subscribe-text"></span>
-                        </button>
-                        <div id="response-message">{{ session('status') }}</div>
+                        <div class='onesignal-customlink-container'></div>
                     </form>
                     <li class="nav-item">
                         <div class="dropdown dropdin">
@@ -195,17 +208,14 @@
                     <i class="bi bi-search search-icon"></i>
                 </a>
                 @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
-                    <div id="notification-container" style="display: none;"></div>
-                    <form id="subscribe-form-toggle" action="{{ route('toggle.subscribe') }}" method="POST">
-                        <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="button">
-                            <i id="subscribe-icon" class="fas fa-bell"></i>
-                            <span id="subscribe-text"></span>
-                        </button>
-                        <div id="response-message"></div>
+                    <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+                        @csrf
+                        <div class='onesignal-customlink-container'></div>
                     </form>
                     <li class="nav-item">
                         <div class="dropdown dropdin">
-                            <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=1>
+                            <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)"
+                                data-index=1>
                                 <div class="userimg">u</div>
                             </div>
                             <ul class="dropdown_menus profiledropin avtartMenu gap-0"

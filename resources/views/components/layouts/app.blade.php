@@ -86,6 +86,7 @@
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5219646118453263"
             crossorigin="anonymous"></script>
         @yield('head')
+        @include('layouts.one-signal.one-signal-scripts')
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <!-- Matomo Tag Manager -->
@@ -199,7 +200,7 @@
                 <link rel="stylesheet" href="{{ asset('assets/css/faq_style.css') }}">
             @endif
             @yield('head')
-
+            @include('layouts.one-signal.one-signal-scripts')
             <meta name="csrf-token" content="{{ csrf_token() }}">
             {{-- Adsencs link --}}
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5219646118453263"
@@ -286,7 +287,7 @@
                     <link rel="stylesheet" href="{{ asset('assets/css/faq_style.css') }}">
                 @endif
                 @yield('head')
-
+                @include('layouts.one-signal.one-signal-scripts')
                 <meta name="csrf-token" content="{{ csrf_token() }}">
                 <script>
                     (function() {
