@@ -13,17 +13,14 @@
                     {{-- Check if the user has a group assigned in session --}}
                     @if (session()->has('USER_DETAILS.GROUP_USER') && !empty(session('USER_DETAILS.GROUP_USER')))
                         @php
-                            // Ensure both are arrays and properly formatted
+                            // Convert `for_group_user` to an array safely
                             $menuGroups = is_array($category->for_group_user)
-                                ? array_map('intval', $category->for_group_user) // Convert to integers
+                                ? array_map('intval', $category->for_group_user)
                                 : (!empty($category->for_group_user)
-                                    ? array_map(
-                                        'intval',
-                                        json_decode($category->for_group_user, true) ??
-                                            explode(',', (string) $category->for_group_user),
-                                    )
+                                    ? array_map('intval', explode(',', (string) $category->for_group_user))
                                     : []);
 
+                            // Convert session `USER_DETAILS.GROUP_USER` to an array safely
                             $userGroups = is_array(session('USER_DETAILS.GROUP_USER'))
                                 ? array_map('intval', session('USER_DETAILS.GROUP_USER'))
                                 : (!empty(session('USER_DETAILS.GROUP_USER'))
@@ -44,6 +41,8 @@
                 @endif
             @endif
         @endforeach
+
+
     </div>
 </section>
 @push('scripts')
