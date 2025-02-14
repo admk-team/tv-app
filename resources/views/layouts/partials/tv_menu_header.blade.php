@@ -119,16 +119,27 @@
             </li>
             @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                 <li class="nav-item">
-                    <div class="mt-2">
-                    <div id="notification-container" style="display: none;"></div>
-                    <form id="subscribe-form-toggle" action="{{ route('toggle.subscribe') }}" method="POST">
-                        <button id="subscribe-button-toggle" class="sub-btn-icon rounded" type="button">
-                            <i id="subscribe-icon" class="fas fa-bell"></i>
-                            <span id="subscribe-text"></span>
-                        </button>
-                        <div id="response-message"></div>
+                    <style>
+                        .onesignal-customlink-container {
+                            min-height: 0 !important;
+                        }
+
+                        .onesignal-customlink-container .onesignal-customlink-subscribe::before {
+                            content: "\f0f3";
+                            font-family: "Font Awesome 6 Free";
+                            font-weight: 900;
+                            margin-right: 5px;
+                        }
+
+                        .onesignal-customlink-subscribe.button.medium {
+                            background: var(--themeActiveColor) !important;
+                            color: rgb(255, 255, 255);
+                        }
+                    </style>
+                    <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+                        @csrf
+                        <div class='onesignal-customlink-container'></div>
                     </form>
-                    </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"

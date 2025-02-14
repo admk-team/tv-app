@@ -61,7 +61,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/faq_style.css') }}">
     @endif
     @yield('head')
-
+    @include('layouts.one-signal.one-signal-scripts')
     <meta name="csrf-token" content="{{ csrf_token() }}">
      <script>
         (function() {
