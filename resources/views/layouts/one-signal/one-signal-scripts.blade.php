@@ -53,7 +53,7 @@
                                 .responseText);
                         },
                     });
-                }, 20000); //  20-second delay to get the subscription id
+                }, 10000); //  10-second delay to get the subscription id
             });
         });
     </script>
