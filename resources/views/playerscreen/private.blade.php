@@ -852,7 +852,7 @@ if (!empty($arrCatData))
                 showPrevNextVideoThumb: true,
                 rememberPlaybackPosition: 'all', //remember last video position (false, 1, all)
                 useQuality: true,
-                useImaLoader: false,
+                useImaLoader: true,
                 useTheaterMode: true,
                 focusVideoInTheater: true,
                 focusVideoInTheater: true,
@@ -982,6 +982,8 @@ if (!empty($arrCatData))
                 if (watermark) {
                     watermark.style.display = "block";
                 }
+
+                makeVolumeButtontoggable(); // Fix mute toggle
             });
 
             player.addEventListener("mediaPlay", function(data) {
@@ -1045,6 +1047,10 @@ if (!empty($arrCatData))
             $.get("<?php echo $dataVast3 ?? ''; ?>", function(data, status) {
                 //alert("Data: " + data + "\nStatus: " + status);
             });
+        }
+
+        function makeVolumeButtontoggable() {
+            $('.mvp-volume-toggle').addClass('mvp-volume-toggable');
         }
     </script>
     <script>

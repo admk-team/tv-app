@@ -108,7 +108,7 @@
                 showPrevNextVideoThumb: true,
                 rememberPlaybackPosition: 'all', //remember last video position (false, 1, all)
                 useQuality: true,
-                useImaLoader: false,
+                useImaLoader: true,
                 useTheaterMode: true,
                 focusVideoInTheater: true,
                 focusVideoInTheater: true,
@@ -159,10 +159,15 @@
             player.addEventListener('mediaStart', function(data) {
                 data.instance.getCurrentTime();
                 data.instance.getDuration();
+                makeVolumeButtontoggable(); // Fix mute toggle
             });
 
             player.addEventListener("mediaPause", function(data) {});
             player.addEventListener("mediaEnd", function(data) {});
         });
+
+        function makeVolumeButtontoggable() {
+            $('.mvp-volume-toggle').addClass('mvp-volume-toggable');
+        }
     </script>
 @endpush

@@ -404,7 +404,7 @@
                                 <input type="hidden" name="cancel_return" value="{{ url('/monetization/cancel') }}">
                                 @if (
                                     ($planData['PLAN_TYPE'] ?? null) != 'T' &&
-                                        \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_paypal_payment_active == 'true' &&
+                                        \App\Services\AppConfig::get()->app->colors_assets_for_branding->enable_paypal == 'true' &&
                                         $planData['AMOUNT'] > 0)
                                     <button type="submit" class="btn paypal_btn"><i class="fa-brands fa-cc-paypal"
                                             aria-hidden="true"></i>
@@ -417,7 +417,8 @@
                                 @else
                                     <button class="stripe-button mt-2" id="payButton">
                                         <div class="spinner hidden" id="spinner"></div>
-                                        <span id="buttonText"><i class="fa-brands fa-cc-stripe" aria-hidden="true"></i> Pay with
+                                        <span id="buttonText"><i class="fa-brands fa-cc-stripe" aria-hidden="true"></i>
+                                            Pay with
                                             Credit
                                             Card</span>
                                     </button>

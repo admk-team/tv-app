@@ -192,13 +192,15 @@ pre {
     width: 5px;
     background-color: red;
     top: 0px;
-    z-index: 999;
+    z-index: 99999;
     height: 100%;
+    display: block !important;
 }
-
 .chanel-inr {
     position: relative;
     display: grid;
+    /* overflow-x: auto;  */
+    white-space: nowrap;
 }
 
 .tooltip {

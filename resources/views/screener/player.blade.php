@@ -161,7 +161,7 @@
 
         .watermark {
             position: absolute;
-            z-index: 1;
+            z-index: 99999999999;
             user-select: none;
         }
 
@@ -285,16 +285,17 @@
                 <div class="col-md-12">
 
                     <div class="videocentalize">
-                        @if ($watermark)
-                            <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}">
-                                @if ($watermark['type'] === 'text')
-                                    {{ $watermark['text'] }}
-                                @else
-                                    <img src="{{ $watermark['image'] }}" alt="watermark">
-                                @endif
-                            </div>
-                        @endif
-                        <div id="wrapper"></div>
+                        <div id="wrapper">
+                            @if ($watermark)
+                                <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}">
+                                    @if ($watermark['type'] === 'text')
+                                        {{ $watermark['text'] }}
+                                    @else
+                                        <img src="{{ $watermark['image'] }}" alt="watermark">
+                                    @endif
+                                </div>
+                            @endif
+                        </div>
                         <!-- LIST OF PLAYLISTS -->
                         <div id="mvp-playlist-list">
                             <div class="mvp-global-playlist-data"></div>
@@ -645,7 +646,7 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
                 showPrevNextVideoThumb: true,
                 rememberPlaybackPosition: 'all', //remember last video position (false, 1, all)
                 useQuality: true,
-                useImaLoader: false,
+                useImaLoader: true,
                 useTheaterMode: true,
                 focusVideoInTheater: true,
                 focusVideoInTheater: true,
@@ -715,8 +716,7 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
                 //get media duration
                 data.instance.getDuration();
 
-
-
+                makeVolumeButtontoggable(); // Fix mute toggle
             });
         });
 
@@ -724,6 +724,10 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
             $.get("<?php echo $dataVast3 ?? ''; ?>", function(data, status) {
                 //alert("Data: " + data + "\nStatus: " + status);
             });
+        }
+
+        function makeVolumeButtontoggable() {
+            $('.mvp-volume-toggle').addClass('mvp-volume-toggable');
         }
     </script>
     <script>

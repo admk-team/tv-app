@@ -109,11 +109,23 @@
 
                                                 $adUrl = $playlist['vmap'];
                                                 // $adUrl = "http://127.0.0.1:8000/vast-tags/41/xml";
-                                                $adMacros =
-                                                    $adUrl .
-                                                    "&width=1920&height=1080&cb=$cb" .
-                                                    (!$isLocalHost ? "&uip=$userIP" : '') .
-                                                    "&device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+
+                                                $adMacros = '';
+                                                $parsed_url = parse_url($adUrl);
+                                                if (isset($parsed_url['query'])) {
+                                                    $adMacros =
+                                                        $adUrl .
+                                                        "&width=1920&height=1080&cb=$cb" .
+                                                        (!$isLocalHost ? "&uip=$userIP" : '') .
+                                                        "&device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+                                                } else {
+                                                    $adMacros =
+                                                        $adUrl .
+                                                        "?width=1920&height=1080&cb=$cb" .
+                                                        (!$isLocalHost ? "&uip=$userIP" : '') .
+                                                        "&device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+                                                }
+
                                                 $dataVast = 'data-vast="' . url('/get-ad') . '"';
                                                 $dataVast = "data-vast='$adMacros'";
                                                 if ($adUrl == '') {
@@ -207,7 +219,7 @@
                 showPrevNextVideoThumb: false,
                 rememberPlaybackPosition: 'all',
                 useQuality: true,
-                useImaLoader: false,
+                useImaLoader: true,
                 useTheaterMode: true,
                 focusVideoInTheater: true,
                 hidePlaylistOnTheaterEnter: true,
@@ -262,6 +274,7 @@
                 data.instance.getCurrentTime();
                 data.instance.getDuration();
 
+                makeVolumeButtontoggable(); // Fix mute toggle
             });
             player.addEventListener("mediaEnd", function(data) {
                 // Automatically move to the next stream in the playlist
@@ -294,6 +307,10 @@
         function unmutedVoice() {
             player.toggleMute();
             player.playMedia();
+        }
+
+        function makeVolumeButtontoggable() {
+            $('.mvp-volume-toggle').addClass('mvp-volume-toggable');
         }
     </script>
 @endpush

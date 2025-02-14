@@ -169,7 +169,7 @@
                 showPrevNextVideoThumb: false,
                 rememberPlaybackPosition: 'all',
                 useQuality: true,
-                useImaLoader: false,
+                useImaLoader: true,
                 useTheaterMode: true,
                 focusVideoInTheater: true,
                 hidePlaylistOnTheaterEnter: true,
@@ -223,6 +223,7 @@
                 data.instance.getCurrentTime();
                 data.instance.getDuration();
 
+                makeVolumeButtontoggable(); // Fix mute toggle
             });
             player.addEventListener("mediaPlay", function(data) {
 
@@ -248,6 +249,10 @@
         function unmutedVoice() {
             player.toggleMute();
             player.playMedia();
+        }
+
+        function makeVolumeButtontoggable() {
+            $('.mvp-volume-toggle').addClass('mvp-volume-toggable');
         }
     </script>
 @endpush
