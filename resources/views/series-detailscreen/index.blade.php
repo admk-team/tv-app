@@ -519,17 +519,17 @@
                                 $signStr = "-";
                             }
                         ?>
-                            <div class="share_circle addWtchBtn">
-                                <a href="javascript:void(0);" onClick="manageFavItem();">
-                                    <i id="btnicon-fav" class="{{ $cls }} theme-active-color"
-                                        data-bs-toggle="tooltip" title="{{ $tooltip }}"></i>
-                                </a>
-                                <input type="hidden" id="myWishListSign" value="{{ $signStr }}" />
-                                <input type="hidden" id="strQueryParm" value="{{ $strQueryParm }}" />
-                                <input type="hidden" id="reqUrl" value="{{ route('wishlist.toggle') }}" />
-                                @csrf
-                            </div>
-                            <?php
+                        <div class="share_circle addWtchBtn">
+                            <a href="javascript:void(0);" onClick="manageFavItem();">
+                                <i id="btnicon-fav" class="{{ $cls }} theme-active-color"
+                                    data-bs-toggle="tooltip" title="{{ $tooltip }}"></i>
+                            </a>
+                            <input type="hidden" id="myWishListSign" value="{{ $signStr }}" />
+                            <input type="hidden" id="strQueryParm" value="{{ $strQueryParm }}" />
+                            <input type="hidden" id="reqUrl" value="{{ route('wishlist.toggle') }}" />
+                            @csrf
+                        </div>
+                        <?php
                         }
                         ?>
                         <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
@@ -538,17 +538,17 @@
                             </a>
                         </div>
                         @if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
-                        @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
-                            @if (isset($series_details['gamified_content']) && $series_details['gamified_content'] == 1)
-                                <div class="share_circle addWtchBtn">
-                                    <a href="{{ route('user.badge') }}" data-bs-toggle="tooltip"
-                                        title="Gamified Content">
-                                        <i class="fa-solid fa-award theme-active-color"></i>
-                                    </a>
-                                </div>
+                            @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
+                                @if (isset($series_details['gamified_content']) && $series_details['gamified_content'] == 1)
+                                    <div class="share_circle addWtchBtn">
+                                        <a href="{{ route('user.badge') }}" data-bs-toggle="tooltip"
+                                            title="Gamified Content">
+                                            <i class="fa-solid fa-award theme-active-color"></i>
+                                        </a>
+                                    </div>
+                                @endif
                             @endif
                         @endif
-                    @endif
                     </div>
                 </div>
             </div>
@@ -835,16 +835,18 @@
             // Fetch stream codes from the hidden inputs
             const desktopStreamCode = $('#stream-code').val();
             const mobileStreamCode = $('#mobile-stream-code').val();
-        
+
             if (desktopStreamCode || mobileStreamCode) {
                 // Function to toggle bell icon based on subscription status
                 function updateBellIcon(streamCode, iconId, textId) {
                     if (!streamCode) return; // Prevent unnecessary AJAX calls
-        
+
                     $.ajax({
                         url: "{{ route('check.remind.me') }}",
                         method: "GET",
-                        data: { stream_code: streamCode },
+                        data: {
+                            stream_code: streamCode
+                        },
                         success: function(response) {
                             if (response.reminded) {
                                 $(`#${iconId}`).removeClass('fa-bell').addClass('fa-check-circle');
@@ -859,15 +861,14 @@
                         }
                     });
                 }
-        
+
                 // Initial icon status check
                 updateBellIcon(desktopStreamCode, 'desktop-remind-icon', 'desktop-remind-text');
                 updateBellIcon(mobileStreamCode, 'mobile-remind-icon', 'mobile-remind-text');
             }
         });
-        
     </script>
-    <script>
+    {{--  <script>
         $(document).ready(function() {
             function initSeasonDropdown(dropdownId, sliderClass, seasons) {
                 const seasonDropdown = $(`#${dropdownId}`);
@@ -974,7 +975,142 @@
             // Initialize for mobile
             initSeasonDropdown('seasonDropdownMobile', 'landscape_slider_mobile', seasons);
         });
+    </script>  --}}
+    <script>
+        $(document).ready(function() {
+            function initSeasonDropdown(dropdownId, sliderClass, seasons) {
+                const seasonDropdown = $(`#${dropdownId}`);
+                const sliderContainer = $(`.${sliderClass}`);
+
+                // Populate dropdown with seasons
+                seasons.forEach((season, index) => {
+                    seasonDropdown.append(
+                        `<option value="${index}" ${index === 0 ? 'selected' : ''}>${season.season_title}</option>`
+                    );
+                });
+
+                // Function to populate episodes in slider
+                function populateEpisodes(episodes) {
+                    // Destroy existing slider if initialized
+                    if (sliderContainer.hasClass('slick-initialized')) {
+                        sliderContainer.slick('unslick'); // Destroy previous instance
+                    }
+
+                    sliderContainer.empty(); // Clear existing episodes
+
+                    episodes.forEach((episode) => {
+                        let strBrige = '';
+                        if (episode.monetization_type === 'F') {
+                            strBrige = "style='display: none;'";
+                        }
+
+                        let screen =
+                            (episode.bypass_detailscreen == 1) ||
+                            (typeof AppConfig !== 'undefined' && AppConfig.app.app_info
+                                .bypass_detailscreen == 1) ?
+                            'playerscreen' :
+                            'detailscreen';
+
+                        sliderContainer.append(`
+                        <div>
+                            <a href="{{ url('/') }}/${screen}/${episode.stream_guid}">
+                                <div class="thumbnail_img">
+                                    <div class="trending_icon_box" ${strBrige}>
+                                        <img src="{{ url('/') }}/assets/images/trending_icon.png" alt="${episode.stream_title}">
+                                    </div>
+                                    ${episode.is_newly_added === 'Y' ? `
+                                            <div class="newly-added-label">
+                                                <span>New Episode</span>
+                                            </div>
+                                        ` : ''}
+                                    <img onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'"
+                                        src="${episode.stream_poster}" alt="${episode.stream_title}">
+                                    <div class="detail_box_hide">
+                                        <div class="detailbox_time">${episode.stream_duration_timeformat}</div>
+                                        <div class="deta_box">
+                                            <div class="season_title">${episode.stream_title}</div>
+                                            <div class="content_description">${episode.stream_description}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    `);
+                    });
+
+                    // Reinitialize the slider with fresh content
+                    sliderContainer.slick({
+                        slidesToShow: 5,
+                        slidesToScroll: 2,
+                        infinite: true,
+                        dots: true,
+                        arrows: true,
+                        responsive: [{
+                            breakpoint: 960,
+                            settings: {
+                                arrows: true,
+                                slidesToShow: 4,
+                                slidesToScroll: 2,
+                                swipeToSlide: true,
+                            }
+                        },
+                        {
+                            breakpoint: 767,
+                            settings: {
+                                arrows: false,
+                                slidesToShow: 5,
+                                slidesToScroll: 2,
+                                swipeToSlide: true,
+                            }
+                        },
+                        {
+                            breakpoint: 480,
+                            settings: {
+                                arrows: false,
+                                slidesToShow: 3,
+                                slidesToScroll: 2,
+                                swipeToSlide: true,
+                            }
+                        },
+                        {
+                            breakpoint: 330,
+                            settings: {
+                                arrows: false,
+                                slidesToShow: 3,
+                                slidesToScroll: 2,
+                                swipeToSlide: true,
+                            }
+                        }
+                    ],
+                    });
+                }
+
+                // On season change, update episodes
+                seasonDropdown.change(function() {
+                    const selectedIndex = $(this).val();
+                    const selectedSeason = seasons[selectedIndex];
+
+                    // Populate the new episodes
+                    populateEpisodes(selectedSeason.episodes);
+                });
+
+                // Initial population of episodes (first season)
+                if (seasons.length > 0) {
+                    populateEpisodes(seasons[0].episodes);
+                }
+            }
+
+            // Parse JSON-encoded PHP data
+            const seasons = @json($seasons);
+
+            // Initialize for desktop
+            initSeasonDropdown('seasonDropdown', 'landscape_slider', seasons);
+
+            // Initialize for mobile
+            initSeasonDropdown('seasonDropdownMobile', 'landscape_slider_mobile', seasons);
+        });
     </script>
+
 
     <script>
         $(document).on('submit', '#reviewForm', function(e) {
