@@ -578,6 +578,9 @@
                 $.ajax({
                     url: "{{ route('send-friend-request') }}",
                     method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     data: {
                         user_code: userId
                     },
@@ -619,6 +622,9 @@
                 $.ajax({
                     url: "{{ route('accept-friend-request') }}",
                     method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     data: {
                         receiver_id: userId
                     },
@@ -648,6 +654,9 @@
                 $.ajax({
                     url: "{{ route('reject-friend-request') }}",
                     method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     data: {
                         receiver_id: userId
                     },
@@ -709,6 +718,9 @@
                 $.ajax({
                     url: "{{ route('un-friend') }}",
                     method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     data: {
                         receiver_id: userId
                     },
