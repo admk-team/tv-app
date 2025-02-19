@@ -905,6 +905,8 @@
                                 <span class="button-text">Send</span>
                                 <span class="spinner-border spinner-border-sm d-none" role="status"></span>
                             </button>
+                        @else
+                            <h6 class="title">No Favorite Freinds Found!</h6>
                         @endif
                     </form>
                 </div>

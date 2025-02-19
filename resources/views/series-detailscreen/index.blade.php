@@ -597,6 +597,8 @@
                                 <span class="button-text">Send</span>
                                 <span class="spinner-border spinner-border-sm d-none" role="status"></span>
                             </button>
+                        @else
+                            <h6 class="title">No Favorite Freinds Found!</h6>
                         @endif
                     </form>
                 </div>
@@ -1068,10 +1070,10 @@
                                         <img src="{{ url('/') }}/assets/images/trending_icon.png" alt="${episode.stream_title}">
                                     </div>
                                     ${episode.is_newly_added === 'Y' ? `
-                                                <div class="newly-added-label">
-                                                    <span>New Episode</span>
-                                                </div>
-                                            ` : ''}
+                                                    <div class="newly-added-label">
+                                                        <span>New Episode</span>
+                                                    </div>
+                                                ` : ''}
                                     <img onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'"
                                         src="${episode.stream_poster}" alt="${episode.stream_title}">
                                     <div class="detail_box_hide">
@@ -1337,5 +1339,4 @@
             });
         });
     </script>
-    
 @endpush
