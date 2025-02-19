@@ -1,4 +1,5 @@
                         <?php
+                        if(isset($reviews) && !empty($reviews)){
                 foreach ($reviews as $review) {
                     if($review['profile_name']){
                         $name = $review['profile_name'] ?? '';
@@ -213,4 +214,5 @@
                         <hr>
                         <?php
                 }
+            }
             ?>
