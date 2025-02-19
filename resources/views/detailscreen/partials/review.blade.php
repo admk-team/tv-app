@@ -1,9 +1,9 @@
                         <?php
                 foreach ($reviews as $review) {
                     if($review['profile_name']){
-                        $name = $review['profile_name'];
+                        $name = $review['profile_name'] ?? '';
                     }else{
-                        $name = $review['user']['name'];
+                        $name = $review['user']['name'] ?? '';
                     }
                     $name_arr = explode(' ', $name);
                     $name_symbol = '';
@@ -18,11 +18,11 @@
                         <div class="review">
                             <div class="user">
                                 <div class="profile-name"><?= $name_symbol ?></div>
-                                    @if ($review['profile_name'])
-                                        <h4 class="username mb-0"><?= $review['profile_name'] ?></h4>
-                                    @else
-                                        <h4 class="username mb-0"><?= $review['user']['name'] ?></h4>
-                                    @endif
+                                @if ($review['profile_name'])
+                                    <h4 class="username mb-0"><?= $review['profile_name'] ?></h4>
+                                @else
+                                    <h4 class="username mb-0"><?= $review['user']['name'] ?></h4>
+                                @endif
                             </div>
                             <div class="review-rating member">
 
