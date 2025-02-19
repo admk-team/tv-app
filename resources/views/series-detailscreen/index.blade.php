@@ -598,7 +598,7 @@
                                 <span class="spinner-border spinner-border-sm d-none" role="status"></span>
                             </button>
                         @else
-                            <h6 class="title">No Favorite Freinds Found!</h6>
+                            <h6 class="title">No Favorite Friend Found!</h6>
                         @endif
                     </form>
                 </div>
