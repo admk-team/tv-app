@@ -109,6 +109,13 @@
                                 <li><a class="text-decoration-none"
                                         href="{{ route('transaction-history') }}">Transaction
                                         History</a></li>
+                                @if (isset(\App\Services\AppConfig::get()->app->frnd_option_status) &&
+                                        \App\Services\AppConfig::get()->app->frnd_option_status === 1)
+                                    <li><a class="text-decoration-none"
+                                            href="{{ route('friends.recommendation') }}">
+                                            Recommendation</a>
+                                    </li>
+                                @endif
                                 {{-- <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
                                         Password</a>
                                 </li> --}}
@@ -203,10 +210,10 @@
                         <i class="bi bi-search search-icon"></i>
                     </a>
                     @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
-                    <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
-                        @csrf
-                        <div class='onesignal-customlink-container'></div>
-                    </form>
+                        <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+                            @csrf
+                            <div class='onesignal-customlink-container'></div>
+                        </form>
                         <li class="nav-item">
                             <div class="dropdown dropdin">
                                 <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)"
@@ -223,6 +230,13 @@
                                     <li><a class="text-decoration-none"
                                             href="{{ route('transaction-history') }}">Transaction
                                             History</a></li>
+                                    @if (isset(\App\Services\AppConfig::get()->app->frnd_option_status) &&
+                                            \App\Services\AppConfig::get()->app->frnd_option_status === 1)
+                                        <li><a class="text-decoration-none"
+                                                href="{{ route('friends.recommendation') }}">
+                                                Recommendation</a>
+                                        </li>
+                                    @endif
                                     {{-- <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
                                             Password</a>
                                     </li> --}}
@@ -273,6 +287,13 @@
                                     <li><a class="text-decoration-none"
                                             href="{{ route('transaction-history') }}">Transaction
                                             History</a></li>
+                                    @if (isset(\App\Services\AppConfig::get()->app->frnd_option_status) &&
+                                            \App\Services\AppConfig::get()->app->frnd_option_status === 1)
+                                        <li><a class="text-decoration-none"
+                                                href="{{ route('friends.recommendation') }}">
+                                                Recommendation</a>
+                                        </li>
+                                    @endif
                                     {{-- <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
                                             Password</a>
                                     </li> --}}

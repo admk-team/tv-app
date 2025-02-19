@@ -168,4 +168,40 @@ class FriendRequestController extends Controller
         $responseJson1 = $response->json();
         return $responseJson1;
     }
+    public function friends_option()
+    {
+        $response = Http::withHeaders(Api::headers())
+            ->asForm()
+            ->get(Api::endpoint('/friends/option'));
+        $responseJson = $response->json();
+
+        $recommendation = $responseJson['app']['recommendation'] ?? [];
+        // dd($quality);
+        return view('recommendation.index', compact('recommendation'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'fav_friends' => 'required|array', // Ensure it's an array
+        ]);
+        if (!empty($request->fav_friends) && !empty($request->stream_code)) {
+            $response = Http::timeout(300)->withHeaders(Api::headers(
+                [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                ]
+            ))
+                ->asForm()
+                ->post(Api::endpoint('/friends-recommendation'), [
+                    'sender_code' => session('USER_DETAILS.USER_CODE'),
+                    'receiver_code' => $request->input('fav_friends'),
+                    'type' => $request->input('type'),
+                    'stream_code' => $request->input('stream_code'),
+                    'app_code' => env('APP_CODE')
+                ]);
+            $responseJson1 = $response->json();
+        }
+        return $responseJson1;
+    }
 }

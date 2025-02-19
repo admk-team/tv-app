@@ -140,6 +140,16 @@ if (session('USER_DETAILS.USER_CODE')) {
             </div>
         @endif
     @endif
+    @if (session('USER_DETAILS') &&
+            session('USER_DETAILS')['USER_CODE'] &&
+            isset(\App\Services\AppConfig::get()->app->frnd_option_status) &&
+            \App\Services\AppConfig::get()->app->frnd_option_status === 1)
+        <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#recommendation">
+            <a href="javascript:void(0);" role="button" data-bs-toggle="tooltip" title="Recommendations">
+                <i class="fa-solid fa-film theme-active-color"></i>
+            </a>
+        </div>
+    @endif
 </div>
 <div class="my-tabs">
     <div class="sec-device content-wrapper px-3 px-md-3">
@@ -598,11 +608,13 @@ if (session('USER_DETAILS.USER_CODE')) {
                 <div class="item-ratings">
                     <h1 class="section-title" style="display: flex; align-items: center; gap: 10px;">
                         <div id="rating-icon">
-                            @include('detailscreen.partials.rating-icon', ['ratingsCount' => $ratingsCount])
+                            @include('detailscreen.partials.rating-icon', [
+                                'ratingsCount' => $ratingsCount,
+                            ])
                         </div>
                         <span class="average-rating">{{ $averageRating ?? '' }} </span>
                     </h1>
-                     <p class="text-white no-reviews-message-mobile"
+                    <p class="text-white no-reviews-message-mobile"
                         style="margin-bottom: -8px !important; {{ sizeof($stream_details['ratings'] ?? []) > 0 ? 'display: none;' : '' }}">
                         No reviews found.
                     </p>

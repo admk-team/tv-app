@@ -6,63 +6,53 @@
             .col-xl-3 {
                 float: left;
             }
+
             .heading {
                 color: var(--themeActiveColor);
                 font-weight: bold;
             }
+            .recommended {
+                color: rgb(238, 238, 238);
+                font-size: 10px; /* Makes text smaller */
+                max-height: 50px; /* Limit height */
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2; /* Limit to 2 lines */
+                -webkit-box-orient: vertical;
+                white-space: normal;
+            }
+            
         </style>
         <div class="slider-container">
             <div class="listing_box allVideosBox">
-                @if(!empty($quality))
-                <div class="col-md-12">
-                    <div class="list_heading">
-                        <h1>{{ $quality['title'] ?? '' }}</h1>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="innerAlVidBox">
-
-                        <div id="data-container">
-                            {{-- Data will be loaded here --}}
+                @if (!empty($recommendation))
+                    <div class="col-md-12">
+                        <div class="list_heading">
+                            <h1>{{ $recommendation['title'] ?? 'Friends Recommendation' }}</h1>
                         </div>
-                        {{-- @foreach ($categories['streams'] as $stream)
-                            <div class="resposnive_Box">
-                                <a href="{{ route('detailscreen', $stream['stream_guid']) }}">
-                                    <div class="thumbnail_img">
-                                        <div class="trending_icon_box" style="display: none;"><img
-                                                src="{{ asset('assets/images/trending_icon.png') }}" alt="Trending">
-                                        </div>
-                                        <img src="{{ $stream['stream_poster'] }}" alt="{{ $stream['stream_title'] }}">
-                                        <div class="detail_box_hide">
-                                            <div class="detailbox_time">{{ $stream['stream_duration_timeformat'] }}</div>
-                                            <div class="deta_box">
-                                                <div class="season_title">
-                                                    {{ $stream['stream_episode_title'] && $stream['stream_episode_title'] !== 'NULL' ? $stream['stream_episode_title'] : '' }}
-                                                </div>
-                                                <div class="content_title">{{ $stream['stream_title'] }}</div>
-                                                <div class="content_description">{{ $stream['stream_description'] }}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="innerAlVidBox">
+
+                            <div id="data-container">
                             </div>
-                        @endforeach --}}
-                        <div class="form-group text-center mb-4">
-                            <button class="auth app-secondary-btn rounded" id="load-more-btn">Load More</button>
-                        </div>
+                            <div class="form-group text-center mb-4">
+                                <button class="auth app-secondary-btn rounded" id="load-more-btn">Load More</button>
+                            </div>
 
-                    </div>
-                </div>
-                @else
-                <section class="container">
-                    <div class="container py-5 mb-5">
-                        <h1 class="heading text-center mb-4">{{ $quality['title'] ?? '' }}</h1>
-                        <div class="d-flex justify-content-center mt-4 mb-4">
-                            <h4 class="heading text-center">No record available at the moment. Please check back later.
-                            </h4>
                         </div>
                     </div>
-                </section>
+                @else
+                    <section class="container">
+                        <div class="container py-5 mb-5">
+                            <h1 class="heading text-center mb-4">Friends Recommendation</h1>
+                            <div class="d-flex justify-content-center mt-4 mb-4">
+                                <h4 class="heading text-center">No record available at the moment. Please check back later.
+                                </h4>
+                            </div>
+                        </div>
+                    </section>
                 @endif
             </div>
         </div>
@@ -71,7 +61,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            var data = {!! json_encode($quality) !!};
+            var data = {!! json_encode($recommendation) !!};
             console.log(data);
             var bypassDetailscreen = {!! json_encode(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) !!};
             var currentIndex = 0;
@@ -123,6 +113,7 @@
                                         </div>
                                         <div class="content_title">${stream.stream_title}</div>
                                         <div class="content_description">${stream.stream_description}</div>
+                                        <div class="recommended">Recommended by: ${stream.recommended_by}</div>
                                     </div>
                                 </div>
                             </div>

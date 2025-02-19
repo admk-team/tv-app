@@ -354,7 +354,7 @@
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
             <div class="container mt-5 request-box">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                         <h3>Friend List</h3>
 
                         <!-- Friend Request List Section load dynamicaly -->
@@ -362,14 +362,14 @@
 
                         </div>
                     </div>
-                    {{-- <div class="col-md-6">
+                    <div class="col-md-4">
                         <h3>Favourite Friend</h3>
 
                         <!-- Friend Request List Section load dynamicaly -->
                         <div class="request-list" id="fav-freind-list">
 
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
 
             </div>
@@ -574,7 +574,13 @@
 
             // handel the send freirnd request tab
             $(document).on('click', '.send-request', function() {
-                let userId = $(this).data('id');
+                let button = $(this);
+                let userId = button.data('id');
+
+                // Disable button and show loader
+                button.prop('disabled', true).html(
+                    '<span class="spinner-border spinner-border-sm"></span> Sending...');
+
                 $.ajax({
                     url: "{{ route('send-friend-request') }}",
                     method: 'POST',
@@ -601,10 +607,13 @@
                     },
                     error: function(xhr, status, error) {
                         console.error('Error fetching friend requests:', error);
+                    },
+                    complete: function() {
+                        // Restore button state after request completes
+                        button.prop('disabled', false).html('Send Friend Request');
                     }
                 });
             });
-
             // get all the friends requests
             $('#friend-requests-tab').on('click', function() {
                 loadfriendRequests();
@@ -613,12 +622,18 @@
             // get all the friends
             $('#friend-tab').on('click', function() {
                 getFirends();
-                // getFavFirends();
+                getFavFirends();
             });
 
             // handel the accept the freind request
             $(document).on('click', '.accept-request', function() {
-                let userId = $(this).data('id');
+                let button = $(this);
+                let userId = button.data('id');
+
+                // Disable button and show loader
+                button.prop('disabled', true).html(
+                    '<span class="spinner-border spinner-border-sm"></span> Accepting...');
+
                 $.ajax({
                     url: "{{ route('accept-friend-request') }}",
                     method: 'POST',
@@ -644,13 +659,24 @@
                     },
                     error: function(xhr, status, error) {
                         console.error('Error fetching friend requests:', error);
+                    },
+                    complete: function() {
+                        // Restore button state after request completes
+                        button.prop('disabled', false).html('Accept Request');
                     }
                 });
             });
 
+
             // handel the reject freirnd request
             $(document).on('click', '.reject-request', function() {
-                let userId = $(this).data('id');
+                let button = $(this);
+                let userId = button.data('id');
+
+                // Disable button and show loader
+                button.prop('disabled', true).html(
+                    '<span class="spinner-border spinner-border-sm"></span> Rejecting...');
+
                 $.ajax({
                     url: "{{ route('reject-friend-request') }}",
                     method: 'POST',
@@ -675,46 +701,70 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.error('Error fetching friend requests:', error);
+                        console.error('Error rejecting friend request:', error);
+                    },
+                    complete: function() {
+                        // Restore button state after request completes
+                        button.prop('disabled', false).html('Reject Request');
+                    }
+                });
+            });
+            // handel the add to favourit and unfavourite freind
+
+            $(document).on('click', '.add-to-fav', function() {
+                let button = $(this);
+                let userId = button.data('id');
+
+                // Disable button and show loader
+                button.prop('disabled', true).html(
+                    '<span class="spinner-border spinner-border-sm"></span> Adding...');
+
+                $.ajax({
+                    url: "{{ route('mark-fav-friend') }}",
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        receiver_id: userId
+                    },
+                    success: function(data) {
+                        if (data.status == false) {
+                            Swal.fire({
+                                icon: "error",
+                                title: data.message,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "success",
+                                title: data.message,
+                            });
+                            console.log(data);
+                            getFirends();
+                            getFavFirends();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error adding to favorites:', error);
+                    },
+                    complete: function() {
+                        // Restore button state after request completes
+                        button.prop('disabled', false).html('Add to Favorites');
                     }
                 });
             });
 
-            // handel the add to favourit and unfavourite freind 
-
-            // $(document).on('click', '.add-to-fav', function() {
-            //     let userId = $(this).data('id');
-            //     $.ajax({
-            //         url: "{{ route('mark-fav-friend') }}",
-            //         method: 'POST',
-            //         data: {
-            //             receiver_id: userId
-            //         },
-            //         success: function(data) {
-            //             if (data.status == false) {
-            //                 Swal.fire({
-            //                     icon: "error",
-            //                     title: data.message,
-            //                 });
-            //             } else {
-            //                 Swal.fire({
-            //                     icon: "success",
-            //                     title: data.message,
-            //                 });
-            //                 getFirends();
-            //                 getFavFirends();
-            //             }
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error('Error fetching friend requests:', error);
-            //         }
-            //     });
-            // });
 
             // handel the un freirnd request
 
             $(document).on('click', '.unfriend', function() {
-                let userId = $(this).data('id');
+                let button = $(this);
+                let userId = button.data('id');
+
+                // Disable button and show loader
+                button.prop('disabled', true).html(
+                    '<span class="spinner-border spinner-border-sm"></span> Removing...');
+
                 $.ajax({
                     url: "{{ route('un-friend') }}",
                     method: 'POST',
@@ -739,10 +789,15 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.error('Error fetching friend requests:', error);
+                        console.error('Error unfriending:', error);
+                    },
+                    complete: function() {
+                        // Restore button state after request completes
+                        button.prop('disabled', false).html('Unfriend');
                     }
                 });
             });
+
 
             // Load More Button Click Event
             $(document).on('click', '#loadMoreBtn', function() {
@@ -859,9 +914,9 @@
                                                     <p class="request-name">${friend.name}</p>
                                                 </div>
                                                 <div class="request-action">
-                                                 <!--<button class="btn accept add-to-fav" data-id="${friend.code}">
+                                                 <button class="btn accept add-to-fav" data-id="${friend.code}">
                                                     <i class="fa fa-heart"></i>
-                                                 </button> -->
+                                                 </button> 
                                                 <button class="btn reject unfriend" data-id="${friend.code}">
                                                     Unfriend
                                                 </button>
@@ -884,53 +939,52 @@
                 });
             }
 
-            // function getFavFirends() {
-            //     let requestList = $('#fav-freind-list');
-            //     requestList.empty();
-            //     $.ajax({
-            //         url: "{{ route('get-fav-friend') }}",
-            //         method: 'GET',
-            //         success: function(data) {
-            //             // console.log(data);
-            //             if (data.status == true) {
-            //                 let users = data.friends;
-            //                 if (users.length > 0) {
-            //                     users.forEach(user => {
+            function getFavFirends() {
+                let requestList = $('#fav-freind-list');
+                requestList.empty();
+                $.ajax({
+                    url: "{{ route('get-fav-friend') }}",
+                    method: 'GET',
+                    success: function(data) {
+                        // console.log(data);
+                        if (data.status == true) {
+                            let users = data.friends;
+                            if (users.length > 0) {
+                                users.forEach(user => {
 
-            //                         let friend = user.friend;
-            //                         let imageUrl = friend.image_url ? friend.image_url :
-            //                             "{{ asset('assets/images/user1.png') }}";
+                                    let friend = user.friend;
+                                    let imageUrl = friend.image_url ? friend.image_url :
+                                        "{{ asset('assets/images/user1.png') }}";
 
-            //                         let requestCard = `
-        //                             <div class="request-item">
-        //                                 <div class="request-info">
-        //                                     <img src="${imageUrl}" alt="Friend 1">
-        //                                     <p class="request-name">${friend.name}</p>
-        //                                 </div>
-        //                                 <div class="request-action">
-        //                                    <button class="btn btn-warning add-to-fav" data-id="${friend.code}"><i class="fa fa-heart"></i></button>
-        //                                 </div>
-        //                             </div>
-        //                         `;
+                                    let requestCard = `
+                              <div class="request-item">
+                                       <div class="request-info">
+                                        <img src="${imageUrl}" alt="Friend 1">
+                                      <p class="request-name">${friend.name}</p>
+                                        </div>
+                                        <div class="request-action">
+                                           <button class="btn btn-warning add-to-fav" data-id="${friend.code}"><i class="fa fa-heart"></i></button>
+                                        </div>
+                                    </div>
+                                `;
 
-            //                         requestList.append(requestCard);
-            //                     });
-            //                 } else {
-            //                     requestList.append(`<h3>No Friend Added</h3>`);
-            //                 }
-            //             } else if (data.status == false) {
-            //                 let errorCard = `
-        //                        <h3>No Record Found</h3>
-        //                     `;
-            //                 requestList.append(errorCard);
-            //             }
-
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error('Error fetching friend requests:', error);
-            //         }
-            //     });
-            // }
+                                    requestList.append(requestCard);
+                                });
+                            } else {
+                                requestList.append(`<h3>No Friend Added</h3>`);
+                            }
+                        } else if (data.status == false) {
+                            let errorCard = `
+                           <h3>No Record Found</h3>
+                         `;
+                            requestList.append(errorCard);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching friend requests:', error);
+                    }
+                });
+            }
 
             function loadfriendRequests() {
                 let requestList = $('#friend-request-list-data');

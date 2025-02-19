@@ -145,6 +145,10 @@ Route::middleware('auth.user')->group(function () {
     Route::post('un-firend', [FriendRequestController::class, 'markUnFriends'])->name('un-friend');
     Route::get('get-fav-firend', [FriendRequestController::class, 'getFavFriends'])->name('get-fav-friend');
     Route::post('mark-fav-firend', [FriendRequestController::class, 'markAsFavFriends'])->name('mark-fav-friend');
+
+     //friends.recommendation
+    Route::get('friends/recommendation', [FriendRequestController::class, 'friends_option'])->name('friends.recommendation');
+    Route::post('/recommendation/store', [FriendRequestController::class, 'store'])->name('recommendation.store');
 });
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');

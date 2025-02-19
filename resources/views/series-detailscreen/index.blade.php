@@ -12,6 +12,7 @@
     <meta property="og:description" content="{{ @$series_details['stream_description'] }}" />
     {{-- Custom Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/details-screen-styling.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -549,11 +550,59 @@
                                 @endif
                             @endif
                         @endif
+
+                        @if (session('USER_DETAILS') &&
+                                session('USER_DETAILS')['USER_CODE'] &&
+                                isset(\App\Services\AppConfig::get()->app->frnd_option_status) &&
+                                \App\Services\AppConfig::get()->app->frnd_option_status === 1)
+                            <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#recommendation">
+                                <a href="javascript:void(0);" role="button" data-bs-toggle="tooltip"
+                                    title="Recommendations">
+                                    <i class="fa-solid fa-film theme-active-color"></i>
+                                </a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    {{-- Recommendation Modal --}}
+    <div class="modal fade" id="recommendation" tabindex="-1" aria-labelledby="recommendationLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add to Friends Recommendation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="recommendationForm">
+                        @csrf
+                        @if (isset($fav_freinds) && !empty($fav_freinds))
+                            <div class="col-lg-12">
+                                <input type="hidden" name="stream_code" value="{{ $series_details['stream_guid'] }}">
+                                <input type="hidden" name="type" value="S">
+                                <label for="text" class="form-label">Select Favorite Friends:</label>
+                                <select name="fav_friends[]" id="fav_friends" class="select2-multiple"
+                                    multiple="multiple">
+                                    <option disabled>{{ __('Select') }}</option>
+                                    @foreach ($fav_freinds as $friend)
+                                        <option value="{{ $friend['code'] }}">{{ $friend['name'] }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger d-none" id="fav_friends_error"></span>
+                            </div>
+                            <button type="submit" id="submitRecommendation" class="app-primary-btn rounded my-2">
+                                <span class="button-text">Send</span>
+                                <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                            </button>
+                        @endif
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="desktop-tabs">
         @include('series-detailscreen.partials.tabs-desktop')
     </div>
@@ -1019,10 +1068,10 @@
                                         <img src="{{ url('/') }}/assets/images/trending_icon.png" alt="${episode.stream_title}">
                                     </div>
                                     ${episode.is_newly_added === 'Y' ? `
-                                            <div class="newly-added-label">
-                                                <span>New Episode</span>
-                                            </div>
-                                        ` : ''}
+                                                <div class="newly-added-label">
+                                                    <span>New Episode</span>
+                                                </div>
+                                            ` : ''}
                                     <img onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'"
                                         src="${episode.stream_poster}" alt="${episode.stream_title}">
                                     <div class="detail_box_hide">
@@ -1046,42 +1095,42 @@
                         dots: true,
                         arrows: true,
                         responsive: [{
-                            breakpoint: 960,
-                            settings: {
-                                arrows: true,
-                                slidesToShow: 4,
-                                slidesToScroll: 2,
-                                swipeToSlide: true,
+                                breakpoint: 960,
+                                settings: {
+                                    arrows: true,
+                                    slidesToShow: 4,
+                                    slidesToScroll: 2,
+                                    swipeToSlide: true,
+                                }
+                            },
+                            {
+                                breakpoint: 767,
+                                settings: {
+                                    arrows: false,
+                                    slidesToShow: 5,
+                                    slidesToScroll: 2,
+                                    swipeToSlide: true,
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    arrows: false,
+                                    slidesToShow: 3,
+                                    slidesToScroll: 2,
+                                    swipeToSlide: true,
+                                }
+                            },
+                            {
+                                breakpoint: 330,
+                                settings: {
+                                    arrows: false,
+                                    slidesToShow: 3,
+                                    slidesToScroll: 2,
+                                    swipeToSlide: true,
+                                }
                             }
-                        },
-                        {
-                            breakpoint: 767,
-                            settings: {
-                                arrows: false,
-                                slidesToShow: 5,
-                                slidesToScroll: 2,
-                                swipeToSlide: true,
-                            }
-                        },
-                        {
-                            breakpoint: 480,
-                            settings: {
-                                arrows: false,
-                                slidesToShow: 3,
-                                slidesToScroll: 2,
-                                swipeToSlide: true,
-                            }
-                        },
-                        {
-                            breakpoint: 330,
-                            settings: {
-                                arrows: false,
-                                slidesToShow: 3,
-                                slidesToScroll: 2,
-                                swipeToSlide: true,
-                            }
-                        }
-                    ],
+                        ],
                     });
                 }
 
@@ -1213,4 +1262,80 @@
             });
         });
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Initialize Select2
+        $('.select2-multiple').select2({
+            placeholder: "Select favorite friends",
+            allowClear: true,
+            width: '100%',
+            dropdownParent: $('#recommendation')
+        });
+    </script>
+    <script>
+        $(document).on('submit', '#recommendationForm', function(e) {
+            e.preventDefault();
+
+            let form = $(this);
+            let button = $('#submitRecommendation');
+            let buttonText = button.find('.button-text');
+            let spinner = button.find('.spinner-border');
+
+            // Show spinner and disable button
+            button.prop('disabled', true);
+            spinner.removeClass('d-none');
+            buttonText.text('Sending...');
+
+            $.ajax({
+                url: "{{ route('recommendation.store') }}",
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: form.serialize(),
+                success: function(response) {
+                    console.log(response);
+                    if (response.status) {
+                        Swal.fire({
+                            icon: "success",
+                            title: response.message,
+                        }).then(() => {
+                            // Hide the modal after Swal confirmation
+                            $('#recommendation').modal('hide');
+                            form[0].reset(); // Reset form
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "warning",
+                            title: response.message,
+                        }).then(() => {
+                            // Hide the modal after Swal confirmation
+                            $('#recommendation').modal('hide');
+                            form[0].reset(); // Reset form
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    let errors = xhr.responseJSON.errors;
+                    if (errors && errors.fav_friends) {
+                        $('#fav_friends_error').text(errors.fav_friends[0]).removeClass('d-none');
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Something went wrong! Please try again.",
+                        });
+                    }
+                },
+                complete: function() {
+                    // Hide spinner, enable button, restore text
+                    spinner.addClass('d-none');
+                    button.prop('disabled', false);
+                    buttonText.text('Send');
+                }
+            });
+        });
+    </script>
+    
 @endpush

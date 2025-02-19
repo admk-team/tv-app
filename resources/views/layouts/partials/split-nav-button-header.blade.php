@@ -10,27 +10,27 @@
                 <i class="bi bi-search search-icon"></i>
             </a>
             @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
-                    <style>
-                        .onesignal-customlink-container {
-                            min-height: 0 !important;
-                        }
+                <style>
+                    .onesignal-customlink-container {
+                        min-height: 0 !important;
+                    }
 
-                        .onesignal-customlink-container .onesignal-customlink-subscribe::before {
-                            content: "\f0f3";
-                            font-family: "Font Awesome 6 Free";
-                            font-weight: 900;
-                            margin-right: 5px;
-                        }
+                    .onesignal-customlink-container .onesignal-customlink-subscribe::before {
+                        content: "\f0f3";
+                        font-family: "Font Awesome 6 Free";
+                        font-weight: 900;
+                        margin-right: 5px;
+                    }
 
-                        .onesignal-customlink-subscribe.button.medium {
-                            background: var(--themeActiveColor) !important;
-                            color: rgb(255, 255, 255);
-                        }
-                    </style>
-                    <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
-                        @csrf
-                        <div class='onesignal-customlink-container'></div>
-                    </form>
+                    .onesignal-customlink-subscribe.button.medium {
+                        background: var(--themeActiveColor) !important;
+                        color: rgb(255, 255, 255);
+                    }
+                </style>
+                <form id="subscribe-form-toggle" method="POST" action="{{ route('toggle.subscribe') }}">
+                    @csrf
+                    <div class='onesignal-customlink-container'></div>
+                </form>
                 <li class="nav-item">
                     <div class="dropdown dropdin">
                         <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=0>
@@ -48,6 +48,12 @@
                             @endif
                             <li><a class="text-decoration-none" href="{{ route('transaction-history') }}">Transaction
                                     History</a></li>
+                            @if (isset(\App\Services\AppConfig::get()->app->frnd_option_status) &&
+                                    \App\Services\AppConfig::get()->app->frnd_option_status === 1)
+                                <li><a class="text-decoration-none" href="{{ route('friends.recommendation') }}">
+                                        Recommendation</a>
+                                </li>
+                            @endif
                             {{-- <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
                                     Password</a>
                             </li> --}}
@@ -61,9 +67,9 @@
                                 </li>
                             @endif
                             <li><a class="text-decoration-none"
-                                href="{{ route('profile.setting', session('USER_DETAILS')['USER_ID']) }}">Setting
-                            </a>
-                        </li>
+                                    href="{{ route('profile.setting', session('USER_DETAILS')['USER_ID']) }}">Setting
+                                </a>
+                            </li>
                             <li><a class="text-decoration-none" href="{{ route('logout') }}">Logout</a>
                             </li>
                         </ul>
@@ -208,8 +214,7 @@
                     </form>
                     <li class="nav-item">
                         <div class="dropdown dropdin">
-                            <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)"
-                                data-index=1>
+                            <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=1>
                                 <div class="userimg">u</div>
                             </div>
                             <ul class="dropdown_menus profiledropin avtartMenu gap-0"
@@ -221,6 +226,13 @@
                                 <li><a class="text-decoration-none"
                                         href="{{ route('transaction-history') }}">Transaction
                                         History</a></li>
+                                @if (isset(\App\Services\AppConfig::get()->app->frnd_option_status) &&
+                                        \App\Services\AppConfig::get()->app->frnd_option_status === 1)
+                                    <li><a class="text-decoration-none"
+                                            href="{{ route('friends.recommendation') }}">
+                                            Recommendation</a>
+                                    </li>
+                                @endif
                                 {{-- <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
                                         Password</a>
                                 </li> --}}
@@ -265,6 +277,13 @@
                                 <li><a class="text-decoration-none"
                                         href="{{ route('transaction-history') }}">Transaction
                                         History</a></li>
+                                @if (isset(\App\Services\AppConfig::get()->app->frnd_option_status) &&
+                                        \App\Services\AppConfig::get()->app->frnd_option_status === 1)
+                                    <li><a class="text-decoration-none"
+                                            href="{{ route('friends.recommendation') }}">
+                                            Recommendation</a>
+                                    </li>
+                                @endif
                                 {{-- <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
                                         Password</a>
                                 </li> --}}

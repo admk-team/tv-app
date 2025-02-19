@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/details-screen-styling.css') }}">
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet">
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
 @endsection
 @section('content')
     <?php
@@ -1279,6 +1280,17 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                     @endif
                                 @endif
                             @endif
+                            @if (session('USER_DETAILS') &&
+                            session('USER_DETAILS')['USER_CODE'] &&
+                            isset(\App\Services\AppConfig::get()->app->frnd_option_status) &&
+                            \App\Services\AppConfig::get()->app->frnd_option_status === 1)
+                        <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#recommendation">
+                            <a href="javascript:void(0);" role="button" data-bs-toggle="tooltip"
+                                title="Recommendations">
+                                <i class="fa-solid fa-film theme-active-color"></i>
+                            </a>
+                        </div>
+                    @endif
 
                         </div>
                     </div>
@@ -1702,6 +1714,45 @@ if (!empty($arrCatData))
                 <div class="modal-footer">
                     <button type="button" name="confirm_status" id="confirm_status" class="btn btn-danger">yes</button>
                     <button type="button" id="closemybt" class="btn btn-secondary" data-bs-dismiss="modal">no</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- Recommendation Modal --}}
+    <div class="modal fade" id="recommendation" tabindex="-1" aria-labelledby="recommendationLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add to Friends Recommendation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="recommendationForm">
+                        @csrf
+                        @if (isset($arrRes['app']['fav_freinds']) && !empty($arrRes['app']['fav_freinds']))
+                            <div class="col-lg-12">
+                                <input type="hidden" name="stream_code" value="{{ $arrSlctItemData['stream_guid'] }}">
+                                <input type="hidden" name="type" value="M">
+                                <label for="text" class="form-label">Select Favorite Friends:</label>
+                                <select name="fav_friends[]" id="fav_friends" class="select2-multiple"
+                                    multiple="multiple">
+                                    <option disabled>{{ __('Select') }}</option>
+                                    @foreach ($arrRes['app']['fav_freinds'] as $friend)
+                                        <option value="{{ $friend['code'] }}">{{ $friend['name'] }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger d-none" id="fav_friends_error"></span>
+                            </div>
+                            <button type="submit" id="submitRecommendation" class="app-primary-btn rounded my-2">
+                                <span class="button-text">Send</span>
+                                <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                            </button>
+                        @else
+                        <h6 class="title">No Favorite Freinds Found!</h6>
+                        @endif
+
+                    </form>
                 </div>
             </div>
         </div>
@@ -2554,7 +2605,80 @@ if (!empty($arrCatData))
         });
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Initialize Select2
+        $('.select2-multiple').select2({
+            placeholder: "Select favorite friends",
+            allowClear: true,
+            width: '100%',
+            dropdownParent: $('#recommendation')
+        });
+    </script>
+    <script>
+        $(document).on('submit', '#recommendationForm', function(e) {
+            e.preventDefault();
 
+            let form = $(this);
+            let button = $('#submitRecommendation');
+            let buttonText = button.find('.button-text');
+            let spinner = button.find('.spinner-border');
+
+            // Show spinner and disable button
+            button.prop('disabled', true);
+            spinner.removeClass('d-none');
+            buttonText.text('Sending...');
+
+            $.ajax({
+                url: "{{ route('recommendation.store') }}",
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: form.serialize(),
+                success: function(response) {
+                    console.log(response);
+                    if (response.status) {
+                        Swal.fire({
+                            icon: "success",
+                            title: response.message,
+                        }).then(() => {
+                            // Hide the modal after Swal confirmation
+                            $('#recommendation').modal('hide');
+                            form[0].reset(); // Reset form
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "warning",
+                            title: response.message,
+                        }).then(() => {
+                            // Hide the modal after Swal confirmation
+                            $('#recommendation').modal('hide');
+                            form[0].reset(); // Reset form
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    let errors = xhr.responseJSON.errors;
+                    if (errors && errors.fav_friends) {
+                        $('#fav_friends_error').text(errors.fav_friends[0]).removeClass('d-none');
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Something went wrong! Please try again.",
+                        });
+                    }
+                },
+                complete: function() {
+                    // Hide spinner, enable button, restore text
+                    spinner.addClass('d-none');
+                    button.prop('disabled', false);
+                    buttonText.text('Send');
+                }
+            });
+        });
+    </script>
 
 
 
