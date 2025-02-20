@@ -1,18 +1,17 @@
                         <?php
                          if(isset($reviews) && !empty($reviews)){
                 foreach ($reviews as $review) {
-                    if($review['profile_name']){
-                        $name = $review['profile_name'] ?? '';
-                    }else{
-                        $name = $review['user']['name'] ?? '';
-                    }
-                    $name_arr = explode(' ', $name);
-                    $name_symbol = '';
+                    $name = $review['profile_name'] ?? ($review['user']['name'] ?? '');
+$name_arr = array_filter(explode(' ', trim($name))); // Filter empty elements
+$name_symbol = '';
 
-                    $name_symbol .= $name_arr[0][0];
+if (isset($name_arr[0]) && strlen($name_arr[0]) > 0) {
+    $name_symbol .= mb_substr($name_arr[0], 0, 1); // Use mb_substr for multibyte characters
+}
 
-                    if (sizeof($name_arr) > 1)
-                        $name_symbol .= $name_arr[1][0];
+if (isset($name_arr[1]) && strlen($name_arr[1]) > 0) {
+    $name_symbol .= mb_substr($name_arr[1], 0, 1);
+}
 
                     ?>
 
