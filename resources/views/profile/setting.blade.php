@@ -753,6 +753,48 @@
                     }
                 });
             });
+            $(document).on('click', '.remove-to-fav', function() {
+                let button = $(this);
+                let userId = button.data('id');
+
+                // Disable button and show loader
+                button.prop('disabled', true).html(
+                    '<span class="spinner-border spinner-border-sm"></span> Adding...');
+
+                $.ajax({
+                    url: "{{ route('remove-fav-friend') }}",
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        receiver_id: userId
+                    },
+                    success: function(data) {
+                        if (data.status == false) {
+                            Swal.fire({
+                                icon: "error",
+                                title: data.message,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "success",
+                                title: data.message,
+                            });
+                            console.log(data);
+                            getFirends();
+                            getFavFirends();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error adding to favorites:', error);
+                    },
+                    complete: function() {
+                        // Restore button state after request completes
+                        button.prop('disabled', false).html('Add to Favorites');
+                    }
+                });
+            });
 
 
             // handel the un freirnd request
@@ -952,7 +994,7 @@
                             if (users.length > 0) {
                                 users.forEach(user => {
 
-                                    let friend = user.friend;
+                                    let friend = user.receiver;
                                     let imageUrl = friend.image_url ? friend.image_url :
                                         "{{ asset('assets/images/user1.png') }}";
 
@@ -963,7 +1005,7 @@
                                       <p class="request-name">${friend.name}</p>
                                         </div>
                                         <div class="request-action">
-                                           <button class="btn btn-warning add-to-fav" data-id="${friend.code}"><i class="fa fa-heart"></i></button>
+                                           <button class="btn btn-warning remove-to-fav" data-id="${friend.code}"><i class="fa fa-heart"></i></button>
                                         </div>
                                     </div>
                                 `;

@@ -168,6 +168,23 @@ class FriendRequestController extends Controller
         $responseJson1 = $response->json();
         return $responseJson1;
     }
+    public function removeFavFriends(Request $request)
+    {
+        $response = Http::timeout(300)->withHeaders(Api::headers(
+            [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ]
+        ))
+            ->asForm()
+            ->post(Api::endpoint('/remove-fav-friends'), [
+                'sender_id' => session('USER_DETAILS.USER_CODE'),
+                'receiver_id' => $request->input('receiver_id'),
+                'app_code' => env('APP_CODE')
+            ]);
+        $responseJson1 = $response->json();
+        return $responseJson1;
+    }
     public function friends_option()
     {
         $response = Http::withHeaders(Api::headers())
