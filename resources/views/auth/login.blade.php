@@ -44,39 +44,60 @@
                 @else
                     <div class="cred_form">
                         <div class="row">
+                            @php
+                                $branding = \App\Services\AppConfig::get()->app->colors_assets_for_branding;
+                                $isFacebookActive =
+                                    isset($branding->is_facebook_feature_active) &&
+                                    $branding->is_facebook_feature_active === 'true';
+                                $isGoogleActive =
+                                    isset($branding->is_google_feature_active) &&
+                                    $branding->is_google_feature_active === 'true';
+                                $isLinkedinActive =
+                                    isset($branding->is_linkedin_feature_active) &&
+                                    $branding->is_linkedin_feature_active === 'true';
 
-                            <div class="col-md-6 ind1">
-                                <div class="inner-div dv1">
-                                    @if (isset(\App\Services\AppConfig::get()->app->colors_assets_for_branding->is_facebook_feature_active) && \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_facebook_feature_active === 'true')
-                                        <div class="social_space">
-                                            <a class="btn_facebook text-decoration-none rounded" id="quickstart-sign-in"
-                                                href="{{ route('facebook') }}"><i
-                                                    class="fa-brands fa-facebook"></i> Login with Facebook</a>
-                                        </div>
-                                    @endif
-                                    
-                                    @if (isset(\App\Services\AppConfig::get()->app->colors_assets_for_branding->is_linkedin_feature_active) && \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_linkedin_feature_active === 'true')
-                                        <div class="social_space">
-                                            <a class="btn_twitter text-decoration-none rounded"
-                                                href="{{ route('linkedin') }}"><i class="fa-brands fa-linkedin"></i>
-                                                Login
-                                                with LinkedIn</a>
-                                        </div>
-                                    @endif
-                                    
+                                $col = $isFacebookActive || $isGoogleActive || $isLinkedinActive
+                                        ? 'col-md-6'
+                                        : 'col-md-12';
+                            @endphp
+                            @if ($col == 'col-md-6')
+                                <div class="col-md-6 ind1">
+                                    <div class="inner-div dv1">
+                                        @if (isset(\App\Services\AppConfig::get()->app->colors_assets_for_branding->is_facebook_feature_active) &&
+                                                \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_facebook_feature_active === 'true')
+                                            <div class="social_space">
+                                                <a class="btn_facebook text-decoration-none rounded" id="quickstart-sign-in"
+                                                    href="{{ route('facebook') }}"><i class="fa-brands fa-facebook"></i>
+                                                    Login
+                                                    with Facebook</a>
+                                            </div>
+                                        @endif
 
-                                    @if (isset(\App\Services\AppConfig::get()->app->colors_assets_for_branding->is_google_feature_active) && \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_google_feature_active === 'true')
-                                        <div class="social_space">
-                                            <a class="btn_google text-decoration-none rounded"
-                                                href="{{ route('social') }}"><i
-                                                    class="fa-brands fa-google"></i> Login with Google</a>
-                                        </div>
-                                    @endif
-                                    
+                                        @if (isset(\App\Services\AppConfig::get()->app->colors_assets_for_branding->is_linkedin_feature_active) &&
+                                                \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_linkedin_feature_active === 'true')
+                                            <div class="social_space">
+                                                <a class="btn_twitter text-decoration-none rounded"
+                                                    href="{{ route('linkedin') }}"><i class="fa-brands fa-linkedin"></i>
+                                                    Login
+                                                    with LinkedIn</a>
+                                            </div>
+                                        @endif
+
+
+                                        @if (isset(\App\Services\AppConfig::get()->app->colors_assets_for_branding->is_google_feature_active) &&
+                                                \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_google_feature_active === 'true')
+                                            <div class="social_space">
+                                                <a class="btn_google text-decoration-none rounded"
+                                                    href="{{ route('social') }}"><i class="fa-brands fa-google"></i> Login
+                                                    with
+                                                    Google</a>
+                                            </div>
+                                        @endif
+
+                                    </div>
                                 </div>
-                            </div> 
-
-                            <div class="col-md-6">
+                            @endif
+                            <div class="{{ $col }}">
                                 <div class="inner-div dv2">
                                     <div class="input_groupbox">
 
@@ -134,6 +155,7 @@
                                     @endif
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 @endif
