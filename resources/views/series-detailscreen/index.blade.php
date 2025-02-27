@@ -395,11 +395,10 @@
                                 <div class="content-person">
                                     <dt>Tags: </dt>
                                     <dd>
-                                        @foreach ($series_details['tags'] as $i => $val)
+                                        @foreach ($stream_details['tags'] as $i => $val)
                                             @if ($i < 15)
-                                                <!-- Only show the first 15 tags -->
                                                 <a class="person-link" href="{{ route('tag', $val['code']) }}">
-                                                    {{ $val['title'] }}{{ $i < 14 ? ',' : '' }}
+                                                    {{ $val['title'] }}{{ $i < 14 && $i < count($series_details['tags']) - 1 ? ',' : '' }}
                                                 </a>
                                             @endif
                                         @endforeach
@@ -1026,10 +1025,10 @@
                                         <img src="{{ url('/') }}/assets/images/trending_icon.png" alt="${episode.stream_title}">
                                     </div>
                                     ${episode.is_newly_added === 'Y' ? `
-                                                    <div class="newly-added-label">
-                                                        <span>New Episode</span>
-                                                    </div>
-                                                ` : ''}
+                                                        <div class="newly-added-label">
+                                                            <span>New Episode</span>
+                                                        </div>
+                                                    ` : ''}
                                     <img onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'"
                                         src="${episode.stream_poster}" alt="${episode.stream_title}">
                                     <div class="detail_box_hide">
