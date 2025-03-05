@@ -168,7 +168,7 @@ body {
 
 .menu-icon i {
     font-size: 32px;
-    color: #fff;
+    color: var(--bgcolor) !important;
 }
 
 .mbl-menu {

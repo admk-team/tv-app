@@ -42,7 +42,7 @@
                     Buy Now
                 </a>
             @else
-                <a href="{{ route('playerscreen', $series_details['stream_guid']) }}"
+                <a href="{{ route('playerscreen', $series_details['episode_code']) }}"
                     class="mobile-primary-btn rounded">
                     <i class="fa fa-play"></i>
                     Play Now

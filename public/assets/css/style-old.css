@@ -6489,7 +6489,7 @@ textarea.form-control:focus {
 
     /* When title_logo does not exist and content-heading is shown */
     .cover-slider-item .info.without-logo {
-        padding-top: 140px !important;
+        padding-top: 100px !important;
     }
 }
 
