@@ -1484,7 +1484,7 @@ section.sliders {
 
 .signForm .inner-cred .ind1::before {
     content: "or";
-    color: var(--themePrimaryTxtColor);
+    color: var(--bgcolor) !important;
     font-family: 'Noto Sans';
     font-size: 18px;
     position: absolute;
@@ -2883,9 +2883,9 @@ span.error_box {
 
 .inner-div button.btn,
 .btn_orange {
-    background: var(--themeActiveColor) !important;
+    background: var(--themePrimaryTxtColor) !important;
     border-radius: 0px;
-    color: var(--themePrimaryTxtColor) !important;
+    color: var(--bgcolor) !important;
     font-family: 'Noto Sans';
     font-size: 16px;
     width: 100%;
