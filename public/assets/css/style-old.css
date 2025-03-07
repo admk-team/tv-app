@@ -2883,7 +2883,7 @@ span.error_box {
 
 .inner-div button.btn,
 .btn_orange {
-    background: var(--themePrimaryTxtColor) !important;
+    background: var(--themeActiveColor) !important;
     border-radius: 0px;
     color: var(--bgcolor) !important;
     font-family: 'Noto Sans';
