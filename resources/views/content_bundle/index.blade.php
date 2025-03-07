@@ -94,29 +94,39 @@
                                         <div class="card-title p-2">
                                             <h5 class="bg_color">{{ $stream['title'] }}</h5>
                                             <div class="d-flex align-items-center justify-content-start">
-                                                <p class="bg_color theme_bg_color px-2 py-1 rounded fs-bold mx-1 my-2"
-                                                    style="font-size: 12px;">
-                                                    <b>{{ $stream['duration'] }}</b>
-                                                </p>
-                                                <p class="bg_color theme_bg_color px-2 py-1 rounded fs-bold mx-1 my-2"
-                                                    style="font-size: 12px;">
-                                                    <b>{{ collect($stream['language'])->pluck('title')->join(', ') }}</b>
-                                                </p>
-                                                <p class="bg_color theme_bg_color px-2 py-1 rounded fs-bold mx-1 my-2"
-                                                    style="font-size: 12px;">
-                                                    <b>{{ collect($stream['ratings'])->pluck('title')->join(', ') }}</b>
-                                                </p>
-                                                <p class="bg_color theme_bg_color px-2 py-1 rounded fs-bold mx-1 my-2"
-                                                    style="font-size: 12px;">
-                                                    <b>{{ collect($stream['qualities'])->pluck('title')->join(', ') }}</b>
-                                                </p>
+                                                @if ($stream['duration'])
+                                                    <p class="bg_color theme_bg_color px-2 py-1 rounded fs-bold mx-1 my-2"
+                                                        style="font-size: 12px;">
+                                                        <b>{{ $stream['duration'] }}</b>
+                                                    </p>
+                                                @endif
+                                                @if ($stream['language'])
+                                                    <p class="bg_color theme_bg_color px-2 py-1 rounded fs-bold mx-1 my-2"
+                                                        style="font-size: 12px;">
+                                                        <b>{{ collect($stream['language'])->pluck('title')->join(', ') }}</b>
+                                                    </p>
+                                                @endif
+                                                @if ($stream['ratings'])
+                                                    <p class="bg_color theme_bg_color px-2 py-1 rounded fs-bold mx-1 my-2"
+                                                        style="font-size: 12px;">
+                                                        <b>{{ collect($stream['ratings'])->pluck('title')->join(', ') }}</b>
+                                                    </p>
+                                                @endif
+                                                @if ($stream['qualities'])
+                                                    <p class="bg_color theme_bg_color px-2 py-1 rounded fs-bold mx-1 my-2"
+                                                        style="font-size: 12px;">
+                                                        <b>{{ collect($stream['qualities'])->pluck('title')->join(', ') }}</b>
+                                                    </p>
+                                                @endif
                                             </div>
+                                            @if ($stream['genre'])
                                             <div class="d-flex align-items-center justify-content-start">
                                                 <p class="bg_color theme_bg_color px-2 py-1 rounded fs-bold mx-1 my-2"
                                                     style="font-size: 12px;">
                                                     <b>{{ collect($stream['genre'])->pluck('title')->join(', ') }}</b>
                                                 </p>
                                             </div>
+                                            @endif
                                         </div>
                                         <p class="card-text bg_color p-2" style="font-size: 12px;">
                                             {{ \Illuminate\Support\Str::of($stream['short_description'])->words(40, '...') }}
