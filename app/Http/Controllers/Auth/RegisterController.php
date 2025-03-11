@@ -16,6 +16,9 @@ class RegisterController extends Controller
 {
     public function index(Request $request)
     {
+        if(session('USER_DETAILS')){
+            return redirect("/");
+        }
         $data = $request->input();
         unset($data['_token']);
         return view('auth.register', compact('data'));

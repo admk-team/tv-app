@@ -51,11 +51,12 @@
     }
     $adParam = 'videoId=' . $streamGuid . '&title=' . $arrSlctItemData['stream_title'];
     // Login requried
-    if ($IS_SIGNIN_BYPASS == 'N' && (!session('USER_DETAILS') || session('USER_DETAILS')['USER_CODE'])) {
-        session('IS_SIGNIN_BYPASS', url('/playerscreen/' . $streamGuid));
+    
+    if ($IS_SIGNIN_BYPASS == 'N' && (!session('USER_DETAILS'))) {
+        session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
+        session()->save();
         \App\Helpers\GeneralHelper::headerRedirect(url('/login'));
     }
-    
     //monetioztion
     $redirectUrl = null;
     if ($limitWatchTime === 'yes' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
