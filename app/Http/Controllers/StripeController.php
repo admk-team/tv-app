@@ -215,7 +215,18 @@ class StripeController extends Controller
                             'gift_recipient_email' => session('MONETIZATION')['RECIPIENT_EMAIL'] ?? null,
                             'tip' => session('MONETIZATION')['TIP'] ?? null,
                         ];
-                        $arrRes = GeneralHelper::sendCURLRequest(0, Api::endpoint('/sendpaymentdetails'), $arrFormData);
+                        // $arrRes = GeneralHelper::sendCURLRequest(0, Api::endpoint('/sendpaymentdetails'), $arrFormData);
+                        $response = Http::timeout(300)->withHeaders(Api::headers([
+                            'husercode' => session('USER_DETAILS')['USER_CODE']
+                        ]))
+                            ->asForm()
+                            ->post(Api::endpoint('/sendpaymentdetails'), $arrFormData);
+                        $arrRes = $response->json();
+                        if ($arrRes && session()->has('USER_DETAILS') && isset($arrRes['app']['group_user']) && !empty($arrRes['app']['group_user'])) {
+                            $userDetails = session()->get('USER_DETAILS'); // Retrieve session data properly
+                            $userDetails['GROUP_USER'] = $arrRes['app']['group_user']; // Update the value
+                            session()->put('USER_DETAILS', $userDetails); // Store it back in session
+                        }                        
                         $status = 'success';
                         $statusMsg = $arrRes['app']['msg'];
                         $title = 'Great!';
