@@ -16,9 +16,9 @@ class SiteCloneController extends Controller
         $input = $request->validated();
         $referer = request()->ip();
 
-        $input['name'] = Str::lower($input['name']);
-        $input['name'] = Str::replace(' ', '', $input['name']);
-        $input['name'] = Str::substr($input['name'], 0, 7);
+        // $input['name'] = Str::lower($input['name']);
+        // $input['name'] = Str::replace(' ', '', $input['name']);
+        // $input['name'] = Str::substr($input['name'], 0, 7);
 
         if ($referer === '46.202.176.117') {
             $response = Http::withOptions([
@@ -28,7 +28,7 @@ class SiteCloneController extends Controller
             ])->post('https://147.93.114.167:8090/api/createWebsite', [
                 "adminUser" => "admin",
                 "adminPass" => "2MQVOWTfUdFJLTJw",
-                "domainName" => $input['name'] . '.octv.online',
+                "domainName" => $input['subdomain'] . '.octv.online',
                 "ownerEmail" => "abdul.haseeb.ali@gmail.com",
                 "packageName" => "Default",
                 "websiteOwner" => "admin",
@@ -41,9 +41,9 @@ class SiteCloneController extends Controller
             $scriptPath = base_path('finalscript.sh');
 
             // Define arguments
-            $arg1 = escapeshellarg("/home/{$input['name']}.octv.online/public_html");
+            $arg1 = escapeshellarg("/home/{$input['subdomain']}.octv.online/public_html");
             $arg2 = escapeshellarg($input['app_code']);
-            $arg3 = escapeshellarg("{$input['name']}.octv.online");
+            $arg3 = escapeshellarg("{$input['subdomain']}.octv.online");
 
             // Run script with arguments
             $command = "echo 'iltbtlmn3520ashT@' | su - root -c 'sleep 120; /backup/finalscript.sh $arg1 $arg2 $arg3' 2>&1";
