@@ -48,7 +48,7 @@
                                                 {{ $data['data']['current_month_points'] }}
                                             </h5>
                                         </div>
-                                        <p class="mb-0 fs-10 card-heading"><?= date('F'); ?> Points</p>
+                                        <p class="mb-0 fs-10 card-heading"><?= date('F') ?> Points</p>
                                     </div>
                                 </div>
                             </div>
@@ -166,45 +166,23 @@
             const copyButton = document.getElementById('copyButton');
             const referralElement = document.getElementById('referralLink');
 
-            if (referralElement) {
-                const referralLink = referralElement.innerText;
-            } 
-            if (!copyButton) {
-                {{--  console.error("Element with ID 'copyButton' not found.");  --}}
-                return;
-            }
-        
-            if (!referralElement) {
-                {{--  console.error("Element with ID 'referralLink' not found.");  --}}
+            if (!copyButton || !referralElement) {
+                console.error("Required elements not found.");
                 return;
             }
 
             copyButton.addEventListener('click', function() {
-                // Create a temporary input element
-                const tempInput = document.createElement('input');
-                tempInput.value = referralLink;
-                document.body.appendChild(tempInput);
+                const referralLink = referralElement.textContent.trim(); // Get clean text
 
-                // Select and copy the text
-                tempInput.select();
-                tempInput.setSelectionRange(0, 99999); // For mobile devices
-                navigator.clipboard.writeText(tempInput.value)
+                navigator.clipboard.writeText(referralLink)
                     .then(() => {
-                        // Change button text to "Copied!"
                         const originalText = copyButton.innerText;
                         copyButton.innerText = 'Copied!';
-
-                        // Revert button text back after 1 second
-                        setTimeout(() => {
-                            copyButton.innerText = originalText;
-                        }, 1000);
+                        setTimeout(() => copyButton.innerText = originalText, 1000);
                     })
                     .catch((err) => {
                         alert('Failed to copy: ' + err);
                     });
-
-                // Remove the temporary input element
-                document.body.removeChild(tempInput);
             });
         });
     </script>

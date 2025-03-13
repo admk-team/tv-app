@@ -113,7 +113,11 @@ class MonetizationController extends Controller
                     'paymentInformation' => $paymentInfo,
                 ]);
             $responseJson = $response->json();
-
+            if ($responseJson && session()->has('USER_DETAILS') && isset($responseJson['app']['group_user']) && !empty($responseJson['app']['group_user'])) {
+                $userDetails = session()->get('USER_DETAILS'); // Retrieve session data properly
+                $userDetails['GROUP_USER'] = $responseJson['app']['group_user']; // Update the value
+                session()->put('USER_DETAILS', $userDetails); // Store it back in session
+            }   
             return view('monetization.success', compact('transactionId', 'responseJson'));
         }
     }

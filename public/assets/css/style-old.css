@@ -1484,7 +1484,7 @@ section.sliders {
 
 .signForm .inner-cred .ind1::before {
     content: "or";
-    color: var(--themePrimaryTxtColor);
+    color: var(--bgcolor) !important;
     font-family: 'Noto Sans';
     font-size: 18px;
     position: absolute;
@@ -2885,7 +2885,7 @@ span.error_box {
 .btn_orange {
     background: var(--themeActiveColor) !important;
     border-radius: 0px;
-    color: var(--themePrimaryTxtColor) !important;
+    color: var(--bgcolor) !important;
     font-family: 'Noto Sans';
     font-size: 16px;
     width: 100%;
@@ -6489,7 +6489,7 @@ textarea.form-control:focus {
 
     /* When title_logo does not exist and content-heading is shown */
     .cover-slider-item .info.without-logo {
-        padding-top: 140px !important;
+        padding-top: 100px !important;
     }
 }
 

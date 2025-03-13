@@ -397,9 +397,8 @@
                                     <dd>
                                         @foreach ($series_details['tags'] as $i => $val)
                                             @if ($i < 15)
-                                                <!-- Only show the first 15 tags -->
                                                 <a class="person-link" href="{{ route('tag', $val['code']) }}">
-                                                    {{ $val['title'] }}{{ $i < 14 ? ',' : '' }}
+                                                    {{ $val['title'] }}{{ $i < 14 && $i < count($series_details['tags']) - 1 ? ',' : '' }}
                                                 </a>
                                             @endif
                                         @endforeach
@@ -1026,10 +1025,10 @@
                                         <img src="{{ url('/') }}/assets/images/trending_icon.png" alt="${episode.stream_title}">
                                     </div>
                                     ${episode.is_newly_added === 'Y' ? `
-                                                    <div class="newly-added-label">
-                                                        <span>New Episode</span>
-                                                    </div>
-                                                ` : ''}
+                                                            <div class="newly-added-label">
+                                                                <span>New Episode</span>
+                                                            </div>
+                                                        ` : ''}
                                     <img onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'"
                                         src="${episode.stream_poster}" alt="${episode.stream_title}">
                                     <div class="detail_box_hide">
@@ -1053,42 +1052,41 @@
                         dots: true,
                         arrows: true,
                         responsive: [{
-                                breakpoint: 960,
-                                settings: {
-                                    arrows: true,
-                                    slidesToShow: 4,
-                                    slidesToScroll: 2,
-                                    swipeToSlide: true,
-                                }
-                            },
-                            {
-                                breakpoint: 767,
-                                settings: {
-                                    arrows: false,
-                                    slidesToShow: 5,
-                                    slidesToScroll: 2,
-                                    swipeToSlide: true,
-                                }
-                            },
-                            {
-                                breakpoint: 480,
-                                settings: {
-                                    arrows: false,
-                                    slidesToShow: 3,
-                                    slidesToScroll: 2,
-                                    swipeToSlide: true,
-                                }
-                            },
-                            {
-                                breakpoint: 330,
-                                settings: {
-                                    arrows: false,
-                                    slidesToShow: 3,
-                                    slidesToScroll: 2,
-                                    swipeToSlide: true,
-                                }
+                            breakpoint: 1740,
+                            settings: {
+                                slidesToShow: 4,
+                                slidesToScroll: 2,
+                                dots: true,
+                                arrows: true
                             }
-                        ],
+                        },
+                        {
+                            breakpoint: 1200,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 2,
+                                dots: true,
+                                arrows: false
+                            }
+                        },
+                        {
+                            breakpoint: 600,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 2,
+                                arrows: false
+                            }
+                        },
+                        {
+                            breakpoint: 480,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 1,
+                                dots: false,
+                                arrows: false,
+                            }
+                        }
+                    ],
                     });
                 }
 

@@ -30,6 +30,25 @@
 @endpush
 @section('content')
     @php
+        if (
+            isset(\App\Services\AppConfig::get()->app->app_info->is_bypass_login) &&
+            \App\Services\AppConfig::get()->app->app_info->is_bypass_login == 'N'
+        ) {
+            if (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE']) {
+                // Extract parameters from the current request
+                $channelGuid = request()->route('channelGuid');
+                $slug = request()->route('slug');
+
+                // Store the full intended route in session
+                session([
+                    'REDIRECT_TO_SCREEN' => route('player.tvguide', ['channelGuid' => $channelGuid, 'slug' => $slug]),
+                ]);
+                session()->save();
+                // Redirect to login
+                \Illuminate\Support\Facades\Redirect::to(route('login'))->send();
+            }
+        }
+
         if (isset($_COOKIE['timezoneStr']) && !empty($_COOKIE['timezoneStr'])) {
             date_default_timezone_set($_COOKIE['timezoneStr']);
         } else {

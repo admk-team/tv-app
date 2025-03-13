@@ -319,11 +319,11 @@
                                 <input type="hidden" name="return" value="{{ url('/monetization/success') }}">
                                 <input type="hidden" name="cancel_return" value="{{ url('/monetization/cancel') }}">
                                 <button type="submit" class="btn paypal_btn"><i
-                                        class="fa fa-paypal"aria-hidden="true"></i>Pay with Paypal</button>
+                                        class="fa-brands fa-cc-paypal"aria-hidden="true"></i>Pay with Paypal</button>
                             </form>
                             <button class="stripe-button mt-2" id="payButton">
                                 <div class="spinner hidden" id="spinner"></div>
-                                <span id="buttonText"><i class="fa fa-cc-stripe" aria-hidden="true"></i> Pay with
+                                <span id="buttonText"><i class="fa-brands fa-cc-stripe" aria-hidden="true"></i> Pay with
                                     Credit
                                     Card</span>
                             </button>

@@ -11,7 +11,7 @@
 @section('content')
     <?php
     // Config
-    $IS_SIGNIN_BYPASS = 'N';
+    $IS_SIGNIN_BYPASS = (\App\Services\AppConfig::get()->app->app_info->is_bypass_login);
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
     
@@ -51,11 +51,12 @@
     }
     $adParam = 'videoId=' . $streamGuid . '&title=' . $arrSlctItemData['stream_title'];
     // Login requried
-    if ($IS_SIGNIN_BYPASS == 'N' && (!session('USER_DETAILS') || session('USER_DETAILS')['USER_CODE']) && false) {
-        session('IS_SIGNIN_BYPASS', url('/playerscreen/' . $streamGuid));
-        \App\Helpers\GeneralHelper::headerRedirect(url('/signin'));
-    }
     
+    if ($IS_SIGNIN_BYPASS == 'N' && (!session('USER_DETAILS'))) {
+        session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
+        session()->save();
+        \App\Helpers\GeneralHelper::headerRedirect(url('/login'));
+    }
     //monetioztion
     $redirectUrl = null;
     if ($limitWatchTime === 'yes' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {

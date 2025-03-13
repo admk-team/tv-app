@@ -459,9 +459,8 @@
                                     <dd>
                                         @foreach ($stream_details['tags'] as $i => $val)
                                             @if ($i < 15)
-                                                <!-- Only show the first 15 tags -->
                                                 <a class="person-link" href="{{ route('tag', $val['code']) }}">
-                                                    {{ $val['title'] }}{{ $i < 14 ? ',' : '' }}
+                                                    {{ $val['title'] }}{{ $i < 14 && $i < count($stream_details['tags']) - 1 ? ',' : '' }}
                                                 </a>
                                             @endif
                                         @endforeach
