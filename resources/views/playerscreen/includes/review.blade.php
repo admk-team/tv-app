@@ -25,10 +25,9 @@ if (isset($name_arr[1]) && strlen($name_arr[1]) > 0) {
                                 @endif
                             </div>
                             <div class="review-rating member">
-
-                                @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                        $stream_details['rating_type'] === 'stars' &&
-                                        $stream_details['video_rating'] === 'E')
+                                @if (isset($streamratingtype, $streamratingstatus) &&
+                                        $streamratingtype === 'stars' &&
+                                        $streamratingstatus == 1)
                                     @for ($i = 0; $i < $review['rating']; $i++)
                                         <div class="star active">
                                             <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
@@ -45,9 +44,9 @@ if (isset($name_arr[1]) && strlen($name_arr[1]) > 0) {
                                             </svg>
                                         </div>
                                     @endfor
-                                @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                        $stream_details['rating_type'] === 'hearts' &&
-                                        $stream_details['video_rating'] === 'E')
+                                @elseif(isset($streamratingtype, $streamratingstatus) &&
+                                        $streamratingtype === 'hearts' &&
+                                        $streamratingstatus == 1)
                                     @for ($i = 0; $i < $review['rating']; $i++)
                                         <div class="star active">
                                             <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
@@ -64,9 +63,9 @@ if (isset($name_arr[1]) && strlen($name_arr[1]) > 0) {
                                             </svg>
                                         </div>
                                     @endfor
-                                @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
-                                        $stream_details['rating_type'] === 'thumbs' &&
-                                        $stream_details['video_rating'] === 'E')
+                                @elseif(isset($streamratingtype, $streamratingstatus) &&
+                                        $streamratingtype === 'thumbs' &&
+                                        $streamratingstatus === 'E')
                                     {{-- Thumbs  --}}
                                     <div class="user-rating" style="margin-top: 10px; display: flex; gap: 12px;">
                                         @if ($review['rating'] >= 3)
@@ -115,48 +114,6 @@ if (isset($name_arr[1]) && strlen($name_arr[1]) > 0) {
                                             @endfor
                                         @endif
                                     </div>
-                                @elseif (isset(
-                                        \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
-                                        \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
-                                        \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
-                                        \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'stars')
-                                    @for ($i = 0; $i < $review['rating']; $i++)
-                                        <div class="star active">
-                                            <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                                version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                    stroke-linejoin="round"></g>
-                                                <g id="SVGRepo_iconCarrier">
-                                                    <title>star</title>
-                                                    <path
-                                                        d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
-                                                    </path>
-                                                </g>
-                                            </svg>
-                                        </div>
-                                    @endfor
-                                @elseif(isset(
-                                        \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
-                                        \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
-                                        \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
-                                        \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'hearts')
-                                    @for ($i = 0; $i < $review['rating']; $i++)
-                                        <div class="star active">
-                                            <svg fill="#ffffff" width="27px" height="27px" viewBox="0 0 32 32"
-                                                version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
-                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                    stroke-linejoin="round"></g>
-                                                <g id="SVGRepo_iconCarrier">
-                                                    <title>heart</title>
-                                                    <path
-                                                        d="M0.256 12.16q0.544 2.080 2.080 3.616l13.664 14.144 13.664-14.144q1.536-1.536 2.080-3.616t0-4.128-2.080-3.584-3.584-2.080-4.16 0-3.584 2.080l-2.336 2.816-2.336-2.816q-1.536-1.536-3.584-2.080t-4.128 0-3.616 2.080-2.080 3.584 0 4.128z">
-                                                    </path>
-                                                </g>
-                                            </svg>
-                                        </div>
-                                    @endfor
                                 @else
                                     {{-- Thumbs  --}}
                                     <div class="user-rating" style="margin-top: 10px; display: flex; gap: 12px;">
