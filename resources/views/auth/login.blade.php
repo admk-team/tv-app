@@ -56,7 +56,8 @@
                                     isset($branding->is_linkedin_feature_active) &&
                                     $branding->is_linkedin_feature_active === 'true';
 
-                                $col = $isFacebookActive || $isGoogleActive || $isLinkedinActive
+                                $col =
+                                    $isFacebookActive || $isGoogleActive || $isLinkedinActive
                                         ? 'col-md-6'
                                         : 'col-md-12';
                             @endphp
