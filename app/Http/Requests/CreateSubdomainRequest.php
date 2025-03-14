@@ -25,6 +25,7 @@ class CreateSubdomainRequest extends FormRequest
             "name" => "required|string",
             "app_code" => "required|string",
             "token" => "required|string",
+            "subdomain" => "required|string"
         ];
     }
 }
