@@ -5,7 +5,7 @@
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/videojs-youtube@2.6.1/dist/Youtube.min.js"></script>
 @endpush
-<section class="sliders">
+<section class="sliders mb-4">
     <div class="slider-container">
         @foreach ($data->app->categories ?? [] as $category)
             @if (!empty($category->streams))

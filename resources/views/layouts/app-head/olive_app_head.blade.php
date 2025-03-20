@@ -1,32 +1,5 @@
-<!doctype html>
-<html lang="en">
-
-@if (env('APP_CODE') == '382f94988e01455c7262c1480ae530a6')
-    <!-- OliveBranch -->
-    @include('layouts.app-head.olive_app_head')
-@elseif (env('APP_CODE') == '588b8647ff77800ed4134024fb1e2ca5')
-    <!-- QuanioBranch -->
-    @include('layouts.app-head.quanio_app_head')
-@elseif (env('APP_CODE') == '4lIxYy5Ac430Pfy0O0YrEzjlDpyvuPl6')
-    <!-- Solace -->
-    @include('layouts.app-head.solace_app_head')
-@else
-    <!-- other app -->
-    @include('layouts.app-head.common_app_head')
-@endif
-@include('gtm_tags.body')
-@include('layouts.partials.header')
-
-
-
-<div class="content">
-    @yield('content')
-</div>
-
-@include('components.footers.footer')
-
-
-{{-- Search --}}
+<!-- OliveBranch -->
+<!-- Google Tag Manager -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Select elements
@@ -78,8 +51,6 @@
         searchInput.addEventListener('input', handleInputChange);
     });
 </script>
-
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
 </script>
@@ -320,74 +291,110 @@
         $(".clss").click(function() {
             $(".scsMsg").hide();
         });
-        $(".scsMsg").delay(4000).fadeOut();
-    });
-    $(function() {
-        $('[data-toggle="tooltip"]').tooltip()
-    });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-56JGF936');
 </script>
-<script>
-    /** Script for year */
-    $('.yearselect').yearselect();
+<!-- End Google Tag Manager -->
 
-    $(document).ready(function() {
-        $('.navbar-default li').on('click', function() {
-            $('.navbar-default li').removeClass('active');
-            $(this).addClass('active');
-        })
-    });
-</script>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @include('gtm_tags.head')
+    @if (Route::is('detailscreen', 'playerscreen', 'series'))
+        @yield('meta-tags')
+    @else
+        <meta property="og:title" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_title ?? '' }}" />
+        <meta property="og:image" content="{{ \App\Services\AppConfig::get()->app->app_info->seo_image ?? '' }}" />
+        <meta property="og:description" content="{!! strip_tags(\App\Services\AppConfig::get()->app->app_info->seo_description ?? '') !!}" />
+    @endif
+    <title>
+        {{ \App\Services\AppConfig::get()->app->app_info->app_name ?? '' }}
+    </title>
+    @stack('style')
+    {{-- Old Css --}}
 
-{{-- <script>
-        /** script for landscape_slider */
-        $('.landscape_slider').slick({
-            dots: false,
-            infinite: true,
-            loop: true,
-            autoplay: {{ \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay }},
-            autoplaySpeed: 3000,
-            slidesToShow: 5,
-            slidesToScroll: 1,
-            responsive: [{
-                    breakpoint: 1740,
-                    settings: {
-                        slidesToShow: 4,
-                        slidesToScroll: 1,
-                        dots: true,
-                        arrows: true
-                    }
-                },
-                {
-                    breakpoint: 1200,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 1,
-                        dots: true,
-                        arrows: false
-                    }
-                },
-                {
-                    breakpoint: 600,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 1,
-                        arrows: false
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 1,
-                        dots: false,
-                        arrows: false,
-                    }
-                }
-            ]
+    <link rel="shortcut icon" href="{{ \App\Services\AppConfig::get()->app->app_info->website_faviocn ?? '' }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style-old.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/userprofile.css') }}">
+    @if (isset(\App\Services\AppConfig::get()->app->app_info->faq_section) &&
+            \App\Services\AppConfig::get()->app->app_info->faq_section == 1)
+        <link rel="stylesheet" href="{{ asset('assets/css/faq_style.css') }}">
+    @endif
+    <style>
+        :root {
+            --bgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->bgcolor }};
+            --themeActiveColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeActiveColor }};
+            --headerBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->headerBgColor }};
+            --themePrimaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }};
+            --themeSecondaryTxtColor: {{ \App\Services\AppConfig::get()->app->website_colors->themeSecondaryTxtColor }};
+            --navbarMenucolor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarMenucolor }};
+            --navbarSearchColor: {{ \App\Services\AppConfig::get()->app->website_colors->navbarSearchColor }};
+            --footerbtmBgcolor: {{ \App\Services\AppConfig::get()->app->website_colors->footerbtmBgcolor }};
+            --slidercardBgColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardBgColor }};
+            --slidercardTitlecolor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardTitlecolor }};
+            --slidercardCatColor: {{ \App\Services\AppConfig::get()->app->website_colors->slidercardCatColor }};
+            --cardDesColor: {{ \App\Services\AppConfig::get()->app->website_colors->cardDesColor }};
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('assets/owlcarousal/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/owlcarousal/css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/slick/slick.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/slick/slick-theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/regular.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui.css') }}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;200;300;400;500;600;700;800&display=swap');
+    </style>
+    {{-- Custom Css --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    <meta name="csrf_token" content="{{ csrf_token() }}" />
+    @yield('head')
+    {{-- alert csss --}}
+    <link rel="stylesheet" href="sweetalert2.min.css">
+    @include('layouts.one-signal.one-signal-scripts')
+    <!-- Matomo Tag Manager -->
+
+    <script>
+        var _mtm = window._mtm = window._mtm || [];
+
+        _mtm.push({
+            'mtm.startTime': (new Date().getTime()),
+            'event': 'mtm.Start'
         });
-    </script> --}}
 
-@stack('scripts')
-</body>
+        (function() {
 
-</html>
+            var d = document,
+                g = d.createElement('script'),
+                s = d.getElementsByTagName('script')[0];
+
+            g.async = true;
+            g.src = 'https://cdn.matomo.cloud/olivebranch.matomo.cloud/container_sZAj7sNy.js';
+            s.parentNode.insertBefore(g, s);
+
+        })();
+    </script>
+
+    <!-- End Matomo Tag Manager -->
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-56JGF936" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
