@@ -36,7 +36,7 @@
                 <div class="d-flex row">
                     <div class=" col-12 col-md-4 d-flex col-lg-4">
                         @if ($data['poster'] != '')
-                            <img class="" src="{{ $data['poster'] }}" class="actor-img"  height="400px"alt="none" style="max-width: 100%;">
+                            <img class="" src="{{ $data['poster'] }}" class="actor-img" alt="none" style="max-width: 100%;">
                         @else
                             <img class="w-100 actor-img" src="{{ asset('assets/images/default.png') }}" alt="none">
                         @endif
