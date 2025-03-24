@@ -1961,7 +1961,7 @@ if (!empty($arrCatData))
                                     } else if (buynow.source_type === "internal" && buynow
                                         .stream_url) {
                                         let internalUrl =
-                                            `{{ url('/getitemplayerdetail') }}/${buynow.stream_url}`;
+                                            `{{ url('/playerscreen') }}/${buynow.stream_url}`;
                                         window.open(internalUrl, '_blank');
                                     }
                                     hideBuyNowMessage(buyNowMessageBox);
