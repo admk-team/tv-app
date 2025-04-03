@@ -95,29 +95,29 @@
                     </div>
                 </div>
                 <!-- <div class="carousel-item">
-                                    <div class="bg-crimsonblack">
-                                        <video poster="poster.jpg" autoplay playsinline muted loop>
-                                            <source src="videos/homepage-video2.mp4" type="video/mp4">
-                                        </video>
-                                        <div class="carousel-caption d-none d-md-block">
-                                            <h5>Second slide label</h5>
-                                            <p class="text-white-costum">
-                                                Nulla vitae elit libero, a pharetra augue mollis interdum.
-                                            </p>
+                                        <div class="bg-crimsonblack">
+                                            <video poster="poster.jpg" autoplay playsinline muted loop>
+                                                <source src="videos/homepage-video2.mp4" type="video/mp4">
+                                            </video>
+                                            <div class="carousel-caption d-none d-md-block">
+                                                <h5>Second slide label</h5>
+                                                <p class="text-white-costum">
+                                                    Nulla vitae elit libero, a pharetra augue mollis interdum.
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div> -->
+                                    </div> -->
             </div>
             <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
-                                data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
-                                data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button> -->
+                                    data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
+                                    data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button> -->
         </div>
     </section>
     <section style="position: relative;">
@@ -125,7 +125,7 @@
             @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                 @if ($page->page_type === 'AJS' && $page->section_type === 'banner')
                     <div style="position: relative;">
-                        <img src="{{ $page->image ?? '' }}" class="img-fluid" style="width: 100%; height: 500px;">
+                        <img src="{{ $page->image ?? '' }}" class="img-fluid" style="width: 100%;">
                         @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
                             <a class="btn btn-primary px-3 mx-2" href="/signup"
                                 style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">Sign
@@ -287,91 +287,92 @@
     @endif
 
     <!-- Footer -->
+    <footer>
+        <!-- Section: Links  -->
+        <section class="bg-black text-grey p-0">
+            <div class="container text-center text-md-start pt-1">
+                <!-- Grid row -->
+                <div class="row mt-3">
+                    <!-- Grid column -->
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4 text-white-costum">
+                            Get to Know Us
+                        </h6>
+                        @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
+                            @if ($page->displayOn === 'F' || $page->displayOn === 'B')
+                                <p class="text-white-costum">
+                                    <a class="text-reset"
+                                        href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
+                                </p>
+                            @endif
+                        @endforeach
 
-    <!-- Section: Links  -->
-    <section class="bg-black text-grey p-0">
-        <div class="container text-center text-md-start pt-1">
-            <!-- Grid row -->
-            <div class="row mt-3">
-                <!-- Grid column -->
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                    <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4 text-white-costum">
-                        Get to Know Us
-                    </h6>
-                    @foreach (\App\Services\AppConfig::get()->app->data->pages as $page)
-                        @if ($page->displayOn === 'F' || $page->displayOn === 'B')
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4 text-white-costum">
+                            Top Categories
+                        </h6>
+                        @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
                             <p class="text-white-costum">
-                                <a class="text-reset" href="/page/{{ $page->page_slug }}">{{ $page->page_title }}</a>
+                                <a class="text-reset"
+                                    href="{{ route('category', $category->cat_guid) }}">{{ $category->cat_title }}</a>
+                            </p>
+                        @endforeach
+                    </div>
+                    <!-- Grid column -->
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4 text-white-costum">
+                            Let Us Help You
+                        </h6>
+                        <p class="text-white-costum">
+                            <a href="/login" class="text-reset">Login</a>
+                        </p>
+                        @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
+                            <p class="text-white-costum">
+                                <a href="/signup" class="text-reset">Register</a>
                             </p>
                         @endif
-                    @endforeach
-
-                </div>
-                <!-- Grid column -->
-
-                <!-- Grid column -->
-                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                    <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4 text-white-costum">
-                        Top Categories
-                    </h6>
-                    @foreach (\App\Services\AppConfig::get()->app->footer_categories as $category)
                         <p class="text-white-costum">
-                            <a class="text-reset"
-                                href="{{ route('category', $category->cat_guid) }}">{{ $category->cat_title }}</a>
+                            <a href="/download-apps" class="text-reset">Download Apps</a>
                         </p>
-                    @endforeach
+                    </div>
+                    <!-- Grid column -->
                 </div>
-                <!-- Grid column -->
-                <!-- Grid column -->
-                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                    <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4 text-white-costum">
-                        Let Us Help You
-                    </h6>
-                    <p class="text-white-costum">
-                        <a href="/login" class="text-reset">Login</a>
-                    </p>
-                    @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
-                        <p class="text-white-costum">
-                            <a href="/signup" class="text-reset">Register</a>
-                        </p>
-                    @endif
-                    <p class="text-white-costum">
-                        <a href="/download-apps" class="text-reset">Download Apps</a>
-                    </p>
-                </div>
-                <!-- Grid column -->
+                <!-- Grid row -->
             </div>
-            <!-- Grid row -->
-        </div>
-    </section>
-    <!-- Section: Links  -->
-    <!-- Copyright -->
-    <div class="container-fluid footer_bottom">
-        <div class="row justify-content-sm-center justify-content-md-between p-2">
-            <div class="col-md-6 text-white-costum fs-14px">
-                © {{ \App\Services\AppConfig::get()->app->app_info->app_name ?? '' }}
-                {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
-            <div class="col-md-6 text-end text-white-costum">
-                @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
-                    <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset"
-                        style="text-decoration:none !important; ">
-                        <img src="{{ $link->icon }} " style="width: 30px;">
-                    </a>
-                @endforeach
-                {{--  <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">
+        </section>
+        <!-- Section: Links  -->
+        <!-- Copyright -->
+        <div class="container-fluid footer_bottom">
+            <div class="row justify-content-sm-center justify-content-md-between p-2">
+                <div class="col-md-6 text-white-costum fs-14px">
+                    © {{ \App\Services\AppConfig::get()->app->app_info->app_name ?? '' }}
+                    {{ date('Y') }}-{{ date('Y', strtotime('+1 years')) }} ALL RIGHTS RESERVED. </div>
+                <div class="col-md-6 text-end text-white-costum">
+                    @foreach (\App\Services\AppConfig::get()->app->social_media->links as $link)
+                        <a href="{{ $link->url }}" target="_blank" class="me-3 text-reset"
+                            style="text-decoration:none !important; ">
+                            <img src="{{ $link->icon }} " style="width: 30px;">
+                        </a>
+                    @endforeach
+                    {{--  <a href="Youtube.com/@24flix" target="_blank" class="me-4 text-reset">
                 <i class="fab fa-youtube"></i>
             </a>
 
             <a href="Facebook.com/24flix" target="_blank" class="me-4 text-reset">
                 <i class="fab fa-facebook-f"></i>  --}}
-                </a>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- Copyright -->
+        <!-- Copyright -->
     </footer>
     <!-- Footer -->
 
