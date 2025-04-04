@@ -73,58 +73,11 @@
     </nav>
     <!-- Navigation End  -->
     <!-- Main Slider Section -->
-    <section class="d-none">
-        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="bg-crimsonblack">
-                        <video poster="poster.jpg" autoplay playsinline muted loop>
-                            <!-- <source src="homepage-video.webm" type="video/webm"> -->
-                            <source src="videos/homepage-video.mp4" type="video/mp4">
-                        </video>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>First slide label</h5>
-                            <p class="text-white-costum">
-                                Nulla vitae elit libero, a pharetra augue mollis interdum.
-                            </p>
-                            <a class="btn btn-primary px-4 me-2" href="/login">Sign In </a>
-                            @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
-                                <a class="text-white-costum btn btn-primary px-4" href="/signup">Sign Up</a>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                <!-- <div class="carousel-item">
-                                        <div class="bg-crimsonblack">
-                                            <video poster="poster.jpg" autoplay playsinline muted loop>
-                                                <source src="videos/homepage-video2.mp4" type="video/mp4">
-                                            </video>
-                                            <div class="carousel-caption d-none d-md-block">
-                                                <h5>Second slide label</h5>
-                                                <p class="text-white-costum">
-                                                    Nulla vitae elit libero, a pharetra augue mollis interdum.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div> -->
-            </div>
-            <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
-                                    data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
-                                    data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button> -->
-        </div>
-    </section>
     <section style="position: relative;">
         @if (isset(\App\Services\AppConfig::get()->app->landingpages))
             @foreach (\App\Services\AppConfig::get()->app->landingpages as $page)
                 @if ($page->page_type === 'AJS' && $page->section_type === 'banner')
-                    <div style="position: relative;">
+                    <div class="mt-5" style="position: relative;">
                         <img src="{{ $page->image ?? '' }}" class="img-fluid" style="width: 100%;">
                         @if (\App\Services\AppConfig::get()->app->app_info->is_signup_btn_show === 'Y')
                             <a class="btn btn-primary px-3 mx-2" href="/signup"
