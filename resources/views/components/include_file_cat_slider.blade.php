@@ -74,7 +74,7 @@
                 if (
                     (isset(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) &&
                         \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen == 1) ||
-                    ($stream->bypass_detailscreen == 1 && $stream?->contentType != 'series')
+                    ($stream->bypass_detailscreen == 1)
                 ) {
                     $screen = 'playerscreen';
                 } elseif ($stream?->contentType != 'series') {
