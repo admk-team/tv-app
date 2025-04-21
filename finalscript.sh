@@ -87,4 +87,8 @@ find "$WEB_ROOT" -type f -exec chmod 644 {} \;
 
 echo "Permissions fixed successfully for $DOMAIN_NAME!"
 
+# Restart lsws to apply all changes
+echo "Restarting LiteSpeed server..."
+sudo systemctl restart lsws
+
 echo "Script execution completed successfully."
