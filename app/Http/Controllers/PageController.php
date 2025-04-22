@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Services\Api;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 
@@ -32,11 +33,7 @@ class PageController extends Controller
             'requestAction' => 'sendInquiry',
         ];
 
-        $response = Http::timeout(300)->withHeaders([
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'happcode' => env('APP_CODE') ? env('APP_CODE') : '7376d3829575f06617d9db3f7f6836df',
-        ])->post(env('API_BASE_URL') . '/sendcontactdetail', $form_data);
+        $response = Http::timeout(300)->withHeaders(Api::headers())->post(env('API_BASE_URL') . '/sendcontactdetail', $form_data);
 
         $jsonResponse = $response->json();
         $message = $jsonResponse['app']['msg'];
