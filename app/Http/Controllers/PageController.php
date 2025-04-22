@@ -39,7 +39,6 @@ class PageController extends Controller
         ])->post(env('API_BASE_URL') . '/sendcontactdetail', $form_data);
 
         $jsonResponse = $response->json();
-        dd($response->body());
         $message = $jsonResponse['app']['msg'];
         if ($response->successful()) {
             return back()->with('success',$message);
