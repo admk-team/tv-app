@@ -69,6 +69,7 @@
     </div>
     <div class="{{ $cartMainCls }} slider slick-slider" data-items-per-row="{{ $items }}"
         data-autoplay="{{ $autoplay }}">
+        @if(isset($category->streams) && $category->streams)
         @foreach ($category->streams as $stream)
             @php
                 if (
@@ -196,7 +197,7 @@
                                                 </div>
                                             @endif
                                             <div class="deta_box">
-                                                {{--  <div class="season_title">{{ $stream->series_season_title }}</div>  --}}
+                                             
                                                 <div class="content_title">{{ $stream->stream_title }}
                                                 </div>
                                                 @if ($stream->stream_description)
@@ -222,7 +223,7 @@
                     @else
                         <a href="{{ $url }}">
                             <div class="{{ $cardThumbCls2 }}">
-                                {{-- Premium Icon And Content Label --}}
+                             
                                 @if (!in_array($category->card_type, ['BA', 'LB']))
                                     @if (isset($stream->notify_label) &&
                                             ($stream->notify_label == 'available now' || $stream->notify_label == 'coming soon'))
@@ -295,7 +296,6 @@
                                             </div>
                                         @endif
                                         <div class="deta_box">
-                                            {{--  <div class="season_title">{{ $stream->series_season_title }}</div>  --}}
                                             <div class="content_title">{{ $stream->stream_title }}
                                             </div>
                                             @if ($stream->stream_description)
@@ -322,5 +322,6 @@
                 </div>
             </div>
         @endforeach
+        @endif
     </div>
 </div>
