@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
- <div class="login_page topinnew_gaps pt-0">
+ <!-- <div class="login_page topinnew_gaps pt-0">
     <div class="demo10">
         <div class="container" style="max-width: 1140px;">
             @if (\App\Helpers\GeneralHelper::subscriptionIsRequired())
@@ -100,7 +100,7 @@
             </div>
         </div>
     </div>
-</div> 
+</div>  -->
 <link rel="stylesheet" href="{{ asset('assets/css/subscription-plan.css') }}">
 <div class="container">
     <div class="container" style="max-width: 1140px;">
