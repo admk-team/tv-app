@@ -22,25 +22,28 @@
         </div>
     @endif
 @endif
-@if (isset(\App\Services\AppConfig::get()->app->app_info->slider_section) &&
-        \App\Services\AppConfig::get()->app->app_info->slider_section == 'default')
-    @include('components.sliders.owl_wrapper')
-@elseif(isset(\App\Services\AppConfig::get()->app->app_info->slider_section) &&
-        \App\Services\AppConfig::get()->app->app_info->slider_section == 'magic')
-    @include('components.sliders.magic_slider')
-@elseif(isset(\App\Services\AppConfig::get()->app->app_info->slider_section) &&
-        \App\Services\AppConfig::get()->app->app_info->slider_section == 'swiper')
-    @include('components.sliders.swiper')
-@elseif(isset(\App\Services\AppConfig::get()->app->app_info->slider_section) &&
-        \App\Services\AppConfig::get()->app->app_info->slider_section == 'fade')
-    @include('components.sliders.fade_slide')
-@elseif(isset(\App\Services\AppConfig::get()->app->app_info->slider_section) &&
-        \App\Services\AppConfig::get()->app->app_info->slider_section == 'animated')
-    @include('components.sliders.animation')
-@elseif(isset(\App\Services\AppConfig::get()->app->app_info->slider_section) &&
-        \App\Services\AppConfig::get()->app->app_info->slider_section == 'hero')
-    @include('components.sliders.hero_slider')
-@else
-    @include('components.sliders.owl_wrapper')
-@endif
+@php
+    $sliderSection = \App\Services\AppConfig::get()->app->app_info->slider_section ?? 'default';
+@endphp
+
+@switch($sliderSection)
+    @case('magic')
+        @include('components.sliders.magic_slider')
+        @break
+    @case('swiper')
+        @include('components.sliders.swiper')
+        @break
+    @case('fade')
+        @include('components.sliders.fade_slide')
+        @break
+    @case('animated')
+        @include('components.sliders.animation')
+        @break
+    @case('hero')
+        @include('components.sliders.hero_slider')
+        @break
+    @case('default')
+    @default
+        @include('components.sliders.owl_wrapper')
+@endswitch
 

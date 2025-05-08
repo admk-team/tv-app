@@ -296,23 +296,35 @@
 @endif --}}
 
 
-@if (
-    \App\Services\AppConfig::get()->app->app_info->web_menu == 'default' ||
-        \App\Services\AppConfig::get()->app->app_info->web_menu == 'left')
-    @include('layouts.partials.default-header')
-@elseif (\App\Services\AppConfig::get()->app->app_info->web_menu == 'center')
-    @include('layouts.partials.tv_menu_header')
-@elseif (\App\Services\AppConfig::get()->app->app_info->web_menu == 'righSide-Header')
-    @include('layouts.partials.side-header')
-@elseif (\App\Services\AppConfig::get()->app->app_info->web_menu == 'centered-Header')
-    @include('layouts.partials.centered-header')
-@elseif (\App\Services\AppConfig::get()->app->app_info->web_menu == 'splitNav-Header')
-    @include('layouts.partials.split-center-header')
-@elseif (\App\Services\AppConfig::get()->app->app_info->web_menu == 'splitNavButton-Header')
-    @include('layouts.partials.split-nav-button-header')
-@elseif (\App\Services\AppConfig::get()->app->app_info->web_menu == 'darkNavLinks-Header')
-    @include('layouts.partials.5th-header')
-@endif
+@php
+    $webMenu = \App\Services\AppConfig::get()->app->app_info->web_menu ?? 'default';
+@endphp
+
+@switch($webMenu)
+    @case('default')
+    @case('left')
+        @include('layouts.partials.default-header')
+        @break
+    @case('center')
+        @include('layouts.partials.tv_menu_header')
+        @break
+    @case('righSide-Header')
+        @include('layouts.partials.side-header')
+        @break
+    @case('centered-Header')
+        @include('layouts.partials.centered-header')
+        @break
+    @case('splitNav-Header')
+        @include('layouts.partials.split-center-header')
+        @break
+    @case('splitNavButton-Header')
+        @include('layouts.partials.split-nav-button-header')
+        @break
+    @case('darkNavLinks-Header')
+        @include('layouts.partials.5th-header')
+        @break
+@endswitch
+
 
 
 
