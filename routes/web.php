@@ -220,3 +220,7 @@ Route::get('/watch/ended-watch-party', function () {
 
 Route::get('/create/{streamCode}/watch/party', [WatchPartyController::class, 'create'])->name('create.watch.party');
 Route::post('/store/watch/party', [WatchPartyController::class, 'store'])->name('store.watch.party');
+
+//category streams call
+Route::post('/categories/streams', [CategoryController::class, 'getStreams'])->name('categories.streams');
+Route::post('/render-category-slider', [CategoryController::class, 'renderCategorySlider'])->name('render.category.slider');
