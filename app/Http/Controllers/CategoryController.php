@@ -26,17 +26,15 @@ class CategoryController extends Controller
     public function getStreams(Request $request)
     {
         // Validate required fields
-       $validateData = $request->validate([
+        $validateData = $request->validate([
             'cat_guid' => 'nullable',
-            'cat_title' => 'nullable',
             'cat_type' => 'nullable',
         ]);
-       dd($validateData);
+
         // Make the API request with form-data
         $response = Http::withHeaders(Api::headers())
-            ->asForm()->post(Api::endpoint('/category/streams/'), [
-                'cat_guid' =>   $validateData['cat_guid'] ?? null,
-                'cat_title' => $validateData['cat_title'] ?? null,
+            ->asForm()->post(Api::endpoint('/steamcategory'), [
+                'cat_guid' => $validateData['cat_guid'] ?? null,
                 'cat_type' => $validateData['cat_type'] ?? null,
             ]);
 
@@ -67,6 +65,39 @@ class CategoryController extends Controller
             'success' => false,
             'message' => 'Failed to retrieve streams from API.',
         ], $response->status());
+    }
+
+    public function renderCategorySlider(Request $request)
+    {
+        // Validate the request
+        $validated = $request->validate([
+            'category' => 'required|array',
+            'category.cat_guid' => 'required',
+            'category.cat_title' => 'required',
+            'category.cat_type' => 'nullable',
+            'category.card_type' => 'nullable',
+            'category.is_show_view_more' => 'nullable',
+            'category.items_per_row' => 'nullable|integer',
+            'category.is_top10' => 'nullable',
+            'streams' => 'required|array',
+        ]);
+
+        // Prepare category object by merging validated category data with streams
+        $category = (object) array_merge($validated['category'], [
+            'streams' => $validated['streams'],
+        ]);
+
+        // Set default values if not provided
+        $category->card_type = $category->card_type ?? ($category->cat_type ?? 'LA');
+        $category->is_show_view_more = $category->is_show_view_more ?? 'Y';
+        $category->items_per_row = $category->items_per_row ?? 5;
+        $category->is_top10 = $category->is_top10 ?? 'N';
+
+        // Render the Blade component
+        return response()->json([
+            'success' => true,
+            'html' => view('components.include_file_cat_slider', compact('category'))->render(),
+        ]);
     }
 
 }

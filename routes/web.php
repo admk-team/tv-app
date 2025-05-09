@@ -223,3 +223,4 @@ Route::post('/store/watch/party', [WatchPartyController::class, 'store'])->name(
 
 //category streams call
 Route::post('/categories/streams', [CategoryController::class, 'getStreams'])->name('categories.streams');
+Route::post('/render-category-slider', [CategoryController::class, 'renderCategorySlider'])->name('render.category.slider');
