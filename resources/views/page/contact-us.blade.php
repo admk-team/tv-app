@@ -33,7 +33,7 @@
                                 <div class="input_groupbox">
                                     <label class="contact-label">
                                         <div class="vertLine"></div>
-                                        <input id="name" type="text" class="form-control " placeholder="Name"
+                                        <input id="name" type="text" class="form-control " placeholder="Enter Name"
                                             name="name" autocomplete="name" autofocus="">
                                         <img src="https://stage.24flix.tv/images/ussr.png" class="icn mll">
                                     </label>
