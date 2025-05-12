@@ -20,7 +20,7 @@
         .skeleton-slider {
             display: flex;
             gap: 24px;
-            overflow-x: auto;
+            overflow-x: hidden;
             white-space: nowrap;
             padding-bottom: 10px;
         }
@@ -89,7 +89,7 @@
                             <div class="skeleton-loader">
                                 <div class="skeleton skeleton-title"></div>
                                 <div class="skeleton-slider">
-                                    @for ($i = 0; $i < 9; $i++)
+                                    @for ($i = 0; $i < 10; $i++)
                                         <div class="skeleton skeleton-item"></div>
                                     @endfor
                                 </div>
@@ -111,7 +111,7 @@
                     <div class="skeleton-loader">
                         <div class="skeleton skeleton-title"></div>
                         <div class="skeleton-slider">
-                            @for ($i = 0; $i < 7; $i++)
+                            @for ($i = 0; $i < 10; $i++)
                                 <div class="skeleton skeleton-item"></div>
                             @endfor
                         </div>
