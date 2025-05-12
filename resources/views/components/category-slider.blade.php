@@ -1,6 +1,5 @@
 @push('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/cards-item.css') }}" />
-    {{-- <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" /> --}}
     <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet">
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/videojs-youtube@2.6.1/dist/Youtube.min.js"></script>
@@ -50,6 +49,7 @@
         }
     </style>
 @endpush
+
 <section class="sliders mb-4">
     <div class="slider-container">
         @foreach ($data->app->categories ?? [] as $category)
@@ -130,48 +130,57 @@
             if (isMobile) {
                 return;
             }
-            const videoLinks = document.querySelectorAll('.video-link');
 
-            videoLinks.forEach((link, index) => {
-                const video = link.querySelector('.card-video-js');
-                if (!video) {
-                    console.error(`Video element not found for link ${index}:`, link);
-                    return;
-                }
+            // Function to initialize Video.js players
+            function initializeVideoPlayers(videoLinks) {
+                videoLinks.forEach((link, index) => {
+                    const video = link.querySelector('.card-video-js');
+                    if (!video) {
+                        console.error(`Video element not found for link ${index}:`, link);
+                        return;
+                    }
 
-                // Check if the video is already initialized
-                if (videojs.getPlayer(video.id)) {
-                    console.log(`Player ${index} (${video.id}) is already initialized.`);
-                    return;
-                }
+                    // Validate video ID
+                    if (!video.id || video.id.trim() === '' || video.id.includes('#')) {
+                        console.error(`Invalid or missing video ID for link ${index}:`, video);
+                        return;
+                    }
 
-                const player = videojs(video.id, {
-                    muted: false,
-                    preload: 'auto',
-                });
+                    // Check if the video is already initialized
+                    if (videojs.getPlayer(video.id)) {
+                        console.log(`Player ${index} (${video.id}) is already initialized.`);
+                        return;
+                    }
 
-                player.ready(() => {
-                    link.addEventListener('mouseenter', () => {
-                        player.pause();
-                        player.muted(false);
-                        player.currentTime(0);
-                        player.play().then(() => {}).catch((error) => {
-                            console.error(`Error playing video ${index}:`, error);
+                    const player = videojs(video.id, {
+                        muted: false,
+                        preload: 'auto',
+                    });
+
+                    player.ready(() => {
+                        link.addEventListener('mouseenter', () => {
+                            player.pause();
+                            player.muted(false);
+                            player.currentTime(0);
+                            player.play().then(() => {}).catch((error) => {
+                                console.error(`Error playing video ${index}:`, error);
+                            });
+                        });
+
+                        link.addEventListener('mouseleave', () => {
+                            player.muted(true);
+                            player.pause();
+                            player.currentTime(0);
                         });
                     });
-
-                    link.addEventListener('mouseleave', () => {
-                        player.muted(true);
-                        player.pause();
-                        player.currentTime(0);
-                    });
                 });
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Function to initialize Slick sliders only when needed
+            }
+
+            // Initialize existing video links on page load
+            const initialVideoLinks = document.querySelectorAll('.video-link');
+            initializeVideoPlayers(initialVideoLinks);
+
+            // Function to initialize Slick sliders
             function initializeSlider(container) {
                 const sliderElements = jQuery(container).find('.slick-slider:not(.slick-initialized)');
                 if (sliderElements.length && typeof jQuery !== 'undefined' && jQuery.fn.slick) {
@@ -357,34 +366,7 @@
                                 // Reinitialize Video.js players for the new content
                                 if (!/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
                                     const videoLinks = sliderContainer.querySelectorAll('.video-link');
-                                    videoLinks.forEach((link, index) => {
-                                        const video = link.querySelector('.card-video-js');
-                                        if (!video) return;
-
-                                        if (videojs.getPlayer(video.id)) return;
-
-                                        const player = videojs(video.id, {
-                                            muted: false,
-                                            preload: 'auto',
-                                        });
-
-                                        player.ready(() => {
-                                            link.addEventListener('mouseenter', () => {
-                                                player.pause();
-                                                player.muted(false);
-                                                player.currentTime(0);
-                                                player.play().then(() => {}).catch((error) => {
-                                                    console.error(`Error playing video ${index}:`, error);
-                                                });
-                                            });
-
-                                            link.addEventListener('mouseleave', () => {
-                                                player.muted(true);
-                                                player.pause();
-                                                player.currentTime(0);
-                                            });
-                                        });
-                                    });
+                                    initializeVideoPlayers(videoLinks);
                                 }
 
                                 console.log(`UI updated for category: ${catTitle} (${catGuid})`);
