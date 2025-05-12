@@ -84,7 +84,9 @@
                              data-card-type="{{ $category->card_type ?? '' }}"
                              data-is-show-view-more="{{ $category->is_show_view_more ?? 'Y' }}"
                              data-items-per-row="{{ $category->items_per_row ?? 5 }}"
-                             data-is-top10="{{ $category->is_top10 ?? 'N' }}">
+                             data-is-top10="{{ $category->is_top10 ?? 'N' }}"
+                             data-menu_type="{{ $category->menu_type ?? 'N' }}"
+                             data-menu_guid="{{ $category->menu_guid ?? 'N' }}">
                             <!-- Skeleton Loader -->
                             <div class="skeleton-loader">
                                 <div class="skeleton skeleton-title"></div>
@@ -106,7 +108,9 @@
                      data-card-type="{{ $category->card_type ?? '' }}"
                      data-is-show-view-more="{{ $category->is_show_view_more ?? 'Y' }}"
                      data-items-per-row="{{ $category->items_per_row ?? 5 }}"
-                     data-is-top10="{{ $category->is_top10 ?? 'N' }}">
+                     data-is-top10="{{ $category->is_top10 ?? 'N' }}"
+                     data-menu_type="{{ $category->menu_type ?? 'N' }}"
+                     data-menu_guid="{{ $category->menu_guid ?? 'N' }}">
                     <!-- Skeleton Loader -->
                     <div class="skeleton-loader">
                         <div class="skeleton skeleton-title"></div>
@@ -125,12 +129,6 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Check if the user is on a mobile device
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            if (isMobile) {
-                return;
-            }
-
             // Function to initialize Video.js players
             function initializeVideoPlayers(videoLinks) {
                 videoLinks.forEach((link, index) => {
@@ -287,6 +285,8 @@
                 const isShowViewMore = wrapper.dataset.isShowViewMore;
                 const itemsPerRow = wrapper.dataset.itemsPerRow;
                 const isTop10 = wrapper.dataset.isTop10;
+                const menu_guid = wrapper.dataset.menu_guid;
+                const menu_type = wrapper.dataset.menu_type;
                 
                 // Get references to skeleton and slider container
                 const skeletonLoader = wrapper.querySelector('.skeleton-loader');
@@ -316,7 +316,9 @@
                     body: JSON.stringify({
                         cat_guid: catGuid,
                         cat_title: catTitle,
-                        cat_type: catType
+                        cat_type: catType,
+                        menu_guid: menu_guid,
+                        menu_type: menu_type,
                     })
                 })
                 .then(response => response.json())

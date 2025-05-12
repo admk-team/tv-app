@@ -29,6 +29,8 @@ class CategoryController extends Controller
         $validateData = $request->validate([
             'cat_guid' => 'nullable',
             'cat_type' => 'nullable',
+            'menu_guid' => 'nullable',
+            'menu_type' => 'nullable',
         ]);
 
         // Make the API request with form-data
@@ -36,6 +38,8 @@ class CategoryController extends Controller
             ->asForm()->post(Api::endpoint('/steamcategory'), [
                 'cat_guid' => $validateData['cat_guid'] ?? null,
                 'cat_type' => $validateData['cat_type'] ?? null,
+                'menu_guid' => $validateData['menu_guid'] ?? null,
+                'menu_type' => $validateData['menu_type'] ?? null,
             ]);
 
         // Check if the request was successful
@@ -73,7 +77,7 @@ class CategoryController extends Controller
         $validated = $request->validate([
             'category' => 'required|array',
             'category.cat_guid' => 'required',
-            'category.cat_title' => 'required',
+            'category.cat_title' => 'nullable',
             'category.cat_type' => 'nullable',
             'category.card_type' => 'nullable',
             'category.is_show_view_more' => 'nullable',

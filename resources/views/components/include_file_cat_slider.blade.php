@@ -119,13 +119,18 @@
                             $mType = "type='video/vimeo'";
                         }
                     }
+                    if(isset(\App\Services\AppConfig::get()->app->toggle_trailer) && \App\Services\AppConfig::get()->app->toggle_trailer == 1){
+                        $top10class = "slider-wrapper";
+                    }else{
+                        $top10class = "top-10-slider-wrapper";
+                    }
                 @endphp
                 <div class="item video-link">
                     <div class="{{ $cartMainSubCls }}">
                         @if (($category->is_top10 ?? null) === 'Y')
                             <a href="{{ $url }}">
                                 <div class="d-flex cursor-pointer position-relative">
-                                    <a class="top-10-slider-wrapper" href="{{ $url }}"></a>
+                                    <a class="{{ $top10class }}" href="{{ $url }}"></a>
                                     <a class="top-10-slider-number">{{ $loop->iteration }}</a>
                                     <div class="{{ $cardThumbCls2 }}">
                                         @if (!in_array($category->card_type, ['BA', 'LB']))
