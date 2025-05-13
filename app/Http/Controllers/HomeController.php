@@ -48,6 +48,7 @@ class HomeController extends Controller
 
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->get(Api::endpoint("/{$slug}?user_data={$xyz}"));
+        Log::info('response api : ' . $response->body());
         Log::info(Carbon::now()->toString());
         $data = json_decode($response->getBody()->getContents());
         if (isset(\App\Services\AppConfig::get()->app->app_info->timezone)) {
