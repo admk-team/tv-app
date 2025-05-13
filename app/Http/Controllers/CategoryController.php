@@ -51,7 +51,7 @@ class CategoryController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Invalid response format from API.',
-                ], 500);
+                ], 404);
             }
 
             // Construct category data for frontend
