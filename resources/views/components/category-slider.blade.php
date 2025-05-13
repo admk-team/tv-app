@@ -279,62 +279,37 @@
 
             // Function to load category data
             function loadCategory(wrapper) {
-                const catGuid = wrapper.dataset.catGuid;
-                const catTitle = wrapper.dataset.catTitle;
-                const catType = wrapper.dataset.catType;
-                const cardType = wrapper.dataset.cardType;
-                const isShowViewMore = wrapper.dataset.isShowViewMore;
-                const itemsPerRow = wrapper.dataset.itemsPerRow;
-                const isTop10 = wrapper.dataset.isTop10;
-                const menu_guid = wrapper.dataset.menu_guid;
-                const menu_type = wrapper.dataset.menu_type;
-                
-                // Get references to skeleton and slider container
-                const skeletonLoader = wrapper.querySelector('.skeleton-loader');
-                const sliderContainer = wrapper.querySelector('.slider-container');
+                return new Promise((resolve) => {
 
-                console.log(`Starting AJAX call for category: ${catTitle} (${catGuid})`);
-
-                // Prepare category object
-                const categoryData = {
-                    cat_guid: catGuid,
-                    cat_title: catTitle,
-                    cat_type: catType,
-                    card_type: cardType,
-                    is_show_view_more: isShowViewMore,
-                    items_per_row: parseInt(itemsPerRow),
-                    is_top10: isTop10
-                };
-
-                // Make AJAX call to fetch streams
-                fetch('/categories/streams', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                    },
-                    body: JSON.stringify({
+                    const catGuid = wrapper.dataset.catGuid;
+                    const catTitle = wrapper.dataset.catTitle;
+                    const catType = wrapper.dataset.catType;
+                    const cardType = wrapper.dataset.cardType;
+                    const isShowViewMore = wrapper.dataset.isShowViewMore;
+                    const itemsPerRow = wrapper.dataset.itemsPerRow;
+                    const isTop10 = wrapper.dataset.isTop10;
+                    const menu_guid = wrapper.dataset.menu_guid;
+                    const menu_type = wrapper.dataset.menu_type;
+                    
+                    // Get references to skeleton and slider container
+                    const skeletonLoader = wrapper.querySelector('.skeleton-loader');
+                    const sliderContainer = wrapper.querySelector('.slider-container');
+    
+                    console.log(`Starting AJAX call for category: ${catTitle} (${catGuid})`);
+    
+                    // Prepare category object
+                    const categoryData = {
                         cat_guid: catGuid,
                         cat_title: catTitle,
                         cat_type: catType,
-                        menu_guid: menu_guid,
-                        menu_type: menu_type,
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(`Streams fetched for category: ${catTitle} (${catGuid})`, data);
-
-                    // Check if streams are empty
-                    if (!data.success || !data.data.streams || data.data.streams.length === 0) {
-                        console.log(`No streams for category: ${catTitle} (${catGuid}), hiding wrapper`);
-                        wrapper.style.display = 'none';
-                        return;
-                    }
-
-                    // Make follow-up AJAX call to render the slider component
-                    fetch('/render-category-slider', {
+                        card_type: cardType,
+                        is_show_view_more: isShowViewMore,
+                        items_per_row: parseInt(itemsPerRow),
+                        is_top10: isTop10
+                    };
+    
+                    // Make AJAX call to fetch streams
+                    fetch('/categories/streams', {
                         method: 'POST',
                         headers: {
                             'Accept': 'application/json',
@@ -342,63 +317,92 @@
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                         },
                         body: JSON.stringify({
-                            category: categoryData,
-                            streams: data.data.streams
+                            cat_guid: catGuid,
+                            cat_title: catTitle,
+                            cat_type: catType,
+                            menu_guid: menu_guid,
+                            menu_type: menu_type,
                         })
                     })
                     .then(response => response.json())
-                    .then(renderData => {
-                        console.log(`Slider rendered for category: ${catTitle} (${catGuid})`, renderData);
-
-                        if (renderData.success && renderData.html) {
-                            // Use requestAnimationFrame to ensure immediate UI update
-                            requestAnimationFrame(() => {
-                                // Hide skeleton loader
-                                skeletonLoader.style.display = 'none';
-                                
-                                // Show and update the slider container with the rendered HTML
-                                sliderContainer.classList.remove('hidden');
-                                sliderContainer.innerHTML = renderData.html;
-
-                                // Force DOM reflow to ensure immediate rendering
-                                forceReflow(sliderContainer);
-
-                                // Initialize Slick Slider for the new content
-                                initializeSlider(sliderContainer);
-
-                                // Reinitialize Video.js players for the new content
-                                if (!/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-                                    const videoLinks = sliderContainer.querySelectorAll('.video-link');
-                                    initializeVideoPlayers(videoLinks);
-                                }
-
-                                console.log(`UI updated for category: ${catTitle} (${catGuid})`);
-                            });
-                        } else {
-                            console.log(`Render failed for category: ${catTitle} (${catGuid}), hiding wrapper`);
+                    .then(data => {
+                        resolve();
+                        console.log(`Streams fetched for category: ${catTitle} (${catGuid})`, data);
+    
+                        // Check if streams are empty
+                        if (!data.success || !data.data.streams || data.data.streams.length === 0) {
+                            console.log(`No streams for category: ${catTitle} (${catGuid}), hiding wrapper`);
                             wrapper.style.display = 'none';
+                            return;
                         }
+    
+                        // Make follow-up AJAX call to render the slider component
+                        fetch('/render-category-slider', {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                            },
+                            body: JSON.stringify({
+                                category: categoryData,
+                                streams: data.data.streams
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(renderData => {
+                            console.log(`Slider rendered for category: ${catTitle} (${catGuid})`, renderData);
+    
+                            if (renderData.success && renderData.html) {
+                                // Use requestAnimationFrame to ensure immediate UI update
+                                requestAnimationFrame(() => {
+                                    // Hide skeleton loader
+                                    skeletonLoader.style.display = 'none';
+                                    
+                                    // Show and update the slider container with the rendered HTML
+                                    sliderContainer.classList.remove('hidden');
+                                    sliderContainer.innerHTML = renderData.html;
+    
+                                    // Force DOM reflow to ensure immediate rendering
+                                    forceReflow(sliderContainer);
+    
+                                    // Initialize Slick Slider for the new content
+                                    initializeSlider(sliderContainer);
+    
+                                    // Reinitialize Video.js players for the new content
+                                    if (!/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+                                        const videoLinks = sliderContainer.querySelectorAll('.video-link');
+                                        initializeVideoPlayers(videoLinks);
+                                    }
+    
+                                    console.log(`UI updated for category: ${catTitle} (${catGuid})`);
+                                });
+                            } else {
+                                console.log(`Render failed for category: ${catTitle} (${catGuid}), hiding wrapper`);
+                                wrapper.style.display = 'none';
+                            }
+                        })
+                        .catch(error => {
+                            console.error(`Error rendering category slider for ${catTitle} (${catGuid}):`, error);
+                            wrapper.style.display = 'none';
+                        });
                     })
                     .catch(error => {
-                        console.error(`Error rendering category slider for ${catTitle} (${catGuid}):`, error);
+                        console.error(`Error fetching category streams for ${catTitle} (${catGuid}):`, error);
                         wrapper.style.display = 'none';
                     });
                 })
-                .catch(error => {
-                    console.error(`Error fetching category streams for ${catTitle} (${catGuid}):`, error);
-                    wrapper.style.display = 'none';
-                });
             }
 
             // Load categories after page is fully loaded with a 1-second delay
-            window.onload = () => {
-                setTimeout(() => {
+            window.onload = async () => {
+                //setTimeout(() => {
                     const categoryWrappers = document.querySelectorAll('.category-wrapper');
-                    categoryWrappers.forEach(wrapper => {
-                        loadCategory(wrapper);
-                    });
+                    for (const wrapper of categoryWrappers) {
+                        await loadCategory(wrapper);
+                    }
                     console.log(`Initiated loading for ${categoryWrappers.length} categories`);
-                }, 1500); // 1.5-second delay
+                //}, 1500); // 1.5-second delay
             };
         });
     </script>
