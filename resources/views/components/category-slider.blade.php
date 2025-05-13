@@ -126,6 +126,7 @@
         @endforeach
     </div>
 </section>
+
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -134,13 +135,13 @@
                 videoLinks.forEach((link, index) => {
                     const video = link.querySelector('.card-video-js');
                     if (!video) {
-                        console.error(`Video element not found for link ${index}:`, link);
+                        {{--  console.error(`Video element not found for link ${index}:`, link);  --}}
                         return;
                     }
 
                     // Validate video ID
                     if (!video.id || video.id.trim() === '' || video.id.includes('#')) {
-                        console.error(`Invalid or missing video ID for link ${index}:`, video);
+                        {{--  console.error(`Invalid or missing video ID for link ${index}:`, video);  --}}
                         return;
                     }
 
@@ -389,13 +390,16 @@
                 });
             }
 
-            // Load each category independently
-            const categoryWrappers = document.querySelectorAll('.category-wrapper');
-            categoryWrappers.forEach(wrapper => {
-                loadCategory(wrapper);
-            });
-
-            console.log(`Initiated loading for ${categoryWrappers.length} categories`);
+            // Load categories after page is fully loaded with a 1-second delay
+            window.onload = () => {
+                setTimeout(() => {
+                    const categoryWrappers = document.querySelectorAll('.category-wrapper');
+                    categoryWrappers.forEach(wrapper => {
+                        loadCategory(wrapper);
+                    });
+                    console.log(`Initiated loading for ${categoryWrappers.length} categories`);
+                }, 1000); // 1-second delay
+            };
         });
     </script>
 @endpush

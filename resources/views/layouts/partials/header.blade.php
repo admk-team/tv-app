@@ -304,25 +304,31 @@
     @case('default')
     @case('left')
         @include('layouts.partials.default-header')
-        @break
+    @break
+
     @case('center')
         @include('layouts.partials.tv_menu_header')
-        @break
+    @break
+
     @case('righSide-Header')
         @include('layouts.partials.side-header')
-        @break
+    @break
+
     @case('centered-Header')
         @include('layouts.partials.centered-header')
-        @break
+    @break
+
     @case('splitNav-Header')
         @include('layouts.partials.split-center-header')
-        @break
+    @break
+
     @case('splitNavButton-Header')
         @include('layouts.partials.split-nav-button-header')
-        @break
+    @break
+
     @case('darkNavLinks-Header')
         @include('layouts.partials.5th-header')
-        @break
+    @break
 @endswitch
 
 
@@ -349,22 +355,25 @@
             const sideHeader = document.querySelector('.side-header');
             const navbarToggler = document.querySelector('.navbar-toggler');
 
+
             // Check localStorage for the side-header state
-            if (localStorage.getItem('sideHeaderState') === 'show') {
+            if (sideHeader && localStorage.getItem('sideHeaderState') === 'show') {
                 sideHeader.classList.add('show');
                 sideHeader.style.overflow = "hidden";
             }
+            if (navbarToggler) {
+                navbarToggler.addEventListener('click', () => {
+                    sideHeader.classList.toggle('show');
+                    if (sideHeader.classList.contains('show')) {
+                        sideHeader.style.overflow = "hidden";
+                        localStorage.setItem('sideHeaderState', 'show');
+                    } else {
+                        sideHeader.style.overflow = "hidden";
+                        localStorage.setItem('sideHeaderState', 'hide');
+                    }
+                });
+            }
 
-            navbarToggler.addEventListener('click', () => {
-                sideHeader.classList.toggle('show');
-                if (sideHeader.classList.contains('show')) {
-                    sideHeader.style.overflow = "hidden";
-                    localStorage.setItem('sideHeaderState', 'show');
-                } else {
-                    sideHeader.style.overflow = "hidden";
-                    localStorage.setItem('sideHeaderState', 'hide');
-                }
-            });
         });
 
         // document.addEventListener('DOMContentLoaded', (event) => {
