@@ -398,7 +398,7 @@
                         loadCategory(wrapper);
                     });
                     console.log(`Initiated loading for ${categoryWrappers.length} categories`);
-                }, 1000); // 1-second delay
+                }, 1500); // 1.5-second delay
             };
         });
     </script>
