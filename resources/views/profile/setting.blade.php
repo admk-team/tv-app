@@ -475,10 +475,18 @@
             });
 
 
+            // Set CSRF token for all AJAX requests
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
             // Update the profile
-            $('#updateProfileForm').on('submit', (function(event) {
+            $('#updateProfileForm').on('submit', function(event) {
                 event.preventDefault();
                 var formData = new FormData(this);
+
                 $.ajax({
                     type: 'POST',
                     url: "{{ route('update-profile') }}",
@@ -488,7 +496,6 @@
                     processData: false,
                     enctype: 'multipart/form-data',
                     success: function(data) {
-                        // console.log(data);
                         if (data.status == true) {
                             Swal.fire({
                                 icon: "success",
@@ -506,14 +513,15 @@
                         console.log(data);
                     }
                 });
-            }));
+            });
 
-            // update password function 
-            $('#passwordUpdate').on('submit', (function(event) {
+            // Update password function
+            $('#passwordUpdate').on('submit', function(event) {
                 event.preventDefault();
                 $('.form-control').removeClass('is-invalid');
                 $('.invalid-feedback').remove();
                 var formData = new FormData(this);
+
                 $.ajax({
                     type: 'POST',
                     url: "{{ route('password.update') }}",
@@ -522,45 +530,43 @@
                     contentType: false,
                     processData: false,
                     success: function(data) {
-
-                        // Loop through the errors and display them
+                        // Handle validation errors
                         if (data.errors) {
-
                             if (data.errors.oldPassword) {
-                                $('#oldPassword').addClass('is-invalid');
-                                $('#oldPassword').after('<div class="invalid-feedback">' +
-                                    data.errors.oldPassword[0] + '</div>');
+                                $('#oldPassword').addClass('is-invalid').after(
+                                    '<div class="invalid-feedback">' + data.errors
+                                    .oldPassword[0] + '</div>');
                             }
                             if (data.errors.nPassword) {
-                                $('#npassword').addClass('is-invalid');
-                                $('#npassword').after('<div class="invalid-feedback">' +
-                                    data
-                                    .errors.nPassword[0] + '</div>');
+                                $('#npassword').addClass('is-invalid').after(
+                                    '<div class="invalid-feedback">' + data.errors
+                                    .nPassword[0] + '</div>');
                             }
                             if (data.errors.cPassword) {
-                                $('#cpassword').addClass('is-invalid');
-                                $('#cpassword').after('<div class="invalid-feedback">' +
-                                    data.errors.cPassword[0] + '</div>');
+                                $('#cpassword').addClass('is-invalid').after(
+                                    '<div class="invalid-feedback">' + data.errors
+                                    .cPassword[0] + '</div>');
                             }
                         }
-                        if (data.app.status == 1) {
+
+                        // Handle success or warning
+                        if (data.app && data.app.status == 1) {
                             Swal.fire({
                                 icon: "success",
                                 title: data.app.msg,
                             });
-                        } else {
+                        } else if (data.app) {
                             Swal.fire({
                                 icon: "warning",
                                 title: data.app.msg,
                             });
                         }
-
                     },
                     error: function(data) {
                         console.log(data);
                     }
                 });
-            }));
+            });
 
             // get user data 
             $('#get-profile-data').on('click', function() {
