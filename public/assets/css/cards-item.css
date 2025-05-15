@@ -189,6 +189,7 @@
     max-width: 100% !important;
     border-radius: 5px !important;
 }
+
 .onebyone {
     width: 100% !important;
     height: 100% !important;
@@ -199,11 +200,13 @@
     width: 95vw !important;
     border-radius: 5px !important;
 }
+
 .slider {
     padding-top: 15px;
-    padding-bottom: 10px !important; 
+    padding-bottom: 10px !important;
 }
-.slick-list .slick-slide{
+
+.slick-list .slick-slide {
     padding-bottom: 5px !important;
 }
 
@@ -212,70 +215,81 @@
     .thumbnail_img {
         height: auto !important;
     }
+
     .LA_2 {
         height: 43rem !important;
     }
+
     .LA_3 {
         height: 29rem !important;
     }
+
     .LA_4 {
         height: 23rem !important;
     }
-    
+
     .LA_5 {
         height: 17rem !important;
     }
-    
+
     .LA_6 {
         height: 15rem !important;
     }
-    
+
 }
 
 @media (max-width: 1920px) {
     .thumbnail_img {
         height: auto !important;
     }
+
     .LA_2 {
         height: 30rem !important;
     }
+
     .LA_3 {
         height: 20rem !important;
     }
+
     .LA_4 {
         height: 16rem !important;
     }
-    
+
     .LA_5 {
         height: 12rem !important;
     }
-    
+
     .LA_6 {
         height: 11rem !important;
     }
 }
+
 @media (max-width: 1440px) {
     .BA_5 {
         width: 90vw !important;
         border-radius: 5px !important;
     }
+
     .thumbnail_img {
         height: auto !important;
     }
+
     .LA_2 {
         height: 23rem !important;
     }
+
     .LA_3 {
         height: 16rem !important;
     }
+
     .LA_4 {
         height: 12rem !important;
     }
-    
+
     .LA_5 {
         height: 10rem !important;
     }
-    
+
     .LA_6 {
         height: 8rem !important;
     }
@@ -298,16 +312,20 @@
         height: auto !important;
     }
 }
+
 @media (max-width: 1024px) {
     .LA_2 {
         height: 18rem !important;
     }
+
     .LA_3 {
         height: 18rem !important;
     }
+
     .LA_4 {
         height: 13rem !important;
     }
+
     .LA_4 {
         height: 10rem !important;
     }
@@ -317,63 +335,129 @@
     .thumbnail_img {
         height: auto !important;
     }
+
     .LA_2 {
         height: 18rem !important;
     }
+
     .LA_3 {
         height: 18rem !important;
     }
+
     .LA_4 {
         height: 12rem !important;
     }
+
     .LA_5 {
         height: 10rem !important;
     }
 }
+
 @media (max-width: 600px) {
     .thumbnail_img {
         height: auto !important;
     }
+
     .LA_2 {
         height: 7rem !important;
     }
+
     .LA_3 {
         height: 7rem !important;
     }
+
     .LA_4 {
         height: 7rem !important;
     }
+
     .LA_5 {
         height: 7rem !important;
     }
+
     .LA_6 {
         height: 7rem !important;
     }
 }
+
 @media (max-width: 425px) {
     .thumbnail_img {
         height: auto !important;
     }
+
     .LA_2 {
         height: 7rem !important;
     }
+
     .LA_3 {
         height: 7rem !important;
     }
+
     .LA_4 {
         height: 7rem !important;
     }
+
     .LA_5 {
         height: 7rem !important;
     }
+
     .LA_6 {
         height: 7rem !important;
     }
+
     .slider {
         padding-top: 5px;
-        padding-bottom: 0px !important; 
-    }
-    .slick-list .slick-slide{
         padding-bottom: 0px !important;
     }
+
+    .slick-list .slick-slide {
+        padding-bottom: 0px !important;
+    }
+}
+
+.skeleton {
+    background: linear-gradient(90deg, #4b5563 25%, #6b7280 50%, #4b5563 75%);
+    background-size: 200% 100%;
+    border-radius: 10px;
+    animation: shimmer 1.5s infinite;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.skeleton-title {
+    width: 280px;
+    height: 30px;
+    margin-bottom: 24px;
+    border-radius: 8px;
+}
+
+.skeleton-slider {
+    display: flex;
+    gap: 24px;
+    overflow-x: hidden;
+    white-space: nowrap;
+    padding-bottom: 10px;
+}
+
+.skeleton-item {
+    width: 240px;
+    height: 150px;
+    border-radius: 12px;
+    flex: 0 0 auto;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.related-content-container.hidden {
+    display: none;
+}
+
+.skeleton-loader {
+    margin-bottom: 30px;
 }

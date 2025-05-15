@@ -35,7 +35,7 @@ class CategoryController extends Controller
 
         // Make the API request with form-data
         $response = Http::withHeaders(Api::headers())
-            ->asForm()->post(Api::endpoint('/steamcategory'), [
+            ->asForm()->post(Api::endpoint('/streamcategory'), [
                 'cat_guid' => $validateData['cat_guid'] ?? null,
                 'cat_type' => $validateData['cat_type'] ?? null,
                 'menu_guid' => $validateData['menu_guid'] ?? null,

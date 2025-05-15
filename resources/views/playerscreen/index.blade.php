@@ -7,11 +7,12 @@
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet">
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/cards-item.css') }}" />
 @endsection
 @section('content')
     <?php
     // Config
-    $IS_SIGNIN_BYPASS = (\App\Services\AppConfig::get()->app->app_info->is_bypass_login);
+    $IS_SIGNIN_BYPASS = \App\Services\AppConfig::get()->app->app_info->is_bypass_login;
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
     
@@ -52,7 +53,7 @@
     $adParam = 'videoId=' . $streamGuid . '&title=' . $arrSlctItemData['stream_title'];
     // Login requried
     
-    if ($IS_SIGNIN_BYPASS == 'N' && (!session('USER_DETAILS'))) {
+    if ($IS_SIGNIN_BYPASS == 'N' && !session('USER_DETAILS')) {
         session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
         session()->save();
         \App\Helpers\GeneralHelper::headerRedirect(url('/login'));
@@ -211,9 +212,7 @@
     }
     
     $watermark = $arrSlctItemData['watermark'] ?? null;
-
-
-
+    
     ?>
 
     {{-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" /> --}}
@@ -438,25 +437,25 @@
 
         /* Styles for BuyNow redirect message */
         /* .buynow-redirect-message {
-                                background-color: #353b49;
-                                color: var(--themePrimaryTxtColor);
-                                max-width: 1000.89px;
-                                width: fit-content;
-                                padding: .8rem 1.2rem;
-                                font-weight: 600;
-                                border-radius: 2px;
-                                position: absolute;
-                                z-index: 1000;
-                                bottom: 68px;
-                                height: fit-content;
-                                left: 18px;
-                                user-select: none;
-                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                                transition: all 0.5s ease-in-out;
-                                transform: translateX(-400px);
-                                opacity: 0;
-                                visibility: hidden;
-                            } */
+                                            background-color: #353b49;
+                                            color: var(--themePrimaryTxtColor);
+                                            max-width: 1000.89px;
+                                            width: fit-content;
+                                            padding: .8rem 1.2rem;
+                                            font-weight: 600;
+                                            border-radius: 2px;
+                                            position: absolute;
+                                            z-index: 1000;
+                                            bottom: 68px;
+                                            height: fit-content;
+                                            left: 18px;
+                                            user-select: none;
+                                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                                            transition: all 0.5s ease-in-out;
+                                            transform: translateX(-400px);
+                                            opacity: 0;
+                                            visibility: hidden;
+                                        } */
         .buynow-redirect-message {
             background-color: var(--themeActiveColor);
             color: var(--themePrimaryTxtColor);
@@ -953,27 +952,29 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body ">
-                <form class="p-3 d-flex flex-column justify-content-center w-100 mb-4" id="reportForm">
-                    @csrf
-                    <label class="px-3 alert alert-warning mb-3" id="radio-error" style="display: none;"></label>
-                    @if(isset(\App\Services\AppConfig::get()->app->content_report) && !empty(\App\Services\AppConfig::get()->app->content_report))
-                    @foreach(\App\Services\AppConfig::get()->app->content_report as $report)
-                    <label class="report-label alert alert-light p-2">
-                        <input type="radio" name="code" value="{{$report->id}}" class="mx-2 report-radio small" required>
-                        {{$report->content_report}}
-                    </label>
-                    @endforeach
-                    @else
-                    <div class="alert alert-light">✨ "Oops! No content message available yet. Stay tuned!" ✨</div>
-                    @endif
+                    <form class="p-3 d-flex flex-column justify-content-center w-100 mb-4" id="reportForm">
+                        @csrf
+                        <label class="px-3 alert alert-warning mb-3" id="radio-error" style="display: none;"></label>
+                        @if (isset(\App\Services\AppConfig::get()->app->content_report) &&
+                                !empty(\App\Services\AppConfig::get()->app->content_report))
+                            @foreach (\App\Services\AppConfig::get()->app->content_report as $report)
+                                <label class="report-label alert alert-light p-2">
+                                    <input type="radio" name="code" value="{{ $report->id }}"
+                                        class="mx-2 report-radio small" required>
+                                    {{ $report->content_report }}
+                                </label>
+                            @endforeach
+                        @else
+                            <div class="alert alert-light">✨ "Oops! No content message available yet. Stay tuned!" ✨</div>
+                        @endif
 
-                    <input type="hidden" name="user_code" value="{{ session('USER_DETAILS')['USER_CODE'] ?? '' }}">
-                    <input type="hidden" name="stream_code" value="{{ $streamGuid }}">
-                    <input type="hidden" name="app_code" value="{{ env('APP_CODE') }}">
-                    <button type="submit" id="reportSubmit"
-                        class="share_btnbox d-flex align-items-center justify-content-center">Submit <span
-                            class="loader mx-2" style="display: none;" id="loader"></span></button>
-                </form>
+                        <input type="hidden" name="user_code" value="{{ session('USER_DETAILS')['USER_CODE'] ?? '' }}">
+                        <input type="hidden" name="stream_code" value="{{ $streamGuid }}">
+                        <input type="hidden" name="app_code" value="{{ env('APP_CODE') }}">
+                        <button type="submit" id="reportSubmit"
+                            class="share_btnbox d-flex align-items-center justify-content-center">Submit <span
+                                class="loader mx-2" style="display: none;" id="loader"></span></button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -989,8 +990,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             ?>
             <div class="tab " data-tab="like"><span>{{ $catTitle }}</span></div>
             <!--End of season section-->
-            @if (
-                (isset($streamratingstatus) && $streamratingstatus == 1))
+            @if (isset($streamratingstatus) && $streamratingstatus == 1)
                 <div class="tab" data-tab="reviews"><span>Reviews</span></div>
             @endif
             @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['images']))
@@ -1037,10 +1037,11 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                         <span class="dot-sep themePrimaryTxtColr"></span>
                                     @endif
                                     @if ($streamType == 'S')
-                                    @if ($arrSlctItemData['show_name'])
-                                         <a class="text-decoration-none" href="{{ route('series', $arrSlctItemData['show_guid']) }}">
-                                            <span class="movie_type">{{ $arrSlctItemData['show_name'] }}</span>
-                                         </a>
+                                        @if ($arrSlctItemData['show_name'])
+                                            <a class="text-decoration-none"
+                                                href="{{ route('series', $arrSlctItemData['show_guid']) }}">
+                                                <span class="movie_type">{{ $arrSlctItemData['show_name'] }}</span>
+                                            </a>
                                         @endif
                                         @if ($arrSlctItemData['stream_episode_title'])
                                             <span
@@ -1280,16 +1281,17 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                 @endif
                             @endif
                             @if (session('USER_DETAILS') &&
-                            session('USER_DETAILS')['USER_CODE'] &&
-                            isset(\App\Services\AppConfig::get()->app->frnd_option_status) &&
-                            \App\Services\AppConfig::get()->app->frnd_option_status === 1)
-                        <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#recommendation">
-                            <a href="javascript:void(0);" role="button" data-bs-toggle="tooltip"
-                                title="Recommendations">
-                                <i class="fa-solid fa-film theme-active-color"></i>
-                            </a>
-                        </div>
-                    @endif
+                                    session('USER_DETAILS')['USER_CODE'] &&
+                                    isset(\App\Services\AppConfig::get()->app->frnd_option_status) &&
+                                    \App\Services\AppConfig::get()->app->frnd_option_status === 1)
+                                <div class="share_circle addWtchBtn" data-bs-toggle="modal"
+                                    data-bs-target="#recommendation">
+                                    <a href="javascript:void(0);" role="button" data-bs-toggle="tooltip"
+                                        title="Recommendations">
+                                        <i class="fa-solid fa-film theme-active-color"></i>
+                                    </a>
+                                </div>
+                            @endif
 
                         </div>
                     </div>
@@ -1302,127 +1304,42 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             </div>
         </div>
         <div id="like" class="content d-none">
-            <?php
-$arrCatData = $ARR_FEED_DATA['arrCategoriesData'];
-$nextVideoPath = '';
-if (!empty($arrCatData))
-{
-?>
-
-            <!--Start of thumbnail slider section-->
-            <section class="sliders">
-                <div class="slider-container">
-                    <!-- Start shows -->
-                    <?php
-                    $strKey = 'title';
-                    $catTitle = $arrCatData[$strKey];
-                    ?>
-                    <div class="listing_box">
-                        <div class="slider_title_box">
-                            <div class="list_heading">
-                                <h1>{{ $catTitle }}</h1>
-                            </div>
-                        </div>
-                        <div class="landscape_slider slider slick-slider">
-                            <?php
-                foreach ($arrCatData['streams'] as $arrStreamsData)
-                {
-                    if ($arrStreamsData['stream_guid'] === $arrSlctItemData['stream_guid'])
-                        continue;
-
-                    $vidPath = url("/playerscreen/".$arrStreamsData['stream_guid']);
-                    if ($nextVideoPath == "Y")
-                    {
-                      $nextVideoPath = $vidPath;
-
-                    }
-
-                    if ($streamGuid == $arrStreamsData['stream_guid'])
-                    {
-                      $nextVideoPath = "Y";
-                      //die;
-                    }
-                    $randomVideoPath = $vidPath;
-                    $strBrige = "";
-                    if ($arrStreamsData['monetization_type'] == 'F')
-                    {
-                      $strBrige = "style='display: none;'";
-                    }
-
-                    ?>
-                            <div>
-                                <a href="{{ url('/playerscreen/' . $arrStreamsData['stream_guid']) }}">
-                                    <div class="thumbnail_img">
-                                        <div class="trending_icon_box" {!! $strBrige !!}><img
-                                                src="{{ asset('/assets/images/trending_icon.png') }}"
-                                                alt="{{ $arrStreamsData['stream_title'] }}"></div>
-                                        @if (($arrStreamsData['is_newly_added'] ?? 'N') === 'Y')
-                                            <div class="newly-added-label">
-                                                <span>New Episode</span>
-                                            </div>
-                                        @endif
-                                        <img src="{{ $arrStreamsData['stream_poster'] }}"
-                                            alt="{{ $arrStreamsData['stream_title'] }}">
-                                        <div class="detail_box_hide">
-                                            <div class="detailbox_time">
-                                                {{ $arrStreamsData['stream_duration_timeformat'] }}</div>
-                                            <div class="deta_box">
-                                                <div class="season_title">
-                                                    {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
-                                                </div>
-                                                <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                                                                                              </div> -->
-                                                <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
-                                                <div class="content_description">
-                                                    {{ $arrStreamsData['stream_description'] }}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <?php
-                }
-                ?>
-                        </div>
-                    </div>
-                    <!-- End Shows -->
-                </div>
-            </section>
-            <?php
-}
-?>
+            <div class="like-tab-slider-container" data-stream-guid="{{ $arrSlctItemData['stream_guid'] ?? '' }}">
+                @include('detailscreen.partials.skeleton-slider')
+            </div>
         </div>
-        @if (
-            (isset($streamratingstatus) && $streamratingstatus == 1))
+        @if (isset($streamratingstatus) && $streamratingstatus == 1)
             <div id="reviews" class="content d-none"><!--Start of Ratings section-->
                 <div class="item-ratings">
                     <h1 class="section-title" style="display: flex; align-items: center; gap: 10px;">
                         Reviews:
-                         <div id="rating-icon-playerscreen">
-                            @include('playerscreen.includes.rating-icon', ['ratingsCount' => $ratingsCount])
+                        <div id="rating-icon-playerscreen">
+                            @include('playerscreen.includes.rating-icon', [
+                                'ratingsCount' => $ratingsCount,
+                            ])
                         </div>
-                            <span class="average-rating">{{ $averageRating ?? '' }} </span>
+                        <span class="average-rating">{{ $averageRating ?? '' }} </span>
                     </h1>
                     @php
-                    // Ensure $streamrating is an array before using it
-                    $ratings = (!empty($streamrating) && is_array($streamrating)) ? $streamrating : [];
-                
-                    if (count($ratings) < 1) {
-                        echo '<p class="text-white" style="margin-bottom: -8px !important;">No reviews found.</p>';
-                    }
-                
-                    $userDidComment = false;
-                    foreach ($ratings as $rating) {
-                        if (
-                            session()->has('USER_DETAILS') &&
-                            isset($rating['user']['id']) &&
-                            $rating['user']['id'] == session('USER_DETAILS')['USER_ID']
-                        ) {
-                            $userDidComment = true;
-                            break; // Exit loop early if found
+                        // Ensure $streamrating is an array before using it
+                        $ratings = !empty($streamrating) && is_array($streamrating) ? $streamrating : [];
+
+                        if (count($ratings) < 1) {
+                            echo '<p class="text-white" style="margin-bottom: -8px !important;">No reviews found.</p>';
                         }
-                    }
-                @endphp                
+
+                        $userDidComment = false;
+                        foreach ($ratings as $rating) {
+                            if (
+                                session()->has('USER_DETAILS') &&
+                                isset($rating['user']['id']) &&
+                                $rating['user']['id'] == session('USER_DETAILS')['USER_ID']
+                            ) {
+                                $userDidComment = true;
+                                break; // Exit loop early if found
+                            }
+                        }
+                    @endphp
                     {{--  @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !$userDidComment && !$userDidComment)  --}}
 
                     @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null)
@@ -1697,7 +1614,7 @@ if (!empty($arrCatData))
                                 <span class="spinner-border spinner-border-sm d-none" role="status"></span>
                             </button>
                         @else
-                        <h6 class="title">No Favorite Friend Found!</h6>
+                            <h6 class="title">No Favorite Friend Found!</h6>
                         @endif
 
                     </form>
@@ -2628,6 +2545,232 @@ if (!empty($arrCatData))
         });
     </script>
 
+    <script>
+        console.log('Like-tab-slider script loaded at', new Date().toISOString());
+
+        // Function to initialize Slick sliders
+        function initializeSlider(container) {
+            console.log('initializeSlider called for container:', container);
+            const sliderElements = jQuery(container).find(
+                '.slick-slider:not(.slick-initialized), .landscape_slider:not(.slick-initialized)');
+            if (sliderElements.length && typeof jQuery !== 'undefined' && jQuery.fn.slick) {
+                sliderElements.each(function() {
+                    const $slider = jQuery(this);
+                    const itemsPerRow = parseInt($slider.data('items-per-row')) || 5;
+                    const autoplay = $slider.data('autoplay') === false;
+
+                    console.log('Initializing Slick Slider for:', $slider[0]);
+
+                    $slider.slick({
+                        slidesToShow: itemsPerRow,
+                        slidesToScroll: 1,
+                        autoplay: autoplay,
+                        infinite: true,
+                        dots: true,
+                        arrows: true,
+                        adaptiveHeight: true,
+                        responsive: [{
+                                breakpoint: 1740,
+                                settings: (itemsPerRow == 2) ? {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    arrows: true
+                                } : {
+                                    slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    dots: true,
+                                    arrows: true
+                                }
+                            },
+                            {
+                                breakpoint: 1200,
+                                settings: (itemsPerRow == 2) ? {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    arrows: false
+                                } : {
+                                    slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    dots: true,
+                                    arrows: false
+                                }
+                            },
+                            {
+                                breakpoint: 770,
+                                settings: (itemsPerRow == 2) ? {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    arrows: false
+                                } : {
+                                    slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    dots: true,
+                                    arrows: false
+                                }
+                            },
+                            {
+                                breakpoint: 600,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    arrows: false
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    dots: false,
+                                    arrows: false
+                                }
+                            }
+                        ]
+                    });
+                });
+            } else if (!sliderElements.length) {
+                console.log('No uninitialized sliders found in:', container);
+                console.log('Container HTML:', container.innerHTML.substring(0, 200) +
+                '...'); // Log partial HTML for debugging
+            } else {
+                console.error('Slick Slider or jQuery not loaded for:', sliderElements);
+            }
+        }
+
+        // Function to force DOM reflow
+        function forceReflow(element) {
+            element.offsetHeight; // Accessing offsetHeight triggers a reflow
+        }
+
+        // Function to load related streams
+        function loadRelatedStreams(container) {
+            console.log('loadRelatedStreams called for container:', container);
+            const streamGuid = container.dataset.streamGuid;
+            if (!streamGuid) {
+                console.error('No stream GUID found for related streams');
+                container.style.display = 'none';
+                return;
+            }
+            console.log('Stream GUID:', streamGuid);
+
+            const skeletonLoader = container.querySelector('.skeleton-loader');
+            console.log('Skeleton loader found:', !!skeletonLoader);
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+            console.log('CSRF token found:', !!csrfToken);
+
+            if (!csrfToken) {
+                console.error('CSRF token missing, cannot make AJAX request');
+                container.innerHTML = '<p>Error: CSRF token missing</p>';
+                container.style.display = 'block';
+                return;
+            }
+
+            console.log('Initiating fetch to /streams/related for stream:', streamGuid);
+            fetch('{{ url('/streams/related') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({
+                        stream_guid: streamGuid
+                    })
+                })
+                .then(response => {
+                    console.log(`Response status for /streams/related: ${response.status}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(`Related streams fetched for stream: ${streamGuid}`, data);
+
+                    if (!data.success || !data.data.streams || data.data.streams.length === 0) {
+                        console.log(`No related streams for stream: ${streamGuid}, hiding container`);
+                        container.style.display = 'none';
+                        return;
+                    }
+
+                    console.log('Initiating fetch to /render-you-might-like');
+                    return fetch('{{ url('/render-you-might-like') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: JSON.stringify({
+                            streams: data.data.streams,
+                            stream_guid: streamGuid
+                        })
+                    });
+                })
+                .then(response => {
+                    console.log(`Response status for /render-you-might-like: ${response.status}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(renderData => {
+                    console.log(`You-might-like rendered for stream: ${streamGuid}`, renderData);
+
+                    if (renderData.success && renderData.html) {
+                        requestAnimationFrame(() => {
+                            // Hide skeleton loader
+                            if (skeletonLoader) {
+                                console.log('Hiding skeleton loader');
+                                skeletonLoader.style.display = 'none';
+                            }
+
+                            // Update container with rendered HTML
+                            console.log('Updating container with new HTML');
+                            container.innerHTML = renderData.html;
+
+                            // Force DOM reflow
+                            forceReflow(container);
+
+                            // Initialize Slick Slider
+                            console.log('Initializing slider');
+                            initializeSlider(container);
+
+                            console.log(`UI updated for related streams: ${streamGuid}`);
+                        });
+                    } else {
+                        console.log(`Render failed for stream: ${streamGuid}, hiding container`);
+                        container.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error(`Error processing streams for stream: ${streamGuid}:`, error);
+                    container.innerHTML = '<p>Error loading content</p>';
+                    container.style.display = 'block';
+                });
+        }
+
+        // Load related streams after page is fully loaded
+        window.onload = () => {
+            console.log('window.onload fired at', new Date().toISOString());
+            const container = document.querySelector('.like-tab-slider-container');
+            if (container) {
+                console.log('Container found:', container);
+                loadRelatedStreams(container);
+            } else {
+                console.error('Related streams container not found');
+            }
+        };
+    </script>
 
 
 @endpush

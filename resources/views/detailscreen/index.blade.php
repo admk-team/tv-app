@@ -25,6 +25,7 @@
     <script src="{{ asset('assets/js/mvp/vimeoLoader.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/cards-item.css') }}" />
 @endsection
 
 @section('content')
@@ -84,7 +85,7 @@
             position: relative;
         }
 
-        .responsive_video {
+        .responsive_video1 {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -178,7 +179,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="responsive_video">
+                <div class="responsive_video1">
                     @if ($streamUrl == '')
                         <img src="{{ $stream_details['stream_poster'] }}" alt="{{ $stream_details['stream_title'] }}"
                             onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'">
@@ -1359,5 +1360,237 @@
                 }
             });
         });
+    </script>
+    <script>
+        console.log('Like-tab-slider script loaded at', new Date().toISOString());
+
+        // Function to initialize Slick sliders
+        function initializeSlider(container, isMobile = false) {
+            console.log('initializeSlider called for container:', container, 'isMobile:', isMobile);
+            const sliderElements = jQuery(container).find(
+                '.slick-slider:not(.slick-initialized), .landscape_slider:not(.slick-initialized)');
+            if (sliderElements.length && typeof jQuery !== 'undefined' && jQuery.fn.slick) {
+                sliderElements.each(function() {
+                    const $slider = jQuery(this);
+                    const itemsPerRow = isMobile ? (parseInt($slider.data('items-per-row-mobile')) || 3) : (
+                        parseInt($slider.data('items-per-row')) || 5);
+                    const autoplay = $slider.data('autoplay') === false;
+
+                    console.log('Initializing Slick Slider for:', $slider[0], 'itemsPerRow:', itemsPerRow);
+
+                    $slider.slick({
+                        slidesToShow: itemsPerRow,
+                        slidesToScroll: 1,
+                        autoplay: autoplay,
+                        infinite: true,
+                        dots: true,
+                        arrows: !isMobile, // Hide arrows on mobile
+                        adaptiveHeight: true,
+                        responsive: [{
+                            breakpoint: 1740,
+                            settings: {
+                                slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                slidesToScroll: 1,
+                                swipeToSlide: true,
+                                dots: true,
+                                arrows: !isMobile
+                            }
+                        }, {
+                            breakpoint: 1200,
+                            settings: {
+                                slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                slidesToScroll: 1,
+                                swipeToSlide: true,
+                                dots: true,
+                                arrows: false
+                            }
+                        }, {
+                            breakpoint: 770,
+                            settings: {
+                                slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                slidesToScroll: 1,
+                                swipeToSlide: true,
+                                dots: true,
+                                arrows: false
+                            }
+                        }, {
+                            breakpoint: 600,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 1,
+                                swipeToSlide: true,
+                                arrows: false
+                            }
+                        }, {
+                            breakpoint: 480,
+                            settings: {
+                                slidesToShow: 2,
+                                slidesToScroll: 1,
+                                swipeToSlide: true,
+                                dots: false,
+                                arrows: false
+                            }
+                        }]
+                    });
+                });
+            } else if (!sliderElements.length) {
+                console.log('No uninitialized sliders found in:', container);
+                console.log('Container HTML:', container.innerHTML.substring(0, 200) + '...');
+            } else {
+                console.error('Slick Slider or jQuery not loaded for:', sliderElements);
+            }
+        }
+
+        // Function to force DOM reflow
+        function forceReflow(element) {
+            element.offsetHeight;
+        }
+
+        // Function to load related streams for both containers
+        function loadRelatedStreams(desktopContainer, mobileContainer) {
+            console.log('loadRelatedStreams called for containers:', {
+                desktop: desktopContainer,
+                mobile: mobileContainer
+            });
+            const streamGuid = desktopContainer.dataset.streamGuid || mobileContainer.dataset.streamGuid;
+            if (!streamGuid) {
+                console.error('No stream GUID found for related streams');
+                desktopContainer.style.display = 'none';
+                mobileContainer.style.display = 'none';
+                return;
+            }
+            console.log('Stream GUID:', streamGuid);
+
+            const desktopSkeleton = desktopContainer.querySelector('.skeleton-loader');
+            const mobileSkeleton = mobileContainer.querySelector('.skeleton-loader');
+            console.log('Skeleton loaders found:', {
+                desktop: !!desktopSkeleton,
+                mobile: !!mobileSkeleton
+            });
+
+            const contentDiv = document.getElementById('like');
+            console.log('Content div found:', !!contentDiv);
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+            console.log('CSRF token found:', !!csrfToken);
+
+            if (!csrfToken) {
+                console.error('CSRF token missing, cannot make AJAX request');
+                desktopContainer.innerHTML = '<p>Error: CSRF token missing</p>';
+                mobileContainer.innerHTML = '<p>Error: CSRF token missing</p>';
+                desktopContainer.style.display = 'block';
+                mobileContainer.style.display = 'block';
+                return;
+            }
+
+            console.log('Initiating fetch to /streams/related for stream:', streamGuid);
+            fetch('{{ url('/streams/related') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({
+                        stream_guid: streamGuid
+                    })
+                })
+                .then(response => {
+                    console.log(`Response status for /streams/related: ${response.status}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(`Related streams fetched for stream: ${streamGuid}`, data);
+                    if (!data.success || !data.data.streams || data.data.streams.length === 0) {
+                        console.log(`No related streams for stream: ${streamGuid}, hiding containers`);
+                        desktopContainer.style.display = 'none';
+                        mobileContainer.style.display = 'none';
+                        return;
+                    }
+
+                    console.log('Initiating fetch to /render-you-might-like');
+                    return fetch('{{ url('/render-you-might-like') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: JSON.stringify({
+                            streams: data.data.streams
+                        })
+                    });
+                })
+                .then(response => {
+                    console.log(`Response status for /render-you-might-like: ${response.status}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(renderData => {
+                    console.log(`You-might-like rendered for stream: ${streamGuid}`, renderData);
+                    if (renderData.success && renderData.html) {
+                        requestAnimationFrame(() => {
+                            // Show content div
+                            if (contentDiv) {
+                                console.log('Showing content div');
+                                contentDiv.classList.remove('d-none');
+                            }
+
+                            // Update desktop container
+                            if (desktopSkeleton) {
+                                console.log('Hiding desktop skeleton loader');
+                                desktopSkeleton.style.display = 'none';
+                            }
+                            console.log('Updating desktop container with new HTML');
+                            desktopContainer.innerHTML = renderData.html;
+                            forceReflow(desktopContainer);
+                            initializeSlider(desktopContainer, false);
+
+                            // Update mobile container
+                            if (mobileSkeleton) {
+                                console.log('Hiding mobile skeleton loader');
+                                mobileSkeleton.style.display = 'none';
+                            }
+                            console.log('Updating mobile container with new HTML');
+                            mobileContainer.innerHTML = renderData.html;
+                            forceReflow(mobileContainer);
+                            initializeSlider(mobileContainer, true);
+
+                            console.log(`UI updated for related streams: ${streamGuid}`);
+                        });
+                    } else {
+                        console.log(`Render failed for stream: ${streamGuid}, hiding containers`);
+                        desktopContainer.style.display = 'none';
+                        mobileContainer.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error(`Error processing streams for stream: ${streamGuid}:`, error);
+                    desktopContainer.innerHTML = '<p>Error loading content</p>';
+                    mobileContainer.innerHTML = '<p>Error loading content</p>';
+                    desktopContainer.style.display = 'block';
+                    mobileContainer.style.display = 'block';
+                    if (contentDiv) {
+                        contentDiv.classList.remove('d-none');
+                    }
+                });
+        }
+        // Load related streams after page is fully loaded
+        window.onload = () => {
+            console.log('window.onload fired at', new Date().toISOString());
+            const desktopContainer = document.querySelector('.like-tab-slider-container');
+            const mobileContainer = document.querySelector('.like-tab-slider-mobile-container');
+            if (desktopContainer && mobileContainer) {
+                console.log('Container found:', mobileContainer);
+                loadRelatedStreams(desktopContainer, mobileContainer);
+            } else {
+                console.error('Related streams container not found');
+            }
+        };
     </script>
 @endpush

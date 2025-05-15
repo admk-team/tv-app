@@ -3,51 +3,6 @@
     <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet">
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/videojs-youtube@2.6.1/dist/Youtube.min.js"></script>
-    <style>
-        .skeleton {
-            background: linear-gradient(90deg, #4b5563 25%, #6b7280 50%, #4b5563 75%);
-            background-size: 200% 100%;
-            border-radius: 10px;
-            animation: shimmer 1.5s infinite;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
-        .skeleton-title {
-            width: 280px;
-            height: 30px;
-            margin-bottom: 24px;
-            border-radius: 8px;
-        }
-        .skeleton-slider {
-            display: flex;
-            gap: 24px;
-            overflow-x: hidden;
-            white-space: nowrap;
-            padding-bottom: 10px;
-        }
-        .skeleton-item {
-            width: 240px;
-            height: 150px;
-            border-radius: 12px;
-            flex: 0 0 auto;
-        }
-        @keyframes shimmer {
-            0% {
-                background-position: 200% 0;
-            }
-            100% {
-                background-position: -200% 0;
-            }
-        }
-        .slider-container.hidden {
-            display: none;
-        }
-        .category-wrapper.hidden {
-            display: none;
-        }
-        .skeleton-loader {
-            margin-bottom: 30px;
-        }
-    </style>
 @endpush
 
 <section class="sliders mb-4">
