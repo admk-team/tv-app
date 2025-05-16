@@ -140,8 +140,10 @@ class SeriesDetailScreenController extends Controller
         $averageRating = $totalReviews > 0 ? number_format($totalRating / $totalReviews, 1) : '';
 
          // Render updated reviews HTML
-         $newReviewHtml = view('series-detailscreen.partials.review', ['reviews' => $data['series_details']['ratings']])->render();
-         $ratingIconHtml = view('series-detailscreen.partials.rating-icon', ['ratingsCount' => $totalReviews])->render();
+         $newReviewHtml = view('series-detailscreen.partials.review', ['reviews' => $data['series_details']['ratings']
+         ,'series_details' => $data['series_details']])->render();
+         $ratingIconHtml = view('series-detailscreen.partials.rating-icon', ['ratingsCount' => $totalReviews
+         ,'series_details' => $data['series_details']])->render();
  
          return response()->json([
              'success' => true,
