@@ -136,8 +136,11 @@ class PlayerScreenController extends Controller
         }
         $averageRating = $totalReviews > 0 ? number_format($totalRating / $totalReviews, 1) : '';
 
-        $newReviewHtml = view('playerscreen.includes.review', ['reviews' => $data['streamrating']])->render();
-        $ratingIconHtml = view('detailscreen.partials.rating-icon', ['ratingsCount' => $totalReviews])->render();
+        $newReviewHtml = view('playerscreen.includes.review', ['reviews' => $data['streamrating']
+        ,'streamratingtype' => $data['streamratingtype'],'streamratingstatus' => $data['streamratingstatus']
+        ])->render();
+        $ratingIconHtml = view('detailscreen.partials.rating-icon', ['ratingsCount' => $totalReviews
+        ,'streamratingtype' => $data['streamratingtype'],'streamratingstatus' => $data['streamratingstatus']])->render();
 
         return response()->json([
             'success' => true,
