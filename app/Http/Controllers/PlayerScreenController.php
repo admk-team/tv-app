@@ -139,7 +139,7 @@ class PlayerScreenController extends Controller
         $newReviewHtml = view('playerscreen.includes.review', ['reviews' => $data['streamrating']
         ,'streamratingtype' => $data['streamratingtype'],'streamratingstatus' => $data['streamratingstatus']
         ])->render();
-        $ratingIconHtml = view('detailscreen.partials.rating-icon', ['ratingsCount' => $totalReviews
+        $ratingIconHtml = view('playerscreen.includes.rating-icon', ['ratingsCount' => $totalReviews
         ,'streamratingtype' => $data['streamratingtype'],'streamratingstatus' => $data['streamratingstatus']])->render();
 
         return response()->json([
