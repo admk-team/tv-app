@@ -25,6 +25,8 @@
     <script src="{{ asset('assets/js/mvp/vimeoLoader.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+@endsection
+@section('head')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/cards-item.css') }}" />
 @endsection
 
@@ -1372,65 +1374,87 @@
             if (sliderElements.length && typeof jQuery !== 'undefined' && jQuery.fn.slick) {
                 sliderElements.each(function() {
                     const $slider = jQuery(this);
-                    const itemsPerRow = isMobile ? (parseInt($slider.data('items-per-row-mobile')) || 3) : (
-                        parseInt($slider.data('items-per-row')) || 5);
+                    const itemsPerRow = 5;
                     const autoplay = $slider.data('autoplay') === false;
 
                     console.log('Initializing Slick Slider for:', $slider[0], 'itemsPerRow:', itemsPerRow);
 
-                    $slider.slick({
+                   $slider.slick({
+                        dots: true,
+                        infinite: true,
+                        loop: true,
+                        autoplay: autoplay ||
+                            false, // Use the autoplay data attribute or default to false
+                        autoplaySpeed: 3000,
                         slidesToShow: itemsPerRow,
                         slidesToScroll: 1,
-                        autoplay: autoplay,
-                        infinite: true,
-                        dots: true,
-                        arrows: !isMobile, // Hide arrows on mobile
-                        adaptiveHeight: true,
+                        swipeToSlide: true,
                         responsive: [{
-                            breakpoint: 1740,
-                            settings: {
-                                slidesToShow: Math.max(itemsPerRow - 1, 1),
-                                slidesToScroll: 1,
-                                swipeToSlide: true,
-                                dots: true,
-                                arrows: !isMobile
+                                breakpoint: 1740,
+                                settings: (itemsPerRow == 2) ? {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    arrows: true
+                                } : {
+                                    slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    dots: true,
+                                    arrows: true
+                                }
+                            },
+                            {
+                                breakpoint: 1200,
+                                settings: (itemsPerRow == 2) ? {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    arrows: false
+                                } : {
+                                    slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    dots: true,
+                                    arrows: false
+                                }
+                            },
+                            {
+                                // Condition: If itemsPerRow is 2, always keep it at 2
+                                breakpoint: 770,
+                                settings: (itemsPerRow == 2) ? {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    arrows: false
+                                } : {
+                                    slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    dots: true,
+                                    arrows: false
+                                }
+                            },
+                            {
+                                breakpoint: 600,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    arrows: false
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    dots: false,
+                                    arrows: false
+                                }
                             }
-                        }, {
-                            breakpoint: 1200,
-                            settings: {
-                                slidesToShow: Math.max(itemsPerRow - 1, 1),
-                                slidesToScroll: 1,
-                                swipeToSlide: true,
-                                dots: true,
-                                arrows: false
-                            }
-                        }, {
-                            breakpoint: 770,
-                            settings: {
-                                slidesToShow: Math.max(itemsPerRow - 1, 1),
-                                slidesToScroll: 1,
-                                swipeToSlide: true,
-                                dots: true,
-                                arrows: false
-                            }
-                        }, {
-                            breakpoint: 600,
-                            settings: {
-                                slidesToShow: 3,
-                                slidesToScroll: 1,
-                                swipeToSlide: true,
-                                arrows: false
-                            }
-                        }, {
-                            breakpoint: 480,
-                            settings: {
-                                slidesToShow: 2,
-                                slidesToScroll: 1,
-                                swipeToSlide: true,
-                                dots: false,
-                                arrows: false
-                            }
-                        }]
+                        ]
                     });
                 });
             } else if (!sliderElements.length) {
