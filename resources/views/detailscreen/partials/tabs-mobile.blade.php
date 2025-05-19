@@ -482,9 +482,7 @@ if (session('USER_DETAILS.USER_CODE')) {
                                 ? $stream_details['ratings']
                                 : [];
 
-                        if (count($ratings) < 1) {
-                            echo '<p class="text-white" style="margin-bottom: -8px !important;">No reviews found.</p>';
-                        }
+                       
 
                         $userDidComment = false;
                         foreach ($ratings as $rating) {
