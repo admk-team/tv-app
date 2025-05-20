@@ -111,8 +111,10 @@ class DetailScreenController extends Controller
         $averageRating = $totalReviews > 0 ? number_format($totalRating / $totalReviews, 1) : 0;
 
         // Render updated reviews HTML
-        $newReviewHtml = view('detailscreen.partials.review', ['reviews' => $data['stream_details']['ratings']])->render();
-        $ratingIconHtml = view('detailscreen.partials.rating-icon', ['ratingsCount' => $totalReviews])->render();
+        $newReviewHtml = view('detailscreen.partials.review', ['reviews' => $data['stream_details']['ratings'],
+        'stream_details' => $data['stream_details']]
+        )->render();
+        $ratingIconHtml = view('detailscreen.partials.rating-icon', ['ratingsCount' => $totalReviews,'stream_details' => $data['stream_details']])->render();
 
         return response()->json([
             'success' => true,
