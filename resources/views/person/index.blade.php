@@ -17,6 +17,7 @@
             margin-left: 0px;
             padding-left: 37px;
         }
+
         @media (max-width: 486px) {
             .container {
                 margin-right: 0px;
@@ -36,7 +37,8 @@
                 <div class="d-flex row">
                     <div class=" col-12 col-md-4 d-flex col-lg-4">
                         @if ($data['poster'] != '')
-                            <img class="" src="{{ $data['poster'] }}" class="actor-img" alt="none" style="max-width: 100%;">
+                            <img class="" src="{{ $data['poster'] }}" class="actor-img" alt="none"
+                                style="max-width: 100%;">
                         @else
                             <img class="w-100 actor-img" src="{{ asset('assets/images/default.png') }}" alt="none">
                         @endif
@@ -46,14 +48,16 @@
                         <h1 class="text-white">
                             {{ $data['name'] }}
                         </h1>
-                       @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
+                        @if (session()->has('USER_DETAILS') && session('USER_DETAILS') !== null)
                             @if ($follows)
                                 <div class="d-inline-block mt-3 mb-3">
-                                    <a href="{{ route('toggle.follow', $data['code']) }}" class="auth app-secondary-btn rounded">Unfollow</a>
+                                    <a href="{{ route('toggle.follow', $data['code']) }}"
+                                        class="auth app-secondary-btn rounded">Unfollow</a>
                                 </div>
                             @else
                                 <div class="d-inline-block mt-3 mb-3">
-                                    <a href="{{ route('toggle.follow', $data['code']) }}" class="auth app-secondary-btn rounded">Follow</a>
+                                    <a href="{{ route('toggle.follow', $data['code']) }}"
+                                        class="auth app-secondary-btn rounded">Follow</a>
                                 </div>
                             @endif
                         @endif
@@ -81,14 +85,17 @@
                         @foreach ($data['streams'] as $stream)
                             <div class="item">
                                 <div class="thumbnail_img">
-                                    <a href='{{ route('detailscreen', $stream['code']) }}'>
+                                    @php
+                                        $url = $stream['contentType'] == 'series' ? 'series' : 'detailscreen';
+                                    @endphp
+                                    <a href="{{ route($url, $stream['stream_guid']) }}">
                                         <div class="ripple">
                                             <div class="trending_icon_box" {!! $stream['monetization_type'] == 'F' ? 'style="display: none;"' : '' !!}><img
                                                     src="{{ url('/') }}/assets/images/trending_icon.png"
-                                                    alt="{{ $stream['title'] }}">
+                                                    alt="{{ $stream['stream_title'] }}">
                                             </div>
                                             <div class="">
-                                                <img src="{{ $stream['poster'] }}" alt="{{ $stream['title'] }}">
+                                                <img src="{{ $stream['stream_poster'] }}" alt="{{ $stream['stream_title'] }}">
                                             </div>
                                             <div class="detail_box_hide">
                                                 {{-- <div class="detailbox_time">
@@ -96,8 +103,8 @@
                                                 </div> --}}
                                                 <div class="deta_box">
                                                     <div class="season_title"></div>
-                                                    <div class="content_title">{{ $stream['title'] }}</div>
-                                                    <div class="content_description">{{ $stream['short_description'] }}
+                                                    <div class="content_title">{{ $stream['stream_title'] }}</div>
+                                                    <div class="content_description">{{ $stream['stream_description'] }}
                                                     </div>
                                                 </div>
                                             </div>
