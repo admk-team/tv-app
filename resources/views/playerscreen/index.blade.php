@@ -720,7 +720,22 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     {
                       $poster = $arrStreamsData['stream_poster'];
                       $videoUrl = $arrStreamsData['stream_url'];
-                      $quality = 'video';
+                       $quality = 'video';
+                        if ($videoUrl) {
+                            $isShortYouTube = preg_match('/youtu\.be\/([^?&]+)/', $videoUrl, $shortYouTubeMatches);
+                            $isSingleVideo = preg_match('/[?&]v=([^&]+)/', $videoUrl , $videoMatches);
+                            $isVimeo = preg_match('/vimeo\.com\/(\d+)/', $videoUrl , $vimeoMatches);
+                            if ($isShortYouTube) {
+                                $videoUrl = $shortYouTubeMatches[1]; // Extract only the video ID
+                                $quality = 'youtube_single';
+                            } elseif ($isSingleVideo) {
+                                $videoUrl  = $videoMatches[1]; // Extract only the video ID
+                                $quality = 'youtube_single';
+                            } elseif ($isVimeo) {
+                                $videoUrl = $vimeoMatches[1]; // Extract only the Vimeo ID
+                                $quality = 'vimeo_single';
+                            }
+                        }
                       if (strpos($videoUrl, '.m3u8'))
                       {
                           $quality = "hls";
@@ -735,8 +750,10 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                       //  $dataVast = '';
                       }
                      ?>
-                                <div class="mvp-playlist-item" data-type="{{ $quality }}"
+                                <div class="mvp-playlist-item"
                                     data-path="{{ $videoUrl }}" {!! $dataVast2 ? $dataVast2 : $dataVast !!}
+                                    data-type="{{ Str::endsWith($videoUrl, ['.mp3', '.wav']) ? 'audio' : $quality }}"
+                                    data-noapi
                                     data-poster="{{ $poster }}" data-thumb="{{ $poster }}"
                                     data-title="{{ $arrStreamsData['stream_title'] }}"
                                     data-description="{{ $arrStreamsData['stream_description'] }}">
