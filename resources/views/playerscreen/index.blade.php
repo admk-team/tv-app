@@ -11,7 +11,7 @@
 @section('content')
     <?php
     // Config
-    $IS_SIGNIN_BYPASS = (\App\Services\AppConfig::get()->app->app_info->is_bypass_login);
+    $IS_SIGNIN_BYPASS = \App\Services\AppConfig::get()->app->app_info->is_bypass_login;
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
     
@@ -52,7 +52,7 @@
     $adParam = 'videoId=' . $streamGuid . '&title=' . $arrSlctItemData['stream_title'];
     // Login requried
     
-    if ($IS_SIGNIN_BYPASS == 'N' && (!session('USER_DETAILS'))) {
+    if ($IS_SIGNIN_BYPASS == 'N' && !session('USER_DETAILS')) {
         session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
         session()->save();
         \App\Helpers\GeneralHelper::headerRedirect(url('/login'));
@@ -211,9 +211,7 @@
     }
     
     $watermark = $arrSlctItemData['watermark'] ?? null;
-
-
-
+    
     ?>
 
     {{-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" /> --}}
@@ -438,25 +436,25 @@
 
         /* Styles for BuyNow redirect message */
         /* .buynow-redirect-message {
-                                background-color: #353b49;
-                                color: var(--themePrimaryTxtColor);
-                                max-width: 1000.89px;
-                                width: fit-content;
-                                padding: .8rem 1.2rem;
-                                font-weight: 600;
-                                border-radius: 2px;
-                                position: absolute;
-                                z-index: 1000;
-                                bottom: 68px;
-                                height: fit-content;
-                                left: 18px;
-                                user-select: none;
-                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                                transition: all 0.5s ease-in-out;
-                                transform: translateX(-400px);
-                                opacity: 0;
-                                visibility: hidden;
-                            } */
+                                    background-color: #353b49;
+                                    color: var(--themePrimaryTxtColor);
+                                    max-width: 1000.89px;
+                                    width: fit-content;
+                                    padding: .8rem 1.2rem;
+                                    font-weight: 600;
+                                    border-radius: 2px;
+                                    position: absolute;
+                                    z-index: 1000;
+                                    bottom: 68px;
+                                    height: fit-content;
+                                    left: 18px;
+                                    user-select: none;
+                                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                                    transition: all 0.5s ease-in-out;
+                                    transform: translateX(-400px);
+                                    opacity: 0;
+                                    visibility: hidden;
+                                } */
         .buynow-redirect-message {
             background-color: var(--themeActiveColor);
             color: var(--themePrimaryTxtColor);
@@ -721,7 +719,22 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     {
                       $poster = $arrStreamsData['stream_poster'];
                       $videoUrl = $arrStreamsData['stream_url'];
-                      $quality = 'video';
+                       $quality = 'video';
+                        if ($videoUrl) {
+                            $isShortYouTube = preg_match('/youtu\.be\/([^?&]+)/', $videoUrl, $shortYouTubeMatches);
+                            $isSingleVideo = preg_match('/[?&]v=([^&]+)/', $videoUrl , $videoMatches);
+                            $isVimeo = preg_match('/vimeo\.com\/(\d+)/', $videoUrl , $vimeoMatches);
+                            if ($isShortYouTube) {
+                                $videoUrl = $shortYouTubeMatches[1]; // Extract only the video ID
+                                $quality = 'youtube_single';
+                            } elseif ($isSingleVideo) {
+                                $videoUrl  = $videoMatches[1]; // Extract only the video ID
+                                $quality = 'youtube_single';
+                            } elseif ($isVimeo) {
+                                $videoUrl = $vimeoMatches[1]; // Extract only the Vimeo ID
+                                $quality = 'vimeo_single';
+                            }
+                        }
                       if (strpos($videoUrl, '.m3u8'))
                       {
                           $quality = "hls";
@@ -736,8 +749,10 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                       //  $dataVast = '';
                       }
                      ?>
-                                <div class="mvp-playlist-item" data-type="{{ $quality }}"
+                                <div class="mvp-playlist-item"
                                     data-path="{{ $videoUrl }}" {!! $dataVast2 ? $dataVast2 : $dataVast !!}
+                                    data-type="{{ Str::endsWith($videoUrl, ['.mp3', '.wav']) ? 'audio' : $quality }}"
+                                    data-noapi
                                     data-poster="{{ $poster }}" data-thumb="{{ $poster }}"
                                     data-title="{{ $arrStreamsData['stream_title'] }}"
                                     data-description="{{ $arrStreamsData['stream_description'] }}">
@@ -953,27 +968,29 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body ">
-                <form class="p-3 d-flex flex-column justify-content-center w-100 mb-4" id="reportForm">
-                    @csrf
-                    <label class="px-3 alert alert-warning mb-3" id="radio-error" style="display: none;"></label>
-                    @if(isset(\App\Services\AppConfig::get()->app->content_report) && !empty(\App\Services\AppConfig::get()->app->content_report))
-                    @foreach(\App\Services\AppConfig::get()->app->content_report as $report)
-                    <label class="report-label alert alert-light p-2">
-                        <input type="radio" name="code" value="{{$report->id}}" class="mx-2 report-radio small" required>
-                        {{$report->content_report}}
-                    </label>
-                    @endforeach
-                    @else
-                    <div class="alert alert-light">✨ "Oops! No content message available yet. Stay tuned!" ✨</div>
-                    @endif
+                    <form class="p-3 d-flex flex-column justify-content-center w-100 mb-4" id="reportForm">
+                        @csrf
+                        <label class="px-3 alert alert-warning mb-3" id="radio-error" style="display: none;"></label>
+                        @if (isset(\App\Services\AppConfig::get()->app->content_report) &&
+                                !empty(\App\Services\AppConfig::get()->app->content_report))
+                            @foreach (\App\Services\AppConfig::get()->app->content_report as $report)
+                                <label class="report-label alert alert-light p-2">
+                                    <input type="radio" name="code" value="{{ $report->id }}"
+                                        class="mx-2 report-radio small" required>
+                                    {{ $report->content_report }}
+                                </label>
+                            @endforeach
+                        @else
+                            <div class="alert alert-light">✨ "Oops! No content message available yet. Stay tuned!" ✨</div>
+                        @endif
 
-                    <input type="hidden" name="user_code" value="{{ session('USER_DETAILS')['USER_CODE'] ?? '' }}">
-                    <input type="hidden" name="stream_code" value="{{ $streamGuid }}">
-                    <input type="hidden" name="app_code" value="{{ env('APP_CODE') }}">
-                    <button type="submit" id="reportSubmit"
-                        class="share_btnbox d-flex align-items-center justify-content-center">Submit <span
-                            class="loader mx-2" style="display: none;" id="loader"></span></button>
-                </form>
+                        <input type="hidden" name="user_code" value="{{ session('USER_DETAILS')['USER_CODE'] ?? '' }}">
+                        <input type="hidden" name="stream_code" value="{{ $streamGuid }}">
+                        <input type="hidden" name="app_code" value="{{ env('APP_CODE') }}">
+                        <button type="submit" id="reportSubmit"
+                            class="share_btnbox d-flex align-items-center justify-content-center">Submit <span
+                                class="loader mx-2" style="display: none;" id="loader"></span></button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -989,8 +1006,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             ?>
             <div class="tab " data-tab="like"><span>{{ $catTitle }}</span></div>
             <!--End of season section-->
-            @if (
-                (isset($streamratingstatus) && $streamratingstatus == 1))
+            @if (isset($streamratingstatus) && $streamratingstatus == 1)
                 <div class="tab" data-tab="reviews"><span>Reviews</span></div>
             @endif
             @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !empty($arrSlctItemData['images']))
@@ -1037,10 +1053,11 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                         <span class="dot-sep themePrimaryTxtColr"></span>
                                     @endif
                                     @if ($streamType == 'S')
-                                    @if ($arrSlctItemData['show_name'])
-                                         <a class="text-decoration-none" href="{{ route('series', $arrSlctItemData['show_guid']) }}">
-                                            <span class="movie_type">{{ $arrSlctItemData['show_name'] }}</span>
-                                         </a>
+                                        @if ($arrSlctItemData['show_name'])
+                                            <a class="text-decoration-none"
+                                                href="{{ route('series', $arrSlctItemData['show_guid']) }}">
+                                                <span class="movie_type">{{ $arrSlctItemData['show_name'] }}</span>
+                                            </a>
                                         @endif
                                         @if ($arrSlctItemData['stream_episode_title'])
                                             <span
@@ -1280,16 +1297,17 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                 @endif
                             @endif
                             @if (session('USER_DETAILS') &&
-                            session('USER_DETAILS')['USER_CODE'] &&
-                            isset(\App\Services\AppConfig::get()->app->frnd_option_status) &&
-                            \App\Services\AppConfig::get()->app->frnd_option_status === 1)
-                        <div class="share_circle addWtchBtn" data-bs-toggle="modal" data-bs-target="#recommendation">
-                            <a href="javascript:void(0);" role="button" data-bs-toggle="tooltip"
-                                title="Recommendations">
-                                <i class="fa-solid fa-film theme-active-color"></i>
-                            </a>
-                        </div>
-                    @endif
+                                    session('USER_DETAILS')['USER_CODE'] &&
+                                    isset(\App\Services\AppConfig::get()->app->frnd_option_status) &&
+                                    \App\Services\AppConfig::get()->app->frnd_option_status === 1)
+                                <div class="share_circle addWtchBtn" data-bs-toggle="modal"
+                                    data-bs-target="#recommendation">
+                                    <a href="javascript:void(0);" role="button" data-bs-toggle="tooltip"
+                                        title="Recommendations">
+                                        <i class="fa-solid fa-film theme-active-color"></i>
+                                    </a>
+                                </div>
+                            @endif
 
                         </div>
                     </div>
@@ -1371,7 +1389,7 @@ if (!empty($arrCatData))
                                                     {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                                 </div>
                                                 <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                                                                                                                                                              </div> -->
+                                                                                                                                                                                                                                                                                                                  </div> -->
                                                 <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                                 <div class="content_description">
                                                     {{ $arrStreamsData['stream_description'] }}</div>
@@ -1392,37 +1410,38 @@ if (!empty($arrCatData))
 }
 ?>
         </div>
-        @if (
-            (isset($streamratingstatus) && $streamratingstatus == 1))
+        @if (isset($streamratingstatus) && $streamratingstatus == 1)
             <div id="reviews" class="content d-none"><!--Start of Ratings section-->
                 <div class="item-ratings">
                     <h1 class="section-title" style="display: flex; align-items: center; gap: 10px;">
                         Reviews:
-                         <div id="rating-icon-playerscreen">
-                            @include('playerscreen.includes.rating-icon', ['ratingsCount' => $ratingsCount])
+                        <div id="rating-icon-playerscreen">
+                            @include('playerscreen.includes.rating-icon', [
+                                'ratingsCount' => $ratingsCount,
+                            ])
                         </div>
-                            <span class="average-rating">{{ $averageRating ?? '' }} </span>
+                        <span class="average-rating">{{ $averageRating ?? '' }} </span>
                     </h1>
                     @php
-                    // Ensure $streamrating is an array before using it
-                    $ratings = (!empty($streamrating) && is_array($streamrating)) ? $streamrating : [];
-                
-                    if (count($ratings) < 1) {
-                        echo '<p class="text-white" style="margin-bottom: -8px !important;">No reviews found.</p>';
-                    }
-                
-                    $userDidComment = false;
-                    foreach ($ratings as $rating) {
-                        if (
-                            session()->has('USER_DETAILS') &&
-                            isset($rating['user']['id']) &&
-                            $rating['user']['id'] == session('USER_DETAILS')['USER_ID']
-                        ) {
-                            $userDidComment = true;
-                            break; // Exit loop early if found
+                        // Ensure $streamrating is an array before using it
+                        $ratings = !empty($streamrating) && is_array($streamrating) ? $streamrating : [];
+
+                        if (count($ratings) < 1) {
+                            echo '<p class="text-white" style="margin-bottom: -8px !important;">No reviews found.</p>';
                         }
-                    }
-                @endphp                
+
+                        $userDidComment = false;
+                        foreach ($ratings as $rating) {
+                            if (
+                                session()->has('USER_DETAILS') &&
+                                isset($rating['user']['id']) &&
+                                $rating['user']['id'] == session('USER_DETAILS')['USER_ID']
+                            ) {
+                                $userDidComment = true;
+                                break; // Exit loop early if found
+                            }
+                        }
+                    @endphp
                     {{--  @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !$userDidComment && !$userDidComment)  --}}
 
                     @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null)
@@ -1697,7 +1716,7 @@ if (!empty($arrCatData))
                                 <span class="spinner-border spinner-border-sm d-none" role="status"></span>
                             </button>
                         @else
-                        <h6 class="title">No Favorite Friend Found!</h6>
+                            <h6 class="title">No Favorite Friend Found!</h6>
                         @endif
 
                     </form>
