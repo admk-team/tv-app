@@ -32,13 +32,15 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 5px 24px;
-            border-radius: 50px;
-            background: var(--headerBgColor);
+            padding: 5px 18px;
+            /* border-radius: 50px; */
+            border-radius: 10px;
+            /* background: var(--headerBgColor); */
+            background: transparent;
             color: #fff;
             transition: all 0.3s ease;
-            min-width: 200px;
-            border: none;
+            min-width: 150px;
+            border: 2px solid var(--headerBgColor);
         }
 
         .channel-btn-1:hover:not(:disabled) {
@@ -47,9 +49,7 @@
         }
 
         .channel-btn-1:disabled {
-            background: var(--headerBgColor);
             opacity: 0.6;
-            color: #fff;
             cursor: not-allowed;
             pointer-events: none;
         }
@@ -57,6 +57,13 @@
         .channel-btn-1 small {
             font-size: 0.75rem;
             opacity: 0.8;
+        }
+
+        @media (max-width: 321px) {
+            .channel-btn-1 {
+                min-width: 120px;
+                padding: 5px 5px;
+            }
         }
     </style>
 @endpush
