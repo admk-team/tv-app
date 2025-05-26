@@ -27,6 +27,38 @@
         }
         //alert(detectMob());
     </script>
+    <style>
+        .channel-btn-1 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 24px;
+            border-radius: 50px;
+            background: var(--headerBgColor);
+            color: #fff;
+            transition: all 0.3s ease;
+            min-width: 200px;
+            border: none;
+        }
+
+        .channel-btn-1:hover:not(:disabled) {
+            transform: translateY(-3px);
+            cursor: pointer;
+        }
+
+        .channel-btn-1:disabled {
+            background: var(--headerBgColor);
+            opacity: 0.6;
+            color: #fff;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .channel-btn-1 small {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+    </style>
 @endpush
 @section('content')
     @php
@@ -189,38 +221,40 @@
 
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between mt-2 mb-2">
+                        <div class="d-flex justify-content-between mt-2 mb-2 gap-3">
                             <!-- Previous Button -->
                             @if ($data['previous_channel'] !== null)
-                                <button
-                                    class="btn btn-outline-primary d-flex flex-column align-items-center justify-content-center ajax-channel-btn text-center"
+                                <button class="channel-btn-1 ajax-channel-btn"
                                     data-guid="{{ $data['previous_channel']['code'] }}">
-
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <i class="fas fa-arrow-left me-2"></i> Previous
+                                    <i class="fas fa-arrow-left me-2"></i>
+                                    <div>
+                                        <div class="fw-bold">Previous</div>
+                                        <small>{{ $data['previous_channel']['title'] }}</small>
                                     </div>
-                                    <small class="mt-1">{{ $data['previous_channel']['title'] }}</small>
                                 </button>
                             @else
-                                <button class="btn btn-outline-primary d-flex align-items-center" disabled>
-                                    <i class="fas fa-arrow-left me-2"></i> Previous
+                                <button class="channel-btn-1" disabled>
+                                    <i class="fas fa-arrow-left me-2"></i>
+                                    <div>
+                                        <div class="fw-bold">Previous</div>
+                                    </div>
                                 </button>
                             @endif
 
                             <!-- Next Button -->
                             @if ($data['next_channel'] !== null)
-                                <button
-                                    class="btn btn-outline-primary d-flex flex-column align-items-center justify-content-center ajax-channel-btn text-center"
+                                <button class="channel-btn-1 ajax-channel-btn"
                                     data-guid="{{ $data['next_channel']['code'] }}">
-
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        Next <i class="fas fa-arrow-right ms-2"></i>
+                                    <div>
+                                        <div class="fw-bold">Next</div>
+                                        <small>{{ $data['next_channel']['title'] }}</small>
                                     </div>
-                                    <small class="mt-1">{{ $data['next_channel']['title'] }}</small>
+                                    <i class="fas fa-arrow-right ms-2"></i>
                                 </button>
                             @else
-                                <button class="btn btn-outline-primary d-flex align-items-center" disabled>
-                                    Next <i class="fas fa-arrow-right ms-2"></i>
+                                <button class="channel-btn-1" disabled>
+                                    <div class="fw-bold">Next</div>
+                                    <i class="fas fa-arrow-right ms-2"></i>
                                 </button>
                             @endif
                         </div>
