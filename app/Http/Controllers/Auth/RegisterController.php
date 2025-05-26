@@ -24,8 +24,46 @@ class RegisterController extends Controller
         return view('auth.register', compact('data'));
     }
 
-    public function register(RegisterRequest $request)
+    public function register(Request $request)
     {
+        $complexity = \App\Services\AppConfig::get()->app->password_complexity ?? 'simple';
+         $rules = [
+            'name' => 'required|max:40',
+            'email' => 'required|email',
+            'confirmPassword' => 'required|same:password',
+        ];
+
+        $messages = [
+            'password.required' => 'Password is required.',
+            'password.min' => 'Password must be at least :min characters.',
+            'password.regex' => 'Password must include uppercase, lowercase, number, and special character.',
+            'confirmPassword.same' => 'Passwords do not match.',
+        ];
+
+        if ($complexity === 'simple') {
+            $rules['password'] = ['required', 'string', 'min:6'];
+        } elseif ($complexity === 'moderate') {
+            $rules['password'] = [
+                'required',
+                'string',
+                'min:8',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+            ];
+        } elseif ($complexity === 'strong') {
+            $rules['password'] = [
+                'required',
+                'string',
+                'min:12',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*#?&]/',
+            ];
+        }
+
+        $request->validate($rules, $messages);
         $response = Http::timeout(300)->withHeaders(Api::headers(
             [
                 'Accept' => 'application/json',
