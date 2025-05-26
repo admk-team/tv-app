@@ -225,10 +225,11 @@ Route::post('/store/watch/party', [WatchPartyController::class, 'store'])->name(
 Route::post('/categories/streams', [CategoryController::class, 'getStreams'])->name('categories.streams');
 Route::post('/render-category-slider', [CategoryController::class, 'renderCategorySlider'])->name('render.category.slider');
 
-//you might also like streams call
+//you might also like streams call detail screen
 Route::post('/streams/you_might', [CategoryController::class, 'youMight'])->name('streams.you_might');
 Route::post('/render-you-might-like', [CategoryController::class, 'renderYouMight'])->name('render.streams.you_might');
 
-
+//playerscreen
 Route::post('/streams/related', [DetailScreenController::class, 'getRelatedStreams'])->name('streams.related');
 Route::post('/render-you-might-like', [DetailScreenController::class, 'renderYouMightLike'])->name('render.you-might-like');
+Route::post('/render-playlist-items', [DetailScreenController::class, 'renderplaylist'])->name('render.renderplaylist');

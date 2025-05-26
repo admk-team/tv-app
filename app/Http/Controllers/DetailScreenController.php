@@ -113,10 +113,14 @@ class DetailScreenController extends Controller
         $averageRating = $totalReviews > 0 ? number_format($totalRating / $totalReviews, 1) : 0;
 
         // Render updated reviews HTML
-        $newReviewHtml = view('detailscreen.partials.review', ['reviews' => $data['stream_details']['ratings'],
-        'stream_details' => $data['stream_details']]
+        $newReviewHtml = view(
+            'detailscreen.partials.review',
+            [
+                'reviews' => $data['stream_details']['ratings'],
+                'stream_details' => $data['stream_details']
+            ]
         )->render();
-        $ratingIconHtml = view('detailscreen.partials.rating-icon', ['ratingsCount' => $totalReviews,'stream_details' => $data['stream_details']])->render();
+        $ratingIconHtml = view('detailscreen.partials.rating-icon', ['ratingsCount' => $totalReviews, 'stream_details' => $data['stream_details']])->render();
 
         return response()->json([
             'success' => true,
@@ -128,7 +132,7 @@ class DetailScreenController extends Controller
         ]);
     }
 
-public function getRelatedStreams(Request $request)
+    public function getRelatedStreams(Request $request)
     {
         $streamGuid = $request->input('stream_guid');
         Log::info('getRelatedStreams called', [
@@ -142,7 +146,7 @@ public function getRelatedStreams(Request $request)
             ->post(Api::endpoint('/related/stream'), [
                 'streamGuid' => $streamGuid,
             ]);
-          
+
 
         Log::info('API response for /related/stream', [
             'status' => $response->status(),
@@ -187,5 +191,23 @@ public function getRelatedStreams(Request $request)
             'success' => true,
             'html' => $html
         ]);
+    }
+
+    public function renderplaylist(Request $request)
+    {
+        $streams = $request->input('streams', []);
+
+        if (empty($streams)) {
+            return response()->json(['success' => false, 'html' => '']);
+        }
+        $latest_items = $streams; // Map to match you-might-like partial
+        $stream_guid = $request->input('stream_guid');
+        $adMacros = $request->input('adMacros');
+        $isMobileBrowser = $request->input('isMobileBrowser');
+        $dataVast2 = $request->input('dataVast2');
+        // Trim whitespace from rendered HTML
+        // $html = trim(view('detailscreen.partials.render-playlist-items', compact('latest_items', 'stream_guid', 'adMacros', 'isMobileBrowser', 'dataVast2'))->render());
+
+        return view('detailscreen.partials.render-playlist-items', compact('latest_items', 'stream_guid', 'adMacros', 'isMobileBrowser', 'dataVast2'));
     }
 }

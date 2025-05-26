@@ -437,25 +437,25 @@
 
         /* Styles for BuyNow redirect message */
         /* .buynow-redirect-message {
-                                            background-color: #353b49;
-                                            color: var(--themePrimaryTxtColor);
-                                            max-width: 1000.89px;
-                                            width: fit-content;
-                                            padding: .8rem 1.2rem;
-                                            font-weight: 600;
-                                            border-radius: 2px;
-                                            position: absolute;
-                                            z-index: 1000;
-                                            bottom: 68px;
-                                            height: fit-content;
-                                            left: 18px;
-                                            user-select: none;
-                                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                                            transition: all 0.5s ease-in-out;
-                                            transform: translateX(-400px);
-                                            opacity: 0;
-                                            visibility: hidden;
-                                        } */
+                                                            background-color: #353b49;
+                                                            color: var(--themePrimaryTxtColor);
+                                                            max-width: 1000.89px;
+                                                            width: fit-content;
+                                                            padding: .8rem 1.2rem;
+                                                            font-weight: 600;
+                                                            border-radius: 2px;
+                                                            position: absolute;
+                                                            z-index: 1000;
+                                                            bottom: 68px;
+                                                            height: fit-content;
+                                                            left: 18px;
+                                                            user-select: none;
+                                                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                                                            transition: all 0.5s ease-in-out;
+                                                            transform: translateX(-400px);
+                                                            opacity: 0;
+                                                            visibility: hidden;
+                                                        } */
         .buynow-redirect-message {
             background-color: var(--themeActiveColor);
             color: var(--themePrimaryTxtColor);
@@ -573,7 +573,6 @@
                         <div>
                         </div>
                         <div class="login_page main_pg">
-
                             <div class="inner-cred">
                                 <h4>Enter Password</h4>
                                 <center>
@@ -614,7 +613,12 @@
                         </div>
                     </section>
                     <?php else: ?>
-
+                    <div class="video-player-skeleton"
+                        style="background-color: #000; width: 100%; max-width: 1000px; margin: 0 auto; position: relative; overflow: hidden;">
+                        <div class="costum-spinner "
+                            style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);"></div>
+                        <div style="padding-top: 56.25%;"></div> <!-- 16:9 aspect ratio -->
+                    </div>
                     <div class="videocentalize">
                         @if (strpos($streamUrl, 'https://stream.live.gumlet.io') !== false)
                             <div class="live-video top-right text" style="display: block;">
@@ -713,65 +717,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                     </div>
 
                                 </div>
-                                <?php
-                    $arrCatData = $ARR_FEED_DATA['arrCategoriesData'];
-                    $dataVast3 = null;
-                    foreach ($arrCatData['streams'] as $arrStreamsData)
-                    {
-                      $poster = $arrStreamsData['stream_poster'];
-                      $videoUrl = $arrStreamsData['stream_url'];
-                       $quality = 'video';
-                        if ($videoUrl) {
-                            $isShortYouTube = preg_match('/youtu\.be\/([^?&]+)/', $videoUrl, $shortYouTubeMatches);
-                            $isSingleVideo = preg_match('/[?&]v=([^&]+)/', $videoUrl , $videoMatches);
-                            $isVimeo = preg_match('/vimeo\.com\/(\d+)/', $videoUrl , $vimeoMatches);
-                            if ($isShortYouTube) {
-                                $videoUrl = $shortYouTubeMatches[1]; // Extract only the video ID
-                                $quality = 'youtube_single';
-                            } elseif ($isSingleVideo) {
-                                $videoUrl  = $videoMatches[1]; // Extract only the video ID
-                                $quality = 'youtube_single';
-                            } elseif ($isVimeo) {
-                                $videoUrl = $vimeoMatches[1]; // Extract only the Vimeo ID
-                                $quality = 'vimeo_single';
-                            }
-                        }
-                      if (strpos($videoUrl, '.m3u8'))
-                      {
-                          $quality = "hls";
-                      }
 
-                      $adParam = "videoId=".$arrStreamsData['stream_guid'].'&title='.$arrStreamsData['stream_title'];
-                      $dataVast = 'data-vast="'.url('/get-ad?'.$adParam).'"';
-                      $dataVast = "data-vast='$adMacros'";
-                      $dataVast3 = url('/get-ad?'.$adParam);
-                      if ($isMobileBrowser == 1)
-                      {
-                      //  $dataVast = '';
-                      }
-                     ?>
-                                <div class="mvp-playlist-item"
-                                    data-path="{{ $videoUrl }}" {!! $dataVast2 ? $dataVast2 : $dataVast !!}
-                                    data-type="{{ Str::endsWith($videoUrl, ['.mp3', '.wav']) ? 'audio' : $quality }}"
-                                    data-noapi
-                                    data-poster="{{ $poster }}" data-thumb="{{ $poster }}"
-                                    data-title="{{ $arrStreamsData['stream_title'] }}"
-                                    data-description="{{ $arrStreamsData['stream_description'] }}">
-
-                                    @if (count($arrStreamsData['subtitles'] ?? []))
-                                        <div class="mvp-subtitles">
-                                            @foreach ($arrStreamsData['subtitles'] ?? [] as $subtitle)
-                                                <div data-label="{{ $subtitle['name'] }}"
-                                                    data-src="{{ $subtitle['file_url'] }}"
-                                                    @if ($loop->first) data-default @endif></div>
-                                            @endforeach
-                                        </div>
-                                    @endif
-
-                                </div>
-                                <?php
-                            }
-                            ?>
                             </div>
                         </div>
                         @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
@@ -1644,7 +1590,10 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
 @push('scripts')
 
     <script>
-        document.addEventListener("DOMContentLoaded", function(event) {
+        document.addEventListener("DOMContentLoaded", async function(event) {
+            await watiForPlaylistFetch();
+            const playlistloader = document.querySelector('.video-player-skeleton');
+            playlistloader.style.display = 'none';
             var isshowlist = true
             var pListPostion = 'vrb';
             if (detectMob()) {
@@ -2562,7 +2511,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
         });
     </script>
 
-    <script>
+    {{--  <script>
         console.log('Like-tab-slider script loaded at', new Date().toISOString());
 
         // Function to initialize Slick sliders
@@ -2787,7 +2736,276 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 console.error('Related streams container not found');
             }
         };
+    </script>  --}}
+    <script>
+        console.log('Like-tab-slider script loaded at', new Date().toISOString());
+        const adMacros = @js($adMacros);
+        const isMobileBrowser = @js($isMobileBrowser);
+        const dataVast2 = @js($dataVast2);
+        // Function to initialize Slick sliders
+        function initializeSlider(container) {
+            console.log('initializeSlider called for container:', container);
+            const sliderElements = jQuery(container).find(
+                '.slick-slider:not(.slick-initialized), .landscape_slider:not(.slick-initialized)');
+            if (sliderElements.length && typeof jQuery !== 'undefined' && jQuery.fn.slick) {
+                sliderElements.each(function() {
+                    const $slider = jQuery(this);
+                    const itemsPerRow = parseInt($slider.data('items-per-row')) || 5;
+                    const autoplay = $slider.data('autoplay') === false;
+
+                    console.log('Initializing Slick Slider for:', $slider[0]);
+
+                    $slider.slick({
+                        slidesToShow: itemsPerRow,
+                        slidesToScroll: 1,
+                        autoplay: autoplay,
+                        infinite: true,
+                        dots: true,
+                        arrows: true,
+                        adaptiveHeight: true,
+                        responsive: [{
+                                breakpoint: 1740,
+                                settings: (itemsPerRow == 2) ? {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    arrows: true
+                                } : {
+                                    slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    dots: true,
+                                    arrows: true
+                                }
+                            },
+                            {
+                                breakpoint: 1200,
+                                settings: (itemsPerRow == 2) ? {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    arrows: false
+                                } : {
+                                    slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    dots: true,
+                                    arrows: false
+                                }
+                            },
+                            {
+                                breakpoint: 770,
+                                settings: (itemsPerRow == 2) ? {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    arrows: false
+                                } : {
+                                    slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    dots: true,
+                                    arrows: false
+                                }
+                            },
+                            {
+                                breakpoint: 600,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    arrows: false
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 1,
+                                    swipeToSlide: true,
+                                    dots: false,
+                                    arrows: false
+                                }
+                            }
+                        ]
+                    });
+                });
+            } else if (!sliderElements.length) {
+                console.log('No uninitialized sliders found in:', container);
+                console.log('Container HTML:', container.innerHTML.substring(0, 200) +
+                    '...'); // Log partial HTML for debugging
+            } else {
+                console.error('Slick Slider or jQuery not loaded for:', sliderElements);
+            }
+        }
+
+        // Function to force DOM reflow
+        function forceReflow(element) {
+            element.offsetHeight; // Accessing offsetHeight triggers a reflow
+        }
+
+        // Function to load related streams
+        function loadRelatedStreams(container) {
+            console.log('loadRelatedStreams called for container:', container);
+            const streamGuid = container.dataset.streamGuid;
+            if (!streamGuid) {
+                console.error('No stream GUID found for related streams');
+                container.style.display = 'none';
+                return;
+            }
+            console.log('Stream GUID:', streamGuid);
+
+            const skeletonLoader = container.querySelector('.skeleton-loader');
+            console.log('Skeleton loader found:', !!skeletonLoader);
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+            console.log('CSRF token found:', !!csrfToken);
+
+            if (!csrfToken) {
+                console.error('CSRF token missing, cannot make AJAX request');
+                container.innerHTML = '<p>Error: CSRF token missing</p>';
+                container.style.display = 'block';
+                return;
+            }
+
+            console.log('Initiating fetch to /streams/related for stream:', streamGuid);
+            fetch('{{ url('/streams/related') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({
+                        stream_guid: streamGuid
+                    })
+                })
+                .then(response => {
+                    console.log(`Response status for /streams/related: ${response.status}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(`Related streams fetched for stream: ${streamGuid}`, data);
+
+                    if (!data.success || !data.data.streams || data.data.streams.length === 0) {
+                        console.log(`No related streams for stream: ${streamGuid}, hiding container`);
+                        container.style.display = 'none';
+                        return;
+                    }
+
+                    const relatedStreams = data.data.streams; // Save the streams for use in both calls
+
+                    console.log('Initiating fetch to /render-you-might-like');
+                    return fetch('{{ url('/render-you-might-like') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: JSON.stringify({
+                            streams: relatedStreams,
+                            stream_guid: streamGuid
+                        })
+                    }).then(response => {
+                        console.log(`Response status for /render-you-might-like: ${response.status}`);
+                        if (!response.ok) {
+                            throw new Error(
+                                `HTTP error! status: ${response.status}, statusText: ${response.statusText}`
+                            );
+                        }
+                        return response.json();
+                    }).then(renderData => {
+                        console.log(`You-might-like rendered for stream: ${streamGuid}`, renderData);
+
+                        if (renderData.success && renderData.html) {
+                            requestAnimationFrame(() => {
+                                if (skeletonLoader) {
+                                    console.log('Hiding skeleton loader');
+                                    skeletonLoader.style.display = 'none';
+                                }
+
+                                console.log('Updating container with new HTML');
+                                container.innerHTML = renderData.html;
+
+                                forceReflow(container);
+                                initializeSlider(container);
+                                console.log(`UI updated for related streams: ${streamGuid}`);
+                            });
+
+                            // Call render-playlist-items with the same stream data
+                            return fetch('/render-playlist-items', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': csrfToken
+                                },
+                                body: JSON.stringify({
+                                    streams: relatedStreams,
+                                    adMacros: adMacros,
+                                    isMobileBrowser: isMobileBrowser,
+                                    dataVast2: dataVast2,
+                                    stream_guid: streamGuid
+                                })
+                            });
+                        } else {
+                            console.log(`Render failed for stream: ${streamGuid}, hiding container`);
+                            container.style.display = 'none';
+                        }
+                    }).then(response => {
+                        if (!response) return;
+                        console.log('Response status for /render-playlist-items:', response.status);
+                        if (!response.ok) throw new Error('Failed to fetch playlist items');
+                        return response.text(); // Assuming HTML response
+                    }).then(html => {
+                        if (!html) return;
+                        const playlistContainer = document.querySelector('.playlist-video');
+                        console.log('Response status playlistContainer:', playlistContainer);
+                        if (playlistContainer) {
+                            $(playlistContainer).append($(html));
+                            console.log('aftewrrrrrrr playlistContainer:', playlistContainer);
+                        } else {
+                            console.warn('Playlist container not found');
+                        }
+                        console.log("fetched playlists")
+                        window.playlistFetched = true;
+                    });
+                })
+                .catch(error => {
+                    console.error(`Error processing streams for stream: ${streamGuid}:`, error);
+                    container.innerHTML = '<p>Error loading content</p>';
+                    container.style.display = 'block';
+                });
+        }
+
+        // Load related streams after page is fully loaded
+        window.onload = () => {
+            console.log('window.onload fired at', new Date().toISOString());
+            const container = document.querySelector('.like-tab-slider-container');
+            if (container) {
+                console.log('Container found:', container);
+                loadRelatedStreams(container);
+            } else {
+                console.error('Related streams container not found');
+            }
+        };
+
+        function watiForPlaylistFetch() {
+            return new Promise((resolve) => {
+                const interval = setInterval(() => {
+                    if (window.playlistFetched) {
+                        console.log("Wating for playlist fetch");
+                        clearInterval(interval);
+                        resolve();
+                    }
+                }, 1000);
+            })
+        }
     </script>
+
 
 
 @endpush
