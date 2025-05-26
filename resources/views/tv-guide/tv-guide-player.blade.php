@@ -91,7 +91,7 @@
         <div class="container-fluid containinax">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="videocentalize">
+                    <div class="videocentalize" id="render-page">
                         <div id="wrapper"></div>
                         <div id="mvp-playlist-list">
                             <div class="mvp-global-playlist-data"></div>
@@ -189,6 +189,42 @@
 
                             </div>
                         </div>
+                        <div class="d-flex justify-content-between mt-2 mb-2">
+                            <!-- Previous Button -->
+                            @if ($data['previous_channel'] !== null)
+                                <button
+                                    class="btn btn-outline-primary d-flex flex-column align-items-center justify-content-center ajax-channel-btn text-center"
+                                    data-guid="{{ $data['previous_channel']['code'] }}">
+
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <i class="fas fa-arrow-left me-2"></i> Previous
+                                    </div>
+                                    <small class="mt-1">{{ $data['previous_channel']['title'] }}</small>
+                                </button>
+                            @else
+                                <button class="btn btn-outline-primary d-flex align-items-center" disabled>
+                                    <i class="fas fa-arrow-left me-2"></i> Previous
+                                </button>
+                            @endif
+
+                            <!-- Next Button -->
+                            @if ($data['next_channel'] !== null)
+                                <button
+                                    class="btn btn-outline-primary d-flex flex-column align-items-center justify-content-center ajax-channel-btn text-center"
+                                    data-guid="{{ $data['next_channel']['code'] }}">
+
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        Next <i class="fas fa-arrow-right ms-2"></i>
+                                    </div>
+                                    <small class="mt-1">{{ $data['next_channel']['title'] }}</small>
+                                </button>
+                            @else
+                                <button class="btn btn-outline-primary d-flex align-items-center" disabled>
+                                    Next <i class="fas fa-arrow-right ms-2"></i>
+                                </button>
+                            @endif
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -199,7 +235,12 @@
 
 @push('scripts')
     <script>
-        document.addEventListener("DOMContentLoaded", function(event) {
+        document.addEventListener("DOMContentLoaded", function() {
+            var leftTime = {{ $leftTime }};
+            initPlayer(leftTime);
+        });
+
+        function initPlayer(leftTime = 0) {
             var leftTime = {{ $leftTime }};
             var isshowlist = true;
             var pListPostion = 'vrb';
@@ -321,7 +362,7 @@
                 // alert("ad End");
 
             });
-        });
+        };
 
         function unmutedVoice() {
             player.toggleMute();
@@ -331,5 +372,22 @@
         function makeVolumeButtontoggable() {
             $('.mvp-volume-toggle').addClass('mvp-volume-toggable');
         }
+
+        $(document).on('click', '.ajax-channel-btn', function() {
+            const channelGuid = $(this).data('guid');
+            $.ajax({
+                url: `/next-previous/${channelGuid}`,
+                method: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        $('#render-page').replaceWith(response.newHtml);
+                        initPlayer(0);
+                    }
+                },
+                error: function(xhr) {
+                    console('Unable to load channel. Please try again.');
+                }
+            });
+        });
     </script>
 @endpush
