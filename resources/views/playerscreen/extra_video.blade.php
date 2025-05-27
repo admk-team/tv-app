@@ -3,8 +3,8 @@
 @section('head')
     {{-- Custom Css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/details-screen-styling.css') }}">
-    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet">
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+    <link href="{{ asset('assets/css/videojs-7.15.4.min.css') }}" rel="stylesheet">
+    <script src="{{ asset('assets/js/video-7.20.3.min.js') }}"></script>
     <style>
         .video-container {
             height: auto;

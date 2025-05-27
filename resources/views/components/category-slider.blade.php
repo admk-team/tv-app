@@ -1,7 +1,9 @@
 @push('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/cards-item.css') }}" />
-    <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet">
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {{-- <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet"> --}}
+    <link href="{{ asset('assets/css/videojs-7.15.4.min.css') }}" rel="stylesheet">
+    <script src="{{ asset('assets/js/video-7.20.3.min.js') }}"></script>
+    {{-- <script src="https://vjs.zencdn.net/7.20.3/video.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/videojs-youtube@2.6.1/dist/Youtube.min.js"></script>
 @endpush
 
@@ -245,13 +247,13 @@
                     const isTop10 = wrapper.dataset.isTop10;
                     const menu_guid = wrapper.dataset.menu_guid;
                     const menu_type = wrapper.dataset.menu_type;
-                    
+
                     // Get references to skeleton and slider container
                     const skeletonLoader = wrapper.querySelector('.skeleton-loader');
                     const sliderContainer = wrapper.querySelector('.slider-container');
-    
+
                     console.log(`Starting AJAX call for category: ${catTitle} (${catGuid})`);
-    
+
                     // Prepare category object
                     const categoryData = {
                         cat_guid: catGuid,
@@ -262,7 +264,7 @@
                         items_per_row: parseInt(itemsPerRow),
                         is_top10: isTop10
                     };
-    
+
                     // Make AJAX call to fetch streams
                     fetch('/categories/streams', {
                         method: 'POST',
@@ -283,14 +285,14 @@
                     .then(data => {
                         resolve();
                         console.log(`Streams fetched for category: ${catTitle} (${catGuid})`, data);
-    
+
                         // Check if streams are empty
                         if (!data.success || !data.data.streams || data.data.streams.length === 0) {
                             console.log(`No streams for category: ${catTitle} (${catGuid}), hiding wrapper`);
                             wrapper.style.display = 'none';
                             return;
                         }
-    
+
                         // Make follow-up AJAX call to render the slider component
                         fetch('/render-category-slider', {
                             method: 'POST',
@@ -307,29 +309,29 @@
                         .then(response => response.json())
                         .then(renderData => {
                             console.log(`Slider rendered for category: ${catTitle} (${catGuid})`, renderData);
-    
+
                             if (renderData.success && renderData.html) {
                                 // Use requestAnimationFrame to ensure immediate UI update
                                 requestAnimationFrame(() => {
                                     // Hide skeleton loader
                                     skeletonLoader.style.display = 'none';
-                                    
+
                                     // Show and update the slider container with the rendered HTML
                                     sliderContainer.classList.remove('hidden');
                                     sliderContainer.innerHTML = renderData.html;
-    
+
                                     // Force DOM reflow to ensure immediate rendering
                                     forceReflow(sliderContainer);
-    
+
                                     // Initialize Slick Slider for the new content
                                     initializeSlider(sliderContainer);
-    
+
                                     // Reinitialize Video.js players for the new content
                                     if (!/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
                                         const videoLinks = sliderContainer.querySelectorAll('.video-link');
                                         initializeVideoPlayers(videoLinks);
                                     }
-    
+
                                     console.log(`UI updated for category: ${catTitle} (${catGuid})`);
                                 });
                             } else {
