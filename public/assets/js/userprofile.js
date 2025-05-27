@@ -1,29 +1,5 @@
-const users = ['vinod', 'thapa', 'bahadur'];
-
-const memberDiv = document.querySelector('.memberDiv');
-const addIcon = document.querySelector('.addIcon');
-
-const userIcons = () => {
-    users.reverse();
-    users.map((curElem) => {
-        memberDiv.insertAdjacentHTML('afterbegin', `
-        <button class="btn"><span>${curElem}</span></button>
-        `);
-    })
-};
-
-addIcon.addEventListener('click', () => {
-    let userName = prompt('please enter your name');
-
-    if(userName != null && !users.includes(userName)){
-        users.push(userName);
-        memberDiv.insertAdjacentHTML('afterbegin', `
-        <button class="btn"><span>${userName}</span></button>
-        `);
-    }else{
-        alert('username already exist');
-    }
-})
-
-
-userIcons();
+const users=["vinod","thapa","bahadur"],memberDiv=document.querySelector(".memberDiv"),addIcon=document.querySelector(".addIcon"),userIcons=()=>{users.reverse(),users.map(e=>{memberDiv.insertAdjacentHTML("afterbegin",`
+        <button class="btn"><span>${e}</span></button>
+        `)})};addIcon.addEventListener("click",()=>{let e=prompt("please enter your name");null==e||users.includes(e)?alert("username already exist"):(users.push(e),memberDiv.insertAdjacentHTML("afterbegin",`
+        <button class="btn"><span>${e}</span></button>
+        `))}),userIcons();
