@@ -40,4 +40,35 @@ class TvGuidePlayerController extends Controller
 
         return view('tv-guide.tv-guide-group-streams', compact('decryptedStreams'));
     }
+
+    public function indexRender($channelGuid)
+    {
+        $data = $this->fetchChannelPlaylists($channelGuid);
+
+        $data = ['channelGuid' => $channelGuid, 'data' => $data];
+        $newHtml = view('tv-guide.tv-guide-player', $data)->render();
+        // Load HTML into DOMDocument
+        $dom = new \DOMDocument();
+
+        // Suppress warnings due to malformed HTML by using @
+        @$dom->loadHTML($newHtml);
+
+        // Find the element with the specific ID you want to extract
+        $elementId = 'render-page';
+        $element = $dom->getElementById($elementId);
+
+        if ($element) {
+            // Save that element as HTML string
+            $extractedHtml = $dom->saveHTML($element);
+            return response()->json([
+                'success' => true,
+                'newHtml' => $extractedHtml
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'newHtml' => null
+            ]);
+        }
+    }
 }
