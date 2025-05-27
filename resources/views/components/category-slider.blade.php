@@ -1,10 +1,15 @@
 @push('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/cards-item.css') }}" />
+
+    @if (isset(\App\Services\AppConfig::get()->app->toggle_trailer) &&
+            \App\Services\AppConfig::get()->app->toggle_trailer == 1)
+        <link href="{{ asset('assets/css/videojs-7.15.4.min.css') }}" rel="stylesheet">
+        <script src="{{ asset('assets/js/video-7.20.3.min.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/videojs-youtube@2.6.1/dist/Youtube.min.js"></script>
+    @endif
     {{-- <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet"> --}}
-    <link href="{{ asset('assets/css/videojs-7.15.4.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('assets/js/video-7.20.3.min.js') }}"></script>
     {{-- <script src="https://vjs.zencdn.net/7.20.3/video.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
-    <script src="https://cdn.jsdelivr.net/npm/videojs-youtube@2.6.1/dist/Youtube.min.js"></script>
+
 @endpush
 
 <section class="sliders mb-4">
@@ -34,16 +39,14 @@
 
                     {{-- If there's at least one common group, show the menu --}}
                     @if (!empty($commonGroups))
-                        <div class="category-wrapper"
-                             data-cat-guid="{{ $category->cat_guid }}"
-                             data-cat-title="{{ $category->cat_title }}"
-                             data-cat-type="{{ $category->cat_type ?? '' }}"
-                             data-card-type="{{ $category->card_type ?? '' }}"
-                             data-is-show-view-more="{{ $category->is_show_view_more ?? 'Y' }}"
-                             data-items-per-row="{{ $category->items_per_row ?? 5 }}"
-                             data-is-top10="{{ $category->is_top10 ?? 'N' }}"
-                             data-menu_type="{{ $category->menu_type ?? 'N' }}"
-                             data-menu_guid="{{ $category->menu_guid ?? 'N' }}">
+                        <div class="category-wrapper" data-cat-guid="{{ $category->cat_guid }}"
+                            data-cat-title="{{ $category->cat_title }}" data-cat-type="{{ $category->cat_type ?? '' }}"
+                            data-card-type="{{ $category->card_type ?? '' }}"
+                            data-is-show-view-more="{{ $category->is_show_view_more ?? 'Y' }}"
+                            data-items-per-row="{{ $category->items_per_row ?? 5 }}"
+                            data-is-top10="{{ $category->is_top10 ?? 'N' }}"
+                            data-menu_type="{{ $category->menu_type ?? 'N' }}"
+                            data-menu_guid="{{ $category->menu_guid ?? 'N' }}">
                             <!-- Skeleton Loader -->
                             <div class="skeleton-loader">
                                 <div class="skeleton skeleton-title"></div>
@@ -58,16 +61,14 @@
                     @endif
                 @endif
             @else
-                <div class="category-wrapper"
-                     data-cat-guid="{{ $category->cat_guid }}"
-                     data-cat-title="{{ $category->cat_title }}"
-                     data-cat-type="{{ $category->cat_type ?? '' }}"
-                     data-card-type="{{ $category->card_type ?? '' }}"
-                     data-is-show-view-more="{{ $category->is_show_view_more ?? 'Y' }}"
-                     data-items-per-row="{{ $category->items_per_row ?? 5 }}"
-                     data-is-top10="{{ $category->is_top10 ?? 'N' }}"
-                     data-menu_type="{{ $category->menu_type ?? 'N' }}"
-                     data-menu_guid="{{ $category->menu_guid ?? 'N' }}">
+                <div class="category-wrapper" data-cat-guid="{{ $category->cat_guid }}"
+                    data-cat-title="{{ $category->cat_title }}" data-cat-type="{{ $category->cat_type ?? '' }}"
+                    data-card-type="{{ $category->card_type ?? '' }}"
+                    data-is-show-view-more="{{ $category->is_show_view_more ?? 'Y' }}"
+                    data-items-per-row="{{ $category->items_per_row ?? 5 }}"
+                    data-is-top10="{{ $category->is_top10 ?? 'N' }}"
+                    data-menu_type="{{ $category->menu_type ?? 'N' }}"
+                    data-menu_guid="{{ $category->menu_guid ?? 'N' }}">
                     <!-- Skeleton Loader -->
                     <div class="skeleton-loader">
                         <div class="skeleton skeleton-title"></div>
@@ -119,7 +120,8 @@
                             player.muted(false);
                             player.currentTime(0);
                             player.play().then(() => {}).catch((error) => {
-                                console.error(`Error playing video ${index}:`, error);
+                                console.error(`Error playing video ${index}:`,
+                                    error);
                             });
                         });
 
@@ -156,70 +158,70 @@
                             arrows: true,
                             adaptiveHeight: true,
                             responsive: [{
-                                breakpoint: 1740,
-                                settings: (itemsPerRow == 2) ? {
-                                    slidesToShow: 2,
-                                    slidesToScroll: 1,
-                                    swipeToSlide: true,
-                                    arrows: true
-                                } : {
-                                    slidesToShow: Math.max(itemsPerRow - 1, 1),
-                                    slidesToScroll: 1,
-                                    swipeToSlide: true,
-                                    dots: true,
-                                    arrows: true
+                                    breakpoint: 1740,
+                                    settings: (itemsPerRow == 2) ? {
+                                        slidesToShow: 2,
+                                        slidesToScroll: 1,
+                                        swipeToSlide: true,
+                                        arrows: true
+                                    } : {
+                                        slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                        slidesToScroll: 1,
+                                        swipeToSlide: true,
+                                        dots: true,
+                                        arrows: true
+                                    }
+                                },
+                                {
+                                    breakpoint: 1200,
+                                    settings: (itemsPerRow == 2) ? {
+                                        slidesToShow: 2,
+                                        slidesToScroll: 1,
+                                        swipeToSlide: true,
+                                        arrows: false
+                                    } : {
+                                        slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                        slidesToScroll: 1,
+                                        swipeToSlide: true,
+                                        dots: true,
+                                        arrows: false
+                                    }
+                                },
+                                {
+                                    breakpoint: 770,
+                                    settings: (itemsPerRow == 2) ? {
+                                        slidesToShow: 2,
+                                        slidesToScroll: 1,
+                                        swipeToSlide: true,
+                                        arrows: false
+                                    } : {
+                                        slidesToShow: Math.max(itemsPerRow - 1, 1),
+                                        slidesToScroll: 1,
+                                        swipeToSlide: true,
+                                        dots: true,
+                                        arrows: false
+                                    }
+                                },
+                                {
+                                    breakpoint: 600,
+                                    settings: {
+                                        slidesToShow: 3,
+                                        slidesToScroll: 1,
+                                        swipeToSlide: true,
+                                        arrows: false
+                                    }
+                                },
+                                {
+                                    breakpoint: 480,
+                                    settings: {
+                                        slidesToShow: 3,
+                                        slidesToScroll: 1,
+                                        swipeToSlide: true,
+                                        dots: false,
+                                        arrows: false
+                                    }
                                 }
-                            },
-                            {
-                                breakpoint: 1200,
-                                settings: (itemsPerRow == 2) ? {
-                                    slidesToShow: 2,
-                                    slidesToScroll: 1,
-                                    swipeToSlide: true,
-                                    arrows: false
-                                } : {
-                                    slidesToShow: Math.max(itemsPerRow - 1, 1),
-                                    slidesToScroll: 1,
-                                    swipeToSlide: true,
-                                    dots: true,
-                                    arrows: false
-                                }
-                            },
-                            {
-                                breakpoint: 770,
-                                settings: (itemsPerRow == 2) ? {
-                                    slidesToShow: 2,
-                                    slidesToScroll: 1,
-                                    swipeToSlide: true,
-                                    arrows: false
-                                } : {
-                                    slidesToShow: Math.max(itemsPerRow - 1, 1),
-                                    slidesToScroll: 1,
-                                    swipeToSlide: true,
-                                    dots: true,
-                                    arrows: false
-                                }
-                            },
-                            {
-                                breakpoint: 600,
-                                settings: {
-                                    slidesToShow: 3,
-                                    slidesToScroll: 1,
-                                    swipeToSlide: true,
-                                    arrows: false
-                                }
-                            },
-                            {
-                                breakpoint: 480,
-                                settings: {
-                                    slidesToShow: 3,
-                                    slidesToScroll: 1,
-                                    swipeToSlide: true,
-                                    dots: false,
-                                    arrows: false
-                                }
-                            }
-                        ]
+                            ]
                         });
                     });
                 } else if (!sliderElements.length) {
@@ -267,98 +269,114 @@
 
                     // Make AJAX call to fetch streams
                     fetch('/categories/streams', {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                        },
-                        body: JSON.stringify({
-                            cat_guid: catGuid,
-                            cat_title: catTitle,
-                            cat_type: catType,
-                            menu_guid: menu_guid,
-                            menu_type: menu_type,
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        resolve();
-                        console.log(`Streams fetched for category: ${catTitle} (${catGuid})`, data);
-
-                        // Check if streams are empty
-                        if (!data.success || !data.data.streams || data.data.streams.length === 0) {
-                            console.log(`No streams for category: ${catTitle} (${catGuid}), hiding wrapper`);
-                            wrapper.style.display = 'none';
-                            return;
-                        }
-
-                        // Make follow-up AJAX call to render the slider component
-                        fetch('/render-category-slider', {
                             method: 'POST',
                             headers: {
                                 'Accept': 'application/json',
                                 'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .content
                             },
                             body: JSON.stringify({
-                                category: categoryData,
-                                streams: data.data.streams
+                                cat_guid: catGuid,
+                                cat_title: catTitle,
+                                cat_type: catType,
+                                menu_guid: menu_guid,
+                                menu_type: menu_type,
                             })
                         })
                         .then(response => response.json())
-                        .then(renderData => {
-                            console.log(`Slider rendered for category: ${catTitle} (${catGuid})`, renderData);
+                        .then(data => {
+                            resolve();
+                            console.log(`Streams fetched for category: ${catTitle} (${catGuid})`, data);
 
-                            if (renderData.success && renderData.html) {
-                                // Use requestAnimationFrame to ensure immediate UI update
-                                requestAnimationFrame(() => {
-                                    // Hide skeleton loader
-                                    skeletonLoader.style.display = 'none';
-
-                                    // Show and update the slider container with the rendered HTML
-                                    sliderContainer.classList.remove('hidden');
-                                    sliderContainer.innerHTML = renderData.html;
-
-                                    // Force DOM reflow to ensure immediate rendering
-                                    forceReflow(sliderContainer);
-
-                                    // Initialize Slick Slider for the new content
-                                    initializeSlider(sliderContainer);
-
-                                    // Reinitialize Video.js players for the new content
-                                    if (!/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-                                        const videoLinks = sliderContainer.querySelectorAll('.video-link');
-                                        initializeVideoPlayers(videoLinks);
-                                    }
-
-                                    console.log(`UI updated for category: ${catTitle} (${catGuid})`);
-                                });
-                            } else {
-                                console.log(`Render failed for category: ${catTitle} (${catGuid}), hiding wrapper`);
+                            // Check if streams are empty
+                            if (!data.success || !data.data.streams || data.data.streams.length === 0) {
+                                console.log(
+                                    `No streams for category: ${catTitle} (${catGuid}), hiding wrapper`
+                                    );
                                 wrapper.style.display = 'none';
+                                return;
                             }
+
+                            // Make follow-up AJAX call to render the slider component
+                            fetch('/render-category-slider', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': document.querySelector(
+                                            'meta[name="csrf-token"]').content
+                                    },
+                                    body: JSON.stringify({
+                                        category: categoryData,
+                                        streams: data.data.streams
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(renderData => {
+                                    console.log(
+                                        `Slider rendered for category: ${catTitle} (${catGuid})`,
+                                        renderData);
+
+                                    if (renderData.success && renderData.html) {
+                                        // Use requestAnimationFrame to ensure immediate UI update
+                                        requestAnimationFrame(() => {
+                                            // Hide skeleton loader
+                                            skeletonLoader.style.display = 'none';
+
+                                            // Show and update the slider container with the rendered HTML
+                                            sliderContainer.classList.remove('hidden');
+                                            sliderContainer.innerHTML = renderData.html;
+
+                                            // Force DOM reflow to ensure immediate rendering
+                                            forceReflow(sliderContainer);
+
+                                            // Initialize Slick Slider for the new content
+                                            initializeSlider(sliderContainer);
+
+                                            // Reinitialize Video.js players for the new content
+                                            if (!/iPhone|iPad|iPod|Android/i.test(navigator
+                                                    .userAgent)) {
+                                                const videoLinks = sliderContainer
+                                                    .querySelectorAll('.video-link');
+                                                initializeVideoPlayers(videoLinks);
+                                            }
+
+                                            console.log(
+                                                `UI updated for category: ${catTitle} (${catGuid})`
+                                                );
+                                        });
+                                    } else {
+                                        console.log(
+                                            `Render failed for category: ${catTitle} (${catGuid}), hiding wrapper`
+                                            );
+                                        wrapper.style.display = 'none';
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error(
+                                        `Error rendering category slider for ${catTitle} (${catGuid}):`,
+                                        error);
+                                    wrapper.style.display = 'none';
+                                });
                         })
                         .catch(error => {
-                            console.error(`Error rendering category slider for ${catTitle} (${catGuid}):`, error);
+                            console.error(
+                                `Error fetching category streams for ${catTitle} (${catGuid}):`,
+                                error);
                             wrapper.style.display = 'none';
                         });
-                    })
-                    .catch(error => {
-                        console.error(`Error fetching category streams for ${catTitle} (${catGuid}):`, error);
-                        wrapper.style.display = 'none';
-                    });
                 })
             }
 
             // Load categories after page is fully loaded with a 1-second delay
             window.onload = async () => {
                 //setTimeout(() => {
-                    const categoryWrappers = document.querySelectorAll('.category-wrapper');
-                    for (const wrapper of categoryWrappers) {
-                        await loadCategory(wrapper);
-                    }
-                    console.log(`Initiated loading for ${categoryWrappers.length} categories`);
+                const categoryWrappers = document.querySelectorAll('.category-wrapper');
+                for (const wrapper of categoryWrappers) {
+                    await loadCategory(wrapper);
+                }
+                console.log(`Initiated loading for ${categoryWrappers.length} categories`);
                 //}, 1500); // 1.5-second delay
             };
         });

@@ -4,8 +4,8 @@
 
     <!-- Include Video.js Library -->
     <link rel="stylesheet" href="{{ asset('assets/css/details-screen-styling.css') }}">
-    <link href="{{ asset('assets/css/videojs-7.15.4.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('assets/js/video-7.20.3.min.js') }}"></script>
+    {{-- <link href="{{ asset('assets/css/videojs-7.15.4.min.css') }}" rel="stylesheet">
+    <script src="{{ asset('assets/js/video-7.20.3.min.js') }}"></script> --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/cards-item.css') }}" />
 @endsection
