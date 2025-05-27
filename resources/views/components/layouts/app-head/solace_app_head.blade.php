@@ -7,7 +7,9 @@
      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6509344422546339"
          crossorigin="anonymous"></script>
      <!-- Adsence End-->
-     @include('gtm_tags.head')
+     @if (isset(\App\Services\AppConfig::get()->app->app_info->is_gtm_enabled) && \App\Services\AppConfig::get()->app->app_info->is_gtm_enabled == 1)
+        @include('gtm_tags.head')
+     @endif
      @if (Route::is('detailscreen', 'playerscreen', 'series'))
          @yield('meta-tags')
      @else

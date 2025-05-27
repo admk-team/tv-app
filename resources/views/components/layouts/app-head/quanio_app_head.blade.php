@@ -3,7 +3,9 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="06c77dde59dd05c5961a21f24a6cfd408f9e9e7e" content="06c77dde59dd05c5961a21f24a6cfd408f9e9e7e" />
-    @include('gtm_tags.head')
+    @if (isset(\App\Services\AppConfig::get()->app->app_info->is_gtm_enabled) && \App\Services\AppConfig::get()->app->app_info->is_gtm_enabled == 1)
+        @include('gtm_tags.head')
+    @endif
     @if (Route::is('detailscreen', 'playerscreen', 'series'))
         @yield('meta-tags')
     @else

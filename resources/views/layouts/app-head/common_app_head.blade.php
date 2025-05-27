@@ -5,7 +5,9 @@
      <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
-     @include('gtm_tags.head')
+     @if (isset(\App\Services\AppConfig::get()->app->app_info->is_gtm_enabled) && \App\Services\AppConfig::get()->app->app_info->is_gtm_enabled == 1)
+        @include('gtm_tags.head')
+    @endif
      @if (Route::is('detailscreen', 'playerscreen', 'series'))
          @yield('meta-tags')
      @else
@@ -71,4 +73,6 @@
  </head>
 
  <body>
-     @include('gtm_tags.body')
+     @if (isset(\App\Services\AppConfig::get()->app->app_info->is_gtm_enabled) && \App\Services\AppConfig::get()->app->app_info->is_gtm_enabled == 1)
+        @include('gtm_tags.body')
+    @endif
