@@ -147,7 +147,7 @@ Route::middleware('auth.user')->group(function () {
     Route::post('mark-fav-firend', [FriendRequestController::class, 'markAsFavFriends'])->name('mark-fav-friend');
     Route::post('remove-fav-firend', [FriendRequestController::class, 'removeFavFriends'])->name('remove-fav-friend');
 
-     //friends.recommendation
+    //friends.recommendation
     Route::get('friends/recommendation', [FriendRequestController::class, 'friends_option'])->name('friends.recommendation');
     Route::post('/recommendation/store', [FriendRequestController::class, 'store'])->name('recommendation.store');
 });
@@ -189,6 +189,7 @@ Route::post('screener/authenticate/{code}', [ScreenerController::class, 'authent
 
 
 Route::get('/epgplayer/{channelGuid}/{slug}', [TvGuidePlayerController::class, 'index'])->name('player.tvguide');
+Route::get('/next-previous/{channelGuid}', [TvGuidePlayerController::class, 'indexRender'])->name('next-previous.player.tvguide');
 //Newsletter
 Route::post('newsletter', [NewsLetterController::class, 'newLetter'])->name('newsletter');
 

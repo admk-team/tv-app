@@ -27,6 +27,45 @@
         }
         //alert(detectMob());
     </script>
+    <style>
+        .channel-btn-1 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 18px;
+            /* border-radius: 50px; */
+            border-radius: 10px;
+            /* background: var(--headerBgColor); */
+            background: transparent;
+            color: #fff;
+            transition: all 0.3s ease;
+            min-width: 150px;
+            border: 2px solid var(--headerBgColor);
+        }
+
+        .channel-btn-1:hover:not(:disabled) {
+            transform: translateY(-3px);
+            cursor: pointer;
+        }
+
+        .channel-btn-1:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .channel-btn-1 small {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 321px) {
+            .channel-btn-1 {
+                min-width: 120px;
+                padding: 5px 5px;
+            }
+        }
+    </style>
 @endpush
 @section('content')
     @php
@@ -91,7 +130,7 @@
         <div class="container-fluid containinax">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="videocentalize">
+                    <div class="videocentalize" id="render-page">
                         <div id="wrapper"></div>
                         <div id="mvp-playlist-list">
                             <div class="mvp-global-playlist-data"></div>
@@ -189,6 +228,44 @@
 
                             </div>
                         </div>
+                        <div class="d-flex justify-content-between mt-2 mb-2 gap-3">
+                            <!-- Previous Button -->
+                            @if ($data['previous_channel'] !== null)
+                                <button class="channel-btn-1 ajax-channel-btn"
+                                    data-guid="{{ $data['previous_channel']['code'] }}">
+                                    <i class="fas fa-arrow-left me-2"></i>
+                                    <div>
+                                        <div class="fw-bold">Previous</div>
+                                        <small>{{ $data['previous_channel']['title'] }}</small>
+                                    </div>
+                                </button>
+                            @else
+                                <button class="channel-btn-1" disabled>
+                                    <i class="fas fa-arrow-left me-2"></i>
+                                    <div>
+                                        <div class="fw-bold">Previous</div>
+                                    </div>
+                                </button>
+                            @endif
+
+                            <!-- Next Button -->
+                            @if ($data['next_channel'] !== null)
+                                <button class="channel-btn-1 ajax-channel-btn"
+                                    data-guid="{{ $data['next_channel']['code'] }}">
+                                    <div>
+                                        <div class="fw-bold">Next</div>
+                                        <small>{{ $data['next_channel']['title'] }}</small>
+                                    </div>
+                                    <i class="fas fa-arrow-right ms-2"></i>
+                                </button>
+                            @else
+                                <button class="channel-btn-1" disabled>
+                                    <div class="fw-bold">Next</div>
+                                    <i class="fas fa-arrow-right ms-2"></i>
+                                </button>
+                            @endif
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -199,7 +276,12 @@
 
 @push('scripts')
     <script>
-        document.addEventListener("DOMContentLoaded", function(event) {
+        document.addEventListener("DOMContentLoaded", function() {
+            var leftTime = {{ $leftTime }};
+            initPlayer(leftTime);
+        });
+
+        function initPlayer(leftTime = 0) {
             var leftTime = {{ $leftTime }};
             var isshowlist = true;
             var pListPostion = 'vrb';
@@ -321,7 +403,7 @@
                 // alert("ad End");
 
             });
-        });
+        };
 
         function unmutedVoice() {
             player.toggleMute();
@@ -331,5 +413,22 @@
         function makeVolumeButtontoggable() {
             $('.mvp-volume-toggle').addClass('mvp-volume-toggable');
         }
+
+        $(document).on('click', '.ajax-channel-btn', function() {
+            const channelGuid = $(this).data('guid');
+            $.ajax({
+                url: `/next-previous/${channelGuid}`,
+                method: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        $('#render-page').replaceWith(response.newHtml);
+                        initPlayer(0);
+                    }
+                },
+                error: function(xhr) {
+                    console('Unable to load channel. Please try again.');
+                }
+            });
+        });
     </script>
 @endpush
