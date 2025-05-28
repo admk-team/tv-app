@@ -28,9 +28,7 @@
                                 isset($branding->is_linkedin_feature_active) &&
                                 $branding->is_linkedin_feature_active === 'true';
 
-                            $col = $isFacebookActive || $isGoogleActive || $isLinkedinActive
-                                    ? 'col-md-6'
-                                    : 'col-md-12';
+                            $col = $isFacebookActive || $isGoogleActive || $isLinkedinActive ? 'col-md-6' : 'col-md-12';
                         @endphp
                         @if ($col == 'col-md-6')
                             <div class="col-md-6 ind1">
@@ -79,18 +77,21 @@
                                         <img src="{{ asset('assets/images/ussr.png') }}" class="icn">
                                     </label>
                                     @error('name')
-                                        <span class="error_box" id="span_name">{{ $message }}</span>
+                                        <span class="error_box-register" id="span_name">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="input_groupbox">
                                     <label class="contact-label">
                                         <div class="vertLine"></div>
-                                        <input id="email" type="email" class="form-control" placeholder="Email" name="email" value="{{ old('email') ?? (isset($data) && isset($data['email']) ? $data['email'] : '') }}" autocomplete="email" autofocus>
+                                        <input id="email" type="email" class="form-control" placeholder="Email"
+                                            name="email"
+                                            value="{{ old('email') ?? (isset($data) && isset($data['email']) ? $data['email'] : '') }}"
+                                            autocomplete="email" autofocus>
 
                                         <img src="{{ asset('assets/images/mail.png') }}" class="icn mll">
                                     </label>
                                     @error('email')
-                                        <span class="error_box" id="span_email">{{ $message }}</span>
+                                        <span class="error_box-register" id="span_email">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="input_groupbox">
@@ -103,10 +104,16 @@
                                             class="far fa-light fa-eye field-icon toggle-password"
                                             style="display:none;"></span>
                                     </label>
-                                    @error('password')
-                                        <span class="error_box" id="span_password">{{ $message }}</span>
-                                    @enderror
+                                
+                                    @if ($errors->has('password'))
+                                    <span class="error_box-register" id="span_password">
+                                        @foreach ($errors->get('password') as $message)
+                                            {{ $message }}
+                                        @endforeach
+                                        </span>
+                                    @endif
                                 </div>
+                            
                                 <div class="input_groupbox">
                                     <label class="contact-label">
                                         <div class="vertLine"></div>
@@ -118,14 +125,15 @@
                                             style="display:none;"></span>
                                     </label>
                                     @error('password_confirmation')
-                                        <span class="error_box" id="span_cpassword">{{ $message }}</span>
+                                        <span class="error_box-register" id="span_cpassword">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group mb-4">
                                     <button class="btn rounded" class="submit">SUBMIT</button>
                                 </div>
                                 <div class="input_groupbox alreadyText">
-                                    <p class="fw-medium">Already have an account ? <a href="{{ route('login') }}">Click here to Login</a>
+                                    <p class="fw-medium">Already have an account ? <a href="{{ route('login') }}">Click
+                                            here to Login</a>
                                     </p>
                                 </div>
                             </div>
