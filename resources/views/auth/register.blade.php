@@ -77,7 +77,7 @@
                                         <img src="{{ asset('assets/images/ussr.png') }}" class="icn">
                                     </label>
                                     @error('name')
-                                        <span class="error_box" id="span_name">{{ $message }}</span>
+                                        <span class="error_box-register" id="span_name">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="input_groupbox">
@@ -91,7 +91,7 @@
                                         <img src="{{ asset('assets/images/mail.png') }}" class="icn mll">
                                     </label>
                                     @error('email')
-                                        <span class="error_box" id="span_email">{{ $message }}</span>
+                                        <span class="error_box-register" id="span_email">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="input_groupbox">
@@ -104,14 +104,16 @@
                                             class="far fa-light fa-eye field-icon toggle-password"
                                             style="display:none;"></span>
                                     </label>
+                                
                                     @if ($errors->has('password'))
-                                    <span class="error_box" id="span_password">
+                                    <span class="error_box-register" id="span_password">
                                         @foreach ($errors->get('password') as $message)
                                             {{ $message }}
                                         @endforeach
                                         </span>
                                     @endif
                                 </div>
+                            
                                 <div class="input_groupbox">
                                     <label class="contact-label">
                                         <div class="vertLine"></div>
@@ -123,7 +125,7 @@
                                             style="display:none;"></span>
                                     </label>
                                     @error('password_confirmation')
-                                        <span class="error_box" id="span_cpassword">{{ $message }}</span>
+                                        <span class="error_box-register" id="span_cpassword">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group mb-4">

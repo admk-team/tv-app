@@ -2880,6 +2880,15 @@ span.error_box {
     bottom: -20px;
     left: 0;
 }
+span.error_box-register {
+    font-size: 12px;
+    color: var(--themeActiveColor);
+    /* position: absolute; */
+    bottom: -20px;
+    left: 0;
+    display: block;
+    margin-top: -16px;
+}
 
 .inner-div button.btn,
 .btn_orange {
