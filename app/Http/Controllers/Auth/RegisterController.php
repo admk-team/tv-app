@@ -30,14 +30,14 @@ class RegisterController extends Controller
          $rules = [
             'name' => 'required|max:40',
             'email' => 'required|email',
-            'confirmPassword' => 'required|same:password',
+            'password_confirmation' => 'required|same:password',
         ];
 
         $messages = [
             'password.required' => 'Password is required.',
             'password.min' => 'Password must be at least :min characters.',
             'password.regex' => 'Password must include uppercase, lowercase, number, and special character.',
-            'confirmPassword.same' => 'Passwords do not match.',
+            'password_confirmation.same' => 'Passwords do not match.',
         ];
 
         if ($complexity === 'simple') {
