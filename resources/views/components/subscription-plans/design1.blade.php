@@ -28,7 +28,7 @@
                 : 'Login';
                 $descItems = explode("\n", strip_tags($plan->plan_desc));
                 @endphp
-                <div class="column fourth">
+                <div class="column">
                     <div class="card" style="height: 100%;">
                         <div>
                             <h2>{{ $plan->plan_name }}</h2>

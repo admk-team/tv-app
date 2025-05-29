@@ -31,7 +31,7 @@
                 @endphp
 
                 <div class="col-md-4 mb-4">
-                    <div class="card subscription-card shadow-lg border-light">
+                    <div class="card subscription-card shadow-lg ">
                         <div class="card-body text-center">
                             <h4 class="card-title">{{ $plan->plan_name }}</h4>
                             <i class="{{ $icon }} fa-3x mb-3"></i>

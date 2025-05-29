@@ -2014,7 +2014,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             //console.dir(this);
             //note evt.target can be a nested element, not the body element, resulting in misfires
             //console.log(evt.target);
-            if (player.getMediaPlaying()) {
+            if (window.player && player.getMediaPlaying()) {
                 // alert(player);
                 mediaId = player.getCurrentMediaData().mediaId
                 console.log(player.getCurrentMediaData());
