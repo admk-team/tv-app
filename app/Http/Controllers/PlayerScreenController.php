@@ -136,11 +136,16 @@ class PlayerScreenController extends Controller
         }
         $averageRating = $totalReviews > 0 ? number_format($totalRating / $totalReviews, 1) : '';
 
-        $newReviewHtml = view('playerscreen.includes.review', ['reviews' => $data['streamrating']
-        ,'streamratingtype' => $data['streamratingtype'],'streamratingstatus' => $data['streamratingstatus']
+        $newReviewHtml = view('playerscreen.includes.review', [
+            'reviews' => $data['streamrating'],
+            'streamratingtype' => $data['streamratingtype'],
+            'streamratingstatus' => $data['streamratingstatus']
         ])->render();
-        $ratingIconHtml = view('playerscreen.includes.rating-icon', ['ratingsCount' => $totalReviews
-        ,'streamratingtype' => $data['streamratingtype'],'streamratingstatus' => $data['streamratingstatus']])->render();
+        $ratingIconHtml = view('playerscreen.includes.rating-icon', [
+            'ratingsCount' => $totalReviews,
+            'streamratingtype' => $data['streamratingtype'],
+            'streamratingstatus' => $data['streamratingstatus']
+        ])->render();
 
         return response()->json([
             'success' => true,
@@ -229,5 +234,13 @@ class PlayerScreenController extends Controller
 
         // Pass variables to the view
         return view('playerscreen.extra_video', compact('playbackUrl', 'thumbnail', 'title', 'description'));
+    }
+
+    public function ApplyCoupon(Request $request)
+    {
+        $request->validate([
+            'code' => 'required',
+            'stream_code' => 'required'
+        ]);
     }
 }

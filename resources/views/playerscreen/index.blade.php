@@ -15,7 +15,7 @@
     $IS_SIGNIN_BYPASS = \App\Services\AppConfig::get()->app->app_info->is_bypass_login;
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
-
+    
     session('GLOBAL_PASS', 0);
     request()->server('REQUEST_METHOD');
     $protocol = request()->server('HTTPS') === 'on' ? 'https' : 'http';
@@ -52,7 +52,7 @@
     }
     $adParam = 'videoId=' . $streamGuid . '&title=' . $arrSlctItemData['stream_title'];
     // Login requried
-
+    
     if ($IS_SIGNIN_BYPASS == 'N' && !session('USER_DETAILS')) {
         session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
         session()->save();
@@ -65,7 +65,7 @@
         session()->save();
         $redirectUrl = route('login');
     }
-
+    
     $sharingURL = route('playerscreen', $streamGuid);
     $isBuyed = $arrSlctItemData['is_buyed'];
     $monetizationType = $arrSlctItemData['monetization_type'];
@@ -99,7 +99,7 @@
             \Illuminate\Support\Facades\Redirect::to(route('monetization'))->send();
         }
     }
-
+    
     // Check if subscription is required for all content and is not subscribed
     if (\App\Helpers\GeneralHelper::subscriptionIsRequired() && $isBuyed == 'N') {
         if ($limitWatchTime === 'no' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -112,15 +112,15 @@
             \Illuminate\Support\Facades\Redirect::to(route('subscription'))->send();
         }
     }
-
+    
     $mType = isset($mType) ? $mType : 'video';
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
     }
     $apiPath = App\Services\Api::endpoint('/mngstrmdur');
-
+    
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN') . '&userProfileId=' . session('USER_DETAILS.USER_PROFILE');
-
+    
     // dd(session('USER_DETAILS.USER_PROFILE'));
     // here get the video duration
     $seekFunStr = '';
@@ -138,7 +138,7 @@
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
         $seekFunStr = "this.currentTime($streamDurationInSec);";
     }
-
+    
     // Here Set Ad URL in Session
     $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
     if (!session('ADS_INFO')) {
@@ -150,7 +150,7 @@
             ],
         ]);
     }
-
+    
     $useragent = request()->server('HTTP_USER_AGENT');
     $isMobileBrowser = 0;
     if (
@@ -168,13 +168,13 @@
     $userAgent = urlencode(request()->server('HTTP_USER_AGENT'));
     $userIP = \App\Helpers\GeneralHelper::getRealIpAddr();
     $channelName = urlencode(\App\Services\AppConfig::get()->app->app_info->app_name);
-
+    
     $isLocalHost = false;
     $host = parse_url(url()->current())['host'];
     if (in_array($host, ['localhost', '127.0.0.1'])) {
         $isLocalHost = true;
     }
-
+    
     //&app_bundle=669112
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
@@ -185,11 +185,11 @@
     }
     $adMacros .= "&duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
     $dataVast = "data-vast='$adMacros'";
-
+    
     if ($isMobileBrowser == 1 || $adUrl == '') {
         $dataVast = '';
     }
-
+    
     $stream_ad_url = $arrSlctItemData['stream_ad_url'];
     if (parse_url($stream_ad_url, PHP_URL_QUERY)) {
         $stream_ad_url = $stream_ad_url . "&duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
@@ -197,22 +197,22 @@
         $stream_ad_url = $stream_ad_url . "?duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
     }
     $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $stream_ad_url . '"' : null;
-
+    
     if (!$arrSlctItemData['has_global_ads']) {
         $dataVast = '';
     }
-
+    
     if (!$arrSlctItemData['has_individual_ads']) {
         $dataVast2 = '';
     }
-
+    
     if (!$arrSlctItemData['has_ads']) {
         $dataVast = '';
         $dataVast2 = '';
     }
-
+    
     $watermark = $arrSlctItemData['watermark'] ?? null;
-
+    
     ?>
 
     {{-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" /> --}}
@@ -437,25 +437,25 @@
 
         /* Styles for BuyNow redirect message */
         /* .buynow-redirect-message {
-                                                            background-color: #353b49;
-                                                            color: var(--themePrimaryTxtColor);
-                                                            max-width: 1000.89px;
-                                                            width: fit-content;
-                                                            padding: .8rem 1.2rem;
-                                                            font-weight: 600;
-                                                            border-radius: 2px;
-                                                            position: absolute;
-                                                            z-index: 1000;
-                                                            bottom: 68px;
-                                                            height: fit-content;
-                                                            left: 18px;
-                                                            user-select: none;
-                                                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                                                            transition: all 0.5s ease-in-out;
-                                                            transform: translateX(-400px);
-                                                            opacity: 0;
-                                                            visibility: hidden;
-                                                        } */
+                                                                                                                                                                                                background-color: #353b49;
+                                                                                                                                                                                                color: var(--themePrimaryTxtColor);
+                                                                                                                                                                                                max-width: 1000.89px;
+                                                                                                                                                                                                width: fit-content;
+                                                                                                                                                                                                padding: .8rem 1.2rem;
+                                                                                                                                                                                                font-weight: 600;
+                                                                                                                                                                                                border-radius: 2px;
+                                                                                                                                                                                                position: absolute;
+                                                                                                                                                                                                z-index: 1000;
+                                                                                                                                                                                                bottom: 68px;
+                                                                                                                                                                                                height: fit-content;
+                                                                                                                                                                                                left: 18px;
+                                                                                                                                                                                                user-select: none;
+                                                                                                                                                                                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                                                                                                                                                                                                transition: all 0.5s ease-in-out;
+                                                                                                                                                                                                transform: translateX(-400px);
+                                                                                                                                                                                                opacity: 0;
+                                                                                                                                                                                                visibility: hidden;
+                                                                                                                                                                                            } */
         .buynow-redirect-message {
             background-color: var(--themeActiveColor);
             color: var(--themePrimaryTxtColor);
@@ -1522,12 +1522,48 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                     </div>
                                 @endforeach
                             </div>
+
                         </div>
                     </div>
                 </section>
             </div>
         @endif
     </div>
+    {{-- coupon modal --}}
+    @if (!empty($arrSlctItemData['coupon_code']))
+        <div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="centeredModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered"> <!-- Centering class -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="centeredModalLabel">
+                            {{ $arrSlctItemData['coupon_code'][0]['title'] }}
+                            <small class="text-muted" style="font-size: 0.8rem;">
+                                (Disappears in <span id="countdown"></span>s)
+                            </small>
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="couponForm">
+                            @csrf
+                            <input type="hidden" id="stream_code"
+                                value="{{ $arrSlctItemData['coupon_code'][0]['stream_code'] }}">
+                            <div class="mb-3">
+                                <label for="couponCode" class="form-label">Enter Code</label>
+                                <input type="text" class="form-control" id="couponCode"
+                                    placeholder="Enter your coupon code">
+                                <div id="coupon_code_error" class="text-danger mt-1" style="font-size: 0.875rem;"></div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="button" class="btn btn-primary" id="applyCouponBtn">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
     {{--  status modal  --}}
     <div id="statusModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -1585,6 +1621,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             </div>
         </div>
     </div>
+
+
 @endsection
 
 @push('scripts')
@@ -1863,9 +1901,60 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 @endif
 
 
+                @if (!empty($arrSlctItemData['coupon_code']))
+                    let couponData = @json($arrSlctItemData['coupon_code']);
+                    let couponDisplayed = false;
+
+                    // Bootstrap Modal instance
+                    const couponModalEl = document.getElementById('couponModal');
+                    const couponModal = new bootstrap.Modal(couponModalEl);
+
+                    function checkAndShowCouponCode() {
+                        if (couponDisplayed || couponData.length === 0) {
+                            return;
+                        }
+
+                        let currentTime = Math.floor(player.getCurrentTime());
+                        let showAt = timeStringToSeconds(couponData[0].load_time);
+
+                        if (currentTime === showAt) {
+                            couponModal.show();
+                            couponDisplayed = true;
+                            let seconds = 10;
+                            $('#countdown').text(seconds);
+                            let countdownInterval = setInterval(() => {
+                                seconds--;
+                                $('#countdown').text(seconds);
+                                if (seconds <= 0) {
+                                    clearInterval(countdownInterval);
+                                    $('#couponModal').modal('hide');
+                                }
+                            }, 1000);
+                        }
+                    }
+
+                    // Run the check every 1 second
+                    setInterval(checkAndShowCouponCode, 1000);
+                @endif
+
 
             });
 
+            // Convert HH:MM:SS to seconds
+            function timeStringToSeconds(timeStr) {
+                const parts = timeStr.split(':').map(Number);
+                let seconds = 0;
+
+                if (parts.length === 3) {
+                    seconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+                } else if (parts.length === 2) {
+                    seconds = parts[0] * 60 + parts[1];
+                } else if (parts.length === 1) {
+                    seconds = parts[0];
+                }
+
+                return seconds;
+            }
 
             player.addEventListener("mediaPause", function(data) {
                 //alert(data.instance.getCurrentTime());
@@ -1918,6 +2007,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             }
 
         });
+
+
 
         document.body.addEventListener("click", function(evt) {
             //console.dir(this);
@@ -3005,7 +3096,37 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             })
         }
     </script>
-
+    {{-- ajax request for apply coupon  --}}
+    <script>
+        $('#applyCouponBtn').on('click', function() {
+            const code = $('#couponCode').val();
+            const streamCode = $('#stream_code').val();
+            $('#coupon_code_error').text('');
+            $.ajax({
+                url: '{{ route('coupon.apply') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    code: code,
+                    stream_code: streamCode
+                },
+                success: function(response) {
+                    console.log('Coupon applied successfully!');
+                    $('#couponModal').modal('hide');
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        const errors = xhr.responseJSON.errors;
+                        if (errors.code) {
+                            $('#coupon_code_error').text(errors.code[0]);
+                        }
+                    }else{
+                        console.log('Failed to apply coupon: ' + xhr.responseJSON.message);
+                    }
+                }
+            });
+        });
+    </script>
 
 
 @endpush
