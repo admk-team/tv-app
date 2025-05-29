@@ -1,0 +1,112 @@
+video {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.tv-image {
+  position: absolute;
+  width: 200px;
+  z-index: 900;
+  left: 52px;
+  top: 21px;
+  width: 394px;
+  height: 218px;
+}
+
+.fs-14px {
+  font-size: 14px;
+}
+
+.text-grey {
+  color: #abb7c4;
+}
+
+.bg-crimsonblack {
+  background: #272727;
+}
+
+.our-story-card {
+  /* background: transparent; */
+  border-bottom: 8px solid var(--themeActiveColor);
+ color:var(--themePrimaryTxtColor);
+  margin-bottom: 0;
+  padding: 50px 5%;
+  position: relative;
+}
+
+.footer_bottom {
+  background: var( --footerbtmBgcolor);
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.btn-warning {
+  color:var(--bgcolor);
+  background: var(--themeActiveColor);
+  border-color: 1px solid var(--themeActiveColor);
+}
+
+.btn-warning:hover {
+  color:var(--bgcolor);
+  background: var(--themeActiveColor);
+  border-color: 1px solid var(--themeActiveColor);
+}
+
+.btn-primary {
+  background: var(--themeActiveColor);
+  background: linear-gradient(90deg, var(--themeActiveColor) 0%, var(--bgcolor) 100%);
+  background: -moz-linear-gradient(90deg, var(--themeActiveColor) 0%, var(--bgcolor) 100%);
+  background: -webkit-linear-gradient(90deg, var(--themeActiveColor) 0%, var(--bgcolor) 100%);
+  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#FE5303", endColorstr="var(--themeActiveColor)", GradientType=1);
+  border-color: 1px solid var(--themeActiveColor);
+  --bs-btn-border-color: var(--themeActiveColor);
+  border-radius: 34px;
+  font-size: 16px;
+}
+
+.accordion-button:not(.collapsed) {
+  color: var(--themeActiveColor);
+}
+
+.btn-primary:hover {
+  background: var(--themeActiveColor);
+  border-color: 1px solid var(--themeActiveColor) !important;
+  --bs-btn-border-color: var(--themeActiveColor);
+}
+
+.btn-primary:focus {
+  background: var(--themeActiveColor);
+  background: linear-gradient(90deg, var(--themeActiveColor) 0%, var(--bgcolor) 100%);
+  background: -moz-linear-gradient(90deg, var(--themeActiveColor) 0%, var(--bgcolor) 100%);
+  background: -webkit-linear-gradient(90deg, var(--themeActiveColor) 0%, var(--bgcolor) 100%);
+  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#FE5303", endColorstr="#FF9202", GradientType=1);
+  border-color: 1px solid var(--bgcolor);
+  --bs-btn-border-color: var(--bgcolor);
+  border-radius: 34px;
+}
+
+.bg-transparent {
+  background: var(--bgcolor) !important;
+  border-bottom: 0 !important;
+}
+.bg-black{
+  background: var(--bgcolor) !important;
+}
+.text-white-costum{
+  color:var(--themePrimaryTxtColor) !important;
+}
+@media (max-width:767px) {
+  .tv-image {
+    position: absolute;
+    width: 200px;
+    z-index: 900;
+    left: 39px;
+    top: 16px;
+    width: 272px;
+    height: 155px;
+  }
+}
