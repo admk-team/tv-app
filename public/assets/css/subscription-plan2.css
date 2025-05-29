@@ -1,0 +1,48 @@
+/* Custom CSS for Subscription Page */
+.subscription-card {
+  border-radius: 15px;
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+  transition: transform 0.3s ease;
+  border: 2px solid var(--themeActiveColor);
+
+}
+
+.subscription-card:hover {
+  transform: translateY(-10px);
+  animation: 0.7s 1 glow-activate;
+
+}
+
+.card-body {
+  text-align: center;
+  background-color: var(--bgcolor);
+  color: var(--themePrimaryTxtColor);
+  border: 2px solid var(--themeActiveColor);
+  border-radius: 6px;
+}
+
+.price {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--themePrimaryTxtColor);
+}
+
+.price .currency {
+  font-size: 1.5rem;
+}
+
+.text {
+  color: var(--themePrimaryTxtColor);
+}
+
+.btn {
+  transition: background-color 0.3s ease, border 0.3s ease;
+  border: 2px solid var(--themeActiveColor);
+  border-radius: 6px;
+  color: var(--themePrimaryTxtColor);
+}
+
+.btn:hover {
+  background-color: var(--themeActiveColor);
+
+}
