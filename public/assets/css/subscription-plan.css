@@ -92,11 +92,10 @@ p {
 .subscription-plans .column {
     flex: 1 1 calc(33.333% - 20px);
     max-width: calc(33.333% - 20px);
-    box-sizing: border-box;
+     box-sizing: border-box;
     margin-bottom: 20px;
-    display: flex;            /* make the column a flex container */
-    flex-direction: column;   /* vertical stacking */
-    align-items: flex-start;  /* prevent stretching */
+    display: flex;         
+    flex-direction: column;
 }
 
 @media (max-width: 768px) {
@@ -119,17 +118,14 @@ p {
     border-radius: 12px;
     box-shadow: var(--weak-glow);
     width: 100%;
+    flex: 1;
     text-align: center;
     font-size: 0.85rem;
     color: var(--themePrimaryTxtColor);
-
-    /* Allow height to be automatic based on content */
-    height: auto !important;  
-    min-height: auto !important;
-    max-height: none !important;
-
-    /* Remove flex styles if any */
-    display: block; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100%; 
 }
 
 .subscription-plans .card:hover {
