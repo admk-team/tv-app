@@ -121,7 +121,7 @@
 {{-- <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script> --}}
 <script src="{{ asset('assets/js/slick.min.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.jscroll.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
+<script async src="{{ asset('assets/js/jquery-ui.js') }}"></script>
 <script src="{{ asset('assets/js/year_select.js') }}"></script>
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 
