@@ -293,7 +293,7 @@
                             if (!data.success || !data.data.streams || data.data.streams.length === 0) {
                                 console.log(
                                     `No streams for category: ${catTitle} (${catGuid}), hiding wrapper`
-                                    );
+                                );
                                 wrapper.style.display = 'none';
                                 return;
                             }
@@ -344,12 +344,12 @@
 
                                             console.log(
                                                 `UI updated for category: ${catTitle} (${catGuid})`
-                                                );
+                                            );
                                         });
                                     } else {
                                         console.log(
                                             `Render failed for category: ${catTitle} (${catGuid}), hiding wrapper`
-                                            );
+                                        );
                                         wrapper.style.display = 'none';
                                     }
                                 })
@@ -369,15 +369,29 @@
                 })
             }
 
-            // Load categories after page is fully loaded with a 1-second delay
-            window.onload = async () => {
-                //setTimeout(() => {
+            async function loadCategoryOnView(entry) {
+                const wrapper = entry.target;
+                if (entry.isIntersecting) {
+                    observer.unobserve(wrapper); // Stop observing once loaded
+                    await loadCategory(wrapper);
+                    console.log(`Loaded category for`, wrapper);
+                }
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(loadCategoryOnView);
+            }, {
+                root: null, // Use the viewport
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when 10% of element is visible
+            });
+
+            window.onload = () => {
                 const categoryWrappers = document.querySelectorAll('.category-wrapper');
                 for (const wrapper of categoryWrappers) {
-                    await loadCategory(wrapper);
+                    observer.observe(wrapper);
                 }
-                console.log(`Initiated loading for ${categoryWrappers.length} categories`);
-                //}, 1500); // 1.5-second delay
+                console.log(`Observing ${categoryWrappers.length} categories for lazy loading`);
             };
         });
     </script>
