@@ -1595,8 +1595,8 @@
                 })
                 .catch(error => {
                     console.error(`Error processing streams for stream: ${streamGuid}:`, error);
-                    desktopContainer.innerHTML = '<p>Error loading content</p>';
-                    mobileContainer.innerHTML = '<p>Error loading content</p>';
+                    desktopContainer.innerHTML = '<p class="text-white no-reviews-message m-3 mt-2">Content Not Avaiable yet</p>';
+                    mobileContainer.innerHTML = '<p class="text-white no-reviews-message m-3 mt-2">Content Not Avaiable yet</p>';
                     desktopContainer.style.display = 'block';
                     mobileContainer.style.display = 'block';
                     if (contentDiv) {
