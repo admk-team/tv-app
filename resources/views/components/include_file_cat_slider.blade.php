@@ -187,7 +187,7 @@
                                                 @endif
                                             @endif
                                         @endif
-                                        @if (in_array($category->card_type, ['BA', 'LB']))
+                                        {{--  @if (in_array($category->card_type, ['BA', 'LB']))
                                             @if ($stream->stream_type == 'A' && isset($stream->label_ad) && $stream->label_ad !== null)
                                                 <div class="trending_icon_box">
                                                 </div>
@@ -196,7 +196,7 @@
                                                     {{ $stream->label_ad }}
                                                 </div>
                                             @endif
-                                        @endif
+                                        @endif  --}}
                                         <div class="{{ $cardThumbCls }}">
                                             <img src="{{ $stream->{$streamPosterKey} ?? '' }}"
                                                 alt="{{ $stream->stream_title ?? '' }}">
@@ -294,7 +294,7 @@
                                             @endif
                                         @endif
                                     @endif
-                                    @if (in_array($category->card_type, ['BA', 'LB']))
+                                    {{--  @if (in_array($category->card_type, ['BA', 'LB']))
                                         @if ($stream->stream_type == 'A' && isset($stream->label_ad) && $stream->label_ad !== null)
                                             <div class="trending_icon_box">
                                             </div>
@@ -303,7 +303,7 @@
                                                 {{ $stream->label_ad }}
                                             </div>
                                         @endif
-                                    @endif
+                                    @endif  --}}
                                     <div class="{{ $cardThumbCls }}">
                                         <img src="{{ $stream->{$streamPosterKey} ?? '' }}"
                                             alt="{{ $stream->stream_title ?? '' }}">
