@@ -14,14 +14,16 @@
             $cardThumbCls = '';
             $cardThumbCls2 = "thumbnail_img LA_{$items}";
             $streamPosterKey = 'stream_poster';
-            $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay ?? true;
+            $autoplay =
+                \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay ?? true;
             break;
 
         case 'PO':
             $cartMainCls = 'potrait_slider';
             $cartMainSubCls = "ripple vertical PO_{$items}";
             $streamPosterKey = 'stream_portrait';
-            $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay ?? true;
+            $autoplay =
+                \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay ?? true;
             break;
 
         case 'ST': // ST: Standard (4x3)
@@ -30,14 +32,16 @@
             $cardThumbCls = '';
             $cardThumbCls2 = "thumbnail_img ST_{$items}";
             $streamPosterKey = 'stream_sdm';
-            $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay ?? true;
+            $autoplay =
+                \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_landscape_slider_autoplay ?? true;
             break;
 
         case 'QU': // QU: Square (1x1)
             $cartMainCls = 'potrait_slider';
             $cartMainSubCls = "vertical onebyone QU_{$items}";
             $streamPosterKey = 'stream_square';
-            $autoplay = \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay ?? true;
+            $autoplay =
+                \App\Services\AppConfig::get()->app->colors_assets_for_branding->is_potrait_slider_autoplay ?? true;
             break;
 
         case 'BA': // Billboard Ads (1606x470)
@@ -68,7 +72,7 @@
     </div>
     <div class="{{ $cartMainCls }} slider slick-slider" data-items-per-row="{{ $items }}"
         data-autoplay="{{ $autoplay ? 'true' : 'false' }}">
-        @if(isset($category->streams) && is_array($category->streams) && count($category->streams) > 0)
+        @if (isset($category->streams) && is_array($category->streams) && count($category->streams) > 0)
             @foreach ($category->streams as $stream)
                 @php
                     $stream = (object) $stream; // Ensure $stream is an object
@@ -119,10 +123,13 @@
                             $mType = "type='video/vimeo'";
                         }
                     }
-                    if(isset(\App\Services\AppConfig::get()->app->toggle_trailer) && \App\Services\AppConfig::get()->app->toggle_trailer == 1){
-                        $top10class = "slider-wrapper";
-                    }else{
-                        $top10class = "top-10-slider-wrapper";
+                    if (
+                        isset(\App\Services\AppConfig::get()->app->toggle_trailer) &&
+                        \App\Services\AppConfig::get()->app->toggle_trailer == 1
+                    ) {
+                        $top10class = 'slider-wrapper';
+                    } else {
+                        $top10class = 'top-10-slider-wrapper';
                     }
                 @endphp
                 <div class="item video-link">
@@ -178,6 +185,16 @@
                                                         @endif
                                                     @endif
                                                 @endif
+                                            @endif
+                                        @endif
+                                        @if (in_array($category->card_type, ['BA', 'LB']))
+                                            @if ($stream->stream_type == 'A' && isset($stream->label_ad) && $stream->label_ad !== null)
+                                                <div class="trending_icon_box">
+                                                </div>
+                                                <div class="content-label"
+                                                    style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                    {{ $stream->label_ad }}
+                                                </div>
                                             @endif
                                         @endif
                                         <div class="{{ $cardThumbCls }}">
@@ -277,6 +294,16 @@
                                             @endif
                                         @endif
                                     @endif
+                                    @if (in_array($category->card_type, ['BA', 'LB']))
+                                        @if ($stream->stream_type == 'A' && isset($stream->label_ad) && $stream->label_ad !== null)
+                                            <div class="trending_icon_box">
+                                            </div>
+                                            <div class="content-label"
+                                                style="color: {{ \App\Services\AppConfig::get()->app->website_colors->themePrimaryTxtColor }}; {{ \App\Helpers\GeneralHelper::generateGradient(\App\Services\AppConfig::get()->app->website_colors->themeActiveColor) }}">
+                                                {{ $stream->label_ad }}
+                                            </div>
+                                        @endif
+                                    @endif
                                     <div class="{{ $cardThumbCls }}">
                                         <img src="{{ $stream->{$streamPosterKey} ?? '' }}"
                                             alt="{{ $stream->stream_title ?? '' }}">
@@ -312,17 +339,17 @@
                                                             style="background-color:#07659E;height:5px;border-radius:2px;width: {{ $stream->stream_watched_dur_in_pct }}%"
                                                             aria-valuenow="{{ $stream->stream_watched_dur_in_pct }}"
                                                             aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                    @endif
-                                                </div>
+                                                    </div>
+                                                @endif
                                             </div>
-                                        @endif
-                                    </div>
-                                </a>
-                            @endif
-                        </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </a>
+                        @endif
                     </div>
-                @endforeach
-            @endif
-        </div>
+                </div>
+            @endforeach
+        @endif
     </div>
+</div>
