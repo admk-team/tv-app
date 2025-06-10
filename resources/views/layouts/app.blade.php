@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-
+ <meta name="csrf-token" content="{{ csrf_token() }}" />
 @if (env('APP_CODE') == '382f94988e01455c7262c1480ae530a6')
     <!-- OliveBranch -->
     @include('layouts.app-head.olive_app_head')
