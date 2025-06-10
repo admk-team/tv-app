@@ -1272,6 +1272,7 @@
             // Initialize player
             if (!window.player) {
                 window.player = new mvp(document.getElementById('wrapper'), settings);
+                  setTimeout(unmutedVoice, 500);
             }
 
             // Trailer button logic
@@ -1286,6 +1287,11 @@
                     });
                 }
             });
+             function unmutedVoice() {
+            //alert("hi");
+            player.toggleMute();
+            player.playMedia();
+        }
 
         });
     </script>
