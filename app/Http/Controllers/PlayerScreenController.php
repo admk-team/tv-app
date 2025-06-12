@@ -6,6 +6,7 @@ use App\Services\Api;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 
 class PlayerScreenController extends Controller
 {
@@ -229,5 +230,44 @@ class PlayerScreenController extends Controller
 
         // Pass variables to the view
         return view('playerscreen.extra_video', compact('playbackUrl', 'thumbnail', 'title', 'description'));
+    }
+
+    public function getplayerStreams(Request $request)
+    {
+        $streamGuid = $request->input('stream_guid');
+        $xyz = base64_encode(request()->ip());
+        if (env('NO_IP_ADDRESS') === true) { // For localhost
+            $xyz = "MTU0LjE5Mi4xMzguMzY=";
+        }
+
+        $response = Http::withHeaders(Api::headers())
+            ->asForm()
+            ->post(Api::endpoint('/related/playerstream'), [
+                'streamGuid' => $streamGuid,
+                'user_data' => $xyz,
+            ]);
+
+
+        Log::info('API response for /related/playerstream', [
+            'status' => $response->status(),
+            'body' => $response->body()
+        ]);
+
+        if ($response->successful()) {
+            $responseJson = $response->json();
+            $streams = $responseJson['app']['latest_items'] ?? [];
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'streams' => $streams,
+                ]
+            ]);
+        }
+
+        Log::error('API call failed in getRelatedStreams', [
+            'status' => $response->status(),
+            'body' => $response->body()
+        ]);
+        return response()->json(['success' => false], 500);
     }
 }

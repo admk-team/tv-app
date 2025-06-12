@@ -2641,7 +2641,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             }
 
             console.log('Initiating fetch to /streams/related for stream:', streamGuid);
-            fetch('{{ url('/streams/related') }}', {
+            fetch('{{ url('/streams/playerstream') }}', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -2869,7 +2869,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             }
 
             console.log('Initiating fetch to /streams/related for stream:', streamGuid);
-            fetch('{{ url('/streams/related') }}', {
+            fetch('{{ url('/streams/playerstream') }}', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',

@@ -171,6 +171,7 @@ class DetailScreenController extends Controller
         return response()->json(['success' => false], 500);
     }
 
+
     public function renderYouMightLike(Request $request)
     {
         $streams = $request->input('streams');

@@ -232,5 +232,6 @@ Route::post('/render-you-might-like', [CategoryController::class, 'renderYouMigh
 
 //playerscreen
 Route::post('/streams/related', [DetailScreenController::class, 'getRelatedStreams'])->name('streams.related');
+Route::post('/streams/playerstream', [PlayerScreenController::class, 'getplayerStreams'])->name('streams.player.related');
 Route::post('/render-you-might-like', [DetailScreenController::class, 'renderYouMightLike'])->name('render.you-might-like');
 Route::post('/render-playlist-items', [DetailScreenController::class, 'renderplaylist'])->name('render.renderplaylist');
