@@ -318,6 +318,7 @@
 
                                 <div class="mvp-playlist-item"
                                     data-type="{{ Str::endsWith($streamUrl, ['.mp3', '.wav']) ? 'audio' : $mType }}"
+                                    data-noapi
                                     data-path="{{ $streamUrl }}" data-poster="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-title="{{ $arrSlctItemData['stream_title'] }}"

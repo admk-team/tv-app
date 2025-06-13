@@ -244,6 +244,7 @@
                                     @endphp
                                     <div class="mvp-playlist-item" data-preview-seek="auto"
                                         data-type="{{ Str::endsWith($streamUrl, ['.mp3', '.wav']) ? 'audio' : $mType }}"
+                                        data-noapi
                                         data-path="{{ $streamUrl }}" {!! $dataVast !!}
                                         data-poster="{{ $currentStream['poster'] }}"
                                         data-thumb="{{ $currentStream['poster'] }}"

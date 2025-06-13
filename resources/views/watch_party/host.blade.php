@@ -86,6 +86,7 @@
                                 <div class="playlist-video">
                                     <div class="mvp-playlist-item"
                                         data-type="{{ Str::endsWith($streamUrl, ['.mp3', '.wav']) ? 'audio' : $mType }}"
+                                        data-noapi
                                         data-path="{{ $streamUrl }}" data-poster="{{ $poster }}"
                                         data-thumb="{{ $poster }}" data-title="{{ $stream_title }}"
                                         data-description="{{ $stream_description }}">
