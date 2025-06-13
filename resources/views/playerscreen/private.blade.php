@@ -6,7 +6,7 @@
     $IS_SIGNIN_BYPASS = 'N';
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
-
+    
     session('GLOBAL_PASS', 0);
     request()->server('REQUEST_METHOD');
     $protocol = request()->server('HTTPS') === 'on' ? 'https' : 'http';
@@ -32,7 +32,7 @@
         session('REDIRECT_TO_SCREEN', url('/playerscreen/' . $streamGuid));
         \App\Helpers\GeneralHelper::headerRedirect(url('/signin'));
     }
-
+    
     //monetioztion
     $redirectUrl = null;
     if ($limitWatchTime === 'yes' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -50,7 +50,7 @@
             session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
             session()->save();
             \Illuminate\Support\Facades\Redirect::to(route('login'))->send();
-        } else if ($monetizationType == 'S') {
+        } elseif ($monetizationType == 'S') {
             $sArr['REQUEST_FROM'] = 'player';
             session(['MONETIZATION' => $sArr]);
             session()->save();
@@ -73,28 +73,42 @@
             \Illuminate\Support\Facades\Redirect::to(route('monetization'))->send();
         }
     }
-
+    
     // Check if subscription is required for all content and is not subscribed
     if (\App\Helpers\GeneralHelper::subscriptionIsRequired() && $isBuyed == 'N') {
         if ($limitWatchTime === 'no' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
             session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
             session()->save();
             \Illuminate\Support\Facades\Redirect::to(route('login'))->send();
-        }
-        else if (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE'])) {
+        } elseif (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE'])) {
             session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
             session()->save();
             \Illuminate\Support\Facades\Redirect::to(route('subscription'))->send();
         }
     }
-
+    
     $mType = 'video';
+    if ($streamUrl) {
+        $isShortYouTube = preg_match('/youtu\.be\/([^?&]+)/', $streamUrl, $shortYouTubeMatches);
+        $isSingleVideo = preg_match('/[?&]v=([^&]+)/', $streamUrl, $videoMatches);
+        $isVimeo = preg_match('/vimeo\.com\/(\d+)/', $streamUrl, $vimeoMatches);
+        if ($isShortYouTube) {
+            $streamUrl = $shortYouTubeMatches[1]; // Extract only the video ID
+            $mType = 'youtube_single';
+        } elseif ($isSingleVideo) {
+            $streamUrl = $videoMatches[1]; // Extract only the video ID
+            $mType = 'youtube_single';
+        } elseif ($isVimeo) {
+            $streamUrl = $vimeoMatches[1]; // Extract only the Vimeo ID
+            $mType = 'vimeo_single';
+        }
+    }
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
     }
     $apiPath = App\Services\Api::endpoint('/mngstrmdur');
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN');
-
+    
     // here get the video duration
     $seekFunStr = '';
     $arrFormData4VideoState = [];
@@ -110,7 +124,7 @@
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
         $seekFunStr = "this.currentTime($streamDurationInSec);";
     }
-
+    
     // Here Set Ad URL in Session
     $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
     if (!session('ADS_INFO')) {
@@ -122,7 +136,7 @@
             ],
         ]);
     }
-
+    
     $useragent = request()->server('HTTP_USER_AGENT');
     $isMobileBrowser = 0;
     if (
@@ -140,45 +154,44 @@
     $userAgent = urlencode(request()->server('HTTP_USER_AGENT'));
     $userIP = \App\Helpers\GeneralHelper::getRealIpAddr();
     $channelName = urlencode(\App\Services\AppConfig::get()->app->app_info->app_name);
-
+    
     $isLocalHost = false;
     $host = parse_url(url()->current())['host'];
     if (in_array($host, ['localhost', '127.0.0.1'])) {
         $isLocalHost = true;
     }
-
+    
     //&app_bundle=669112
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
     if (parse_url($adUrl, PHP_URL_QUERY)) {
-        $adMacros = $adUrl."&width=1920&height=1080&cb=$cb&".(!$isLocalHost? "uip=$userIP&": "")."device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+        $adMacros = $adUrl . "&width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     } else {
-        $adMacros = $adUrl."?width=1920&height=1080&cb=$cb&".(!$isLocalHost? "uip=$userIP&": "")."device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+        $adMacros = $adUrl . "?width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     }
     $dataVast = "data-vast='$adMacros'";
-
-    if ($isMobileBrowser == 1 || $adUrl == '')
-    {
+    
+    if ($isMobileBrowser == 1 || $adUrl == '') {
         $dataVast = '';
     }
-
+    
     $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
-
+    
     if (!$arrSlctItemData['has_global_ads']) {
         $dataVast = '';
     }
-
+    
     if (!$arrSlctItemData['has_individual_ads']) {
         $dataVast2 = '';
     }
-
+    
     if (!$arrSlctItemData['has_ads']) {
         $dataVast = '';
         $dataVast2 = '';
     }
-
+    
     $watermark = $arrSlctItemData['watermark'] ?? null;
-
+    
     ?>
 
     {{-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" /> --}}
@@ -342,10 +355,13 @@
         }
 
         @if ($redirectUrl)
-            .mvp-input-progress, .mvp-skip-backward-toggle, .mvp-skip-forward-toggle, .mvp-rewind-toggle {
-                cursor: not-allowed !important; 
+            .mvp-input-progress,
+            .mvp-skip-backward-toggle,
+            .mvp-skip-forward-toggle,
+            .mvp-rewind-toggle {
+                cursor: not-allowed !important;
             }
-            
+
         @endif
     </style>
 
@@ -448,9 +464,11 @@
                     <?php else: ?>
 
                     <div class="videocentalize">
-                        <div class="trail-redirect-message">You will be redirected to login in <span class="time">45 second</span></div>
+                        <div class="trail-redirect-message">You will be redirected to login in <span class="time">45
+                                second</span></div>
                         @if ($watermark)
-                            <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}" style="display: none;">
+                            <div class="watermark {{ $watermark['position'] }} {{ $watermark['type'] }}"
+                                style="display: none;">
                                 @if ($watermark['type'] === 'text')
                                     {{ $watermark['text'] }}
                                 @else
@@ -464,17 +482,21 @@
                             <div class="mvp-global-playlist-data"></div>
                             <div class="playlist-video">
 
-                                <div class="mvp-playlist-item" data-type="{{ $mType }}"
-                                    data-path="{{ $streamUrl }}" data-poster="{{ $arrSlctItemData['stream_poster'] }}"
+                                <div class="mvp-playlist-item"
+                                    data-type="{{ Str::endsWith($streamUrl, ['.mp3', '.wav']) ? 'audio' : $mType }}"
+                                    data-path="{{ $streamUrl }}"
+                                    data-poster="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-title="{{ $arrSlctItemData['stream_title'] }}"
                                     data-description="{{ $arrSlctItemData['stream_description'] }}"
-                                    {!! $dataVast2? $dataVast2: $dataVast !!}>
+                                    {!! $dataVast2 ? $dataVast2 : $dataVast !!}>
 
                                     @if (count($arrSlctItemData['subtitles'] ?? []))
                                         <div class="mvp-subtitles">
                                             @foreach ($arrSlctItemData['subtitles'] ?? [] as $subtitle)
-                                                <div data-label="{{ $subtitle['name'] }}" data-src="{{ $subtitle['file_url'] }}" @if($loop->first) data-default @endif></div>
+                                                <div data-label="{{ $subtitle['name'] }}"
+                                                    data-src="{{ $subtitle['file_url'] }}"
+                                                    @if ($loop->first) data-default @endif></div>
                                             @endforeach
                                         </div>
                                     @endif
@@ -503,14 +525,16 @@
                       }
                      ?>
                                 <div class="mvp-playlist-item" data-type="{{ $quality }}"
-                                    data-path="{{ $videoUrl }}" {!! $dataVast2? $dataVast2: $dataVast !!}
+                                    data-path="{{ $videoUrl }}" {!! $dataVast2 ? $dataVast2 : $dataVast !!}
                                     data-poster="{{ $poster }}" data-thumb="{{ $poster }}"
                                     data-title="{{ $arrStreamsData['stream_title'] }}"
                                     data-description="{{ $arrStreamsData['stream_description'] }}">
                                     @if (count($arrStreamsData['subtitles'] ?? []))
                                         <div class="mvp-subtitles">
                                             @foreach ($arrStreamsData['subtitles'] ?? [] as $subtitle)
-                                                <div data-label="{{ $subtitle['name'] }}" data-src="{{ $subtitle['file_url'] }}" @if($loop->first) data-default @endif></div>
+                                                <div data-label="{{ $subtitle['name'] }}"
+                                                    data-src="{{ $subtitle['file_url'] }}"
+                                                    @if ($loop->first) data-default @endif></div>
                                             @endforeach
                                         </div>
                                     @endif
@@ -772,7 +796,7 @@ if (!empty($arrCatData))
                                             {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                         </div>
                                         <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                                                                                                                                                      </div> -->
+                                                                                                                                                                                  </div> -->
                                         <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                         <div class="content_description">{{ $arrStreamsData['stream_description'] }}</div>
                                     </div>
@@ -812,6 +836,8 @@ if (!empty($arrCatData))
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('assets/js/mvp/youtubeLoader.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/vimeoLoader.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             var isshowlist = true
@@ -823,7 +849,8 @@ if (!empty($arrCatData))
 
                 skin: 'sirius', //aviva, polux, sirius
                 playlistPosition: pListPostion, //vrb, vb, hb, no-playlist, outer, wall
-
+                vimeoPlayerType: "chromeless",
+                youtubePlayerType: "chromeless",
 
                 sourcePath: "",
                 activeItem: 0, //active video to start with
@@ -1021,17 +1048,16 @@ if (!empty($arrCatData))
 
         });
 
-        document.body.addEventListener("click", function (evt) {
+        document.body.addEventListener("click", function(evt) {
             //console.dir(this);
             //note evt.target can be a nested element, not the body element, resulting in misfires
             //console.log(evt.target);
-            if (player.getMediaPlaying())
-            {
-            // alert(player);
+            if (player.getMediaPlaying()) {
+                // alert(player);
                 mediaId = player.getCurrentMediaData().mediaId
                 console.log(player.getCurrentMediaData());
                 console.log(player.getCurrentTime());
-            //  alert("body clicked");
+                //  alert("body clicked");
                 sendAjaxRes4VideoDuration('saveStrmDur', mediaId, player.getCurrentTime());
             }
         });
@@ -1114,7 +1140,7 @@ if (!empty($arrCatData))
                 const start = () => {
                     startTime = new Date();
                     const countDownDelay = duration - 30000;
-                    countDownTimeout = setTimeout(startCountDown, countDownDelay >= 0? countDownDelay: 0);
+                    countDownTimeout = setTimeout(startCountDown, countDownDelay >= 0 ? countDownDelay : 0);
                 };
 
                 const pause = () => {

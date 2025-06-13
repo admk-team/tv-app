@@ -6,7 +6,7 @@
     $IS_SIGNIN_BYPASS = 'N';
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
-
+    
     session('GLOBAL_PASS', 0);
     request()->server('REQUEST_METHOD');
     $protocol = request()->server('HTTPS') === 'on' ? 'https' : 'http';
@@ -62,14 +62,29 @@
             \App\Helpers\GeneralHelper::headerRedirect(url('/monetioztion'));
         }
     }
-
+    
     $mType = 'video';
+    if ($streamUrl) {
+        $isShortYouTube = preg_match('/youtu\.be\/([^?&]+)/', $streamUrl, $shortYouTubeMatches);
+        $isSingleVideo = preg_match('/[?&]v=([^&]+)/', $streamUrl, $videoMatches);
+        $isVimeo = preg_match('/vimeo\.com\/(\d+)/', $streamUrl, $vimeoMatches);
+        if ($isShortYouTube) {
+            $streamUrl = $shortYouTubeMatches[1]; // Extract only the video ID
+            $mType = 'youtube_single';
+        } elseif ($isSingleVideo) {
+            $streamUrl = $videoMatches[1]; // Extract only the video ID
+            $mType = 'youtube_single';
+        } elseif ($isVimeo) {
+            $streamUrl = $vimeoMatches[1]; // Extract only the Vimeo ID
+            $mType = 'vimeo_single';
+        }
+    }
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
     }
     $apiPath = url('/web-controller.php');
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN');
-
+    
     // here get the video duration
     $seekFunStr = '';
     $arrFormData4VideoState = [];
@@ -83,7 +98,7 @@
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
         $seekFunStr = "this.currentTime($streamDurationInSec);";
     }
-
+    
     // Here Set Ad URL in Session
     if (!session('ADS_INFO')) {
         session([
@@ -94,7 +109,7 @@
             ],
         ]);
     }
-
+    
     $useragent = request()->server('HTTP_USER_AGENT');
     $isMobileBrowser = 0;
     if (
@@ -108,13 +123,13 @@
     }
     $isMobileBrowser = 0;
     $dataVast = 'data-vast="' . url('/get-ad?' . $adParam) . '"';
-
+    
     if ($isMobileBrowser == 1) {
         $dataVast = '';
     }
-
+    
     $adUrl = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
-
+    
     $watermark = $arrRes['app']['screener']['watermark'];
     ?>
 
@@ -301,16 +316,18 @@
                             <div class="mvp-global-playlist-data"></div>
                             <div class="playlist-video">
 
-                                <div class="mvp-playlist-item" data-type="{{ $mType }}"
+                                <div class="mvp-playlist-item"
+                                    data-type="{{ Str::endsWith($streamUrl, ['.mp3', '.wav']) ? 'audio' : $mType }}"
                                     data-path="{{ $streamUrl }}" data-poster="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-title="{{ $arrSlctItemData['stream_title'] }}"
-                                    data-description="{{ $arrSlctItemData['stream_description'] }}"
-                                    >
+                                    data-description="{{ $arrSlctItemData['stream_description'] }}">
                                     @if (count($arrSlctItemData['subtitles'] ?? []))
                                         <div class="mvp-subtitles">
                                             @foreach ($arrSlctItemData['subtitles'] ?? [] as $subtitle)
-                                                <div data-label="{{ $subtitle['name'] }}" data-src="{{ $subtitle['file_url'] }}" @if($loop->first) data-default @endif></div>
+                                                <div data-label="{{ $subtitle['name'] }}"
+                                                    data-src="{{ $subtitle['file_url'] }}"
+                                                    @if ($loop->first) data-default @endif></div>
                                             @endforeach
                                         </div>
                                     @endif
@@ -340,14 +357,15 @@
                       }
                      ?>
                                 <div class="mvp-playlist-item" data-type="{{ $quality }}"
-                                    data-path="{{ $videoUrl }}"
-                                    data-poster="{{ $poster }}" data-thumb="{{ $poster }}"
-                                    data-title="{{ $arrStreamsData['stream_title'] }}"
+                                    data-path="{{ $videoUrl }}" data-poster="{{ $poster }}"
+                                    data-thumb="{{ $poster }}" data-title="{{ $arrStreamsData['stream_title'] }}"
                                     data-description="{{ $arrStreamsData['stream_description'] }}">
                                     @if (count($arrStreamsData['subtitles'] ?? []))
                                         <div class="mvp-subtitles">
                                             @foreach ($arrStreamsData['subtitles'] ?? [] as $subtitle)
-                                                <div data-label="{{ $subtitle['name'] }}" data-src="{{ $subtitle['file_url'] }}" @if($loop->first) data-default @endif></div>
+                                                <div data-label="{{ $subtitle['name'] }}"
+                                                    data-src="{{ $subtitle['file_url'] }}"
+                                                    @if ($loop->first) data-default @endif></div>
                                             @endforeach
                                         </div>
                                     @endif
@@ -440,28 +458,30 @@
               </div>
             </div> --}}
                 </div>
-<div class=" d-flex justify-content-between align-items-center flex-wrap w-75">
-    <div class="slider_title_box slidessbwh" style="padding: 0 45px; flex: 1;">
-        <div class="about_fulltxt">{{ $arrSlctItemData['stream_description'] }}</div>
-    </div>
-        @if (!empty($arrSlctItemData['is_download']) && $arrSlctItemData['is_download'] == 1)
-                <form action="{{ route('video.convert') }}" method="POST" class="d-flex flex-column flex-sm-row align-items-center">
-                    @csrf
-                    @if (session('message'))
-                        <span id="success-message" class="text-success">{{ session('message') }}</span>
-                    @endif
-                    <span id="error-message" class="text-danger"></span>
+                <div class=" d-flex justify-content-between align-items-center flex-wrap w-75">
+                    <div class="slider_title_box slidessbwh" style="padding: 0 45px; flex: 1;">
+                        <div class="about_fulltxt">{{ $arrSlctItemData['stream_description'] }}</div>
+                    </div>
+                    @if (!empty($arrSlctItemData['is_download']) && $arrSlctItemData['is_download'] == 1)
+                        <form action="{{ route('video.convert') }}" method="POST"
+                            class="d-flex flex-column flex-sm-row align-items-center">
+                            @csrf
+                            @if (session('message'))
+                                <span id="success-message" class="text-success">{{ session('message') }}</span>
+                            @endif
+                            <span id="error-message" class="text-danger"></span>
 
-                    <input type="hidden" name="stream_url" value="{{ $arrStreamsData['stream_url'] }}">
-                    <input type="hidden" name="stream_description" value="{{ $arrStreamsData['stream_description'] }}">
-                    <input type="hidden" name="stream_title" value="{{ $arrSlctItemData['stream_title'] }}">
-                    <input type="hidden" name="email" value="{{ request()->get('email') }}">
-                    <button type="submit" class="auth app-secondary-btn rounded mt-2 mt-sm-0">
-                        <span class="px-1"><i class="ri-arrow-down-line"></i></span>Download
-                    </button>
-                </form>
-    @endif
-</div>
+                            <input type="hidden" name="stream_url" value="{{ $arrStreamsData['stream_url'] }}">
+                            <input type="hidden" name="stream_description"
+                                value="{{ $arrStreamsData['stream_description'] }}">
+                            <input type="hidden" name="stream_title" value="{{ $arrSlctItemData['stream_title'] }}">
+                            <input type="hidden" name="email" value="{{ request()->get('email') }}">
+                            <button type="submit" class="auth app-secondary-btn rounded mt-2 mt-sm-0">
+                                <span class="px-1"><i class="ri-arrow-down-line"></i></span>Download
+                            </button>
+                        </form>
+                    @endif
+                </div>
 
             </div>
         </div>
@@ -469,8 +489,8 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -584,7 +604,7 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
                                             {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                         </div>
                                         <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                  </div> -->
+                                          </div> -->
                                         <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                         <div class="content_description">{{ $arrStreamsData['stream_description'] }}</div>
                                     </div>
@@ -606,6 +626,8 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('assets/js/mvp/youtubeLoader.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/vimeoLoader.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             var isshowlist = true
@@ -617,7 +639,8 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
 
                 skin: 'sirius', //aviva, polux, sirius
                 playlistPosition: pListPostion, //vrb, vb, hb, no-playlist, outer, wall
-
+                vimeoPlayerType: "chromeless",
+                youtubePlayerType: "chromeless",
 
                 sourcePath: "",
                 activeItem: 0, //active video to start with
