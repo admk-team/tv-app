@@ -364,8 +364,8 @@
             player.seekForward = (value = 10) => {
                 isUserInitiated = true; // Explicitly set as user initiated
                 originalSeekForward(value);
-                trackMediaEvent('seekForward', {
-                    seekValue: value
+                trackMediaEvent('seek', {
+                    seekValue: player.getCurrentTime()
                 });
                 isUserInitiated = false;
             };
@@ -373,13 +373,14 @@
             player.seekBackward = (value = 10) => {
                 isUserInitiated = true; // Explicitly set as user initiated
                 originalSeekBackward(value);
-                trackMediaEvent('seekBackward', {
-                    seekValue: value
+                trackMediaEvent('seek', {
+                    seekValue: player.getCurrentTime()
                 });
                 isUserInitiated = false; // Explicitly set as user initiated
             };
 
             const trackMediaEvent = async (eventType, data) => {
+                console.log(eventType);
                 const localStorageKey = 'hasReloaded';
                 try {
                     const payload = {

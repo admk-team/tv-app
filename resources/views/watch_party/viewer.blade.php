@@ -197,7 +197,7 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
- 
+
             function detectMob() {
                 const toMatch = [
                     /Android/i,
@@ -282,67 +282,93 @@
             let currentState = {};
             const fetchPlayerState = async () => {
                 try {
-                   const response = await fetch(`/watch-party/latest-player-state?watch_party_code=${@js($watch_party_code)}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                .getAttribute('content')
-                        },
-                    });
+                    const response = await fetch(
+                        `/watch-party/latest-player-state?watch_party_code=${@js($watch_party_code)}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content')
+                            },
+                        });
+
                     const contentType = response.headers.get('content-type');
                     if (contentType && contentType.includes('application/json')) {
                         const data = await response.json();
-                        console.log(data.event_type);
 
-                        if (data) {
-                            switch (data.event_type) {
-                                // case 'mediaStart':
-                                // console.log(player);
-                                // player.playMedia();
-                                // break;
+                        if (!data || data.status === 'no data') return;
 
-                                case 'mediaPause':
+                        // 🛑 Skip if same event type and same values
+                        if (currentState &&
+                            data.event_type === currentState.event_type &&
+                            JSON.stringify(data) === JSON.stringify(currentState)) {
+                            return; // Already handled
+                        }
+
+                        console.log('Handling new event:', data.event_type);
+
+                        switch (data.event_type) {
+                            case 'mediaPause':
+                                if (data.current_time !== currentState?.current_time) {
                                     player.seek(Math.floor(data.current_time));
-                                    player.pauseMedia();
-                                    break;
+                                }
+                                player.pauseMedia();
+                                break;
 
-                                case 'mediaPlay':
-                                    player.seek(Math.floor(data.current_time));
+                            case 'mediaPlay':
+                                if (data.seek_value !== currentState?.seek_value) {
                                     player.playMedia();
-                                    break;
+                                    setTimeout(() => {
+                                        player.seek(Math.floor(data.seek_value));
+                                    }, 1000);
+                                }
+                                break;
 
-                                case 'seek':
-                                    player.seek(Math.floor(data.seek_value));
+                            case 'seek':
+                                if (data.seek_value !== currentState?.seek_value) {
+                                    console.log("Hello World", Math.floor(data.seek_value), data.seek_value, player);
                                     player.playMedia();
-                                    break;
+                                    setTimeout(() => {
+                                        player.seek(Math.floor(data.seek_value));
+                                    }, 1000);
+                                    console.log("reload", Math.floor(data.current_time), data.current_time);
+                                }
+                                break;
 
-                                case 'seekForward':
+                            case 'seekForward':
+                                if (data.seek_value !== currentState?.seek_value) {
                                     player.seekForward(Math.floor(data.seek_value) || 10);
                                     player.playMedia();
-                                    break;
+                                }
+                                break;
 
-                                case 'seekBackward':
+                            case 'seekBackward':
+                                if (data.seek_value !== currentState?.seek_value) {
                                     player.seekBackward(Math.floor(data.seek_value) || 10);
                                     player.playMedia();
-                                    break;
+                                }
+                                break;
 
-                                case 'volumeChange':
+                            case 'volumeChange':
+                                if (data.current_volume !== currentState?.current_volume) {
                                     player.setVolume(data.current_volume);
                                     player.playMedia();
-                                    break;
+                                }
+                                break;
 
-                                case 'mediaEnd':
+                            case 'mediaEnd':
+                                if (data.current_time !== currentState?.current_time) {
                                     player.seek(Math.floor(data.current_time));
-                                    player.playMedia();
-                                    break;
+                                }
+                                player.playMedia();
+                                break;
 
-                                default:
-                                    console.log(`Unhandled event: ${data.event_type}`);
-                            }
-
-                            currentState = data;
+                            default:
+                                console.log(`Unhandled event: ${data.event_type}`);
                         }
+
+                        // Save current event state
+                        currentState = data;
                     } else {
                         console.error('Response is not JSON:', await response.text());
                     }
@@ -350,6 +376,7 @@
                     console.error('Error fetching player state:', error);
                 }
             };
+
             setInterval(fetchPlayerState, 10000);
 
 
