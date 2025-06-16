@@ -19,36 +19,16 @@ class VideoEventsController extends Controller
     }
     public function getLatestPlayerState(Request $request)
     {
-        $query = VideoEvents::orderBy('created_at', 'desc')
-            ->where('instance_name', 'player1');
-
-        if ($request->has('watch_party_code') && !empty($request->watch_party_code)) {
-            $query->where('watch_party_code', $request->watch_party_code);
-        }
-
-
-        $latestEvent = $query->first();
-
-        Log::info($request->watch_party_code);
+        $latestEvent = VideoEvents::orderBy('created_at', 'desc')
+            ->where('instance_name', 'player1')
+            ->first();
 
         if (!$latestEvent) {
-            return response()->json([
-                'status' => 'no data',
-                'message' => 'No player events found'
-            ], 200);
+            return response()->json(['status' => 'no data', 'message' => 'No player events found'], 200);
         }
-        // if ($request->has('watch_party_code') && !empty($request->watch_party_code)) {
-        //     $latestEvent->delete();
-        // }
-        // Clone the event data before deleting
-        $response = $latestEvent->toArray();
 
-        // Delete the event so it won't be returned next time
-
-
-        return response()->json($response);
+        return response()->json($latestEvent);
     }
-
 
 
 
