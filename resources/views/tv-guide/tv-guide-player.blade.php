@@ -1,9 +1,10 @@
 @extends('layouts.app')
 @push('style')
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
-    <script src="{{ asset('assets/js/new.js') }}"></script>
-    <script src="{{ asset('assets/js/vast.js') }}"></script>
-    <script src="{{ asset('assets/js/share_manager.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/mvp.css') }}" />
+    <script src="{{ asset('assets/js/mvp/new.js') }}"></script>
+    {{--  <script src="{{ asset('assets/js/new.js') }}"></script>  --}}
+    <script src="{{ asset('assets/js/mvp/vast.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/share_manager.js') }}"></script>
     <script src="{{ asset('assets/js/cache.js') }}"></script>
     <script src="{{ asset('assets/js/ima.js') }}"></script>
     <script src="{{ asset('assets/js/perfect-scrollbar.min.js') }}"></script>
@@ -244,8 +245,7 @@
                                     @endphp
                                     <div class="mvp-playlist-item" data-preview-seek="auto"
                                         data-type="{{ Str::endsWith($streamUrl, ['.mp3', '.wav']) ? 'audio' : $mType }}"
-                                        data-noapi
-                                        data-path="{{ $streamUrl }}" {!! $dataVast !!}
+                                        data-noapi data-path="{{ $streamUrl }}" {!! $dataVast !!}
                                         data-poster="{{ $currentStream['poster'] }}"
                                         data-thumb="{{ $currentStream['poster'] }}"
                                         data-title="{{ $currentStream['title'] }}"

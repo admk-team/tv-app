@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('head')
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
-    <script src="{{ asset('assets/js/new.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/mvp.css') }}" />
+    <script src="{{ asset('assets/js/mvp/new.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <style>
@@ -81,8 +82,7 @@
                                 <div class="playlist-video">
                                     <div class="mvp-playlist-item"
                                         data-type="{{ Str::endsWith($streamUrl, ['.mp3', '.wav']) ? 'audio' : $mType }}"
-                                        data-noapi
-                                        data-path="{{ $streamUrl }}" data-poster="{{ $poster }}"
+                                        data-noapi data-path="{{ $streamUrl }}" data-poster="{{ $poster }}"
                                         data-thumb="{{ $poster }}" data-title="{{ $stream_title }}"
                                         data-description="{{ $stream_description }}">
                                     </div>
