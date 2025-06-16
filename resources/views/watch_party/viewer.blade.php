@@ -350,7 +350,7 @@
                     console.error('Error fetching player state:', error);
                 }
             };
-            setInterval(fetchPlayerState, 30000);
+            setInterval(fetchPlayerState, 10000);
 
 
             let eventEnded = false;
@@ -380,9 +380,9 @@
                 }
             };
 
-            setInterval(checkEndTime, 30000);
+            setInterval(checkEndTime, 10000);
 
-            const interval = setInterval(checkEndTime, 30000);
+            const interval = setInterval(checkEndTime, 10000);
             if (eventEnded) {
                 clearInterval(interval);
             }
