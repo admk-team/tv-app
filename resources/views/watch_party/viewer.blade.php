@@ -197,7 +197,7 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
-const 
+ 
             function detectMob() {
                 const toMatch = [
                     /Android/i,
