@@ -326,7 +326,8 @@
 
                             case 'seek':
                                 if (data.seek_value !== currentState?.seek_value) {
-                                    console.log("Hello World", Math.floor(data.seek_value), data.seek_value, player);
+                                    console.log("Hello World", Math.floor(data.seek_value), data.seek_value,
+                                        player);
                                     player.playMedia();
                                     setTimeout(() => {
                                         player.seek(Math.floor(data.seek_value));
@@ -337,7 +338,7 @@
 
                             case 'seekForward':
                                 if (data.seek_value !== currentState?.seek_value) {
-                                      player.playMedia();
+                                    player.playMedia();
                                     setTimeout(() => {
                                         player.seek(Math.floor(data.seek_value));
                                     }, 1000);
@@ -348,7 +349,7 @@
 
                             case 'seekBackward':
                                 if (data.seek_value !== currentState?.seek_value) {
-                                      player.playMedia();
+                                    player.playMedia();
                                     setTimeout(() => {
                                         player.seek(Math.floor(data.seek_value));
                                     }, 1000);
@@ -365,10 +366,8 @@
                                 break;
 
                             case 'mediaEnd':
-                                if (data.current_time !== currentState?.current_time) {
-                                    player.seek(Math.floor(data.current_time));
-                                }
-                                player.pauseMedia();
+                                player.seek(Math.floor(data.current_time));
+                                player.playMedia();
                                 break;
 
                             default:
