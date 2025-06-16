@@ -282,7 +282,7 @@
             let currentState = {};
             const fetchPlayerState = async () => {
                 try {
-                    const response = await fetch('/watch-party/latest-player-state?watch_party_code=@js($watch_party_code)', {
+                   const response = await fetch(`/watch-party/latest-player-state?watch_party_code=${@js($watch_party_code)}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
