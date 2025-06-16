@@ -246,13 +246,6 @@ class PlayerScreenController extends Controller
                 'streamGuid' => $streamGuid,
                 'user_data' => $xyz,
             ]);
-
-
-        Log::info('API response for /related/playerstream', [
-            'status' => $response->status(),
-            'body' => $response->body()
-        ]);
-
         if ($response->successful()) {
             $responseJson = $response->json();
             $streams = $responseJson['app']['latest_items'] ?? [];

@@ -83,9 +83,6 @@ class WatchPartyController extends Controller
                     'watch_party_code' => $decryptedData['watch_party']['code']
                 ]);
             } else {
-                
-                Log::info('sss'.$decryptedData['watch_party']['code']);
-                
                 return view("watch_party.viewer", [
                     'stream' => $data,
                     'startDateTime' => $startDateTime,

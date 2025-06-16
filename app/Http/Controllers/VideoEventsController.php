@@ -25,12 +25,7 @@ class VideoEventsController extends Controller
         if ($request->has('watch_party_code') && !empty($request->watch_party_code)) {
             $query->where('watch_party_code', $request->watch_party_code);
         }
-
-
         $latestEvent = $query->first();
-
-        Log::info($request->watch_party_code);
-
         if (!$latestEvent) {
             return response()->json([
                 'status' => 'no data',
