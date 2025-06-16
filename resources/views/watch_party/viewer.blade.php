@@ -337,15 +337,23 @@
 
                             case 'seekForward':
                                 if (data.seek_value !== currentState?.seek_value) {
-                                    player.seekForward(Math.floor(data.seek_value) || 10);
-                                    player.playMedia();
+                                      player.playMedia();
+                                    setTimeout(() => {
+                                        player.seek(Math.floor(data.seek_value));
+                                    }, 1000);
+                                    {{--  player.seekForward(Math.floor(data.seek_value) || 10);
+                                    player.playMedia();  --}}
                                 }
                                 break;
 
                             case 'seekBackward':
                                 if (data.seek_value !== currentState?.seek_value) {
-                                    player.seekBackward(Math.floor(data.seek_value) || 10);
-                                    player.playMedia();
+                                      player.playMedia();
+                                    setTimeout(() => {
+                                        player.seek(Math.floor(data.seek_value));
+                                    }, 1000);
+                                    {{--  player.seekBackward(Math.floor(data.seek_value) || 10);
+                                    player.playMedia();  --}}
                                 }
                                 break;
 
@@ -360,7 +368,7 @@
                                 if (data.current_time !== currentState?.current_time) {
                                     player.seek(Math.floor(data.current_time));
                                 }
-                                player.playMedia();
+                                player.pauseMedia();
                                 break;
 
                             default:
