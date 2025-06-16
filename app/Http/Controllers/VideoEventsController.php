@@ -28,21 +28,23 @@ class VideoEventsController extends Controller
 
 
         $latestEvent = $query->first();
-        
+
         Log::info($request->watch_party_code);
-    
+
         if (!$latestEvent) {
             return response()->json([
                 'status' => 'no data',
                 'message' => 'No player events found'
             ], 200);
         }
-
+        if ($request->has('watch_party_code') && !empty($request->watch_party_code)) {
+            $latestEvent->delete();
+        }
         // Clone the event data before deleting
         $response = $latestEvent->toArray();
 
         // Delete the event so it won't be returned next time
-        $latestEvent->delete();
+
 
         return response()->json($response);
     }

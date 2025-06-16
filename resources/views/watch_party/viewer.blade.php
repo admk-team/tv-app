@@ -197,7 +197,7 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
-
+const 
             function detectMob() {
                 const toMatch = [
                     /Android/i,
@@ -280,13 +280,9 @@
             // player.addEventListener("mediaPause", pauseHandler);
 
             let currentState = {};
-            const localStorageKey = 'hasReloaded';
-            const payload = {
-                        watch_party_code: '{{ $watch_party_code }}',
-                    };
             const fetchPlayerState = async () => {
                 try {
-                    const response = await fetch('/watch-party/latest-player-state?watch_party_code=${payload.watch_party_code}', {
+                    const response = await fetch('/watch-party/latest-player-state?watch_party_code=@js($watch_party_code)', {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
