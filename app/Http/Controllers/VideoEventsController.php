@@ -37,9 +37,9 @@ class VideoEventsController extends Controller
                 'message' => 'No player events found'
             ], 200);
         }
-        if ($request->has('watch_party_code') && !empty($request->watch_party_code)) {
-            $latestEvent->delete();
-        }
+        // if ($request->has('watch_party_code') && !empty($request->watch_party_code)) {
+        //     $latestEvent->delete();
+        // }
         // Clone the event data before deleting
         $response = $latestEvent->toArray();
 
