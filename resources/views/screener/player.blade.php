@@ -315,11 +315,12 @@
                         <div id="mvp-playlist-list">
                             <div class="mvp-global-playlist-data"></div>
                             <div class="playlist-video">
-
+                                @php
+                                $mType = strpos($streamUrl, 'https://stream.live.gumlet.io') ? 'hls' : $mType; @endphp
                                 <div class="mvp-playlist-item"
                                     data-type="{{ Str::endsWith($streamUrl, ['.mp3', '.wav']) ? 'audio' : $mType }}"
-                                    data-noapi
-                                    data-path="{{ $streamUrl }}" data-poster="{{ $arrSlctItemData['stream_poster'] }}"
+                                    data-noapi data-path="{{ $streamUrl }}"
+                                    data-poster="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-thumb="{{ $arrSlctItemData['stream_poster'] }}"
                                     data-title="{{ $arrSlctItemData['stream_title'] }}"
                                     data-description="{{ $arrSlctItemData['stream_description'] }}">
@@ -605,7 +606,7 @@ if (!empty($arrCatData) && count($arrCatData['streams']) > 1)
                                             {{ $arrStreamsData['stream_episode_title'] && $arrStreamsData['stream_episode_title'] !== 'NULL' ? $arrStreamsData['stream_episode_title'] : '' }}
                                         </div>
                                         <!-- <div class="play_icon"><a href="/details/21"><i class="fa fa-play" aria-hidden="true"></i></a>
-                                          </div> -->
+                                              </div> -->
                                         <div class="content_title">{{ $arrStreamsData['stream_title'] }}</div>
                                         <div class="content_description">{{ $arrStreamsData['stream_description'] }}</div>
                                     </div>

@@ -85,6 +85,8 @@
                             <div id="mvp-playlist-list">
                                 <div class="mvp-global-playlist-data"></div>
                                 <div class="playlist-video">
+                                    @php
+                                    $mType = strpos($streamUrl, 'https://stream.live.gumlet.io') ? 'hls' : $mType; @endphp
                                     <div class="mvp-playlist-item"
                                         data-type="{{ Str::endsWith($streamUrl, ['.mp3', '.wav']) ? 'audio' : $mType }}"
                                         data-noapi data-path="{{ $streamUrl }}" data-poster="{{ $poster }}"
