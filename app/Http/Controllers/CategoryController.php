@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Services\Api;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
@@ -23,6 +25,8 @@ class CategoryController extends Controller
         $categories = $responseJson['app']['categories'];
         return view('category.index', compact('categories'));
     }
+
+
     public function getStreams(Request $request)
     {
         // Validate required fields
@@ -33,43 +37,59 @@ class CategoryController extends Controller
             'menu_type' => 'nullable',
         ]);
 
-        // Make the API request with form-data
-        $response = Http::withHeaders(Api::headers())
-            ->asForm()->post(Api::endpoint('/streamcategory'), [
-                'cat_guid' => $validateData['cat_guid'] ?? null,
-                'cat_type' => $validateData['cat_type'] ?? null,
-                'menu_guid' => $validateData['menu_guid'] ?? null,
-                'menu_type' => $validateData['menu_type'] ?? null,
-            ]);
+        // Generate a unique cache key based on input
+        $cacheKey = 'streams_' . md5(json_encode([
+            $validateData['cat_guid'],
+            $validateData['cat_type'],
+            $validateData['menu_guid'],
+            $validateData['menu_type'],
+        ]));
 
-        // Check if the request was successful
-        if ($response->successful()) {
-            $responseJson = $response->json();
+        // Try retrieving from cache
+        $cachedData = Cache::remember($cacheKey, now()->addMinutes(5), function () use ($validateData) {
+            try {
+                $response = Http::withHeaders(Api::headers())
+                    ->asForm()
+                    ->post(Api::endpoint('/streamcategory'), [
+                        'cat_guid' => $validateData['cat_guid'] ?? null,
+                        'cat_type' => $validateData['cat_type'] ?? null,
+                        'menu_guid' => $validateData['menu_guid'] ?? null,
+                        'menu_type' => $validateData['menu_type'] ?? null,
+                    ]);
 
-            // Validate response structure
-            if (!is_array($responseJson) || !isset($responseJson['streams']) || !is_array($responseJson['streams'])) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Invalid response format from API.',
-                ], 404);
+                if ($response->successful()) {
+                    $responseJson = $response->json();
+
+                    if (!is_array($responseJson) || !isset($responseJson['streams']) || !is_array($responseJson['streams'])) {
+                        return null;
+                    }
+
+                    return [
+                        'success' => true,
+                        'data' => [
+                            'streams' => $responseJson['streams']
+                        ]
+                    ];
+                }
+
+                return null;
+            } catch (\Exception $e) {
+                Log::error('API error in getStreams: ' . $e->getMessage());
+                return null;
             }
+        });
 
-            // Construct category data for frontend
-            $category = [
-                'streams' => $responseJson['streams'],
-            ];
+        // Handle cached or null data
+        if (!$cachedData) {
             return response()->json([
-                'success' => true,
-                'data' => $category,
-            ]);
+                'success' => false,
+                'message' => 'Failed to retrieve streams from API.',
+            ], 500);
         }
 
-        // Handle unsuccessful API response
-        return response()->json([
-            'success' => false,
-            'message' => 'Failed to retrieve streams from API.',
-        ], $response->status());
+        return response()->json($cachedData);
     }
+
 
     public function renderCategorySlider(Request $request)
     {
@@ -103,5 +123,4 @@ class CategoryController extends Controller
             'html' => view('components.include_file_cat_slider', compact('category'))->render(),
         ]);
     }
-
 }
