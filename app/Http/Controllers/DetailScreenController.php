@@ -135,24 +135,11 @@ class DetailScreenController extends Controller
     public function getRelatedStreams(Request $request)
     {
         $streamGuid = $request->input('stream_guid');
-        Log::info('getRelatedStreams called', [
-            'stream_guid' => $streamGuid,
-            'request_url' => $request->fullUrl(),
-            'headers' => $request->headers->all()
-        ]);
-
         $response = Http::withHeaders(Api::headers())
             ->asForm()
             ->post(Api::endpoint('/related/stream'), [
                 'streamGuid' => $streamGuid,
             ]);
-
-
-        Log::info('API response for /related/stream', [
-            'status' => $response->status(),
-            'body' => $response->body()
-        ]);
-
         if ($response->successful()) {
             $responseJson = $response->json();
             $streams = $responseJson['app']['latest_items'] ?? [];
@@ -171,22 +158,13 @@ class DetailScreenController extends Controller
         return response()->json(['success' => false], 500);
     }
 
+
     public function renderYouMightLike(Request $request)
     {
         $streams = $request->input('streams');
         $stream_guid = $request->input('stream_guid');
-        Log::info('renderYouMightLike called', [
-            'streams_count' => count($streams),
-            'request_url' => $request->fullUrl()
-        ]);
-
         $latest_items = $streams; // Map to match you-might-like partial
         $html = view('detailscreen.partials.you-might-like', compact('latest_items', 'stream_guid'))->render();
-
-        Log::info('Rendered you-might-like HTML', [
-            'html_length' => strlen($html)
-        ]);
-
         return response()->json([
             'success' => true,
             'html' => $html

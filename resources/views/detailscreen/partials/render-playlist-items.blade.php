@@ -35,6 +35,8 @@
                       //  $dataVast = '';
                       }
                      ?>
+  @php
+  $quality = strpos($videoUrl, 'https://stream.live.gumlet.io') ? 'hls' : $quality; @endphp
   <div class="mvp-playlist-item" data-path="{{ $videoUrl }}" {!! $dataVast2 ? $dataVast2 : $dataVast !!}
       data-type="{{ Str::endsWith($videoUrl, ['.mp3', '.wav']) ? 'audio' : $quality }}" data-noapi
       data-poster="{{ $poster }}" data-thumb="{{ $poster }}" data-title="{{ $arrStreamsData['stream_title'] }}"

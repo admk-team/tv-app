@@ -1,14 +1,17 @@
 @extends('layouts.app')
 @push('style')
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
-    <script src="{{ asset('assets/js/new.js') }}"></script>
-    <script src="{{ asset('assets/js/vast.js') }}"></script>
-    <script src="{{ asset('assets/js/share_manager.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/mvp.css') }}" />
+    <script src="{{ asset('assets/js/mvp/new.js') }}"></script>
+    {{--  <script src="{{ asset('assets/js/new.js') }}"></script>  --}}
+    <script src="{{ asset('assets/js/mvp/vast.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/share_manager.js') }}"></script>
     <script src="{{ asset('assets/js/cache.js') }}"></script>
     <script src="{{ asset('assets/js/ima.js') }}"></script>
     <script src="{{ asset('assets/js/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/playlist_navigation.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{{ asset('assets/js/mvp/youtubeLoader.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/vimeoLoader.js') }}"></script>
     <script>
         function detectMob() {
             const toMatch = [
@@ -214,8 +217,35 @@
                                 @endphp
 
                                 @if ($currentStream)
-                                    <div class="mvp-playlist-item" data-preview-seek="auto" data-type="hls"
-                                        data-path="{{ $currentStream['url'] }}" {!! $dataVast !!}
+                                    @php
+                                        $streamUrl = $currentStream['url'];
+                                        $mType = 'video';
+                                        if ($streamUrl) {
+                                            $isShortYouTube = preg_match(
+                                                '/youtu\.be\/([^?&]+)/',
+                                                $streamUrl,
+                                                $shortYouTubeMatches,
+                                            );
+                                            $isSingleVideo = preg_match('/[?&]v=([^&]+)/', $streamUrl, $videoMatches);
+                                            $isVimeo = preg_match('/vimeo\.com\/(\d+)/', $streamUrl, $vimeoMatches);
+                                            if ($isShortYouTube) {
+                                                $streamUrl = $shortYouTubeMatches[1]; // Extract only the video ID
+                                                $mType = 'youtube_single';
+                                            } elseif ($isSingleVideo) {
+                                                $streamUrl = $videoMatches[1]; // Extract only the video ID
+                                                $mType = 'youtube_single';
+                                            } elseif ($isVimeo) {
+                                                $streamUrl = $vimeoMatches[1]; // Extract only the Vimeo ID
+                                                $mType = 'vimeo_single';
+                                            }
+                                        }
+                                        if (strpos($streamUrl, '.m3u8')) {
+                                            $mType = 'hls';
+                                        }
+                                    @endphp
+                                    <div class="mvp-playlist-item" data-preview-seek="auto"
+                                        data-type="{{ Str::endsWith($streamUrl, ['.mp3', '.wav']) ? 'audio' : $mType }}"
+                                        data-noapi data-path="{{ $streamUrl }}" {!! $dataVast !!}
                                         data-poster="{{ $currentStream['poster'] }}"
                                         data-thumb="{{ $currentStream['poster'] }}"
                                         data-title="{{ $currentStream['title'] }}"
@@ -292,6 +322,8 @@
             var settings = {
                 skin: 'sirius',
                 playlistPosition: pListPostion,
+                vimeoPlayerType: "chromeless",
+                youtubePlayerType: "chromeless",
                 sourcePath: "",
                 activeItem: 0,
                 activePlaylist: ".playlist-video",

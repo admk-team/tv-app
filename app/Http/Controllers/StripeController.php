@@ -65,7 +65,7 @@ class StripeController extends Controller
                         ]],
                         'mode' => 'subscription',
                         'subscription_data' => $subscriptionData,
-                        'success_url' => url('/stripe/success?session_id={CHECKOUT_SESSION_ID}'),
+                        'success_url' => url('/stripe/success?checkout_session_id={CHECKOUT_SESSION_ID}'),
                         'cancel_url' => url('/monetization/cancel'),
                     ]);
                 } else {
@@ -88,7 +88,7 @@ class StripeController extends Controller
                         'quantity' => 1
                     ]],
                     'mode' => 'payment',
-                    'success_url' => url('/stripe/success?session_id={CHECKOUT_SESSION_ID}'),
+                    'success_url' => url('/stripe/success?checkout_session_id={CHECKOUT_SESSION_ID}'),
                     'cancel_url' => url('/monetization/cancel'),
                 ]);
             }
@@ -122,8 +122,8 @@ class StripeController extends Controller
         $subscriptionId = null;
 
         // Check whether stripe checkout session is not empty
-        if ($request->session_id) {
-            $session_id = $request->session_id;
+        if ($request->checkout_session_id) {
+            $session_id = $request->checkout_session_id;
 
             // Set API key
             if (env('STRIPE_TEST') === 'true') {

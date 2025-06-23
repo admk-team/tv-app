@@ -117,8 +117,8 @@ Route::middleware('auth.user')->group(function () {
     Route::match(['get', 'post'], 'monetization/success', [MonetizationController::class, 'success'])->name('monetization.success');
     Route::get('monetization/cancel', [MonetizationController::class, 'cancel'])->name('monetization.cancel');
     Route::post('tipjar', [MonetizationController::class, 'tipjar'])->name('tipjar.view');
-    Route::post('stripe/checkout', [StripeController::class, 'checkout'])->name('stripe.checkout');
-    Route::get('stripe/success', [StripeController::class, 'success'])->name('stripe.success');
+    Route::post('/stripe/checkout', [StripeController::class, 'checkout'])->name('stripe.checkout');
+    Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
     Route::get('password/edit', [PasswordUpdateController::class, 'index'])->name('password.edit');
     Route::post('password/update', [PasswordUpdateController::class, 'update'])->name('password.update');
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -233,5 +233,6 @@ Route::post('/render-you-might-like', [CategoryController::class, 'renderYouMigh
 
 //playerscreen
 Route::post('/streams/related', [DetailScreenController::class, 'getRelatedStreams'])->name('streams.related');
+Route::post('/streams/playerstream', [PlayerScreenController::class, 'getplayerStreams'])->name('streams.player.related');
 Route::post('/render-you-might-like', [DetailScreenController::class, 'renderYouMightLike'])->name('render.you-might-like');
 Route::post('/render-playlist-items', [DetailScreenController::class, 'renderplaylist'])->name('render.renderplaylist');

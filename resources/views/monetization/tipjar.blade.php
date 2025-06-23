@@ -350,7 +350,7 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         // Set Stripe publishable key to initialize Stripe.js
-        @if (env('STRIPE_TEST') === true)
+        @if (env('STRIPE_TEST') === 'true')
             const stripe = Stripe('{{ env('STRIPE_PUB_KEY') }}');
         @else
             const stripe = Stripe(
@@ -378,7 +378,7 @@
 
         // Create a Checkout Session with the selected product
         const createCheckoutSession = function(stripe) {
-            @if (env('STRIPE_TEST') === true)
+            @if (env('STRIPE_TEST') === 'true')
                 let stripeSecret = '{{ env('STRIPE_SECRET_KEY') }}';
             @else
                 let stripeSecret =

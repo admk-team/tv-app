@@ -2732,7 +2732,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             }
 
             console.log('Initiating fetch to /streams/related for stream:', streamGuid);
-            fetch('{{ url('/streams/related') }}', {
+            fetch('{{ url('/streams/playerstream') }}', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -2811,7 +2811,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 })
                 .catch(error => {
                     console.error(`Error processing streams for stream: ${streamGuid}:`, error);
-                    container.innerHTML = '<p>Error loading content</p>';
+                    container.innerHTML = '<p class="text-white no-reviews-message m-3 mt-2">Content Not Avaiable yet</p>';
                     container.style.display = 'block';
                 });
         }
@@ -2960,7 +2960,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             }
 
             console.log('Initiating fetch to /streams/related for stream:', streamGuid);
-            fetch('{{ url('/streams/related') }}', {
+            fetch('{{ url('/streams/playerstream') }}', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -3067,7 +3067,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 })
                 .catch(error => {
                     console.error(`Error processing streams for stream: ${streamGuid}:`, error);
-                    container.innerHTML = '<p>Error loading content</p>';
+                    container.innerHTML = '<p class="text-white no-reviews-message m-3 mt-2">Content Not Avaiable yet</p>';
                     container.style.display = 'block';
                 });
         }

@@ -178,7 +178,6 @@ class RegisterController extends Controller
         $finalresultDevice = null;
         // Get the user agent string
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
-        Log::info($userAgent);
 
         // Check if the user agent indicates a mobile device
         $isMobile = (bool)preg_match('/Mobile|Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i', $userAgent);

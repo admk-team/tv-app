@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-
+ <meta name="csrf-token" content="{{ csrf_token() }}" />
 @if (env('APP_CODE') == '382f94988e01455c7262c1480ae530a6')
     <!-- OliveBranch -->
     @include('layouts.app-head.olive_app_head')
@@ -95,7 +95,7 @@
 {{-- <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script> --}}
 <script src="{{ asset('assets/js/slick.min.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.jscroll.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
+<script async src="{{ asset('assets/js/jquery-ui.js') }}"></script>
 <script src="{{ asset('assets/js/year_select.js') }}"></script>
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 

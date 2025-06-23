@@ -1,30 +1,39 @@
 /* Custom CSS for Subscription Page */
 .subscription-card {
-  border-radius: 15px;
-  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
-  transition: transform 0.3s ease;
-  border: 2px solid var(--themeActiveColor);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
+  border-radius: 15px;
+  border: 2px solid var(--themeActiveColor);
+  transition: transform 0.3s ease;
+  height: 100%;
 }
 
 .subscription-card:hover {
   transform: translateY(-10px);
   animation: 0.7s 1 glow-activate;
-
 }
 
 .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+
   text-align: center;
   background-color: var(--bgcolor);
   color: var(--themePrimaryTxtColor);
   border: 2px solid var(--themeActiveColor);
   border-radius: 6px;
+  padding: 1rem;
 }
 
 .price {
   font-size: 2rem;
   font-weight: bold;
   color: var(--themePrimaryTxtColor);
+  margin-bottom: 1em;
 }
 
 .price .currency {
@@ -33,16 +42,24 @@
 
 .text {
   color: var(--themePrimaryTxtColor);
+  margin-bottom: auto;
 }
 
+/* Force button to bottom */
+.card-body .btn {
+  margin-top: auto;
+}
 .btn {
   transition: background-color 0.3s ease, border 0.3s ease;
   border: 2px solid var(--themeActiveColor);
   border-radius: 6px;
   color: var(--themePrimaryTxtColor);
+  padding: 10px 16px;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .btn:hover {
   background-color: var(--themeActiveColor);
-
+  cursor: pointer;
 }

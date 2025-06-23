@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('head')
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
-    <script src="{{ asset('assets/js/new.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/mvp.css') }}" />
+    <script src="{{ asset('assets/js/mvp/new.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <style>
@@ -20,9 +21,28 @@
 @section('content')
     @php
         $poster = $stream['app']['stream_details']['stream_poster'];
-        $stream_url = $stream['app']['stream_details']['stream_url'];
+        $streamUrl = $stream['app']['stream_details']['stream_url'];
         $stream_title = $stream['app']['stream_details']['stream_title'];
         $stream_description = $stream['app']['stream_details']['stream_description'];
+        $mType = 'video';
+        if ($streamUrl) {
+            $isShortYouTube = preg_match('/youtu\.be\/([^?&]+)/', $streamUrl, $shortYouTubeMatches);
+            $isSingleVideo = preg_match('/[?&]v=([^&]+)/', $streamUrl, $videoMatches);
+            $isVimeo = preg_match('/vimeo\.com\/(\d+)/', $streamUrl, $vimeoMatches);
+            if ($isShortYouTube) {
+                $streamUrl = $shortYouTubeMatches[1]; // Extract only the video ID
+                $mType = 'youtube_single';
+            } elseif ($isSingleVideo) {
+                $streamUrl = $videoMatches[1]; // Extract only the video ID
+                $mType = 'youtube_single';
+            } elseif ($isVimeo) {
+                $streamUrl = $vimeoMatches[1]; // Extract only the Vimeo ID
+                $mType = 'vimeo_single';
+            }
+        }
+        if (strpos($streamUrl, '.m3u8')) {
+            $mType = 'hls';
+        }
     @endphp
     <div id="not_started">
         <section class="watch-party"
@@ -60,9 +80,13 @@
                             <div id="mvp-playlist-list">
                                 <div class="mvp-global-playlist-data"></div>
                                 <div class="playlist-video">
-                                    <div class="mvp-playlist-item" data-type="hls" data-path="{{ $stream_url }}"
-                                        data-poster="{{ $poster }}" data-thumb="{{ $poster }}"
-                                        data-title="{{ $stream_title }}" data-description="{{ $stream_description }}">
+                                    @php
+                                    $mType = strpos($streamUrl, 'https://stream.live.gumlet.io') ? 'hls' : $mType; @endphp
+                                    <div class="mvp-playlist-item"
+                                        data-type="{{ Str::endsWith($streamUrl, ['.mp3', '.wav']) ? 'audio' : $mType }}"
+                                        data-noapi data-path="{{ $streamUrl }}" data-poster="{{ $poster }}"
+                                        data-thumb="{{ $poster }}" data-title="{{ $stream_title }}"
+                                        data-description="{{ $stream_description }}">
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +102,8 @@
     <script src="{{ asset('assets/js/cache.js') }}"></script>
     <script src="{{ asset('assets/js/ima.js') }}"></script>
     <script src="{{ asset('assets/js/perfect-scrollbar.min.js') }}"></script>
-
+    <script src="{{ asset('assets/js/mvp/youtubeLoader.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/vimeoLoader.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var startDateTime = '{{ $startDateTime }}';
@@ -198,6 +223,8 @@
             var settings = {
                 skin: 'sirius', //aviva, polux, sirius
                 playlistPosition: pListPostion, //vrb, vb, hb, no-playlist, outer, wall
+                vimeoPlayerType: "chromeless",
+                youtubePlayerType: "chromeless",
                 sourcePath: "",
                 useMobileChapterMenu: true,
                 activeItem: 0, //active video to start with
@@ -257,67 +284,100 @@
             let currentState = {};
             const fetchPlayerState = async () => {
                 try {
-                    const response = await fetch('/watch-party/latest-player-state', {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                .getAttribute('content')
-                        },
-                    });
+                    const response = await fetch(
+                        `/watch-party/latest-player-state?watch_party_code=${@js($watch_party_code)}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content')
+                            },
+                        });
+
                     const contentType = response.headers.get('content-type');
                     if (contentType && contentType.includes('application/json')) {
                         const data = await response.json();
-                        console.log(data.event_type);
 
-                        if (data) {
-                            switch (data.event_type) {
-                                // case 'mediaStart':
-                                // console.log(player);
-                                // player.playMedia();
-                                // break;
+                        if (!data || data.status === 'no data') return;
 
-                                case 'mediaPause':
+                        // 🛑 Skip if same event type and same values
+                        if (currentState &&
+                            data.event_type === currentState.event_type &&
+                            JSON.stringify(data) === JSON.stringify(currentState)) {
+                            return; // Already handled
+                        }
+
+                        console.log('Handling new event:', data.event_type);
+
+                        switch (data.event_type) {
+                            case 'mediaPause':
+                                if (data.current_time !== currentState?.current_time) {
                                     player.seek(Math.floor(data.current_time));
-                                    player.pauseMedia();
-                                    break;
+                                }
+                                player.pauseMedia();
+                                break;
 
-                                case 'mediaPlay':
-                                    player.seek(Math.floor(data.current_time));
+                            case 'mediaPlay':
+                                if (data.seek_value !== currentState?.seek_value) {
                                     player.playMedia();
-                                    break;
+                                    setTimeout(() => {
+                                        player.seek(Math.floor(data.seek_value));
+                                    }, 1000);
+                                }
+                                break;
 
-                                case 'seek':
-                                    player.seek(Math.floor(data.seek_value));
+                            case 'seek':
+                                if (data.seek_value !== currentState?.seek_value) {
+                                    console.log("Hello World", Math.floor(data.seek_value), data.seek_value,
+                                        player);
                                     player.playMedia();
-                                    break;
+                                    setTimeout(() => {
+                                        player.seek(Math.floor(data.seek_value));
+                                    }, 1000);
+                                    console.log("reload", Math.floor(data.current_time), data.current_time);
+                                }
+                                break;
 
-                                case 'seekForward':
-                                    player.seekForward(Math.floor(data.seek_value) || 10);
+                            case 'seekForward':
+                                if (data.seek_value !== currentState?.seek_value) {
                                     player.playMedia();
-                                    break;
+                                    setTimeout(() => {
+                                        player.seek(Math.floor(data.seek_value));
+                                    }, 1000);
+                                    {{--  player.seekForward(Math.floor(data.seek_value) || 10);
+                                    player.playMedia();  --}}
+                                }
+                                break;
 
-                                case 'seekBackward':
-                                    player.seekBackward(Math.floor(data.seek_value) || 10);
+                            case 'seekBackward':
+                                if (data.seek_value !== currentState?.seek_value) {
                                     player.playMedia();
-                                    break;
+                                    setTimeout(() => {
+                                        player.seek(Math.floor(data.seek_value));
+                                    }, 1000);
+                                    {{--  player.seekBackward(Math.floor(data.seek_value) || 10);
+                                    player.playMedia();  --}}
+                                }
+                                break;
 
-                                case 'volumeChange':
+                            case 'volumeChange':
+                                if (data.current_volume !== currentState?.current_volume) {
                                     player.setVolume(data.current_volume);
                                     player.playMedia();
-                                    break;
+                                }
+                                break;
 
-                                case 'mediaEnd':
-                                    player.seek(Math.floor(data.current_time));
-                                    player.playMedia();
-                                    break;
+                            case 'mediaEnd':
+                                player.seek(Math.floor(data.current_time));
+                                player.playMedia();
+                                break;
 
-                                default:
-                                    console.log(`Unhandled event: ${data.event_type}`);
-                            }
-
-                            currentState = data;
+                            default:
+                                console.log(`Unhandled event: ${data.event_type}`);
                         }
+
+                        // Save current event state
+                        currentState = data;
                     } else {
                         console.error('Response is not JSON:', await response.text());
                     }
@@ -325,7 +385,8 @@
                     console.error('Error fetching player state:', error);
                 }
             };
-            setInterval(fetchPlayerState, 30000);
+
+            setInterval(fetchPlayerState, 10000);
 
 
             let eventEnded = false;
@@ -355,9 +416,9 @@
                 }
             };
 
-            setInterval(checkEndTime, 30000);
+            setInterval(checkEndTime, 10000);
 
-            const interval = setInterval(checkEndTime, 30000);
+            const interval = setInterval(checkEndTime, 10000);
             if (eventEnded) {
                 clearInterval(interval);
             }

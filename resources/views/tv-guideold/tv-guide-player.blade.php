@@ -112,7 +112,12 @@
                                             if ($adUrl == '') {
                                                 $dataVast = '';
                                             }
+
+                                            $quality = strpos($videoUrl, 'https://stream.live.gumlet.io')
+                                                ? 'hls'
+                                                : $quality;
                                         @endphp
+
                                         <div class="mvp-playlist-item" data-preview-seek="auto"
                                             data-type="{{ $quality }}" data-path="{{ $videoUrl }}"
                                             {!! $dataVast !!} data-poster="{{ $poster }}"

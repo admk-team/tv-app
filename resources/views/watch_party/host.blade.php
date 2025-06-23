@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('head')
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" />
-    <script src="{{ asset('assets/js/new.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp/mvp.css') }}" />
+    <script src="{{ asset('assets/js/mvp/new.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <style>
@@ -25,9 +26,28 @@
 @section('content')
     @php
         $poster = $stream['app']['stream_details']['stream_poster'];
-        $stream_url = $stream['app']['stream_details']['stream_url'];
+        $streamUrl = $stream['app']['stream_details']['stream_url'];
         $stream_title = $stream['app']['stream_details']['stream_title'];
         $stream_description = $stream['app']['stream_details']['stream_description'];
+        $mType = 'video';
+        if ($streamUrl) {
+            $isShortYouTube = preg_match('/youtu\.be\/([^?&]+)/', $streamUrl, $shortYouTubeMatches);
+            $isSingleVideo = preg_match('/[?&]v=([^&]+)/', $streamUrl, $videoMatches);
+            $isVimeo = preg_match('/vimeo\.com\/(\d+)/', $streamUrl, $vimeoMatches);
+            if ($isShortYouTube) {
+                $streamUrl = $shortYouTubeMatches[1]; // Extract only the video ID
+                $mType = 'youtube_single';
+            } elseif ($isSingleVideo) {
+                $streamUrl = $videoMatches[1]; // Extract only the video ID
+                $mType = 'youtube_single';
+            } elseif ($isVimeo) {
+                $streamUrl = $vimeoMatches[1]; // Extract only the Vimeo ID
+                $mType = 'vimeo_single';
+            }
+        }
+        if (strpos($streamUrl, '.m3u8')) {
+            $mType = 'hls';
+        }
     @endphp
     <div id="not_started">
         <section class="watch-party"
@@ -65,9 +85,13 @@
                             <div id="mvp-playlist-list">
                                 <div class="mvp-global-playlist-data"></div>
                                 <div class="playlist-video">
-                                    <div class="mvp-playlist-item" data-type="hls" data-path="{{ $stream_url }}"
-                                        data-poster="{{ $poster }}" data-thumb="{{ $poster }}"
-                                        data-title="{{ $stream_title }}" data-description="{{ $stream_description }}">
+                                    @php
+                                    $mType = strpos($streamUrl, 'https://stream.live.gumlet.io') ? 'hls' : $mType; @endphp
+                                    <div class="mvp-playlist-item"
+                                        data-type="{{ Str::endsWith($streamUrl, ['.mp3', '.wav']) ? 'audio' : $mType }}"
+                                        data-noapi data-path="{{ $streamUrl }}" data-poster="{{ $poster }}"
+                                        data-thumb="{{ $poster }}" data-title="{{ $stream_title }}"
+                                        data-description="{{ $stream_description }}">
                                     </div>
                                 </div>
                             </div>
@@ -84,7 +108,8 @@
     <script src="{{ asset('assets/js/cache.js') }}"></script>
     <script src="{{ asset('assets/js/ima.js') }}"></script>
     <script src="{{ asset('assets/js/perfect-scrollbar.min.js') }}"></script>
-
+    <script src="{{ asset('assets/js/mvp/youtubeLoader.js') }}"></script>
+    <script src="{{ asset('assets/js/mvp/vimeoLoader.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var startDateTime = '{{ $startDateTime }}';
@@ -208,6 +233,8 @@
 
                 skin: 'sirius', //aviva, polux, sirius
                 playlistPosition: pListPostion, //vrb, vb, hb, no-playlist, outer, wall
+                vimeoPlayerType: "chromeless",
+                youtubePlayerType: "chromeless",
                 sourcePath: "",
                 useMobileChapterMenu: true,
                 activeItem: 0, //active video to start with
@@ -339,8 +366,8 @@
             player.seekForward = (value = 10) => {
                 isUserInitiated = true; // Explicitly set as user initiated
                 originalSeekForward(value);
-                trackMediaEvent('seekForward', {
-                    seekValue: value
+                trackMediaEvent('seek', {
+                    seekValue: player.getCurrentTime()
                 });
                 isUserInitiated = false;
             };
@@ -348,13 +375,14 @@
             player.seekBackward = (value = 10) => {
                 isUserInitiated = true; // Explicitly set as user initiated
                 originalSeekBackward(value);
-                trackMediaEvent('seekBackward', {
-                    seekValue: value
+                trackMediaEvent('seek', {
+                    seekValue: player.getCurrentTime()
                 });
                 isUserInitiated = false; // Explicitly set as user initiated
             };
 
             const trackMediaEvent = async (eventType, data) => {
+                console.log(eventType);
                 const localStorageKey = 'hasReloaded';
                 try {
                     const payload = {

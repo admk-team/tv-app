@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class WatchPartyController extends Controller
 {
@@ -87,7 +88,6 @@ class WatchPartyController extends Controller
                     'startDateTime' => $startDateTime,
                     'role' => $userRole,
                     'watch_party_code' => $decryptedData['watch_party']['code']
-
                 ]);
             }
         } catch (\Exception $e) {
