@@ -53,7 +53,7 @@ class HomeController extends Controller
         // Cache key based on slug and IP (xyz)
         $cacheKey = "page_data_{$slug}_{$xyz}";
 
-        $data = Cache::remember($cacheKey, now()->addMinutes(5), function () use ($slug, $xyz, $cacheKey) {
+        $data = Cache::remember($cacheKey, now()->addMinutes(3), function () use ($slug, $xyz, $cacheKey) {
             try {
                 $response = Http::timeout(300)->withHeaders(Api::headers())
                     ->get(Api::endpoint("/{$slug}?user_data={$xyz}"));
