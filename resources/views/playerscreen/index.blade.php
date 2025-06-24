@@ -1615,6 +1615,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
 
     <script>
         // Bootstrap Modal instance
+        let is_active = true;
         const couponModalEl = document.getElementById('couponModal');
         const couponModal = new bootstrap.Modal(couponModalEl);
         document.addEventListener("DOMContentLoaded", async function(event) {
@@ -1890,37 +1891,40 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 @endif
 
 
-                @if (!empty($arrSlctItemData['coupon_code']))
-                    let couponData = @json($arrSlctItemData['coupon_code']);
-                    let couponDisplayed = false;
+                if (is_active == true) {
+                    @if (!empty($arrSlctItemData['coupon_code']))
+                        let couponData = @json($arrSlctItemData['coupon_code']);
+                        let couponDisplayed = false;
 
-                    function checkAndShowCouponCode() {
-                        if (couponDisplayed || couponData.length === 0) {
-                            return;
-                        }
+                        function checkAndShowCouponCode() {
+                            if (couponDisplayed || couponData.length === 0) {
+                                return;
+                            }
 
-                        let currentTime = Math.floor(player.getCurrentTime());
-                        let showAt = timeStringToSeconds(couponData[0].load_time);
+                            let currentTime = Math.floor(player.getCurrentTime());
+                            let showAt = timeStringToSeconds(couponData[0].load_time);
 
-                        if (currentTime === showAt) {
-                            couponModal.show();
-                            couponDisplayed = true;
-                            let seconds = 10;
-                            $('#countdown').text(seconds);
-                            let countdownInterval = setInterval(() => {
-                                seconds--;
+                            if (currentTime === showAt) {
+                                couponModal.show();
+                                couponDisplayed = true;
+                                let seconds = 10;
                                 $('#countdown').text(seconds);
-                                if (seconds <= 0) {
-                                    clearInterval(countdownInterval);
-                                    couponModal.hide();
-                                }
-                            }, 1000);
+                                let countdownInterval = setInterval(() => {
+                                    seconds--;
+                                    $('#countdown').text(seconds);
+                                    if (seconds <= 0) {
+                                        clearInterval(countdownInterval);
+                                        is_active = false;
+                                        couponModal.hide();
+                                    }
+                                }, 1000);
+                            }
                         }
-                    }
 
-                    // Run the check every 1 second
-                    setInterval(checkAndShowCouponCode, 1000);
-                @endif
+                        // Run the check every 1 second
+                        setInterval(checkAndShowCouponCode, 1000);
+                    @endif
+                }
 
 
             });
