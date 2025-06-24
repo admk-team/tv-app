@@ -436,26 +436,7 @@
         }
 
         /* Styles for BuyNow redirect message */
-        /* .buynow-redirect-message {
-                                                                                                                                                                                                background-color: #353b49;
-                                                                                                                                                                                                color: var(--themePrimaryTxtColor);
-                                                                                                                                                                                                max-width: 1000.89px;
-                                                                                                                                                                                                width: fit-content;
-                                                                                                                                                                                                padding: .8rem 1.2rem;
-                                                                                                                                                                                                font-weight: 600;
-                                                                                                                                                                                                border-radius: 2px;
-                                                                                                                                                                                                position: absolute;
-                                                                                                                                                                                                z-index: 1000;
-                                                                                                                                                                                                bottom: 68px;
-                                                                                                                                                                                                height: fit-content;
-                                                                                                                                                                                                left: 18px;
-                                                                                                                                                                                                user-select: none;
-                                                                                                                                                                                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                                                                                                                                                                                                transition: all 0.5s ease-in-out;
-                                                                                                                                                                                                transform: translateX(-400px);
-                                                                                                                                                                                                opacity: 0;
-                                                                                                                                                                                                visibility: hidden;
-                                                                                                                                                                                            } */
+        /* .buynow-redirect-message {                                                                                                                                                                                 } */
         .buynow-redirect-message {
             background-color: var(--themeActiveColor);
             color: var(--themePrimaryTxtColor);
@@ -1530,7 +1511,10 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
         @endif
     </div>
     {{-- coupon modal --}}
-    @if (!empty($arrSlctItemData['coupon_code']))
+    @if (
+        !empty($arrSlctItemData['coupon_code']) &&
+            isset(\App\Services\AppConfig::get()->app->badge_status) &&
+            \App\Services\AppConfig::get()->app->badge_status === 1)
         <div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="centeredModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered"> <!-- Centering class -->
@@ -1549,9 +1533,11 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                             @csrf
                             <input type="hidden" id="stream_code"
                                 value="{{ $arrSlctItemData['coupon_code'][0]['stream_code'] }}">
+                            <input type="hidden" id="coupon_id"
+                                value="{{ $arrSlctItemData['coupon_code'][0]['code'] }}">
                             <div class="mb-3">
                                 <label for="couponCode" class="form-label">Enter Code</label>
-                                <input type="text" class="form-control" id="couponCode"
+                                <input type="text" class="form-control bg-white text-dark" id="couponCode"
                                     placeholder="Enter your coupon code">
                                 <div id="coupon_code_error" class="text-danger mt-1" style="font-size: 0.875rem;"></div>
                             </div>
@@ -1628,6 +1614,9 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
 @push('scripts')
 
     <script>
+        // Bootstrap Modal instance
+        const couponModalEl = document.getElementById('couponModal');
+        const couponModal = new bootstrap.Modal(couponModalEl);
         document.addEventListener("DOMContentLoaded", async function(event) {
             await watiForPlaylistFetch();
             const playlistloader = document.querySelector('.video-player-skeleton');
@@ -1905,10 +1894,6 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     let couponData = @json($arrSlctItemData['coupon_code']);
                     let couponDisplayed = false;
 
-                    // Bootstrap Modal instance
-                    const couponModalEl = document.getElementById('couponModal');
-                    const couponModal = new bootstrap.Modal(couponModalEl);
-
                     function checkAndShowCouponCode() {
                         if (couponDisplayed || couponData.length === 0) {
                             return;
@@ -1927,7 +1912,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                 $('#countdown').text(seconds);
                                 if (seconds <= 0) {
                                     clearInterval(countdownInterval);
-                                    $('#couponModal').modal('hide');
+                                    couponModal.hide();
                                 }
                             }, 1000);
                         }
@@ -3067,7 +3052,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 })
                 .catch(error => {
                     console.error(`Error processing streams for stream: ${streamGuid}:`, error);
-                    container.innerHTML = '<p class="text-white no-reviews-message m-3 mt-2">Content Not Avaiable yet</p>';
+                    container.innerHTML =
+                        '<p class="text-white no-reviews-message m-3 mt-2">Content Not Avaiable yet</p>';
                     container.style.display = 'block';
                 });
         }
@@ -3099,6 +3085,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
     {{-- ajax request for apply coupon  --}}
     <script>
         $('#applyCouponBtn').on('click', function() {
+            const id = $('#coupon_id').val();
             const code = $('#couponCode').val();
             const streamCode = $('#stream_code').val();
             $('#coupon_code_error').text('');
@@ -3107,20 +3094,35 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
+                    id: id,
                     code: code,
                     stream_code: streamCode
                 },
                 success: function(response) {
-                    console.log('Coupon applied successfully!');
-                    $('#couponModal').modal('hide');
+                    console.log(response);
+                    if (response && response.data) {
+                        if (response.data.success == true) {
+                            Swal.fire({
+                                title: response.data.message,
+                                icon: "success"
+                            });
+                        } else if (response.data.success == false) {
+                            Swal.fire({
+                                title: response.data.message,
+                                icon: "error"
+                            });
+                        }
+                        couponModal.hide();
+                    }
                 },
+
                 error: function(xhr) {
                     if (xhr.status === 422) {
                         const errors = xhr.responseJSON.errors;
                         if (errors.code) {
                             $('#coupon_code_error').text(errors.code[0]);
                         }
-                    }else{
+                    } else {
                         console.log('Failed to apply coupon: ' + xhr.responseJSON.message);
                     }
                 }

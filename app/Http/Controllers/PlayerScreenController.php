@@ -268,4 +268,29 @@ class PlayerScreenController extends Controller
         ]);
         return response()->json(['success' => false], 500);
     }
+
+
+    public function ApplyCoupon(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+            'code' => 'required',
+            'stream_code' => 'required',
+        ]);
+
+        $response = Http::withHeaders(Api::headers())
+            ->asForm()
+            ->post(Api::endpoint('/gamification/code'), [
+                'id' => $request->id,
+                'code' => $request->code,
+                'stream_code' => $request->stream_code,
+            ]);
+        if ($response->successful()) {
+            $responseJson = $response->json();
+            return response()->json([
+                'success' => true,
+                'data' => $responseJson
+            ], 200);
+        }
+    }
 }
