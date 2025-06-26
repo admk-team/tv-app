@@ -30,7 +30,7 @@
                             class="info {{ isset($stream->title_logo, $stream->show_title_logo) && $stream->title_logo && $stream->show_title_logo === 1 ? 'with-logo' : 'without-logo' }}">
                             @if (isset($stream->title_logo, $stream->show_title_logo) && $stream->title_logo && $stream->show_title_logo == 1)
                                 <div class="title_logo mb-1">
-                                    <img class="image-fluid" src="{{ $stream->title_logo }}"
+                                    <img class="image-fluid mobile-view" src="{{ $stream->title_logo }}"
                                         alt="{{ $stream->stream_title }}">
                                 </div>
                             @else
