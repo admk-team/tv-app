@@ -9,7 +9,7 @@
         @if ($data->app->featured_items->is_show ?? '' == 'Y')
             @foreach ($data->app->featured_items->streams ?? [] as $stream)
                 <div class="item">
-                    <img src="{{ $stream->feature_poster ?? '' }}">
+                    <img class="item_img" src="{{ $stream->feature_poster ?? '' }}">
                     <div
                         class="travel-info {{ isset($stream->title_logo, $stream->show_title_logo) && $stream->title_logo && $stream->show_title_logo === 1 ? 'with-logo' : 'without-logo' }}">
                         @if (isset($stream->title_logo, $stream->show_title_logo) && $stream->title_logo && $stream->show_title_logo == 1)
