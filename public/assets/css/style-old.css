@@ -3644,7 +3644,7 @@ textarea.form-control:hover {
 }
 
 .__logo {
-    height: 140px;
+    /* height: 140px; */
     max-width: 80%;
     width: 170px;
     display: flex;
