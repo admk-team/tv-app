@@ -15,7 +15,7 @@ class LoginController extends Controller
 {
     public function index()
     {
-        if(session('USER_DETAILS')){
+        if (session('USER_DETAILS')) {
             return redirect("/");
         }
         return view("auth.login");
@@ -90,6 +90,7 @@ class LoginController extends Controller
             return back()->with('error', $responseJson['app']['msg']);
         }
 
+
         session([
             'USER_DETAILS' => [
                 'USER_ACCOUNT_PASS' => $request->password ?? null,
@@ -101,10 +102,16 @@ class LoginController extends Controller
                 'USER_EMAIL' => $responseJson['app']['data']['email'] ?? null,
                 'USER_ID' => $responseJson['app']['data']['user_id'] ?? null,
                 'GROUP_USER' => $responseJson['app']['data']['group_user'] ?? null,
-
+                'CSV_STATUS' => $responseJson['app']['data']['csv_status'] ?? null,
             ],
             'msgTrue' => 1,
         ]);
+        if (
+            isset($responseJson['app']['data']['csv_status']) &&
+            $responseJson['app']['data']['csv_status'] === 0
+        ) {
+            return redirect()->route('auth.resetPassword');
+        }
         $profile = \App\Services\AppConfig::get()->app->app_info->profile_manage;
 
         if (session()->has('REDIRECT_TO_SCREEN')) {
@@ -190,6 +197,68 @@ class LoginController extends Controller
         if ($response) {
             $data = $response->json();
             return view("auth.forgot_password", compact('data'));
+        }
+    }
+    public function showResetPasswordForm()
+    {
+        return view('auth.reset_password');
+    }
+    // public function resetpassword(Request $request)
+    // {
+    //     // Validate only what's in the form
+    //     $request->validate([
+    //         'oldPassword' => 'required|string',
+    //         'password' => 'required|string|confirmed',
+    //     ]);
+    //     // Get user code from session
+    //     $userCode = session('USER_TEMP_CODE');
+    //     if (!$userCode) {
+    //         return back()->with('error', 'Session expired. Please log in again.');
+    //     }
+    //     // Prepare and send request to API
+    //     $response = Http::timeout(300)->withHeaders(Api::headers([
+    //         'Accept' => 'application/json',
+    //         'Content-Type' => 'application/json',
+    //     ]))
+    //         ->asForm()
+    //         ->post(Api::endpoint('/mngappusrs'), [
+    //             'requestAction' => 'changeAccountPassword',
+    //             'userCode' => $userCode,
+    //             'oldPassword' => $request->oldPassword,
+    //             'nPassword' => $request->password,
+    //             'cPassword' => $request->password_confirmation,
+    //         ]);
+    //     // Handle response
+    //     if ($response) {
+    //         $data = $response->json();
+    //         return view("auth.reset_password", compact('data'));
+    //     }
+    // }
+    public function resetpassword(Request $request)
+    { //dd($request->userCode);
+        // Validate input
+        $request->validate([
+            'oldPassword' => 'required|string',
+            'password' => 'required|string|confirmed|min:6',
+        ]);
+        // Make the API request
+        $response = Http::timeout(300)->withHeaders(Api::headers([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ]))
+            ->asForm()
+            ->post(Api::endpoint('/mngappusrs'), [
+                'requestAction' => 'changeAccountPassword',
+                'userCode' =>$request->userCode,
+                'oldPassword' => $request->oldPassword,
+                'nPassword' => $request->password,
+                'cPassword' => $request->password_confirmation,
+            ]);
+        dd($response->json());
+        // Check if response is OK
+        if ($response) {
+            $data = $response->json();
+            return view("auth.reset_password", compact('data'));
         }
     }
 }
