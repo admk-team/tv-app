@@ -7,7 +7,7 @@
     @if ($data->app->featured_items->is_show ?? '' == 'Y')
         @foreach ($data->app->featured_items->streams ?? [] as $index => $stream)
             <div class="mySlides w3-animate-fading" style="width:100%;display:none; position: relative;">
-                <img src="{{ $stream->feature_poster ?? '' }}" alt="loading">
+                <img class="mySlides-img" src="{{ $stream->feature_poster ?? '' }}" alt="loading">
                 <div class="travel-info">
                     @if (isset($stream->title_logo, $stream->show_title_logo) && $stream->title_logo && $stream->show_title_logo == 1)
                         <div class="title_logo mb-1">

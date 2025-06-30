@@ -183,7 +183,7 @@
                 </div>
                 <div class="responsive_video1">
                     @if ($streamUrl == '')
-                        <img src="{{ $stream_details['stream_poster'] }}" alt="{{ $stream_details['stream_title'] }}"
+                        <img class="slide-img" src="{{ $stream_details['stream_poster'] }}" alt="{{ $stream_details['stream_title'] }}"
                             onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'">
                     @else
                         <!-- Video Player -->
