@@ -1616,8 +1616,6 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
     <script>
         // Bootstrap Modal instance
         let is_active = true;
-        const couponModalEl = document.getElementById('couponModal');
-        const couponModal = new bootstrap.Modal(couponModalEl);
         document.addEventListener("DOMContentLoaded", async function(event) {
             await watiForPlaylistFetch();
             const playlistloader = document.querySelector('.video-player-skeleton');
@@ -1894,6 +1892,9 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 if (is_active == true) {
                     @if (!empty($arrSlctItemData['coupon_code']))
                         let couponData = @json($arrSlctItemData['coupon_code']);
+
+                        const couponModalEl = document.getElementById('couponModal');
+                        const couponModal = new bootstrap.Modal(couponModalEl);
                         let couponDisplayed = false;
 
                         function checkAndShowCouponCode() {
@@ -1907,7 +1908,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                             if (currentTime === showAt) {
                                 couponModal.show();
                                 couponDisplayed = true;
-                                let seconds = 10;
+                                let seconds = 15;
                                 $('#countdown').text(seconds);
                                 let countdownInterval = setInterval(() => {
                                     seconds--;
@@ -3103,7 +3104,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     stream_code: streamCode
                 },
                 success: function(response) {
-                    console.log(response);
+                    const couponModalEl = document.getElementById('couponModal');
+                    const couponModal = bootstrap.Modal.getInstance(couponModalEl);
                     if (response && response.data) {
                         if (response.data.success == true) {
                             Swal.fire({
@@ -3116,7 +3118,10 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                 icon: "error"
                             });
                         }
-                        couponModal.hide();
+                        if (couponModal) {
+                            couponModal.hide();
+                            is_active = false;
+                        }
                     }
                 },
 
