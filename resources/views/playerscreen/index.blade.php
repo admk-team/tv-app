@@ -435,6 +435,33 @@
             user-select: none;
         }
 
+
+        /* for the advisory section */
+        .advisor-widget {
+            z-index: 1;
+            position: absolute;
+            text-align: start;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            color: white;
+            /* top: 80px; */
+            /* if no watermark then 10px */
+            left: 10px;
+            padding: 10px;
+            border-left: 4px solid var(--themeActiveColor);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+        }
+
+        .advisor-line {
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .advisor-line:first-child {
+            font-weight: bold;
+        }
+
         /* Styles for BuyNow redirect message */
         /* .buynow-redirect-message {                                                                                                                                                                                 } */
         .buynow-redirect-message {
@@ -617,6 +644,10 @@
                                     @endif
                                 </div>
                             @endif
+                            <div class="advisor-widget" style="top: {{ $watermark ? '80px' : '10px' }};">
+                                <p class="advisor-line">This is the first line of advice</p>
+                                <p class="advisor-line">This is the second line with more details</p>
+                            </div>
                             <div class="trail-redirect-message">You will be redirected to login in <span class="time">45
                                     second</span></div>
                             <div class="buynow-redirect-message">
