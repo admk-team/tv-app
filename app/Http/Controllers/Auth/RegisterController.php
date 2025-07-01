@@ -30,14 +30,14 @@ class RegisterController extends Controller
          $rules = [
             'name' => 'required|max:40',
             'email' => 'required|email',
-            'password_confirmation' => 'required|same:password',
+            'confirmPassword' => 'required|same:password',
         ];
 
         $messages = [
             'password.required' => 'Password is required.',
             'password.min' => 'Password must be at least :min characters.',
             'password.regex' => 'Password must include uppercase, lowercase, number, and special character.',
-            'password_confirmation.same' => 'Passwords do not match.',
+            'confirmPassword.same' => 'Passwords do not match.',
         ];
 
         if ($complexity === 'simple') {
@@ -82,10 +82,10 @@ class RegisterController extends Controller
                 'referral_link' => session('referral_link') ?? null
             ]);
         $responseJson = $response->json();
-        
+
         if ($responseJson['app']['status'] === 0) {
             return back()->with('error', $responseJson['app']['msg']);
-        }    
+        }
 
         $xyz = base64_encode(request()->ip());
         session([
@@ -154,7 +154,7 @@ class RegisterController extends Controller
     public function redirectBack(){
         $googleUser = Socialite::driver('google')->stateless()->user();
         return $this->sendSocialData($googleUser->id,$googleUser->name,$googleUser->email);
-        
+
     }
 
     public function sendSocialData($id,$name,$email)
@@ -174,10 +174,11 @@ class RegisterController extends Controller
                 'social_id' => $id,
             ]);
         $responseJson1 = $response->json();
-        
+
         $finalresultDevice = null;
         // Get the user agent string
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        Log::info($userAgent);
 
         // Check if the user agent indicates a mobile device
         $isMobile = (bool)preg_match('/Mobile|Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i', $userAgent);
@@ -232,9 +233,9 @@ class RegisterController extends Controller
                 'isBypassEmailVerificationStep' => 'Y',
                 'partner_url' => $partnerlink ?? null
             ]);
-        
+
         $responseJson = $response->json();
-        
+
         if ($responseJson['app']['status'] === 0) {
             return redirect()->route('login')->with('error', $responseJson['app']['msg']);
         }

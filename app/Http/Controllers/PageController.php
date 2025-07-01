@@ -11,6 +11,9 @@ class PageController extends Controller
 {
     public function index($slug)
     {
+        if (session()->has('USER_DETAILS.CSV_STATUS') && (int) session('USER_DETAILS.CSV_STATUS') === 0) {
+            return redirect()->route('auth.resetPassword');
+        }
         if ($slug == 'contact-us') {
             return view("page.contact-us", compact('slug'));
         } else {
@@ -38,7 +41,7 @@ class PageController extends Controller
         $jsonResponse = $response->json();
         $message = $jsonResponse['app']['msg'];
         if ($response->successful()) {
-            return back()->with('success',$message);
+            return back()->with('success', $message);
         } else {
             return back()->withErrors(['error' => 'Failed to submit contact form.']);
         }

@@ -11,6 +11,9 @@ class SearchController extends Controller
 {
     public function index(Request $request)
     {
+        if (session()->has('USER_DETAILS.CSV_STATUS') && (int) session('USER_DETAILS.CSV_STATUS') === 0) {
+            return redirect()->route('auth.resetPassword');
+        }
         $keyword = $request->searchKeyword;
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->asForm()
