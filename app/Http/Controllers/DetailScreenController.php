@@ -54,7 +54,7 @@ class DetailScreenController extends Controller
 
     public function index($id)
     {
-         if (session()->has('USER_DETAILS.USER_CODE') && (int) session('USER_DETAILS.USER_CODE') === 0) {
+         if (session()->has('USER_DETAILS.CSV_STATUS') && (int) session('USER_DETAILS.CSV_STATUS') === 0) {
             return redirect()->route('auth.resetPassword');
         }
         $data = $this->fetchStreamDetails($id);
