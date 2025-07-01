@@ -54,6 +54,9 @@ class DetailScreenController extends Controller
 
     public function index($id)
     {
+         if (session()->has('USER_DETAILS.USER_CODE') && (int) session('USER_DETAILS.USER_CODE') === 0) {
+            return redirect()->route('auth.resetPassword');
+        }
         $data = $this->fetchStreamDetails($id);
         // Calculate total reviews and average rating
         $reviews = $data['stream_details']['ratings'] ?? [];

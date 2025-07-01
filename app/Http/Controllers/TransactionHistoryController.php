@@ -11,6 +11,9 @@ class TransactionHistoryController extends Controller
 {
     public function index()
     {
+        if (session()->has('USER_DETAILS.CSV_STATUS') && (int) session('USER_DETAILS.CSV_STATUS') === 0) {
+            return redirect()->route('auth.resetPassword');
+        }
         $response = Http::timeout(300)->withHeaders(Api::headers([
             'husercode' => session('USER_DETAILS')['USER_CODE']
         ]))

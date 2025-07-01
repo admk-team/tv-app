@@ -196,6 +196,7 @@ class LoginController extends Controller
 
         if ($response) {
             $data = $response->json();
+
             return view("auth.forgot_password", compact('data'));
         }
     }
@@ -235,11 +236,10 @@ class LoginController extends Controller
     //     }
     // }
     public function resetpassword(Request $request)
-    { //dd($request->all());
-        dd(session('USER_CODE'));
-
+    { 
         // Validate input
         $request->validate([
+            'userCode' => 'required',
             'oldPassword' => 'required|string',
             'password' => 'required|string|confirmed|min:6',
         ]);
@@ -256,11 +256,16 @@ class LoginController extends Controller
                 'nPassword' => $request->password,
                 'cPassword' => $request->password_confirmation,
             ]);
-        dd($response->json());
-        // Check if response is OK
-        if ($response) {
+       // Check if response is OK
+        if ($response->ok()) {
             $data = $response->json();
+            // Assign session value correctly
+            session()->put('USER_DETAILS.CSV_STATUS', $data['app']['data']['csv_status'] ?? 0);
+
             return view("auth.reset_password", compact('data'));
         }
+
+        // Optionally handle error response
+        return back()->withErrors(['message' => 'Failed to reset password. Please try again.']);
     }
 }
