@@ -235,7 +235,9 @@ class LoginController extends Controller
     //     }
     // }
     public function resetpassword(Request $request)
-    { //dd($request->userCode);
+    { //dd($request->all());
+        dd(session('USER_CODE'));
+
         // Validate input
         $request->validate([
             'oldPassword' => 'required|string',

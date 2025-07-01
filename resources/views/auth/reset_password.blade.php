@@ -4,7 +4,7 @@
     <section class="credential_form signForm">
         <form method="POST" name="change_pass_frm" id="change_pass_frm" action="{{ route('reset.password') }}">
             @csrf
-            <input type="hidden" name="userCode" value="{{ session('USER_CODE') }}">
+            <input type="hidden" name="userCode" value="{{ session('USER_DETAILS.USER_CODE') }}">
 
             <div class="login_page main_pg inner-cred">
                 <h4>Reset Your Password</h4>
