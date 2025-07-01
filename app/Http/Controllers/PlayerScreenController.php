@@ -16,6 +16,7 @@ class PlayerScreenController extends Controller
         if (isset($data['errorView'])) {
             return $data['errorView'];
         }
+        // dd($data);
         return view("playerscreen.index", $data);
     }
 

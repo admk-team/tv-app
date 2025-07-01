@@ -212,6 +212,8 @@
     }
     
     $watermark = $arrSlctItemData['watermark'] ?? null;
+    $content_rating = $arrSlctItemData['content_rating'] ?? null;
+    $advisories = $arrSlctItemData['advisories'] ? implode(', ', array_column($arrSlctItemData['advisories'], 'title')) : null;
     
     ?>
 
@@ -644,10 +646,17 @@
                                     @endif
                                 </div>
                             @endif
-                            <div class="advisor-widget" style="top: {{ $watermark ? '80px' : '10px' }};">
-                                <p class="advisor-line">This is the first line of advice</p>
-                                <p class="advisor-line">This is the second line with more details</p>
-                            </div>
+                            @if ($content_rating || $advisories)
+                                <div class="advisor-widget global-rating"
+                                    style="top: {{ $watermark ? '80px' : '10px' }};display: none;">
+                                    @if ($content_rating)
+                                        <p class="advisor-line">{{ $content_rating }}</p>
+                                    @endif
+                                    @if ($advisories)
+                                        <p class="advisor-line">{{ $advisories }}</p>
+                                    @endif
+                                </div>
+                            @endif
                             <div class="trail-redirect-message">You will be redirected to login in <span class="time">45
                                     second</span></div>
                             <div class="buynow-redirect-message">
@@ -1647,6 +1656,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
     <script>
         // Bootstrap Modal instance
         let is_active = true;
+        let global_rating_active = true;
         document.addEventListener("DOMContentLoaded", async function(event) {
             await watiForPlaylistFetch();
             const playlistloader = document.querySelector('.video-player-skeleton');
@@ -1823,6 +1833,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     watermark.style.display = "block";
                 }
 
+                showGlobalRating();
                 showOverlayAd();
 
                 detectPopupEvent();
@@ -1958,6 +1969,25 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     @endif
                 }
 
+                if (global_rating_active == true) {
+
+                    function checkAndShowGolobalRating() {
+
+                        let currentTime = Math.floor(player.getCurrentTime());
+                        if (currentTime > 5) {
+                            hideGlobalRating();
+                            global_rating_active == false;
+                        } else {
+                            let seconds = 5;
+                            if (currentTime === seconds) {
+                                hideGlobalRating();
+                                global_rating_active == false;
+                            }
+                        }
+                    }
+                    setInterval(checkAndShowGolobalRating, 1000);
+                }
+
 
             });
 
@@ -2011,7 +2041,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 if (watermark) {
                     watermark.style.display = "none";
                 }
-
+                // Hide advisory when ad is playing
+                hideGlobalRating();
                 hideOverlayAd();
             })
 
@@ -2091,6 +2122,20 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             }
         }
 
+        function showGlobalRating() {
+            let globalRating = document.querySelector('.global-rating');
+            if (globalRating) {
+                globalRating.style.display = "block";
+            }
+        }
+
+        function hideGlobalRating() {
+            let globalRating = document.querySelector('.global-rating');
+            if (globalRating) {
+                globalRating.style.display = "none";
+            }
+        }
+
         function detectPopupEvent() {
             let eventHappening = false;
 
@@ -2105,12 +2150,14 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                         blockPopup(startTime);
                         hideOverlayAd();
                         hideWatermark();
+                        hideGlobalRating();
                         eventHappening = true;
                     }
                 } else {
                     if (eventHappening === true) {
                         showOverlayAd();
                         showWatermark();
+                        showGlobalRating();
                         eventHappening = false;
                     }
                 }
