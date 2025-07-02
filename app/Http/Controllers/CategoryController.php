@@ -46,7 +46,7 @@ class CategoryController extends Controller
         ]));
 
         // Try retrieving from cache
-        $cachedData = Cache::remember($cacheKey, now()->addMinutes(3), function () use ($validateData) {
+        $cachedData = Cache::remember($cacheKey, now()->addMinutes(2), function () use ($validateData) {
             try {
                 $response = Http::withHeaders(Api::headers())
                     ->asForm()
