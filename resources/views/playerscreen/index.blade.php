@@ -12,7 +12,8 @@
 @section('content')
     <?php
     // Config
-    $IS_SIGNIN_BYPASS = \App\Services\AppConfig::get()->app->app_info->is_bypass_login;
+    $appConfig = \App\Services\AppConfig::get();
+    $IS_SIGNIN_BYPASS = $appConfig->app->app_info->is_bypass_login;
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
     
@@ -130,9 +131,9 @@
     $arrFormData4VideoState['requestAction'] = 'getStrmDur';
     $arrRes4VideoState = \App\Helpers\GeneralHelper::sendCURLRequest(0, VIDEO_DUR_MNG_BASE_URL, $arrFormData4VideoState);
     //print_r($arrRes4VideoState);
-    $stillwatching = \App\Services\AppConfig::get()->app->app_info->still_watching;
-    $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
-    $playerstillwatchduration = \App\Services\AppConfig::get()->app->app_info->still_watching_duration;
+    $stillwatching = $appConfig->app->app_info->still_watching;
+    $is_embed = $appConfig->app->is_embed ?? null;
+    $playerstillwatchduration = $appConfig->app->app_info->still_watching_duration;
     $status = $arrRes4VideoState['app']['status'];
     if ($status == 1) {
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
@@ -140,13 +141,13 @@
     }
     
     // Here Set Ad URL in Session
-    $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
+    $adUrl = $appConfig->app->colors_assets_for_branding->web_site_ad_url;
     if (!session('ADS_INFO')) {
         session([
             'ADS_INFO' => [
-                'adUrl' => \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url,
-                'channelName' => \App\Services\AppConfig::get()->app->app_info->app_name,
-                'domain_name' => \App\Services\AppConfig::get()->app->colors_assets_for_branding->domain_name,
+                'adUrl' => $appConfig->app->colors_assets_for_branding->web_site_ad_url,
+                'channelName' => $appConfig->app->app_info->app_name,
+                'domain_name' => $appConfig->app->colors_assets_for_branding->domain_name,
             ],
         ]);
     }
@@ -167,7 +168,7 @@
     $cb = time();
     $userAgent = urlencode(request()->server('HTTP_USER_AGENT'));
     $userIP = \App\Helpers\GeneralHelper::getRealIpAddr();
-    $channelName = urlencode(\App\Services\AppConfig::get()->app->app_info->app_name);
+    $channelName = urlencode($appConfig->app->app_info->app_name);
     
     $isLocalHost = false;
     $host = parse_url(url()->current())['host'];
@@ -177,7 +178,7 @@
     
     //&app_bundle=669112
     //
-    $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
+    $appStoreUrl = urlencode($appConfig->app->colors_assets_for_branding->roku_app_store_url);
     if (parse_url($adUrl, PHP_URL_QUERY)) {
         $adMacros = $adUrl . "&width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     } else {
@@ -646,7 +647,9 @@
                                     @endif
                                 </div>
                             @endif
-                            @if ($content_rating || $advisories)
+                            @if (isset($appConfig->app->global_rating_on_video) &&
+                                    $appConfig->app->global_rating_on_video === 1 ||
+                                    ($content_rating || $advisories))
                                 <div class="advisor-widget global-rating"
                                     style="top: {{ $watermark ? '80px' : '10px' }};display: none;">
                                     @if ($content_rating)
@@ -939,9 +942,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     <form class="p-3 d-flex flex-column justify-content-center w-100 mb-4" id="reportForm">
                         @csrf
                         <label class="px-3 alert alert-warning mb-3" id="radio-error" style="display: none;"></label>
-                        @if (isset(\App\Services\AppConfig::get()->app->content_report) &&
-                                !empty(\App\Services\AppConfig::get()->app->content_report))
-                            @foreach (\App\Services\AppConfig::get()->app->content_report as $report)
+                        @if (isset($appConfig->app->content_report) && !empty($appConfig->app->content_report))
+                            @foreach ($appConfig->app->content_report as $report)
                                 <label class="report-label alert alert-light p-2">
                                     <input type="radio" name="code" value="{{ $report->id }}"
                                         class="mx-2 report-radio small" required>
@@ -1139,11 +1141,9 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                 </div>
                                                 {{ $averageRating ?? 0 }}
                                             </span>
-                                        @elseif (isset(
-                                                \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
-                                                \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
-                                                \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
-                                                \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'stars')
+                                        @elseif (isset($appConfig->app->app_info->global_rating_enable, $appConfig->app->app_info->global_rating_type) &&
+                                                $appConfig->app->app_info->global_rating_enable == 1 &&
+                                                $appConfig->app->app_info->global_rating_type === 'stars')
                                             <span class="content_screen themePrimaryTxtColr">
                                                 <div class="star active" style="display: inline-flex;">
                                                     <svg fill="#ffffff" width="15px" height="15px"
@@ -1162,11 +1162,9 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                 </div>
                                                 {{ $averageRating ?? 0 }}
                                             </span>
-                                        @elseif (isset(
-                                                \App\Services\AppConfig::get()->app->app_info->global_rating_enable,
-                                                \App\Services\AppConfig::get()->app->app_info->global_rating_type) &&
-                                                \App\Services\AppConfig::get()->app->app_info->global_rating_enable == 1 &&
-                                                \App\Services\AppConfig::get()->app->app_info->global_rating_type === 'hearts')
+                                        @elseif (isset($appConfig->app->app_info->global_rating_enable, $appConfig->app->app_info->global_rating_type) &&
+                                                $appConfig->app->app_info->global_rating_enable == 1 &&
+                                                $appConfig->app->app_info->global_rating_type === 'hearts')
                                             <span class="content_screen themePrimaryTxtColr">
                                                 <div class="star active" style="display: inline-flex;">
                                                     <svg fill="#ffffff" width="15px" height="15px"
@@ -1242,8 +1240,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                 data-bs-target="#exampleModalCenter">
                                 <a href="javascript:void(0);"><i class="fa fa-share theme-active-color"></i></a>
                             </div>
-                            @if (isset(\App\Services\AppConfig::get()->app->app_info->report) &&
-                                    \App\Services\AppConfig::get()->app->app_info->report === 1)
+                            @if (isset($appConfig->app->app_info->report) && $appConfig->app->app_info->report === 1)
                                 <div class="share_circle addWtchBtn" data-bs-toggle="modal"
                                     data-bs-target="#reportModalCenter">
                                     @if (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE']))
@@ -1252,7 +1249,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                     @endif
                                 </div>
                             @endif
-                            @if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
+                            @if (isset($appConfig->app->badge_status) && $appConfig->app->badge_status === 1)
                                 @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
                                     @if (isset($arrSlctItemData['gamified_content']) && $arrSlctItemData['gamified_content'] == 1)
                                         <div class="share_circle addWtchBtn">
@@ -1266,8 +1263,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                             @endif
                             @if (session('USER_DETAILS') &&
                                     session('USER_DETAILS')['USER_CODE'] &&
-                                    isset(\App\Services\AppConfig::get()->app->frnd_option_status) &&
-                                    \App\Services\AppConfig::get()->app->frnd_option_status === 1)
+                                    isset($appConfig->app->frnd_option_status) &&
+                                    $appConfig->app->frnd_option_status === 1)
                                 <div class="share_circle addWtchBtn" data-bs-toggle="modal"
                                     data-bs-target="#recommendation">
                                     <a href="javascript:void(0);" role="button" data-bs-toggle="tooltip"
@@ -1553,8 +1550,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
     {{-- coupon modal --}}
     @if (
         !empty($arrSlctItemData['coupon_code']) &&
-            isset(\App\Services\AppConfig::get()->app->badge_status) &&
-            \App\Services\AppConfig::get()->app->badge_status === 1)
+            isset($appConfig->app->badge_status) &&
+            $appConfig->app->badge_status === 1)
         <div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="centeredModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered"> <!-- Centering class -->
