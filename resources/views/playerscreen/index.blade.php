@@ -8,6 +8,7 @@
     <script src="{{ asset('assets/js/video-7.20.3.min.js') }}"></script> --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/cards-item.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/global-rating-on-video.css') }}" />
 @endsection
 @section('content')
     <?php
@@ -438,33 +439,6 @@
             user-select: none;
         }
 
-
-        /* for the advisory section */
-        .advisor-widget {
-            z-index: 1;
-            position: absolute;
-            text-align: start;
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-            color: white;
-            /* top: 80px; */
-            /* if no watermark then 10px */
-            left: 10px;
-            padding: 10px;
-            border-left: 4px solid var(--themeActiveColor);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            font-family: Arial, sans-serif;
-        }
-
-        .advisor-line {
-            margin: 0;
-            line-height: 1.4;
-        }
-
-        .advisor-line:first-child {
-            font-weight: bold;
-        }
-
         /* Styles for BuyNow redirect message */
         /* .buynow-redirect-message {                                                                                                                                                                                 } */
         .buynow-redirect-message {
@@ -647,13 +621,12 @@
                                     @endif
                                 </div>
                             @endif
-                            @if (isset($appConfig->app->global_rating_on_video) &&
-                                    $appConfig->app->global_rating_on_video === 1 ||
+                            @if (
+                                (isset($appConfig->app->global_rating_on_video) && $appConfig->app->global_rating_on_video === 1) ||
                                     ($content_rating || $advisories))
-                                <div class="advisor-widget global-rating"
-                                    style="top: {{ $watermark ? '80px' : '10px' }};display: none;">
+                                <div class="advisor-widget global-rating" style="display: none;">
                                     @if ($content_rating)
-                                        <p class="advisor-line">{{ $content_rating }}</p>
+                                        <p class="advisor-line">Rating: {{ $content_rating }}</p>
                                     @endif
                                     @if ($advisories)
                                         <p class="advisor-line">{{ $advisories }}</p>
@@ -1655,6 +1628,29 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
         let is_active = true;
         let global_rating_active = true;
         document.addEventListener("DOMContentLoaded", async function(event) {
+
+            // set the position of global rating 
+            const widget = document.querySelector(".advisor-widget");
+            if (!widget) return;
+            const isTopLeft = "{{ isset($watermark['position']) && $watermark['position'] == 'top-left' ? 'true' : 'false' }}";
+
+            if (isTopLeft === 'true') {
+                const screenWidth = window.innerWidth;
+
+                if (screenWidth < 600) {
+                    widget.style.top = "40px";
+                } else if (screenWidth >= 600 && screenWidth < 992) {
+                    widget.style.top = "50px";
+                } else if (screenWidth >= 992 && screenWidth < 1200) {
+                    widget.style.top = "70px";
+                } else {
+                    widget.style.top = "80px";
+                }
+            } else {
+                widget.style.top = "10px";
+            }
+
+            // player data 
             await watiForPlaylistFetch();
             const playlistloader = document.querySelector('.video-player-skeleton');
             playlistloader.style.display = 'none';
