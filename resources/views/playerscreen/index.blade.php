@@ -601,8 +601,8 @@
                     <div class="video-player-skeleton"
                         style="background-color: #000; width: 100%; max-width: 1000px; margin: 0 auto; position: relative; overflow: hidden;">
                         <div class="costum-spinner "
-                            style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);"></div>
-                        <div style="padding-top: 56.25%;"></div> <!-- 16:9 aspect ratio -->
+                            style="position: absolute; top: 40%; left: 46%; transform: translate(-50%, -50%);"></div>
+                        <div style="padding-top: 50%;"></div> <!-- 16:9 aspect ratio -->
                     </div>
                     <div class="videocentalize">
                         @if (strpos($streamUrl, 'https://stream.live.gumlet.io') !== false)
