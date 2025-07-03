@@ -1627,12 +1627,14 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
         // Bootstrap Modal instance
         let is_active = true;
         let global_rating_active = true;
+        let is_adplay = false;
         document.addEventListener("DOMContentLoaded", async function(event) {
 
             // set the position of global rating 
             const widget = document.querySelector(".advisor-widget");
             if (!widget) return;
-            const isTopLeft = "{{ isset($watermark['position']) && $watermark['position'] == 'top-left' ? 'true' : 'false' }}";
+            const isTopLeft =
+                "{{ isset($watermark['position']) && $watermark['position'] == 'top-left' ? 'true' : 'false' }}";
 
             if (isTopLeft === 'true') {
                 const screenWidth = window.innerWidth;
@@ -1647,7 +1649,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     widget.style.top = "80px";
                 }
             } else {
-                widget.style.top = "10px";
+                widget.style.top = "12px";
             }
 
             // player data 
@@ -1842,6 +1844,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             @endif
             window.displayedBuyNow = [];
             player.addEventListener("mediaPlay", function(data) {
+                is_adplay = false;
                 @if ($redirectUrl)
                     trial.start();
                     document.querySelector('.mvp-input-progress').disabled = true;
@@ -1981,6 +1984,10 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     setInterval(checkAndShowGolobalRating, 1000);
                 }
 
+                showOverlayAd();
+                            showWatermark();
+                            showGlobalRating();
+
 
             });
 
@@ -2024,6 +2031,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             });
 
             player.addEventListener("adPlay", function(data) {
+                is_adplay = true;
                 let liveVideo = document.querySelector('.live-video');
                 if (liveVideo) {
                     liveVideo.style.display = "none";
@@ -2031,6 +2039,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
 
                 // Hide watermark when ad is playing
                 let watermark = document.querySelector('.watermark');
+                console.log('watermark', watermark);
                 if (watermark) {
                     watermark.style.display = "none";
                 }
@@ -2120,6 +2129,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             if (globalRating) {
                 globalRating.style.display = "block";
             }
+            
         }
 
         function hideGlobalRating() {
@@ -2148,9 +2158,11 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     }
                 } else {
                     if (eventHappening === true) {
-                        showOverlayAd();
-                        showWatermark();
-                        showGlobalRating();
+                        if (is_adplay === false) {
+                            showOverlayAd();
+                            showWatermark();
+                            showGlobalRating();
+                        }
                         eventHappening = false;
                     }
                 }
