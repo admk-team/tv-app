@@ -1,17 +1,21 @@
 /* for the advisory section */
 .advisor-widget {
     z-index: 99999999999;
-    width: 100px;
+    /* width: 100px; */
     position: absolute;
     text-align: start;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
     color: white;
     left: 10px;
     padding: 2px;
     border-left: 3px solid var(--themeActiveColor);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
+    max-width: 100%;
+    top: 17px;
 }
 
 .advisor-line {
@@ -27,9 +31,8 @@
     .advisor-line {
         font-size: 8px;
     }
-
     .advisor-widget {
-        width: 35%;
+        
         border-top-left-radius: 8px;
         border-bottom-left-radius: 8px;
         padding: 6px;
@@ -44,7 +47,6 @@
     }
 
     .advisor-widget {
-        width: 35%;
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
         padding: 5px;
@@ -59,7 +61,6 @@
     }
 
     .advisor-widget {
-        width: 35%;
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
         padding: 7px;

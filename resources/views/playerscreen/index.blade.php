@@ -626,7 +626,7 @@
                                     ($content_rating || $advisories))
                                 <div class="advisor-widget global-rating" style="display: none;">
                                     @if ($content_rating)
-                                        <p class="advisor-line">Rating: {{ $content_rating }}</p>
+                                        <p class="advisor-line">RATED {{ $content_rating }}</p>
                                     @endif
                                     @if ($advisories)
                                         <p class="advisor-line">{{ $advisories }}</p>
@@ -1629,7 +1629,6 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
         let global_rating_active = true;
         let is_adplay = false;
         document.addEventListener("DOMContentLoaded", async function(event) {
-
             // set the position of global rating 
             const widget = document.querySelector(".advisor-widget");
             if (!widget) return;
@@ -1639,7 +1638,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             if (isTopLeft === 'true') {
                 const screenWidth = window.innerWidth;
 
-                if (screenWidth < 600) {
+                {{--  if (screenWidth < 600) {
                     widget.style.top = "40px";
                 } else if (screenWidth >= 600 && screenWidth < 992) {
                     widget.style.top = "50px";
@@ -1647,11 +1646,11 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     widget.style.top = "70px";
                 } else {
                     widget.style.top = "80px";
-                }
+                }  --}}
+                widget.style.top = "12px";
             } else {
                 widget.style.top = "12px";
             }
-
             // player data 
             await watiForPlaylistFetch();
             const playlistloader = document.querySelector('.video-player-skeleton');
@@ -1985,8 +1984,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 }
 
                 showOverlayAd();
-                            showWatermark();
-                            showGlobalRating();
+                showWatermark();
+                showGlobalRating();
 
 
             });
@@ -2128,14 +2127,16 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             let globalRating = document.querySelector('.global-rating');
             if (globalRating) {
                 globalRating.style.display = "block";
+                hideWatermark();
             }
-            
+
         }
 
         function hideGlobalRating() {
             let globalRating = document.querySelector('.global-rating');
             if (globalRating) {
                 globalRating.style.display = "none";
+                showWatermark();
             }
         }
 
