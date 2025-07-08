@@ -12,6 +12,9 @@ class ProfileController extends Controller
 {
     public function index()
     {
+        if (session()->has('USER_DETAILS.CSV_STATUS') && (int) session('USER_DETAILS.CSV_STATUS') === 0) {
+            return redirect()->route('auth.resetPassword');
+        }
         $response = Http::withHeaders(Api::headers())
             ->asForm()
             ->get(Api::endpoint('/userprofiles?id=' . session('USER_DETAILS.USER_ID')));
@@ -30,11 +33,17 @@ class ProfileController extends Controller
 
     public function view_setting()
     {
+        if (session()->has('USER_DETAILS.CSV_STATUS') && (int) session('USER_DETAILS.CSV_STATUS') === 0) {
+            return redirect()->route('auth.resetPassword');
+        }
         return view('profile.setting');
     }
 
     public function history()
     {
+        if (session()->has('USER_DETAILS.CSV_STATUS') && (int) session('USER_DETAILS.CSV_STATUS') === 0) {
+            return redirect()->route('auth.resetPassword');
+        }
         $userProfileId = session('USER_DETAILS.USER_PROFILE') ?? null;
 
         $response = Http::withHeaders(Api::headers())
@@ -47,6 +56,9 @@ class ProfileController extends Controller
 
     public function manage_profile($id)
     {
+        if (session()->has('USER_DETAILS.CSV_STATUS') && (int) session('USER_DETAILS.CSV_STATUS') === 0) {
+            return redirect()->route('auth.resetPassword');
+        }
         $response = Http::withHeaders(Api::headers())
             ->asForm()
             ->get(Api::endpoint('/userprofiles?id=' . session('USER_DETAILS.USER_ID')));
@@ -58,6 +70,9 @@ class ProfileController extends Controller
 
     public function getUserProfile()
     {
+        if (session()->has('USER_DETAILS.CSV_STATUS') && (int) session('USER_DETAILS.CSV_STATUS') === 0) {
+            return redirect()->route('auth.resetPassword');
+        }
         $response = Http::timeout(300)->withHeaders(Api::headers(
             [
                 'Accept' => 'application/json',
@@ -96,7 +111,6 @@ class ProfileController extends Controller
                     'account_type' => $request->input('account_type'),
                 ]);
             return response()->json($response->json());
-            
         } else {
 
             $response = Http::timeout(300)->withHeaders(Api::headers([

@@ -40,7 +40,7 @@ body {
 }
 .header {
     padding: 6px 0;
-    z-index: 1000;
+    z-index: 100000000 !important;
 }
 .header .inner {
     display: flex;

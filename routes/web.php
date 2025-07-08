@@ -109,6 +109,10 @@ Route::post('verify', [LoginController::class, 'verifyEmail'])->name('verify');
 //forgot password
 Route::get('forgot', [LoginController::class, 'forgot'])->name('forgot');
 Route::post('forgot', [LoginController::class, 'forgotPassword'])->name('forgot');
+//reset password
+Route::get('/reset-password', [LoginController::class, 'showResetPasswordForm'])->name('auth.resetPassword');
+Route::post('/reset-password', [LoginController::class, 'resetpassword'])->name('reset.password');
+
 // Authenticated Routes
 Route::middleware('auth.user')->group(function () {
 
@@ -135,7 +139,7 @@ Route::middleware('auth.user')->group(function () {
     Route::get('get-profile', [ProfileController::class, 'getUserProfile'])->name('public-profile');
     Route::post('update-profile', [ProfileController::class, 'updateProfile'])->name('update-profile');
 
-    // friend request controller 
+    // friend request controller
     Route::get('public-firends', [FriendRequestController::class, 'getPublicFriend'])->name('public-friend');
     Route::post('send-firend-request', [FriendRequestController::class, 'sendFriendRequest'])->name('send-friend-request');
     Route::get('get-firend-request', [FriendRequestController::class, 'getFriendRequests'])->name('get-friend-request');

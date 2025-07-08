@@ -15,6 +15,9 @@ class HomeController extends Controller
 {
     public function index(Request $request, $slug = 'home')
     {
+        if (session()->has('USER_DETAILS.CSV_STATUS') && (int) session('USER_DETAILS.CSV_STATUS') === 0) {
+            return redirect()->route('auth.resetPassword');
+        }
         $currentUrl = $request->fullUrl();
         $link = $request->query('link');
 

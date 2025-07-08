@@ -15,7 +15,7 @@ class LoginController extends Controller
 {
     public function index()
     {
-        if(session('USER_DETAILS')){
+        if (session('USER_DETAILS')) {
             return redirect("/");
         }
         return view("auth.login");
@@ -90,6 +90,7 @@ class LoginController extends Controller
             return back()->with('error', $responseJson['app']['msg']);
         }
 
+
         session([
             'USER_DETAILS' => [
                 'USER_ACCOUNT_PASS' => $request->password ?? null,
@@ -101,10 +102,16 @@ class LoginController extends Controller
                 'USER_EMAIL' => $responseJson['app']['data']['email'] ?? null,
                 'USER_ID' => $responseJson['app']['data']['user_id'] ?? null,
                 'GROUP_USER' => $responseJson['app']['data']['group_user'] ?? null,
-
+                'CSV_STATUS' => $responseJson['app']['data']['csv_status'] ?? null,
             ],
             'msgTrue' => 1,
         ]);
+        if (
+            isset($responseJson['app']['data']['csv_status']) &&
+            $responseJson['app']['data']['csv_status'] === 0
+        ) {
+            return redirect()->route('auth.resetPassword');
+        }
         $profile = \App\Services\AppConfig::get()->app->app_info->profile_manage;
 
         if (session()->has('REDIRECT_TO_SCREEN')) {
@@ -189,7 +196,115 @@ class LoginController extends Controller
 
         if ($response) {
             $data = $response->json();
+
             return view("auth.forgot_password", compact('data'));
         }
+    }
+    public function showResetPasswordForm()
+    {
+        return view('auth.reset_password');
+    }
+    // public function resetpassword(Request $request)
+    // {
+    //     // Validate only what's in the form
+    //     $request->validate([
+    //         'oldPassword' => 'required|string',
+    //         'password' => 'required|string|confirmed',
+    //     ]);
+    //     // Get user code from session
+    //     $userCode = session('USER_TEMP_CODE');
+    //     if (!$userCode) {
+    //         return back()->with('error', 'Session expired. Please log in again.');
+    //     }
+    //     // Prepare and send request to API
+    //     $response = Http::timeout(300)->withHeaders(Api::headers([
+    //         'Accept' => 'application/json',
+    //         'Content-Type' => 'application/json',
+    //     ]))
+    //         ->asForm()
+    //         ->post(Api::endpoint('/mngappusrs'), [
+    //             'requestAction' => 'changeAccountPassword',
+    //             'userCode' => $userCode,
+    //             'oldPassword' => $request->oldPassword,
+    //             'nPassword' => $request->password,
+    //             'cPassword' => $request->password_confirmation,
+    //         ]);
+    //     // Handle response
+    //     if ($response) {
+    //         $data = $response->json();
+    //         return view("auth.reset_password", compact('data'));
+    //     }
+    // }
+    public function resetpassword(Request $request)
+    {
+        // Dynamically determine password complexity
+        $complexity = \App\Services\AppConfig::get()->app->password_complexity ?? 'simple';
+
+        // Base validation rules
+        $rules = [
+            'userCode' => 'required',
+            'oldPassword' => 'required|string',
+            'password_confirmation' => 'required|same:password',
+        ];
+
+        // Custom error messages
+        $messages = [
+            'password.required' => 'Password is required.',
+            'password.min' => 'Password must be at least :min characters.',
+            'password.regex' => 'Password must include uppercase, lowercase, number, and special character.',
+            'password_confirmation.same' => 'Passwords do not match.',
+        ];
+
+        // Password complexity rules
+        if ($complexity === 'simple') {
+            $rules['password'] = ['required', 'string', 'min:6'];
+        } elseif ($complexity === 'moderate') {
+            $rules['password'] = [
+                'required',
+                'string',
+                'min:8',
+                'regex:/[a-z]/',         // at least one lowercase
+                'regex:/[A-Z]/',         // at least one uppercase
+                'regex:/[0-9]/',         // at least one number
+            ];
+        } elseif ($complexity === 'strong') {
+            $rules['password'] = [
+                'required',
+                'string',
+                'min:12',
+                'regex:/[a-z]/',             // lowercase
+                'regex:/[A-Z]/',             // uppercase
+                'regex:/[0-9]/',             // number
+                'regex:/[@$!%*#?&]/',        // special character
+            ];
+        }
+
+        // Validate request
+        $request->validate($rules, $messages);
+
+        // Send API request to update password
+        $response = Http::timeout(300)->withHeaders(Api::headers([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ]))
+            ->asForm()
+            ->post(Api::endpoint('/mngappusrs'), [
+                'requestAction' => 'changeAccountPassword',
+                'userCode' => $request->userCode,
+                'oldPassword' => $request->oldPassword,
+                'nPassword' => $request->password,
+                'cPassword' => $request->password_confirmation,
+            ]);
+
+        // Handle response
+        if ($response->ok()) {
+            $data = $response->json();
+            session()->put('USER_DETAILS.CSV_STATUS', $data['app']['data']['csv_status'] ?? 0);
+
+            return view("auth.reset_password", compact('data'));
+        }
+
+        // Handle failed response
+        return back()->withErrors(['message' => 'Failed to reset password. Please try again.']);
     }
 }

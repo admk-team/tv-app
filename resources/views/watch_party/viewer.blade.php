@@ -222,6 +222,7 @@
             }
             var settings = {
                 skin: 'sirius', //aviva, polux, sirius
+                aspectRatio:1,
                 playlistPosition: pListPostion, //vrb, vb, hb, no-playlist, outer, wall
                 vimeoPlayerType: "chromeless",
                 youtubePlayerType: "chromeless",
