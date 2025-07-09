@@ -276,7 +276,7 @@ class PlayerScreenController extends Controller
             $streams = $responseJson['app']['latest_items'] ?? [];
 
             // Cache for 2 minutes
-            Cache::put($cacheKey, $streams, now()->addMinutes(2));
+            Cache::put($cacheKey, $streams, now()->addMinutes(1));
 
             return response()->json([
                 'success' => true,
