@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\Api;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
@@ -241,12 +242,26 @@ class PlayerScreenController extends Controller
         return view('playerscreen.extra_video', compact('playbackUrl', 'thumbnail', 'title', 'description'));
     }
 
+
+
     public function getplayerStreams(Request $request)
     {
         $streamGuid = $request->input('stream_guid');
         $xyz = base64_encode(request()->ip());
+
         if (env('NO_IP_ADDRESS') === true) { // For localhost
             $xyz = "MTU0LjE5Mi4xMzguMzY=";
+        }
+
+        $cacheKey = 'player_streams_' . $streamGuid . '_' . $xyz;
+
+        if (Cache::has($cacheKey)) {
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'streams' => Cache::get($cacheKey),
+                ]
+            ]);
         }
 
         $response = Http::withHeaders(Api::headers())
@@ -255,9 +270,14 @@ class PlayerScreenController extends Controller
                 'streamGuid' => $streamGuid,
                 'user_data' => $xyz,
             ]);
+
         if ($response->successful()) {
             $responseJson = $response->json();
             $streams = $responseJson['app']['latest_items'] ?? [];
+
+            // Cache for 2 minutes
+            Cache::put($cacheKey, $streams, now()->addMinutes(2));
+
             return response()->json([
                 'success' => true,
                 'data' => [
@@ -270,8 +290,10 @@ class PlayerScreenController extends Controller
             'status' => $response->status(),
             'body' => $response->body()
         ]);
+
         return response()->json(['success' => false], 500);
     }
+
 
 
     public function ApplyCoupon(Request $request)

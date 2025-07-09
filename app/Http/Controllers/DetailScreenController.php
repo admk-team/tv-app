@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\Api;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -54,7 +55,7 @@ class DetailScreenController extends Controller
 
     public function index($id)
     {
-         if (session()->has('USER_DETAILS.CSV_STATUS') && (int) session('USER_DETAILS.CSV_STATUS') === 0) {
+        if (session()->has('USER_DETAILS.CSV_STATUS') && (int) session('USER_DETAILS.CSV_STATUS') === 0) {
             return redirect()->route('auth.resetPassword');
         }
         $data = $this->fetchStreamDetails($id);
@@ -135,31 +136,49 @@ class DetailScreenController extends Controller
         ]);
     }
 
-    public function getRelatedStreams(Request $request)
-    {
-        $streamGuid = $request->input('stream_guid');
-        $response = Http::withHeaders(Api::headers())
-            ->asForm()
-            ->post(Api::endpoint('/related/stream'), [
-                'streamGuid' => $streamGuid,
-            ]);
-        if ($response->successful()) {
-            $responseJson = $response->json();
-            $streams = $responseJson['app']['latest_items'] ?? [];
-            return response()->json([
-                'success' => true,
-                'data' => [
-                    'streams' => $streams,
-                ]
-            ]);
-        }
+   public function getRelatedStreams(Request $request)
+{
+    $streamGuid = $request->input('stream_guid');
 
-        Log::error('API call failed in getRelatedStreams', [
-            'status' => $response->status(),
-            'body' => $response->body()
+    $cacheKey = 'related_streams_' . $streamGuid;
+
+    if (Cache::has($cacheKey)) {
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'streams' => Cache::get($cacheKey),
+            ]
         ]);
-        return response()->json(['success' => false], 500);
     }
+
+    $response = Http::withHeaders(Api::headers())
+        ->asForm()
+        ->post(Api::endpoint('/related/stream'), [
+            'streamGuid' => $streamGuid,
+        ]);
+
+    if ($response->successful()) {
+        $responseJson = $response->json();
+        $streams = $responseJson['app']['latest_items'] ?? [];
+
+        // Cache the result for 2 minutes
+        Cache::put($cacheKey, $streams, now()->addMinutes(2));
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'streams' => $streams,
+            ]
+        ]);
+    }
+
+    Log::error('API call failed in getRelatedStreams', [
+        'status' => $response->status(),
+        'body' => $response->body()
+    ]);
+
+    return response()->json(['success' => false], 500);
+}
 
 
     public function renderYouMightLike(Request $request)

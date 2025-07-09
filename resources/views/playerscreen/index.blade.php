@@ -132,9 +132,9 @@
     $arrFormData4VideoState['requestAction'] = 'getStrmDur';
     $arrRes4VideoState = \App\Helpers\GeneralHelper::sendCURLRequest(0, VIDEO_DUR_MNG_BASE_URL, $arrFormData4VideoState);
     //print_r($arrRes4VideoState);
-    $stillwatching = $appConfig->app->app_info->still_watching;
-    $is_embed = $appConfig->app->is_embed ?? null;
-    $playerstillwatchduration = $appConfig->app->app_info->still_watching_duration;
+    $stillwatching =  $appConfig->app->app_info->still_watching;
+    $is_embed =  $appConfig->app->is_embed ?? null;
+    $playerstillwatchduration =  $appConfig->app->app_info->still_watching_duration;
     $status = $arrRes4VideoState['app']['status'];
     if ($status == 1) {
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
@@ -142,13 +142,13 @@
     }
     
     // Here Set Ad URL in Session
-    $adUrl = $appConfig->app->colors_assets_for_branding->web_site_ad_url;
+    $adUrl =  $appConfig->app->colors_assets_for_branding->web_site_ad_url;
     if (!session('ADS_INFO')) {
         session([
             'ADS_INFO' => [
-                'adUrl' => $appConfig->app->colors_assets_for_branding->web_site_ad_url,
-                'channelName' => $appConfig->app->app_info->app_name,
-                'domain_name' => $appConfig->app->colors_assets_for_branding->domain_name,
+                'adUrl' =>  $appConfig->app->colors_assets_for_branding->web_site_ad_url,
+                'channelName' =>  $appConfig->app->app_info->app_name,
+                'domain_name' =>  $appConfig->app->colors_assets_for_branding->domain_name,
             ],
         ]);
     }
@@ -169,7 +169,7 @@
     $cb = time();
     $userAgent = urlencode(request()->server('HTTP_USER_AGENT'));
     $userIP = \App\Helpers\GeneralHelper::getRealIpAddr();
-    $channelName = urlencode($appConfig->app->app_info->app_name);
+    $channelName = urlencode( $appConfig->app->app_info->app_name);
     
     $isLocalHost = false;
     $host = parse_url(url()->current())['host'];
@@ -179,7 +179,7 @@
     
     //&app_bundle=669112
     //
-    $appStoreUrl = urlencode($appConfig->app->colors_assets_for_branding->roku_app_store_url);
+    $appStoreUrl = urlencode( $appConfig->app->colors_assets_for_branding->roku_app_store_url);
     if (parse_url($adUrl, PHP_URL_QUERY)) {
         $adMacros = $adUrl . "&width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     } else {
@@ -915,8 +915,9 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     <form class="p-3 d-flex flex-column justify-content-center w-100 mb-4" id="reportForm">
                         @csrf
                         <label class="px-3 alert alert-warning mb-3" id="radio-error" style="display: none;"></label>
-                        @if (isset($appConfig->app->content_report) && !empty($appConfig->app->content_report))
-                            @foreach ($appConfig->app->content_report as $report)
+                        @if (isset( $appConfig->app->content_report) &&
+                                !empty( $appConfig->app->content_report))
+                            @foreach ( $appConfig->app->content_report as $report)
                                 <label class="report-label alert alert-light p-2">
                                     <input type="radio" name="code" value="{{ $report->id }}"
                                         class="mx-2 report-radio small" required>
@@ -1114,9 +1115,11 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                 </div>
                                                 {{ $averageRating ?? 0 }}
                                             </span>
-                                        @elseif (isset($appConfig->app->app_info->global_rating_enable, $appConfig->app->app_info->global_rating_type) &&
-                                                $appConfig->app->app_info->global_rating_enable == 1 &&
-                                                $appConfig->app->app_info->global_rating_type === 'stars')
+                                        @elseif (isset(
+                                                 $appConfig->app->app_info->global_rating_enable,
+                                                 $appConfig->app->app_info->global_rating_type) &&
+                                                 $appConfig->app->app_info->global_rating_enable == 1 &&
+                                                 $appConfig->app->app_info->global_rating_type === 'stars')
                                             <span class="content_screen themePrimaryTxtColr">
                                                 <div class="star active" style="display: inline-flex;">
                                                     <svg fill="#ffffff" width="15px" height="15px"
@@ -1135,9 +1138,11 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                                 </div>
                                                 {{ $averageRating ?? 0 }}
                                             </span>
-                                        @elseif (isset($appConfig->app->app_info->global_rating_enable, $appConfig->app->app_info->global_rating_type) &&
-                                                $appConfig->app->app_info->global_rating_enable == 1 &&
-                                                $appConfig->app->app_info->global_rating_type === 'hearts')
+                                        @elseif (isset(
+                                                 $appConfig->app->app_info->global_rating_enable,
+                                                 $appConfig->app->app_info->global_rating_type) &&
+                                                 $appConfig->app->app_info->global_rating_enable == 1 &&
+                                                 $appConfig->app->app_info->global_rating_type === 'hearts')
                                             <span class="content_screen themePrimaryTxtColr">
                                                 <div class="star active" style="display: inline-flex;">
                                                     <svg fill="#ffffff" width="15px" height="15px"
@@ -1213,7 +1218,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                 data-bs-target="#exampleModalCenter">
                                 <a href="javascript:void(0);"><i class="fa fa-share theme-active-color"></i></a>
                             </div>
-                            @if (isset($appConfig->app->app_info->report) && $appConfig->app->app_info->report === 1)
+                            @if (isset( $appConfig->app->app_info->report) &&
+                                     $appConfig->app->app_info->report === 1)
                                 <div class="share_circle addWtchBtn" data-bs-toggle="modal"
                                     data-bs-target="#reportModalCenter">
                                     @if (session('USER_DETAILS') && isset(session('USER_DETAILS')['USER_CODE']))
@@ -1222,7 +1228,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                     @endif
                                 </div>
                             @endif
-                            @if (isset($appConfig->app->badge_status) && $appConfig->app->badge_status === 1)
+                            @if (isset( $appConfig->app->badge_status) &&  $appConfig->app->badge_status === 1)
                                 @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'])
                                     @if (isset($arrSlctItemData['gamified_content']) && $arrSlctItemData['gamified_content'] == 1)
                                         <div class="share_circle addWtchBtn">
@@ -1236,8 +1242,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                             @endif
                             @if (session('USER_DETAILS') &&
                                     session('USER_DETAILS')['USER_CODE'] &&
-                                    isset($appConfig->app->frnd_option_status) &&
-                                    $appConfig->app->frnd_option_status === 1)
+                                    isset( $appConfig->app->frnd_option_status) &&
+                                     $appConfig->app->frnd_option_status === 1)
                                 <div class="share_circle addWtchBtn" data-bs-toggle="modal"
                                     data-bs-target="#recommendation">
                                     <a href="javascript:void(0);" role="button" data-bs-toggle="tooltip"
@@ -1523,8 +1529,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
     {{-- coupon modal --}}
     @if (
         !empty($arrSlctItemData['coupon_code']) &&
-            isset($appConfig->app->badge_status) &&
-            $appConfig->app->badge_status === 1)
+            isset( $appConfig->app->badge_status) &&
+             $appConfig->app->badge_status === 1)
         <div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="centeredModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered"> <!-- Centering class -->
@@ -1627,7 +1633,6 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
         // Bootstrap Modal instance
         let is_active = true;
         let global_rating_active = true;
-        let is_adplay = false;
         document.addEventListener("DOMContentLoaded", async function(event) {
             // set the position of global rating 
             const widget = document.querySelector(".advisor-widget");
@@ -1637,17 +1642,15 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
 
             if (isTopLeft === 'true') {
                 const screenWidth = window.innerWidth;
-
-                {{--  if (screenWidth < 600) {
-                    widget.style.top = "40px";
+                if (screenWidth < 600) {
+                    widget.style.top = "45px";
                 } else if (screenWidth >= 600 && screenWidth < 992) {
                     widget.style.top = "50px";
                 } else if (screenWidth >= 992 && screenWidth < 1200) {
                     widget.style.top = "70px";
                 } else {
                     widget.style.top = "80px";
-                }  --}}
-                widget.style.top = "12px";
+                }
             } else {
                 widget.style.top = "12px";
             }
@@ -1663,7 +1666,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             var settings = {
 
                 skin: 'sirius', //aviva, polux, sirius
-                aspectRatio:1,
+                aspectRatio: 1,
                 playlistPosition: pListPostion, //vrb, vb, hb, no-playlist, outer, wall
                 vimeoPlayerType: "chromeless",
                 youtubePlayerType: "chromeless",
@@ -1800,6 +1803,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
 
             var isFirstTIme = true
             player.addEventListener('mediaStart', function(data) {
+                window.adplay = false;
+                console.log('media start');
                 //called on media start, returns (instance, instanceName, counter)
 
                 console.log(data.instanceName);
@@ -1823,17 +1828,31 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     liveVideo.style.display = "block";
                 }
 
-                let watermark = document.querySelector('.watermark');
-                if (watermark) {
-                    watermark.style.display = "block";
-                }
-
+                showWatermark();
                 showGlobalRating();
                 showOverlayAd();
 
                 detectPopupEvent();
 
                 makeVolumeButtontoggable(); // Fix mute toggle
+                if (global_rating_active == true) {
+
+                    function checkAndShowGolobalRating() {
+
+                        let currentTime = Math.floor(player.getCurrentTime());
+                        if (currentTime > 5) {
+                            hideGlobalRating();
+                            global_rating_active == false;
+                        } else {
+                            let seconds = 5;
+                            if (currentTime === seconds) {
+                                hideGlobalRating();
+                                global_rating_active == false;
+                            }
+                        }
+                    }
+                    setInterval(checkAndShowGolobalRating, 1000);
+                }
             });
             let eventHappening = false;
 
@@ -1844,7 +1863,9 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             @endif
             window.displayedBuyNow = [];
             player.addEventListener("mediaPlay", function(data) {
-                is_adplay = false;
+                console.log('media play');
+
+                window.adplay = false;
                 @if ($redirectUrl)
                     trial.start();
                     document.querySelector('.mvp-input-progress').disabled = true;
@@ -1853,6 +1874,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     document.querySelector('.mvp-rewind-toggle').disabled = true;
                 @endif
 
+                showWatermark();
+                showGlobalRating();
 
                 @if (!empty($arrSlctItemData['buynow']))
 
@@ -1964,7 +1987,6 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                         setInterval(checkAndShowCouponCode, 1000);
                     @endif
                 }
-
                 if (global_rating_active == true) {
 
                     function checkAndShowGolobalRating() {
@@ -1983,11 +2005,6 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     }
                     setInterval(checkAndShowGolobalRating, 1000);
                 }
-
-                showOverlayAd();
-                showWatermark();
-                showGlobalRating();
-
 
             });
 
@@ -2031,19 +2048,15 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             });
 
             player.addEventListener("adPlay", function(data) {
-                is_adplay = true;
+                console.log('ad play start');
+                window.adplay = true;
                 let liveVideo = document.querySelector('.live-video');
                 if (liveVideo) {
                     liveVideo.style.display = "none";
                 }
 
                 // Hide watermark when ad is playing
-                let watermark = document.querySelector('.watermark');
-                console.log('watermark', watermark);
-                if (watermark) {
-                    watermark.style.display = "none";
-                }
-                // Hide advisory when ad is playing
+                hideWatermark();
                 hideGlobalRating();
                 hideOverlayAd();
             })
@@ -2111,10 +2124,14 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
         }
 
         function showWatermark() {
-            let watermark = document.querySelector('.watermark');
-            if (watermark) {
-                watermark.style.display = "block";
+            console.log('watermark from function');
+            if (window.adplay == false) {
+                let watermark = document.querySelector('.watermark');
+                if (watermark) {
+                    watermark.style.display = "block";
+                }
             }
+
         }
 
         function hideWatermark() {
@@ -2125,19 +2142,18 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
         }
 
         function showGlobalRating() {
-            let globalRating = document.querySelector('.global-rating');
-            if (globalRating) {
-                globalRating.style.display = "block";
-                hideWatermark();
+            if (window.adplay == false) {
+                let globalRating = document.querySelector('.global-rating');
+                if (globalRating) {
+                    globalRating.style.display = "block";
+                }
             }
-
         }
 
         function hideGlobalRating() {
             let globalRating = document.querySelector('.global-rating');
             if (globalRating) {
                 globalRating.style.display = "none";
-                showWatermark();
             }
         }
 
@@ -2160,11 +2176,9 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     }
                 } else {
                     if (eventHappening === true) {
-                        if (is_adplay === false) {
-                            showOverlayAd();
-                            showWatermark();
-                            showGlobalRating();
-                        }
+                        showOverlayAd();
+                        showWatermark();
+                        showGlobalRating();
                         eventHappening = false;
                     }
                 }
