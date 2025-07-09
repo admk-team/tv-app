@@ -34,7 +34,6 @@
         const handleInputChange = debounce(function() {
             const searchQuery = searchInput.value;
             if (searchQuery.length > 3) {
-                console.log('Input changed:', searchQuery);
                 if (typeof dataLayer !== 'undefined') {
                     dataLayer.push({
                         event: 'custom_search_input',
@@ -102,7 +101,6 @@
         const handleInputChange = debounce(function() {
             const searchQuery = searchInput.value;
             if (searchQuery.length > 3) {
-                console.log('Input changed:', searchQuery);
                 if (typeof dataLayer !== 'undefined') {
                     dataLayer.push({
                         event: 'custom_search_input',

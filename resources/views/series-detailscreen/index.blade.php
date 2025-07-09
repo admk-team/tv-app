@@ -19,23 +19,23 @@
     <?php
     $isByPass = 'Y';
     $streamType = $series_details['stream_type'];
-    
+
     $sharingURL = url('/') . '/series/' . $series_details['stream_guid'];
-    
+
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-    
+
     $strQueryParm = "streamGuid={$series_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
-    
+
     $stream_code = $series_details['stream_guid'];
-    
+
     $postData = [
         'stream_code' => $stream_code,
     ];
     $ratingsCount = isset($series_details['ratings']) && is_array($series_details['ratings']) ? count($series_details['ratings']) : 0;
-    
+
     $totalRating = 0;
-    
+
     if ($ratingsCount !== 0) {
         foreach ($series_details['ratings'] as $review) {
             $totalRating += $review['rating'];
@@ -461,7 +461,7 @@
                             $signStr = "+";
                             $cls = 'fa fa-plus';
                                     $tooltip = "Add to Watchlist";
-    
+
                                 // Check if the stream is already in the wishlist
                                 if ($series_details['stream_is_stream_added_in_wish_list'] == 'Y') {
                                     // Update values for removing from wishlist
@@ -469,7 +469,7 @@
                                     $signStr = "-";
                                     $tooltip = "Remove from Watchlist";
                                 }
-    
+
                             if ($series_details['stream_is_stream_added_in_wish_list'] == 'Y') {
                                 $cls = 'fa fa-minus';
                                 $signStr = "-";
@@ -1153,9 +1153,9 @@
                         }
                         if (response.ratingsCount !== undefined) {
                             $('.section-title .ratings-count').text(`(${response.ratingsCount})`);
-                            console.log(response);
+
                         }
-                        console.log(response);
+
 
                         // Update average rating
                         if (response.averageRating !== undefined) {
@@ -1252,7 +1252,6 @@
                 },
                 data: form.serialize(),
                 success: function(response) {
-                    console.log(response);
                     if (response.status) {
                         Swal.fire({
                             icon: "success",

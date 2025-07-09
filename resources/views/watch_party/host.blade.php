@@ -118,10 +118,6 @@
             var localStorageKey = `hasReloaded_${watchPartyCode}`;
             var hasReloaded = localStorage.getItem(localStorageKey) === 'true';
             var isEventStarted = false;
-
-            console.log('startDateTime:', startDateTime);
-            console.log('Start Date Object:', startDate);
-
             function formatDateTime(date) {
                 const options = {
                     year: 'numeric',
@@ -207,8 +203,6 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
-            console.log(event);
-
             function detectMob() {
                 const toMatch = [
                     /Android/i,
@@ -383,7 +377,6 @@
             };
 
             const trackMediaEvent = async (eventType, data) => {
-                console.log(eventType);
                 const localStorageKey = 'hasReloaded';
                 try {
                     const payload = {

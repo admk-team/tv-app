@@ -113,8 +113,6 @@
             var hasReloaded = localStorage.getItem(localStorageKey) === 'true';
             var isEventStarted = false;
 
-            console.log('startDateTime:', startDateTime);
-            console.log('Start Date Object:', startDate);
 
             function formatDateTime(date) {
                 const options = {
@@ -308,7 +306,6 @@
                             return; // Already handled
                         }
 
-                        console.log('Handling new event:', data.event_type);
 
                         switch (data.event_type) {
                             case 'mediaPause':
@@ -329,14 +326,11 @@
 
                             case 'seek':
                                 if (data.seek_value !== currentState?.seek_value) {
-                                    console.log("Hello World", Math.floor(data.seek_value), data.seek_value,
-                                        player);
+
                                     player.playMedia();
                                     setTimeout(() => {
                                         player.seek(Math.floor(data.seek_value));
                                     }, 1000);
-                                    console.log("reload", Math.floor(data.current_time), data.current_time);
-                                }
                                 break;
 
                             case 'seekForward':
@@ -372,9 +366,6 @@
                                 player.seek(Math.floor(data.current_time));
                                 player.playMedia();
                                 break;
-
-                            default:
-                                console.log(`Unhandled event: ${data.event_type}`);
                         }
 
                         // Save current event state

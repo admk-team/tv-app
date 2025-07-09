@@ -466,7 +466,6 @@
                             friendList.append(friendCard);
                         });
                     } else {
-                        console.log("No Friend Found Message is Triggered");
                         friendList.append(
                             '<h3 style="color: var(--themeActiveColor);">No Friend Found</h3>');
                     }
@@ -568,7 +567,7 @@
                 });
             });
 
-            // get user data 
+            // get user data
             $('#get-profile-data').on('click', function() {
                 loadProfileData();
             })
@@ -745,9 +744,6 @@
                                 icon: "success",
                                 title: data.message,
                             });
-                            console.log(data);
-                            getFirends();
-                            getFavFirends();
                         }
                     },
                     error: function(xhr, status, error) {
@@ -787,9 +783,6 @@
                                 icon: "success",
                                 title: data.message,
                             });
-                            console.log(data);
-                            getFirends();
-                            getFavFirends();
                         }
                     },
                     error: function(xhr, status, error) {
@@ -898,7 +891,6 @@
                     url: "{{ route('public-profile') }}",
                     method: 'GET',
                     success: function(data) {
-                        // console.log(data);
                         if (data.status == true) {
                             $('#user-name').val(data.message.name);
                             $('#user-email').val(data.message.email);
@@ -927,7 +919,6 @@
                     url: "{{ route('public-friend') }}",
                     method: 'GET',
                     success: function(data) {
-                        // console.log(data);
                         let users = data.public_users;
                         filter_Array = users;
                         all_Friends = users;
@@ -964,7 +955,7 @@
                                                 <div class="request-action">
                                                  <button class="btn accept add-to-fav" data-id="${friend.code}">
                                                     <i class="fa fa-heart"></i>
-                                                 </button> 
+                                                 </button>
                                                 <button class="btn reject unfriend" data-id="${friend.code}">
                                                     Unfriend
                                                 </button>
@@ -994,7 +985,6 @@
                     url: "{{ route('get-fav-friend') }}",
                     method: 'GET',
                     success: function(data) {
-                        // console.log(data);
                         if (data.status == true) {
                             let users = data.friends;
                             if (users.length > 0) {
@@ -1041,7 +1031,6 @@
                     url: "{{ route('get-friend-request') }}",
                     method: 'GET',
                     success: function(data) {
-                        // console.log(data);
                         if (data.status == true) {
                             let users = data.incoming_requests;
                             if (users.length > 0) {

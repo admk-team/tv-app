@@ -22,7 +22,7 @@
                 -webkit-box-orient: vertical;
                 white-space: normal;
             }
-            
+
         </style>
         <div class="slider-container">
             <div class="listing_box allVideosBox">
@@ -62,7 +62,6 @@
     <script>
         $(document).ready(function() {
             var data = {!! json_encode($recommendation) !!};
-            console.log(data);
             var bypassDetailscreen = {!! json_encode(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen) !!};
             var currentIndex = 0;
             var batchSize = 20;

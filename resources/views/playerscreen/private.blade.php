@@ -6,7 +6,7 @@
     $IS_SIGNIN_BYPASS = 'N';
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
-    
+
     session('GLOBAL_PASS', 0);
     request()->server('REQUEST_METHOD');
     $protocol = request()->server('HTTPS') === 'on' ? 'https' : 'http';
@@ -32,7 +32,7 @@
         session('REDIRECT_TO_SCREEN', url('/playerscreen/' . $streamGuid));
         \App\Helpers\GeneralHelper::headerRedirect(url('/signin'));
     }
-    
+
     //monetioztion
     $redirectUrl = null;
     if ($limitWatchTime === 'yes' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -73,7 +73,7 @@
             \Illuminate\Support\Facades\Redirect::to(route('monetization'))->send();
         }
     }
-    
+
     // Check if subscription is required for all content and is not subscribed
     if (\App\Helpers\GeneralHelper::subscriptionIsRequired() && $isBuyed == 'N') {
         if ($limitWatchTime === 'no' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -86,7 +86,7 @@
             \Illuminate\Support\Facades\Redirect::to(route('subscription'))->send();
         }
     }
-    
+
     $mType = 'video';
     if ($streamUrl) {
         $isShortYouTube = preg_match('/youtu\.be\/([^?&]+)/', $streamUrl, $shortYouTubeMatches);
@@ -108,7 +108,7 @@
     }
     $apiPath = App\Services\Api::endpoint('/mngstrmdur');
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN');
-    
+
     // here get the video duration
     $seekFunStr = '';
     $arrFormData4VideoState = [];
@@ -124,7 +124,7 @@
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
         $seekFunStr = "this.currentTime($streamDurationInSec);";
     }
-    
+
     // Here Set Ad URL in Session
     $adUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_site_ad_url;
     if (!session('ADS_INFO')) {
@@ -136,7 +136,7 @@
             ],
         ]);
     }
-    
+
     $useragent = request()->server('HTTP_USER_AGENT');
     $isMobileBrowser = 0;
     if (
@@ -154,13 +154,13 @@
     $userAgent = urlencode(request()->server('HTTP_USER_AGENT'));
     $userIP = \App\Helpers\GeneralHelper::getRealIpAddr();
     $channelName = urlencode(\App\Services\AppConfig::get()->app->app_info->app_name);
-    
+
     $isLocalHost = false;
     $host = parse_url(url()->current())['host'];
     if (in_array($host, ['localhost', '127.0.0.1'])) {
         $isLocalHost = true;
     }
-    
+
     //&app_bundle=669112
     //
     $appStoreUrl = urlencode(\App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_store_url);
@@ -170,28 +170,28 @@
         $adMacros = $adUrl . "?width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     }
     $dataVast = "data-vast='$adMacros'";
-    
+
     if ($isMobileBrowser == 1 || $adUrl == '') {
         $dataVast = '';
     }
-    
+
     $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $arrSlctItemData['stream_ad_url'] . '"' : null;
-    
+
     if (!$arrSlctItemData['has_global_ads']) {
         $dataVast = '';
     }
-    
+
     if (!$arrSlctItemData['has_individual_ads']) {
         $dataVast2 = '';
     }
-    
+
     if (!$arrSlctItemData['has_ads']) {
         $dataVast = '';
         $dataVast2 = '';
     }
-    
+
     $watermark = $arrSlctItemData['watermark'] ?? null;
-    
+
     ?>
 
     {{-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" /> --}}
@@ -990,8 +990,6 @@ if (!empty($arrCatData))
             player.addEventListener('mediaStart', function(data) {
                 //called on media start, returns (instance, instanceName, counter)
 
-                console.log(data.instanceName);
-                console.log(data.counter); //active item
 
                 //get media current time
                 data.instance.getCurrentTime();
@@ -1052,12 +1050,9 @@ if (!empty($arrCatData))
         document.body.addEventListener("click", function(evt) {
             //console.dir(this);
             //note evt.target can be a nested element, not the body element, resulting in misfires
-            //console.log(evt.target);
             if (player.getMediaPlaying()) {
                 // alert(player);
                 mediaId = player.getCurrentMediaData().mediaId
-                console.log(player.getCurrentMediaData());
-                console.log(player.getCurrentTime());
                 //  alert("body clicked");
                 sendAjaxRes4VideoDuration('saveStrmDur', mediaId, player.getCurrentTime());
             }
@@ -1095,7 +1090,6 @@ if (!empty($arrCatData))
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
-                        console.log(this.responseText);
                     }
                 };
                 xhttp.open("POST", "<?php echo $apiPath; ?>", true);
