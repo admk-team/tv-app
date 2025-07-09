@@ -1804,12 +1804,6 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             var isFirstTIme = true
             player.addEventListener('mediaStart', function(data) {
                 window.adplay = false;
-                console.log('media start');
-                //called on media start, returns (instance, instanceName, counter)
-
-                console.log(data.instanceName);
-                console.log(data.counter); //active item
-
                 //get media current time
                 data.instance.getCurrentTime();
 
@@ -1863,7 +1857,6 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             @endif
             window.displayedBuyNow = [];
             player.addEventListener("mediaPlay", function(data) {
-                console.log('media play');
 
                 window.adplay = false;
                 @if ($redirectUrl)
@@ -2048,7 +2041,6 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             });
 
             player.addEventListener("adPlay", function(data) {
-                console.log('ad play start');
                 window.adplay = true;
                 let liveVideo = document.querySelector('.live-video');
                 if (liveVideo) {
@@ -2124,7 +2116,6 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
         }
 
         function showWatermark() {
-            console.log('watermark from function');
             if (window.adplay == false) {
                 let watermark = document.querySelector('.watermark');
                 if (watermark) {
@@ -2575,9 +2566,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
 
                         if (response.averageRating !== undefined) {
                             $('.section-title .ratings-count').text(`(${response.averageRating})`);
-                            console.log(response);
                         }
-                        console.log(response);
                         // Update average rating
                         if (response.averageRating !== undefined) {
                             $('.section-title .average-rating').text(`${response.averageRating}`);
@@ -2649,7 +2638,6 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 },
                 data: form.serialize(),
                 success: function(response) {
-                    console.log(response);
                     if (response.status) {
                         Swal.fire({
                             icon: "success",
@@ -2691,240 +2679,12 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
         });
     </script>
 
-    {{--  <script>
-        console.log('Like-tab-slider script loaded at', new Date().toISOString());
-
-        // Function to initialize Slick sliders
-        function initializeSlider(container) {
-            console.log('initializeSlider called for container:', container);
-            const sliderElements = jQuery(container).find(
-                '.slick-slider:not(.slick-initialized), .landscape_slider:not(.slick-initialized)');
-            if (sliderElements.length && typeof jQuery !== 'undefined' && jQuery.fn.slick) {
-                sliderElements.each(function() {
-                    const $slider = jQuery(this);
-                    const itemsPerRow = parseInt($slider.data('items-per-row')) || 5;
-                    const autoplay = $slider.data('autoplay') === false;
-
-                    console.log('Initializing Slick Slider for:', $slider[0]);
-
-                    $slider.slick({
-                        slidesToShow: itemsPerRow,
-                        slidesToScroll: 1,
-                        autoplay: autoplay,
-                        infinite: true,
-                        dots: true,
-                        arrows: true,
-                        adaptiveHeight: true,
-                        responsive: [{
-                                breakpoint: 1740,
-                                settings: (itemsPerRow == 2) ? {
-                                    slidesToShow: 2,
-                                    slidesToScroll: 1,
-                                    swipeToSlide: true,
-                                    arrows: true
-                                } : {
-                                    slidesToShow: Math.max(itemsPerRow - 1, 1),
-                                    slidesToScroll: 1,
-                                    swipeToSlide: true,
-                                    dots: true,
-                                    arrows: true
-                                }
-                            },
-                            {
-                                breakpoint: 1200,
-                                settings: (itemsPerRow == 2) ? {
-                                    slidesToShow: 2,
-                                    slidesToScroll: 1,
-                                    swipeToSlide: true,
-                                    arrows: false
-                                } : {
-                                    slidesToShow: Math.max(itemsPerRow - 1, 1),
-                                    slidesToScroll: 1,
-                                    swipeToSlide: true,
-                                    dots: true,
-                                    arrows: false
-                                }
-                            },
-                            {
-                                breakpoint: 770,
-                                settings: (itemsPerRow == 2) ? {
-                                    slidesToShow: 2,
-                                    slidesToScroll: 1,
-                                    swipeToSlide: true,
-                                    arrows: false
-                                } : {
-                                    slidesToShow: Math.max(itemsPerRow - 1, 1),
-                                    slidesToScroll: 1,
-                                    swipeToSlide: true,
-                                    dots: true,
-                                    arrows: false
-                                }
-                            },
-                            {
-                                breakpoint: 600,
-                                settings: {
-                                    slidesToShow: 3,
-                                    slidesToScroll: 1,
-                                    swipeToSlide: true,
-                                    arrows: false
-                                }
-                            },
-                            {
-                                breakpoint: 480,
-                                settings: {
-                                    slidesToShow: 3,
-                                    slidesToScroll: 1,
-                                    swipeToSlide: true,
-                                    dots: false,
-                                    arrows: false
-                                }
-                            }
-                        ]
-                    });
-                });
-            } else if (!sliderElements.length) {
-                console.log('No uninitialized sliders found in:', container);
-                console.log('Container HTML:', container.innerHTML.substring(0, 200) +
-                '...'); // Log partial HTML for debugging
-            } else {
-                console.error('Slick Slider or jQuery not loaded for:', sliderElements);
-            }
-        }
-
-        // Function to force DOM reflow
-        function forceReflow(element) {
-            element.offsetHeight; // Accessing offsetHeight triggers a reflow
-        }
-
-        // Function to load related streams
-        function loadRelatedStreams(container) {
-            console.log('loadRelatedStreams called for container:', container);
-            const streamGuid = container.dataset.streamGuid;
-            if (!streamGuid) {
-                console.error('No stream GUID found for related streams');
-                container.style.display = 'none';
-                return;
-            }
-            console.log('Stream GUID:', streamGuid);
-
-            const skeletonLoader = container.querySelector('.skeleton-loader');
-            console.log('Skeleton loader found:', !!skeletonLoader);
-
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-            console.log('CSRF token found:', !!csrfToken);
-
-            if (!csrfToken) {
-                console.error('CSRF token missing, cannot make AJAX request');
-                container.innerHTML = '<p>Error: CSRF token missing</p>';
-                container.style.display = 'block';
-                return;
-            }
-
-            console.log('Initiating fetch to /streams/related for stream:', streamGuid);
-            fetch('{{ url('/streams/playerstream') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: JSON.stringify({
-                        stream_guid: streamGuid
-                    })
-                })
-                .then(response => {
-                    console.log(`Response status for /streams/related: ${response.status}`);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(`Related streams fetched for stream: ${streamGuid}`, data);
-
-                    if (!data.success || !data.data.streams || data.data.streams.length === 0) {
-                        console.log(`No related streams for stream: ${streamGuid}, hiding container`);
-                        container.style.display = 'none';
-                        return;
-                    }
-
-                    console.log('Initiating fetch to /render-you-might-like');
-                    return fetch('{{ url('/render-you-might-like') }}', {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': csrfToken
-                        },
-                        body: JSON.stringify({
-                            streams: data.data.streams,
-                            stream_guid: streamGuid
-                        })
-                    });
-                })
-                .then(response => {
-                    console.log(`Response status for /render-you-might-like: ${response.status}`);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}`);
-                    }
-                    return response.json();
-                })
-                .then(renderData => {
-                    console.log(`You-might-like rendered for stream: ${streamGuid}`, renderData);
-
-                    if (renderData.success && renderData.html) {
-                        requestAnimationFrame(() => {
-                            // Hide skeleton loader
-                            if (skeletonLoader) {
-                                console.log('Hiding skeleton loader');
-                                skeletonLoader.style.display = 'none';
-                            }
-
-                            // Update container with rendered HTML
-                            console.log('Updating container with new HTML');
-                            container.innerHTML = renderData.html;
-
-                            // Force DOM reflow
-                            forceReflow(container);
-
-                            // Initialize Slick Slider
-                            console.log('Initializing slider');
-                            initializeSlider(container);
-
-                            console.log(`UI updated for related streams: ${streamGuid}`);
-                        });
-                    } else {
-                        console.log(`Render failed for stream: ${streamGuid}, hiding container`);
-                        container.style.display = 'none';
-                    }
-                })
-                .catch(error => {
-                    console.error(`Error processing streams for stream: ${streamGuid}:`, error);
-                    container.innerHTML = '<p class="text-white no-reviews-message m-3 mt-2">Content Not Avaiable yet</p>';
-                    container.style.display = 'block';
-                });
-        }
-
-        // Load related streams after page is fully loaded
-        window.onload = () => {
-            console.log('window.onload fired at', new Date().toISOString());
-            const container = document.querySelector('.like-tab-slider-container');
-            if (container) {
-                console.log('Container found:', container);
-                loadRelatedStreams(container);
-            } else {
-                console.error('Related streams container not found');
-            }
-        };
-    </script>  --}}
     <script>
-        console.log('Like-tab-slider script loaded at', new Date().toISOString());
         const adMacros = @js($adMacros);
         const isMobileBrowser = @js($isMobileBrowser);
         const dataVast2 = @js($dataVast2);
         // Function to initialize Slick sliders
         function initializeSlider(container) {
-            console.log('initializeSlider called for container:', container);
             const sliderElements = jQuery(container).find(
                 '.slick-slider:not(.slick-initialized), .landscape_slider:not(.slick-initialized)');
             if (sliderElements.length && typeof jQuery !== 'undefined' && jQuery.fn.slick) {
@@ -2932,9 +2692,6 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     const $slider = jQuery(this);
                     const itemsPerRow = parseInt($slider.data('items-per-row')) || 5;
                     const autoplay = $slider.data('autoplay') === false;
-
-                    console.log('Initializing Slick Slider for:', $slider[0]);
-
                     $slider.slick({
                         slidesToShow: itemsPerRow,
                         slidesToScroll: 1,
@@ -3026,29 +2783,20 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
 
         // Function to load related streams
         function loadRelatedStreams(container) {
-            console.log('loadRelatedStreams called for container:', container);
             const streamGuid = container.dataset.streamGuid;
             if (!streamGuid) {
                 console.error('No stream GUID found for related streams');
                 container.style.display = 'none';
                 return;
             }
-            console.log('Stream GUID:', streamGuid);
-
             const skeletonLoader = container.querySelector('.skeleton-loader');
-            console.log('Skeleton loader found:', !!skeletonLoader);
-
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-            console.log('CSRF token found:', !!csrfToken);
-
             if (!csrfToken) {
                 console.error('CSRF token missing, cannot make AJAX request');
                 container.innerHTML = '<p>Error: CSRF token missing</p>';
                 container.style.display = 'block';
                 return;
             }
-
-            console.log('Initiating fetch to /streams/related for stream:', streamGuid);
             fetch('{{ url('/streams/playerstream') }}', {
                     method: 'POST',
                     headers: {
@@ -3061,24 +2809,17 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     })
                 })
                 .then(response => {
-                    console.log(`Response status for /streams/related: ${response.status}`);
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}`);
                     }
                     return response.json();
                 })
                 .then(data => {
-                    console.log(`Related streams fetched for stream: ${streamGuid}`, data);
-
                     if (!data.success || !data.data.streams || data.data.streams.length === 0) {
-                        console.log(`No related streams for stream: ${streamGuid}, hiding container`);
                         container.style.display = 'none';
                         return;
                     }
-
                     const relatedStreams = data.data.streams; // Save the streams for use in both calls
-
-                    console.log('Initiating fetch to /render-you-might-like');
                     return fetch('{{ url('/render-you-might-like') }}', {
                         method: 'POST',
                         headers: {
@@ -3091,7 +2832,6 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                             stream_guid: streamGuid
                         })
                     }).then(response => {
-                        console.log(`Response status for /render-you-might-like: ${response.status}`);
                         if (!response.ok) {
                             throw new Error(
                                 `HTTP error! status: ${response.status}, statusText: ${response.statusText}`
@@ -3099,21 +2839,16 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                         }
                         return response.json();
                     }).then(renderData => {
-                        console.log(`You-might-like rendered for stream: ${streamGuid}`, renderData);
 
                         if (renderData.success && renderData.html) {
                             requestAnimationFrame(() => {
                                 if (skeletonLoader) {
-                                    console.log('Hiding skeleton loader');
                                     skeletonLoader.style.display = 'none';
                                 }
-
-                                console.log('Updating container with new HTML');
                                 container.innerHTML = renderData.html;
 
                                 forceReflow(container);
                                 initializeSlider(container);
-                                console.log(`UI updated for related streams: ${streamGuid}`);
                             });
 
                             // Call render-playlist-items with the same stream data
@@ -3132,25 +2867,20 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                 })
                             });
                         } else {
-                            console.log(`Render failed for stream: ${streamGuid}, hiding container`);
                             container.style.display = 'none';
                         }
                     }).then(response => {
                         if (!response) return;
-                        console.log('Response status for /render-playlist-items:', response.status);
                         if (!response.ok) throw new Error('Failed to fetch playlist items');
                         return response.text(); // Assuming HTML response
                     }).then(html => {
                         if (!html) return;
                         const playlistContainer = document.querySelector('.playlist-video');
-                        console.log('Response status playlistContainer:', playlistContainer);
                         if (playlistContainer) {
                             $(playlistContainer).append($(html));
-                            console.log('aftewrrrrrrr playlistContainer:', playlistContainer);
                         } else {
                             console.warn('Playlist container not found');
                         }
-                        console.log("fetched playlists")
                         window.playlistFetched = true;
                     });
                 })
@@ -3164,10 +2894,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
 
         // Load related streams after page is fully loaded
         window.onload = () => {
-            console.log('window.onload fired at', new Date().toISOString());
             const container = document.querySelector('.like-tab-slider-container');
             if (container) {
-                console.log('Container found:', container);
                 loadRelatedStreams(container);
             } else {
                 console.error('Related streams container not found');

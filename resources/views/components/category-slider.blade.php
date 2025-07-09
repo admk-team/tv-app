@@ -105,7 +105,6 @@
 
                     // Check if the video is already initialized
                     if (videojs.getPlayer(video.id)) {
-                        console.log(`Player ${index} (${video.id}) is already initialized.`);
                         return;
                     }
 
@@ -146,8 +145,6 @@
                         const $slider = jQuery(this);
                         const itemsPerRow = parseInt($slider.data('items-per-row')) || 5;
                         const autoplay = $slider.data('autoplay') === false;
-
-                        console.log('Initializing Slick Slider for:', $slider[0]);
 
                         $slider.slick({
                             slidesToShow: itemsPerRow,
@@ -254,7 +251,6 @@
                     const skeletonLoader = wrapper.querySelector('.skeleton-loader');
                     const sliderContainer = wrapper.querySelector('.slider-container');
 
-                    console.log(`Starting AJAX call for category: ${catTitle} (${catGuid})`);
 
                     // Prepare category object
                     const categoryData = {
@@ -287,13 +283,8 @@
                         .then(response => response.json())
                         .then(data => {
                             resolve();
-                            console.log(`Streams fetched for category: ${catTitle} (${catGuid})`, data);
-
                             // Check if streams are empty
                             if (!data.success || !data.data.streams || data.data.streams.length === 0) {
-                                console.log(
-                                    `No streams for category: ${catTitle} (${catGuid}), hiding wrapper`
-                                );
                                 wrapper.style.display = 'none';
                                 return;
                             }
@@ -314,10 +305,6 @@
                                 })
                                 .then(response => response.json())
                                 .then(renderData => {
-                                    console.log(
-                                        `Slider rendered for category: ${catTitle} (${catGuid})`,
-                                        renderData);
-
                                     if (renderData.success && renderData.html) {
                                         // Use requestAnimationFrame to ensure immediate UI update
                                         requestAnimationFrame(() => {
@@ -341,15 +328,8 @@
                                                     .querySelectorAll('.video-link');
                                                 initializeVideoPlayers(videoLinks);
                                             }
-
-                                            console.log(
-                                                `UI updated for category: ${catTitle} (${catGuid})`
-                                            );
                                         });
                                     } else {
-                                        console.log(
-                                            `Render failed for category: ${catTitle} (${catGuid}), hiding wrapper`
-                                        );
                                         wrapper.style.display = 'none';
                                     }
                                 })
@@ -374,7 +354,6 @@
                 if (entry.isIntersecting) {
                     observer.unobserve(wrapper); // Stop observing once loaded
                     await loadCategory(wrapper);
-                    console.log(`Loaded category for`, wrapper);
                 }
             }
 
@@ -391,7 +370,6 @@
                 for (const wrapper of categoryWrappers) {
                     observer.observe(wrapper);
                 }
-                console.log(`Observing ${categoryWrappers.length} categories for lazy loading`);
             };
         });
     </script>

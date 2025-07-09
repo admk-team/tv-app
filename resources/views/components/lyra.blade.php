@@ -446,7 +446,6 @@
             const tabBtns = document.querySelectorAll('.tab-btns > div');
             const tabContents = document.querySelectorAll('.tab-content');
             const tabImages = document.querySelectorAll('.tab-image');
-            console.log(tabBtns, tabContents, tabImages);
             tabBtns.forEach((btn, index) => {
                 btn.addEventListener('click', () => {
                     if (!tabContents[index] && !tabImages[index]) {
