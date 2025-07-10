@@ -622,7 +622,7 @@
                                 </div>
                             @endif
                             @if (isset($appConfig->app->global_rating_on_video) &&
-                                    $appConfig->app->global_rating_on_video == 1 &&
+                                    $appConfig->app->global_rating_on_video === 1 &&
                                     ($content_rating || $advisories))
                                 <div class="advisor-widget global-rating" style="display: none;">
                                     @if ($content_rating)
@@ -1630,24 +1630,26 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
         document.addEventListener("DOMContentLoaded", async function(event) {
             // set the position of global rating 
             const widget = document.querySelector(".advisor-widget");
-            if (!widget) return;
-            const isTopLeft =
-                "{{ isset($watermark['position']) && $watermark['position'] == 'top-left' ? 'true' : 'false' }}";
+            if (widget) {
+                const isTopLeft =
+                    "{{ isset($watermark['position']) && $watermark['position'] == 'top-left' ? 'true' : 'false' }}";
 
-            if (isTopLeft === 'true') {
-                const screenWidth = window.innerWidth;
-                if (screenWidth < 600) {
-                    widget.style.top = "45px";
-                } else if (screenWidth >= 600 && screenWidth < 992) {
-                    widget.style.top = "50px";
-                } else if (screenWidth >= 992 && screenWidth < 1200) {
-                    widget.style.top = "70px";
+                if (isTopLeft === 'true') {
+                    const screenWidth = window.innerWidth;
+                    if (screenWidth < 600) {
+                        widget.style.top = "45px";
+                    } else if (screenWidth >= 600 && screenWidth < 992) {
+                        widget.style.top = "50px";
+                    } else if (screenWidth >= 992 && screenWidth < 1200) {
+                        widget.style.top = "70px";
+                    } else {
+                        widget.style.top = "80px";
+                    }
                 } else {
-                    widget.style.top = "80px";
+                    widget.style.top = "12px";
                 }
-            } else {
-                widget.style.top = "12px";
             }
+
             // player data 
             await watiForPlaylistFetch();
             const playlistloader = document.querySelector('.video-player-skeleton');
