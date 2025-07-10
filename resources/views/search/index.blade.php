@@ -154,26 +154,34 @@
                             @forelse ($searchResult['streams'] as $stream)
                                 <div class="resposnive_Box">
                                     @php
-                                        if ((isset(\App\Services\AppConfig::get()->app->app_info->bypass_detailscreen,) &&
+                                        if (
+                                            (isset(
+                                                \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen,
+                                            ) &&
                                                 \App\Services\AppConfig::get()->app->app_info->bypass_detailscreen ==
                                                     1) ||
                                             $stream['bypass_detailscreen'] == 1
                                         ) {
                                             $screen = 'playerscreen';
+                                        } elseif (($stream['contentType'] ?? '') != 'series') {
+                                            $screen =
+                                                ($stream['stream_type'] ?? '') !== 'S' ? 'detailscreen' : 'detailscreen';
                                         } else {
-                                            $screen = 'detailscreen';
+                                            $screen = 'series';
                                         }
                                     @endphp
                                     <a href="{{ url('/') }}/{{ $screen }}/{{ $stream['stream_guid'] }}">
                                         <div class="thumbnail_img">
                                             <div class="trending_icon_box" style="display: none;"><img
                                                     src="https://stage.24flix.tv/images/trending_icon.png"
-                                                    alt="A Case of Identity">
+                                                    alt="">
                                             </div>
-                                            <img src="{{ $stream['stream_poster'] ?? '' }}" alt="A Case of Identity">
+                                            <img src="{{ $stream['stream_poster'] ?? '' }}" alt="">
                                             <div class="detail_box_hide">
+                                                @if($stream['stream_duration_timeformat'] !='00:00')
                                                 <div class="detailbox_time">{{ $stream['stream_duration_timeformat'] }}
                                                 </div>
+                                                @endif
                                                 <div class="deta_box">
                                                     <div class="season_title">
                                                         {{ $stream['stream_episode_title'] && $stream['stream_episode_title'] !== 'NULL' ? $stream['stream_episode_title'] : '' }}
