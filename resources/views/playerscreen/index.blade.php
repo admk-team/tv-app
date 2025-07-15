@@ -1624,16 +1624,14 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
 @push('scripts')
 
     <script>
-        // Bootstrap Modal instance
         let is_active = true;
-        let global_rating_active = true;
+        let global_rating_active = true; // Reflecting your disabled global rating
+        let global_rating_duration = "{{ \App\Services\AppConfig::get()->app->global_rating_on_video_duration ?? 5 }}";
         document.addEventListener("DOMContentLoaded", async function(event) {
-            // set the position of global rating 
             const widget = document.querySelector(".advisor-widget");
             if (widget) {
                 const isTopLeft =
                     "{{ isset($watermark['position']) && $watermark['position'] == 'top-left' ? 'true' : 'false' }}";
-
                 if (isTopLeft === 'true') {
                     const screenWidth = window.innerWidth;
                     if (screenWidth < 600) {
@@ -1650,24 +1648,19 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 }
             }
 
-            // player data 
             await watiForPlaylistFetch();
             const playlistloader = document.querySelector('.video-player-skeleton');
             playlistloader.style.display = 'none';
-            var isshowlist = true
-            var pListPostion = 'vrb';
-            if (detectMob()) {
-                var pListPostion = 'hb';
-            }
+            var isshowlist = true;
+            var pListPostion = detectMob() ? 'hb' : 'vrb';
             var settings = {
-
-                skin: 'sirius', //aviva, polux, sirius
+                skin: 'sirius',
                 aspectRatio: 1,
-                playlistPosition: pListPostion, //vrb, vb, hb, no-playlist, outer, wall
+                playlistPosition: pListPostion,
                 vimeoPlayerType: "chromeless",
                 youtubePlayerType: "chromeless",
                 sourcePath: "",
-                activeItem: 0, //active video to start with
+                activeItem: 0,
                 activePlaylist: ".playlist-video",
                 playlistList: "#mvp-playlist-list",
                 instanceName: "player1",
@@ -1681,8 +1674,8 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 usePlaylistToggle: isshowlist,
                 useEmbed: true,
                 useTime: true,
-                usePip: true, //picture in picture
-                useCc: true, //caption toggle
+                usePip: true,
+                useCc: true,
                 useAirPlay: true,
                 usePlaybackRate: true,
                 useNext: true,
@@ -1691,11 +1684,10 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 useSkipBackward: true,
                 useSkipForward: true,
                 showPrevNextVideoThumb: true,
-                rememberPlaybackPosition: 'all', //remember last video position (false, 1, all)
+                rememberPlaybackPosition: 'all',
                 useQuality: true,
                 useImaLoader: true,
                 useTheaterMode: true,
-                focusVideoInTheater: true,
                 focusVideoInTheater: true,
                 hidePlaylistOnTheaterEnter: true,
                 useSubtitle: true,
@@ -1710,7 +1702,6 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 useAdSeekbar: true,
                 useAdControls: true,
                 useGlobalPopupCloseBtn: true,
-                /* showPopupsOnlyOnce: true, */
                 playbackRateArr: [{
                         value: 2,
                         menu_title: '2x'
@@ -1735,19 +1726,17 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                         value: 0.25,
                         menu_title: '0.25x'
                     }
-                ],
-
+                ]
             };
 
             window.player = new mvp(document.getElementById('wrapper'), settings);
             setTimeout(unmutedVoice, 2000);
             let playerstillwatch = "<?php echo $stillwatching; ?>";
             let playerstillwatchduration = "<?php echo $playerstillwatchduration; ?>";
-
             if (playerstillwatch && playerstillwatch == "1") {
                 window.setInterval(function() {
                     pauseVideo();
-                }, 5000)
+                }, 5000);
             }
 
             counter = [];
@@ -1769,23 +1758,11 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             });
 
             function isPrime(number) {
-                // Check if the number is less than 2 (0 and 1 are not prime)
-
                 if (number !== 0 && number % parseInt(playerstillwatchduration) === 0) {
                     playerstillwatchduration + playerstillwatchduration;
                     return true;
-                } else {
-                    return false;
                 }
-
-                // // Check for divisibility from 2 to the square root of the number
-                // for (let i = 2; i <= Math.sqrt(number); i++) {
-                //     if (number % i === 0) {
-                //         return false; // Not a prime number
-                //     }
-                // }
-
-                // return true; // Prime number
+                return false;
             }
 
             @if ($redirectUrl)
@@ -1794,20 +1771,16 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     player.pauseMedia();
                     player.destroyMedia();
                     window.location.href = '{{ $redirectUrl }}';
-                })
+                });
             @endif
 
-            var isFirstTIme = true
+            var isFirstTIme = true;
             player.addEventListener('mediaStart', function(data) {
                 window.adplay = false;
-                //get media current time
                 data.instance.getCurrentTime();
-
-                //get media duration
                 data.instance.getDuration();
                 if (isFirstTIme == true) {
                     isFirstTIme = false;
-                    // player.seek()
                     player.seek({{ $arrSlctItemData['start_duration'] }});
                 } else {
                     sendAjaxRes4VideoDuration('getStrmDur', data.media.mediaId, '');
@@ -1821,30 +1794,26 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 showWatermark();
                 showGlobalRating();
                 showOverlayAd();
-
                 detectPopupEvent();
+                makeVolumeButtontoggable();
 
-                makeVolumeButtontoggable(); // Fix mute toggle
-                if (global_rating_active == true) {
-
+                if (global_rating_active == true && widget) {
                     function checkAndShowGolobalRating() {
-
                         let currentTime = Math.floor(player.getCurrentTime());
-                        if (currentTime > 5) {
+                        if (currentTime > global_rating_duration) {
                             hideGlobalRating();
-                            global_rating_active == false;
+                            global_rating_active = false;
                         } else {
-                            let seconds = 5;
+                            let seconds = global_rating_duration;
                             if (currentTime === seconds) {
                                 hideGlobalRating();
-                                global_rating_active == false;
+                                global_rating_active = false;
                             }
                         }
                     }
                     setInterval(checkAndShowGolobalRating, 1000);
                 }
             });
-            let eventHappening = false;
 
             @if (!empty($arrSlctItemData['buynow']))
                 @php
@@ -1853,7 +1822,6 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             @endif
             window.displayedBuyNow = [];
             player.addEventListener("mediaPlay", function(data) {
-
                 window.adplay = false;
                 @if ($redirectUrl)
                     trial.start();
@@ -1867,31 +1835,21 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 showGlobalRating();
 
                 @if (!empty($arrSlctItemData['buynow']))
-
                     let buyNowData = @json($arrSlctItemData['buynow']);
 
                     function checkAndShowBuyNowMessage() {
                         let currentTime = Math.floor(data.instance.getCurrentTime());
-
                         buyNowData.forEach((buynow, index) => {
-                            /* let timeOffset = buynow.time_offset * 60; */
                             const timeOffsetStr = String(buynow.time_offset);
-
                             const timeParts = timeOffsetStr.split('.');
                             const hours = parseInt(timeParts[0], 10) || 0;
                             const minutes = parseInt(timeParts[1], 10) || 0;
                             const seconds = parseInt(timeParts[2], 10) || 0;
                             const milliseconds = parseInt(timeParts[3], 10) || 0;
-
-                            // Convert to total time in seconds
                             let timeOffset = (hours * 3600) + (minutes * 60) + seconds;
-
-                            // Show the message only if the time is reached and it has not been displayed yet
                             if (currentTime >= timeOffset && !displayedBuyNow.includes(index)) {
                                 const buyNowMessageBox = document.querySelector(
                                     '.buynow-redirect-message');
-
-                                // Dynamically set content based on "name" or "img_url"
                                 if (buynow.name) {
                                     buyNowMessageBox.innerHTML =
                                         `${buynow.name}<span class="time"></span>`;
@@ -1899,20 +1857,13 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                     buyNowMessageBox.innerHTML =
                                         `<img src="${buynow.img_url}" alt="Buy Now" class="buynow-image" />`;
                                 }
-
-                                // Show the message
                                 buyNowMessageBox.style.opacity = "1";
                                 buyNowMessageBox.style.visibility = "visible";
                                 buyNowMessageBox.style.transform = "translateX(0)";
-
-                                displayedBuyNow.push(index); // Mark as displayed
-
-                                // Hide after 10 seconds
+                                displayedBuyNow.push(index);
                                 setTimeout(() => {
                                     hideBuyNowMessage(buyNowMessageBox);
                                 }, 10000);
-
-                                // Handle click event for redirection
                                 buyNowMessageBox.onclick = () => {
                                     if (buynow.source_type === "external" && buynow
                                         .external_link) {
@@ -1934,27 +1885,20 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                         element.style.visibility = "hidden";
                         element.style.transform = "translateX(-400px)";
                     }
-
                     setInterval(checkAndShowBuyNowMessage, 1000);
                 @endif
-
 
                 if (is_active == true) {
                     @if (!empty($arrSlctItemData['coupon_code']))
                         let couponData = @json($arrSlctItemData['coupon_code']);
-
                         const couponModalEl = document.getElementById('couponModal');
                         const couponModal = new bootstrap.Modal(couponModalEl);
                         let couponDisplayed = false;
 
                         function checkAndShowCouponCode() {
-                            if (couponDisplayed || couponData.length === 0) {
-                                return;
-                            }
-
+                            if (couponDisplayed || couponData.length === 0) return;
                             let currentTime = Math.floor(player.getCurrentTime());
                             let showAt = timeStringToSeconds(couponData[0].load_time);
-
                             if (currentTime === showAt) {
                                 couponModal.show();
                                 couponDisplayed = true;
@@ -1971,37 +1915,30 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                 }, 1000);
                             }
                         }
-
-                        // Run the check every 1 second
                         setInterval(checkAndShowCouponCode, 1000);
                     @endif
                 }
-                if (global_rating_active == true) {
-
+                if (global_rating_active == true && widget) {
                     function checkAndShowGolobalRating() {
-
                         let currentTime = Math.floor(player.getCurrentTime());
-                        if (currentTime > 5) {
+                        if (currentTime > global_rating_duration) {
                             hideGlobalRating();
-                            global_rating_active == false;
+                            global_rating_active = false;
                         } else {
-                            let seconds = 5;
+                            let seconds = global_rating_duration;
                             if (currentTime === seconds) {
                                 hideGlobalRating();
-                                global_rating_active == false;
+                                global_rating_active = false;
                             }
                         }
                     }
                     setInterval(checkAndShowGolobalRating, 1000);
                 }
-
             });
 
-            // Convert HH:MM:SS to seconds
             function timeStringToSeconds(timeStr) {
                 const parts = timeStr.split(':').map(Number);
                 let seconds = 0;
-
                 if (parts.length === 3) {
                     seconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
                 } else if (parts.length === 2) {
@@ -2009,31 +1946,19 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 } else if (parts.length === 1) {
                     seconds = parts[0];
                 }
-
                 return seconds;
             }
 
             player.addEventListener("mediaPause", function(data) {
-                //alert(data.instance.getCurrentTime());
-                //get media duration
-                //alert(data.instance.getDuration());
-                //alert(data.media.mediaId);
                 sendAjaxRes4VideoDuration('saveStrmDur', data.media.mediaId, data.instance
                     .getCurrentTime());
-
                 @if ($redirectUrl)
                     trial.pause();
                 @endif
             });
 
             player.addEventListener("mediaEnd", function(data) {
-
-                //alert(data.instance.getCurrentTime());
-                //get media duration
-                //alert(data.instance.getDuration());
-                //alert(data.media.mediaId);
                 sendAjaxRes4VideoDuration('removeStrmDur', data.media.mediaId, '');
-
             });
 
             player.addEventListener("adPlay", function(data) {
@@ -2042,13 +1967,13 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 if (liveVideo) {
                     liveVideo.style.display = "none";
                 }
-
-                // Hide watermark when ad is playing
                 hideWatermark();
                 hideGlobalRating();
                 hideOverlayAd();
-            })
-
+                if (player.getMediaPlaying()) {
+                    player.pauseMedia();
+                }
+            });
 
             window.resumeMedia = function() {
                 player.closePopup();
@@ -2061,134 +1986,119 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 setTimeout(() => player.playMedia(), 500);
             }
 
-        });
-
-
-
-        document.body.addEventListener("click", function(evt) {
-            //console.dir(this);
-            //note evt.target can be a nested element, not the body element, resulting in misfires
-            //console.log(evt.target);
-            if (window.player && player.getMediaPlaying()) {
-                // alert(player);
-                mediaId = player.getCurrentMediaData().mediaId
-                console.log(player.getCurrentMediaData());
-                console.log(player.getCurrentTime());
-                // alert("body clicked");
-                sendAjaxRes4VideoDuration('saveStrmDur', mediaId, player.getCurrentTime());
-            }
-        });
-
-        function unmutedVoice() {
-            //alert("hi");
-            player.toggleMute();
-            player.playMedia();
-            setInterval(sendAdRequrst, 50000);
-        }
-
-        function sendAdRequrst() {
-            $.get("<?php echo $dataVast3 ?? ''; ?>", function(data, status) {
-                //alert("Data: " + data + "\nStatus: " + status);
+            document.body.addEventListener("click", function(evt) {
+                if (window.player && player.getMediaPlaying()) {
+                    mediaId = player.getCurrentMediaData().mediaId;
+                    sendAjaxRes4VideoDuration('saveStrmDur', mediaId, player.getCurrentTime());
+                }
             });
-        }
 
-        function showOverlayAd() {
-            if (!$('.overlay-ad').hasClass('closed')) {
-                $('.overlay-ad').removeClass('d-none');
+            function unmutedVoice() {
+                player.toggleMute();
+                player.playMedia();
+                setInterval(sendAdRequrst, 50000);
             }
-        }
 
-        function hideOverlayAd() {
-            $('.overlay-ad').addClass('d-none');
-        }
+            function sendAdRequrst() {
+                $.get("<?php echo $dataVast3 ?? ''; ?>", function(data, status) {});
+            }
 
-        function closeOverlayAd() {
-            $('.overlay-ad').addClass('d-none');
-            $('.overlay-ad').addClass('closed');
-        }
+            function showOverlayAd() {
+                if (!$('.overlay-ad').hasClass('closed')) {
+                    $('.overlay-ad').removeClass('d-none');
+                }
+            }
 
-        function overlayAdClick() {
-            player.pauseMedia();
-        }
+            function hideOverlayAd() {
+                $('.overlay-ad').addClass('d-none');
+            }
 
-        function showWatermark() {
-            if (window.adplay == false) {
+            function closeOverlayAd() {
+                $('.overlay-ad').addClass('d-none');
+                $('.overlay-ad').addClass('closed');
+            }
+
+            function overlayAdClick() {
+                player.pauseMedia();
+            }
+
+            function showWatermark() {
+                if (window.adplay == false) {
+                    let watermark = document.querySelector('.watermark');
+                    if (watermark) {
+                        watermark.style.display = "block";
+                        console.log('[DEBUG] showWatermark: Showing watermark, adplay=', window.adplay);
+                    }
+                }
+            }
+
+            function hideWatermark() {
                 let watermark = document.querySelector('.watermark');
                 if (watermark) {
-                    watermark.style.display = "block";
+                    watermark.style.display = "none";
+                    console.log('[DEBUG] hideWatermark: Hiding watermark');
                 }
             }
 
-        }
-
-        function hideWatermark() {
-            let watermark = document.querySelector('.watermark');
-            if (watermark) {
-                watermark.style.display = "none";
+            function showGlobalRating() {
+                if (window.adplay == false) {
+                    let globalRating = document.querySelector('.global-rating');
+                    if (globalRating) {
+                        globalRating.style.display = "block";
+                        console.log('[DEBUG] showGlobalRating: Showing global-rating, adplay=', window.adplay);
+                    }
+                }
             }
-        }
 
-        function showGlobalRating() {
-            if (window.adplay == false) {
+            function hideGlobalRating() {
                 let globalRating = document.querySelector('.global-rating');
                 if (globalRating) {
-                    globalRating.style.display = "block";
+                    globalRating.style.display = "none";
+                    console.log('[DEBUG] hideGlobalRating: Hiding global-rating');
                 }
             }
-        }
 
-        function hideGlobalRating() {
-            let globalRating = document.querySelector('.global-rating');
-            if (globalRating) {
-                globalRating.style.display = "none";
-            }
-        }
-
-        function detectPopupEvent() {
-            let eventHappening = false;
-
-            let startTime = 0;
-
-            setInterval(() => {
-                ++startTime;
-
-                if ($('.mvp-popup-holder .mvp-popup').hasClass('mvp-popup-visible') && $(
-                        '.mvp-popup-holder .mvp-popup-visible').find('.continue-confirmation-popup').length === 0) {
-                    if (eventHappening === false) {
-                        blockPopup(startTime);
-                        hideOverlayAd();
-                        hideWatermark();
-                        hideGlobalRating();
-                        eventHappening = true;
+            function detectPopupEvent() {
+                let eventHappening = false;
+                let startTime = 0;
+                setInterval(() => {
+                    ++startTime;
+                    if ($('.mvp-popup-holder .mvp-popup').hasClass('mvp-popup-visible') && $(
+                            '.mvp-popup-holder .mvp-popup-visible').find('.continue-confirmation-popup')
+                        .length === 0) {
+                        if (eventHappening === false) {
+                            blockPopup(startTime);
+                            hideOverlayAd();
+                            hideWatermark();
+                            hideGlobalRating();
+                            eventHappening = true;
+                        }
+                    } else {
+                        if (eventHappening === true) {
+                            showOverlayAd();
+                            showWatermark();
+                            showGlobalRating();
+                            eventHappening = false;
+                        }
                     }
-                } else {
-                    if (eventHappening === true) {
-                        showOverlayAd();
-                        showWatermark();
-                        showGlobalRating();
-                        eventHappening = false;
-                    }
-                }
-            }, 1000);
-        }
-
-        function blockPopup(startTime) {
-            if (startTime > 30) {
-                return;
+                }, 500);
             }
 
-            let isPopupPaused = $('.mvp-popup-holder .mvp-popup-visible').data('show') === 'pause';
-            player.closePopup();
-            setTimeout(() => {
-                if (!isPopupPaused) {
-                    player.playMedia();
-                }
-            }, 500);
-        }
+            function blockPopup(startTime) {
+                if (startTime > 30) return;
+                let isPopupPaused = $('.mvp-popup-holder .mvp-popup-visible').data('show') === 'pause';
+                player.closePopup();
+                setTimeout(() => {
+                    if (!isPopupPaused) {
+                        player.playMedia();
+                    }
+                }, 500);
+            }
 
-        function makeVolumeButtontoggable() {
-            $('.mvp-volume-toggle').addClass('mvp-volume-toggable');
-        }
+            function makeVolumeButtontoggable() {
+                $('.mvp-volume-toggle').addClass('mvp-volume-toggable');
+            }
+        });
     </script>
     <script>
         // sendAjaxRes4VideoDuration('saveStrmDur', this.currentTime());
