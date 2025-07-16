@@ -98,6 +98,7 @@
 <script async src="{{ asset('assets/js/jquery-ui.js') }}"></script>
 <script src="{{ asset('assets/js/year_select.js') }}"></script>
 <script src="{{ asset('assets/js/custom.js') }}"></script>
+<script src="{{ asset('assets/js/transaction.js') }}"></script>
 
 {{-- Search --}}
 <script>

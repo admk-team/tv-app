@@ -10,6 +10,7 @@ use App\Helpers\GeneralHelper;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class StripeController extends Controller
 {
@@ -256,15 +257,24 @@ class StripeController extends Controller
 
     public function cancelsub($subid)
     {
-        // Set API key
-        if (env('STRIPE_TEST') === 'true') {
-            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
-        } else {
-            $stripe = new \Stripe\StripeClient(\App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key);
-        }
-        $cancelsub = null;
-        if ($stripe) {
-            $cancelsub = $stripe->subscriptions->cancel($subid, []);
+         $stripeKey = env('STRIPE_TEST') === 'true'
+        ? env('STRIPE_SECRET_KEY')
+        : \App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key;
+
+        $stripe = new \Stripe\StripeClient($stripeKey);
+        
+        try {
+            $invoice = $stripe->invoices->retrieve($subid);
+            $subid = $invoice->subscription;
+                   
+            if($subid)
+            {
+                $stripe->subscriptions->cancel($subid, []);
+                Log::info("Stripe subscription cancelled: $subid");
+            }
+            
+        } catch (\Exception $e) {
+            Log::error("Unexpected error cancelling Stripe subscription {$subid}: " . $e->getMessage());
         }
 
         $response = Http::timeout(300)->withHeaders(Api::headers([
@@ -281,6 +291,59 @@ class StripeController extends Controller
             return redirect()->back();
         }
     }
+
+   public function pauseSubscription(Request $request)
+    {
+        $days = (int) $request->days;
+        $subscriptionId = $request->subscription_id;
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
+
+        $actualSubscriptionId = null;
+
+        try {
+            $invoice = $stripe->invoices->retrieve($subscriptionId);
+            if (!empty($invoice->subscription)) {
+                $actualSubscriptionId = $invoice->subscription;
+                try {
+                    $stripe->subscriptions->update($actualSubscriptionId, [
+                        'pause_collection' => [
+                            'behavior' => 'mark_uncollectible',
+                        ],
+                    ]);
+                    Log::info("Subscription paused via invoice: {$actualSubscriptionId}");
+                } catch (\Exception $e) {
+                    Log::error("Failed to pause subscription {$actualSubscriptionId}: " . $e->getMessage());
+                }
+            } else {
+                Log::warning("No subscription found in invoice: {$subscriptionId}");
+            }
+        } catch (\Stripe\Exception\InvalidRequestException $e) {
+            
+            Log::warning("Invalid or missing Stripe invoice ID: {$subscriptionId} - " . $e->getMessage());
+        } catch (\Exception $e) {
+            Log::error("Unexpected error during Stripe invoice retrieval: " . $e->getMessage());
+        }
+
+        try {
+            $response = Http::timeout(300)->withHeaders(Api::headers([
+                'husercode' => session('USER_DETAILS')['USER_CODE']
+            ]))
+            ->asForm()
+            ->get(Api::endpoint('/pause_days/' . $days . '/subscription_id/' . ($actualSubscriptionId ?? $subscriptionId)));
+
+            $responseJson = $response->json();
+        } catch (\Exception $e) {
+            Log::error("Internal API call failed: " . $e->getMessage());
+        }
+
+        return response()->json([
+            'message' => 'Pause subscription process completed.',
+            'days' => $days
+        ]);
+    }
+
+
+
 
 
     // public function success(Request $request)
@@ -300,4 +363,17 @@ class StripeController extends Controller
     //         return response()->json(['error' => $th->getMessage()], 500);
     //     }
     // }
+
+    /**
+    *   Set API key
+    *  if (env('STRIPE_TEST') === 'true') {
+    *     $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
+    * } else {
+    *    $stripe = new \Stripe\StripeClient(\App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key);
+    *}
+    *$cancelsub = null;
+    *if ($stripe) {
+    *   $cancelsub = $stripe->subscriptions->cancel($subid, []);
+    *}
+    */
 }
