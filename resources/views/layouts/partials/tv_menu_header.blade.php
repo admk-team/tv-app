@@ -173,7 +173,19 @@
                                                 Badge</a>
                                         </li>
                                     @endif
-                                    <li><a class="text-decoration-none"
+                                      @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                        <li><a class="dropdown-item" href="{{ route('advertiser.overlay_ad') }}">Overlay Ads</a>
+                                        </li>
+                                    @endif
+                                     @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                        <li><a class="dropdown-item" href="{{ route('advertiser.banner_ad') }}">Banner Ads</a>
+                                        </li>
+                                    @endif
+                                     @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                        <li><a class="dropdown-item" href="{{ route('advertiser.video_ad') }}">Video Ads</a>
+                                        </li>
+                                    @endif
+                                    <li><a class="dropdown-item"
                                             href="{{ route('profile.setting', session('USER_DETAILS')['USER_ID']) }}">Setting
                                         </a>
                                     </li>

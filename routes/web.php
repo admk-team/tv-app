@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdController;
+use App\Http\Controllers\AdvertiserController as ControllersAdvertiserController;
 use App\Http\Controllers\AdvisoryController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
@@ -41,6 +42,7 @@ use App\Http\Controllers\WatchPartyController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\YearController;
 use App\Http\Controllers\FriendRequestController;
+use App\Http\Controllers\AdvertiserController;
 
 use App\Models\WatchParty;
 use Illuminate\Http\Request;
@@ -154,6 +156,13 @@ Route::middleware('auth.user')->group(function () {
     //friends.recommendation
     Route::get('friends/recommendation', [FriendRequestController::class, 'friends_option'])->name('friends.recommendation');
     Route::post('/recommendation/store', [FriendRequestController::class, 'store'])->name('recommendation.store');
+
+    Route::get('/advertiser/banner_ad', [AdvertiserController::class, 'bannerAd'])->name('advertiser.banner_ad');
+    Route::get('/advertiser/banner_ad/report/{id}', [AdvertiserController::class, 'bannerAdReport'])->name('advertiser.banner_ad.report');
+    Route::get('/advertiser/overlay_ad', [AdvertiserController::class, 'overlayAd'])->name('advertiser.overlay_ad');
+    Route::get('/advertiser/overlay_ad/report/{id}', [AdvertiserController::class, 'overlayAdReport'])->name('advertiser.overlay_ad.report');
+    Route::get('/advertiser/video_ad', [AdvertiserController::class, 'videoAd'])->name('advertiser.video_ad');
+    Route::get('/advertiser/video_ad/report/{id}', [AdvertiserController::class, 'videoAdReport'])->name('advertiser.video_ad.report');
 });
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');

@@ -117,8 +117,7 @@
                                         History</a></li>
                                 @if (isset(\App\Services\AppConfig::get()->app->frnd_option_status) &&
                                         \App\Services\AppConfig::get()->app->frnd_option_status === 1)
-                                    <li><a class="text-decoration-none"
-                                            href="{{ route('friends.recommendation') }}">
+                                    <li><a class="text-decoration-none" href="{{ route('friends.recommendation') }}">
                                             Recommendation</a>
                                     </li>
                                 @endif
@@ -132,6 +131,21 @@
                                 @endif
                                 @if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
                                     <li><a class="text-decoration-none" href="{{ route('user.badge') }}">User Badge</a>
+                                    </li>
+                                @endif
+                                @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                    <li><a class="text-decoration-none"
+                                            href="{{ route('advertiser.overlay_ad') }}">Overlay Ads</a>
+                                    </li>
+                                @endif
+                                @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                    <li><a class="text-decoration-none"
+                                            href="{{ route('advertiser.banner_ad') }}">Banner Ads</a>
+                                    </li>
+                                @endif
+                                @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                    <li><a class="text-decoration-none" href="{{ route('advertiser.video_ad') }}">Video
+                                            Ads</a>
                                     </li>
                                 @endif
                                 <li><a class="text-decoration-none"
@@ -221,7 +235,8 @@
                     </form>
                     <li class="nav-item">
                         <div class="dropdown dropdin">
-                            <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)" data-index=1>
+                            <div class="nav_btnlink" id="dropdownMenuLink1" onclick="dropdownHandle(this)"
+                                data-index=1>
                                 <div class="userimg">u</div>
                             </div>
                             <ul class="dropdown_menus profiledropin avtartMenu gap-0"
@@ -235,9 +250,29 @@
                                         History</a></li>
                                 @if (isset(\App\Services\AppConfig::get()->app->frnd_option_status) &&
                                         \App\Services\AppConfig::get()->app->frnd_option_status === 1)
-                                    <li><a class="text-decoration-none"
-                                            href="{{ route('friends.recommendation') }}">
+                                    <li><a class="text-decoration-none" href="{{ route('friends.recommendation') }}">
                                             Recommendation</a>
+                                    </li>
+                                @endif
+                                @if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
+                                    <li><a class="text-decoration-none" href="{{ route('user.badge') }}">User
+                                            Badge</a>
+                                    </li>
+                                @endif
+                                @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                    <li><a class="text-decoration-none"
+                                            href="{{ route('advertiser.overlay_ad') }}">Overlay Ads</a>
+                                    </li>
+                                @endif
+                                @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                    <li><a class="text-decoration-none"
+                                            href="{{ route('advertiser.banner_ad') }}">Banner Ads</a>
+                                    </li>
+                                @endif
+                                @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                    <li><a class="text-decoration-none"
+                                            href="{{ route('advertiser.video_ad') }}">Video
+                                            Ads</a>
                                     </li>
                                 @endif
                                 {{-- <li><a class="text-decoration-none" href="{{ route('password.edit') }}">Change
