@@ -35,7 +35,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($subsHistory as $sub)
+                                @forelse ($record as $sub)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td class="text-start">{{ $sub['title'] ?? 'N/A' }}</td>
