@@ -9,10 +9,18 @@ use Illuminate\Http\Request;
 use App\Helpers\GeneralHelper;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Services\SubscriptionEvent;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class StripeController extends Controller
 {
+     protected $subscriptionEvent;
+
+    public function __construct(SubscriptionEvent $subscriptionEvent)
+    {
+        $this->subscriptionEvent = $subscriptionEvent;
+    }
     public function checkout(Request $request)
     {
         Stripe::setApiKey($request->stripeSecret);
@@ -254,34 +262,92 @@ class StripeController extends Controller
         return redirect('/monetization/success');
     }
 
-    public function cancelsub($subid)
+    public function cancelsub($inputStripeId)
     {
-        // Set API key
-        if (env('STRIPE_TEST') === 'true') {
-            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
-        } else {
-            $stripe = new \Stripe\StripeClient(\App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key);
-        }
-        $cancelsub = null;
-        if ($stripe) {
-            $cancelsub = $stripe->subscriptions->cancel($subid, []);
+        // --- cancel subscription service ---
+        $actualStripeSubscriptionId = $this->subscriptionEvent->cancelSubscription($inputStripeId);
+
+        if ($actualStripeSubscriptionId instanceof \Illuminate\Http\RedirectResponse) {
+            return $actualStripeSubscriptionId;
         }
 
-        $response = Http::timeout(300)->withHeaders(Api::headers([
-            'husercode' => session('USER_DETAILS')['USER_CODE']
-        ]))
-            ->asForm()
-            ->get(Api::endpoint('/updateTransaction/' . $subid));
+        // --- Internal API Call ---
+        try {
+            $response = Http::timeout(300)->withHeaders(Api::headers([
+                'husercode' => session('USER_DETAILS')['USER_CODE']
+            ]))
+                ->asForm()
+                ->get(Api::endpoint('/updateTransaction/' . $actualStripeSubscriptionId));
 
-        $responseJson = $response->json();
+            $responseJson = $response->json();
 
-        if (isset($responseJson['success'])) {
-            return redirect()->back();
-        } else {
-            return redirect()->back();
+            if ($response->successful()) {
+                Log::info("Internal API call successful for updateTransaction on '{$actualStripeSubscriptionId}'. Response: " . json_encode($responseJson));
+                if (isset($responseJson['success']) && $responseJson['success']) {
+                    return back()->with('success', 'Subscription cancelled and internal record updated.');
+                } else {
+                    Log::warning("Internal API call succeeded (HTTP 2xx) but response indicates an issue for '{$actualStripeSubscriptionId}'. Response: " . json_encode($responseJson));
+                    return back()->with('warning', 'Subscription cancelled in Stripe, but internal system indicated an issue.');
+                }
+            } else {
+                Log::error("Internal API call failed for updateTransaction on '{$actualStripeSubscriptionId}'. Status: " . $response->status() . " Response: " . json_encode($responseJson));
+                return back()->with('error', 'Subscription cancelled in Stripe, but internal system update failed.');
+            }
+        } catch (\Exception $e) {
+            Log::error("Internal API call failed unexpectedly for '{$actualStripeSubscriptionId}': " . $e->getMessage());
+            return back()->with('error', 'Subscription cancelled in Stripe, but internal system update failed due to network error.');
         }
     }
 
+    public function pauseSubscription(Request $request)
+    {
+        $request->validate([
+            'days' => 'required|integer',
+            'subscription_id' => 'required|string',
+        ]);
+
+        $days = (int) $request->days;
+        $inputStripeId = $request->subscription_id;
+        $actualSubscriptionId = null;
+
+        try {
+            // Call the service;
+            $actualSubscriptionId = $this->subscriptionEvent->pauseSubscription($inputStripeId, $days);
+
+        } catch (\Exception $e) {
+            Log::error("Error from PauseSubscription service: " . $e->getMessage());
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+
+        // --- Internal API Cal ---
+        if ($actualSubscriptionId) {
+            try {
+                $response = Http::timeout(300)->withHeaders(Api::headers([
+                    'husercode' => session('USER_DETAILS')['USER_CODE']
+                ]))
+                ->asForm()
+                ->get(Api::endpoint('/pause_days/' . $days . '/subscription_id/' . $actualSubscriptionId));
+
+                $responseJson = $response->json();
+
+                if ($response->successful()) {
+                    Log::info("Internal API call successful for subscription '{$actualSubscriptionId}'. Response: " . json_encode($responseJson));
+                } else {
+                    Log::warning("Internal API call failed for subscription '{$actualSubscriptionId}'. Status: " . $response->status() . " Response: " . json_encode($responseJson));
+                }
+            } catch (\Exception $e) {
+                Log::error("Internal API call failed unexpectedly for '{$actualSubscriptionId}': " . $e->getMessage());
+            }
+        } else {
+            Log::error("Stripe pause service did not return a valid subscription ID.");
+        }
+
+        return response()->json([
+            'message' => 'Subscription pause process initiated successfully.',
+            'stripe_subscription_id' => $actualSubscriptionId,
+            'paused_for_days' => $days,
+        ]);
+    }
 
     // public function success(Request $request)
     // {
@@ -300,4 +366,17 @@ class StripeController extends Controller
     //         return response()->json(['error' => $th->getMessage()], 500);
     //     }
     // }
+
+    /**
+    *   Set API key
+    *  if (env('STRIPE_TEST') === 'true') {
+    *     $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
+    * } else {
+    *    $stripe = new \Stripe\StripeClient(\App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key);
+    *}
+    *$cancelsub = null;
+    *if ($stripe) {
+    *   $cancelsub = $stripe->subscriptions->cancel($subid, []);
+    *}
+    */
 }

@@ -172,6 +172,7 @@ Route::post('addrating/series', [SeriesDetailScreenController::class, 'addRating
 Route::get('page/{slug}', [PageController::class, 'index'])->name('page');
 Route::post('contact-us', [PageController::class, 'submit'])->name('contactus.submit');
 Route::get('cancelsubscription/{subid}', [StripeController::class, 'cancelsub'])->name('cancel.subscription');
+Route::post('/pause-subscription', [StripeController::class, 'pauseSubscription']);
 Route::get('playerscreen/{id}', [PlayerScreenController::class, 'index'])->name('playerscreen'); // Main Player Screen
 Route::post('apply-coupon/', [PlayerScreenController::class, 'ApplyCoupon'])->name('coupon.apply'); // Apply For Coupon
 Route::get('playerscreen/private/{id}', [PlayerScreenController::class, 'private'])->name('playerscreen.private'); // Player Screen for private videos
