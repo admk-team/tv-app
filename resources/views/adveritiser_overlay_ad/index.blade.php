@@ -7,6 +7,7 @@
             font-weight: 700;
         }
     </style>
+    @include('advertiser_banner_ads.nav-bar')
     <section class="py-5">
         <div class="container">
             <div class="row justify-content-center">
@@ -40,10 +41,9 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td class="text-start">{{ $sub['title'] ?? 'N/A' }}</td>
                                         <td>
-                                            <img src="{{ $sub['image'] ?? '' }}" width="120"
-                                                class="img-fluid rounded" />
+                                            <img src="{{ $sub['image'] ?? '' }}" width="120" class="img-fluid rounded" />
                                         </td>
-                                            <td class="text-start">{{ $sub['target_url'] ?? 'N/A' }}</td>
+                                        <td class="text-start">{{ $sub['target_url'] ?? 'N/A' }}</td>
                                         <td>
                                             <a href="{{ route('advertiser.overlay_ad.report', $sub['id']) }}"
                                                 class="btn btn-outline-warning btn-sm" title="View Report">

@@ -7,6 +7,7 @@
             font-weight: 700;
         }
     </style>
+     @include('advertiser_banner_ads.nav-bar')
     <section class="py-5">
         <div class="container">
             <div class="row justify-content-center">

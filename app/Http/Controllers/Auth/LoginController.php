@@ -113,6 +113,12 @@ class LoginController extends Controller
         ) {
             return redirect()->route('auth.resetPassword');
         }
+        if (
+            isset($responseJson['app']['data']['account_type']) &&
+            $responseJson['app']['data']['account_type'] == 'AD'
+        ) {
+            return redirect()->route('advertiser.overlay_ad');
+        }
         $profile = \App\Services\AppConfig::get()->app->app_info->profile_manage;
 
         if (session()->has('REDIRECT_TO_SCREEN')) {
