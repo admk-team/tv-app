@@ -37,11 +37,11 @@
                                 </td>
                                 <td class="text-center">{{ $sub['expiry_date'] }}</td>
                                 <td>
-                                    {{-- @if (Str::startsWith($sub['transaction_id'], 'sub_')) --}}
+                                    @if (Str::startsWith($sub['transaction_id'], 'sub_'))
                                         {{-- <form action="{{ route('cancel.subscription', $sub['transaction_id']) }}"> --}}
                                             <button type="button" class="app-primary-btn rounded" data-id="{{ $sub['transaction_id'] }}" id="openCancelModal">Cancel</button>
                                         {{-- </form> --}}
-                                    {{-- @endif --}}
+                                    @endif
                                 </td>
                             </tr>
                         @empty

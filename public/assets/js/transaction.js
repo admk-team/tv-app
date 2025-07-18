@@ -81,7 +81,7 @@ $(document).on('click', '#pauseSub', function () {
             },
             success: function (res) {
                 window.location.reload();
-                Swal.fire('Paused!', `${res.message} for ${res.days} days.`, 'success');
+                Swal.fire('Paused!', `${res.message} for ${res.paused_for_days} days.`, 'success');
             },
             error: function () {
                 Swal.fire('Error', 'Something went wrong while pausing your subscription.', 'error');
