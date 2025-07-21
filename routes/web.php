@@ -163,6 +163,8 @@ Route::middleware('auth.user')->group(function () {
     Route::get('/advertiser/overlay_ad/report/{id}', [AdvertiserController::class, 'overlayAdReport'])->name('advertiser.overlay_ad.report');
     Route::get('/advertiser/video_ad', [AdvertiserController::class, 'videoAd'])->name('advertiser.video_ad');
     Route::get('/advertiser/video_ad/report/{id}', [AdvertiserController::class, 'videoAdReport'])->name('advertiser.video_ad.report');
+     Route::get('/advertiser/cta', [AdvertiserController::class, 'ctaAd'])->name('advertiser.cta');
+    Route::get('/advertiser/cta/report/{id}', [AdvertiserController::class, 'ctaAdReport'])->name('advertiser.cta.report');
 });
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');

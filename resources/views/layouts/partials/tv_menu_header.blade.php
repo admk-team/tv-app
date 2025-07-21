@@ -173,16 +173,24 @@
                                                 Badge</a>
                                         </li>
                                     @endif
-                                      @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
-                                        <li><a class="dropdown-item" href="{{ route('advertiser.overlay_ad') }}">Overlay Ads</a>
+                                    @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                        <li><a class="dropdown-item" href="{{ route('advertiser.cta') }}">Call To
+                                                Actions</a>
                                         </li>
                                     @endif
-                                     @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
-                                        <li><a class="dropdown-item" href="{{ route('advertiser.banner_ad') }}">Banner Ads</a>
+                                    @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                        <li><a class="dropdown-item"
+                                                href="{{ route('advertiser.overlay_ad') }}">Overlay Ads</a>
                                         </li>
                                     @endif
-                                     @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
-                                        <li><a class="dropdown-item" href="{{ route('advertiser.video_ad') }}">Video Ads</a>
+                                    @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                        <li><a class="dropdown-item" href="{{ route('advertiser.banner_ad') }}">Banner
+                                                Ads</a>
+                                        </li>
+                                    @endif
+                                    @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                        <li><a class="dropdown-item" href="{{ route('advertiser.video_ad') }}">Video
+                                                Ads</a>
                                         </li>
                                     @endif
                                     <li><a class="dropdown-item"

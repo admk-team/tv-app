@@ -67,6 +67,11 @@
                                 </li>
                             @endif
                             @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                <li><a class="text-decoration-none" href="{{ route('advertiser.cta') }}">Call To
+                                        Actions</a>
+                                </li>
+                            @endif
+                            @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
                                 <li><a class="text-decoration-none" href="{{ route('advertiser.overlay_ad') }}">Overlay
                                         Ads</a>
                                 </li>
@@ -253,6 +258,11 @@
                                     </li>
                                 @endif
                                 @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                    <li><a class="text-decoration-none" href="{{ route('advertiser.cta') }}">Call To
+                                            Actions</a>
+                                    </li>
+                                @endif
+                                @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
                                     <li><a class="text-decoration-none"
                                             href="{{ route('advertiser.overlay_ad') }}">Overlay Ads</a>
                                     </li>
@@ -321,6 +331,11 @@
                                 @if (isset(\App\Services\AppConfig::get()->app->badge_status) && \App\Services\AppConfig::get()->app->badge_status === 1)
                                     <li><a class="text-decoration-none" href="{{ route('user.badge') }}">User
                                             Badge</a>
+                                    </li>
+                                @endif
+                                @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                    <li><a class="text-decoration-none" href="{{ route('advertiser.cta') }}">Call To
+                                            Actions</a>
                                     </li>
                                 @endif
                                 @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')

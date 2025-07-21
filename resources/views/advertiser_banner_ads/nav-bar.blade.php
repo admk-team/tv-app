@@ -11,4 +11,8 @@
          <a class="nav-link {{ request()->is('advertiser/video_ad') ? 'active' : '' }}"
              href="{{ url('/advertiser/video_ad') }}" style="color: var(--themePrimaryTxtColor);">Video Ads</a>
      </li>
+       <li class="nav-item">
+         <a class="nav-link {{ request()->is('advertiser/cta') ? 'active' : '' }}"
+             href="{{ url('/advertiser/cta') }}" style="color: var(--themePrimaryTxtColor);">Call To Actions</a>
+     </li>
  </ul>

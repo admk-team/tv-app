@@ -124,6 +124,11 @@
                                     </li>
                                 @endif
                                 @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
+                                    <li><a class="text-decoration-none" href="{{ route('advertiser.cta') }}">Call To
+                                            Actions</a>
+                                    </li>
+                                @endif
+                                @if (isset(session('USER_DETAILS')['ACCOUNT_TYPE']) && session('USER_DETAILS')['ACCOUNT_TYPE'] == 'AD')
                                     <li><a class="text-decoration-none"
                                             href="{{ route('advertiser.overlay_ad') }}">Overlay Ads</a>
                                     </li>

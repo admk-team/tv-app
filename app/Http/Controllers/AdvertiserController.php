@@ -174,4 +174,60 @@ class AdvertiserController extends Controller
 
         return view('adveritiser_video_ad.video_ad_report', ['data' => $responseJson]);
     }
+
+    public function ctaAd()
+    {
+        if (session()->has('USER_DETAILS.CSV_STATUS') && (int) session('USER_DETAILS.CSV_STATUS') === 0) {
+            return redirect()->route('auth.resetPassword');
+        }
+        $response = Http::timeout(300)
+            ->withHeaders(Api::headers())
+            ->asForm()
+            ->get(Api::endpoint('/advertiser/cta'));
+        $responseJson = $response->json();
+        // Check if API call is successful
+        if (!empty($responseJson['success']) && $responseJson['success'] === true) {
+            $record = $responseJson['data'];
+        } else {
+            $record = [];
+        }
+
+        return view('adveritiser_cta.index', compact('record'));
+    }
+
+
+    public function ctaAdReport($id)
+    {
+        if (session()->has('USER_DETAILS.CSV_STATUS') && (int) session('USER_DETAILS.CSV_STATUS') === 0) {
+            return redirect()->route('auth.resetPassword');
+        }
+
+        // Call the internal API or service to fetch report
+        $response = Http::timeout(300)
+            ->withHeaders(Api::headers())
+            ->asForm()
+            ->get(Api::endpoint('/advertiser/cta/report/' . $id));
+
+        $responseJson = $response->json();
+        $events = collect([]);
+        if (isset($responseJson['data']['events']) && is_array($responseJson['data']['events'])) {
+            $events = collect($responseJson['data']['events']);
+        }
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 10;
+        $currentPageItems = $events->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
+        $paginatedEvents = new LengthAwarePaginator(
+            $currentPageItems,
+            $events->count(),
+            $perPage,
+            $currentPage,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
+
+        $responseJson['data']['events'] = $paginatedEvents;
+
+        return view('adveritiser_cta.cta_report', ['data' => $responseJson]);
+    }
 }
