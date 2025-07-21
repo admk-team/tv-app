@@ -37,14 +37,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($data['data']['events'] as $sub)
+                                @forelse ($data['data']['events'] ?? [] as $sub)
                                     <tr>
                                         <td>{{ $sub['id'] }}</td>
                                         <td class="text-start">{{ $sub['name'] ?? 'N/A' }}</td>
                                         <td class="text-nowrap">{{ $sub['views'] ?? 'N/A' }}</td>
                                         <td class="text-nowrap">{{ $sub['skips'] ?? '-' }}</td>
                                         <td class="text-nowrap">{{ $sub['clicks'] ?? '-' }}</td>
-                                      <td class="text-nowrap">{{ $sub['completed'] ?? '-' }}</td>
+                                        <td class="text-nowrap">{{ $sub['completed'] ?? '-' }}</td>
                                     </tr>
                                 @empty
                                     <tr>
@@ -56,10 +56,11 @@
                     </div>
 
                     <!-- Custom Pagination -->
-                    <div class="custom-pagination mt-4">
-                        {{ $data['data']['events']->onEachSide(1)->links() }}
-                    </div>
-
+                    @if (isset($data['data']['events']))
+                        <div class="custom-pagination mt-4">
+                            {{ $data['data']['events']->onEachSide(1)->links() }}
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

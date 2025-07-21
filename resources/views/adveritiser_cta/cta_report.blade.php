@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="flex-fill">
                                         <h5 class="fw-semibold mb-1 lh-1 theme-active-color">
-                                            {{ $data['data']['totalClicks'] }}</h5>
+                                            {{ $data['data']['totalClicks'] ?? '0' }}</h5>
                                         <p class="mb-0 fs-10 card-heading">Total Clicks</p>
                                     </div>
                                 </div>
@@ -55,7 +55,7 @@
                                     </div>
                                     <div class="flex-fill">
                                         <h5 class="fw-semibold mb-1 lh-1 theme-active-color">
-                                            {{ $data['data']['totalUniqueClicks'] }}</h5>
+                                            {{ $data['data']['totalUniqueClicks'] ?? '0' }}</h5>
                                         <p class="mb-0 fs-10 card-heading">Unique Clicks</p>
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@
                                     </div>
                                     <div class="flex-fill">
                                         <h5 class="fw-semibold mb-1 lh-1 theme-active-color">
-                                            {{ $data['data']['totalImpressions'] }}</h5>
+                                            {{ $data['data']['totalImpressions'] ?? '0' }}</h5>
                                         <p class="mb-0 fs-10 card-heading">Total Impressions</p>
                                     </div>
                                 </div>
@@ -93,7 +93,7 @@
                                     </div>
                                     <div class="flex-fill">
                                         <h5 class="fw-semibold mb-1 lh-1 theme-active-color">
-                                            {{ $data['data']['totalUniqueImpressions'] }}</h5>
+                                            {{ $data['data']['totalUniqueImpressions'] ?? '0' }}</h5>
                                         <p class="mb-0 fs-10 card-heading">Unique Impressions</p>
                                     </div>
                                 </div>
@@ -118,11 +118,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($data['data']['events'] as $sub)
+                                @forelse ($data['data']['events'] ?? [] as $sub)
                                     <tr>
                                         <td>{{ $sub['id'] }}</td>
                                         <td class="text-nowrap">{{ $sub['event_type'] ?? 'N/A' }}</td>
-                                          <td class="text-nowrap">{{ $sub['user']['name'] ?? 'N/A' }}</td>
+                                        <td class="text-nowrap">{{ $sub['user']['name'] ?? 'N/A' }}</td>
                                         <td class="text-nowrap">{{ $sub['stream']['title'] ?? 'N/A' }}</td>
                                         <td class="text-nowrap">{{ $sub['country_name'] ?? '-' }}</td>
                                         <td class="text-nowrap">{{ $sub['plateform'] ?? '-' }}</td>
@@ -140,10 +140,11 @@
                     </div>
 
                     <!-- Custom Pagination -->
-                    <div class="custom-pagination mt-4">
-                        {{ $data['data']['events']->onEachSide(1)->links() }}
-                    </div>
-
+                    @if (isset($data['data']['events']))
+                        <div class="custom-pagination mt-4">
+                            {{ $data['data']['events']->onEachSide(1)->links() }}
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
