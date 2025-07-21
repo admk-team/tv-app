@@ -64,7 +64,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-muted">No records found.</td>
+                                        <td colspan="12" class="text-muted">No records found.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
