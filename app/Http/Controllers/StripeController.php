@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 
 class StripeController extends Controller
 {
-     protected $subscriptionEvent;
+    protected $subscriptionEvent;
 
     public function __construct(SubscriptionEvent $subscriptionEvent)
     {
@@ -234,7 +234,7 @@ class StripeController extends Controller
                             $userDetails = session()->get('USER_DETAILS'); // Retrieve session data properly
                             $userDetails['GROUP_USER'] = $arrRes['app']['group_user']; // Update the value
                             session()->put('USER_DETAILS', $userDetails); // Store it back in session
-                        }                        
+                        }
                         $status = 'success';
                         $statusMsg = $arrRes['app']['msg'];
                         $title = 'Great!';
@@ -325,8 +325,8 @@ class StripeController extends Controller
                 $response = Http::timeout(300)->withHeaders(Api::headers([
                     'husercode' => session('USER_DETAILS')['USER_CODE']
                 ]))
-                ->asForm()
-                ->get(Api::endpoint('/pause_days/' . $days . '/subscription_id/' . $actualSubscriptionId));
+                    ->asForm()
+                    ->get(Api::endpoint('/pause_days/' . $days . '/subscription_id/' . $actualSubscriptionId));
 
                 $responseJson = $response->json();
 
@@ -349,6 +349,47 @@ class StripeController extends Controller
         ]);
     }
 
+    public function offerDiscountBeforeCancel(Request $request)
+    {
+
+        $request->validate([
+            'subscription_id' => 'required|string',
+            'discount' => 'required|numeric',
+            'duration' => 'required|integer',
+            'period' => 'required',
+        ]);
+
+        $subscriptionId = $request->subscription_id;
+        $discount = $request->discount;
+        $duration = $request->duration;
+        $period = $request->period;
+
+        try {
+            $result = $this->subscriptionEvent->applyDiscountToSubscription($subscriptionId, $discount, $duration, $period);
+
+            $response = Http::timeout(300)->withHeaders(Api::headers([
+                'husercode' => session('USER_DETAILS')['USER_CODE']
+            ]))
+                ->asForm()
+                ->get(Api::endpoint('/applyDiscount/' . $subscriptionId));
+
+            return response()->json([
+                'message' => 'The discount has been successfully applied to your subscription.',
+                'subscription_id' => $subscriptionId,
+                'discount' => $discount . '%',
+                'duration' => $duration,
+                'period' => $period,
+            ]);
+        } catch (\Exception $e) {
+            Log::error("Error applying discount to subscription '{$subscriptionId}': " . $e->getMessage());
+            return response()->json([
+                'message' => 'An error occurred while applying the discount.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
     // public function success(Request $request)
     // {
     //     try {
@@ -368,15 +409,15 @@ class StripeController extends Controller
     // }
 
     /**
-    *   Set API key
-    *  if (env('STRIPE_TEST') === 'true') {
-    *     $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
-    * } else {
-    *    $stripe = new \Stripe\StripeClient(\App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key);
-    *}
-    *$cancelsub = null;
-    *if ($stripe) {
-    *   $cancelsub = $stripe->subscriptions->cancel($subid, []);
-    *}
-    */
+     *   Set API key
+     *  if (env('STRIPE_TEST') === 'true') {
+     *     $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
+     * } else {
+     *    $stripe = new \Stripe\StripeClient(\App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key);
+     *}
+     *$cancelsub = null;
+     *if ($stripe) {
+     *   $cancelsub = $stripe->subscriptions->cancel($subid, []);
+     *}
+     */
 }

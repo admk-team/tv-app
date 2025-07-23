@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Exception\InvalidRequestException;
 
-class SubscriptionEvent 
+class SubscriptionEvent
 {
     /**
      * Resolves the Stripe API secret key based on environment.
@@ -159,6 +159,54 @@ class SubscriptionEvent
             $errorMessage = "General error during subscription resume for input '{$inputStripeId}': " . $e->getMessage();
             Log::error($errorMessage);
             throw $e;
+        }
+    }
+
+
+    public function applyDiscountToSubscription($subscriptionId, $discount, $duration, $period)
+    {
+        $stripe = new StripeClient($this->getStripeSecretKey());
+        $actualStripeSubscriptionId = null;
+
+        try {
+            $actualStripeSubscriptionId = $this->resolveSubscriptionId($stripe, $subscriptionId);
+
+            if ($actualStripeSubscriptionId) {
+
+                $couponData = [
+                    'percent_off' => (int) $discount,
+                    'name' => "Cancel offer - {$discount}% for {$duration} {$period}",
+                ];
+
+                if ($duration == 1) {
+                    $couponData['duration'] = 'once';
+                } else {
+                    $couponData['duration'] = 'repeating';
+                    $couponData['duration_in_months'] = max(1, (int) $duration);
+                }
+
+                $coupon = $stripe->coupons->create($couponData);
+
+                $stripe->subscriptions->update($subscriptionId, [
+                    'coupon' => $coupon->id,
+                ]);
+
+                return [
+                    'success' => true,
+                    'coupon_id' => $coupon->id,
+                ];
+            }
+
+            return [
+                'success' => false,
+                'message' => 'Invalid subscription ID.',
+            ];
+        } catch (\Exception $e) {
+            Log::error("Stripe error while applying discount: " . $e->getMessage());
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+            ];
         }
     }
 }
