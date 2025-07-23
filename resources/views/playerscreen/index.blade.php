@@ -1986,119 +1986,120 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 setTimeout(() => player.playMedia(), 500);
             }
 
-            document.body.addEventListener("click", function(evt) {
-                if (window.player && player.getMediaPlaying()) {
-                    mediaId = player.getCurrentMediaData().mediaId;
-                    sendAjaxRes4VideoDuration('saveStrmDur', mediaId, player.getCurrentTime());
-                }
-            });
-
-            function unmutedVoice() {
-                player.toggleMute();
-                player.playMedia();
-                setInterval(sendAdRequrst, 50000);
-            }
-
-            function sendAdRequrst() {
-                $.get("<?php echo $dataVast3 ?? ''; ?>", function(data, status) {});
-            }
-
-            function showOverlayAd() {
-                if (!$('.overlay-ad').hasClass('closed')) {
-                    $('.overlay-ad').removeClass('d-none');
-                }
-            }
-
-            function hideOverlayAd() {
-                $('.overlay-ad').addClass('d-none');
-            }
-
-            function closeOverlayAd() {
-                $('.overlay-ad').addClass('d-none');
-                $('.overlay-ad').addClass('closed');
-            }
-
-            function overlayAdClick() {
-                player.pauseMedia();
-            }
-
-            function showWatermark() {
-                if (window.adplay == false) {
-                    let watermark = document.querySelector('.watermark');
-                    if (watermark) {
-                        watermark.style.display = "block";
-                        console.log('[DEBUG] showWatermark: Showing watermark, adplay=', window.adplay);
-                    }
-                }
-            }
-
-            function hideWatermark() {
-                let watermark = document.querySelector('.watermark');
-                if (watermark) {
-                    watermark.style.display = "none";
-                    console.log('[DEBUG] hideWatermark: Hiding watermark');
-                }
-            }
-
-            function showGlobalRating() {
-                if (window.adplay == false) {
-                    let globalRating = document.querySelector('.global-rating');
-                    if (globalRating) {
-                        globalRating.style.display = "block";
-                        console.log('[DEBUG] showGlobalRating: Showing global-rating, adplay=', window.adplay);
-                    }
-                }
-            }
-
-            function hideGlobalRating() {
-                let globalRating = document.querySelector('.global-rating');
-                if (globalRating) {
-                    globalRating.style.display = "none";
-                    console.log('[DEBUG] hideGlobalRating: Hiding global-rating');
-                }
-            }
-
-            function detectPopupEvent() {
-                let eventHappening = false;
-                let startTime = 0;
-                setInterval(() => {
-                    ++startTime;
-                    if ($('.mvp-popup-holder .mvp-popup').hasClass('mvp-popup-visible') && $(
-                            '.mvp-popup-holder .mvp-popup-visible').find('.continue-confirmation-popup')
-                        .length === 0) {
-                        if (eventHappening === false) {
-                            blockPopup(startTime);
-                            hideOverlayAd();
-                            hideWatermark();
-                            hideGlobalRating();
-                            eventHappening = true;
-                        }
-                    } else {
-                        if (eventHappening === true) {
-                            showOverlayAd();
-                            showWatermark();
-                            showGlobalRating();
-                            eventHappening = false;
-                        }
-                    }
-                }, 500);
-            }
-
-            function blockPopup(startTime) {
-                if (startTime > 30) return;
-                let isPopupPaused = $('.mvp-popup-holder .mvp-popup-visible').data('show') === 'pause';
-                player.closePopup();
-                setTimeout(() => {
-                    if (!isPopupPaused) {
-                        player.playMedia();
-                    }
-                }, 500);
-            }
-
-            function makeVolumeButtontoggable() {
-                $('.mvp-volume-toggle').addClass('mvp-volume-toggable');
+        });
+        
+        document.body.addEventListener("click", function(evt) {
+            if (window.player && player.getMediaPlaying()) {
+                mediaId = player.getCurrentMediaData().mediaId;
+                sendAjaxRes4VideoDuration('saveStrmDur', mediaId, player.getCurrentTime());
             }
         });
+
+        function unmutedVoice() {
+            player.toggleMute();
+            player.playMedia();
+            setInterval(sendAdRequrst, 50000);
+        }
+
+        function sendAdRequrst() {
+            $.get("<?php echo $dataVast3 ?? ''; ?>", function(data, status) {});
+        }
+
+        function showOverlayAd() {
+            if (!$('.overlay-ad').hasClass('closed')) {
+                $('.overlay-ad').removeClass('d-none');
+            }
+        }
+
+        function hideOverlayAd() {
+            $('.overlay-ad').addClass('d-none');
+        }
+
+        function closeOverlayAd() {
+            $('.overlay-ad').addClass('d-none');
+            $('.overlay-ad').addClass('closed');
+        }
+
+        function overlayAdClick() {
+            player.pauseMedia();
+        }
+
+        function showWatermark() {
+            if (window.adplay == false) {
+                let watermark = document.querySelector('.watermark');
+                if (watermark) {
+                    watermark.style.display = "block";
+                    console.log('[DEBUG] showWatermark: Showing watermark, adplay=', window.adplay);
+                }
+            }
+        }
+
+        function hideWatermark() {
+            let watermark = document.querySelector('.watermark');
+            if (watermark) {
+                watermark.style.display = "none";
+                console.log('[DEBUG] hideWatermark: Hiding watermark');
+            }
+        }
+
+        function showGlobalRating() {
+            if (window.adplay == false) {
+                let globalRating = document.querySelector('.global-rating');
+                if (globalRating) {
+                    globalRating.style.display = "block";
+                    console.log('[DEBUG] showGlobalRating: Showing global-rating, adplay=', window.adplay);
+                }
+            }
+        }
+
+        function hideGlobalRating() {
+            let globalRating = document.querySelector('.global-rating');
+            if (globalRating) {
+                globalRating.style.display = "none";
+                console.log('[DEBUG] hideGlobalRating: Hiding global-rating');
+            }
+        }
+
+        function detectPopupEvent() {
+            let eventHappening = false;
+            let startTime = 0;
+            setInterval(() => {
+                ++startTime;
+                if ($('.mvp-popup-holder .mvp-popup').hasClass('mvp-popup-visible') && $(
+                        '.mvp-popup-holder .mvp-popup-visible').find('.continue-confirmation-popup')
+                    .length === 0) {
+                    if (eventHappening === false) {
+                        blockPopup(startTime);
+                        hideOverlayAd();
+                        hideWatermark();
+                        hideGlobalRating();
+                        eventHappening = true;
+                    }
+                } else {
+                    if (eventHappening === true) {
+                        showOverlayAd();
+                        showWatermark();
+                        showGlobalRating();
+                        eventHappening = false;
+                    }
+                }
+            }, 500);
+        }
+
+        function blockPopup(startTime) {
+            if (startTime > 30) return;
+            let isPopupPaused = $('.mvp-popup-holder .mvp-popup-visible').data('show') === 'pause';
+            player.closePopup();
+            setTimeout(() => {
+                if (!isPopupPaused) {
+                    player.playMedia();
+                }
+            }, 500);
+        }
+
+        function makeVolumeButtontoggable() {
+            $('.mvp-volume-toggle').addClass('mvp-volume-toggable');
+        }
     </script>
     <script>
         // sendAjaxRes4VideoDuration('saveStrmDur', this.currentTime());
