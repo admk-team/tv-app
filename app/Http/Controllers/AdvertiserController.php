@@ -37,37 +37,39 @@ class AdvertiserController extends Controller
             return redirect()->route('auth.resetPassword');
         }
 
-        $response = Http::timeout(300)
+        $response = Http::timeout(60)
             ->withHeaders(Api::headers())
             ->asForm()
-            ->get(Api::endpoint('/advertiser/banner_ad/report/' . $id));
+            ->get(Api::endpoint('/advertiser/banner_ad/report/' . $id), [
+                'per_page' => 10,
+                'page' => request()->get('page', 1),
+            ]);
 
         $responseJson = $response->json();
+        $paginatedEvents = null;
 
-        // Check if 'events' is present and is an array
-        $events = collect([]);
-        if (isset($responseJson['data']['events']) && is_array($responseJson['data']['events'])) {
-            $events = collect($responseJson['data']['events']);
+        if (
+            $response->ok() &&
+            isset($responseJson['success']) &&
+            $responseJson['success'] === true &&
+            isset($responseJson['data']['events']['data']) // Ensure pagination structure exists
+        ) {
+            $eventsData = $responseJson['data']['events'];
+
+            $paginatedEvents = new \Illuminate\Pagination\LengthAwarePaginator(
+                $eventsData['data'],
+                $eventsData['total'],
+                $eventsData['per_page'],
+                $eventsData['current_page'],
+                ['path' => request()->url(), 'query' => request()->query()]
+            );
         }
 
-        // Paginate the `events` array
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $perPage = 10;
-        $currentPageItems = $events->slice(($currentPage - 1) * $perPage, $perPage)->values();
-
-        $paginatedEvents = new LengthAwarePaginator(
-            $currentPageItems,
-            $events->count(),
-            $perPage,
-            $currentPage,
-            ['path' => request()->url(), 'query' => request()->query()]
-        );
-
-        // Replace events with the paginated version
         $responseJson['data']['events'] = $paginatedEvents;
 
         return view('advertiser_banner_ads.banner_ad_report', ['data' => $responseJson]);
     }
+
 
     public function overlayAd()
     {
@@ -100,25 +102,31 @@ class AdvertiserController extends Controller
         $response = Http::timeout(300)
             ->withHeaders(Api::headers())
             ->asForm()
-            ->get(Api::endpoint('/advertiser/overlay_ad/report/' . $id));
+            ->get(Api::endpoint('/advertiser/overlay_ad/report/' . $id), [
+                'per_page' => 10,
+                'page' => request()->get('page', 1)
+            ]);
 
         $responseJson = $response->json();
-        $events = collect([]);
-        if (isset($responseJson['data']['events']) && is_array($responseJson['data']['events'])) {
-            $events = collect($responseJson['data']['events']);
+
+        $paginatedEvents = null;
+
+        if (
+            $response->ok() &&
+            isset($responseJson['success']) &&
+            $responseJson['success'] === true &&
+            isset($responseJson['data']['events']['data']) // Ensure pagination structure exists
+        ) {
+            $eventsData = $responseJson['data']['events'];
+
+            $paginatedEvents = new \Illuminate\Pagination\LengthAwarePaginator(
+                $eventsData['data'],
+                $eventsData['total'],
+                $eventsData['per_page'],
+                $eventsData['current_page'],
+                ['path' => request()->url(), 'query' => request()->query()]
+            );
         }
-
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $perPage = 10;
-        $currentPageItems = $events->slice(($currentPage - 1) * $perPage, $perPage)->values();
-
-        $paginatedEvents = new LengthAwarePaginator(
-            $currentPageItems,
-            $events->count(),
-            $perPage,
-            $currentPage,
-            ['path' => request()->url(), 'query' => request()->query()]
-        );
 
         $responseJson['data']['events'] = $paginatedEvents;
 
@@ -153,23 +161,32 @@ class AdvertiserController extends Controller
         $response = Http::timeout(300)
             ->withHeaders(Api::headers())
             ->asForm()
-            ->get(Api::endpoint('/advertiser/video_ad/report/' . $id));
+            ->get(Api::endpoint('/advertiser/video_ad/report/' . $id), [
+                'per_page' => 10,
+                'page' => request()->get('page', 1)
+            ]);
 
         $responseJson = $response->json();
-        // Paginate the `events` array
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $events = collect($responseJson['data']['events']);
-        $perPage = 10;
-        $currentPageItems = $events->slice(($currentPage - 1) * $perPage, $perPage)->values();
-        $paginatedEvents = new LengthAwarePaginator(
-            $currentPageItems,
-            $events->count(),
-            $perPage,
-            $currentPage,
-            ['path' => request()->url(), 'query' => request()->query()]
-        );
 
-        // Replace full events with paginated ones
+        $paginatedEvents = null;
+
+        if (
+            $response->ok() &&
+            isset($responseJson['success']) &&
+            $responseJson['success'] === true &&
+            isset($responseJson['data']['events']['data']) // Ensure pagination structure exists
+        ) {
+            $eventsData = $responseJson['data']['events'];
+
+            $paginatedEvents = new \Illuminate\Pagination\LengthAwarePaginator(
+                $eventsData['data'],
+                $eventsData['total'],
+                $eventsData['per_page'],
+                $eventsData['current_page'],
+                ['path' => request()->url(), 'query' => request()->query()]
+            );
+        }
+
         $responseJson['data']['events'] = $paginatedEvents;
 
         return view('adveritiser_video_ad.video_ad_report', ['data' => $responseJson]);
@@ -202,31 +219,37 @@ class AdvertiserController extends Controller
             return redirect()->route('auth.resetPassword');
         }
 
-        // Call the internal API or service to fetch report
         $response = Http::timeout(300)
             ->withHeaders(Api::headers())
             ->asForm()
-            ->get(Api::endpoint('/advertiser/cta/report/' . $id));
+            ->get(Api::endpoint('/advertiser/cta/report/' . $id), [
+                'per_page' => 10,
+                'page' => request()->get('page', 1)
+            ]);
 
         $responseJson = $response->json();
-        $events = collect([]);
-        if (isset($responseJson['data']['events']) && is_array($responseJson['data']['events'])) {
-            $events = collect($responseJson['data']['events']);
+
+        $paginatedEvents = null;
+
+        if (
+            $response->ok() &&
+            isset($responseJson['success']) &&
+            $responseJson['success'] === true &&
+            isset($responseJson['data']['events']['data']) // Ensure pagination structure exists
+        ) {
+            $eventsData = $responseJson['data']['events'];
+
+            $paginatedEvents = new \Illuminate\Pagination\LengthAwarePaginator(
+                $eventsData['data'],
+                $eventsData['total'],
+                $eventsData['per_page'],
+                $eventsData['current_page'],
+                ['path' => request()->url(), 'query' => request()->query()]
+            );
         }
 
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $perPage = 10;
-        $currentPageItems = $events->slice(($currentPage - 1) * $perPage, $perPage)->values();
-
-        $paginatedEvents = new LengthAwarePaginator(
-            $currentPageItems,
-            $events->count(),
-            $perPage,
-            $currentPage,
-            ['path' => request()->url(), 'query' => request()->query()]
-        );
-
         $responseJson['data']['events'] = $paginatedEvents;
+
 
         return view('adveritiser_cta.cta_report', ['data' => $responseJson]);
     }
