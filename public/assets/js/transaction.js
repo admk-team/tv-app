@@ -189,7 +189,7 @@ $(document).ready(function () {
     function showPauseOptions(subId, showCancelBtn = false) {
         const cancelButton = showCancelBtn
             ? `
-        <div class="col-12 col-sm-6 col-md-4 mt-3 d-flex justify-content-center">
+        <div class="col-12 col-sm-8 col-md-8 mt-3 d-flex justify-content-center">
             <button class="app-primary-btn rounded w-100" id="continueCancelSub" data-id="${subId}">
                 Continue to cancel subscription
             </button>
@@ -202,13 +202,13 @@ $(document).ready(function () {
             <p class="mb-3">Need a break? You can pause your subscription and come back anytime.</p>
             <strong>Select how long you'd like to pause:</strong>
             <div class="row mt-3 gx-2 gy-2 justify-content-center">
-                <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
+                <div class="col-12 col-sm-6 col-md-5 d-flex justify-content-center">
                     <button data-days="30" class="pause-btn app-primary-btn rounded w-100">Pause for 30 Days</button>
                 </div>
-                <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
+                <div class="col-12 col-sm-6 col-md-5 d-flex justify-content-center">
                     <button data-days="60" class="pause-btn app-primary-btn rounded w-100">Pause for 60 Days</button>
                 </div>
-                <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
+                <div class="col-12 col-sm-6 col-md-5 d-flex justify-content-center">
                     <button data-days="90" class="pause-btn app-primary-btn rounded w-100">Pause for 90 Days</button>
                 </div>
                 ${cancelButton}
