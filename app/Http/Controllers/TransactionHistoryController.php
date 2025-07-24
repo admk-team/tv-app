@@ -15,7 +15,7 @@ class TransactionHistoryController extends Controller
             return redirect()->route('auth.resetPassword');
         }
         $response = Http::timeout(300)->withHeaders(Api::headers([
-            'husercode' => session('USER_DETAILS')['USER_CODE']
+            'husercode' => session('USER_DETAILS')['USER_CODE'] ?? null,
         ]))
             ->asForm()
             ->get(Api::endpoint('/getsubscriptionhistory'));
