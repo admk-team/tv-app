@@ -77,7 +77,7 @@ $(document).ready(function () {
                     <hr style="margin: 15px 0;">
                     <p><strong style="color:#00b894;">Plan:</strong> ${cancelInfo.planName}</p>
                     <p><strong style="color:#00b894;">Discount:</strong> ${cancelInfo.discount || 0}% OFF</p>
-                    <p><strong style="color:#00b894;">Valid For:</strong> ${cancelInfo.discountDuration || 0} month(s)</p>
+                    <p><strong style="color:#00b894;">Valid For:</strong> ${cancelInfo.discountDuration || 0} ${ cancelInfo.planPeriod }</p>
                     <hr style="margin: 15px 0;">
                     <p style="margin-top: 15px; font-weight: bold; color: #0984e3;">
                         You’re more than just a user — you’re a part of our story.
