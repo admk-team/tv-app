@@ -223,6 +223,8 @@ Route::get('/bundle/success', [BundleContentController::class, 'success'])->name
 Route::get('live-tv-guide/channel/stream/{channelCode}', [TvGuidePlayerController::class, 'getChannelStreams'])->name('channel.streams');
 Route::get('tv-guide-group/{tvGuidePlaylist}', [TvGuidePlayerController::class, 'watchTvGuideStreams']);
 
+Route::get('email-ad-info/{id}', [PlayerScreenController::class, 'emailAdInfo']);
+
 Route::get('{slug?}', [HomeController::class, 'index'])->name('home');
 
 Route::get('check/remind/me', [NotifyComingSoonStreamController::class, 'checkRemindStatus'])->name('check.remind.me');

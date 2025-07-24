@@ -319,4 +319,19 @@ class PlayerScreenController extends Controller
             ], 200);
         }
     }
+
+    public function emailAdInfo(Request $request, $id)
+    {
+        $email = session()->get('USER_DETAILS.USER_EMAIL') ?? $request->email ?? null;
+
+        if ($email) {
+            $response = Http::withHeaders(Api::headers())
+                ->post(Api::endpoint("/email-ad-info/{$id}"), [
+                    'app_code' => env('APP_CODE'),
+                    'email' => $email,
+                ]);
+        }
+
+        return view('playerscreen.email-ad-info', compact('email'));
+    }
 }
