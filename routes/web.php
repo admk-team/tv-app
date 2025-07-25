@@ -102,6 +102,8 @@ Route::get('login/google/callback', [RegisterController::class, 'redirectBack'])
 Route::get('login/facebook/callback', [RegisterController::class, 'redirectfaceook']);
 Route::get('login/linkedin/callback', [RegisterController::class, 'redirectLinkedin']);
 
+Route::post('store/registertion/form/{id}',[RegisterController::class,'storeRegistertaionForm'])->name('store.registertion.form');
+
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::get('logout', [LogoutController::class, 'index'])->name('logout');

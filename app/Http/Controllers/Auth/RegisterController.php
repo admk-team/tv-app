@@ -102,6 +102,11 @@ class RegisterController extends Controller
             'msgTrue' => 1,
         ]);
 
+        if ($responseJson['app']['form'] && $responseJson['app']['form']['status'] == 1) {
+            $fields = $responseJson['app']['form'];
+            return view('auth.registertion_form', ['form' => $fields]);
+        }
+
         $profile = \App\Services\AppConfig::get()->app->app_info->profile_manage;
 
         if (session()->has('REDIRECT_TO_SCREEN')) {
@@ -131,7 +136,46 @@ class RegisterController extends Controller
         }
     }
 
-    public function socialLogin(){
+    public function storeRegistertaionForm($id, Request $request)
+    {
+        $response = Http::withHeaders(Api::headers())
+            ->asForm()
+            ->post(Api::endpoint("/storeRegistretionForm/{$id}/formData"), $request->all());
+
+        $res = $response->json();
+
+        if (session()->has('REDIRECT_TO_SCREEN')) {
+            $redirectUrl = session('REDIRECT_TO_SCREEN');
+            session()->forget('REDIRECT_TO_SCREEN');
+            return redirect($redirectUrl);
+        }
+
+        if (GeneralHelper::subscriptionIsRequired()) {
+            return redirect()->route('subscription');
+        }
+
+        $profile = \App\Services\AppConfig::get()->app->app_info->profile_manage;
+
+        if ($profile == 1) {
+            $userId = session('USER_DETAILS.USER_ID');
+            $xyz = base64_encode(request()->ip());
+
+            $responseprofile = Http::withHeaders(Api::headers())
+                ->asForm()
+                ->get(Api::endpoint("/userprofiles?id={$userId}&user_data={$xyz}&user_device="));
+
+            $user_data = $responseprofile->json();
+
+            return view('profile.index', compact('user_data'));
+        }
+
+        return redirect('/');
+    }
+
+
+
+    public function socialLogin()
+    {
         return Socialite::driver('google')->with(['prompt' => 'select_account'])->redirect();
     }
     public function socialfacebook(){
