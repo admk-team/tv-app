@@ -44,10 +44,7 @@
                                             continue;
                                         }
 
-                                        $strBrige = '';
-                                        if ($arrStreamsData['monetization_type'] == 'F') {
-                                            $strBrige = "style='display: none;'";
-                                        }
+                                       
 
                                         if (
                                             (isset(
@@ -66,9 +63,9 @@
                                         <a
                                             href="{{ url('/') }}/{{ $screen }}/{{ $arrStreamsData['stream_guid'] }}">
                                             <div class="thumbnail_img LA_5">
-                                                <div class="trending_icon_box" {!! $strBrige !!}><img
+                                                {{--  <div class="trending_icon_box" {!! $strBrige !!}><img
                                                         src="{{ url('/') }}/assets/images/trending_icon.png"
-                                                        alt="{{ $arrStreamsData['stream_title'] }}"></div>
+                                                        alt="{{ $arrStreamsData['stream_title'] }}"></div>  --}}
                                                 @if (($arrStreamsData['is_newly_added'] ?? 'N') === 'Y')
                                                     <div class="newly-added-label">
                                                         <span>New Episode</span>
