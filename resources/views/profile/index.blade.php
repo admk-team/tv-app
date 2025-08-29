@@ -80,6 +80,11 @@
     <!-- INTERNAL QUILL JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         // Function to populate the content rating dropdown
 
         var totalProfiles = 0;
@@ -93,23 +98,18 @@
             let usersProfiles = [];
 
             // Fetch user profiles from API
+            // Fetch profiles
             $.ajax({
                 type: "GET",
-                url: '{{ env('API_BASE_URL') }}' + '/userprofiles?id=' +
-                    '{{ session('USER_DETAILS')['USER_ID'] }}',
+                url: "{{ route('user.profiles') }}",
                 dataType: 'json',
             }).done(function(data) {
-                var dataArray = data;
-                usersProfiles = dataArray.user_profiles;
-
-                // Call the function to populate the dropdown
-                // populateContentRatingDropdown(dataArray.all_ratings);
-
+                usersProfiles = data.user_profiles;
                 if (usersProfiles.length >= 6) {
                     $('.addIcon').hide();
                 }
                 userIcons(usersProfiles);
-                users = usersProfiles.map(user => user.name); // Populate users array with names
+                users = usersProfiles.map(user => user.name);
             });
 
 
@@ -161,10 +161,10 @@
                         content_rating: content_rating, // Include content rating in the post request
                     }
 
-                    // Your existing AJAX call remains unchanged
+                    // Store profile
                     $.ajax({
                         type: "POST",
-                        url: '{{ env('API_BASE_URL') }}' + '/userprofiles',
+                        url: "{{ route('user.profiles.store') }}",
                         dataType: 'json',
                         data: queryStringPOST,
                     }).done(function(data) {
@@ -179,20 +179,14 @@
                                     <i class="bi bi-dash-circle account-delete-icon" onclick="deleteProfile(${currentProfile.id})"></i>
                                 </button>
                             `);
-                            totalProfiles = $(".btn").length;
 
+                            totalProfiles = $(".btn").length;
                             if (totalProfiles >= 6) {
                                 $('.addIcon').hide();
                             } else {
                                 $('.addIcon').show();
                             }
-
-                            // Hide the modal after successful addition
                             $('#addIconModal').modal('hide');
-                            // Clear the name field for the next entry
-                            // $('#userNameModal').val('');
-                            // $("#content_rating").val("").trigger("change");
-
                         }
                     });
                 } else {
@@ -228,28 +222,24 @@
             }
         });
 
+        // Delete profile
         function deleteProfile(id) {
             $.ajax({
-                    type: 'GET',
-                    url: `{{ env('API_BASE_URL') }}/userprofiles/delete/${id}`,
-                    dataType: 'json',
-                })
-                .done(function(data) {
-                    if (data.success) {
-                        var deletedProfile = $(`[data-id=${id}]`);
-                        if (deletedProfile.length)
-                            deletedProfile.remove();
+                type: "DELETE",
+                url: `/user-profiles/${id}`,
+                dataType: 'json',
+            }).done(function(data) {
+                if (data.success) {
+                    var deletedProfile = $(`[data-id=${id}]`);
+                    if (deletedProfile.length) deletedProfile.remove();
 
-                        totalProfiles = $(".btn").length;
-                        if (totalProfiles < 6) {
-                            $('.addIcon').show();
-                        }
-                    }
-                })
-                .fail(function(error) {
-                    alert(error.responseJSON.message);
-                    console.error('Error deleting profile:', error.responseJSON.message);
-                });
+                    totalProfiles = $(".btn").length;
+                    if (totalProfiles < 6) $('.addIcon').show();
+                }
+            }).fail(function(error) {
+                alert(error.responseJSON.message);
+                console.error('Error deleting profile:', error.responseJSON.message);
+            });
         }
     </script>
 @endpush
