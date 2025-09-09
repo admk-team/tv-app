@@ -1832,6 +1832,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 @endif
 
                 showWatermark();
+                showOverlayAd();
                 showGlobalRating();
 
                 @if (!empty($arrSlctItemData['buynow']))
@@ -2006,13 +2007,15 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
         }
 
         function showOverlayAd() {
-            if (!$('.overlay-ad').hasClass('closed')) {
+            if (!$('.overlay-ad').hasClass('closed') && window.adplay == false) {
                 $('.overlay-ad').removeClass('d-none');
+                console.log('[DEBUG] showOverlayAd: adplay=', window.adplay);
             }
         }
 
         function hideOverlayAd() {
             $('.overlay-ad').addClass('d-none');
+            console.log('[DEBUG] hideOverlayAd: adplay=', window.adplay);
         }
 
         function closeOverlayAd() {
