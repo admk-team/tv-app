@@ -19,7 +19,7 @@
                 <h1>Manage Profiles</h1>
             </div>
             <div class="d-flex flex-column" style="margin-top:50px; margin-left: 200px; margin-bottom:200px">
-                @foreach (($user_data['user_profiles'] ?? []) as $user)
+                @foreach ($user_data['user_profiles'] ?? [] as $user)
                     <div class="row" style="margin: 20px;">
                         <div>
                             <h4>Profile Name: </h4>
@@ -32,15 +32,20 @@
                                 @csrf
                                 <select name="content_rating[]" class="form-control app_code_select"
                                     id="{{ $user['id'] }}_content_rating" multiple="multiple" style="width:465px">
-                                    @foreach (($user_data['all_ratings'] ?? []) as $rating)
+                                    @foreach ($user_data['all_ratings'] ?? [] as $rating)
                                         @php
-                                            $selected = collect(old('content_rating'))->contains($rating['title']) || (isset($rating['code']) && in_array($rating['code'], explode(',', $user['content_rating']))) ? 'selected' : '';
+                                            $selected =
+                                                collect(old('content_rating'))->contains($rating['title']) ||
+                                                (isset($rating['code']) &&
+                                                    in_array($rating['code'], explode(',', $user['content_rating'])))
+                                                    ? 'selected'
+                                                    : '';
                                         @endphp
-                                        @if($rating['title'])
-                                        <option value="{{ $rating['code'] }}" {{ $selected }}
-                                            style="color:black !important">
-                                            {{ $rating['title'] }}
-                                        </option>
+                                        @if ($rating['title'])
+                                            <option value="{{ $rating['code'] }}" {{ $selected }}
+                                                style="color:black !important">
+                                                {{ $rating['title'] }}
+                                            </option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -63,16 +68,16 @@
         $('.submit').on('click', function(event) {
             event.preventDefault();
             let content_rating = $('#' + this.id + '_content_rating').val();
-            var action_url = '';
-            // var formdata = new FormData(this);
-            action_url = '{{ env('API_BASE_URL') }}' + '/manageprofiles/' + this.id;
+            var action_url = '/manage-profiles/' + this.id; // Laravel route
+
             let formData = new FormData();
             formData.append('content_rating', content_rating);
+
             $.ajax({
                 url: action_url,
                 method: "POST",
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // ✅ fix meta name
                 },
                 data: formData,
                 cache: false,
@@ -80,15 +85,13 @@
                 processData: false,
                 dataType: "json",
                 success: function(data) {
-
                     var html = '';
                     if (data.message) {
-                        html = '<div class="alert alert-success">' + data.message +
-                            '</div>';
+                        html = '<div class="alert alert-success">' + data.message + '</div>';
                         $('#sample_form')[0].reset();
                         window.LaravelDataTables["tvactor-table"].ajax.reload();
                         setTimeout(function() {
-                            $('#formModal').modal('hide'); // Hide the modal
+                            $('#formModal').modal('hide');
                         }, 1000);
                     }
                     $('#form_result').html(html);
@@ -97,15 +100,10 @@
                     if (data.responseJSON.message) {
                         html = '<div class="alert alert-danger">';
                         html += '<span>' + data.responseJSON.message + '</span>'
-                        // for (var count = 0; count < data.errors.length; count++) {
-                        //     html += '<p>' + data.errors[count] + '</p>';
-                        // }
                         html += '</div>';
                         $('#form_result').html(html);
                     }
-
                 }
-
             });
         });
     </script>

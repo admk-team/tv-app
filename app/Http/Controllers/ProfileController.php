@@ -126,4 +126,51 @@ class ProfileController extends Controller
             return response()->json($response->json());
         }
     }
+
+    public function getProfiles(Request $request)
+    {
+        $response = Http::timeout(30)->withHeaders(Api::headers([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ]))
+            ->get(Api::endpoint('/userprofiles'), [
+                'id' => session('USER_DETAILS.USER_ID'),
+            ]);
+
+        return $response->json();
+    }
+
+    public function storeProfile(Request $request)
+    {
+        $response = Http::timeout(30)->withHeaders(Api::headers([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ]))
+            ->post(Api::endpoint('/userprofiles'), $request->all());
+
+        return $response->json();
+    }
+
+    public function deleteProfile($id)
+    {
+        $response = Http::timeout(30)->withHeaders(Api::headers([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ]))
+            ->get(Api::endpoint('/userprofiles/delete/' . $id));
+
+        return $response->json();
+    }
+    public function manageProfile(Request $request, $id)
+    {
+        $response = Http::timeout(30)->withHeaders(Api::headers([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ]))
+            ->post(Api::endpoint("/manageprofiles/" . $id), [
+                'content_rating' => $request->content_rating,
+            ]);
+
+        return $response->json();
+    }
 }

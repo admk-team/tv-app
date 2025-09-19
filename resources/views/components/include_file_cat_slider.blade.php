@@ -137,8 +137,8 @@
                         @if (($category->is_top10 ?? null) === 'Y')
                             <a href="{{ $url }}">
                                 <div class="d-flex cursor-pointer position-relative">
-                                    <a class="{{ $top10class }}" href="{{ $url }}"></a>
-                                    <a class="top-10-slider-number">{{ $loop->iteration }}</a>
+                                    {{--  <a class="{{ $top10class }}" href="{{ $url }}"></a>  --}}
+                                    <d class="top-10-slider-number">{{ $loop->iteration }}</d>
                                     <div class="{{ $cardThumbCls2 }}">
                                         @if (!in_array($category->card_type, ['BA', 'LB']))
                                             @if (isset($stream->notify_label) &&

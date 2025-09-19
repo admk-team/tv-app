@@ -102,7 +102,7 @@ Route::get('login/google/callback', [RegisterController::class, 'redirectBack'])
 Route::get('login/facebook/callback', [RegisterController::class, 'redirectfaceook']);
 Route::get('login/linkedin/callback', [RegisterController::class, 'redirectLinkedin']);
 
-Route::post('store/registertion/form/{id}',[RegisterController::class,'storeRegistertaionForm'])->name('store.registertion.form');
+Route::post('store/registertion/form/{id}', [RegisterController::class, 'storeRegistertaionForm'])->name('store.registertion.form');
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('login');
@@ -165,8 +165,15 @@ Route::middleware('auth.user')->group(function () {
     Route::get('/advertiser/overlay_ad/report/{id}', [AdvertiserController::class, 'overlayAdReport'])->name('advertiser.overlay_ad.report');
     Route::get('/advertiser/video_ad', [AdvertiserController::class, 'videoAd'])->name('advertiser.video_ad');
     Route::get('/advertiser/video_ad/report/{id}', [AdvertiserController::class, 'videoAdReport'])->name('advertiser.video_ad.report');
-     Route::get('/advertiser/cta', [AdvertiserController::class, 'ctaAd'])->name('advertiser.cta');
+    Route::get('/advertiser/cta', [AdvertiserController::class, 'ctaAd'])->name('advertiser.cta');
     Route::get('/advertiser/cta/report/{id}', [AdvertiserController::class, 'ctaAdReport'])->name('advertiser.cta.report');
+
+    // User Profiles Routes
+    Route::get('/user-profiles', [ProfileController::class, 'getProfiles'])->name('user.profiles');
+    Route::post('/user-profiles', [ProfileController::class, 'storeProfile'])->name('user.profiles.store');
+    Route::delete('/user-profiles/{id}', [ProfileController::class, 'deleteProfile'])->name('user.profiles.delete');
+    Route::post('/manage-profiles/{id}', [ProfileController::class, 'manageProfile'])->name('user.profiles.manage');
+
 });
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');
