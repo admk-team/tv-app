@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 @if (env('APP_CODE') == '382f94988e01455c7262c1480ae530a6')
     <!-- OliveBranch -->
     @include('components.layouts.app-head.olive_app_head')
@@ -10,6 +10,9 @@
 @elseif (env('APP_CODE') == '4lIxYy5Ac430Pfy0O0YrEzjlDpyvuPl6')
     <!-- Solace -->
     @include('components.layouts.app-head.solace_app_head')
+@elseif (env('APP_CODE') == 'C4krQWIxq5Kz53l8GR62MbGJMGxJQlpA')
+    <!-- Rediscover -->
+    @include('layouts.app-head.rediscover_app_head')
 @else
     <!-- other app -->
     @include('components.layouts.app-head.common_app_head')
