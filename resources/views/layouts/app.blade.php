@@ -17,10 +17,9 @@
     <!-- other app -->
     @include('layouts.app-head.common_app_head')
 @endif
-@if (isset(\App\Services\AppConfig::get()->app->app_info->is_gtm_enabled) &&
-        \App\Services\AppConfig::get()->app->app_info->is_gtm_enabled == 1)
+{{-- @if (isset(\App\Services\AppConfig::get()->app->app_info->is_gtm_enabled) && \App\Services\AppConfig::get()->app->app_info->is_gtm_enabled == 1)
     @include('gtm_tags.body')
-@endif
+@endif --}}
 @include('layouts.partials.header')
 
 
