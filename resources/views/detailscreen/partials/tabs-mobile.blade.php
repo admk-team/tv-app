@@ -38,16 +38,33 @@
                         $stream_details['monetization_type'] == 'O'))
                 <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
                     class="mobile-primary-btn rounded">
-                    <i class="fa fa-dollar"></i>
-                    Buy Now
+                    @if ($stream_details['amount'])
+                        Buy Now <i class="fa fa-dollar"></i>{{ $stream_details['amount'] }}
+                    @else
+                        <i class="fa fa-dollar"></i> Buy Now
+                    @endif
                 </a>
-            @else
-                <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
-                    class="mobile-primary-btn rounded">
-                    <i class="fa fa-play"></i>
-                    Play Now
-                </a>
+                @if (isset($stream_details['rental_status']) && $stream_details['rental_status'] == 1)
+    </div>
+    <div class="me-4">
+        <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="mobile-primary-btn rounded">
+            Rent Now
+            @if ($stream_details['amount'])
+                <span class="old-price">
+                    <i class="fa fa-dollar"></i>{{ $stream_details['amount'] }}
+                </span>
             @endif
+            <span class="new-price">
+                <i class="fa fa-dollar"></i>{{ $stream_details['rent_amount'] }}
+            </span>
+        </a>
+        @endif
+    @else
+        <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}" class="mobile-primary-btn rounded">
+            <i class="fa fa-play"></i>
+            Play Now
+        </a>
+        @endif
         @endif
     </div>
     @if ($streamUrl !== '')
@@ -151,6 +168,15 @@ if (session('USER_DETAILS.USER_CODE')) {
         </div>
     @endif
 </div>
+@if (session('USER_DETAILS') &&
+        session('USER_DETAILS')['USER_CODE'] &&
+        $stream_details['monetization_type'] != 'F' &&
+        $stream_details['is_buyed'] == 'N' &&
+        isset($stream_details['rent_note']) &&
+        $stream_details['rent_note']
+)
+    <div class="rental-about-movie ms-2 themePrimaryTxtColr">🛍️ {{ $stream_details['rent_note'] }}</div>
+@endif
 <div class="my-tabs">
     <div class="sec-device content-wrapper px-3 px-md-3">
         <div class="tab-btns d-flex gap-3 gap-sm-3 gap-md-4 gap-lg-5">
@@ -171,8 +197,7 @@ if (session('USER_DETAILS.USER_CODE')) {
                 <div class="tab " data-tab="like"><span>{{ $latest_items['title'] }}</span></div>
             @endif
             <!--End of season section-->
-            @if (
-                (isset($stream_details['video_rating']) && $stream_details['video_rating'] == 1))
+            @if (isset($stream_details['video_rating']) && $stream_details['video_rating'] == 1)
                 <div class="tab" data-tab="reviews"><span>Reviews</span></div>
             @endif
         </div>
@@ -225,7 +250,7 @@ if (session('USER_DETAILS.USER_CODE')) {
                     @if ($ratingsCount > 0)
                         @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
                                 $stream_details['rating_type'] === 'stars' &&
-                               $stream_details['video_rating'] == 1)
+                                $stream_details['video_rating'] == 1)
                             <span class="content_screen themePrimaryTxtColr">
                                 <div class="star active" style="display: inline-flex;">
                                     <svg fill="#ffffff" width="10px" height="10px" viewBox="0 0 32 32"
@@ -245,7 +270,7 @@ if (session('USER_DETAILS.USER_CODE')) {
                             </span>
                         @elseif(isset($stream_details['rating_type'], $stream_details['video_rating']) &&
                                 $stream_details['rating_type'] === 'hearts' &&
-                               $stream_details['video_rating'] == 1)
+                                $stream_details['video_rating'] == 1)
                             <span class="content_screen themePrimaryTxtColr">
                                 <div class="star active" style="display: inline-flex;">
                                     <svg fill="#ffffff" width="10px" height="10px" viewBox="0 0 32 32"
@@ -450,13 +475,13 @@ if (session('USER_DETAILS.USER_CODE')) {
                 </dl>
             </div>
         </div>
-          <div data-tab-content="like" class="content d-none">
-            <div class="like-tab-slider-mobile-container" data-stream-guid="{{ $stream_details['stream_guid'] ?? '' }}">
+        <div data-tab-content="like" class="content d-none">
+            <div class="like-tab-slider-mobile-container"
+                data-stream-guid="{{ $stream_details['stream_guid'] ?? '' }}">
                 @include('detailscreen.partials.skeleton-slider')
             </div>
         </div>
-        @if (
-            (isset($stream_details['video_rating']) && $stream_details['video_rating'] == 1))
+        @if (isset($stream_details['video_rating']) && $stream_details['video_rating'] == 1)
             <div data-tab-content="reviews" class="content d-none"><!--Start of Ratings section-->
                 <div class="item-ratings">
                     <h1 class="section-title" style="display: flex; align-items: center; gap: 10px;">
@@ -481,8 +506,6 @@ if (session('USER_DETAILS.USER_CODE')) {
                             is_array($stream_details['ratings'])
                                 ? $stream_details['ratings']
                                 : [];
-
-                       
 
                         $userDidComment = false;
                         foreach ($ratings as $rating) {

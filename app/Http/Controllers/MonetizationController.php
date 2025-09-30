@@ -117,7 +117,7 @@ class MonetizationController extends Controller
                 $userDetails = session()->get('USER_DETAILS'); // Retrieve session data properly
                 $userDetails['GROUP_USER'] = $responseJson['app']['group_user']; // Update the value
                 session()->put('USER_DETAILS', $userDetails); // Store it back in session
-            }   
+            }
             return view('monetization.success', compact('transactionId', 'responseJson'));
         }
     }
@@ -163,5 +163,27 @@ class MonetizationController extends Controller
         session()->flash('coupon_applied_success', 'Coupon successfully applied!');
         session()->put('coupon_applied', true);
         return back();
+    }
+
+    public function processRent(Request $request)
+    {
+        $suffix = '';
+        if ((int) $request->planFaq > 1) {
+            $suffix = 's';
+        }
+
+        $sArr = [
+            'MONETIZATION_GUID' => $request->stream_guid,
+            'MONETIZATION_TYPE' => $request->monetization_type,
+            'SUBS_TYPE' => $request->monetization_type,
+            'PAYMENT_INFORMATION' => $request->stream_title,
+            'STREAM_DESC' => $request->stream_description,
+            'PLAN' => $request->planFaq . ' ' . $request->plan_period . $suffix,
+            'AMOUNT' => $request->amount,
+            'POSTER' => $request->stream_poster,
+        ];
+
+        session(['MONETIZATION' => $sArr]);
+        return redirect()->route('monetization');
     }
 }

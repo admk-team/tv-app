@@ -125,6 +125,9 @@ Route::middleware('auth.user')->group(function () {
     Route::match(['get', 'post'], 'monetization/success', [MonetizationController::class, 'success'])->name('monetization.success');
     Route::get('monetization/cancel', [MonetizationController::class, 'cancel'])->name('monetization.cancel');
     Route::post('tipjar', [MonetizationController::class, 'tipjar'])->name('tipjar.view');
+    //rent process
+    Route::post('/rent-process', [MonetizationController::class, 'processRent'])->name('rent.process');
+
     Route::post('/stripe/checkout', [StripeController::class, 'checkout'])->name('stripe.checkout');
     Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
     Route::get('password/edit', [PasswordUpdateController::class, 'index'])->name('password.edit');
@@ -173,7 +176,6 @@ Route::middleware('auth.user')->group(function () {
     Route::post('/user-profiles', [ProfileController::class, 'storeProfile'])->name('user.profiles.store');
     Route::delete('/user-profiles/{id}', [ProfileController::class, 'deleteProfile'])->name('user.profiles.delete');
     Route::post('/manage-profiles/{id}', [ProfileController::class, 'manageProfile'])->name('user.profiles.manage');
-
 });
 
 Route::get('get-ad', [AdController::class, 'index'])->name('get-ad');
@@ -186,7 +188,7 @@ Route::get('cancelsubscription/{subid}', [StripeController::class, 'cancelsub'])
 Route::post('offer/disscount', [StripeController::class, 'offerDiscountBeforeCancel']);
 Route::post('/pause-subscription', [StripeController::class, 'pauseSubscription']);
 Route::get('playerscreen/{id}', [PlayerScreenController::class, 'index'])->name('playerscreen'); // Main Player Screen
-Route::post('apply-coupon/', [PlayerScreenController::class, 'ApplyCoupon'])->name('coupon.apply'); // Apply For Coupon
+Route::post('gamification-coupon/', [PlayerScreenController::class, 'ApplyCoupon'])->name('coupon.apply'); // Apply For Coupon
 Route::get('playerscreen/private/{id}', [PlayerScreenController::class, 'private'])->name('playerscreen.private'); // Player Screen for private videos
 Route::post('playerscreen-checkpassword', [PlayerScreenController::class, 'checkPassword'])->name('playerscreen.checkpassword');
 Route::post('playerscreen-checkscreenerpassword', [PlayerScreenController::class, 'checkScreenerPassword'])->name('playerscreen.checkscreenerpassword');

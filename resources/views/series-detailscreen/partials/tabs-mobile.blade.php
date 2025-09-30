@@ -38,16 +38,33 @@
                         $series_details['monetization_type'] == 'O'))
                 <a href="{{ route('playerscreen', $series_details['stream_guid']) }}"
                     class="mobile-primary-btn rounded">
-                    <i class="fa fa-dollar"></i>
-                    Buy Now
+                    @if ($series_details['monetization_type'] != 'S' && $series_details['amount'])
+                        Buy Now <i class="fa fa-dollar"></i>{{ $series_details['amount'] }}
+                    @else
+                        <i class="fa fa-dollar"></i> Buy Now
+                    @endif
                 </a>
-            @else
-                <a href="{{ route('playerscreen', $series_details['episode_code']) }}"
-                    class="mobile-primary-btn rounded">
-                    <i class="fa fa-play"></i>
-                    Play Now
-                </a>
+                @if (isset($series_details['rental_status']) && $series_details['rental_status'] == 1)
+    </div>
+    <div class="me-4">
+        <a href="{{ route('playerscreen', $series_details['stream_guid']) }}" class="mobile-primary-btn rounded">
+            Rent Now
+            @if ($series_details['amount'])
+                <span class="old-price">
+                    <i class="fa fa-dollar"></i>{{ $series_details['amount'] }}
+                </span>
             @endif
+            <span class="new-price">
+                <i class="fa fa-dollar"></i>{{ $series_details['rent_amount'] }}
+            </span>
+        </a>
+        @endif
+    @else
+        <a href="{{ route('playerscreen', $series_details['episode_code']) }}" class="mobile-primary-btn rounded">
+            <i class="fa fa-play"></i>
+            Play Now
+        </a>
+        @endif
         @endif
     </div>
 
@@ -76,6 +93,15 @@
         </div>
     @endif
 </div>
+@if (session('USER_DETAILS') &&
+        session('USER_DETAILS')['USER_CODE'] &&
+        $series_details['monetization_type'] != 'F' &&
+        $series_details['is_buyed'] == 'N' &&
+        isset($series_details['rent_note']) &&
+        $series_details['rent_note']
+)
+    <div class="rental-about-movie ms-2 themePrimaryTxtColr">🛍️ {{ $series_details['rent_note'] }}</div>
+@endif
 <div class="my-tabs">
     <div class="sec-device content-wrapper px-3 px-md-3">
         <div class="tab-btns d-flex gap-3 gap-sm-3 gap-md-4 gap-lg-5">
@@ -83,8 +109,7 @@
             <!-- Start of season section -->
             <div class="tab" data-tab="like"><span>Seasons</span></div>
             <!--End of season section-->
-            @if (
-                (isset($series_details['video_rating']) && $series_details['video_rating'] == 1))
+            @if (isset($series_details['video_rating']) && $series_details['video_rating'] == 1)
                 <div class="tab" data-tab="reviews"><span>Reviews</span></div>
             @endif
         </div>
@@ -101,7 +126,8 @@
                             alt="{{ $series_details['stream_title'] ?? 'Logo' }}">
                     </div>
                 @else
-                    <h1 class="content-heading themePrimaryTxtColr" title="{{ $series_details['stream_title'] ?? '' }}">
+                    <h1 class="content-heading themePrimaryTxtColr"
+                        title="{{ $series_details['stream_title'] ?? '' }}">
                         {{ $series_details['stream_title'] ?? '' }}
                     </h1>
                 @endif
@@ -152,8 +178,8 @@
                                 $series_details['video_rating'] == 1)
                             <span class="content_screen themePrimaryTxtColr">
                                 <div class="star active" style="display: inline-flex;">
-                                    <svg fill="#ffffff" width="10px" height="10px" viewBox="0 0 32 32" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" stroke="#545454">
+                                    <svg fill="#ffffff" width="10px" height="10px" viewBox="0 0 32 32"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#545454">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
                                         </g>
@@ -189,7 +215,6 @@
                                 </div>
                                 {{ $ratingsCount ?? 0 }}
                             </span>
-                       
                         @else
                             {{-- Thumbs  --}}
                             <span class="content_screen themePrimaryTxtColr">
@@ -373,8 +398,7 @@
                 </div>
             </section>
         </div>
-        @if (
-            (isset($series_details['video_rating']) && $series_details['video_rating'] == 1))
+        @if (isset($series_details['video_rating']) && $series_details['video_rating'] == 1)
             <div data-tab-content="reviews" class="content d-none"><!--Start of Ratings section-->
                 <div class="item-ratings">
                     <h1 class="section-title" style="display: flex; align-items: center; gap: 10px;">

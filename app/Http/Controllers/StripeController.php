@@ -134,7 +134,7 @@ class StripeController extends Controller
             $session_id = $request->checkout_session_id;
 
             // Set API key
-            if (env('STRIPE_TEST') === 'true') {
+            if (env('STRIPE_TEST') == 'true') {
                 \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
             } else {
                 \Stripe\Stripe::setApiKey(\App\Services\AppConfig::get()->app->colors_assets_for_branding->stripe_secret_key);
@@ -223,12 +223,15 @@ class StripeController extends Controller
                             'gift_recipient_email' => session('MONETIZATION')['RECIPIENT_EMAIL'] ?? null,
                             'tip' => session('MONETIZATION')['TIP'] ?? null,
                         ];
+                        $endpoint = session('MONETIZATION')['SUBS_TYPE'] == 'RP'
+                            ? '/sendrentalpayment'
+                            : '/sendpaymentdetails';
                         // $arrRes = GeneralHelper::sendCURLRequest(0, Api::endpoint('/sendpaymentdetails'), $arrFormData);
                         $response = Http::timeout(300)->withHeaders(Api::headers([
                             'husercode' => session('USER_DETAILS')['USER_CODE']
                         ]))
                             ->asForm()
-                            ->post(Api::endpoint('/sendpaymentdetails'), $arrFormData);
+                            ->post(Api::endpoint($endpoint), $arrFormData);
                         $arrRes = $response->json();
                         if ($arrRes && session()->has('USER_DETAILS') && isset($arrRes['app']['group_user']) && !empty($arrRes['app']['group_user'])) {
                             $userDetails = session()->get('USER_DETAILS'); // Retrieve session data properly
@@ -313,7 +316,6 @@ class StripeController extends Controller
         try {
             // Call the service;
             $actualSubscriptionId = $this->subscriptionEvent->pauseSubscription($inputStripeId, $days);
-
         } catch (\Exception $e) {
             Log::error("Error from PauseSubscription service: " . $e->getMessage());
             return response()->json(['message' => $e->getMessage()], 500);

@@ -183,7 +183,8 @@
                 </div>
                 <div class="responsive_video1">
                     @if ($streamUrl == '')
-                        <img class="slide-img" src="{{ $stream_details['stream_poster'] }}" alt="{{ $stream_details['stream_title'] }}"
+                        <img class="slide-img" src="{{ $stream_details['stream_poster'] }}"
+                            alt="{{ $stream_details['stream_title'] }}"
                             onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'">
                     @else
                         <!-- Video Player -->
@@ -473,7 +474,7 @@
                         </dl>
                     </dl>
 
-                    <div class="button_groupbox d-flex align-items-center mb-4">
+                    <div class="button_groupbox d-flex align-items-center mb-1">
 
                         <div class="btn_box movieDetailPlay">
                             @if (isset($stream_details['notify_label']) && $stream_details['notify_label'] == 'available now')
@@ -509,16 +510,50 @@
                                         $stream_details['is_buyed'] == 'N')
                                     <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
                                         class="app-primary-btn rounded">
-                                        <i class="fa fa-dollar"></i>
-                                        Buy Now
+                                        @if ($stream_details['amount'])
+                                            Buy Now <i class="fa fa-dollar"></i>{{ $stream_details['amount'] }}
+                                        @else
+                                            <i class="fa fa-dollar"></i> Buy Now
+                                        @endif
+
                                     </a>
-                                @else
-                                    <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
-                                        class="app-primary-btn rounded">
-                                        <i class="fa fa-play"></i>
-                                        Play Now
-                                    </a>
-                                @endif
+
+                                    @if (isset($stream_details['rental_status']) && $stream_details['rental_status'] == 1)
+                        </div>
+                        <div class="me-4">
+                            <form action="{{ route('rent.process') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="stream_guid" value="{{ $stream_details['stream_guid'] }}">
+                                <input type="hidden" name="monetization_type" value="RP">
+                                <input type="hidden" name="stream_title" value="{{ $stream_details['stream_title'] }}">
+                                <input type="hidden" name="stream_description"
+                                    value="{{ $stream_details['stream_description'] }}">
+                                <input type="hidden" name="planFaq" value="{{ $stream_details['rent_frequency'] }}">
+                                <input type="hidden" name="plan_period" value="{{ $stream_details['rent_period'] }}">
+                                <input type="hidden" name="amount" value="{{ $stream_details['rent_amount'] }}">
+                                <input type="hidden" name="stream_poster"
+                                    value="{{ $stream_details['stream_poster'] }}">
+
+                                <button type="submit" class="app-primary-btn rounded">
+                                    Rent Now
+                                    @if ($stream_details['amount'])
+                                        <span class="old-price">
+                                            <i class="fa fa-dollar"></i>{{ $stream_details['amount'] }}
+                                        </span>
+                                    @endif
+                                    <span class="new-price">
+                                        <i class="fa fa-dollar"></i>{{ $stream_details['rent_amount'] }}
+                                    </span>
+                                </button>
+                            </form>
+                            @endif
+                        @else
+                            <a href="{{ route('playerscreen', $stream_details['stream_guid']) }}"
+                                class="app-primary-btn rounded">
+                                <i class="fa fa-play"></i>
+                                Play Now
+                            </a>
+                            @endif
                             @endif
 
                         </div>
@@ -624,6 +659,15 @@
                         @endif
 
                     </div>
+                    @if (session('USER_DETAILS') &&
+                            session('USER_DETAILS')['USER_CODE'] &&
+                            $stream_details['monetization_type'] != 'F' &&
+                            $stream_details['is_buyed'] == 'N' &&
+                            isset($stream_details['rent_note']) &&
+                            $stream_details['rent_note']
+                    )
+                        <div class="about-movie aboutmovie_gaps">🛍️ {{ $stream_details['rent_note'] }}</div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -1269,7 +1313,7 @@
             // Initialize player
             if (!window.player) {
                 window.player = new mvp(document.getElementById('wrapper'), settings);
-                  setTimeout(unmutedVoice, 500);
+                setTimeout(unmutedVoice, 500);
             }
 
             // Trailer button logic
@@ -1282,11 +1326,12 @@
                     });
                 }
             });
-             function unmutedVoice() {
-            //alert("hi");
-            player.toggleMute();
-            player.playMedia();
-        }
+
+            function unmutedVoice() {
+                //alert("hi");
+                player.toggleMute();
+                player.playMedia();
+            }
 
         });
     </script>
@@ -1364,8 +1409,6 @@
         });
     </script>
     <script>
-      
-
         // Function to initialize Slick sliders
         function initializeSlider(container, isMobile = false) {
             const sliderElements = jQuery(container).find(
@@ -1375,7 +1418,7 @@
                     const $slider = jQuery(this);
                     const itemsPerRow = 5;
                     const autoplay = $slider.data('autoplay') === false;
-                   $slider.slick({
+                    $slider.slick({
                         dots: true,
                         infinite: true,
                         loop: true,
@@ -1453,8 +1496,7 @@
                         ]
                     });
                 });
-            } else if (!sliderElements.length) {
-            } else {
+            } else if (!sliderElements.length) {} else {
                 console.error('Slick Slider or jQuery not loaded for:', sliderElements);
             }
         }
@@ -1466,7 +1508,7 @@
 
         // Function to load related streams for both containers
         function loadRelatedStreams(desktopContainer, mobileContainer) {
-            
+
             const streamGuid = desktopContainer.dataset.streamGuid || mobileContainer.dataset.streamGuid;
             if (!streamGuid) {
                 console.error('No stream GUID found for related streams');
@@ -1478,7 +1520,7 @@
             const mobileSkeleton = mobileContainer.querySelector('.skeleton-loader');
             const contentDiv = document.getElementById('like');
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-         
+
 
             if (!csrfToken) {
                 console.error('CSRF token missing, cannot make AJAX request');
@@ -1560,8 +1602,10 @@
                 })
                 .catch(error => {
                     console.error(`Error processing streams for stream: ${streamGuid}:`, error);
-                    desktopContainer.innerHTML = '<p class="text-white no-reviews-message m-3 mt-2">Content Not Avaiable yet</p>';
-                    mobileContainer.innerHTML = '<p class="text-white no-reviews-message m-3 mt-2">Content Not Avaiable yet</p>';
+                    desktopContainer.innerHTML =
+                        '<p class="text-white no-reviews-message m-3 mt-2">Content Not Avaiable yet</p>';
+                    mobileContainer.innerHTML =
+                        '<p class="text-white no-reviews-message m-3 mt-2">Content Not Avaiable yet</p>';
                     desktopContainer.style.display = 'block';
                     mobileContainer.style.display = 'block';
                     if (contentDiv) {

@@ -407,7 +407,7 @@
                             @endif
                         </dl>
                     </dl>
-                    <div class="button_groupbox d-flex align-items-center mb-4">
+                    <div class="button_groupbox d-flex align-items-center mb-1">
 
                         <div class="btn_box movieDetailPlay">
                             @if (isset($series_details['notify_label']) && $series_details['notify_label'] == 'available now')
@@ -443,9 +443,43 @@
                                         $series_details['is_buyed'] == 'N')
                                     <a href="{{ route('playerscreen', $series_details['stream_guid']) }}"
                                         class="app-primary-btn rounded">
-                                        <i class="fa fa-dollar"></i>
-                                        Buy Now
+                                         @if ($series_details['amount'])
+                                            Buy Now <i class="fa fa-dollar"></i>{{ $series_details['amount'] }}
+                                        @else
+                                            <i class="fa fa-dollar"></i> Buy Now
+                                        @endif
+
                                     </a>
+
+                                    @if (isset($series_details['rental_status']) && $series_details['rental_status'] == 1)
+                        </div>
+                        <div class="me-4">
+                            <form action="{{ route('rent.process') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="stream_guid" value="{{ $series_details['stream_guid'] }}">
+                                <input type="hidden" name="monetization_type" value="RP">
+                                <input type="hidden" name="stream_title" value="{{ $series_details['stream_title'] }}">
+                                <input type="hidden" name="stream_description"
+                                    value="{{ $series_details['stream_description'] }}">
+                                <input type="hidden" name="planFaq" value="{{ $series_details['rent_frequency'] }}">
+                                <input type="hidden" name="plan_period" value="{{ $series_details['rent_period'] }}">
+                                <input type="hidden" name="amount" value="{{ $series_details['rent_amount'] }}">
+                                <input type="hidden" name="stream_poster"
+                                    value="{{ $series_details['stream_poster'] }}">
+
+                                <button type="submit" class="app-primary-btn rounded">
+                                    Rent Now
+                                    @if ($series_details['monetization_type'] != 'S' && $series_details['amount'])
+                                        <span class="old-price">
+                                            <i class="fa fa-dollar"></i>{{ $series_details['amount'] }}
+                                        </span>
+                                    @endif
+                                    <span class="new-price">
+                                        <i class="fa fa-dollar"></i>{{ $series_details['rent_amount'] }}
+                                    </span>
+                                </button>
+                            </form>
+                            @endif
                                 @else
                                     <a href="{{ route('playerscreen', $series_details['episode_code']) }}"
                                         class="app-primary-btn rounded">
@@ -518,6 +552,15 @@
                             </div>
                         @endif
                     </div>
+                     @if (session('USER_DETAILS') &&
+                            session('USER_DETAILS')['USER_CODE'] &&
+                            $series_details['monetization_type'] != 'F' &&
+                            $series_details['is_buyed'] == 'N' &&
+                            isset($series_details['rent_note']) &&
+                            $series_details['rent_note']
+                    )
+                        <div class="about-movie aboutmovie_gaps">🛍️ {{ $series_details['rent_note'] }}</div>
+                    @endif
                 </div>
             </div>
         </div>
