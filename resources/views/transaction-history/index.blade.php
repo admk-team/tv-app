@@ -117,7 +117,9 @@
                                     </td>
 
                                     <td class="text-center">
-                                        {{ $isPaused ? $sub['exp_backup'] : $sub['expiry_date'] }}
+                                        {{ $isPaused
+                                            ? \Carbon\Carbon::parse($sub['exp_backup'])->format('m-d-Y h:i A')
+                                            : \Carbon\Carbon::parse($sub['expiry_date'])->format('m-d-Y h:i A') }}
                                     </td>
 
                                     <td>
