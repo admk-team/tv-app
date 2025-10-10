@@ -8,6 +8,12 @@
             crossorigin="anonymous"></script>
         <!-- Adsence End-->
     @endif
+    @if (env('APP_CODE') == 'C4krQWIxq5Kz53l8GR62MbGJMGxJQlpA')
+        <!--Solace Adsence Start-->
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9406235685119551"
+            crossorigin="anonymous"></script>
+        <!-- Adsence End-->
+    @endif
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
