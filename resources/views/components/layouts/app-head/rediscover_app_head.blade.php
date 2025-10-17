@@ -22,6 +22,8 @@
          </script>
          <!-- End Google Tag Manager -->
      @endif
+     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9406235685119551"
+         crossorigin="anonymous"></script>
      @if (Route::is('detailscreen', 'playerscreen', 'series'))
          @yield('meta-tags')
      @else
