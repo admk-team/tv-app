@@ -301,7 +301,8 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @if (isset(\App\Services\AppConfig::get()->app->app_info->is_gtm_enabled) && \App\Services\AppConfig::get()->app->app_info->is_gtm_enabled == 1)
+    @if (isset(\App\Services\AppConfig::get()->app->app_info->is_gtm_enabled) &&
+            \App\Services\AppConfig::get()->app->app_info->is_gtm_enabled == 1)
         @include('gtm_tags.head')
     @endif
     @if (Route::is('detailscreen', 'playerscreen', 'series'))
@@ -364,6 +365,9 @@
     <meta name="csrf_token" content="{{ csrf_token() }}" />
     @yield('head')
     {{-- alert csss --}}
+    {{-- Adsencs link --}}
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5219646118453263"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="sweetalert2.min.css">
     @include('layouts.one-signal.one-signal-scripts')
     <!-- Matomo Tag Manager -->
