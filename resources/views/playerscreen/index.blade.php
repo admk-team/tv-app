@@ -1624,44 +1624,46 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            async function isAdBlocked() {
-                try {
-                    // Try fetching a known ad resource (something ad blockers would normally block)
-                    const res = await fetch(
-                        'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js', {
-                            method: 'HEAD',
-                            mode: 'no-cors',
-                        });
-                    // If fetch resolves, blocker allowed it (rare); if rejected → blocked
-                    return false;
-                } catch (err) {
-                    return true;
+    @if (($appConfig->app->adblock_protection ?? 'N') === 'Y')
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                async function isAdBlocked() {
+                    try {
+                        // Try fetching a known ad resource (something ad blockers would normally block)
+                        const res = await fetch(
+                            'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js', {
+                                method: 'HEAD',
+                                mode: 'no-cors',
+                            });
+                        // If fetch resolves, blocker allowed it (rare); if rejected → blocked
+                        return false;
+                    } catch (err) {
+                        return true;
+                    }
                 }
-            }
 
-            const blocked = await isAdBlocked();
-            if (blocked) {
-                const player = document.getElementById('mvp_player_container');
-                if (player) {
-                    player.style.pointerEvents = 'none';
-                    player.style.opacity = '0.3';
+                const blocked = await isAdBlocked();
+                if (blocked) {
+                    const player = document.getElementById('mvp_player_container');
+                    if (player) {
+                        player.style.pointerEvents = 'none';
+                        player.style.opacity = '0.3';
+                    }
+                    Swal.fire({
+                        title: '🚫  Ad Blocker Detected',
+                        html: `<p style="font-size:16px;">It looks like your browser is blocking our ad requests. Please disable your ad blocker and refresh the page to continue watching.</p>`,
+                        icon: 'warning',
+                        confirmButtonText: 'Ok',
+                        confirmButtonColor: '#e74c3c',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        background: '#1e1e1e',
+                        color: '#fff'
+                    }).then(() => location.reload());
                 }
-                Swal.fire({
-                    title: '🚫  Ad Blocker Detected',
-                    html: `<p style="font-size:16px;">It looks like your browser is blocking our ad requests. Please disable your ad blocker and refresh the page to continue watching.</p>`,
-                    icon: 'warning',
-                    confirmButtonText: 'Ok',
-                    confirmButtonColor: '#e74c3c',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    background: '#1e1e1e',
-                    color: '#fff'
-                }).then(() => location.reload());
-            }
-        });
-    </script>
+            });
+        </script>
+    @endif
     <script>
         let is_active = true;
         let global_rating_active = true; // Reflecting your disabled global rating
