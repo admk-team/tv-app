@@ -186,7 +186,7 @@ Route::get('cancelsubscription/{subid}', [StripeController::class, 'cancelsub'])
 Route::post('offer/disscount', [StripeController::class, 'offerDiscountBeforeCancel']);
 Route::post('/pause-subscription', [StripeController::class, 'pauseSubscription']);
 Route::get('playerscreen/{id}', [PlayerScreenController::class, 'index'])->name('playerscreen'); // Main Player Screen
-Route::post('apply-coupon/', [PlayerScreenController::class, 'ApplyCoupon'])->name('coupon.apply'); // Apply For Coupon
+Route::post('coupon-playerscreen/', [PlayerScreenController::class, 'ApplyCoupon'])->name('coupon.apply'); // Apply For Coupon
 Route::get('playerscreen/private/{id}', [PlayerScreenController::class, 'private'])->name('playerscreen.private'); // Player Screen for private videos
 Route::post('playerscreen-checkpassword', [PlayerScreenController::class, 'checkPassword'])->name('playerscreen.checkpassword');
 Route::post('playerscreen-checkscreenerpassword', [PlayerScreenController::class, 'checkScreenerPassword'])->name('playerscreen.checkscreenerpassword');
