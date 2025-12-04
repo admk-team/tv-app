@@ -2267,6 +2267,9 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 processData: false,
                 contentType: false,
                 cache: false,
+                headers: {
+                    'happcode': '{{ env('APP_CODE') }}',
+                },
             }).then(function(response) {
                 const successMessage = response.app ? response.app.msg :
                     'Thank you! Your report has been submitted.';

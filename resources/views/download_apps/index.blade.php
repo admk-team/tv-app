@@ -18,6 +18,8 @@
         $mblImg =
             \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_download_page_mob_section_poster ??
             ('' ?? '');
+        $androidAppUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->android_app_url ?? ('' ?? '');
+        $iosAppUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->ios_app_url ?? ('' ?? '');
     @endphp
 
     <div class="container-fluid">
@@ -72,9 +74,9 @@
                         </h1>
                         <p>{{ $mblDesc }}</p>
                         <ul class="ott_iconlist">
-                            <li><a href="javascript:void(0)"> <img src="{{ asset('assets/images/apple.png') }}"
+                            <li><a href="{{ $iosAppUrl }}"> <img src="{{ asset('assets/images/apple.png') }}"
                                         alt=""></a></li>
-                            <li><a href="javascript:void(0)"> <img src="{{ asset('assets/images/android_mobile.png') }}"
+                            <li><a href="{{ $androidAppUrl }}"> <img src="{{ asset('assets/images/android_mobile.png') }}"
                                         alt=""></a>
                             </li>
                         </ul>
