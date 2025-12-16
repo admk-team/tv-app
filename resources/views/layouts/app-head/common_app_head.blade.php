@@ -5,9 +5,24 @@
      {{--  <meta name="csrf-token" content="{{ csrf_token() }}" />  --}}
 
 
-     @if (isset(\App\Services\AppConfig::get()->app->app_info->is_gtm_enabled) && \App\Services\AppConfig::get()->app->app_info->is_gtm_enabled == 1)
-        @include('gtm_tags.head')
-    @endif
+     @if (isset(\App\Services\AppConfig::get()->app->app_info->is_gtm_enabled) &&
+             \App\Services\AppConfig::get()->app->app_info->is_gtm_enabled == 1)
+         @include('gtm_tags.head')
+     @endif
+     @if (env('APP_CODE') == '54137662273ec8298e3dfd76e8d2533a')
+         <!-- Google tag (gtag.js) -->
+         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-338853993"></script>
+         <script>
+             window.dataLayer = window.dataLayer || [];
+
+             function gtag() {
+                 dataLayer.push(arguments);
+             }
+             gtag('js', new Date());
+
+             gtag('config', 'AW-338853993');
+         </script>
+     @endif
      @if (Route::is('detailscreen', 'playerscreen', 'series'))
          @yield('meta-tags')
      @else
@@ -73,6 +88,7 @@
  </head>
 
  <body>
-     @if (isset(\App\Services\AppConfig::get()->app->app_info->is_gtm_enabled) && \App\Services\AppConfig::get()->app->app_info->is_gtm_enabled == 1)
-        @include('gtm_tags.body')
-    @endif
+     @if (isset(\App\Services\AppConfig::get()->app->app_info->is_gtm_enabled) &&
+             \App\Services\AppConfig::get()->app->app_info->is_gtm_enabled == 1)
+         @include('gtm_tags.body')
+     @endif
