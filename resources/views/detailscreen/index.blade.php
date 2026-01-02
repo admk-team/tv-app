@@ -56,21 +56,21 @@
         $mType = 'hls';
     }
     $sharingURL = url('/') . '/detailscreen/' . $stream_details['stream_guid'];
-    
+
     session()->put('REDIRECT_TO_SCREEN', $sharingURL);
-    
+
     $strQueryParm = "streamGuid={$stream_details['stream_guid']}&userCode=" . session('USER_DETAILS.USER_CODE') . '&frmToken=' . session('SESSION_TOKEN');
     $is_embed = \App\Services\AppConfig::get()->app->is_embed ?? null;
-    
+
     $stream_code = $stream_details['stream_guid'];
-    
+
     $postData = [
         'stream_code' => $stream_code,
     ];
     $ratingsCount = isset($stream_details['ratings']) && is_array($stream_details['ratings']) ? count($stream_details['ratings']) : 0;
-    
+
     $totalRating = 0;
-    
+
     if ($ratingsCount !== 0) {
         foreach ($stream_details['ratings'] as $review) {
             $totalRating += $review['rating'];
@@ -183,7 +183,8 @@
                 </div>
                 <div class="responsive_video1">
                     @if ($streamUrl == '')
-                        <img class="slide-img" src="{{ $stream_details['stream_poster'] }}" alt="{{ $stream_details['stream_title'] }}"
+                        <img class="slide-img" src="{{ $stream_details['stream_poster'] }}"
+                            alt="{{ $stream_details['stream_title'] }}"
                             onerror="this.src='{{ url('/') }}/assets/images/default_img.jpg'">
                     @else
                         <!-- Video Player -->
@@ -371,6 +372,13 @@
                                     {{ $ratingsCount ?? 0 }}
                                 </span>
                             @endif
+                        @endif
+                        @if (isset($stream_details['views']) && $stream_details['views'] > 0)
+                            <span class="content_screen">
+                                <i class="bi bi-eye" style="margin-right: 4px;"></i>
+                                {{ number_format($stream_details['views']) }}
+                                {{ $stream_details['views'] == 1 ? 'view' : 'views' }}
+                            </span>
                         @endif
                     </div>
 
@@ -1269,7 +1277,7 @@
             // Initialize player
             if (!window.player) {
                 window.player = new mvp(document.getElementById('wrapper'), settings);
-                  setTimeout(unmutedVoice, 500);
+                setTimeout(unmutedVoice, 500);
             }
 
             // Trailer button logic
@@ -1282,11 +1290,12 @@
                     });
                 }
             });
-             function unmutedVoice() {
-            //alert("hi");
-            player.toggleMute();
-            player.playMedia();
-        }
+
+            function unmutedVoice() {
+                //alert("hi");
+                player.toggleMute();
+                player.playMedia();
+            }
 
         });
     </script>
@@ -1364,8 +1373,6 @@
         });
     </script>
     <script>
-      
-
         // Function to initialize Slick sliders
         function initializeSlider(container, isMobile = false) {
             const sliderElements = jQuery(container).find(
@@ -1375,7 +1382,7 @@
                     const $slider = jQuery(this);
                     const itemsPerRow = 5;
                     const autoplay = $slider.data('autoplay') === false;
-                   $slider.slick({
+                    $slider.slick({
                         dots: true,
                         infinite: true,
                         loop: true,
@@ -1453,8 +1460,7 @@
                         ]
                     });
                 });
-            } else if (!sliderElements.length) {
-            } else {
+            } else if (!sliderElements.length) {} else {
                 console.error('Slick Slider or jQuery not loaded for:', sliderElements);
             }
         }
@@ -1466,7 +1472,7 @@
 
         // Function to load related streams for both containers
         function loadRelatedStreams(desktopContainer, mobileContainer) {
-            
+
             const streamGuid = desktopContainer.dataset.streamGuid || mobileContainer.dataset.streamGuid;
             if (!streamGuid) {
                 console.error('No stream GUID found for related streams');
@@ -1478,7 +1484,7 @@
             const mobileSkeleton = mobileContainer.querySelector('.skeleton-loader');
             const contentDiv = document.getElementById('like');
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-         
+
 
             if (!csrfToken) {
                 console.error('CSRF token missing, cannot make AJAX request');
@@ -1560,8 +1566,10 @@
                 })
                 .catch(error => {
                     console.error(`Error processing streams for stream: ${streamGuid}:`, error);
-                    desktopContainer.innerHTML = '<p class="text-white no-reviews-message m-3 mt-2">Content Not Avaiable yet</p>';
-                    mobileContainer.innerHTML = '<p class="text-white no-reviews-message m-3 mt-2">Content Not Avaiable yet</p>';
+                    desktopContainer.innerHTML =
+                        '<p class="text-white no-reviews-message m-3 mt-2">Content Not Avaiable yet</p>';
+                    mobileContainer.innerHTML =
+                        '<p class="text-white no-reviews-message m-3 mt-2">Content Not Avaiable yet</p>';
                     desktopContainer.style.display = 'block';
                     mobileContainer.style.display = 'block';
                     if (contentDiv) {

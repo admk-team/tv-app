@@ -123,6 +123,11 @@
                                         <div class="season_title">${episodeTitle}</div>
                                         <div class="content_title">${stream.stream_title}</div>
                                         ${description}
+                                        ${stream.views && stream.views > 0 ? 
+                                            `<div class="views-info" style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
+                                                <i class="bi bi-eye" style="margin-right: 4px;"></i>
+                                                ${parseInt(stream.views).toLocaleString()} ${stream.views == 1 ? 'view' : 'views'}
+                                            </div>` : ''}
                                     </div>
                                 </div>
                             </div>

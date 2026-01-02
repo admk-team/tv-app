@@ -225,6 +225,12 @@
                                                             {{ $stream->stream_description }}
                                                         </div>
                                                     @endif
+                                                    @if (isset($stream->views) && $stream->views > 0)
+                                                        <div class="views-info" style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
+                                                            <i class="bi bi-eye" style="margin-right: 4px;"></i>
+                                                            {{ number_format($stream->views) }} {{ $stream->views == 1 ? 'view' : 'views' }}
+                                                        </div>
+                                                    @endif
                                                     @if (($stream->stream_watched_dur_in_pct ?? 0) > 1)
                                                         <div class="progress"
                                                             style="background-color:#555455;height:5px; border-radius:2px;">
@@ -330,6 +336,12 @@
                                                 @if ($stream->stream_description ?? false)
                                                     <div class="content_description">
                                                         {{ $stream->stream_description }}
+                                                    </div>
+                                                @endif
+                                                @if (isset($stream->views) && $stream->views > 0)
+                                                    <div class="views-info" style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
+                                                        <i class="bi bi-eye" style="margin-right: 4px;"></i>
+                                                        {{ number_format($stream->views) }} {{ $stream->views == 1 ? 'view' : 'views' }}
                                                     </div>
                                                 @endif
                                                 @if (($stream->stream_watched_dur_in_pct ?? 0) > 1)
