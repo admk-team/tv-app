@@ -225,10 +225,37 @@
                                                             {{ $stream->stream_description }}
                                                         </div>
                                                     @endif
-                                                    @if (isset($stream->views) && $stream->views > 0)
-                                                        <div class="views-info" style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
+                                                    @php
+                                                        $views = isset($stream->views)
+                                                            ? (int) $stream->views
+                                                            : (isset($stream->total_views)
+                                                                ? (int) $stream->total_views
+                                                                : (isset($stream->view_count)
+                                                                    ? (int) $stream->view_count
+                                                                    : 0));
+                                                        // Log views for debugging
+                                                        \Illuminate\Support\Facades\Log::debug(
+                                                            'Category Slider - Stream Views',
+                                                            [
+                                                                'category_title' => $category->cat_title ?? 'unknown',
+                                                                'stream_guid' => $stream->stream_guid ?? 'unknown',
+                                                                'stream_title' => $stream->stream_title ?? 'unknown',
+                                                                'views_value' => $views,
+                                                                'has_views' => isset($stream->views),
+                                                                'has_total_views' => isset($stream->total_views),
+                                                                'has_view_count' => isset($stream->view_count),
+                                                                'raw_views' => $stream->views ?? null,
+                                                                'raw_total_views' => $stream->total_views ?? null,
+                                                                'raw_view_count' => $stream->view_count ?? null,
+                                                            ],
+                                                        );
+                                                    @endphp
+                                                    @if ($views > 0)
+                                                        <div class="views-info"
+                                                            style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
                                                             <i class="bi bi-eye" style="margin-right: 4px;"></i>
-                                                            {{ number_format($stream->views) }} {{ $stream->views == 1 ? 'view' : 'views' }}
+                                                            {{ number_format($views) }}
+                                                            {{ $views == 1 ? 'view' : 'views' }}
                                                         </div>
                                                     @endif
                                                     @if (($stream->stream_watched_dur_in_pct ?? 0) > 1)
@@ -338,10 +365,37 @@
                                                         {{ $stream->stream_description }}
                                                     </div>
                                                 @endif
-                                                @if (isset($stream->views) && $stream->views > 0)
-                                                    <div class="views-info" style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
+                                                @php
+                                                    $views = isset($stream->views)
+                                                        ? (int) $stream->views
+                                                        : (isset($stream->total_views)
+                                                            ? (int) $stream->total_views
+                                                            : (isset($stream->view_count)
+                                                                ? (int) $stream->view_count
+                                                                : 0));
+                                                    // Log views for debugging
+                                                    \Illuminate\Support\Facades\Log::debug(
+                                                        'Category Slider - Stream Views (Regular)',
+                                                        [
+                                                            'category_title' => $category->cat_title ?? 'unknown',
+                                                            'stream_guid' => $stream->stream_guid ?? 'unknown',
+                                                            'stream_title' => $stream->stream_title ?? 'unknown',
+                                                            'views_value' => $views,
+                                                            'has_views' => isset($stream->views),
+                                                            'has_total_views' => isset($stream->total_views),
+                                                            'has_view_count' => isset($stream->view_count),
+                                                            'raw_views' => $stream->views ?? null,
+                                                            'raw_total_views' => $stream->total_views ?? null,
+                                                            'raw_view_count' => $stream->view_count ?? null,
+                                                        ],
+                                                    );
+                                                @endphp
+                                                @if ($views > 0)
+                                                    <div class="views-info"
+                                                        style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
                                                         <i class="bi bi-eye" style="margin-right: 4px;"></i>
-                                                        {{ number_format($stream->views) }} {{ $stream->views == 1 ? 'view' : 'views' }}
+                                                        {{ number_format($views) }}
+                                                        {{ $views == 1 ? 'view' : 'views' }}
                                                     </div>
                                                 @endif
                                                 @if (($stream->stream_watched_dur_in_pct ?? 0) > 1)

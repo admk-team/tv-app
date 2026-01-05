@@ -26,6 +26,32 @@ class CategoryController extends Controller
             abort(404);
 
         $categories = $responseJson['app']['categories'];
+
+        // Log views data for category items
+        if (isset($categories['streams']) && is_array($categories['streams'])) {
+            $viewsData = [];
+            foreach ($categories['streams'] as $stream) {
+                $streamGuid = $stream['stream_guid'] ?? 'unknown';
+                $streamTitle = $stream['stream_title'] ?? 'unknown';
+                $views = $stream['views'] ?? $stream['total_views'] ?? $stream['view_count'] ?? 0;
+                $viewsData[] = [
+                    'stream_guid' => $streamGuid,
+                    'stream_title' => $streamTitle,
+                    'views' => $views,
+                    'has_views_field' => isset($stream['views']),
+                    'has_total_views_field' => isset($stream['total_views']),
+                    'has_view_count_field' => isset($stream['view_count']),
+                ];
+            }
+            Log::info("Category Items Views Data (Direct Load)", [
+                'category_id' => $id,
+                'category_title' => $categories['cat_title'] ?? 'unknown',
+                'total_streams' => count($categories['streams']),
+                'streams_with_views' => count(array_filter($viewsData, fn($s) => $s['views'] > 0)),
+                'views_data' => $viewsData,
+            ]);
+        }
+
         return view('category.index', compact('categories'));
     }
 
@@ -66,6 +92,31 @@ class CategoryController extends Controller
                     if (!is_array($responseJson) || !isset($responseJson['streams']) || !is_array($responseJson['streams'])) {
                         return null;
                     }
+
+                    // Log views data for all streams in this category
+                    $catGuid = $validateData['cat_guid'] ?? 'unknown';
+                    $catType = $validateData['cat_type'] ?? 'unknown';
+                    $viewsData = [];
+                    foreach ($responseJson['streams'] as $index => $stream) {
+                        $streamGuid = $stream['stream_guid'] ?? 'unknown';
+                        $streamTitle = $stream['stream_title'] ?? 'unknown';
+                        $views = $stream['views'] ?? $stream['total_views'] ?? $stream['view_count'] ?? 0;
+                        $viewsData[] = [
+                            'stream_guid' => $streamGuid,
+                            'stream_title' => $streamTitle,
+                            'views' => $views,
+                            'has_views_field' => isset($stream['views']),
+                            'has_total_views_field' => isset($stream['total_views']),
+                            'has_view_count_field' => isset($stream['view_count']),
+                        ];
+                    }
+                    Log::info("Category Streams Views Data", [
+                        'category_guid' => $catGuid,
+                        'category_type' => $catType,
+                        'total_streams' => count($responseJson['streams']),
+                        'streams_with_views' => count(array_filter($viewsData, fn($s) => $s['views'] > 0)),
+                        'views_data' => $viewsData,
+                    ]);
 
                     return [
                         'success' => true,
@@ -119,6 +170,29 @@ class CategoryController extends Controller
         $category->is_show_view_more = $category->is_show_view_more ?? 'Y';
         $category->items_per_row = $category->items_per_row ?? 5;
         $category->is_top10 = $category->is_top10 ?? 'N';
+
+        // Log views data before rendering
+        $catGuid = $category->cat_guid ?? 'unknown';
+        $catTitle = $category->cat_title ?? 'unknown';
+        $viewsSummary = [];
+        foreach ($validated['streams'] as $stream) {
+            $streamGuid = $stream['stream_guid'] ?? 'unknown';
+            $streamTitle = $stream['stream_title'] ?? 'unknown';
+            $views = $stream['views'] ?? $stream['total_views'] ?? $stream['view_count'] ?? 0;
+            $viewsSummary[] = [
+                'stream_guid' => $streamGuid,
+                'stream_title' => $streamTitle,
+                'views' => $views,
+                'views_type' => isset($stream['views']) ? 'views' : (isset($stream['total_views']) ? 'total_views' : (isset($stream['view_count']) ? 'view_count' : 'none')),
+            ];
+        }
+        Log::info("Rendering Category Slider with Views", [
+            'category_guid' => $catGuid,
+            'category_title' => $catTitle,
+            'total_streams' => count($validated['streams']),
+            'streams_with_views' => count(array_filter($viewsSummary, fn($s) => $s['views'] > 0)),
+            'views_summary' => $viewsSummary,
+        ]);
 
         // Render the Blade component
         return response()->json([
