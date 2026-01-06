@@ -1052,6 +1052,16 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                             @endforeach
                                         </span>
                                     @endif
+                                    @php
+                                        $views = $arrSlctItemData['views'] ?? $arrSlctItemData['total_views'] ?? $arrSlctItemData['view_count'] ?? ($arrRes['app']['stream_details']['views'] ?? $arrRes['app']['stream_details']['total_views'] ?? $arrRes['app']['stream_details']['view_count'] ?? 0);
+                                    @endphp
+                                    @if ($views > 0)
+                                        <span class="content_screen themePrimaryTxtColr">
+                                            <i class="bi bi-eye" style="margin-right: 4px;"></i>
+                                            {{ number_format($views) }}
+                                            {{ $views == 1 ? 'view' : 'views' }}
+                                        </span>
+                                    @endif
                                     @if ($ratingsCount > 0)
                                         @if (isset($streamratingtype, $streamratingstatus) && $streamratingtype === 'stars' && $streamratingstatus == 1)
                                             <span class="content_screen themePrimaryTxtColr">
