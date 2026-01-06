@@ -66,9 +66,19 @@
         <div class="list_heading">
             <h1>{{ $category->cat_title ?? '' }}</h1>
         </div>
-        @if (($category->is_show_view_more ?? 'N') === 'Y')
-            <div class="list_change_btn"><a href="{{ route('category', $category->cat_guid) }}">View All</a></div>
-        @endif
+      @if($category->menu_type === 'HO')
+    <div class="list_change_btn">
+        <a href="{{ route('category', [$category->cat_guid]) }}">
+            View all home
+        </a>
+    </div>
+@else
+    <div class="list_change_btn">
+        <a href="{{ route('category.menu', [$category->cat_guid, $category->menu_guid]) }}">
+            View all menu
+        </a>
+    </div>
+@endif
     </div>
     <div class="{{ $cartMainCls }} slider slick-slider" data-items-per-row="{{ $items }}"
         data-autoplay="{{ $autoplay ? 'true' : 'false' }}">

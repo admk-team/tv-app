@@ -10,14 +10,16 @@ use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
-    public function index($id)
+    public function index($categoryCode, $menuCode = null)
     {
+     
         if (session()->has('USER_DETAILS.CSV_STATUS') && (int) session('USER_DETAILS.CSV_STATUS') === 0) {
             return redirect()->route('auth.resetPassword');
         }
+        
         $response = Http::withHeaders(Api::headers())
             ->asForm()
-            ->get(Api::endpoint('/getcategoryitems/' . $id), [
+            ->get(Api::endpoint('/getcategoryitems/' . $categoryCode . '/' . ($menuCode ?? '')), [
                 'type' => request()->type ?? 'category',
             ]);
         $responseJson = $response->json();
@@ -26,32 +28,26 @@ class CategoryController extends Controller
             abort(404);
 
         $categories = $responseJson['app']['categories'];
+        return view('category.index', compact('categories'));
+    }
 
-        // Log views data for category items
-        if (isset($categories['streams']) && is_array($categories['streams'])) {
-            $viewsData = [];
-            foreach ($categories['streams'] as $stream) {
-                $streamGuid = $stream['stream_guid'] ?? 'unknown';
-                $streamTitle = $stream['stream_title'] ?? 'unknown';
-                $views = $stream['views'] ?? $stream['total_views'] ?? $stream['view_count'] ?? 0;
-                $viewsData[] = [
-                    'stream_guid' => $streamGuid,
-                    'stream_title' => $streamTitle,
-                    'views' => $views,
-                    'has_views_field' => isset($stream['views']),
-                    'has_total_views_field' => isset($stream['total_views']),
-                    'has_view_count_field' => isset($stream['view_count']),
-                ];
-            }
-            Log::info("Category Items Views Data (Direct Load)", [
-                'category_id' => $id,
-                'category_title' => $categories['cat_title'] ?? 'unknown',
-                'total_streams' => count($categories['streams']),
-                'streams_with_views' => count(array_filter($viewsData, fn($s) => $s['views'] > 0)),
-                'views_data' => $viewsData,
-            ]);
+ public function index1($categoryCode)
+    {
+       
+        if (session()->has('USER_DETAILS.CSV_STATUS') && (int) session('USER_DETAILS.CSV_STATUS') === 0) {
+            return redirect()->route('auth.resetPassword');
         }
+        $response = Http::withHeaders(Api::headers())
+            ->asForm()
+            ->get(Api::endpoint('/getcategoryitems/' . $categoryCode), [
+                'type' => request()->type ?? 'category',
+            ]);
+        $responseJson = $response->json();
 
+        if (!isset($responseJson['app']['categories']))
+            abort(404);
+
+        $categories = $responseJson['app']['categories'];
         return view('category.index', compact('categories'));
     }
 
@@ -157,6 +153,8 @@ class CategoryController extends Controller
             'category.is_show_view_more' => 'nullable',
             'category.items_per_row' => 'nullable|integer',
             'category.is_top10' => 'nullable',
+            'category.menu_guid' => 'nullable',
+            'category.menu_type' => 'nullable',
             'streams' => 'required|array',
         ]);
 
@@ -170,6 +168,33 @@ class CategoryController extends Controller
         $category->is_show_view_more = $category->is_show_view_more ?? 'Y';
         $category->items_per_row = $category->items_per_row ?? 5;
         $category->is_top10 = $category->is_top10 ?? 'N';
+        $category->menu_guid = $category->menu_guid ?? null;
+        $category->menu_type = $category->menu_type ?? 'N';
+        
+        // Debug: Check current request info
+        $currentUrl = request()->fullUrl();
+        $routeName = request()->route()->getName();
+        $isHomePage = request()->is('/') || $routeName === 'home';
+        
+        // Also check if this is an AJAX request from the home page
+        $referer = request()->header('referer');
+        $isFromHomePage = $isHomePage || ($referer && str_contains($referer, request()->getSchemeAndHttpHost() . '/'));
+        
+        Log::info("Category Slider Debug", [
+            'current_url' => $currentUrl,
+            'route_name' => $routeName,
+            'is_home_page' => $isHomePage,
+            'is_from_home_page' => $isFromHomePage,
+            'referer' => $referer,
+            'original_menu_type' => $category->menu_type ?? 'NOT_SET',
+            'category_guid' => $category->cat_guid ?? 'NO_GUID',
+        ]);
+        
+        // If we're on the home page or this is an AJAX request from home page, set menu_type to 'HO'
+        if ($isFromHomePage) {
+            $category->menu_type = 'HO';
+            Log::info("Set menu_type to HO for home page", ['category_guid' => $category->cat_guid]);
+        }
 
         // Log views data before rendering
         $catGuid = $category->cat_guid ?? 'unknown';
