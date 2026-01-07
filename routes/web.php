@@ -196,7 +196,7 @@ Route::get('subscription', [SubscriptionController::class, 'index'])->name('subs
 Route::get('free-subscription', [FreeSubscriptionController::class, 'index'])->name('free-subscription');
 Route::get('transaction-history', [TransactionHistoryController::class, 'index'])->name('transaction-history');
 Route::get('category/{categoryCode}', [CategoryController::class, 'index1'])->name('category');
-Route::get('category/{categoryCode}/{menuCode?}', [CategoryController::class, 'index'])->name('category.menu');Route::get('year/{year}', [YearController::class, 'index'])->name('year');
+Route::get('category/{categoryCode}/menu/{menuCode?}', [CategoryController::class, 'index'])->name('category.menu');Route::get('year/{year}', [YearController::class, 'index'])->name('year');
 Route::get('quality/{code}', [QualityController::class, 'index'])->name('quality');
 Route::get('rating/{code}', [RatingController::class, 'index'])->name('rating');
 
