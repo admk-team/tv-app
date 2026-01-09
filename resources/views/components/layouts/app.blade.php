@@ -12,7 +12,7 @@
     @include('components.layouts.app-head.solace_app_head')
 @elseif (env('APP_CODE') == 'C4krQWIxq5Kz53l8GR62MbGJMGxJQlpA')
     <!-- Rediscover -->
-    @include('layouts.app-head.rediscover_app_head')
+    @include('components.layouts.app-head.rediscover_app_head')
 @else
     <!-- other app -->
     @include('components.layouts.app-head.common_app_head')

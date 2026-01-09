@@ -66,9 +66,19 @@
         <div class="list_heading">
             <h1>{{ $category->cat_title ?? '' }}</h1>
         </div>
-        @if (($category->is_show_view_more ?? 'N') === 'Y')
-            <div class="list_change_btn"><a href="{{ route('category', $category->cat_guid) }}">View All</a></div>
-        @endif
+      @if(($category->menu_type ?? '') === 'HO')
+    <div class="list_change_btn">
+        <a href="{{ route('category', [$category->cat_guid]) }}">
+            View all
+        </a>
+    </div>
+@else
+    <div class="list_change_btn">
+        <a href="{{ route('category.menu', [$category->cat_guid, $category->menu_guid]) }}">
+            View all
+        </a>
+    </div>
+@endif
     </div>
     <div class="{{ $cartMainCls }} slider slick-slider" data-items-per-row="{{ $items }}"
         data-autoplay="{{ $autoplay ? 'true' : 'false' }}">
@@ -225,6 +235,39 @@
                                                             {{ $stream->stream_description }}
                                                         </div>
                                                     @endif
+                                                    @php
+                                                        $views = isset($stream->views)
+                                                            ? (int) $stream->views
+                                                            : (isset($stream->total_views)
+                                                                ? (int) $stream->total_views
+                                                                : (isset($stream->view_count)
+                                                                    ? (int) $stream->view_count
+                                                                    : 0));
+                                                        // Log views for debugging
+                                                        \Illuminate\Support\Facades\Log::debug(
+                                                            'Category Slider - Stream Views',
+                                                            [
+                                                                'category_title' => $category->cat_title ?? 'unknown',
+                                                                'stream_guid' => $stream->stream_guid ?? 'unknown',
+                                                                'stream_title' => $stream->stream_title ?? 'unknown',
+                                                                'views_value' => $views,
+                                                                'has_views' => isset($stream->views),
+                                                                'has_total_views' => isset($stream->total_views),
+                                                                'has_view_count' => isset($stream->view_count),
+                                                                'raw_views' => $stream->views ?? null,
+                                                                'raw_total_views' => $stream->total_views ?? null,
+                                                                'raw_view_count' => $stream->view_count ?? null,
+                                                            ],
+                                                        );
+                                                    @endphp
+                                                    @if ($views > 0)
+                                                        <div class="views-info"
+                                                            style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
+                                                            <i class="bi bi-eye" style="margin-right: 4px;"></i>
+                                                            {{ number_format($views) }}
+                                                            {{ $views == 1 ? 'view' : 'views' }}
+                                                        </div>
+                                                    @endif
                                                     @if (($stream->stream_watched_dur_in_pct ?? 0) > 1)
                                                         <div class="progress"
                                                             style="background-color:#555455;height:5px; border-radius:2px;">
@@ -330,6 +373,39 @@
                                                 @if ($stream->stream_description ?? false)
                                                     <div class="content_description">
                                                         {{ $stream->stream_description }}
+                                                    </div>
+                                                @endif
+                                                @php
+                                                    $views = isset($stream->views)
+                                                        ? (int) $stream->views
+                                                        : (isset($stream->total_views)
+                                                            ? (int) $stream->total_views
+                                                            : (isset($stream->view_count)
+                                                                ? (int) $stream->view_count
+                                                                : 0));
+                                                    // Log views for debugging
+                                                    \Illuminate\Support\Facades\Log::debug(
+                                                        'Category Slider - Stream Views (Regular)',
+                                                        [
+                                                            'category_title' => $category->cat_title ?? 'unknown',
+                                                            'stream_guid' => $stream->stream_guid ?? 'unknown',
+                                                            'stream_title' => $stream->stream_title ?? 'unknown',
+                                                            'views_value' => $views,
+                                                            'has_views' => isset($stream->views),
+                                                            'has_total_views' => isset($stream->total_views),
+                                                            'has_view_count' => isset($stream->view_count),
+                                                            'raw_views' => $stream->views ?? null,
+                                                            'raw_total_views' => $stream->total_views ?? null,
+                                                            'raw_view_count' => $stream->view_count ?? null,
+                                                        ],
+                                                    );
+                                                @endphp
+                                                @if ($views > 0)
+                                                    <div class="views-info"
+                                                        style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
+                                                        <i class="bi bi-eye" style="margin-right: 4px;"></i>
+                                                        {{ number_format($views) }}
+                                                        {{ $views == 1 ? 'view' : 'views' }}
                                                     </div>
                                                 @endif
                                                 @if (($stream->stream_watched_dur_in_pct ?? 0) > 1)

@@ -190,6 +190,12 @@
                                                     <div class="content_description">
                                                         {{ $stream['stream_description'] ?? '' }}
                                                     </div>
+                                                    @if (isset($stream['views']) && $stream['views'] > 0)
+                                                        <div class="views-info" style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
+                                                            <i class="bi bi-eye" style="margin-right: 4px;"></i>
+                                                            {{ number_format($stream['views']) }} {{ $stream['views'] == 1 ? 'view' : 'views' }}
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

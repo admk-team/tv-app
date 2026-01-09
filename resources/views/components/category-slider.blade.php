@@ -260,7 +260,9 @@
                         card_type: cardType,
                         is_show_view_more: isShowViewMore,
                         items_per_row: parseInt(itemsPerRow),
-                        is_top10: isTop10
+                        is_top10: isTop10,
+                        menu_guid: menu_guid,
+                        menu_type: menu_type
                     };
 
                     // Make AJAX call to fetch streams

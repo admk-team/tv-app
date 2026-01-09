@@ -17,7 +17,7 @@
     $IS_SIGNIN_BYPASS = $appConfig->app->app_info->is_bypass_login;
     define('VIDEO_DUR_MNG_BASE_URL', env('API_BASE_URL') . '/mngstrmdur');
     // Config End
-    
+
     session('GLOBAL_PASS', 0);
     request()->server('REQUEST_METHOD');
     $protocol = request()->server('HTTPS') === 'on' ? 'https' : 'http';
@@ -54,7 +54,7 @@
     }
     $adParam = 'videoId=' . $streamGuid . '&title=' . $arrSlctItemData['stream_title'];
     // Login requried
-    
+
     if ($IS_SIGNIN_BYPASS == 'N' && !session('USER_DETAILS')) {
         session(['REDIRECT_TO_SCREEN' => route('playerscreen', $streamGuid)]);
         session()->save();
@@ -67,7 +67,7 @@
         session()->save();
         $redirectUrl = route('login');
     }
-    
+
     $sharingURL = route('playerscreen', $streamGuid);
     $isBuyed = $arrSlctItemData['is_buyed'];
     $monetizationType = $arrSlctItemData['monetization_type'];
@@ -101,7 +101,7 @@
             \Illuminate\Support\Facades\Redirect::to(route('monetization'))->send();
         }
     }
-    
+
     // Check if subscription is required for all content and is not subscribed
     if (\App\Helpers\GeneralHelper::subscriptionIsRequired() && $isBuyed == 'N') {
         if ($limitWatchTime === 'no' && (!session('USER_DETAILS') || !session('USER_DETAILS')['USER_CODE'])) {
@@ -114,15 +114,15 @@
             \Illuminate\Support\Facades\Redirect::to(route('subscription'))->send();
         }
     }
-    
+
     $mType = isset($mType) ? $mType : 'video';
     if (strpos($streamUrl, '.m3u8')) {
         $mType = 'hls';
     }
     $apiPath = App\Services\Api::endpoint('/mngstrmdur');
-    
+
     $strQueryParm = "streamGuid=$streamGuid&userCode=" . @session('USER_DETAILS')['USER_CODE'] . '&frmToken=' . session('SESSION_TOKEN') . '&userProfileId=' . session('USER_DETAILS.USER_PROFILE');
-    
+
     // dd(session('USER_DETAILS.USER_PROFILE'));
     // here get the video duration
     $seekFunStr = '';
@@ -140,7 +140,7 @@
         $streamDurationInSec = $arrRes4VideoState['app']['data']['stream_duration'];
         $seekFunStr = "this.currentTime($streamDurationInSec);";
     }
-    
+
     // Here Set Ad URL in Session
     $adUrl = $appConfig->app->colors_assets_for_branding->web_site_ad_url;
     if (!session('ADS_INFO')) {
@@ -152,7 +152,7 @@
             ],
         ]);
     }
-    
+
     $useragent = request()->server('HTTP_USER_AGENT');
     $isMobileBrowser = 0;
     if (
@@ -170,13 +170,13 @@
     $userAgent = urlencode(request()->server('HTTP_USER_AGENT'));
     $userIP = \App\Helpers\GeneralHelper::getRealIpAddr();
     $channelName = urlencode($appConfig->app->app_info->app_name);
-    
+
     $isLocalHost = false;
     $host = parse_url(url()->current())['host'];
     if (in_array($host, ['localhost', '127.0.0.1'])) {
         $isLocalHost = true;
     }
-    
+
     //&app_bundle=669112
     //
     $appStoreUrl = urlencode($appConfig->app->colors_assets_for_branding->roku_app_store_url);
@@ -187,11 +187,11 @@
     }
     $adMacros .= "&duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
     $dataVast = "data-vast='$adMacros'";
-    
+
     if ($isMobileBrowser == 1 || $adUrl == '') {
         $dataVast = '';
     }
-    
+
     $stream_ad_url = $arrSlctItemData['stream_ad_url'];
     if (parse_url($stream_ad_url, PHP_URL_QUERY)) {
         $stream_ad_url = $stream_ad_url . "&duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
@@ -199,24 +199,24 @@
         $stream_ad_url = $stream_ad_url . "?duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
     }
     $dataVast2 = $arrSlctItemData['stream_ad_url'] ? 'data-vast="' . $stream_ad_url . '"' : null;
-    
+
     if (!$arrSlctItemData['has_global_ads']) {
         $dataVast = '';
     }
-    
+
     if (!$arrSlctItemData['has_individual_ads']) {
         $dataVast2 = '';
     }
-    
+
     if (!$arrSlctItemData['has_ads']) {
         $dataVast = '';
         $dataVast2 = '';
     }
-    
+
     $watermark = $arrSlctItemData['watermark'] ?? null;
     $content_rating = $arrSlctItemData['content_rating'] ?? null;
     $advisories = $arrSlctItemData['advisories'] ? implode(', ', array_column($arrSlctItemData['advisories'], 'title')) : null;
-    
+
     ?>
 
     {{-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/mvp.css') }}" /> --}}
@@ -1052,6 +1052,22 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                             @endforeach
                                         </span>
                                     @endif
+                                    @php
+                                        $views =
+                                            $arrSlctItemData['views'] ??
+                                            ($arrSlctItemData['total_views'] ??
+                                                ($arrSlctItemData['view_count'] ??
+                                                    ($arrRes['app']['stream_details']['views'] ??
+                                                        ($arrRes['app']['stream_details']['total_views'] ??
+                                                            ($arrRes['app']['stream_details']['view_count'] ?? 0)))));
+                                    @endphp
+                                    @if ($views > 0)
+                                        <span class="content_screen themePrimaryTxtColr">
+                                            <i class="bi bi-eye" style="margin-right: 4px;"></i>
+                                            {{ number_format($views) }}
+                                            {{ $views == 1 ? 'view' : 'views' }}
+                                        </span>
+                                    @endif
                                     @if ($ratingsCount > 0)
                                         @if (isset($streamratingtype, $streamratingstatus) && $streamratingtype === 'stars' && $streamratingstatus == 1)
                                             <span class="content_screen themePrimaryTxtColr">
@@ -1622,7 +1638,48 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
 @endsection
 
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (($appConfig->app->adblock_protection ?? 'N') === 'Y')
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                async function isAdBlocked() {
+                    try {
+                        // Try fetching a known ad resource (something ad blockers would normally block)
+                        const res = await fetch(
+                            'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js', {
+                                method: 'HEAD',
+                                mode: 'no-cors',
+                            });
+                        // If fetch resolves, blocker allowed it (rare); if rejected → blocked
+                        return false;
+                    } catch (err) {
+                        return true;
+                    }
+                }
 
+                const blocked = await isAdBlocked();
+                if (blocked) {
+                    const player = document.getElementById('mvp_player_container');
+                    if (player) {
+                        player.style.pointerEvents = 'none';
+                        player.style.opacity = '0.3';
+                    }
+                    Swal.fire({
+                        title: '🚫  Ad Blocker Detected',
+                        html: `<p style="font-size:16px;">It looks like your browser is blocking our ad requests. Please disable your ad blocker and refresh the page to continue watching.</p>`,
+                        icon: 'warning',
+                        confirmButtonText: 'Ok',
+                        confirmButtonColor: '#e74c3c',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        background: '#1e1e1e',
+                        color: '#fff'
+                    }).then(() => location.reload());
+                }
+            });
+        </script>
+    @endif
     <script>
         let is_active = true;
         let global_rating_active = true; // Reflecting your disabled global rating
@@ -1988,7 +2045,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
             }
 
         });
-        
+
         document.body.addEventListener("click", function(evt) {
             if (window.player && player.getMediaPlaying()) {
                 mediaId = player.getCurrentMediaData().mediaId;
@@ -2227,7 +2284,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 contentType: false,
                 cache: false,
                 headers: {
-                  'happcode': '{{ env('APP_CODE') }}',
+                    'happcode': '{{ env('APP_CODE') }}',
                 },
             }).then(function(response) {
                 const successMessage = response.app ? response.app.msg :
@@ -2518,8 +2575,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
         });
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         // Initialize Select2
         $('.select2-multiple').select2({

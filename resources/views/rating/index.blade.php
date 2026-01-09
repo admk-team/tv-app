@@ -34,6 +34,12 @@
                                                 <div class="season_title">{{ $stream['stream_episode_title'] && $stream['stream_episode_title'] !== 'NULL'? $stream['stream_episode_title']: '' }}</div>
                                                 <div class="content_title">{{ $stream['stream_title'] }}</div>
                                                 <div class="content_description">{{ $stream['stream_description'] }}</div>
+                                                @if (isset($stream['views']) && $stream['views'] > 0)
+                                                    <div class="views-info" style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
+                                                        <i class="bi bi-eye" style="margin-right: 4px;"></i>
+                                                        {{ number_format($stream['views']) }} {{ $stream['views'] == 1 ? 'view' : 'views' }}
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -108,6 +114,11 @@
                                         </div>
                                         <div class="content_title">${stream.stream_title}</div>
                                         <div class="content_description">${stream.stream_description}</div>
+                                        ${stream.views && stream.views > 0 ? 
+                                            `<div class="views-info" style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
+                                                <i class="bi bi-eye" style="margin-right: 4px;"></i>
+                                                ${parseInt(stream.views).toLocaleString()} ${stream.views == 1 ? 'view' : 'views'}
+                                            </div>` : ''}
                                     </div>
                                 </div>
                             </div>

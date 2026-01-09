@@ -307,6 +307,12 @@
                                 </span>
                             @endif
                         @endif
+                        @if (isset($series_details['views']) && $series_details['views'] > 0)
+                            <span class="content_screen">
+                                <i class="bi bi-eye" style="margin-right: 4px;"></i>
+                                {{ number_format($series_details['views']) }} {{ $series_details['views'] == 1 ? 'view' : 'views' }}
+                            </span>
+                        @endif
                     </div>
 
                     <div class="about-movie aboutmovie_gaps">{{ $series_details['stream_description'] }}</div>

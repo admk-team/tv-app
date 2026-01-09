@@ -82,6 +82,7 @@ class AppConfig
             } else {
                 AppCofig::create(['app_code' => env('APP_CODE'), 'api_data' => $response->body()]);
             }
+            self::$data = json_decode($response->body());
             Log::info("inSide");
         }
     }

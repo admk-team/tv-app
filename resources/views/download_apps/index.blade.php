@@ -18,6 +18,13 @@
         $mblImg =
             \App\Services\AppConfig::get()->app->colors_assets_for_branding->web_download_page_mob_section_poster ??
             ('' ?? '');
+        $androidAppUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->android_app_url ?? ('' ?? '');
+        $iosAppUrl = \App\Services\AppConfig::get()->app->colors_assets_for_branding->ios_app_url ?? ('' ?? '');
+        $tvos_app_url = \App\Services\AppConfig::get()->app->colors_assets_for_branding->tvos_app_url ?? ('' ?? '');
+        $roku_app_url = \App\Services\AppConfig::get()->app->colors_assets_for_branding->roku_app_url ?? ('' ?? '');
+        $firetv_app_url = \App\Services\AppConfig::get()->app->colors_assets_for_branding->firetv_app_url ?? ('' ?? '');
+        $androidtv_app_url =
+            \App\Services\AppConfig::get()->app->colors_assets_for_branding->androidtv_app_url ?? ('' ?? '');
     @endphp
 
     <div class="container-fluid">
@@ -35,15 +42,15 @@
                                         href="https://channelstore.roku.com/details/5b1bb4053ae3096bf2489712955ce7f3/olive-branch-tv">
                                         <img src="{{ asset('assets/images/roku_icon.png') }}" alt=""></a></li>
                             @else
-                                <li><a href="javascript:void(0)"> <img src="{{ asset('assets/images/roku_icon.png') }}"
+                                <li><a href="{{ $roku_app_url }}"> <img src="{{ asset('assets/images/roku_icon.png') }}"
                                             alt=""></a></li>
                             @endif
-                            <li><a href="javascript:void(0)"> <img src="{{ asset('assets/images/firetv_icon.png') }}"
+                            <li><a href="{{ $firetv_app_url }}"> <img src="{{ asset('assets/images/firetv_icon.png') }}"
                                         alt=""></a></li>
-                            <li><a href="javascript:void(0)"> <img src="{{ asset('assets/images/appletv.png') }}"
+                            <li><a href="{{ $tvos_app_url }}"> <img src="{{ asset('assets/images/appletv.png') }}"
                                         alt=""></a></li>
-                            <li><a href="javascript:void(0)"> <img src="{{ asset('assets/images/tizenapp.png') }}"
-                                        alt=""></a></li>
+                            {{-- <li><a href="javascript:void(0)"> <img src="{{ asset('assets/images/tizenapp.png') }}"
+                                        alt=""></a></li> --}}
                         </ul>
                     </div>
                 </div>
@@ -72,9 +79,9 @@
                         </h1>
                         <p>{{ $mblDesc }}</p>
                         <ul class="ott_iconlist">
-                            <li><a href="javascript:void(0)"> <img src="{{ asset('assets/images/apple.png') }}"
+                            <li><a href="{{ $iosAppUrl }}"> <img src="{{ asset('assets/images/apple.png') }}"
                                         alt=""></a></li>
-                            <li><a href="javascript:void(0)"> <img src="{{ asset('assets/images/android_mobile.png') }}"
+                            <li><a href="{{ $androidAppUrl }}"> <img src="{{ asset('assets/images/android_mobile.png') }}"
                                         alt=""></a>
                             </li>
                         </ul>

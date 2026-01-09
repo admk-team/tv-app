@@ -10,7 +10,7 @@
                 @case('image')
                     <div class="mvp-popup" data-show="{{ $point }}">
                         @if ($cta['link_url'] ?? null)
-                        <a href="{{ $cta['link_url'] }}">
+                        <a href="{{ $cta['link_url'] }}" target="_blank" rel="noopener noreferrer">
                         @endif
                             @if ($cta['image_url'] ?? null)
                                 <img class="mvp-popup-img" src="{{ $cta['image_url'] }}" alt=""/>
@@ -24,7 +24,7 @@
                     <div class="mvp-popup" data-show="{{ $point }}">
                         <div class="bg-white p-4">
                             {{-- @if ($cta['link_url'] ?? null)
-                            <a href="{{ $cta['link_url'] }}">
+                            <a href="{{ $cta['link_url'] }}" target="_blank" rel="noopener noreferrer">
                             @endif --}}
                                 <h3>{{ $cta['title'] }}</h3>
                             {{-- @if ($cta['link_url'] ?? null)

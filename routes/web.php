@@ -188,7 +188,7 @@ Route::get('cancelsubscription/{subid}', [StripeController::class, 'cancelsub'])
 Route::post('offer/disscount', [StripeController::class, 'offerDiscountBeforeCancel']);
 Route::post('/pause-subscription', [StripeController::class, 'pauseSubscription']);
 Route::get('playerscreen/{id}', [PlayerScreenController::class, 'index'])->name('playerscreen'); // Main Player Screen
-Route::post('gamification-coupon/', [PlayerScreenController::class, 'ApplyCoupon'])->name('coupon.apply'); // Apply For Coupon
+Route::post('coupon-playerscreen/', [PlayerScreenController::class, 'ApplyCoupon'])->name('coupon.apply'); // Apply For Coupon
 Route::get('playerscreen/private/{id}', [PlayerScreenController::class, 'private'])->name('playerscreen.private'); // Player Screen for private videos
 Route::post('playerscreen-checkpassword', [PlayerScreenController::class, 'checkPassword'])->name('playerscreen.checkpassword');
 Route::post('playerscreen-checkscreenerpassword', [PlayerScreenController::class, 'checkScreenerPassword'])->name('playerscreen.checkscreenerpassword');
@@ -197,7 +197,8 @@ Route::get('download-apps', [DownloadAppsController::class, 'index'])->name('dow
 Route::get('subscription', [SubscriptionController::class, 'index'])->name('subscription');
 Route::get('free-subscription', [FreeSubscriptionController::class, 'index'])->name('free-subscription');
 Route::get('transaction-history', [TransactionHistoryController::class, 'index'])->name('transaction-history');
-Route::get('category/{id}', [CategoryController::class, 'index'])->name('category');
+Route::get('category/{categoryCode}', [CategoryController::class, 'index1'])->name('category');
+Route::get('category/{categoryCode}/menu/{menuCode?}', [CategoryController::class, 'index'])->name('category.menu');
 Route::get('year/{year}', [YearController::class, 'index'])->name('year');
 Route::get('quality/{code}', [QualityController::class, 'index'])->name('quality');
 Route::get('rating/{code}', [RatingController::class, 'index'])->name('rating');
