@@ -264,6 +264,45 @@
     <style>
         .content_screen {
             border: 1px var(--themePrimaryTxtColor) solid !important;
+            /* Ensure text is not cut in Safari */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            min-width: 0;
+            max-width: 100%;
+        }
+
+        /* For Safari: Ensure content_screen text is fully visible and not cut */
+        @supports (-webkit-appearance: none) {
+            .content-timing .content_screen {
+                white-space: normal;
+                word-break: break-word;
+                overflow: visible;
+                text-overflow: clip;
+                -webkit-hyphens: none;
+                hyphens: none;
+            }
+        }
+
+        /* Safari-specific fix to prevent text cutting */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            .content-timing .content_screen {
+                overflow: visible !important;
+                text-overflow: clip !important;
+                white-space: normal;
+                word-wrap: break-word;
+            }
+        }
+
+        /* On small screens, allow views to wrap */
+        @media (max-width: 768px) {
+            .content-timing .content_screen {
+                white-space: normal;
+                display: inline-block;
+                margin-top: 4px;
+                margin-bottom: 4px;
+            }
         }
 
         .dot-sep:before {

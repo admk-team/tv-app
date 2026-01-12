@@ -2986,6 +2986,10 @@ span.error_box-register {
     white-space: nowrap;
     overflow: visible;
     text-overflow: clip;
+    word-wrap: break-word;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    max-width: 100%;
 }
 
 .content_screen a {
@@ -4056,6 +4060,16 @@ textarea.form-control:hover {
         margin-bottom: 6px
     }
 
+    /* Allow views to wrap on medium screens for detail screen (including Safari) */
+    .content-timing .content_screen {
+        white-space: normal !important;
+        display: inline-block;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
     .slide {
         height: 320px
     }
@@ -4853,6 +4867,16 @@ ul.navbar_center li:hover {
         margin-top: 2px
     }
 
+    /* Allow views to wrap on small screens for detail screen (including Safari) */
+    .content-timing .content_screen {
+        white-space: normal !important;
+        display: inline-block;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
     button.detail_btn {
         font-size: 10px;
         padding: 5px 10px
@@ -4958,6 +4982,14 @@ ul.navbar_center li:hover {
         margin-top: 0
     }
 
+    /* Allow views to wrap on small screens for detail screen */
+    .content-timing .content_screen {
+        white-space: normal;
+        display: inline-block;
+        margin-top: 4px;
+        margin-bottom: 4px;
+    }
+
     .movie_detail_inner_box {
         top: 10% !important
     }
@@ -4982,6 +5014,16 @@ ul.navbar_center li:hover {
 
     .content-timing span {
         font-size: 9px
+    }
+
+    /* Allow views to wrap on very small screens for detail screen (including Safari) */
+    .content-timing .content_screen {
+        white-space: normal !important;
+        display: inline-block;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
 
     .subscriber_form .inner-subBox {
