@@ -264,18 +264,6 @@
     <style>
         .content_screen {
             border: 1px var(--themePrimaryTxtColor) solid !important;
-            /* Ensure text is not cut in Safari */
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            min-width: 0;
-            max-width: 100%;
-            /* Prevent text from being cut at bottom - Safari fix */
-            padding: 4px 8px !important;
-            line-height: 1.4 !important;
-            min-height: 20px !important;
-            overflow: visible !important;
         }
 
         /* Force content-timing to use flexbox for proper wrapping */
@@ -286,72 +274,10 @@
             gap: 4px;
         }
 
-        /* For Safari: Ensure content_screen text is fully visible and breaks to new line */
-        @supports (-webkit-appearance: none) {
-            .content-timing {
-                display: flex !important;
-                flex-wrap: wrap !important;
-                align-items: flex-start;
-            }
-            .content-timing .content_screen {
-                white-space: normal !important;
-                word-break: break-word;
-                overflow: visible !important;
-                text-overflow: clip;
-                -webkit-hyphens: none;
-                hyphens: none;
-                flex-basis: auto;
-                width: auto;
-                /* Prevent text cutting at bottom */
-                padding: 4px 8px !important;
-                line-height: 1.4 !important;
-                min-height: 20px !important;
-                /* Force break when text would overflow */
-                max-width: calc(100% - 8px);
-            }
-        }
-
-        /* Safari-specific fix to force line breaks and prevent text cutting */
-        @media screen and (-webkit-min-device-pixel-ratio: 0) {
-            .content-timing {
-                display: flex !important;
-                flex-wrap: wrap !important;
-                align-items: flex-start;
-                gap: 4px;
-            }
-            .content-timing .content_screen {
-                overflow: visible !important;
-                text-overflow: clip !important;
-                white-space: normal !important;
-                word-wrap: break-word;
-                flex-basis: auto;
-                width: auto;
-                /* Force break to new line if container is too narrow */
-                min-width: 0;
-                /* Prevent text cutting at bottom */
-                padding: 4px 8px !important;
-                line-height: 1.4 !important;
-                min-height: 20px !important;
-                /* Force break when text would overflow */
-                max-width: calc(100% - 8px);
-            }
-        }
-
         /* On small screens, force views to wrap */
         @media (max-width: 768px) {
-            .content-timing {
-                display: flex !important;
-                flex-wrap: wrap !important;
-                align-items: center;
-                gap: 4px;
-            }
             .content-timing .content_screen {
                 white-space: normal !important;
-                display: inline-block;
-                margin-top: 4px;
-                margin-bottom: 4px;
-                flex-basis: auto;
-                width: auto;
             }
         }
 

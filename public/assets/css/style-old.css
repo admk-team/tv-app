@@ -465,10 +465,8 @@ ul.share_list li a:hover {
     /* Force flexbox wrapping for Safari and all browsers */
     display: flex !important;
     flex-wrap: wrap !important;
-    align-items: flex-start;
+    align-items: center;
     gap: 4px;
-    /* Safari-specific: Prevent text cutting */
-    -webkit-box-align: start;
 }
 
 .about-movie,
@@ -2989,7 +2987,7 @@ span.error_box-register {
     font-family: 'Noto Sans';
     font-size: 10px;
     font-weight: 400;
-    padding: 4px 8px;
+    padding: 2px 8px;
     border: 1px var(--slidercardCardColor) solid;
     display: inline-block;
     border-radius: 4px;
@@ -3000,9 +2998,6 @@ span.error_box-register {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     max-width: 100%;
-    /* Prevent text from being cut at bottom - Safari fix */
-    line-height: 1.4;
-    min-height: 20px;
     /* Force line break on Safari when needed */
     flex-shrink: 0;
     min-width: fit-content;
@@ -4077,10 +4072,8 @@ textarea.form-control:hover {
         /* Force flexbox wrapping on medium screens */
         display: flex !important;
         flex-wrap: wrap !important;
-        align-items: flex-start;
+        align-items: center;
         gap: 4px;
-        /* Safari-specific: Prevent text cutting */
-        -webkit-box-align: start;
     }
 
     /* Force views to break to new line on medium screens (including Safari) */
@@ -4094,13 +4087,6 @@ textarea.form-control:hover {
         /* Force break to new line if needed */
         flex-basis: auto;
         width: auto;
-        /* Prevent text cutting at bottom - Safari fix */
-        padding: 4px 8px !important;
-        line-height: 1.4 !important;
-        min-height: 20px !important;
-        overflow: visible !important;
-        /* Force break when text would overflow */
-        max-width: calc(100% - 8px);
     }
 
     .slide {
@@ -4916,13 +4902,6 @@ ul.navbar_center li:hover {
         /* Force break to new line if needed */
         flex-basis: auto;
         width: auto;
-        /* Prevent text cutting at bottom - Safari fix */
-        padding: 4px 8px !important;
-        line-height: 1.4 !important;
-        min-height: 20px !important;
-        overflow: visible !important;
-        /* Force break when text would overflow */
-        max-width: calc(100% - 8px);
     }
 
     button.detail_btn {
@@ -5031,10 +5010,8 @@ ul.navbar_center li:hover {
         /* Force flexbox wrapping on very small screens */
         display: flex !important;
         flex-wrap: wrap !important;
-        align-items: flex-start;
+        align-items: center;
         gap: 4px;
-        /* Safari-specific: Prevent text cutting */
-        -webkit-box-align: start;
     }
 
     /* Force views to break to new line on very small screens */
@@ -5046,13 +5023,6 @@ ul.navbar_center li:hover {
         /* Force break to new line if needed */
         flex-basis: auto;
         width: auto;
-        /* Prevent text cutting at bottom - Safari fix */
-        padding: 4px 8px !important;
-        line-height: 1.4 !important;
-        min-height: 20px !important;
-        overflow: visible !important;
-        /* Force break when text would overflow */
-        max-width: calc(100% - 8px);
     }
 
     .movie_detail_inner_box {
