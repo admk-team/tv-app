@@ -66,16 +66,16 @@
         <div class="list_heading">
             <h1>{{ $category->cat_title ?? '' }}</h1>
         </div>
-      @if($category->menu_type === 'HO')
+      @if(($category->menu_type ?? '') === 'HO')
     <div class="list_change_btn">
         <a href="{{ route('category', [$category->cat_guid]) }}">
-            View all home
+            View all
         </a>
     </div>
 @else
     <div class="list_change_btn">
         <a href="{{ route('category.menu', [$category->cat_guid, $category->menu_guid]) }}">
-            View all menu
+            View all
         </a>
     </div>
 @endif

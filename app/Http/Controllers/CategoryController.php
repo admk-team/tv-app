@@ -190,12 +190,8 @@ class CategoryController extends Controller
             'category_guid' => $category->cat_guid ?? 'NO_GUID',
         ]);
         
-        // If we're on the home page or this is an AJAX request from home page, set menu_type to 'HO'
-        if ($isFromHomePage) {
-            $category->menu_type = 'HO';
-            Log::info("Set menu_type to HO for home page", ['category_guid' => $category->cat_guid]);
-        }
-
+     
+        
         // Log views data before rendering
         $catGuid = $category->cat_guid ?? 'unknown';
         $catTitle = $category->cat_title ?? 'unknown';
