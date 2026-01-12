@@ -91,7 +91,7 @@
                                                         @if (isset($arrStreamsData['views']) && $arrStreamsData['views'] > 0)
                                                             <div class="views-info" style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
                                                                 <i class="bi bi-eye" style="margin-right: 4px;"></i>
-                                                                {{ number_format($arrStreamsData['views']) }} {{ $arrStreamsData['views'] == 1 ? 'view' : 'views' }}
+                                                                {{ \App\Helpers\GeneralHelper::formatViews($arrStreamsData['views']) }} {{ $arrStreamsData['views'] == 1 ? 'view' : 'views' }}
                                                             </div>
                                                         @endif
                                                     </div>

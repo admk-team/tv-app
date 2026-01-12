@@ -344,7 +344,7 @@ if (session('USER_DETAILS.USER_CODE')) {
                         <span class="content_screen themePrimaryTxtColr"
                             style=" border: 1px var(--themePrimaryTxtColor) solid !important; ">
                             <i class="bi bi-eye" style="margin-right: 4px;"></i>
-                            {{ number_format($stream_details['views']) }} {{ $stream_details['views'] == 1 ? 'view' : 'views' }}
+                            {{ \App\Helpers\GeneralHelper::formatViews($stream_details['views']) }} {{ $stream_details['views'] == 1 ? 'view' : 'views' }}
                         </span>
                     @endif
                 </div>

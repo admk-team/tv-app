@@ -59,6 +59,28 @@
 
 @push('scripts')
     <script>
+        // Function to format views count with abbreviated notation (1k, 1.5k, 1M, etc.)
+        function formatViews(views) {
+            views = parseInt(views);
+            if (views < 1000) {
+                return views.toString();
+            }
+            if (views < 1000000) {
+                var thousands = views / 1000;
+                if (thousands === Math.floor(thousands)) {
+                    return Math.floor(thousands) + 'k';
+                } else {
+                    return thousands.toFixed(1) + 'k';
+                }
+            }
+            var millions = views / 1000000;
+            if (millions === Math.floor(millions)) {
+                return Math.floor(millions) + 'M';
+            } else {
+                return millions.toFixed(1) + 'M';
+            }
+        }
+
         $(document).ready(function() {
             // Parse categories from server-side data
             var data = {!! json_encode($categories) !!};
@@ -126,7 +148,7 @@
                                         ${stream.views && stream.views > 0 ? 
                                             `<div class="views-info" style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
                                                 <i class="bi bi-eye" style="margin-right: 4px;"></i>
-                                                ${parseInt(stream.views).toLocaleString()} ${stream.views == 1 ? 'view' : 'views'}
+                                                ${formatViews(stream.views)} ${stream.views == 1 ? 'view' : 'views'}
                                             </div>` : ''}
                                     </div>
                                 </div>

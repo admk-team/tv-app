@@ -376,7 +376,7 @@
                         @if (isset($stream_details['views']) && $stream_details['views'] > 0)
                             <span class="content_screen">
                                 <i class="bi bi-eye" style="margin-right: 4px;"></i>
-                                {{ number_format($stream_details['views']) }}
+                                {{ \App\Helpers\GeneralHelper::formatViews($stream_details['views']) }}
                                 {{ $stream_details['views'] == 1 ? 'view' : 'views' }}
                             </span>
                         @endif

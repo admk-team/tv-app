@@ -42,7 +42,7 @@
                             @if (isset($stream->views) && $stream->views > 0)
                                 <span class="content_screen" style="margin-left: 8px;">
                                     <i class="bi bi-eye" style="margin-right: 4px;"></i>
-                                    {{ number_format($stream->views) }} {{ $stream->views == 1 ? 'view' : 'views' }}
+                                    {{ \App\Helpers\GeneralHelper::formatViews($stream->views) }} {{ $stream->views == 1 ? 'view' : 'views' }}
                                 </span>
                             @endif
                         </div>

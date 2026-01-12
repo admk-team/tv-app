@@ -264,7 +264,7 @@
                                                         <div class="views-info"
                                                             style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
                                                             <i class="bi bi-eye" style="margin-right: 4px;"></i>
-                                                            {{ number_format($views) }}
+                                                            {{ \App\Helpers\GeneralHelper::formatViews($views) }}
                                                             {{ $views == 1 ? 'view' : 'views' }}
                                                         </div>
                                                     @endif
@@ -404,7 +404,7 @@
                                                     <div class="views-info"
                                                         style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
                                                         <i class="bi bi-eye" style="margin-right: 4px;"></i>
-                                                        {{ number_format($views) }}
+                                                        {{ \App\Helpers\GeneralHelper::formatViews($views) }}
                                                         {{ $views == 1 ? 'view' : 'views' }}
                                                     </div>
                                                 @endif

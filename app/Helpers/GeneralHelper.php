@@ -739,4 +739,39 @@ class GeneralHelper
 
         return $gradient;
     }
+
+    /**
+     * Format views count with abbreviated notation (1k, 1.5k, 1M, etc.)
+     * 
+     * @param int|float $views The number of views
+     * @return string Formatted views string
+     */
+    public static function formatViews($views)
+    {
+        $views = (int) $views;
+        
+        if ($views < 1000) {
+            return (string) $views;
+        }
+        
+        if ($views < 1000000) {
+            // Format as thousands (1k, 1.5k, 2k, etc.)
+            $thousands = $views / 1000;
+            if ($thousands == (int) $thousands) {
+                // Whole number (e.g., 1000 -> 1k, 2000 -> 2k)
+                return (int) $thousands . 'k';
+            } else {
+                // Decimal (e.g., 1500 -> 1.5k, 2500 -> 2.5k)
+                return number_format($thousands, 1) . 'k';
+            }
+        }
+        
+        // Format as millions (1M, 1.5M, etc.)
+        $millions = $views / 1000000;
+        if ($millions == (int) $millions) {
+            return (int) $millions . 'M';
+        } else {
+            return number_format($millions, 1) . 'M';
+        }
+    }
 }
