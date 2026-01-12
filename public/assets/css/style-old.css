@@ -449,8 +449,7 @@ ul.share_list li a:hover {
     margin-bottom: 15px
 }
 
-.about-movie,
-.content-timing {
+.about-movie {
     white-space: normal;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -458,7 +457,18 @@ ul.share_list li a:hover {
     display: -webkit-box;
     margin-bottom: 16px;
     -webkit-line-clamp: 3;
-    flex-wrap: wrap;
+}
+
+.content-timing {
+    white-space: normal;
+    margin-bottom: 16px;
+    /* Force flexbox wrapping for Safari and all browsers */
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start;
+    gap: 4px;
+    /* Safari-specific: Prevent text cutting */
+    -webkit-box-align: start;
 }
 
 .about-movie,
@@ -2979,8 +2989,8 @@ span.error_box-register {
     font-family: 'Noto Sans';
     font-size: 10px;
     font-weight: 400;
-    padding: 2px 8px;
-    border: 1px var(--slidercardCatColor) solid;
+    padding: 4px 8px;
+    border: 1px var(--slidercardCardColor) solid;
     display: inline-block;
     border-radius: 4px;
     white-space: nowrap;
@@ -2990,6 +3000,12 @@ span.error_box-register {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     max-width: 100%;
+    /* Prevent text from being cut at bottom - Safari fix */
+    line-height: 1.4;
+    min-height: 20px;
+    /* Force line break on Safari when needed */
+    flex-shrink: 0;
+    min-width: fit-content;
 }
 
 .content_screen a {
@@ -4057,10 +4073,17 @@ textarea.form-control:hover {
 
 @media(max-width:991px) {
     .content-timing {
-        margin-bottom: 6px
+        margin-bottom: 6px;
+        /* Force flexbox wrapping on medium screens */
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-items: flex-start;
+        gap: 4px;
+        /* Safari-specific: Prevent text cutting */
+        -webkit-box-align: start;
     }
 
-    /* Allow views to wrap on medium screens for detail screen (including Safari) */
+    /* Force views to break to new line on medium screens (including Safari) */
     .content-timing .content_screen {
         white-space: normal !important;
         display: inline-block;
@@ -4068,6 +4091,16 @@ textarea.form-control:hover {
         margin-bottom: 4px;
         word-wrap: break-word;
         overflow-wrap: break-word;
+        /* Force break to new line if needed */
+        flex-basis: auto;
+        width: auto;
+        /* Prevent text cutting at bottom - Safari fix */
+        padding: 4px 8px !important;
+        line-height: 1.4 !important;
+        min-height: 20px !important;
+        overflow: visible !important;
+        /* Force break when text would overflow */
+        max-width: calc(100% - 8px);
     }
 
     .slide {
@@ -4864,10 +4897,15 @@ ul.navbar_center li:hover {
 
     .content-timing {
         margin-bottom: 0;
-        margin-top: 2px
+        margin-top: 2px;
+        /* Force flexbox wrapping on small screens */
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-items: center;
+        gap: 4px;
     }
 
-    /* Allow views to wrap on small screens for detail screen (including Safari) */
+    /* Force views to break to new line on small screens (including Safari) */
     .content-timing .content_screen {
         white-space: normal !important;
         display: inline-block;
@@ -4875,6 +4913,16 @@ ul.navbar_center li:hover {
         margin-bottom: 4px;
         word-wrap: break-word;
         overflow-wrap: break-word;
+        /* Force break to new line if needed */
+        flex-basis: auto;
+        width: auto;
+        /* Prevent text cutting at bottom - Safari fix */
+        padding: 4px 8px !important;
+        line-height: 1.4 !important;
+        min-height: 20px !important;
+        overflow: visible !important;
+        /* Force break when text would overflow */
+        max-width: calc(100% - 8px);
     }
 
     button.detail_btn {
@@ -4979,15 +5027,32 @@ ul.navbar_center li:hover {
 
     .content-timing {
         margin-bottom: 0;
-        margin-top: 0
+        margin-top: 0;
+        /* Force flexbox wrapping on very small screens */
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-items: flex-start;
+        gap: 4px;
+        /* Safari-specific: Prevent text cutting */
+        -webkit-box-align: start;
     }
 
-    /* Allow views to wrap on small screens for detail screen */
+    /* Force views to break to new line on very small screens */
     .content-timing .content_screen {
-        white-space: normal;
+        white-space: normal !important;
         display: inline-block;
         margin-top: 4px;
         margin-bottom: 4px;
+        /* Force break to new line if needed */
+        flex-basis: auto;
+        width: auto;
+        /* Prevent text cutting at bottom - Safari fix */
+        padding: 4px 8px !important;
+        line-height: 1.4 !important;
+        min-height: 20px !important;
+        overflow: visible !important;
+        /* Force break when text would overflow */
+        max-width: calc(100% - 8px);
     }
 
     .movie_detail_inner_box {
