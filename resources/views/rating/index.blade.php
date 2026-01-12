@@ -37,7 +37,7 @@
                                                 @if (isset($stream['views']) && $stream['views'] > 0)
                                                     <div class="views-info" style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
                                                         <i class="bi bi-eye" style="margin-right: 4px;"></i>
-                                                        {{ number_format($stream['views']) }} {{ $stream['views'] == 1 ? 'view' : 'views' }}
+                                                        {{ \App\Helpers\GeneralHelper::formatViews($stream['views']) }} {{ $stream['views'] == 1 ? 'view' : 'views' }}
                                                     </div>
                                                 @endif
                                             </div>
