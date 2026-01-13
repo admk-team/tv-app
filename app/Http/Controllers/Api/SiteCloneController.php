@@ -20,7 +20,7 @@ class SiteCloneController extends Controller
         // $input['name'] = Str::replace(' ', '', $input['name']);
         // $input['name'] = Str::substr($input['name'], 0, 7);
         Log::info("Started");
-        if ($referer === '46.202.176.117') {
+        if ($referer === '72.60.166.237') {
             $response = Http::withOptions([
                 'verify' => false,
             ])->withHeaders([
