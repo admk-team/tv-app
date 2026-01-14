@@ -273,25 +273,74 @@
             max-width: 100%;
         }
 
-        /* For Safari: Ensure content_screen text is fully visible and not cut */
+        /* For Safari: Force text to wrap to next line instead of showing ellipsis */
         @supports (-webkit-appearance: none) {
-            .content-timing .content_screen {
-                white-space: normal;
+            .content-timing {
+                overflow: visible !important;
+                text-overflow: clip !important;
+                display: flex !important;
+                flex-wrap: wrap !important;
+                -webkit-line-clamp: unset !important;
+                -webkit-box-orient: unset !important;
+                gap: 3px !important;
+            }
+            
+            .content-timing .content_screen,
+            .content_screen {
+                white-space: normal !important;
                 word-break: break-word;
-                overflow: visible;
-                text-overflow: clip;
+                overflow: visible !important;
+                text-overflow: clip !important;
+                word-wrap: break-word;
                 -webkit-hyphens: none;
                 hyphens: none;
+                /* Prevent text cutting at bottom in Safari */
+                line-height: 1.5 !important;
+                padding-top: 4px !important;
+                padding-bottom: 4px !important;
+                min-height: auto !important;
+                /* Add spacing between elements */
+                margin-left: 3px !important;
+            }
+            
+            .content-timing .content_screen:first-child,
+            .content-timing .content_screen:first-of-type,
+            .content_screen:first-child {
+                margin-left: 0 !important;
             }
         }
 
-        /* Safari-specific fix to prevent text cutting */
+        /* Safari-specific: Force wrapping on next line */
         @media screen and (-webkit-min-device-pixel-ratio: 0) {
-            .content-timing .content_screen {
+            .content-timing {
                 overflow: visible !important;
                 text-overflow: clip !important;
-                white-space: normal;
+                display: flex !important;
+                flex-wrap: wrap !important;
+                -webkit-line-clamp: unset !important;
+                -webkit-box-orient: unset !important;
+                gap: 3px !important;
+            }
+            
+            .content-timing .content_screen,
+            .content_screen {
+                overflow: visible !important;
+                text-overflow: clip !important;
+                white-space: normal !important;
                 word-wrap: break-word;
+                /* Prevent text cutting at bottom in Safari */
+                line-height: 1.5 !important;
+                padding-top: 4px !important;
+                padding-bottom: 4px !important;
+                min-height: auto !important;
+                /* Add spacing between elements */
+                margin-left: 3px !important;
+            }
+            
+            .content-timing .content_screen:first-child,
+            .content-timing .content_screen:first-of-type,
+            .content_screen:first-child {
+                margin-left: 0 !important;
             }
         }
 

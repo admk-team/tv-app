@@ -2992,6 +2992,71 @@ span.error_box-register {
     max-width: 100%;
 }
 
+/* Safari: Force text to wrap to next line instead of showing ellipsis */
+@supports (-webkit-appearance: none) {
+    .content-timing {
+        overflow: visible !important;
+        text-overflow: clip !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 3px !important;
+    }
+    
+    .content-timing .content_screen,
+    .content_screen {
+        white-space: normal !important;
+        word-break: break-word;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        word-wrap: break-word;
+        /* Prevent text cutting at bottom in Safari */
+        line-height: 1.5 !important;
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
+        min-height: auto !important;
+        /* Add spacing between elements */
+        margin-left: 3px !important;
+    }
+    
+    .content-timing .content_screen:first-child,
+    .content-timing .content_screen:first-of-type,
+    .content_screen:first-child {
+        margin-left: 0 !important;
+    }
+}
+
+/* Safari-specific: Force wrapping on next line */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .content-timing {
+        overflow: visible !important;
+        text-overflow: clip !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 3px !important;
+    }
+    
+    .content-timing .content_screen,
+    .content_screen {
+        white-space: normal !important;
+        word-wrap: break-word;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        /* Prevent text cutting at bottom in Safari */
+        line-height: 1.5 !important;
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
+        min-height: auto !important;
+        /* Add spacing between elements */
+        margin-left: 3px !important;
+    }
+    
+    .content-timing .content_screen:first-child,
+    .content-timing .content_screen:first-of-type,
+    .content_screen:first-child {
+        margin-left: 0 !important;
+    }
+}
+
 .content_screen a {
     color: var(--slidercardCatColor);
     text-decoration: none
@@ -4068,6 +4133,12 @@ textarea.form-control:hover {
         margin-bottom: 4px;
         word-wrap: break-word;
         overflow-wrap: break-word;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        /* Prevent text cutting at bottom in Safari */
+        line-height: 1.5 !important;
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
     }
 
     .slide {
@@ -4875,6 +4946,12 @@ ul.navbar_center li:hover {
         margin-bottom: 4px;
         word-wrap: break-word;
         overflow-wrap: break-word;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        /* Prevent text cutting at bottom in Safari */
+        line-height: 1.5 !important;
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
     }
 
     button.detail_btn {
@@ -4984,10 +5061,17 @@ ul.navbar_center li:hover {
 
     /* Allow views to wrap on small screens for detail screen */
     .content-timing .content_screen {
-        white-space: normal;
+        white-space: normal !important;
         display: inline-block;
         margin-top: 4px;
         margin-bottom: 4px;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        word-wrap: break-word;
+        /* Prevent text cutting at bottom in Safari */
+        line-height: 1.5 !important;
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
     }
 
     .movie_detail_inner_box {
@@ -5024,6 +5108,12 @@ ul.navbar_center li:hover {
         margin-bottom: 4px;
         word-wrap: break-word;
         overflow-wrap: break-word;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        /* Prevent text cutting at bottom in Safari */
+        line-height: 1.5 !important;
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
     }
 
     .subscriber_form .inner-subBox {
