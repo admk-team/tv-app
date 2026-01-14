@@ -3011,7 +3011,8 @@ span.error_box-register {
     font-size: 10px;
     font-weight: 400;
     padding: 2px 8px;
-    border: 1px var(--slidercardCardColor) solid;
+    border: 1px var(--slidercardCardColor) solid !important;
+    border-style: solid !important;
     display: inline-block;
     border-radius: 4px;
     white-space: nowrap;
@@ -3050,6 +3051,9 @@ span.error_box-register {
         min-height: auto !important;
         /* Add spacing between elements */
         margin-left: 3px !important;
+        /* Ensure border is visible */
+        border: 1px var(--slidercardCardColor) solid !important;
+        border-style: solid !important;
     }
 
     .content-timing .content_screen:first-child,
@@ -3082,6 +3086,9 @@ span.error_box-register {
         min-height: auto !important;
         /* Add spacing between elements */
         margin-left: 3px !important;
+        /* Ensure border is visible */
+        border: 1px var(--slidercardCardColor) solid !important;
+        border-style: solid !important;
     }
 
     .content-timing .content_screen:first-child,

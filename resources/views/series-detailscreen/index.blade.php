@@ -131,6 +131,100 @@
         .mvp-solo-seekbar-visible {
             display: none !important;
         }
+
+        .content_screen {
+            border: 1px var(--themePrimaryTxtColor) solid !important;
+        }
+
+        /* Force content-timing to use flexbox for proper wrapping */
+        .content-timing {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Safari: Force text to wrap to next line instead of showing ellipsis */
+        @supports (-webkit-appearance: none) {
+            .content-timing {
+                overflow: visible !important;
+                text-overflow: clip !important;
+                display: flex !important;
+                flex-wrap: wrap !important;
+                -webkit-line-clamp: unset !important;
+                -webkit-box-orient: unset !important;
+                gap: 3px !important;
+            }
+            
+            .content-timing .content_screen,
+            .content_screen {
+                white-space: normal !important;
+                word-break: break-word;
+                overflow: visible !important;
+                text-overflow: clip !important;
+                word-wrap: break-word;
+                /* Prevent text cutting at bottom in Safari */
+                line-height: 1.5 !important;
+                padding-top: 4px !important;
+                padding-bottom: 4px !important;
+                min-height: auto !important;
+                /* Add spacing between elements */
+                margin-left: 3px !important;
+                /* Ensure border is visible */
+                border: 1px var(--themePrimaryTxtColor) solid !important;
+                border-style: solid !important;
+            }
+            
+            .content-timing .content_screen:first-child,
+            .content-timing .content_screen:first-of-type,
+            .content_screen:first-child {
+                margin-left: 0 !important;
+            }
+        }
+
+        /* Safari-specific: Force wrapping on next line */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            .content-timing {
+                overflow: visible !important;
+                text-overflow: clip !important;
+                display: flex !important;
+                flex-wrap: wrap !important;
+                -webkit-line-clamp: unset !important;
+                -webkit-box-orient: unset !important;
+                gap: 3px !important;
+            }
+            
+            .content-timing .content_screen,
+            .content_screen {
+                white-space: normal !important;
+                word-wrap: break-word;
+                overflow: visible !important;
+                text-overflow: clip !important;
+                /* Prevent text cutting at bottom in Safari */
+                line-height: 1.5 !important;
+                padding-top: 4px !important;
+                padding-bottom: 4px !important;
+                min-height: auto !important;
+                /* Add spacing between elements */
+                margin-left: 3px !important;
+                /* Ensure border is visible */
+                border: 1px var(--themePrimaryTxtColor) solid !important;
+                border-style: solid !important;
+            }
+            
+            .content-timing .content_screen:first-child,
+            .content-timing .content_screen:first-of-type,
+            .content_screen:first-child {
+                margin-left: 0 !important;
+            }
+        }
+
+        /* On small screens, force views to wrap */
+        @media (max-width: 768px) {
+            .content-timing .content_screen {
+                white-space: normal !important;
+            }
+        }
     </style>
 
     <!--Start of banner section-->

@@ -191,6 +191,9 @@
                 min-height: auto !important;
                 /* Add spacing between elements */
                 margin-left: 3px !important;
+                /* Ensure border is visible */
+                border: 1px var(--themePrimaryTxtColor) solid !important;
+                border-style: solid !important;
             }
             
             .content-timing .content_screen:first-child,
@@ -225,6 +228,9 @@
                 min-height: auto !important;
                 /* Add spacing between elements */
                 margin-left: 3px !important;
+                /* Ensure border is visible */
+                border: 1px var(--themePrimaryTxtColor) solid !important;
+                border-style: solid !important;
             }
             
             .content-timing .content_screen:first-child,
