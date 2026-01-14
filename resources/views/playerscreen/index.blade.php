@@ -264,93 +264,20 @@
     <style>
         .content_screen {
             border: 1px var(--themePrimaryTxtColor) solid !important;
-            /* Ensure text is not cut in Safari */
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            min-width: 0;
-            max-width: 100%;
         }
 
-        /* For Safari: Force text to wrap to next line instead of showing ellipsis */
-        @supports (-webkit-appearance: none) {
-            .content-timing {
-                overflow: visible !important;
-                text-overflow: clip !important;
-                display: flex !important;
-                flex-wrap: wrap !important;
-                -webkit-line-clamp: unset !important;
-                -webkit-box-orient: unset !important;
-                gap: 3px !important;
-            }
-            
-            .content-timing .content_screen,
-            .content_screen {
-                white-space: normal !important;
-                word-break: break-word;
-                overflow: visible !important;
-                text-overflow: clip !important;
-                word-wrap: break-word;
-                -webkit-hyphens: none;
-                hyphens: none;
-                /* Prevent text cutting at bottom in Safari */
-                line-height: 1.5 !important;
-                padding-top: 4px !important;
-                padding-bottom: 4px !important;
-                min-height: auto !important;
-                /* Add spacing between elements */
-                margin-left: 3px !important;
-            }
-            
-            .content-timing .content_screen:first-child,
-            .content-timing .content_screen:first-of-type,
-            .content_screen:first-child {
-                margin-left: 0 !important;
-            }
+        /* Force content-timing to use flexbox for proper wrapping */
+        .content-timing {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            align-items: center;
+            gap: 4px;
         }
 
-        /* Safari-specific: Force wrapping on next line */
-        @media screen and (-webkit-min-device-pixel-ratio: 0) {
-            .content-timing {
-                overflow: visible !important;
-                text-overflow: clip !important;
-                display: flex !important;
-                flex-wrap: wrap !important;
-                -webkit-line-clamp: unset !important;
-                -webkit-box-orient: unset !important;
-                gap: 3px !important;
-            }
-            
-            .content-timing .content_screen,
-            .content_screen {
-                overflow: visible !important;
-                text-overflow: clip !important;
-                white-space: normal !important;
-                word-wrap: break-word;
-                /* Prevent text cutting at bottom in Safari */
-                line-height: 1.5 !important;
-                padding-top: 4px !important;
-                padding-bottom: 4px !important;
-                min-height: auto !important;
-                /* Add spacing between elements */
-                margin-left: 3px !important;
-            }
-            
-            .content-timing .content_screen:first-child,
-            .content-timing .content_screen:first-of-type,
-            .content_screen:first-child {
-                margin-left: 0 !important;
-            }
-        }
-
-        /* On small screens, allow views to wrap */
+        /* On small screens, force views to wrap */
         @media (max-width: 768px) {
             .content-timing .content_screen {
-                white-space: normal;
-                display: inline-block;
-                margin-top: 4px;
-                margin-bottom: 4px;
+                white-space: normal !important;
             }
         }
 
