@@ -56,14 +56,14 @@
     font-size: 14px;
     font-weight: 500;
     opacity: 0.8;
-    color:var(--themePrimaryTxtColor);
+    color: var(--themePrimaryTxtColor);
 }
 
 .travel-info .timestamp .badges {
     display: flex;
     gap: 5px;
     margin-left: 8px;
-    color:var(--themePrimaryTxtColor);
+    color: var(--themePrimaryTxtColor);
 }
 
 .travel-info .timestamp .badge {
@@ -72,7 +72,7 @@
     padding: 3px 6px;
     border-radius: 4px;
     font-size: 12px;
-    color:var(--themePrimaryTxtColor);
+    color: var(--themePrimaryTxtColor);
 }
 
 .travel-info .description {
@@ -87,7 +87,7 @@
     line-height: 20px;
     margin-bottom: 15px;
     max-width: 50%;
-    color:var(--themePrimaryTxtColor);
+    color: var(--themePrimaryTxtColor);
 }
 
 .travel-info .btns {
@@ -111,7 +111,7 @@
     background-color: var(--themePrimaryTxtColor);
 }
 @media only screen and (max-width: 767.8px) {
-    .travel-info{
+    .travel-info {
         margin-top: 10%;
     }
     .travel-info h1 {

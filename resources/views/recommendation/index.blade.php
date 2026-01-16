@@ -137,7 +137,7 @@
                                         ${stream.views && stream.views > 0 ? 
                                             `<div class="views-info" style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
                                                 <i class="bi bi-eye" style="margin-right: 4px;"></i>
-                                                ${formatViews(stream.views)} ${stream.views == 1 ? 'view' : 'views'}
+                                                ${formatViews(stream.views)}
                                             </div>` : ''}
                                         <div class="recommended">Recommended by: ${stream.recommended_by}</div>
                                     </div>

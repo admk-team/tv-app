@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
@@ -20,24 +21,41 @@ class HomeController extends Controller
         }
         $currentUrl = $request->fullUrl();
         $link = $request->query('link');
+        $code = $request->query('code');
 
         // Handle partner link tracking
         if ($link) {
+            // Store in session if not already set
             if (!session()->has('partner_url')) {
                 session(['partner_url' => $currentUrl]);
                 Log::info('URL set in session: ' . $currentUrl);
-                if (session('partner_url')) {
-                    try {
-                        Http::timeout(300)->withHeaders(Api::headers())
-                            ->asForm()
-                            ->post(Api::endpoint("/partner-link-count"), [
-                                'partner_url' => session('partner_url'),
-                            ]);
-                    } catch (\Exception $e) {
-                        Log::error("Partner link count API error: " . $e->getMessage());
-                    }
+            }
+            
+            // Store in cookie with lifetime (5 years = 2628000 minutes)
+            if (!$request->cookie('partner_url')) {
+                Cookie::queue('partner_url', $currentUrl, 2628000);
+                Log::info('URL set in cookie: ' . $currentUrl);
+            }
+            
+            // Make API call if partner_url exists in session or cookie
+            $partnerUrl = session('partner_url') ?? $request->cookie('partner_url');
+            if ($partnerUrl) {
+                try {
+                    Http::timeout(300)->withHeaders(Api::headers())
+                        ->asForm()
+                        ->post(Api::endpoint("/partner-link-count"), [
+                            'partner_url' => $partnerUrl,
+                        ]);
+                } catch (\Exception $e) {
+                    Log::error("Partner link count API error: " . $e->getMessage());
                 }
             }
+        }
+
+        // Handle code parameter - store in cookie with lifetime
+        if ($code && !$request->cookie('partner_code')) {
+            Cookie::queue('partner_code', $code, 2628000);
+            Log::info('Code set in cookie: ' . $code);
         }
 
         // Handle referral link
@@ -80,7 +98,7 @@ class HomeController extends Controller
         // Format duration
         foreach ($data->app->featured_items->streams ?? [] as $item) {
             $duration = explode(':', $item->stream_duration_timeformat);
-            $item->formatted_duration = $duration[0] . ' Hour ' . $duration[1] . ' Minutes';
+            $item->formatted_duration = $duration[0] . ' Hour ' . $duration[1] . ' min';
         }
 
         // If menu type is 'FA' (Featured App)

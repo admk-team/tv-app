@@ -1,5 +1,14 @@
 @section('head')
     <link rel="stylesheet" href="{{ asset('assets/sliders_assets/css/hero_slider.css') }}">
+    <style>
+        /* Prevent double border on content_screen inside badges - same fix as detail screen */
+        .travel-info .timestamp .badges .content_screen {
+            border: 1px var(--themePrimaryTxtColor) solid !important;
+            border-style: solid !important;
+            /* Match badge padding for consistent bottom spacing */
+            padding: 3px 6px !important;
+        }
+    </style>
 @endsection
 
 <div id="carouselExampleCaptions" class="carousel mb-3" data-bs-ride="carousel" data-bs-interval="3000">
@@ -56,7 +65,7 @@
                                     @if (isset($stream->views) && $stream->views > 0)
                                         <span class="content_screen" style="margin-left: 8px;">
                                             <i class="bi bi-eye" style="margin-right: 4px;"></i>
-                                            {{ \App\Helpers\GeneralHelper::formatViews($stream->views) }} {{ $stream->views == 1 ? 'view' : 'views' }}
+                                            {{ \App\Helpers\GeneralHelper::formatViews($stream->views) }}
                                         </span>
                                     @endif
                                 </div>

@@ -9,6 +9,7 @@ use App\Services\Api;
 use App\Services\AppConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cookie;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Log;
 
@@ -64,6 +65,10 @@ class RegisterController extends Controller
         }
 
         $request->validate($rules, $messages);
+        
+        // Check both session and cookie for partner_url
+        $partnerUrl = session('partner_url') ?? $request->cookie('partner_url');
+        
         $response = Http::timeout(300)->withHeaders(Api::headers(
             [
                 'Accept' => 'application/json',
@@ -78,14 +83,18 @@ class RegisterController extends Controller
                 'password' => $request->password,
                 'confirmPassword' => $request->password_confirmation,
                 'isBypassEmailVerificationStep' => 'Y',
-                'partner_url' => session('partner_url') ?? null,
+                'partner_url' => $partnerUrl ?? null,
                 'referral_link' => session('referral_link') ?? null
             ]);
         $responseJson = $response->json();
         
         if ($responseJson['app']['status'] === 0) {
             return back()->with('error', $responseJson['app']['msg']);
-        }    
+        }
+        
+        // Delete partner_url and partner_code cookies after successful registration
+        Cookie::queue(Cookie::forget('partner_url'));
+        Cookie::queue(Cookie::forget('partner_code'));    
 
         $xyz = base64_encode(request()->ip());
         session([
@@ -265,7 +274,11 @@ class RegisterController extends Controller
         }
 
         $xyz = base64_encode(request()->ip());
-        $partnerlink = session('partner_url');
+        
+        // Check both session and cookie for partner_url
+        $request = request();
+        $partnerlink = session('partner_url') ?? $request->cookie('partner_url');
+        
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->asForm()
             ->post(Api::endpoint("/mngappusrs?user_data={$xyz}&user_device={$finalresultDevice}"), [
@@ -282,6 +295,10 @@ class RegisterController extends Controller
         if ($responseJson['app']['status'] === 0) {
             return redirect()->route('login')->with('error', $responseJson['app']['msg']);
         }
+        
+        // Delete partner_url and partner_code cookies after successful social login/registration
+        Cookie::queue(Cookie::forget('partner_url'));
+        Cookie::queue(Cookie::forget('partner_code'));
 
         session([
             'USER_DETAILS' => [

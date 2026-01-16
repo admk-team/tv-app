@@ -265,7 +265,6 @@
                                                             style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
                                                             <i class="bi bi-eye" style="margin-right: 4px;"></i>
                                                             {{ \App\Helpers\GeneralHelper::formatViews($views) }}
-                                                            {{ $views == 1 ? 'view' : 'views' }}
                                                         </div>
                                                     @endif
                                                     @if (($stream->stream_watched_dur_in_pct ?? 0) > 1)
@@ -405,7 +404,6 @@
                                                         style="margin-top: 8px; display: block; color: var(--themePrimaryTxtColor);">
                                                         <i class="bi bi-eye" style="margin-right: 4px;"></i>
                                                         {{ \App\Helpers\GeneralHelper::formatViews($views) }}
-                                                        {{ $views == 1 ? 'view' : 'views' }}
                                                     </div>
                                                 @endif
                                                 @if (($stream->stream_watched_dur_in_pct ?? 0) > 1)

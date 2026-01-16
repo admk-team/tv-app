@@ -1153,7 +1153,6 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                         <span class="content_screen themePrimaryTxtColr">
                                             <i class="bi bi-eye" style="margin-right: 4px;"></i>
                                             {{ \App\Helpers\GeneralHelper::formatViews($views) }}
-                                            {{ $views == 1 ? 'view' : 'views' }}
                                         </span>
                                     @endif
                                     @if ($ratingsCount > 0)

@@ -74,7 +74,8 @@ class LoginController extends Controller
             $xyz = base64_encode(request()->ip());
         }
 
-        $partnerlink = session('partner_url');
+        // Check both session and cookie for partner_url
+        $partnerlink = session('partner_url') ?? $request->cookie('partner_url');
         $response = Http::timeout(300)->withHeaders(Api::headers())
             ->asForm()
             ->post(Api::endpoint("/mngappusrs?user_data={$xyz}&user_device={$finalresultDevice}&user_code={$request->user_code}&admin_code={$request->admin_code}"), [

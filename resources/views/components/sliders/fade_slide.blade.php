@@ -1,6 +1,15 @@
 @section('head')
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="{{ asset('assets/sliders_assets/css/fade.css') }}">
+    <style>
+        /* Prevent double border on content_screen inside badges - same fix as detail screen */
+        .travel-info .timestamp .badges .content_screen {
+            border: 1px var(--themePrimaryTxtColor) solid !important;
+            border-style: solid !important;
+            /* Match badge padding for consistent bottom spacing */
+            padding: 3px 6px !important;
+        }
+    </style>
 @endsection
 
 <div class="w3-content">
@@ -40,7 +49,7 @@
                             @if (isset($stream->views) && $stream->views > 0)
                                 <span class="content_screen" style="margin-left: 8px;">
                                     <i class="bi bi-eye" style="margin-right: 4px;"></i>
-                                    {{ \App\Helpers\GeneralHelper::formatViews($stream->views) }} {{ $stream->views == 1 ? 'view' : 'views' }}
+                                    {{ \App\Helpers\GeneralHelper::formatViews($stream->views) }}
                                 </span>
                             @endif
                         </div>

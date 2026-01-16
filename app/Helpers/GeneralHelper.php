@@ -598,8 +598,8 @@ class GeneralHelper
         if ($hour == 1) $streamTime = $hour . " Hour ";
         elseif ($hour > 1) $streamTime = $hour . " Hours ";
 
-        if ($minute == 1) $streamTime .= $minute . " Minute";
-        elseif ($minute > 1) $streamTime .= $minute . " Minutes";
+        if ($minute == 1) $streamTime .= $minute . " min";
+        elseif ($minute > 1) $streamTime .= $minute . " min";
 
         if ($stramType != 'M') $streamTime = '&nbsp;';
         return $streamTime;

@@ -2,6 +2,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="{{ asset('assets/sliders_assets/css/animation.css') }}">
+    <style>
+        /* Prevent double border on content_screen inside badges - same fix as detail screen */
+        .travel-info .timestamp .badges .content_screen {
+            border: 1px var(--themePrimaryTxtColor) solid !important;
+            border-style: solid !important;
+            /* Match badge padding for consistent bottom spacing */
+            padding: 3px 6px !important;
+        }
+    </style>
 @endsection
 <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
 <div id="content">
@@ -42,7 +51,7 @@
                             @if (isset($stream->views) && $stream->views > 0)
                                 <span class="content_screen" style="margin-left: 8px;">
                                     <i class="bi bi-eye" style="margin-right: 4px;"></i>
-                                    {{ \App\Helpers\GeneralHelper::formatViews($stream->views) }} {{ $stream->views == 1 ? 'view' : 'views' }}
+                                    {{ \App\Helpers\GeneralHelper::formatViews($stream->views) }}
                                 </span>
                             @endif
                         </div>

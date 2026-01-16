@@ -165,16 +165,69 @@
             display: none !important;
         }
 
+        /* Increase width for 1080p screens (1920px and above) */
+        @media (min-width: 1920px) {
+            .movie_detail_inner_box {
+                max-width: 650px !important;
+            }
+
+            .about-movie {
+                max-width: 1200px !important;
+            }
+
+            .movies_listview {
+                max-width: 1200px !important;
+            }
+
+            /* Prevent genre text and duration from wrapping on 1080p screens */
+            .content-timing {
+                max-width: 100% !important;
+            }
+
+            .content-timing .movie_type {
+                white-space: nowrap !important;
+                flex-shrink: 0 !important;
+            }
+
+            /* Prevent duration from wrapping - keep "1 Hour 14 min" on one line */
+            .content-timing span:not(.dot-sep):not(.movie_type) {
+                white-space: nowrap !important;
+                flex-shrink: 0 !important;
+            }
+        }
+
+        /* Base: Prevent wrapping on large screens (1080p and above) */
+        .content-timing {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            align-items: center;
+            gap: 3px !important;
+        }
+
+        /* Allow wrapping on smaller screens (below 1920px) */
+        @media (max-width: 1919px) {
+            .content-timing {
+                flex-wrap: wrap !important;
+            }
+        }
+
         /* Safari: Force text to wrap to next line instead of showing ellipsis */
         @supports (-webkit-appearance: none) {
             .content-timing {
                 overflow: visible !important;
                 text-overflow: clip !important;
                 display: flex !important;
-                flex-wrap: wrap !important;
+                flex-wrap: nowrap !important;
                 -webkit-line-clamp: unset !important;
                 -webkit-box-orient: unset !important;
                 gap: 3px !important;
+            }
+
+            /* Allow wrapping on smaller screens for Safari */
+            @media (max-width: 1919px) {
+                .content-timing {
+                    flex-wrap: wrap !important;
+                }
             }
             
             .content-timing .content_screen,
@@ -203,16 +256,23 @@
             }
         }
 
-        /* Safari-specific: Force wrapping on next line */
+        /* Safari-specific: Prevent wrapping on large screens */
         @media screen and (-webkit-min-device-pixel-ratio: 0) {
             .content-timing {
                 overflow: visible !important;
                 text-overflow: clip !important;
                 display: flex !important;
-                flex-wrap: wrap !important;
+                flex-wrap: nowrap !important;
                 -webkit-line-clamp: unset !important;
                 -webkit-box-orient: unset !important;
                 gap: 3px !important;
+            }
+
+            /* Allow wrapping on smaller screens for Safari */
+            @media (max-width: 1919px) {
+                .content-timing {
+                    flex-wrap: wrap !important;
+                }
             }
             
             .content-timing .content_screen,
@@ -452,7 +512,6 @@
                             <span class="content_screen">
                                 <i class="bi bi-eye" style="margin-right: 4px;"></i>
                                 {{ \App\Helpers\GeneralHelper::formatViews($stream_details['views']) }}
-                                {{ $stream_details['views'] == 1 ? 'view' : 'views' }}
                             </span>
                         @endif
                     </div>

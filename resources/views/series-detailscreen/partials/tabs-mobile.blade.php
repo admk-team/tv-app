@@ -274,7 +274,7 @@
                         <span class="content_screen themePrimaryTxtColr"
                             style=" border: 1px var(--themePrimaryTxtColor) solid !important; ">
                             <i class="bi bi-eye" style="margin-right: 4px;"></i>
-                            {{ \App\Helpers\GeneralHelper::formatViews($series_details['views']) }} {{ $series_details['views'] == 1 ? 'view' : 'views' }}
+                            {{ \App\Helpers\GeneralHelper::formatViews($series_details['views']) }}
                         </span>
                     @endif
                 </div>
