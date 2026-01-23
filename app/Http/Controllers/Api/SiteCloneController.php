@@ -20,7 +20,7 @@ class SiteCloneController extends Controller
         // $input['name'] = Str::replace(' ', '', $input['name']);
         // $input['name'] = Str::substr($input['name'], 0, 7);
         Log::info("Started");
-        // if ($referer === '72.60.166.237') {
+        if ($referer === '72.60.166.237') {
         $response = Http::withOptions([
             'verify' => false,
         ])->withHeaders([
@@ -53,7 +53,7 @@ class SiteCloneController extends Controller
             'success' => $referer,
             'script_output' => $output
         ]);
-        // }
+        }
 
         return response()->json(['error' => 'Try Again Later']);
     }
