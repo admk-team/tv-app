@@ -285,7 +285,7 @@
                 -webkit-box-orient: unset !important;
                 gap: 3px !important;
             }
-            
+
             .content-timing .content_screen,
             .content_screen {
                 white-space: normal !important;
@@ -303,7 +303,7 @@
                 /* Ensure border is visible - use same as main style to prevent double border */
                 border: 1px var(--themePrimaryTxtColor) solid !important;
             }
-            
+
             .content-timing .content_screen:first-child,
             .content-timing .content_screen:first-of-type,
             .content_screen:first-child {
@@ -322,7 +322,7 @@
                 -webkit-box-orient: unset !important;
                 gap: 3px !important;
             }
-            
+
             .content-timing .content_screen,
             .content_screen {
                 white-space: normal !important;
@@ -339,7 +339,7 @@
                 /* Ensure border is visible - use same as main style to prevent double border */
                 border: 1px var(--themePrimaryTxtColor) solid !important;
             }
-            
+
             .content-timing .content_screen:first-child,
             .content-timing .content_screen:first-of-type,
             .content_screen:first-child {
@@ -2736,9 +2736,9 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
     </script>
 
     <script>
-        const adMacros = @js($adMacros);
+        const adMacros = {!!$adMacros!!};
         const isMobileBrowser = @js($isMobileBrowser);
-        const dataVast2 = @js($dataVast2);
+        const dataVast2 = {!!$dataVast2!!};
         // Function to initialize Slick sliders
         function initializeSlider(container) {
             const sliderElements = jQuery(container).find(
