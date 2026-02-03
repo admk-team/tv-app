@@ -2736,7 +2736,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
     <script>
         const adMacros = @js($adMacros . '&hplatform=web');
         const isMobileBrowser = @js($isMobileBrowser);
-        const dataVast2 = @js($dataVast2);
+        const dataVast2 = @js($dataVast2. '&hplatform=web');
         // Function to initialize Slick sliders
         function initializeSlider(container) {
             const sliderElements = jQuery(container).find(
