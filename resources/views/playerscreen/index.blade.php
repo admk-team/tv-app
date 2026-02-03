@@ -182,7 +182,7 @@
     $appStoreUrl = urlencode($appConfig->app->colors_assets_for_branding->roku_app_store_url);
     // Use base URL without query (strip e.g. ?hplatform=web); hplatform=web is reattached in JS
     $adUrlBase = preg_replace('/\?.*$/', '', $adUrl);
-    $adMacros = $adUrlBase . "?width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
+    $adMacros = $adUrlBase . "?width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&ua=$userAgent";
     $adMacros .= "&duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
     $dataVast = "data-vast='$adMacros'";
 
