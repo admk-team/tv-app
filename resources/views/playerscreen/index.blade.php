@@ -180,11 +180,9 @@
     //&app_bundle=669112
     //
     $appStoreUrl = urlencode($appConfig->app->colors_assets_for_branding->roku_app_store_url);
-    if (parse_url($adUrl, PHP_URL_QUERY)) {
-        $adMacros = $adUrl . "&width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
-    } else {
-        $adMacros = $adUrl . "?width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
-    }
+    // Use base URL without query (strip e.g. ?hplatform=web); hplatform=web is reattached in JS
+    $adUrlBase = preg_replace('/\?.*$/', '', $adUrl);
+    $adMacros = $adUrlBase . "?width=1920&height=1080&cb=$cb&" . (!$isLocalHost ? "uip=$userIP&" : '') . "device_id=RIDA&vast_version=2&app_name=$channelName&device_make=ROKU&device_category=5&app_store_url=$appStoreUrl&ua=$userAgent";
     $adMacros .= "&duration={$arrSlctItemData['stream_duration_second']}&app_code=" . env('APP_CODE') . '&user_code=' . session('USER_DETAILS.USER_CODE') . '&stream_code=' . $streamGuid;
     $dataVast = "data-vast='$adMacros'";
 
@@ -2736,7 +2734,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
     </script>
 
     <script>
-        const adMacros = @js($adMacros);
+        const adMacros = @js($adMacros . '&hplatform=web');
         const isMobileBrowser = @js($isMobileBrowser);
         const dataVast2 = @js($dataVast2);
         // Function to initialize Slick sliders
