@@ -73,6 +73,7 @@
     border-radius: 4px;
     font-size: 12px;
     color: var(--themePrimaryTxtColor);
+    line-height: 20px;
 }
 
 .travel-info .description {
