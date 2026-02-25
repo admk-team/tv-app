@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\SiteCloneController;
+use App\Http\Controllers\Api\SiteDeleteController;
 use App\Services\Api;
 use App\Models\AppCofig;
 use Illuminate\Http\Request;
@@ -35,3 +36,4 @@ Route::get('refreshBackData', function () {
 });
 
 Route::post('createsubdomain', [SiteCloneController::class, 'createSubdomain']);
+Route::post('deletesubdomain', [SiteDeleteController::class, 'deleteSubdomain']);
