@@ -35,3 +35,6 @@ copyscript.sh
 copyscript.ps1
 public/ads.txt
 public/app-ads.txt
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
