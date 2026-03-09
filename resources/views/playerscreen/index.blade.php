@@ -1368,12 +1368,14 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                 <div class="item-ratings">
                     <h1 class="section-title" style="display: flex; align-items: center; gap: 10px;">
                         Reviews:
-                        <div id="rating-icon-playerscreen">
-                            @include('playerscreen.includes.rating-icon', [
-                                'ratingsCount' => $ratingsCount,
-                            ])
-                        </div>
-                        <span class="average-rating">{{ $averageRating ?? '' }} </span>
+                        @if (in_array(($global_rating_comment_type ?? 'rating'), ['rating', 'both']))
+                            <div id="rating-icon-playerscreen">
+                                @include('playerscreen.includes.rating-icon', [
+                                    'ratingsCount' => $ratingsCount,
+                                ])
+                            </div>
+                            <span class="average-rating">{{ $averageRating ?? '' }} </span>
+                        @endif
                     </h1>
                     @php
                         // Ensure $streamrating is an array before using it
@@ -1398,6 +1400,7 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                     {{--  @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !$userDidComment && !$userDidComment)  --}}
 
                     @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null)
+                        @if (in_array(($global_rating_comment_type ?? 'rating'), ['rating', 'both']))
                         {{-- Stars  --}}
                         @if (isset($streamratingtype, $streamratingstatus) && $streamratingtype === 'stars' && $streamratingstatus == 1)
                             <div class="review-rating user-rating">
@@ -1493,11 +1496,16 @@ $mType = strpos($streamUrl, "https://stream.live.gumlet.io")? 'hls': $mType; @en
                                 {{ $message }}
                             @enderror
                         </span>
+                        @endif
                         <div id="messageContainer" style="display: none;"></div>
                         <form id="ratingForm" action="{{ route('addrating.playerscreen') }}" method="POST">
                             @csrf
-                            <textarea name="comment" cols="30" rows="10" placeholder="Let others know what you think..."></textarea>
-                            <input type="hidden" name="rating" id="hiddenRating">
+                            @if (in_array(($global_rating_comment_type ?? 'rating'), ['comment', 'both']))
+                                <textarea name="comment" cols="30" rows="10" placeholder="Let others know what you think..."></textarea>
+                            @endif
+                            @if (in_array(($global_rating_comment_type ?? 'rating'), ['rating', 'both']))
+                                <input type="hidden" name="rating" id="hiddenRating">
+                            @endif
                             <input type="hidden" name="stream_code" value="{{ $arrSlctItemData['stream_guid'] }}">
                             <input type="hidden" name="type" value="stream">
                             {{-- <input class="rounded" type="submit" id="submitButton" value="Submit"> --}}

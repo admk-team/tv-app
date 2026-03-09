@@ -24,6 +24,7 @@ if (isset($name_arr[1]) && strlen($name_arr[1]) > 0) {
                                     <h4 class="username mb-0"><?= $review['user']['name'] ?></h4>
                                 @endif
                             </div>
+                            @if (in_array(($global_rating_comment_type ?? 'rating'), ['rating', 'both']))
                             <div class="review-rating member">
                                 @if (isset($streamratingtype, $streamratingstatus) &&
                                         $streamratingtype === 'stars' &&
@@ -165,7 +166,10 @@ if (isset($name_arr[1]) && strlen($name_arr[1]) > 0) {
                                     </div>
                                 @endif
                             </div>
-                            <p class="member-comment">{{ $review['comment'] }}</p>
+                            @endif
+                            @if (in_array(($global_rating_comment_type ?? 'rating'), ['comment', 'both']))
+                                <p class="member-comment">{{ $review['comment'] }}</p>
+                            @endif
                         </div>
                         <hr>
                         <?php

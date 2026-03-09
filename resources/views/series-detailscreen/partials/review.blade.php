@@ -25,6 +25,7 @@
                                     <h4 class="username mb-0"><?= $review['user']['name'] ?></h4>
                                 @endif
                             </div>
+                            @if (in_array(($global_rating_comment_type ?? 'rating'), ['rating', 'both']))
                             <div class="review-rating member">
 
                                 @if (isset($series_details['rating_type'], $series_details['video_rating']) &&
@@ -167,7 +168,10 @@
                                     </div>
                                 @endif
                             </div>
-                            <p class="member-comment">{{ $review['comment'] }}</p>
+                            @endif
+                            @if (in_array(($global_rating_comment_type ?? 'rating'), ['comment', 'both']))
+                                <p class="member-comment">{{ $review['comment'] }}</p>
+                            @endif
                         </div>
                         <hr>
                         <?php

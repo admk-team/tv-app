@@ -35,10 +35,12 @@
                     <h1 class="section-title" style="display: flex; align-items: center; gap: 10px;">
                         Reviews:
                         <div class="rating"></div>
-                        <div id="rating-icon-mobile">
-                            @include('series-detailscreen.partials.rating-icon', ['ratingsCount' => $ratingsCount])
-                        </div>
-                        <span class="average-rating">{{ $averageRating ?? '' }} </span>
+                        @if (in_array(($global_rating_comment_type ?? 'rating'), ['rating', 'both']))
+                            <div id="rating-icon-mobile">
+                                @include('series-detailscreen.partials.rating-icon', ['ratingsCount' => $ratingsCount])
+                            </div>
+                            <span class="average-rating">{{ $averageRating ?? '' }} </span>
+                        @endif
                     </h1>
 
                     <p class="text-white no-reviews-message"
@@ -60,6 +62,7 @@
                     {{--  @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !$userDidComment && !$userDidComment)  --}}
 
                     @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null)
+                        @if (in_array(($global_rating_comment_type ?? 'rating'), ['rating', 'both']))
                         {{-- Stars  --}}
                         @if (isset($series_details['rating_type'], $series_details['video_rating']) &&
                                 $series_details['rating_type'] === 'stars' &&
@@ -165,6 +168,7 @@
                                 {{ $message }}
                             @enderror
                         </span>
+                        @endif
                         <style>
                             #submitButton {
                                 background-color: var(--themeActiveColor);
@@ -178,8 +182,12 @@
                         <div id="desktopMessageContainer" style="display: none;"></div>
                         <form id="reviewForm" action="{{ route('addrating.series') }}" method="POST">
                             @csrf
-                            <textarea name="comment" cols="30" rows="10" placeholder="Let others know what you think..."></textarea>
-                            <input type="hidden" name="rating" id="hiddenRating">
+                            @if (in_array(($global_rating_comment_type ?? 'rating'), ['comment', 'both']))
+                                <textarea name="comment" cols="30" rows="10" placeholder="Let others know what you think..."></textarea>
+                            @endif
+                            @if (in_array(($global_rating_comment_type ?? 'rating'), ['rating', 'both']))
+                                <input type="hidden" name="rating" id="hiddenRating">
+                            @endif
                             <input type="hidden" name="stream_code" value="{{ $series_details['stream_guid'] }}">
                             <input type="hidden" name="type" value="stream">
 

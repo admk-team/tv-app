@@ -36,11 +36,13 @@
                     <h1 class="section-title" style="display: flex; align-items: center; gap: 10px;">
                         Reviews:
                         <div class="rating"></div>
-                        <div id="rating-icon-mobile">
-                            @include('detailscreen.partials.rating-icon', [
-                                'ratingsCount' => $ratingsCount,
-                            ])
-                        </div>
+                        @if (in_array(($stream_details['rating_comment_type'] ?? 'rating'), ['rating', 'both']))
+                            <div id="rating-icon-mobile">
+                                @include('detailscreen.partials.rating-icon', [
+                                    'ratingsCount' => $ratingsCount,
+                                ])
+                            </div>
+                        @endif
                         <span class="average-rating">{{ $averageRating ?? '' }} </span>
                     </h1>
 
@@ -72,6 +74,7 @@
                     {{--  @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null && !$userDidComment && !$userDidComment)  --}}
 
                     @if (session('USER_DETAILS') && session('USER_DETAILS')['USER_CODE'] !== null)
+                        @if (in_array(($stream_details['rating_comment_type'] ?? 'rating'), ['rating', 'both']))
                         {{-- Stars  --}}
                         @if (isset($stream_details['rating_type'], $stream_details['video_rating']) &&
                                 $stream_details['rating_type'] === 'stars' &&
@@ -188,19 +191,22 @@
                             }
                         </style>
                         <div id="desktopMessageContainer" style="display: none;"></div>
-                        <form id="reviewForm" action="{{ route('addrating') }}" method="POST">
-                            @csrf
-                            <textarea name="comment" cols="30" rows="10" placeholder="Let others know what you think..."></textarea>
-                            <input type="hidden" name="rating" id="hiddenRating">
-                            <input type="hidden" name="stream_code" value="{{ $stream_details['stream_guid'] }}">
-                            <input type="hidden" name="type" value="stream">
-
-                            <button class="rounded" type="submit" id="submitButton">
-                                <span class="button-text">Submit</span>
-                                <span class="spinner-border spinner-border-sm" style="display: none;" role="status"
-                                    aria-hidden="true"></span>
-                            </button>
-                        </form>
+                        @endif
+                        @if (in_array(($stream_details['rating_comment_type'] ?? 'rating'), ['comment', 'both']))
+                            <form id="reviewForm" action="{{ route('addrating') }}" method="POST">
+                                @csrf
+                                <textarea name="comment" cols="30" rows="10" placeholder="Let others know what you think..."></textarea>
+                                <input type="hidden" name="rating" id="hiddenRating">
+                                <input type="hidden" name="stream_code" value="{{ $stream_details['stream_guid'] }}">
+                                <input type="hidden" name="type" value="stream">
+    
+                                <button class="rounded" type="submit" id="submitButton">
+                                    <span class="button-text">Submit</span>
+                                    <span class="spinner-border spinner-border-sm" style="display: none;" role="status"
+                                        aria-hidden="true"></span>
+                                </button>
+                            </form>
+                        @endif
                         <hr>
                     @endif
 
